@@ -1,7 +1,7 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-local isActive = false
 Config = {}
+local isActive = false
 
 QBCore.Functions.CreateCallback('patrols:CheckIfActive', function(source, cb)
     local src = source
@@ -11,7 +11,7 @@ QBCore.Functions.CreateCallback('patrols:CheckIfActive', function(source, cb)
         cb(true)
     else
         cb(false)
-        TriggerClientEvent("QBCore:Notify", src, "Someone Is In The Menu Please Wait !", "error")
+        TriggerClientEvent("QBCore:Notify", src, "We are already in busy with someone else", "error")
     end
 end)
 
@@ -24,8 +24,8 @@ RegisterNetEvent('patrols:server:SetActive', function(status)
     end
 end)
 
-RegisterServerEvent("patrols:AddVehicleSQL")
-AddEventHandler('patrols:AddVehicleSQL', function(mods, vehicle, hash, plate)
+RegisterServerEvent("patrols:insert")
+AddEventHandler('patrols:insert', function(mods, vehicle, hash, plate)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     MySQL.Async.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', {

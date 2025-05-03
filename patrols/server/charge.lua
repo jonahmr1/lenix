@@ -4,12 +4,13 @@ RegisterServerEvent('patrols:charge', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local steamname = GetPlayerName(src)
-    
+
     if Player.PlayerData.money.cash >= data.price then
-        print("Player " .. steamname .. " purchased vehicle: " .. data.vehicle .. " with config: " .. data.configName)
         
-        TriggerClientEvent("patrols:SpawnVehicle", src, data.vehicle, data.configName)  
-        Player.Functions.RemoveMoney("cash", data.price)
+        TriggerClientEvent("patrols:spawn", src, data.vehicle, data.spawn)
+        if data.chargeable then
+            Player.Functions.RemoveMoney("cash", data.price)
+        end
         TriggerClientEvent('QBCore:Notify', src, 'Vehicle Successfully Bought', "success")    
         
         if discord and discord['webhook'] then

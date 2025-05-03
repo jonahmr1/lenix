@@ -1,83 +1,44 @@
-RegisterNetEvent('patrols:PreviewCarMenu', function()
+RegisterNetEvent('patrols:previewmenu', function(data)
+    local config = data.config
+    local spawn = data.spawn
+    local preview = data.preview
+    
     local PreviewMenu = {
         {
             header = "Preview Menu",
             isMenuHeader = true
         }
     }
-    for k, v in pairs(Config.Vehicles) do
-        PreviewMenu[#PreviewMenu+1] = {
-            header = v.vehiclename,
-            txt = "Preview: " .. v.vehiclename,
-            params = {
-                event = "patrols:PreviewVehicle",
-                args = {
-                    vehicle = v.vehicle,
-                }
-            }
-        }
-    end
-    PreviewMenu[#PreviewMenu+1] = {
-        header = "⬅ Go Back",
-        params = {
-            event = "patrols:Menu"
-        }
-    }
-    exports['qb-menu']:openMenu(PreviewMenu)
-end)
 
-RegisterNetEvent('patrols:PreviewCarMenu2', function()
-    local PreviewMenu = {
-        {
-            header = "Preview Menu",
-            isMenuHeader = true
-        }
-    }
-    for k, v in pairs(Config.Vehicles) do
-        PreviewMenu[#PreviewMenu+1] = {
-            header = v.vehiclename,
-            txt = "Preview: " .. v.vehiclename,
-            params = {
-                event = "patrols:PreviewVehicle2",
-                args = {
-                    vehicle = v.vehicle,
+    if Config.Vehicles[config] then
+        for _, vehicle in ipairs(Config.Vehicles[config]) do
+            PreviewMenu[#PreviewMenu+1] = {
+                header = vehicle.vehiclename,
+                txt = "Preview: " .. vehicle.vehiclename,
+                params = {
+                    event = "patrols:preview",
+                    args = {
+                        vehicle = vehicle.vehicle,
+                        preview = preview,
+                    }
                 }
             }
-        }
+        end
+    else
+        print("Warning: No vehicles found for config: " .. json.encode(data))
     end
-    PreviewMenu[#PreviewMenu+1] = {
-        header = "⬅ Go Back",
-        params = {
-            event = "patrols:Menu2"
-        }
-    }
-    exports['qb-menu']:openMenu(PreviewMenu)
-end)
 
-RegisterNetEvent('patrols:PreviewCarMenu3', function()
-    local PreviewMenu = {
-        {
-            header = "Preview Menu",
-            isMenuHeader = true
-        }
-    }
-    for k, v in pairs(Config.Vehicles) do
-        PreviewMenu[#PreviewMenu+1] = {
-            header = v.vehiclename,
-            txt = "Preview: " .. v.vehiclename,
-            params = {
-                event = "patrols:PreviewVehicle3",
-                args = {
-                    vehicle = v.vehicle,
-                }
-            }
-        }
-    end
     PreviewMenu[#PreviewMenu+1] = {
         header = "⬅ Go Back",
         params = {
-            event = "patrols:Menu3"
+            event = "patrols:menu",
+            args = {
+                config = config,
+                spawn = spawn,
+                preview = preview
+            }
         }
     }
+    
     exports['qb-menu']:openMenu(PreviewMenu)
 end)

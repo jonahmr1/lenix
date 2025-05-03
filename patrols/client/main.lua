@@ -1,5 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local InPreview = false
 local isActive = false
 PlayerJob = {}
 
@@ -31,28 +30,8 @@ AddEventHandler('onClientResourceStart',function()
     end)
 end)
 
-RegisterNetEvent("patrol:policegarage:open")
-AddEventHandler("patrol:policegarage:open", function()
-    TriggerEvent("patrols:Menu")
-end)
-
 RegisterNetEvent('patrols:client:SetActive', function(status)
     isActive = status
-end)
-
-RegisterNetEvent('patrols:StoreVehicle')
-AddEventHandler('patrols:StoreVehicle', function()
-    local ped = PlayerPedId()
-    local car = GetVehiclePedIsIn(PlayerPedId(),true)
-    if IsPedInAnyVehicle(ped, false) then
-        TaskLeaveVehicle(ped, car, 1)
-        Citizen.Wait(2000)
-        QBCore.Functions.Notify('Vehicle Returned Back!')
-        DeleteVehicle(car)
-        DeleteEntity(car)
-    else
-        QBCore.Functions.Notify("You Are Not In Any Vehicle !", "error")
-    end
 end)
 
 function CloseMenu()

@@ -1,7 +1,15 @@
-local function createPeds()
-    if pedSpawned then return end
 
-    ped = {} -- Initialize ped as a table
+ped = {}
+
+local function deletePeds()
+    if not pedSpawned then return end
+    for _, v in pairs(ped) do
+        DeletePed(v)
+    end
+    pedSpawned = false
+end
+CreateThread(function()
+    if pedSpawned then return end
     
     for k, v in pairs(Config.Interact) do
         local current = type(v.ped) == "number" and v.ped or GetHashKey(v.ped)
@@ -19,46 +27,31 @@ local function createPeds()
 
     end
     pedSpawned = true
-end
 
-local function deletePeds()
-    if not pedSpawned then return end
-    for _, v in pairs(ped) do
-        DeletePed(v)
-    end
-    pedSpawned = false
-end
-
-CreateThread(function()
     for i, v in pairs(Config.Interact) do
+        
+        local interactionGroups = {} -- Initialize an empty table for groups
+        for jobName, requiredGrade in pairs(v.jobs) do
+            interactionGroups[jobName] = requiredGrade -- Add each job and its grade to the groups table
+            
+        end
         if v.interact == 'interact' then
-            local interactionGroups = {} -- Initialize an empty table for groups
-
-            for jobName, requiredGrade in pairs(v.jobs) do
-                interactionGroups[jobName] = requiredGrade -- Add each job and its grade to the groups table
-            end
             exports.interact:AddInteraction({
                 coords = vector3(v.coords.x, v.coords.y, v.coords.z), -- Use vector3 directly
-                distance = 5.0,
-                interactDst = 2.0,
+                distance = v.distance,
+                interactDst = v.interactDist,
                 id = 'gov.garage_' .. i, -- Make the ID unique using the index
                 groups = interactionGroups, -- Use the dynamically created groups table
                 options = {
                     {
                         label = v.label,
-                        event = "patrols:Menu",
-                        args = {
-                            configName = v.config
-                        }
+                        action = function()
+                            TriggerEvent("patrols:menu", v)
+                        end,
                     },
                 }
             })
         elseif v.interact == 'qb_target' then
-            local interactionGroups = {} -- Initialize an empty table for groups
-
-            for jobName, requiredGrade in pairs(v.jobs) do
-                interactionGroups[jobName] = requiredGrade -- Add each job and its grade to the groups table
-            end
             exports['qb-target']:AddBoxZone("gov.garage_" .. i, vector3(v.coords.x, v.coords.y, v.coords.z), 3.45, 3.35, {
                 name = "gov.garage_" .. i,
                 minZ = v.coords.z - 1.0,
@@ -67,18 +60,15 @@ CreateThread(function()
                 options = {
                     {
                         type = "client",
-                        action = function()
-                            TriggerEvent("patrols:Menu", { configName = v.config })
-                        end,
                         icon = v.icon,
                         label = v.label,
                         job = interactionGroups,
-                        args = {
-                            configName = v.config
-                        }
+                        action = function()
+                            TriggerEvent("patrols:menu", v)
+                        end,
                     },
                 },
-                distance = 2.5
+                distance = v.distance,
             })
         else
             print("Error: Invalid interaction type for " .. tostring(v.interact) .. " at index " .. tostring(i))
@@ -86,13 +76,8 @@ CreateThread(function()
     end
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    createPeds()
+CreateThread(function()
+    if GetResourceState(GetCurrentResourceName()) == 'stopping' then
+        deletePeds()
+    end
 end)
-
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    deletePeds()
-end)CreateThread(function()
-    Wait(1000)
-        createPeds()
-    end)
