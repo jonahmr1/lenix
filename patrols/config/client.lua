@@ -27,7 +27,6 @@ Config.Interact = {
         config = 'police2',
         jobs = {
             police = 0,
-            sheriff = 0,
         },
     },
     {
@@ -55,7 +54,6 @@ Config.Interact = {
         config = 'police2',
         jobs = {
             police = 0,
-            sheriff = 0,
         },
     },
     {
@@ -82,7 +80,6 @@ Config.Interact = {
         config = 'police2',
         jobs = {
             police = 0,
-            sheriff = 0,
         },
     },
 }
