@@ -1,6 +1,6 @@
 Config = Config or {}
-Config.Interaction = 'interact' -- interact or qb_target
-
+Config.Interaction = 'interact'
+Config.FuelSystem = 'cdn-fuel'
 Config.Locations = {
     {
         Coords = vector4(426.68, -973.11, 25.7, 240.64),
@@ -8,7 +8,7 @@ Config.Locations = {
         ped = 's_m_y_cop_01',
         scenario = 'WORLD_HUMAN_LEANING',
         label = 'Take A Patrol',
-        Job = 'police', -- or {'police', 'swat'}
+        Job = 'police',
         Vehicles = {
             { VehicleName = 'Motorcycle Unit', VehicleSpawnName = 'npolmm', Grade = 7 },
             { VehicleName = 'Interception Unit', VehicleSpawnName = 'npolstang', Grade = 7 },

@@ -2,8 +2,8 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local Vehicle = nil
 local VehicleSpawned = false
 
-ShopPed = {}
 local pedSpawned = false
+Ped = {}
 
 local function createPeds()
     if pedSpawned then return end
@@ -16,11 +16,11 @@ local function createPeds()
             Wait(0)
         end
         
-        ShopPed[k] = CreatePed(0, current, v.Coords.x, v.Coords.y, v.Coords.z-1, v.Coords.w, false, false)
-        TaskStartScenarioInPlace(ShopPed[k], v.scenario, 0, true)
-        FreezeEntityPosition(ShopPed[k], true)
-        SetEntityInvincible(ShopPed[k], true)
-        SetBlockingOfNonTemporaryEvents(ShopPed[k], true)
+        Ped[k] = CreatePed(0, current, v.Coords.x, v.Coords.y, v.Coords.z-1, v.Coords.w, false, false)
+        TaskStartScenarioInPlace(Ped[k], v.scenario, 0, true)
+        FreezeEntityPosition(Ped[k], true)
+        SetEntityInvincible(Ped[k], true)
+        SetBlockingOfNonTemporaryEvents(Ped[k], true)
         
         if Config.Interaction == 'interact' then
             local coordVec3 = vec3(v.Coords.x, v.Coords.y, v.Coords.z)
@@ -51,7 +51,7 @@ local function createPeds()
                 }
             })
         elseif Config.Interaction == 'qb_target' then
-            exports['qb-target']:AddTargetEntity(ShopPed[k], {
+            exports['qb-target']:AddTargetEntity(Ped[k], {
                 options = {
                     {
                         type = "Client",
@@ -74,7 +74,7 @@ end
 
 local function deletePeds()
     if not pedSpawned then return end
-    for _, v in pairs(ShopPed) do
+    for _, v in pairs(Ped) do
         DeletePed(v)
     end
     pedSpawned = false
@@ -83,7 +83,7 @@ end
 RegisterNetEvent('policegarage:client:SpawnVehicle', function(data)
     QBCore.Functions.SpawnVehicle(data.SpawnName, function(veh)
         SetVehicleNumberPlateText(veh, "SASP"..tostring(math.random(1000, 9999)))
-        exports['cdn-fuel']:SetFuel(veh, 100.0)
+        exports[Config.FuelSystem]:SetFuel(veh, 100.0)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         SetVehicleEngineOn(veh, true, true)
         Vehicle = veh
