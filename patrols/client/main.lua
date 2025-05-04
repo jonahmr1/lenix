@@ -58,3 +58,13 @@ function ShowHelpNotification(text)
     AddTextComponentString(text)
     DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
+
+RegisterCommand('getpatrolscfg', function()
+    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    local modType = 48 -- Example: 0 for spoilers
+    if vehicle ~= 0 then
+        local mod = GetVehicleLivery(vehicle)
+        print('Vehicle Livery:', mod)
+        print('Vehicle Mod:', GetVehicleMod(vehicle, modType))
+    end
+end, false)

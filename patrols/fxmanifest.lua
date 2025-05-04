@@ -2,7 +2,7 @@ fx_version 'adamant'
 
 game 'gta5'
 lua54 'yes'
-author 'Lenix__x'
+author 'https://github.com/lenix-x'
 
 description "A Simple Police Garage"
 
