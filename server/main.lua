@@ -7,8 +7,8 @@ CreateThread(function()
    print("          |___/                                     ")
 end)
 
-if GetCurrentResourceName() ~= "trplr_patrolmic" then
-    return print("^6Changing the resource's name wont't let the resource start, ^1" .. GetCurrentResourceName() .. "^0 > ^2 trplr_patrolmic ^7")
+if GetCurrentResourceName() ~= "trplr_patrols" then
+    return print("^6Changing the resource's name wont't let the resource start, ^1" .. GetCurrentResourceName() .. "^0 > ^2 trplr_patrols ^7")
 end
 
 QBCore = exports['qb-core']:GetCoreObject()
