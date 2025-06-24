@@ -3,17 +3,16 @@ Config.Interaction = 'interact'
 Config.FuelSystem = 'cdn-fuel'
 Config.Locations = {
     {
-        Coords = vector4(426.68, -973.11, 25.7, 240.64),
-        SpawnCoords = vector4(433.66, -975.93, 25.12, 269.6),
+        Coords = vector4(579.62, 30.53, 92.37, 342.58),
+        SpawnCoords = vector4(577.98, 38.98, 92.45, 228.11),
         ped = 's_m_y_cop_01',
         scenario = 'WORLD_HUMAN_LEANING',
         label = 'Take A Patrol',
         Job = 'police',
         Vehicles = {
-            { VehicleName = 'Motorcycle Unit', VehicleSpawnName = 'npolmm', Grade = 7 },
-            { VehicleName = 'Interception Unit', VehicleSpawnName = 'npolstang', Grade = 7 },
-            { VehicleName = 'Motorcycle Interceptor', VehicleSpawnName = '25rnbrt', Grade = 8 },
-            { VehicleName = 'GTR Inteceptor', VehicleSpawnName = 'godzilla', Grade = 8 },
+            { VehicleName = 'Stanier', VehicleSpawnName = 'police', Grade = 0 },
+            { VehicleName = 'Buffalo', VehicleSpawnName = 'police2', Grade = 1 },
+            { VehicleName = 'Cruiser', VehicleSpawnName = 'police3', Grade = 2 },
         },
     },
     {
@@ -24,10 +23,9 @@ Config.Locations = {
         label = 'Take A Patrol',
         Job = 'police',
         Vehicles = {
-            { VehicleName = 'Motorcycle Unit', VehicleSpawnName = 'npolmm', Grade = 7 },
-            { VehicleName = 'Interception Unit', VehicleSpawnName = 'npolstang', Grade = 7 },
-            { VehicleName = 'Motorcycle Interceptor', VehicleSpawnName = '25rnbrt', Grade = 8 },
-            { VehicleName = 'GTR Inteceptor', VehicleSpawnName = 'godzilla', Grade = 8 },
+            { VehicleName = 'Stanier', VehicleSpawnName = 'police', Grade = 0 },
+            { VehicleName = 'Buffalo', VehicleSpawnName = 'police2', Grade = 1 },
+            { VehicleName = 'Cruiser', VehicleSpawnName = 'police3', Grade = 2 },
         },
     },
     {
@@ -38,10 +36,9 @@ Config.Locations = {
         label = 'Take A Patrol',
         Job = 'police',
         Vehicles = {
-            { VehicleName = 'Motorcycle Unit', VehicleSpawnName = 'mtbike', Grade = 7 },
-            { VehicleName = 'Interception Unit', VehicleSpawnName = 'npolstang', Grade = 7 },
-            { VehicleName = 'Motorcycle Interceptor', VehicleSpawnName = '25rnbrt', Grade = 8 },
-            { VehicleName = 'GTR Inteceptor', VehicleSpawnName = 'godzilla', Grade = 8 },
+            { VehicleName = 'Stanier', VehicleSpawnName = 'police', Grade = 0 },
+            { VehicleName = 'Buffalo', VehicleSpawnName = 'police2', Grade = 1 },
+            { VehicleName = 'Cruiser', VehicleSpawnName = 'police3', Grade = 2 },
         },
     },
 }
