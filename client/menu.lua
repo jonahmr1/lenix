@@ -5,49 +5,48 @@ RegisterNetEvent('patrols:menu', function(data)
     local spawn = data.spawn
     local preview = data.preview
 
-    local Menu = {
+    local options = {
         {
-            header = "Patrols Vehicles",
-            isMenuHeader = true,
-        },
-        {
-            header = "Police Vehicles",
-            txt = "Next",
-            params = {
-                event = "patrols:list",
-                args = {
+            title = "Police Vehicles",
+            description = "Browse police vehicles",
+            icon = "fas fa-car",
+            onSelect = function()
+                TriggerEvent("patrols:list", {
                     config = config,
                     spawn = spawn,
                     preview = preview
-                }
-            }
+                })
+            end
         },
-    }
-    Menu[#Menu+1] = {
-        header = "Preview Vehicles",
-        txt = "Next",
-        params = {
-            event = "patrols:previewmenu",
-            args = {
-                config = config,
-                preview = preview,
-                spawn = spawn
-            }
+        {
+            title = "Preview Vehicles", 
+            description = "Preview available vehicles",
+            icon = "fas fa-eye",
+            onSelect = function()
+                TriggerEvent("patrols:previewmenu", {
+                    config = config,
+                    preview = preview,
+                    spawn = spawn
+                })
+            end
+        },
+        {
+            title = "Store Vehicle",
+            description = "Return your current vehicle",
+            icon = "fas fa-warehouse",
+            onSelect = function()
+                TriggerEvent("patrols:return")
+            end
         }
     }
-    Menu[#Menu+1] = {
-        header = "⬅ Store Vehicle",
-        params = {
-            event = "patrols:return"
-        }
-    }
-    Menu[#Menu+1] = {
-        header = "Close Menu",
-        params = {
-            event = "qb-menu:client:closeMenu"
-        }
-    }
-    exports['qb-menu']:openMenu(Menu)
+
+    lib.registerContext({
+        id = 'patrols_main_menu',
+        title = 'Patrols Vehicles',
+        options = options
+    })
+
+    lib.showContext('patrols_main_menu')
 end)
 
 RegisterNetEvent("patrols:list", function(data)
@@ -55,21 +54,20 @@ RegisterNetEvent("patrols:list", function(data)
     local spawn = data.spawn
     local preview = data.preview
     
-    local vehicleMenu = {
-        {
-            header = "Government Vehicles",
-            isMenuHeader = true,
-        }
-    }
+    local options = {}
 
-    vehicleMenu[#vehicleMenu+1] = {
-        header = "⬅ Go Back",
-        params = {
-            event = "patrols:menu",
-            args = {
-                config = config
-            }
-        }
+    -- Add back button
+    options[#options+1] = {
+        title = "⬅ Go Back",
+        description = "Return to main menu",
+        icon = "fas fa-arrow-left",
+        onSelect = function()
+            TriggerEvent("patrols:menu", {
+                config = config,
+                spawn = spawn,
+                preview = preview
+            })
+        end
     }
 
     if Config.Vehicles[config] then
@@ -79,24 +77,23 @@ RegisterNetEvent("patrols:list", function(data)
         for _, vehicle in ipairs(Config.Vehicles[config]) do
             -- Check if player has required job grade
             if vehicle.allowed and vehicle.allowed[playerJob] and playerGrade >= vehicle.allowed[playerJob] then
-                local txt = vehicle.Registerable 
-                    and ("Get: " .. vehicle.vehiclename .. " For: " .. vehicle.price .. "$")
+                local description = vehicle.Registerable 
+                    and ("Get: " .. vehicle.vehiclename .. " For: $" .. vehicle.price)
                     or ("Take Out " .. vehicle.vehiclename)
     
-                vehicleMenu[#vehicleMenu+1] = {
-                    header = vehicle.vehiclename,
-                    txt = txt,
-                    params = {
-                        isServer = true,
-                        event = "patrols:charge",
-                        args = {
-                            price = vehicle.price,
-                            vehiclename = vehicle.vehiclename,
-                            vehicle = vehicle.vehicle,
-                            config = config,
-                            spawn = spawn,
-                            chargeable = vehicle.Registerable,
-                        }
+                options[#options+1] = {
+                    title = vehicle.vehiclename,
+                    description = description,
+                    icon = vehicle.Registerable and "fas fa-dollar-sign" or "fas fa-key",
+                    image = vehicle.image, -- Add vehicle image if available
+                    serverEvent = "patrols:charge",
+                    args = {
+                        price = vehicle.price,
+                        vehiclename = vehicle.vehiclename,
+                        vehicle = vehicle.vehicle,
+                        config = config,
+                        spawn = spawn,
+                        chargeable = vehicle.Registerable,
                     }
                 }
             end
@@ -104,5 +101,12 @@ RegisterNetEvent("patrols:list", function(data)
     else
         print("Warning: No vehicles found for config: " .. tostring(config))
     end
-    exports['qb-menu']:openMenu(vehicleMenu)
+
+    lib.registerContext({
+        id = 'patrols_vehicle_list',
+        title = 'Government Vehicles',
+        options = options
+    })
+
+    lib.showContext('patrols_vehicle_list')
 end)

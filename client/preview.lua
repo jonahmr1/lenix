@@ -26,9 +26,9 @@ AddEventHandler("patrols:preview", function(data)
                 CreateThread(function()
                     while true do
                         if InPreview then
-                            exports['interaction']:showInteraction('⇽', 'Close Preview')
+                            exports.tr_lib:ShowInteraction('⇽', 'Close Preview')
                         elseif not InPreview then
-                            exports['interaction']:hideInteraction()
+                            exports.tr_lib:HideInteraction()
                             break
                         end
                         Wait(1)

@@ -10,21 +10,21 @@ Config.Interact = {
         icon = 'fas fa-car',
         ped = 's_f_y_cop_01',
         scenario = 'WORLD_HUMAN_CLIPBOARD',
-        coords = vector4(460.07, -1000.31, 25.7, 38.17),
-        spawn = vector4(458.73, -993.54, 24.97, 4.34),
+        coords = vec4(457.59, -1026.37, 28.44, 61.35),
+        spawn = vec4(454.0, -1023.25, 27.46, 47.41),
         preview = {
-            coords = vector4(458.73, -993.54, 24.97, 4.34),
+            coords = vec4(454.0, -1023.25, 27.46, 47.41),
             cam = {
-                coords = vector3(455.64, -988.14, 26.35),
+                coords = vec3(449.97, -1021.67, 28.44),
                 rotation = {
                     verticalrotate = -10.00,
                     horizontalrotate = 0.00,
-                    left_n_right = -145.0,
+                    left_n_right = 265.0,
                 },
                 fov = 40.0
             }
         },
-        config = 'police2',
+        config = 'police1',
         jobs = {
             police = 0,
         },
@@ -42,7 +42,7 @@ Config.Interact = {
         preview = {
             coords = vector4(1815.22, 3665.56, 33.93, 303.8),
             cam = {
-                coords = vector3(1816.94, 3670.58, 34.78),
+                coords = vec3(449.97, -1021.67, 27.44),
                 rotation = {
                     verticalrotate = -10.00,
                     horizontalrotate = 0.00,
@@ -88,7 +88,7 @@ Config.Vehicles = {
     police1 = {
         {
             vehiclename = "Ford Victoria",
-            vehicle = "npolvic",
+            vehicle = "police",
             allowed = {
                 police = 1,
             },
@@ -101,7 +101,8 @@ Config.Vehicles = {
                 r = 81,
                 g = 84,
                 b = 89,
-            }
+            },
+            image = 'https://cdn.discordapp.com/attachments/1406729989084418160/1406763836140163193/image.png?ex=68a3a66a&is=68a254ea&hm=dd7667570b602bfeb3e4e63d01dfb8e8c10c09cc65bcba1830a84df88967b7f3&'
         },
         {
             vehiclename = "Nagasaki (Motorcycle)",
