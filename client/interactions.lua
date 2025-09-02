@@ -1,4 +1,3 @@
-
 ped = {}
 
 local function deletePeds()
@@ -8,6 +7,7 @@ local function deletePeds()
     end
     pedSpawned = false
 end
+
 CreateThread(function()
     if pedSpawned then return end
     
@@ -46,7 +46,7 @@ CreateThread(function()
                     {
                         label = v.label,
                         action = function()
-                            TriggerEvent("patrols:menu", v)
+                            TriggerEvent("tr_patrolvehicles:menu", v)
                         end,
                     },
                 }
@@ -64,7 +64,7 @@ CreateThread(function()
                         label = v.label,
                         job = interactionGroups,
                         action = function()
-                            TriggerEvent("patrols:menu", v)
+                            TriggerEvent("tr_patrolvehicles:menu", v)
                         end,
                     },
                 },

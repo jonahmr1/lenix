@@ -11,8 +11,8 @@ local function GetVehicleConfigByModel(model)
     return nil
 end
 
-RegisterNetEvent("patrols:spawn")
-AddEventHandler("patrols:spawn", function(vehicleModel, spawnCoords)
+RegisterNetEvent("tr_patrolvehicles:spawn")
+AddEventHandler("tr_patrolvehicles:spawn", function(vehicleModel, spawnCoords)
     local vehicleConfig = GetVehicleConfigByModel(vehicleModel, spawnCoords)
 
     QBCore.Functions.SpawnVehicle(vehicleModel, function(veh)
@@ -35,7 +35,7 @@ AddEventHandler("patrols:spawn", function(vehicleModel, spawnCoords)
         end
 
         if vehicleConfig.Registerable then
-            TriggerServerEvent("patrols:insert", props, vehicleModel, GetHashKey(vehicleModel), QBCore.Functions.GetPlate(veh))
+            TriggerServerEvent("tr_patrolvehicles:insert", props, vehicleModel, GetHashKey(vehicleModel), QBCore.Functions.GetPlate(veh))
         end
 
         TriggerEvent("vehiclekeys:client:SetOwner", plate)
@@ -44,8 +44,8 @@ AddEventHandler("patrols:spawn", function(vehicleModel, spawnCoords)
     end, spawnCoords, true)
 end)
 
-RegisterNetEvent('patrols:return')
-AddEventHandler('patrols:return', function()
+RegisterNetEvent('tr_patrolvehicles:return')
+AddEventHandler('tr_patrolvehicles:return', function()
     if car ~= nil then
         QBCore.Functions.Notify('Vehicle Returned Back!')
         DeleteVehicle(car)
