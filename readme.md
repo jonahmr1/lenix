@@ -1,0 +1,1 @@
+<div align='center'><h2><a href='https://trippler.gitbook.io/hub/docs/'>Documentation</a></h2></div>
