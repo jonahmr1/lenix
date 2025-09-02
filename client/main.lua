@@ -21,7 +21,7 @@ function isEmergencyVehicle()
 end
 
 function createMicFilter()
-    micFilter = CreateAudioSubmix("PatrolMic")
+    micFilter = CreateAudioSubmix("tr_patrolmegaphone")
     if micFilter then
         SetAudioSubmixEffectRadioFx(micFilter, 0)
         SetAudioSubmixEffectParamInt(micFilter, 0, `default`, 1)
@@ -68,12 +68,12 @@ CreateThread(function()
 end)
 
 RegisterCommand(Option.Command, function()
-    TriggerEvent('patrolmic:client:toggle')
+    TriggerEvent('tr_patrolmegaphone:client:toggle')
 end, false)
 
 RegisterKeyMapping(Option.Command, Option.Description, 'keyboard', Option.Key)
 
-RegisterNetEvent('patrolmic:client:toggle', function()
+RegisterNetEvent('tr_patrolmegaphone:client:toggle', function()
     print('Toggling Patrol Mic')
     if not isEmergencyVehicle() then
         exports['qb-core']:Notify('You must be in an emergency vehicle to use the patrol mic!', 'error', 5000)

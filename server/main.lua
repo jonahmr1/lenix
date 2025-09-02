@@ -1,3 +1,3 @@
-RegisterNetEvent('patrolmic:applySubmix', function(bool)
-    TriggerClientEvent('patrolmic:updateSubmixStatus', -1, bool, source)
+RegisterNetEvent('tr_patrolmegaphone:applySubmix', function(bool)
+    TriggerClientEvent('tr_patrolmegaphone:updateSubmixStatus', -1, bool, source)
 end)
