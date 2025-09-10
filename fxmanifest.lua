@@ -3,7 +3,7 @@ game 'gta5'
 lua54 'yes'
 dependency 'pma-voice'
 
-author 'Lenix'
+author 'Trippler hub'
 description 'An enhanced script that make the game more realistic when a patrol hit the mic button to speak to the outside of the car'
 version '1.0.0'
 
@@ -12,3 +12,4 @@ client_scripts {
   'client/config.lua',
 }
 server_script 'server/main.lua'
+
