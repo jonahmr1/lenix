@@ -3,8 +3,12 @@ game 'gta5'
 description 'patrolvehicle - A QBCore resource for managing patrol vehicles in FiveM.'
 version '1.0'
 
-shared_scripts 'shared/*.lua'
-
+shared_scripts {
+  'shared/*.lua'
+}
 client_scripts 'client/*.lua'
 
-dependency 'qb-core'
+dependencies {
+  'qb-core',
+  'qb-menu'
+}

@@ -1,6 +1,4 @@
 Config = Config or {}
-Config.Interaction = 'interact'
-Config.FuelSystem = 'cdn-fuel'
 Config.Locations = {
     {
         Coords = vector4(579.62, 30.53, 92.37, 342.58),

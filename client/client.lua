@@ -22,52 +22,20 @@ local function createPeds()
         SetEntityInvincible(Ped[k], true)
         SetBlockingOfNonTemporaryEvents(Ped[k], true)
         
-        if Config.Interaction == 'interact' then
-            local coordVec3 = vec3(v.Coords.x, v.Coords.y, v.Coords.z)
-            
-            local groups = {}
-            
-            if type(v.Job) == 'table' then
-                for _, jobName in ipairs(v.Job) do
-                    groups[jobName] = 0
-                end
-            else
-                groups[v.Job] = 0
-            end
-            
-            exports.interact:AddInteraction({
-                coords = coordVec3,
-                distance = 5.0,
-                interactDst = 2.0,
-                id = k.."-garage-"..tostring(type(v.Job) == 'table' and table.concat(v.Job, "-") or v.Job),
-                groups = groups,
-                options = {
-                    {
-                        label = v.label,
-                        action = function()
-                            TriggerEvent('policegarage:clientOpenMenu', k)
-                        end,
-                    },
-                }
-            })
-        elseif Config.Interaction == 'qb_target' then
-            exports['qb-target']:AddTargetEntity(Ped[k], {
-                options = {
-                    {
-                        type = "Client",
-                        action = function()
-                            TriggerEvent('policegarage:clientOpenMenu', k)
-                        end,
-                        icon = "fas fa-car",
-                        label = v.label,
-                        job = v.Job,
-                    },
+        exports['qb-target']:AddTargetEntity(Ped[k], {
+            options = {
+                {
+                    type = "Client",
+                    action = function()
+                        TriggerEvent('policegarage:clientOpenMenu', k)
+                    end,
+                    icon = "fas fa-car",
+                    label = v.label,
+                    job = v.Job,
                 },
-                distance = 2
-            })
-        else
-            print('Invalid interaction type in config.lua')
-        end
+            },
+            distance = 2
+        })
     end
     pedSpawned = true
 end
@@ -83,7 +51,7 @@ end
 RegisterNetEvent('policegarage:client:SpawnVehicle', function(data)
     QBCore.Functions.SpawnVehicle(data.SpawnName, function(veh)
         SetVehicleNumberPlateText(veh, "SASP"..tostring(math.random(1000, 9999)))
-        exports[Config.FuelSystem]:SetFuel(veh, 100.0)
+        exports['cdn-fuel']:SetFuel(veh, 100.0)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         SetVehicleEngineOn(veh, true, true)
         Vehicle = veh
