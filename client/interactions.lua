@@ -35,44 +35,24 @@ CreateThread(function()
             interactionGroups[jobName] = requiredGrade -- Add each job and its grade to the groups table
             
         end
-        if v.interact == 'interact' then
-            exports.interact:AddInteraction({
-                coords = vector3(v.coords.x, v.coords.y, v.coords.z), -- Use vector3 directly
-                distance = v.distance,
-                interactDst = v.interactDist,
-                id = 'gov.garage_' .. i, -- Make the ID unique using the index
-                groups = interactionGroups, -- Use the dynamically created groups table
-                options = {
-                    {
-                        label = v.label,
-                        action = function()
-                            TriggerEvent("tr_patrolvehicles:menu", v)
-                        end,
-                    },
-                }
-            })
-        elseif v.interact == 'qb_target' then
-            exports['qb-target']:AddBoxZone("gov.garage_" .. i, vector3(v.coords.x, v.coords.y, v.coords.z), 3.45, 3.35, {
-                name = "gov.garage_" .. i,
-                minZ = v.coords.z - 1.0,
-                maxZ = v.coords.z + 1.0,
-            }, {
-                options = {
-                    {
-                        type = "client",
-                        icon = v.icon,
-                        label = v.label,
-                        job = interactionGroups,
-                        action = function()
-                            TriggerEvent("tr_patrolvehicles:menu", v)
-                        end,
-                    },
+        exports['qb-target']:AddBoxZone("gov.garage_" .. i, vector3(v.coords.x, v.coords.y, v.coords.z), 3.45, 3.35, {
+            name = "gov.garage_" .. i,
+            minZ = v.coords.z - 1.0,
+            maxZ = v.coords.z + 1.0,
+        }, {
+            options = {
+                {
+                    type = "client",
+                    icon = v.icon,
+                    label = v.label,
+                    job = interactionGroups,
+                    action = function()
+                        TriggerEvent("tr_patrolvehicles:menu", v)
+                    end,
                 },
-                distance = v.distance,
-            })
-        else
-            print("Error: Invalid interaction type for " .. tostring(v.interact) .. " at index " .. tostring(i))
-        end
+            },
+            distance = v.distance,
+        })
     end
 end)
 

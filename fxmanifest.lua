@@ -1,17 +1,19 @@
-fx_version 'adamant'
-
+fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
+dependencies {
+    'qb-core',
+    'qb-menu',
+    'qb-target'
+}
 
-description "A Simple Police Garage"
+author 'Trippler Hub'
 
+shared_script '@ox_lib/init.lua'
 client_scripts {
     'client/*.lua',
     'config/client.lua',
 }
-
-shared_script '@ox_lib/init.lua'
-
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/*.lua',

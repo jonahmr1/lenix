@@ -26,9 +26,9 @@ AddEventHandler("tr_patrolvehicles:preview", function(data)
                 CreateThread(function()
                     while true do
                         if InPreview then
-                            exports.tr_lib:ShowInteraction('⇽', 'Close Preview')
+                            exports['qb-core']:DrawText('⇽', 'bottom')
                         elseif not InPreview then
-                            exports.tr_lib:HideInteraction()
+                            exports['qb-core']:HideText()
                             break
                         end
                         Wait(1)
