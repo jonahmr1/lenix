@@ -1,3 +1,3 @@
 Config = {
-  typesEnabled = {'debug', 'error', 'warn', 'log', 'info', 'success'},
+  typesEnabled = {'debug', 'error', 'warning', 'log', 'info', 'success'},
 }
