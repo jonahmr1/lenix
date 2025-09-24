@@ -1,6 +1,7 @@
 exports('print', function(data)
   if type(data) ~= "table" then
-    warn("exports.tr_lib:print expected a table")
+    warn(("exports.tr_lib:print expected a table below, but received %s, skipping to native..."):format(type(data)))
+    print(data)
     return
   end
 
