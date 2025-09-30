@@ -4,10 +4,10 @@ exports('print', function(data)
     warn(("exports.tr_lib:print expected a table and received %s"):format(type(data):upper()))
     return
   end
-
-  local logType = data.type or "log"
-  local message = tostring(data.message or "")
-
+  assert(data.type ~= nil, ('invalid print type, received %s'):format(type(data.type):upper()))
+  assert(data.message ~= nil, ('invalid print message, received %s'):format(type(data.message):upper()))
+  local logType = data.type
+  local message = data.message
   local colors = {
     error = '^1',
     warning = '^3',
@@ -17,14 +17,14 @@ exports('print', function(data)
     debug = '^5'
   }
 
-  local prefix = string.format('%s[%s]', colors[logType] or '^7', logType:upper())
-  local location = (data.path and data.line) and string.format('(%s:%s)', data.path, data.line) or ""
+  local prefix = string.format('%s[%s]', colors[logType], logType:upper())
+  local location = (data.path and data.line) and string.format('(%s:%s)', data.path, data.line) or ''
   local output = data.ignore and string.format('%s: %s^7', prefix, message)
       or string.format('%s: %s %s^7', prefix, message, location)
 
   for _, enabledType in ipairs(Config.typesEnabled) do
     if enabledType == logType then
-      if logType == "error" and not data.path then
+      if logType == "error" and not data.path and not data.line then
         error(message, 2)
       else
         print(output)
