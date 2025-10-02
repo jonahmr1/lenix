@@ -10,5 +10,6 @@ client_scripts 'client/*.lua'
 
 dependencies {
   'qb-core',
-  'qb-menu'
+  'qb-menu',
+  'qb-target'
 }
