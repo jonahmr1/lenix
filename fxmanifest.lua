@@ -4,7 +4,8 @@ lua54 'yes'
 dependencies {
     'qb-core',
     'qb-menu',
-    'qb-target'
+    'qb-target',
+    'ox_lib'
 }
 
 author 'Trippler Hub'
