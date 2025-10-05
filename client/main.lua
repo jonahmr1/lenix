@@ -2,7 +2,6 @@ local export = exports.qbx_core
 local Jobs = require 'config.shared'
 local UIConfig = require 'config.client'.ui
 local ThemeConfig = require 'config.client'.theme
-local Notifications = require 'config.client'.notifications
 
 local function ShowNotification(message)
     export:Notify(message)

@@ -18,7 +18,6 @@ end
 
 local function playerJobRep(identifier, jobName)
     assert(type(identifier) == 'string' and type(jobName) == 'string', 'something went wrong | playerJobRep()')
-    -- make sure identifier exists
     if not identifier then
         lib.print.error(("Invalid identifier in playerJobRep(%s, %s)"):format(tostring(identifier), tostring(jobName)))
         return nil
@@ -26,14 +25,12 @@ local function playerJobRep(identifier, jobName)
 
     :: retry ::
 
-    -- fetch metadata
     local metaData = playerMetaData(identifier)
     if not metaData or type(metaData) ~= "table" then
         lib.print.error(("Missing or invalid metadata for identifier %s in playerJobRep(%s)"):format(identifier, jobName))
         return nil
     end
 
-    -- check jobName entry
     local rep = metaData[jobName]
     if rep == nil then
         lib.print.error(("Job '%s' not found in metadata for identifier %s, retrying..."):format(jobName, identifier))
@@ -43,7 +40,6 @@ local function playerJobRep(identifier, jobName)
         return nil
     end
 
-    -- success
     return rep
 end
 
@@ -96,23 +92,23 @@ end
 local function isPlayerAlreadyHasJob(source, jobName)
     local player = export:GetPlayer(source)
     if not player then return false end
-    
+
     local playerJobs = player.PlayerData.jobs
     if not playerJobs then return false end
-    
+
     return playerJobs[jobName] ~= nil
 end
 
 local function isPlayerLegableForHiring(source)
     local player = export:GetPlayer(source)
     if not player then return false end
-    
+
     local playerData = player.PlayerData
     if not playerData or not playerData.jobs then return false end
-    
+
     local maxJobs = GetConvarInt('qbx:max_jobs_per_player', 0)
     if maxJobs <= 0 then return true end
-    
+
     local currentJobs = 0
     for jobName, grade in pairs(playerData.jobs) do
         currentJobs = currentJobs + 1
@@ -171,12 +167,12 @@ lib.callback.register('tr_jobcenter:server:getProgress', function(source)
         for key, value in pairs(jobData) do
             jobsWithProgress[job][key] = value
         end
-        
+
         local totalRep = playerJobRep(citizenid, job)
         local currentLevel = playerLevel(citizenid, job)
         local currentLevelXP = totalRep % 100
         local maxXP = jobData.maxXP
-        
+
         jobsWithProgress[job].progress = {
             level = currentLevel,
             currentXP = currentLevelXP,
@@ -191,5 +187,6 @@ end)
 exports('GivePlayerRep', givePlayerRep)
 exports('GetPlayerLevel', playerLevel)
 exports('GetPlayerDifficultyMultiplier', function(identifier, jobName)
-    return difficultyMultiplier(Jobs[jobName], math.floor(difficultyTiers(playerLevel(identifier, jobName), Jobs[jobName])))
+    return difficultyMultiplier(Jobs[jobName],
+        math.floor(difficultyTiers(playerLevel(identifier, jobName), Jobs[jobName])))
 end)

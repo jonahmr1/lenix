@@ -3,13 +3,12 @@ game 'gta5'
 lua54 'yes'
 dependencies {
   'qbx_core',
-  'ox_inventory'
+  'ox_inventory',
+  'interact',
+  'ox_lib'
 }
-escrow_ignore {
-  'config/*.lua',
-  'client/settings.lua',
-  'server/settings.lua',
-}
+
+author 'Trippler Hub'
 
 shared_scripts {
   '@ox_lib/init.lua',
@@ -28,4 +27,10 @@ client_scripts {
 ui_page 'web/build/index.html'
 files {
   'web/**',
+}
+
+escrow_ignore {
+  'config/*.lua',
+  'client/settings.lua',
+  'server/settings.lua',
 }

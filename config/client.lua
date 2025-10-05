@@ -17,11 +17,5 @@ return {
         placeholder_h3 = 'Select a job to view details',
         placeholder_p = 'Choose a job from the list to see more information',
         stats = 'none'
-    },
-    notifications = {
-        jobTaken = "You have taken the job: %s",
-        locationMarked = "Location marked on your map for: %s",
-        requirementNotMet = "You don't meet the requirements for this job",
-        alreadyHaveJob = "You already have an active job"
     }
 }

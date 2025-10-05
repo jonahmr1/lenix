@@ -1,5 +1,5 @@
 exports.interact:AddInteraction({
-  coords = UIConfig.coords,
+  coords = require 'config.client'.ui.coords,
   distance = 8.0,
   interactDst = 2.0,
   id = 'Job',
@@ -7,13 +7,7 @@ exports.interact:AddInteraction({
     {
       label = 'Search For A Job',
       action = function()
-        OpenJobCenter()
-      end
-    },
-    {
-      label = 'Cityhall Service',
-      action = function()
-        exports.tr_smallresources:OpenCityhallMenu()
+        exports.tr_jobcenter:OpenJobCenter()
       end
     }
   }
