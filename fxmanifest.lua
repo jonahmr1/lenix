@@ -13,3 +13,7 @@ shared_scripts {
   'shared/*.lua'
 }
 client_scripts 'client/*.lua'
+
+escrow_ingore {
+  'config/*.lua'
+}
