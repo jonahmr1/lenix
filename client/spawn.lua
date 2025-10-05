@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local car
 local function GetVehicleConfigByModel(model)
     for i, vehicles in pairs(Config.Vehicles) do
         for _, vehicleConfig in ipairs(vehicles) do
@@ -13,35 +13,36 @@ end
 
 RegisterNetEvent("tr_patrolvehicles:spawn")
 AddEventHandler("tr_patrolvehicles:spawn", function(vehicleModel, spawnCoords)
-    local vehicleConfig = GetVehicleConfigByModel(vehicleModel, spawnCoords)
+    local vehicleConfig = GetVehicleConfigByModel(vehicleModel)
+    if vehicleConfig then
+        QBCore.Functions.SpawnVehicle(vehicleModel, function(veh)
+            local props = QBCore.Functions.GetVehicleProperties(veh)
+            local plate = vehicleConfig.plate[1] .. tostring(math.random(vehicleConfig.plate[2], vehicleConfig.plate[3]))
+            SetVehicleNumberPlateText(veh, plate)
+            exports[Config.FuelSystem]:SetFuel(veh, 100)
 
-    QBCore.Functions.SpawnVehicle(vehicleModel, function(veh)
-        local props = QBCore.Functions.GetVehicleProperties(veh)
-        local plate = vehicleConfig.plate[1] .. tostring(math.random(vehicleConfig.plate[2], vehicleConfig.plate[3]))
-        SetVehicleNumberPlateText(veh, plate)
-        exports[Config.FuelSystem]:SetFuel(veh, 100)
-
-        if vehicleConfig.style and vehicleConfig.style.isenabled then
-            if vehicleConfig.style.r and vehicleConfig.style.g and vehicleConfig.style.b then
-                SetVehicleCustomPrimaryColour(veh, vehicleConfig.style.r, vehicleConfig.style.g, vehicleConfig.style.b)
+            if vehicleConfig.style and vehicleConfig.style.isenabled then
+                if vehicleConfig.style.r and vehicleConfig.style.g and vehicleConfig.style.b then
+                    SetVehicleCustomPrimaryColour(veh, vehicleConfig.style.r, vehicleConfig.style.g, vehicleConfig.style.b)
+                end
+                if vehicleConfig.style.r and vehicleConfig.style.g and vehicleConfig.style.b then
+                    SetVehicleCustomSecondaryColour(veh, vehicleConfig.style.r, vehicleConfig.style.g, vehicleConfig.style.b)  -- Fixed: using r2, g2, b2 for secondary color
+                end
+                if vehicleConfig.style.livery then
+                    SetVehicleLivery(veh, vehicleConfig.style.livery)
+                    SetVehicleMod(veh, 48, vehicleConfig.style.livery, false)
+                end
             end
-            if vehicleConfig.style.r and vehicleConfig.style.g and vehicleConfig.style.b then
-                SetVehicleCustomSecondaryColour(veh, vehicleConfig.style.r, vehicleConfig.style.g, vehicleConfig.style.b)  -- Fixed: using r2, g2, b2 for secondary color
-            end
-            if vehicleConfig.style.livery then
-                SetVehicleLivery(veh, vehicleConfig.style.livery)
-                SetVehicleMod(veh, 48, vehicleConfig.style.livery, false)
-            end
-        end
 
-        if vehicleConfig.Registerable then
-            TriggerServerEvent("tr_patrolvehicles:insert", props, vehicleModel, GetHashKey(vehicleModel), QBCore.Functions.GetPlate(veh))
-        end
+            if vehicleConfig.Registerable then
+                TriggerServerEvent("tr_patrolvehicles:insert", props, vehicleModel, GetHashKey(vehicleModel), QBCore.Functions.GetPlate(veh))
+            end
 
-        TriggerEvent("vehiclekeys:client:SetOwner", plate)
-        SetVehicleEngineOn(veh, false, false, false)
-        car = veh
-    end, spawnCoords, true)
+            TriggerEvent("vehiclekeys:client:SetOwner", plate)
+            SetVehicleEngineOn(veh, false, false, false)
+            car = veh
+        end, spawnCoords, true)
+    end
 end)
 
 RegisterNetEvent('tr_patrolvehicles:return')

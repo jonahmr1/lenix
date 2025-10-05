@@ -5,7 +5,9 @@ dependencies {
     'qb-core',
     'qb-menu',
     'qb-target',
-    'ox_lib'
+    'ox_lib',
+    'oxmysql',
+    'cdn-fuel'
 }
 
 author 'Trippler Hub'
@@ -19,4 +21,8 @@ server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'server/*.lua',
     'config/server.lua',
+}
+
+escrow_ingore {
+    'config/*.lua'
 }

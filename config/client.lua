@@ -1,5 +1,4 @@
 Config = Config or {}
-Config.FuelSystem = 'cdn-fuel'
 
 Config.Interact = {
     {
