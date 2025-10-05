@@ -25,9 +25,7 @@ client_scripts {
   'client/main.lua',
 }
 ui_page 'web/build/index.html'
-files {
-  'web/**',
-}
+file 'web/**'
 
 escrow_ignore {
   'config/*.lua',
