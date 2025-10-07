@@ -10,7 +10,7 @@ dependencies {
     'cdn-fuel'
 }
 
-author 'Trippler Hub'
+author 'Trippler Scripts'
 
 shared_script '@ox_lib/init.lua'
 client_scripts {
