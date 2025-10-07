@@ -1,8 +1,10 @@
 fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
-escrow_ignore {
-  'config/*.lua',
+dependencies {
+  'ox_inventory',
+  'qbx_core',
+  'tr_banking',
 }
 
 shared_scripts {
@@ -17,7 +19,6 @@ client_scripts {
 }
 
 ui_page 'web/src/index.html'
-
 files {
   'config/server.lua',
   'web/src/index.html',
@@ -25,8 +26,6 @@ files {
   'web/src/script.js',
 }
 
-dependencies {
-  'ox_inventory',
-  'qbx_core',
-  'tr_banking',
+escrow_ignore {
+  'config/*.lua',
 }
