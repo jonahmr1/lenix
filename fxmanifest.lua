@@ -8,7 +8,7 @@ dependencies {
   'ox_lib'
 }
 
-author 'Trippler Hub'
+author 'Trippler Scripts'
 
 shared_scripts {
   '@ox_lib/init.lua',
