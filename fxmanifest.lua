@@ -3,10 +3,14 @@ game 'gta5'
 lua54 'yes'
 
 author 'Trippler Scripts'
-version '1.3.2'
+version '1.4.2'
 
 shared_scripts {
-  'config.lua',
-  'modules/print/shared/main.lua',
-  'modules/require/shared/main.lua',
+  'modules/require/shared.lua',
+  'utils/require.lua',
+  'modules/print/shared.lua',
+}
+
+files {
+  'config/shared.lua'
 }
