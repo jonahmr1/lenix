@@ -7,7 +7,7 @@ dependencies {
     'qb-target',
     'ox_lib',
     'oxmysql',
-    'cdn-fuel'
+    'qb-fuel'
 }
 
 author 'Trippler Scripts'
