@@ -5,7 +5,6 @@ local pedSpawned = false
 local settings = require 'config/client'
 Ped = {}
 
-
 local function createPeds()
     if pedSpawned then return end
     
@@ -28,7 +27,7 @@ local function createPeds()
                 {
                     type = "Client",
                     action = function()
-                        TriggerEvent('policegarage:clientOpenMenu', k)
+                        TriggerEvent('lenix_patrolservice:clientOpenMenu', k)
                     end,
                     icon = "fas fa-car",
                     label = v.label,
@@ -49,10 +48,10 @@ local function deletePeds()
     pedSpawned = false
 end
 
-RegisterNetEvent('policegarage:client:SpawnVehicle', function(data)
+RegisterNetEvent('lenix_patrolservice:client:SpawnVehicle', function(data)
     QBCore.Functions.SpawnVehicle(data.SpawnName, function(veh)
         SetVehicleNumberPlateText(veh, "SASP"..tostring(math.random(1000, 9999)))
-        exports['cdn-fuel']:SetFuel(veh, 100.0)
+        exports['qb-fuel']:SetFuel(veh, 100.0)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         SetVehicleEngineOn(veh, true, true)
         Vehicle = veh
@@ -60,7 +59,7 @@ RegisterNetEvent('policegarage:client:SpawnVehicle', function(data)
     end, data.spawnCoords, true)
 end)
 
-RegisterNetEvent('policegarage:client:DeleteVehicle', function()
+RegisterNetEvent('lenix_patrolservice:client:DeleteVehicle', function()
     if Vehicle ~= nil then
         DeleteVehicle(Vehicle)
         DeleteEntity(Vehicle)
@@ -74,7 +73,7 @@ RegisterNetEvent('policegarage:client:DeleteVehicle', function()
     end
 end)
 
-RegisterNetEvent('policegarage:clientOpenMenu', function(Current)
+RegisterNetEvent('lenix_patrolservice:clientOpenMenu', function(Current)
     local Menu = {
         {
             header = 'Government Garage',
@@ -96,7 +95,7 @@ RegisterNetEvent('policegarage:clientOpenMenu', function(Current)
                 header = vehicle.vehicleName,
                 icon = 'fas fa-car',
                 params = {
-                    event = 'policegarage:client:SpawnVehicle',
+                    event = 'lenix_patrolservice:client:SpawnVehicle',
                     args = {
                         SpawnName = vehicle.vehicleSpawnName,
                         spawnCoords = settings.locations[Current].spawnCoords,
@@ -111,7 +110,7 @@ RegisterNetEvent('policegarage:clientOpenMenu', function(Current)
             header = 'Store Vehicle',
             icon = 'fas fa-ban',
             params = {
-                event = 'policegarage:client:DeleteVehicle',
+                event = 'lenix_patrolservice:client:DeleteVehicle',
             }
         }
     end

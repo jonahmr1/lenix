@@ -5,7 +5,8 @@ dependencies {
   'qb-core',
   'qb-menu',
   'qb-target',
-  'tr_lib'
+  'tr_lib',
+  'qb-fuel'
 }
 
 author 'Trippler Scripts'
