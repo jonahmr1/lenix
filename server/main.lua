@@ -3,11 +3,11 @@ QBCore = exports['qb-core']:GetCoreObject()
 Config = {}
 local isActive = false
 
-QBCore.Functions.CreateCallback('tr_patrolvehicles:CheckIfActive', function(source, cb)
+QBCore.Functions.CreateCallback('lenix_patrolvehicles:CheckIfActive', function(source, cb)
     local src = source
 
     if not isActive then
-        TriggerEvent("tr_patrolvehicles:server:SetActive", true)
+        TriggerEvent("lenix_patrolvehicles:server:SetActive", true)
         cb(true)
     else
         cb(false)
@@ -15,17 +15,17 @@ QBCore.Functions.CreateCallback('tr_patrolvehicles:CheckIfActive', function(sour
     end
 end)
 
-RegisterNetEvent('tr_patrolvehicles:server:SetActive', function(status)
+RegisterNetEvent('lenix_patrolvehicles:server:SetActive', function(status)
     if status ~= nil then
         isActive = status
-        TriggerClientEvent('tr_patrolvehicles:client:SetActive', -1, isActive)
+        TriggerClientEvent('lenix_patrolvehicles:client:SetActive', -1, isActive)
     else
-        TriggerClientEvent('tr_patrolvehicles:client:SetActive', -1, isActive)
+        TriggerClientEvent('lenix_patrolvehicles:client:SetActive', -1, isActive)
     end
 end)
 
-RegisterServerEvent("tr_patrolvehicles:insert")
-AddEventHandler('tr_patrolvehicles:insert', function(mods, vehicle, hash, plate)
+RegisterServerEvent("lenix_patrolvehicles:insert")
+AddEventHandler('lenix_patrolvehicles:insert', function(mods, vehicle, hash, plate)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     MySQL.Async.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', {

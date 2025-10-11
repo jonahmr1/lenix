@@ -30,7 +30,7 @@ AddEventHandler('onClientResourceStart',function()
     end)
 end)
 
-RegisterNetEvent('tr_patrolvehicles:client:SetActive', function(status)
+RegisterNetEvent('lenix_patrolvehicles:client:SetActive', function(status)
     isActive = status
 end)
 

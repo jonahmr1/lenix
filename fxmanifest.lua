@@ -10,7 +10,7 @@ dependencies {
     'qb-fuel'
 }
 
-author 'Trippler Scripts'
+author 'Lenix'
 
 shared_script '@ox_lib/init.lua'
 client_scripts {

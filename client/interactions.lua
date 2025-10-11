@@ -47,7 +47,7 @@ CreateThread(function()
                     label = v.label,
                     job = interactionGroups,
                     action = function()
-                        TriggerEvent("tr_patrolvehicles:menu", v)
+                        TriggerEvent("lenix_patrolvehicles:menu", v)
                     end,
                 },
             },

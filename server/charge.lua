@@ -1,12 +1,12 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('tr_patrolvehicles:charge', function(data)
+RegisterServerEvent('lenix_patrolvehicles:charge', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local steamname = GetPlayerName(src)
 
     if Player.PlayerData.money.cash >= data.price then
-        TriggerClientEvent("tr_patrolvehicles:spawn", src, data.vehicle, data.spawn)
+        TriggerClientEvent("lenix_patrolvehicles:spawn", src, data.vehicle, data.spawn)
         if data.chargeable then
             Player.Functions.RemoveMoney("cash", data.price)
         end

@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterNetEvent('tr_patrolvehicles:menu', function(data)
+RegisterNetEvent('lenix_patrolvehicles:menu', function(data)
     local config = data.config
     local spawn = data.spawn
     local preview = data.preview
@@ -11,7 +11,7 @@ RegisterNetEvent('tr_patrolvehicles:menu', function(data)
             description = "Browse police vehicles",
             icon = "fas fa-car",
             onSelect = function()
-                TriggerEvent("tr_patrolvehicles:list", {
+                TriggerEvent("lenix_patrolvehicles:list", {
                     config = config,
                     spawn = spawn,
                     preview = preview
@@ -23,7 +23,7 @@ RegisterNetEvent('tr_patrolvehicles:menu', function(data)
             description = "Preview available vehicles",
             icon = "fas fa-eye",
             onSelect = function()
-                TriggerEvent("tr_patrolvehicles:previewmenu", {
+                TriggerEvent("lenix_patrolvehicles:previewmenu", {
                     config = config,
                     preview = preview,
                     spawn = spawn
@@ -35,7 +35,7 @@ RegisterNetEvent('tr_patrolvehicles:menu', function(data)
             description = "Return your current vehicle",
             icon = "fas fa-warehouse",
             onSelect = function()
-                TriggerEvent("tr_patrolvehicles:return")
+                TriggerEvent("lenix_patrolvehicles:return")
             end
         }
     }
@@ -49,7 +49,7 @@ RegisterNetEvent('tr_patrolvehicles:menu', function(data)
     lib.showContext('patrols_main_menu')
 end)
 
-RegisterNetEvent("tr_patrolvehicles:list", function(data)
+RegisterNetEvent("lenix_patrolvehicles:list", function(data)
     local config = data.config
     local spawn = data.spawn
     local preview = data.preview
@@ -62,7 +62,7 @@ RegisterNetEvent("tr_patrolvehicles:list", function(data)
         description = "Return to main menu",
         icon = "fas fa-arrow-left",
         onSelect = function()
-            TriggerEvent("tr_patrolvehicles:menu", {
+            TriggerEvent("lenix_patrolvehicles:menu", {
                 config = config,
                 spawn = spawn,
                 preview = preview
@@ -86,7 +86,7 @@ RegisterNetEvent("tr_patrolvehicles:list", function(data)
                     description = description,
                     icon = vehicle.Registerable and "fas fa-dollar-sign" or "fas fa-key",
                     image = vehicle.image, -- Add vehicle image if available
-                    serverEvent = "tr_patrolvehicles:charge",
+                    serverEvent = "lenix_patrolvehicles:charge",
                     args = {
                         price = vehicle.price,
                         vehiclename = vehicle.vehiclename,

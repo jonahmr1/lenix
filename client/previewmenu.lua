@@ -1,4 +1,4 @@
-RegisterNetEvent('tr_patrolvehicles:previewmenu', function(data)
+RegisterNetEvent('lenix_patrolvehicles:previewmenu', function(data)
     local config = data.config
     local spawn = data.spawn
     local preview = data.preview
@@ -13,7 +13,7 @@ RegisterNetEvent('tr_patrolvehicles:previewmenu', function(data)
                 icon = "fas fa-search",
                 image = vehicle.image, -- Add vehicle image if available
                 onSelect = function()
-                    TriggerEvent("tr_patrolvehicles:preview", {
+                    TriggerEvent("lenix_patrolvehicles:preview", {
                         vehicle = vehicle.vehicle,
                         preview = preview,
                     })
@@ -30,7 +30,7 @@ RegisterNetEvent('tr_patrolvehicles:previewmenu', function(data)
         description = "Return to main menu",
         icon = "fas fa-arrow-left",
         onSelect = function()
-            TriggerEvent("tr_patrolvehicles:menu", {
+            TriggerEvent("lenix_patrolvehicles:menu", {
                 config = config,
                 spawn = spawn,
                 preview = preview

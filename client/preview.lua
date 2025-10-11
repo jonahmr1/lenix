@@ -1,8 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterNetEvent("tr_patrolvehicles:preview")
-AddEventHandler("tr_patrolvehicles:preview", function(data)
-    QBCore.Functions.TriggerCallback('tr_patrolvehicles:CheckIfActive', function(status)
+RegisterNetEvent("lenix_patrolvehicles:preview")
+AddEventHandler("lenix_patrolvehicles:preview", function(data)
+    QBCore.Functions.TriggerCallback('lenix_patrolvehicles:CheckIfActive', function(status)
         if status then
             local preview = data.preview
             local cam = data.preview.cam
@@ -45,7 +45,7 @@ AddEventHandler("tr_patrolvehicles:preview", function(data)
                             DoScreenFadeIn(200)
                             RenderScriptCams(false, false, 1, true, true)
                             InPreview = false
-                            TriggerServerEvent("tr_patrolvehicles:server:SetActive", false)
+                            TriggerServerEvent("lenix_patrolvehicles:server:SetActive", false)
                             break
                         end
                         Wait(1)
