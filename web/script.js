@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     #interact-key {
         font-size: 15px;
         font-weight: 700;
-        color: #D68833d3;
+        color: #a0ffed;
         background: radial-gradient(31.98% 56.85% at 50% 50%, rgba(26, 29, 41, 0.9) 0%, rgba(34, 37, 48, 0.92) 100%);
         padding: 5px;
         margin: 5px;
@@ -74,12 +74,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     #interact-key-b {
-        background: radial-gradient(62.19% 62.19% at 50% 50%, rgba(203, 83, 66, 0.25) 0%, rgba(102, 24, 0, 0.25) 100%);
+        background: radial-gradient(62.19% 62.19% at 50% 50%, rgba(160, 255, 237, 0.25) 0%, rgba(94, 149, 139, 0.25) 100%);
         font-family: "Cairo", sans-serif;
         padding-left: 9px;
         padding-right: 9px;
         border-radius: 0.3rem;
-        border: 1px solid #D68833d3;
+        border: 1px solid #a0ffed;
     }
 
     #interact-text {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
         width: calc(0.092592592vh * 5);
         height: calc(0.092592592vh * 5);
         border-radius: 0.3rem;
-        background-color: #D68833d3;
+        background-color: #a0ffed;
         right: 17px;
         top: 2px;
     }
