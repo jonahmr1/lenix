@@ -6,11 +6,11 @@ exports('show', function(key, text) {
     action: "show",
     key: localKey,
     text: text
-  })
+  }))
 })
 
 exports("hide", function() {
   SendNuiMessage(JSON.stringify({
     action: "hide"
-  })
+  }))
 })
