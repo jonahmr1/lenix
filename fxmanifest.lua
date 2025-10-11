@@ -24,5 +24,6 @@ server_scripts {
 }
 
 escrow_ingore {
-    'config/*.lua'
+    'config/client.lua',
+    'config/server.lua'
 }
