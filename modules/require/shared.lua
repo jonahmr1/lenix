@@ -1,14 +1,20 @@
 local loaded = {}
+
 package = {
     loaded = setmetatable({}, {
         __index = loaded,
     })
 }
+
 local function require(modulePath)
     local resourceName = GetInvokingResource() or GetCurrentResourceName()
+    
     assert(modulePath, 'Module path caught nil')
-    if package.loaded[modulePath] then
-        return package.loaded[modulePath]
+    
+    local cacheKey = resourceName .. ':' .. modulePath
+    
+    if package.loaded[cacheKey] then
+        return package.loaded[cacheKey]
     end
 
     local module = ('%s.lua'):format(modulePath)
@@ -21,7 +27,7 @@ local function require(modulePath)
         end
         module = chunk()
 
-        package.loaded[modulePath] = module
+        package.loaded[cacheKey] = module
         return module
     else
         error('Module "' .. modulePath .. '" not found in resource "' .. resourceName .. '"')
