@@ -9,7 +9,7 @@ dependencies {
   'qb-fuel'
 }
 
-author 'Trippler Scripts'
+author 'Lenix'
 
 client_scripts {
   'client/utils.lua',
@@ -18,8 +18,4 @@ client_scripts {
 
 files {
   'config/client.lua'
-}
-
-escrow_ingore {
-  'config/client.lua',
 }
