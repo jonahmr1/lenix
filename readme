@@ -1,3 +1,4 @@
+# config/client
 Config.FuelSystem = '' ---@param fuel_script qb-fuel | custom
 
 Config.Interact = {
@@ -54,6 +55,7 @@ Config.Vehicles = {
     ...
 }
 
+# config/server
 Config.LogEnabled = false -- Want to use the discord webhook? if not set it to false
 Config.Webhook = "https://discord.com/api/webhooks/" --Discord Webhook
 Config.BotName = "Trippler Bit" --Bot Name
