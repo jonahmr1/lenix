@@ -4,6 +4,6 @@ lua54 'yes'
 
 author 'Trippler Scripts'
 
-client_script 'client.lua'
-ui_page 'web/build/index.html'
+client_script 'client.js'
+ui_page 'web/index.html'
 file 'web/**'
