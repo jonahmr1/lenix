@@ -1,14 +1,15 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Vehicle = nil
 local VehicleSpawned = false
-
 local pedSpawned = false
+local settings = require 'config/client'
 Ped = {}
+
 
 local function createPeds()
     if pedSpawned then return end
     
-    for k, v in pairs(Config.Locations) do
+    for k, v in pairs(settings.locations) do
         local current = type(v.ped) == "number" and v.ped or GetHashKey(v.ped)
         
         RequestModel(current)
@@ -16,7 +17,7 @@ local function createPeds()
             Wait(0)
         end
         
-        Ped[k] = CreatePed(0, current, v.Coords.x, v.Coords.y, v.Coords.z-1, v.Coords.w, false, false)
+        Ped[k] = CreatePed(0, current, v.coords.x, v.coords.y, v.coords.z-1, v.coords.w, false, false)
         TaskStartScenarioInPlace(Ped[k], v.scenario, 0, true)
         FreezeEntityPosition(Ped[k], true)
         SetEntityInvincible(Ped[k], true)
@@ -31,7 +32,7 @@ local function createPeds()
                     end,
                     icon = "fas fa-car",
                     label = v.label,
-                    job = v.Job,
+                    job = v.job,
                 },
             },
             distance = 2
@@ -56,7 +57,7 @@ RegisterNetEvent('policegarage:client:SpawnVehicle', function(data)
         SetVehicleEngineOn(veh, true, true)
         Vehicle = veh
         VehicleSpawned = true
-    end, data.SpawnCoords, true)
+    end, data.spawnCoords, true)
 end)
 
 RegisterNetEvent('policegarage:client:DeleteVehicle', function()
@@ -89,16 +90,16 @@ RegisterNetEvent('policegarage:clientOpenMenu', function(Current)
         },
     }
     
-    for _, vehicle in pairs(Config.Locations[Current].Vehicles) do
-        if QBCore.Functions.GetPlayerData().job.grade.level >= tonumber(vehicle.Grade) then
+    for _, vehicle in pairs(settings.locations[Current].vehicles) do
+        if QBCore.Functions.GetPlayerData().job.grade.level >= tonumber(vehicle.grade) then
             Menu[#Menu + 1] = {
-                header = vehicle.VehicleName,
+                header = vehicle.vehicleName,
                 icon = 'fas fa-car',
                 params = {
                     event = 'policegarage:client:SpawnVehicle',
                     args = {
-                        SpawnName = vehicle.VehicleSpawnName,
-                        SpawnCoords = Config.Locations[Current].SpawnCoords,
+                        SpawnName = vehicle.vehicleSpawnName,
+                        spawnCoords = settings.locations[Current].spawnCoords,
                     },
                 }
             }
