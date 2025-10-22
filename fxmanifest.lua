@@ -2,7 +2,8 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 
-author 'Trippler Scripts'
+author 'Trippler'
+docs 'https://docs.trippler.store'
 version '1.5.0'
 
 shared_scripts {
@@ -10,7 +11,6 @@ shared_scripts {
   'utils/require.lua',
   'modules/print/shared.lua',
 }
-
 files {
   'config/shared.lua'
 }
