@@ -7,6 +7,9 @@ dependencies {
   'tr_banking',
 }
 
+author 'Trippler'
+docs 'https://docs.trippler.store'
+
 shared_scripts {
   '@ox_lib/init.lua'
 }
@@ -17,7 +20,6 @@ client_scripts {
   'client/main.lua',
   'config/client.lua'
 }
-
 ui_page 'web/src/index.html'
 files {
   'config/server.lua',
