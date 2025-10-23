@@ -1,36 +1,77 @@
 local config = require 'config/shared'
 
-exports('print', function(data)
-  if type(data) ~= "table" then
-    print(data)
-    warn(("exports.tr_lib:print expected a table and received %s"):format(type(data):upper()))
-    return
-  end
-  assert(data.type ~= nil, ('invalid print type, received %s'):format(type(data.type):upper()))
-  assert(data.message ~= nil, ('invalid print message, received %s'):format(type(data.message):upper()))
-  local logType = data.type
-  local message = data.message
+local function createPrint(logType, message, path, line)
   local colors = {
     error = '^1',
+    err = '^1',
     warning = '^3',
+    warn = '^3',
     info = '^4',
+    inf = '^4',
     success = '^2',
     log = '^6',
     debug = '^5'
   }
 
-  local prefix = string.format('%s[%s]', colors[logType], logType:upper())
-  local location = (data.path and data.line) and string.format('(%s:%s)', data.path, data.line) or ''
-  local output = data.ignore and string.format('%s: %s^7', prefix, message) or string.format('%s: %s %s^7', prefix, message, location)
+  local displayType = logType
+  if logType == 'err' then displayType = 'error'
+  elseif logType == 'warn' then displayType = 'warning'
+  elseif logType == 'inf' then displayType = 'info'
+  end
+
+  local prefix = string.format('%s[%s]', colors[logType], displayType)
+  local location = (path and line) and string.format('(%s:%s)', path, line) or ''
+  local output = string.format('%s: %s %s^7', prefix, message, location)
+
+  local baseType = logType
+  if logType == 'err' then baseType = 'error'
+  elseif logType == 'warn' then baseType = 'warning'
+  elseif logType == 'inf' then baseType = 'info'
+  end
 
   for _, enabledType in ipairs(config.typesEnabled) do
-    if enabledType == logType then
-      if logType == "error" and not data.path and not data.line then
-        error(message, 2)
-      else
+    if enabledType == baseType then
+      if path and line then
         print(output)
+      else
+        if logType == "error" or logType == 'err' then
+          error(message, 2)
+        elseif logType == 'warning' or logType == 'warn' then
+          warn(message)
+        elseif logType == 'debug' then
+          warn('We really encourage you inserting with DEBUG MODE the PATH and LINE')
+          print(output)
+        else
+          print(output)
+        end
       end
       break
     end
   end
+end
+
+local printFunc = {}
+
+local logTypes = {'error', 'err', 'warning', 'warn', 'info', 'inf', 'success', 'log', 'debug'}
+for _, logType in ipairs(logTypes) do
+  printFunc[logType] = function(message, path, line)
+    createPrint(logType, message, path, line)
+  end
+end
+
+setmetatable(printFunc, {
+  __call = function(_, message, ...)
+    warn("No print type called, native fallback...")
+    print(message)
+  end
+})
+
+exports('print', function(message, ...)
+  if message ~= nil then
+    warn("No print type called, native fallback...")
+    print(message)
+    return printFunc
+  end
+  
+  return printFunc
 end)
