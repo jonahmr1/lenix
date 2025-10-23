@@ -16,10 +16,7 @@ RegisterNuiCallback('NuiReady', function(data, cb) {
     }))
     clearInterval(interval)
   })
-  SendNuiMessage(JSON.stringify({
-    action: 'show'
-  }))
-  updateWeapon()
+
   function updateWeapon() {
     interval = setInterval(() => {
       const ped = PlayerPedId()

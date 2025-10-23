@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .weapon-icon {
       grid-row: 1 / 3;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-      backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 1.5rem;
       display: flex;
@@ -162,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     .weapon-name {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
-      backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.15);
       padding: 0.8rem 1.5rem;
       color: #ffffff;
