@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
   root.innerHTML = `
     <audio id="audio" src="./public/effect.mp3"></audio>
     <div id="container" style="display: none;">
-      <div class="icon">
-        <div class="icon-text"></div>
-      </div>
-      <div class="text"></div>
       <div class="key">
         <div class="key-text"></div>
+      </div>
+      <div class="text"></div>
+      <div class="icon">
+        <div class="icon-text"></div>
       </div>
     </div>
   `;
@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
       font-family: 'Open Sans', sans-serif;
       margin: 0;
       padding: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 98vw;
+      height: 98vh;
       background: transparent;
     }
 
@@ -66,23 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     .icon {
-      height: 3.75vh;
+      height: 3.95vh;
       width: 3.8vh;
       background: #272727f6;
-      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.9);
       border-radius: 0.75rem;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      left: 1rem;
+      right: 1rem;
       top: 0.1rem;
     }
 
     .icon-text {
       color: #a0ffed;
       text-shadow: 0 0 12px #a0ffed;
-      font-size: 17px;
+      font-size: 20px;
     }
 
     .text {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
       margin-top: 0.2rem;
       border-radius: 0.75rem;
       padding: 0.55rem 1.85rem;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: bold;
       white-space: nowrap;
     }
@@ -108,11 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     .key {
-      height: 3.6vh;
+      height: 3.95vh;
       width: 2.5rem;
-      right: 1rem;
+      left: 1rem;
       background: #272727f6;
-      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.9);
       border-radius: 0.75rem;
       position: relative;
       display: flex;
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
       font-weight: 900;
       color: #fffffff1;
       text-shadow: 0 0 12px #fffffff1;
-      font-size: 17px;
+      font-size: 20px;
     }
   `;
   root.appendChild(style);
@@ -194,4 +194,11 @@ document.addEventListener('DOMContentLoaded', () => {
       break;
     }
   });
+  fetch(`https://${GetParentResourceName()}/nuiReady`, {
+    method: "POST",
+    headers: {
+    "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  })
 })
