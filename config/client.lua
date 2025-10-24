@@ -4,7 +4,7 @@ return {
         subtitle = "Find your next opportunity",
         maxWidth = "1200px",
         maxHeight = "80vh",
-        coords = vec3(-553.6, -189.49, 38.12)
+        coords = vec3(-1083.17, -245.77, 37.76)
     },
     theme = {
         primary = "214, 136, 51",
