@@ -4,7 +4,7 @@ lua54 'yes'
 dependencies {
   'qbx_core',
   'ox_inventory',
-  'interact',
+  'ox_target',
   'ox_lib'
 }
 

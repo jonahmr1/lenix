@@ -1,12 +1,13 @@
-exports.interact:AddInteraction({
+exports.ox_target:addBoxZone({
   coords = require 'config.client'.ui.coords,
-  distance = 8.0,
-  interactDst = 2.0,
-  id = 'Job',
+  name = 'jobcenter',
+  size = vector3(1, 1, 1),
+  rotation = 0,
+  debug = false,
   options = {
     {
       label = 'Search For A Job',
-      action = function()
+      onSelect = function()
         exports.tr_jobcenter:OpenJobCenter()
       end
     }
