@@ -1,4 +1,5 @@
 # client
+Bundle of UI helpers for players interaction
 
 ## Show
 
