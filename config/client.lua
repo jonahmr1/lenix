@@ -4,14 +4,14 @@ return {
         subtitle = "Find your next opportunity",
         maxWidth = "1200px",
         maxHeight = "80vh",
-        coords = vec3(-1083.17, -245.77, 37.76)
+        coords = vec4(-1083.17, -245.77, 37.76, 204.31)
     },
     theme = {
-        primary = "214, 136, 51",
+        primary = "80, 128, 118",
         secondary = "132, 96, 58",
-        background = "86 86 86 / 25%",
+        background = "153, 170, 181 / 25%",
         text = "#ffffff",
-        gradient = 'linear-gradient(0deg,rgba(99, 61, 19, 0.52) 0%, rgba(43, 29, 20, 0.52) 52%, rgba(41, 41, 41, 0.93) 100%)',
+        gradient = 'linear-gradient(0deg,rgba(16, 91, 77, 0.52) 0%, rgba(24, 53, 47, 0.52) 52%, rgba(41, 41, 41, 0.93) 100%)',
         ui_title = 'Public Job Center',
         ui_subtitle = 'Find your next opportunity',
         placeholder_h3 = 'Select a job to view details',
