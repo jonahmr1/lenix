@@ -50,28 +50,38 @@ local function createPrint(logType, message, path, line)
   end
 end
 
-local printFunc = {}
-
-local logTypes = {'error', 'err', 'warning', 'warn', 'info', 'inf', 'success', 'log', 'debug'}
-for _, logType in ipairs(logTypes) do
-  printFunc[logType] = function(message, path, line)
-    createPrint(logType, message, path, line)
+-- Create a plain table (no metatable) with all log functions
+local printFunc = {
+  error = function(message, path, line)
+    createPrint('error', message, path, line)
+  end,
+  err = function(message, path, line)
+    createPrint('err', message, path, line)
+  end,
+  warning = function(message, path, line)
+    createPrint('warning', message, path, line)
+  end,
+  warn = function(message, path, line)
+    createPrint('warn', message, path, line)
+  end,
+  info = function(message, path, line)
+    createPrint('info', message, path, line)
+  end,
+  inf = function(message, path, line)
+    createPrint('inf', message, path, line)
+  end,
+  success = function(message, path, line)
+    createPrint('success', message, path, line)
+  end,
+  log = function(message, path, line)
+    createPrint('log', message, path, line)
+  end,
+  debug = function(message, path, line)
+    createPrint('debug', message, path, line)
   end
-end
+}
 
-setmetatable(printFunc, {
-  __call = function(_, message, ...)
-    warn("No print type called, native fallback...")
-    print(message)
-  end
-})
-
-exports('print', function(message, ...)
-  if message ~= nil then
-    warn("No print type called, native fallback...")
-    print(message)
-    return printFunc
-  end
-  
+-- Export a single function that returns the printFunc table
+exports('print', function()
   return printFunc
 end)
