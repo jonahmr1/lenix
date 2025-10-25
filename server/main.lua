@@ -1,27 +1,28 @@
-local export = exports.qbx_core
+local core = exports.qbx_core
 local config = require 'config.server'
+local bridge = require 'bridge.server'
 
 local function getPlayerCitizenId(source)
-  return export:GetPlayer(source).PlayerData.citizenid
+  return core:GetPlayer(source).PlayerData.citizenid
 end
 
 local function isPlayerOnline(identifier)
-  return export:GetPlayerByCitizenId(identifier) ~= nil
+  return core:GetPlayerByCitizenId(identifier) ~= nil
 end
 
 local function getPlayerByCitizenId(citizenid)
   assert(type(citizenid) == 'string', 'citizenid must be a string')
-  return export:GetPlayerByCitizenId(citizenid) or export:GetOfflinePlayer(citizenid)
+  return core:GetPlayerByCitizenId(citizenid) or core:GetOfflinePlayer(citizenid)
 end
 
 local function getPlayerSourceByCitizenId(identifier)
-  return export:GetSource(identifier)
+  return core:GetSource(identifier)
 end
 
 local function getMetadata(citizenid)
   local metadata = getPlayerByCitizenId(citizenid).PlayerData.metadata.jobrep.police
   if not metadata then
-    export:SetMetadata(citizenid, 'jobrep', { police = 0 })
+    core:SetMetadata(citizenid, 'jobrep', { police = 0 })
     metadata = getPlayerByCitizenId(citizenid).PlayerData.metadata.jobrep.police
   end
   return metadata
@@ -29,7 +30,7 @@ end
 
 local function setMetadata(citizenid, value)
   local metadata = getMetadata(citizenid)
-  export:SetMetadata(citizenid, 'jobrep', { police = value })
+  core:SetMetadata(citizenid, 'jobrep', { police = value })
   local newMetadata = getMetadata(citizenid)
   if metadata == newMetadata then
     return false, 'Metadata not updated'
@@ -38,22 +39,22 @@ local function setMetadata(citizenid, value)
 end
 
 local function hasPoliceJob(src)
-  return export:HasGroup(src, 'police')
+  return core:HasGroup(src, 'police')
 end
 
 local function getSocietyBudget()
-  return exports.tr_banking:GetAccount('police')
+  return bridge.getAccountBudget()
 end
 
 lib.callback.register('tr_bossdesk:server:isPlayerBoss', function(source)
-  local playerJob = export:GetPlayer(source).PlayerData.job
-  local isPlayerBoss = export:IsGradeBoss(playerJob.name, playerJob.grade.level)
+  local playerJob = core:GetPlayer(source).PlayerData.job
+  local isPlayerBoss = core:IsGradeBoss(playerJob.name, playerJob.grade.level)
   return isPlayerBoss
 end)
 
 lib.callback.register('tr_bossdesk:server:getTotalPlayers', function()
-  local playersdata = export:GetGroupMembers('police', 'job')
-  local count = 1
+  local playersdata = core:GetGroupMembers('police', 'job')
+  local count = 0
   for i = 1, #playersdata do
     count = count + 1
   end
@@ -61,7 +62,7 @@ lib.callback.register('tr_bossdesk:server:getTotalPlayers', function()
 end)
 
 lib.callback.register('tr_bossdesk:server:getJobPlayersData', function()
-  local player = export:GetGroupMembers('police', 'job')
+  local player = core:GetGroupMembers('police', 'job')
   local players = {}
   for i = 1, #player do
     local citizenid = player[i].citizenid
@@ -102,8 +103,8 @@ lib.callback.register('tr_bossdesk:server:hirePlayer', function(_, citizenid, gr
   if hasPoliceJob(getPlayerSourceByCitizenId(citizenid)) then
     return false, 'You cannot hire someone while already being a police officer'
   end
-  export:AddPlayerToJob(citizenid, 'police', grade)
-  export:SetMetadata(citizenid, 'callsign', badge)
+  core:AddPlayerToJob(citizenid, 'police', grade)
+  core:SetMetadata(citizenid, 'callsign', badge)
   if hasPoliceJob(getPlayerSourceByCitizenId(citizenid)) then
     return true, 'Employee hired successfully'
   else
@@ -112,8 +113,8 @@ lib.callback.register('tr_bossdesk:server:hirePlayer', function(_, citizenid, gr
 end)
 
 lib.callback.register('tr_bossdesk:server:firePlayer', function(_, citizenid, reason)
-  export:RemovePlayerFromJob(citizenid, 'police')
-  export:SetMetadata(citizenid, 'callsign', 'NO CALLSIGN')
+  core:RemovePlayerFromJob(citizenid, 'police')
+  core:SetMetadata(citizenid, 'callsign', 'NO CALLSIGN')
   if hasPoliceJob(getPlayerSourceByCitizenId(citizenid)) then
     return false, 'Employee not fired'
   end
@@ -140,7 +141,7 @@ lib.callback.register('tr_bossdesk:server:updateReputation', function(_, citizen
 end)
 
 lib.callback.register('tr_bossdesk:server:isSelfInteraction', function(_, citizenid)
-  return citizenid == export:GetPlayer(source).PlayerData.citizenid
+  return citizenid == core:GetPlayer(source).PlayerData.citizenid
 end)
 
 lib.callback.register('tr_bossdesk:server:getJobRanks', function()
@@ -169,8 +170,8 @@ lib.callback.register('tr_bossdesk:server:transferFunds', function(_, citizenid,
     if getSocietyBudget() + config.maxBorrowAmount < amount then
       return false, 'Borrow limit exceeded'
     end
-    exports.tr_banking:RemoveMoney('police', amount, reason)
-    export:AddMoney(citizenid, 'bank', amount, reason)
+    bridge.removeMoney('police', amount, reason)
+    core:AddMoney(citizenid, 'bank', amount, reason)
     return true, 'Transfer successful'
   end
 end)
@@ -180,19 +181,19 @@ lib.callback.register('tr_bossdesk:server:manageFunds', function(source, action,
     return false, 'Invalid parameters'
   else
     if action == 'deposit' then
-      if export:GetMoney(getPlayerCitizenId(source), 'bank') < amount then
+      if core:GetMoney(getPlayerCitizenId(source), 'bank') < amount then
         return false, 'Insufficient funds'
       end
-      export:RemoveMoney(getPlayerCitizenId(source), 'bank', amount, reason)
-      exports.tr_banking:AddMoney('police', amount, reason)
+      core:RemoveMoney(getPlayerCitizenId(source), 'bank', amount, reason)
+      bridge.addMoney('police', amount, reason)
       return true, 'Funds deposited successfully'
     else
       if action == 'withdraw' then
         if getSocietyBudget() + config.maxBorrowAmount < amount then
           return false, 'Borrow limit exceeded'
         else
-          exports.tr_banking:RemoveMoney('police', amount, reason)
-          export:AddMoney(getPlayerCitizenId(source), 'bank', amount, reason)
+          bridge.removeMoney('police', amount, reason)
+          core:AddMoney(getPlayerCitizenId(source), 'bank', amount, reason)
           return true, 'Funds withdrawn successfully'
         end
         return false, 'Invalid action'
