@@ -28,8 +28,8 @@ return {
             license = true
         },
         image = {
-            type = "url",
-            content = "https://cdn.discordapp.com/attachments/1406729989084418160/1409908188764962938/image.png?ex=68af16d3&is=68adc553&hm=447dc0a23f82c1a3a969e11bfc6d7389992a406bda254c785141fcb90a38613e&"
+            type = "img",
+            content = "public/garbage.jpg"
         },
         stats = { payment = "", paymentLabel = "", availability = "", availabilityLabel = "" }
     },
@@ -60,8 +60,8 @@ return {
             license = true
         },
         image = {
-            type = "url",
-            content = "https://cdn.discordapp.com/attachments/1406729989084418160/1410006774022406154/image.png?ex=68b0c423&is=68af72a3&hm=36f50af509543740171ccc1969cc74daa396f3d785c8fbcd8cfabb6018bde0f8&"
+            type = "img",
+            content = "public/tow.jpeg"
         },
         stats = { payment = "", paymentLabel = "", availability = "", availabilityLabel = "" }
     },

@@ -13,3 +13,4 @@ exports.ox_target:addBoxZone({
     }
   }
 })
+exports.tr_kit:createBlip(json.encode(require('config.client').ui.coords), 1)

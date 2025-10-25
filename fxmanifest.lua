@@ -31,7 +31,8 @@ ui_page 'web/index.html'
 file 'web/**'
 
 escrow_ignore {
-  'config/*.lua',
+  'config/client.lua',
+  'config/shared.lua',
   'client/settings.lua',
   'server/settings.lua',
 }

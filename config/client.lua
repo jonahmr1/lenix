@@ -9,7 +9,7 @@ return {
     theme = {
         primary = "80, 128, 118",
         secondary = "132, 96, 58",
-        background = "153, 170, 181 / 25%",
+        background = "24, 53, 47, 0.25",
         text = "#ffffff",
         gradient = 'linear-gradient(0deg,rgba(16, 91, 77, 0.52) 0%, rgba(24, 53, 47, 0.52) 52%, rgba(41, 41, 41, 0.93) 100%)',
         ui_title = 'Public Job Center',

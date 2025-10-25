@@ -50,8 +50,6 @@ RegisterNUICallback('markLocation', function(data, cb)
     end
 end)
 
-exports.tr_kit:createBlip(json.encode(UIConfig.coords), 1)
-
 -- Exports
 exports('OpenJobCenter', OpenJobCenter)
 exports('CloseJobCenter', CloseJobCenter)
