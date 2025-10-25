@@ -4,11 +4,12 @@ lua54 'yes'
 dependencies {
   'ox_inventory',
   'qbx_core',
-  'tr_banking',
+  'Renewed-Banking',
 }
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
+version '1.0.0'
 
 shared_scripts {
   '@ox_lib/init.lua'
@@ -18,16 +19,13 @@ server_scripts {
 }
 client_scripts {
   'client/main.lua',
-  'config/client.lua'
 }
-ui_page 'web/src/index.html'
+ui_page 'web/index.html'
 files {
-  'config/server.lua',
-  'web/src/index.html',
-  'web/src/style.css',
-  'web/src/script.js',
+  'web/**',
+  'bridge/server.lua'
 }
 
 escrow_ignore {
-  'config/*.lua',
+  'config/server.lua',
 }
