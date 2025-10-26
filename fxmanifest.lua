@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.9.0'
+version '1.9.1'
 
 shared_scripts {
   'modules/require/shared.lua',
@@ -12,5 +12,12 @@ shared_scripts {
   'modules/split/shared.lua',
   'modules/print/shared.lua',
   'modules/print/backward_compatibility.lua',
-  'modules/callback/shared.lua',
+}
+
+client_scripts {
+  'modules/callback/client.lua',
+}
+
+server_scripts {
+  'modules/callback/server.lua',
 }
