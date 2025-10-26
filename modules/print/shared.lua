@@ -50,7 +50,6 @@ local function createPrint(logType, message, path, line)
   end
 end
 
--- Create a plain table (no metatable) with all log functions
 local printFunc = {
   error = function(message, path, line)
     createPrint('error', message, path, line)
@@ -81,7 +80,10 @@ local printFunc = {
   end
 }
 
--- Export a single function that returns the printFunc table
-exports('print', function()
+exports('print', function(message, path, line)
+  if message ~= nil then
+    createPrint('debug', message, path, line)
+  end
+  
   return printFunc
 end)
