@@ -9,9 +9,8 @@ version '1.8.3'
 shared_scripts {
   'modules/require/shared.lua',
   'utils/require.lua',
+  'modules/split/shared.lua',
   'modules/print/shared.lua',
-  'modules/callback/shared.lua'
-}
-files {
-  'config/shared.lua'
+  'modules/print/backward_compatibility.lua',
+  'modules/callback/shared.lua',
 }
