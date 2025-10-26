@@ -3,7 +3,7 @@ local CallbackId = 0
 
 function RegisterCallback(name, cb)
     Callbacks[name] = cb
-    return true
+    return true, 'Callback requested successfuly'
 end
 
 function TriggerServerCallback(name, ...)
@@ -14,31 +14,39 @@ function TriggerServerCallback(name, ...)
     local timedOut = false
     
     Callbacks[requestId] = function(...)
-        promise:resolve({success = true, data = {...}})
+        if not timedOut then
+            promise:resolve({success = true, data = {...}})
+        end
     end
     
     TriggerServerEvent('callback:triggerServer', name, requestId, ...)
     
-    -- Set timeout (10 seconds)
     SetTimeout(10000, function()
         if Callbacks[requestId] then
             Callbacks[requestId] = nil
             timedOut = true
-            promise:resolve({success = false})
+            promise:resolve({success = false, error = 'Callback timed out after 10 seconds'})
         end
     end)
     
     local result = Citizen.Await(promise)
     
-    if result.success and result.data then
-        -- Return the actual value(s) + nil as last value (error indicator)
-        local count = #result.data
-        result.data[count + 1] = nil
-        return table.unpack(result.data, 1, count + 1)
+    if result.success then
+        local data = result.data
+        
+        if #data == 1 and type(data[1]) == 'table' and data[1].error then
+            print('^1[Callback Error] Server callback "' .. name .. '" returned an error: ' .. tostring(data[1].error) .. ' (with a reserved keyword)^0')
+            return {error = data[1].error}
+        end
+        
+        if #data == 1 then
+            return data[1]
+        else
+            return table.unpack(data)
+        end
     else
-        -- Network failure - return nil + error_message as last value
         print('^3[Callback Warning] Server callback "' .. name .. '" timed out after 10 seconds^0')
-        return nil, 'Callback timed out after 10 seconds'
+        return {error = result.error}
     end
 end
 
@@ -51,11 +59,11 @@ end)
 
 RegisterNetEvent('callback:triggerClient', function(name, requestId, ...)
     if Callbacks[name] then
-        local result = Callbacks[name](...)
-        TriggerServerEvent('callback:responseServer', requestId, result)
+        local results = {Callbacks[name](...)}
+        TriggerServerEvent('callback:responseServer', requestId, table.unpack(results))
     else
         print('^1[Callback Error] Client callback "' .. name .. '" does not exist^0')
-        TriggerServerEvent('callback:responseServer', requestId, nil)
+        TriggerServerEvent('callback:responseServer', requestId, {error = 'Callback does not exist'})
     end
 end)
 
