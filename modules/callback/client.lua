@@ -23,7 +23,7 @@ local function await(debug, name, timeout, ...)
     local timedOut = false
 
     if debug then
-        print().debug(("Triggering server callback '%s' (ID: %d, Timeout: %dms)"):format(name, requestId, timeout))
+        lib.print.debug(("Triggering server callback '%s' (ID: %d, Timeout: %dms)"):format(name, requestId, timeout))
     end
     
     Callbacks[requestId] = function(...)
@@ -39,7 +39,7 @@ local function await(debug, name, timeout, ...)
             Callbacks[requestId] = nil
             timedOut = true
             if debug then
-                print().debug(("Server callback '%s' timed out after %dms"):format(name, timeout))
+                lib.print.debug(("Server callback '%s' timed out after %dms"):format(name, timeout))
             end
             promise:resolve({success = false, reason = 'timeout'})
         end
@@ -52,7 +52,7 @@ local function await(debug, name, timeout, ...)
         
         if #data == 0 then
             if debug then
-                print().debug(("Server callback '%s' returned nothing (nil)"):format(name))
+                lib.print.debug(("Server callback '%s' returned nothing (nil)"):format(name))
             end
             return nil
         end
@@ -61,21 +61,21 @@ local function await(debug, name, timeout, ...)
             if debug then
                 local value = data[1]
                 if value == nil then
-                    print().debug(("Server callback '%s' returned explicit nil"):format(name))
+                    lib.print.debug(("Server callback '%s' returned explicit nil"):format(name))
                 else
-                    print().debug(("Server callback '%s' returned single value (type: %s)"):format(name, type(value)))
+                    lib.print.debug(("Server callback '%s' returned single value (type: %s)"):format(name, type(value)))
                 end
             end
             return data[1]
         end
         
         if debug then
-            print().debug(("Server callback '%s' returned %d values"):format(name, #data))
+            lib.print.debug(("Server callback '%s' returned %d values"):format(name, #data))
         end
         return table.unpack(data)
     else
         if not debug then
-            print().debug(("Server callback '%s' timed out after %dms"):format(name, timeout))
+            lib.print.debug(("Server callback '%s' timed out after %dms"):format(name, timeout))
         end
         return nil
     end
@@ -93,7 +93,7 @@ RegisterNetEvent('callback:triggerClient', function(name, requestId, ...)
         local results = {Callbacks[name](...)}
         TriggerServerEvent('callback:responseServer', requestId, table.unpack(results))
     else
-        print().debug(("Client callback %s does not exist"):format(name))
+        lib.print.debug(("Client callback %s does not exist"):format(name))
         TriggerServerEvent('callback:responseServer', requestId, nil)
     end
 end)
