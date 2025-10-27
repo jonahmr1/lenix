@@ -1,0 +1,3 @@
+{
+  "enabledPrintTypes": ["debug", "error", "warning", "log", "info", "success"]
+}
