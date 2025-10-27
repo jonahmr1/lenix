@@ -4,21 +4,23 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.10.3'
+version '1.10.4'
+
+files {
+  'modules/print/shared.lua',
+  'modules/callback/client.lua',
+  'modules/callback/server.lua',
+  'modules/load/shared.lua',
+  'modules/split/shared.lua',
+}
 
 shared_scripts {
   'modules/require/shared.lua',
-  'utils/require.lua',
-  'modules/split/shared.lua',
-  'modules/load/shared.lua',
-  'modules/print/shared.lua',
-  'modules/print/backward_compatibility.lua',
+  'init.lua',
 }
 
 client_scripts {
-  'modules/callback/client.lua',
 }
 
 server_scripts {
-  'modules/callback/server.lua',
 }
