@@ -7,12 +7,10 @@ local function load(path)
     
     local data
     
-    -- Try JSON first
     local file = LoadResourceFile(GetCurrentResourceName(), path .. '.json')
     if file then
         data = json.decode(file)
     else
-        -- Try Lua if JSON not found
         file = LoadResourceFile(GetCurrentResourceName(), path .. '.lua')
         if file then
             local chunk = load(file, path)
@@ -27,4 +25,6 @@ local function load(path)
     end
     
     return data
-end exports('load', load)
+end
+
+return load
