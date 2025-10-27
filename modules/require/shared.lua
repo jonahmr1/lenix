@@ -32,6 +32,4 @@ local function require(modulePath)
     else
         error('Module "' .. modulePath .. '" not found in resource "' .. resourceName .. '"')
     end
-end
-
-exports('require', require)
+end exports('require', require)

@@ -1,8 +1,8 @@
-exports('stringToTable', function(str, delimiter)
+local function stringToTable(str, delimiter)
   delimiter = delimiter or ','
   local result = {}
   for match in string.gmatch(str, "([^" .. delimiter .. "]+)") do
     table.insert(result, match)
   end
   return result
-end)
+end exports('stringToTable', stringToTable)
