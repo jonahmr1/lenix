@@ -1,3 +1,5 @@
+local types<const> = exports.tr_lib:load 'config'
+
 function CreatePrint(logType, message, path, line)
   local colors<const> = {
     error = '^1',
@@ -27,7 +29,7 @@ function CreatePrint(logType, message, path, line)
   elseif logType == 'inf' then baseType = 'info'
   end
 
-  for _, enabledType in ipairs(exports.tr_lib:stringToTable(GetConvar('enabledPrintTypes', 'error,warning'))) do
+  for _, enabledType in ipairs(types.enabledPrintTypes) do
     if enabledType == baseType then
       if baseType == "error" and not path and not line then
         error(message, 2)
