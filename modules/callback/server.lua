@@ -1,31 +1,30 @@
 local Callbacks = {}
 local CallbackId = 0
 
-function RegisterCallback(name, cb)
+local function register(name, cb)
     Callbacks[name] = cb
-    return true, 'Callback requested successfuly'
+    return true, 'Callback requested successfully'
 end
 
-RegisterNetEvent('callback:triggerServer', function(name, requestId, ...)
-    local src = source
-    local args = {...}
-    
-    if Callbacks[name] then
-        table.insert(args, 1, src)
-        local results = {Callbacks[name](table.unpack(args))}
-        TriggerClientEvent('callback:response', src, requestId, table.unpack(results))
-    else
-        print('^1[Callback Error] Server callback "' .. name .. '" does not exist^0')
-        TriggerClientEvent('callback:response', src, requestId, {error = 'Callback does not exist'})
+local function await(debug, name, source, timeout, ...)
+    -- Handle backward compatibility
+    if type(debug) ~= 'boolean' then
+        return await(false, debug, name, source, timeout, ...)
     end
-end)
-
-function TriggerClientCallback(name, source, ...)
+    
+    if type(timeout) ~= 'number' then
+        return await(debug, name, source, 10000, timeout, ...)
+    end
+    
     CallbackId = CallbackId + 1
     local requestId = CallbackId
     
     local promise = promise.new()
     local timedOut = false
+    
+    if debug then
+        print().debug(("Triggering client callback '%s' for player %d (ID: %d, Timeout: %dms)"):format(name, source, requestId, timeout))
+    end
     
     Callbacks[requestId] = function(...)
         if not timedOut then
@@ -35,11 +34,14 @@ function TriggerClientCallback(name, source, ...)
     
     TriggerClientEvent('callback:triggerClient', source, name, requestId, ...)
     
-    SetTimeout(10000, function()
+    SetTimeout(timeout, function()
         if Callbacks[requestId] then
             Callbacks[requestId] = nil
             timedOut = true
-            promise:resolve({success = false, error = 'Callback timed out after 10 seconds'})
+            if debug then
+                print().debug(("Client callback '%s' for player %d timed out after %dms"):format(name, source, timeout))
+            end
+            promise:resolve({success = false, reason = 'timeout'})
         end
     end)
     
@@ -48,21 +50,60 @@ function TriggerClientCallback(name, source, ...)
     if result.success then
         local data = result.data
         
-        if #data == 1 and type(data[1]) == 'table' and data[1].error then
-            print('^1[Callback Error] Client callback "' .. name .. '" for player ' .. source .. ' returned an error: ' .. tostring(data[1].error) .. '^0')
-            return {error = data[1].error}
+        if #data == 0 then
+            if debug then
+                print().debug(("Client callback '%s' returned nothing (nil)"):format(name))
+            end
+            return nil
         end
         
         if #data == 1 then
+            if debug then
+                local value = data[1]
+                if value == nil then
+                    print().debug(("Client callback '%s' returned explicit nil"):format(name))
+                else
+                    print().debug(("Client callback '%s' returned single value (type: %s)"):format(name, type(value)))
+                end
+            end
             return data[1]
-        else
-            return table.unpack(data)
         end
+        
+        if debug then
+            print().debug(("Client callback '%s' returned %d values"):format(name, #data))
+        end
+        return table.unpack(data)
     else
-        print('^3[Callback Warning] Client callback "' .. name .. '" for player ' .. source .. ' timed out after 10 seconds^0')
-        return {error = result.error}
+        if not debug then
+            print().debug(("Client callback '%s' for player %d timed out after %dms"):format(name, source, timeout))
+        end
+        return nil
     end
 end
+
+RegisterNetEvent('callback:triggerServer', function(name, requestId, ...)
+    local src = source
+    local args = {...}
+    
+    if Callbacks[name] then
+        table.insert(args, 1, src)
+        
+        -- Wrap in pcall to catch runtime errors
+        local success, results = pcall(function()
+            return {Callbacks[name](table.unpack(args))}
+        end)
+        
+        if success then
+            TriggerClientEvent('callback:responseClient', src, requestId, table.unpack(results))
+        else
+            print().debug(("Server callback '%s' threw error: %s"):format(name, results))
+            TriggerClientEvent('callback:responseClient', src, requestId, nil)
+        end
+    else
+        print().debug(("Server callback %s does not exist"):format(name))
+        TriggerClientEvent('callback:responseClient', src, requestId, nil)
+    end
+end)
 
 RegisterNetEvent('callback:responseServer', function(requestId, ...)
     if Callbacks[requestId] then
@@ -71,5 +112,11 @@ RegisterNetEvent('callback:responseServer', function(requestId, ...)
     end
 end)
 
-exports('RegisterCallback', RegisterCallback)
-exports('TriggerClientCallback', TriggerClientCallback)
+local modules = {
+    register = register,
+    await = await
+}
+
+exports('callback', function()
+    return modules
+end)

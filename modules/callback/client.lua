@@ -1,17 +1,30 @@
 local Callbacks = {}
 local CallbackId = 0
 
-function RegisterCallback(name, cb)
+local function register(name, cb)
     Callbacks[name] = cb
-    return true, 'Callback requested successfuly'
+    return true, 'Callback requested successfully'
 end
 
-function TriggerServerCallback(name, ...)
+local function await(debug, name, timeout, ...)
+    -- Handle backward compatibility
+    if type(debug) ~= 'boolean' then
+        return await(false, debug, name, timeout, ...)
+    end
+    
+    if type(timeout) ~= 'number' then
+        return await(debug, name, 10000, timeout, ...)
+    end
+    
     CallbackId = CallbackId + 1
     local requestId = CallbackId
     
     local promise = promise.new()
     local timedOut = false
+
+    if debug then
+        print().debug(("Triggering server callback '%s' (ID: %d, Timeout: %dms)"):format(name, requestId, timeout))
+    end
     
     Callbacks[requestId] = function(...)
         if not timedOut then
@@ -21,11 +34,14 @@ function TriggerServerCallback(name, ...)
     
     TriggerServerEvent('callback:triggerServer', name, requestId, ...)
     
-    SetTimeout(10000, function()
+    SetTimeout(timeout, function()
         if Callbacks[requestId] then
             Callbacks[requestId] = nil
             timedOut = true
-            promise:resolve({success = false, error = 'Callback timed out after 10 seconds'})
+            if debug then
+                print().debug(("Server callback '%s' timed out after %dms"):format(name, timeout))
+            end
+            promise:resolve({success = false, reason = 'timeout'})
         end
     end)
     
@@ -34,23 +50,38 @@ function TriggerServerCallback(name, ...)
     if result.success then
         local data = result.data
         
-        if #data == 1 and type(data[1]) == 'table' and data[1].error then
-            print('^1[Callback Error] Server callback "' .. name .. '" returned an error: ' .. tostring(data[1].error) .. ' (with a reserved keyword)^0')
-            return {error = data[1].error}
+        if #data == 0 then
+            if debug then
+                print().debug(("Server callback '%s' returned nothing (nil)"):format(name))
+            end
+            return nil
         end
         
         if #data == 1 then
+            if debug then
+                local value = data[1]
+                if value == nil then
+                    print().debug(("Server callback '%s' returned explicit nil"):format(name))
+                else
+                    print().debug(("Server callback '%s' returned single value (type: %s)"):format(name, type(value)))
+                end
+            end
             return data[1]
-        else
-            return table.unpack(data)
         end
+        
+        if debug then
+            print().debug(("Server callback '%s' returned %d values"):format(name, #data))
+        end
+        return table.unpack(data)
     else
-        print('^3[Callback Warning] Server callback "' .. name .. '" timed out after 10 seconds^0')
-        return {error = result.error}
+        if not debug then
+            print().debug(("Server callback '%s' timed out after %dms"):format(name, timeout))
+        end
+        return nil
     end
 end
 
-RegisterNetEvent('callback:response', function(requestId, ...)
+RegisterNetEvent('callback:responseClient', function(requestId, ...)
     if Callbacks[requestId] then
         Callbacks[requestId](...)
         Callbacks[requestId] = nil
@@ -62,10 +93,16 @@ RegisterNetEvent('callback:triggerClient', function(name, requestId, ...)
         local results = {Callbacks[name](...)}
         TriggerServerEvent('callback:responseServer', requestId, table.unpack(results))
     else
-        print('^1[Callback Error] Client callback "' .. name .. '" does not exist^0')
-        TriggerServerEvent('callback:responseServer', requestId, {error = 'Callback does not exist'})
+        print().debug(("Client callback %s does not exist"):format(name))
+        TriggerServerEvent('callback:responseServer', requestId, nil)
     end
 end)
 
-exports('RegisterCallback', RegisterCallback)
-exports('TriggerServerCallback', TriggerServerCallback)
+local modules = {
+    register = register,
+    await = await
+}
+
+exports('callback', function()
+    return modules
+end)
