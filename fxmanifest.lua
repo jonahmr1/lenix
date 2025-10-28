@@ -7,20 +7,16 @@ docs 'https://docs.trippler.store'
 version '1.10.4'
 
 files {
+  'init.lua',
   'modules/print/shared.lua',
   'modules/callback/client.lua',
   'modules/callback/server.lua',
   'modules/load/shared.lua',
   'modules/split/shared.lua',
+  'modules/require/shared.lua',
 }
 
 shared_scripts {
   'modules/require/shared.lua',
   'init.lua',
-}
-
-client_scripts {
-}
-
-server_scripts {
 }
