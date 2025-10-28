@@ -1,19 +1,4 @@
-local types<const> = lib.load 'config'
-
-local function backwardCompatPrint(data)
-  if type(data) ~= "table" then
-    print(data)
-    warn(("exports.tr_lib:print expected a table and received %s"):format(type(data):upper()))
-    return
-  end
-  assert(data.type ~= nil, ('invalid print type, received %s'):format(type(data.type):upper()))
-  assert(data.message ~= nil, ('invalid print message, received %s'):format(type(data.message):upper()))
-  
-  local logType<const> = data.type
-  local message<const> = data.message
-  
-  createPrint(logType, message, data.path, data.line)
-end
+local types<const> = lib.loadModule 'config'
 
 local function createPrint(logType, message, path, line)
   local colors<const> = {
@@ -56,7 +41,22 @@ local function createPrint(logType, message, path, line)
   end
 end
 
-local print<const> = {
+local function backwardCompatPrint(data)
+  if type(data) ~= "table" then
+    print(data)
+    warn(("exports.tr_lib:print expected a table and received %s"):format(type(data):upper()))
+    return
+  end
+  assert(data.type ~= nil, ('invalid print type, received %s'):format(type(data.type):upper()))
+  assert(data.message ~= nil, ('invalid print message, received %s'):format(type(data.message):upper()))
+
+  local logType<const> = data.type
+  local message<const> = data.message
+
+  createPrint(logType, message, data.path, data.line)
+end
+
+lib.print = {
   error = function(message, path, line)
     if type(message) == "table" then
       backwardCompatPrint(data)
@@ -122,5 +122,3 @@ local print<const> = {
   end,
   legacy = backwardCompatPrint --[[ for psychopaths XD ]]
 }
-
-return print

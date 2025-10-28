@@ -6,8 +6,7 @@ local package = {
     })
 }
 
-function requireModule(modulePath)
-    print('called')
+function lib.requireModule(modulePath)
     assert(modulePath, 'Module path caught nil')
 
     local resourceName, actualPath
@@ -46,6 +45,4 @@ function requireModule(modulePath)
     else
         error('Module "' .. actualPath .. '" not found in resource "' .. resourceName .. '"')
     end
-end exports('requireModule', requireModule)
-
-return requireModule
+end exports('require', lib.requireModule)

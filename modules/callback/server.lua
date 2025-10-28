@@ -1,39 +1,40 @@
 local Callbacks = {}
 local CallbackId = 0
 
-local function register(name, cb)
+function lib.callback.register(name, cb)
     Callbacks[name] = cb
     return true, 'Callback requested successfully'
 end
 
-local function await(debug, name, source, timeout, ...)
+function lib.callback.await(debug, name, source, timeout, ...)
     -- Handle backward compatibility
     if type(debug) ~= 'boolean' then
-        return await(false, debug, name, source, timeout, ...)
+        return lib.callback.await(false, debug, name, source, timeout, ...)
     end
-    
+
     if type(timeout) ~= 'number' then
-        return await(debug, name, source, 10000, timeout, ...)
+        return lib.callback.await(debug, name, source, 10000, timeout, ...)
     end
-    
+
     CallbackId = CallbackId + 1
     local requestId = CallbackId
-    
+
     local promise = promise.new()
     local timedOut = false
-    
+
     if debug then
-        lib.print.debug(("Triggering client callback '%s' for player %d (ID: %d, Timeout: %dms)"):format(name, source, requestId, timeout))
+        lib.print.debug(("Triggering client callback '%s' for player %d (ID: %d, Timeout: %dms)"):format(name, source,
+            requestId, timeout))
     end
-    
+
     Callbacks[requestId] = function(...)
         if not timedOut then
-            promise:resolve({success = true, data = {...}})
+            promise:resolve({ success = true, data = { ... } })
         end
     end
-    
+
     TriggerClientEvent('callback:triggerClient', source, name, requestId, ...)
-    
+
     SetTimeout(timeout, function()
         if Callbacks[requestId] then
             Callbacks[requestId] = nil
@@ -41,22 +42,22 @@ local function await(debug, name, source, timeout, ...)
             if debug then
                 lib.print.debug(("Client callback '%s' for player %d timed out after %dms"):format(name, source, timeout))
             end
-            promise:resolve({success = false, reason = 'timeout'})
+            promise:resolve({ success = false, reason = 'timeout' })
         end
     end)
-    
+
     local result = Citizen.Await(promise)
-    
+
     if result.success then
         local data = result.data
-        
+
         if #data == 0 then
             if debug then
                 lib.print.debug(("Client callback '%s' returned nothing (nil)"):format(name))
             end
             return nil
         end
-        
+
         if #data == 1 then
             if debug then
                 local value = data[1]
@@ -68,7 +69,7 @@ local function await(debug, name, source, timeout, ...)
             end
             return data[1]
         end
-        
+
         if debug then
             lib.print.debug(("Client callback '%s' returned %d values"):format(name, #data))
         end
@@ -83,16 +84,16 @@ end
 
 RegisterNetEvent('callback:triggerServer', function(name, requestId, ...)
     local src = source
-    local args = {...}
-    
+    local args = { ... }
+
     if Callbacks[name] then
         table.insert(args, 1, src)
-        
+
         -- Wrap in pcall to catch runtime errors
         local success, results = pcall(function()
-            return {Callbacks[name](table.unpack(args))}
+            return { Callbacks[name](table.unpack(args)) }
         end)
-        
+
         if success then
             TriggerClientEvent('callback:responseClient', src, requestId, table.unpack(results))
         else
@@ -110,13 +111,4 @@ RegisterNetEvent('callback:responseServer', function(requestId, ...)
         Callbacks[requestId](...)
         Callbacks[requestId] = nil
     end
-end)
-
-local modules = {
-    register = register,
-    await = await
-}
-
-exports('callback', function()
-    return modules
 end)

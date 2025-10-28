@@ -1,6 +1,6 @@
 local moduleCache = {}
 
-local function load(path)
+function lib.loadModule(path)
     if moduleCache[path] then
         return moduleCache[path]
     end
@@ -26,5 +26,3 @@ local function load(path)
     
     return data
 end
-
-return load

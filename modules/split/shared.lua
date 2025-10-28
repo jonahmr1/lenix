@@ -1,4 +1,4 @@
-local function split(str, delimiter)
+function lib.split(str, delimiter)
   delimiter = delimiter or ','
   local result = {}
   for match in string.gmatch(str, "([^" .. delimiter .. "]+)") do
@@ -6,5 +6,3 @@ local function split(str, delimiter)
   end
   return result
 end
-
-return split
