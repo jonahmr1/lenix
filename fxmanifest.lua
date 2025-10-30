@@ -2,18 +2,15 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 dependencies {
+  'tr_lib'
   'ox_inventory',
   'qbx_core',
-  'Renewed-Banking',
 }
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.0'
+version '1.0.1'
 
-shared_scripts {
-  '@ox_lib/init.lua'
-}
 server_scripts {
   'server/main.lua',
 }
@@ -23,9 +20,10 @@ client_scripts {
 ui_page 'web/index.html'
 files {
   'web/**',
-  'bridge/server.lua'
+  'server/bridge.lua'
 }
 
 escrow_ignore {
   'config/server.lua',
+  'server/bridge.lua'
 }
