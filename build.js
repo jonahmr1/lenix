@@ -42,6 +42,25 @@ function findJsFiles(dir, fileList = []) {
   return fileList;
 }
 
+function findHtmlFiles(dir, fileList = []) {
+  const files = fs.readdirSync(dir);
+  
+  files.forEach(file => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    
+    if (stat.isDirectory()) {
+      if (!file.startsWith('.') && !IGNORE_DIRS.includes(file)) {
+        findHtmlFiles(filePath, fileList);
+      }
+    } else if (file.endsWith('.html')) {
+      fileList.push(filePath);
+    }
+  });
+  
+  return fileList;
+}
+
 async function buildFile(filePath) {
   try {
     const code = fs.readFileSync(filePath, 'utf8');
@@ -136,6 +155,61 @@ function updateManifest(builtFiles) {
   console.log(`\n📝 Updated ${MANIFEST_FILE} with built file paths`);
 }
 
+function updateHtmlFiles(builtFiles) {
+  const htmlFiles = findHtmlFiles(__dirname);
+  
+  if (htmlFiles.length === 0) {
+    return;
+  }
+  
+  console.log(`\n🔧 Updating ${htmlFiles.length} HTML file(s)...`);
+  
+  htmlFiles.forEach(htmlPath => {
+    let htmlContent = fs.readFileSync(htmlPath, 'utf8');
+    let updated = false;
+    const htmlDir = path.dirname(htmlPath);
+    
+    builtFiles.forEach(({ originalPath, builtPath }) => {
+      // Calculate relative path from HTML file to JS file
+      const absoluteOriginalPath = path.join(__dirname, originalPath);
+      const absoluteBuiltPath = path.join(__dirname, builtPath);
+      const relativeOriginalPath = path.relative(htmlDir, absoluteOriginalPath).replace(/\\/g, '/');
+      const relativeBuiltPath = path.relative(htmlDir, absoluteBuiltPath).replace(/\\/g, '/');
+      
+      // Try both absolute and relative paths
+      const pathsToTry = [
+        { original: originalPath, built: builtPath },
+        { original: relativeOriginalPath, built: relativeBuiltPath }
+      ];
+      
+      pathsToTry.forEach(({ original, built }) => {
+        // Update src attributes in script tags
+        const srcRegex = new RegExp(`src=["']${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["']`, 'g');
+        if (srcRegex.test(htmlContent)) {
+          htmlContent = htmlContent.replace(srcRegex, `src="${built}"`);
+          updated = true;
+          console.log(`  🔄 ${original} → ${built}`);
+        }
+        
+        // Update href attributes
+        const hrefRegex = new RegExp(`href=["']${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["']`, 'g');
+        if (hrefRegex.test(htmlContent)) {
+          htmlContent = htmlContent.replace(hrefRegex, `href="${built}"`);
+          updated = true;
+          console.log(`  🔄 ${original} → ${built}`);
+        }
+      });
+    });
+    
+    if (updated) {
+      fs.writeFileSync(htmlPath, htmlContent);
+      console.log(`✅ Updated: ${path.relative(__dirname, htmlPath)}`);
+    } else {
+      console.log(`⚠️  No changes: ${path.relative(__dirname, htmlPath)}`);
+    }
+  });
+}
+
 async function main() {
   console.log('🔍 Scanning for JavaScript files...\n');
   console.log(`⚙️  Ignoring directories: ${IGNORE_DIRS.join(', ')}`);
@@ -163,6 +237,7 @@ async function main() {
   
   if (builtFiles.length > 0) {
     updateManifest(builtFiles);
+    updateHtmlFiles(builtFiles);
   }
 }
 
