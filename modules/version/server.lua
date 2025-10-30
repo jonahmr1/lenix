@@ -1,5 +1,5 @@
 local function checkVersion(metadata, resourceName)
-  if not metadata.repository then return end
+  assert(metadata.repository, 'No repository provided')
   local rawUrl<const> = metadata.repository:gsub('github%.com', 'raw.githubusercontent.com'):gsub('/blob/', '/') .. '/refs/heads/main/fxmanifest.lua'
 
   PerformHttpRequest(rawUrl, function(statusCode, response)
@@ -12,12 +12,15 @@ local function checkVersion(metadata, resourceName)
           remoteVersion,
           metadata.repository
         ))
+        return false, remoteVersion
       else
         lib.print.success(('%s is up to date (v%s)'):format(resourceName or 'Resource', metadata.version))
+        return true, metadata.version
       end
     else
       lib.print.debug(('Version check failed with status code: %s'):format(statusCode))
       lib.print.debug(('If this keeps occurring, verify the repository is public and has a valid fxmanifest.lua.\nURL: %s'):format(rawUrl))
+      return nil
     end
   end, 'GET')
 end
@@ -34,15 +37,14 @@ local function checkAllVersion()
   end
 end
 
-function lib.version(resourceName, repository)
-  if resourceName and repository then
-    local metadata = {
-      version = lib.metadata('fxmanifest.lua', {'version'}, resourceName),
-      repository = repository
-    }
-    checkVersion(metadata, resourceName)
-  end
-end lib.version()
+function lib.version(repository, resourceName)
+  assert(repository, 'No repository provided')
+  local metadata = {
+    version = lib.metadata('fxmanifest.lua', {'version'}, resourceName or GetInvokingResource() or GetCurrentResourceName()),
+    repository = repository
+  }
+  checkVersion(metadata, resourceName)
+end
 
 AddEventHandler('onResourceStart', function(resourceName)
   if resourceName == 'tr_lib' then
