@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     .icon-text {
-      color: #a0ffed;
-      text-shadow: 0 0 12px #a0ffed;
+      color: var(--primary-color);
+      text-shadow: 0 0 12px var(--primary-color);
       font-size: 20px;
     }
 
@@ -183,6 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = event.data;
 
     switch (data.type) {
+      case 'init':
+        document.documentElement.style.setProperty('--primary-color', data.color);
+        break;
       case 'show':
         show(data);
         break;
