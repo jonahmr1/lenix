@@ -6,7 +6,10 @@ local package = {
     })
 }
 
-function lib.requireModule(modulePath)
+function require(localLoad, modulePath)
+    if type(localLoad) ~= 'boolean' then
+        return require(false, localLoad)
+    end
     assert(modulePath, 'Module path caught nil')
 
     local resourceName, actualPath
@@ -20,7 +23,7 @@ function lib.requireModule(modulePath)
             error('Invalid module path format: ' .. modulePath)
         end
     else
-        resourceName = GetInvokingResource() or GetCurrentResourceName()
+        resourceName = localLoad and GetCurrentResourceName() or GetInvokingResource()
         actualPath = modulePath
     end
     
@@ -45,4 +48,4 @@ function lib.requireModule(modulePath)
     else
         error('Module "' .. actualPath .. '" not found in resource "' .. resourceName .. '"')
     end
-end exports('require', lib.requireModule)
+end
