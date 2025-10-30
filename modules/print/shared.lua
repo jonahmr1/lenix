@@ -1,4 +1,5 @@
-local types<const> = lib.loadModule 'config'
+local enabledTypes<const> = lib.loadModule 'config'
+local logTypes<const> = {'error', 'err', 'warning', 'warn', 'info', 'inf', 'success', 'log', 'debug'}
 
 local function createPrint(logType, message, path, line)
   local colors<const> = {
@@ -29,7 +30,7 @@ local function createPrint(logType, message, path, line)
   elseif logType == 'inf' then baseType = 'info'
   end
 
-  for _, enabledType in ipairs(types.enabledPrintTypes) do
+  for _, enabledType in ipairs(enabledTypes.enabledPrintTypes) do
     if enabledType == baseType then
       if baseType == "error" and not path and not line then
         error(message, 2)
@@ -56,69 +57,15 @@ local function backwardCompatPrint(data)
   createPrint(logType, message, data.path, data.line)
 end
 
-lib.print = {
-  error = function(message, path, line)
+
+for _, logType in ipairs(logTypes) do
+  lib.print[logType] = function(message, path, line)
     if type(message) == "table" then
-      backwardCompatPrint(data)
+      backwardCompatPrint(message)
       return
     end
-    createPrint('error', message, path, line)
-  end,
-  err = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('err', message, path, line)
-  end,
-  warning = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('warning', message, path, line)
-  end,
-  warn = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('warn', message, path, line)
-  end,
-  info = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('info', message, path, line)
-  end,
-  inf = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('inf', message, path, line)
-  end,
-  success = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('success', message, path, line)
-  end,
-  log = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('log', message, path, line)
-  end,
-  debug = function(message, path, line)
-    if type(message) == "table" then
-      backwardCompatPrint(data)
-      return
-    end
-    createPrint('debug', message, path, line)
-  end,
-  legacy = backwardCompatPrint --[[ for psychopaths XD ]]
-}
+    createPrint(logType, message, path, line)
+  end
+end
+
+lib.print.legacy = backwardCompatPrint --[[ for psychopaths XD ]]
