@@ -1,3 +1,5 @@
+local lib<const> = exports.tr_lib:require [[ @tr_lib/ini ]]
+local require = lib.require
 local core = exports.qbx_core
 local config = require 'config.server'
 local bridge = require 'bridge.server'
@@ -118,7 +120,6 @@ lib.callback.register('tr_bossdesk:server:firePlayer', function(_, citizenid, re
   if hasPoliceJob(getPlayerSourceByCitizenId(citizenid)) then
     return false, 'Employee not fired'
   end
-  lib.logger(source, 'tr_bossdesk:server:firePlayer', reason)
   return true, 'Employee fired successfully'
 end)
 

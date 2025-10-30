@@ -1,3 +1,6 @@
+local lib = exports.tr_lib:require [[ @tr_lib/init ]]
+local require = lib.require
+
 local function isPlayerBoss()
     return lib.callback.await('tr_bossdesk:server:isPlayerBoss', GetPlayerServerId(cache.ped))
 end
@@ -56,10 +59,10 @@ local function openDesk()
         refreshUIData()
         SetNuiFocus(true, true)
     else
-        lib.notify({
-            title = 'Access Denied',
-            description = 'You are not authorized to access the police desk.',
-            type = 'error'
+        exports.qbx_core:Notify({
+            text = 'Access Denied',
+            subTitle = 'You are not authorized to access the police desk.',
+            notifyType = 'error'
         })
     end
 end
