@@ -1,3 +1,6 @@
+lib = exports.tr_lib:require [[ @tr_lib/init ]]
+require = function(arg) return lib.require(arg) end
+
 exports.ox_target:addBoxZone({
   coords = require 'config.client'.ui.coords,
   name = 'jobcenter',
@@ -13,4 +16,5 @@ exports.ox_target:addBoxZone({
     }
   }
 })
+
 exports.tr_kit:createBlip(json.encode(require('config.client').ui.coords), 1)
