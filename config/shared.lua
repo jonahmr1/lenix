@@ -24,9 +24,6 @@ return {
         },
         maxXP = 100,
         location = { x = -322.24, y = -1546.02, z = 30.02 },
-        requirements = {
-            license = true
-        },
         image = {
             type = "img",
             content = "public/garbage.jpg"
@@ -56,9 +53,6 @@ return {
         },
         maxXP = 100,
         location = { x = 909.0, y = -177.4, z = 74.2 },
-        requirements = {
-            license = true
-        },
         image = {
             type = "img",
             content = "public/tow.jpeg"
