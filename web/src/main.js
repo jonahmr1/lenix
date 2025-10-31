@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     .icon {
-      height: 3.95vh;
-      width: 3.8vh;
+      height: 4.45vh;
+      width: 2.5rem;
       background: #272727f6;
       box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.9);
       border-radius: 0.75rem;
@@ -85,6 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
       font-size: 20px;
     }
 
+    i {
+      color: var(--primary-color)
+    }
+
     .text {
       width: fit-content;
       min-width: 1%;
@@ -94,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       margin-top: 0.2rem;
       border-radius: 0.75rem;
       padding: 0.55rem 1.85rem;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
       white-space: nowrap;
     }
@@ -108,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     .key {
-      height: 3.95vh;
+      height: 4.45vh;
       width: 2.5rem;
       left: 1rem;
       background: #272727f6;

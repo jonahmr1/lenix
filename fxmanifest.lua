@@ -7,8 +7,11 @@ dependencies {
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.2'
+version '1.0.3'
 
-client_script 'client/build/main.js'
+client_scripts {
+    'config.js',
+    'client/main.js',
+}
 ui_page 'web/index.html'
 file 'web/**'

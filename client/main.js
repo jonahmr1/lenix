@@ -1,12 +1,9 @@
-const config = exports.tr_lib.load('config')
-
-SendNuiMessage(JSON.stringify({
-    type: 'init',
-    color: config.primary
-}))
-
 RegisterNuiCallback('nuiReady', function(data, cb) {
     cb(true)
+    SendNuiMessage(JSON.stringify({
+        type: 'init',
+        color: primary
+    }))
     let cache = {
         text: '',
         icon: '',
