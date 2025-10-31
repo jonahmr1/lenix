@@ -40,6 +40,7 @@ local function createPrint(logType, message, path, line)
       break
     end
   end
+  return true, 'Printed successfully'
 end
 
 local function backwardCompatPrint(data)
