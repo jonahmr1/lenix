@@ -10,7 +10,7 @@ dependencies {
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.1'
+version '1.0.2'
 
 shared_scripts {
   'config/shared.lua',
