@@ -10,9 +10,10 @@ dependencies {
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.2'
+version '1.0.3'
 
-shared_scripts {
+files {
+  'config/client.lua',
   'config/shared.lua',
 }
 server_scripts {
@@ -21,7 +22,6 @@ server_scripts {
   'server/main.lua',
 }
 client_scripts {
-  'config/client.lua',
   'client/settings.lua',
   'client/main.lua',
 }
