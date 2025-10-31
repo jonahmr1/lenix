@@ -1,31 +1,22 @@
-function lib.metadata(filePath, keys, resourceName)
-  local content = LoadResourceFile(resourceName or GetInvokingResource() or GetCurrentResourceName(), filePath)
+function lib.metadata(keys, resourceName)
+  local resource = resourceName or GetInvokingResource() or GetCurrentResourceName()
   
-  if not content then
-    lib.print.debug(('Could not read file: %s'):format(filePath))
-    return nil
-  end
-
   if not keys then
-    return content
+    return nil
   end
   
   local metadata = {}
   
   if type(keys) == 'string' then
-    keys = {keys}
+    local value = GetResourceMetadata(resource, keys, 0)
+    return value
   end
   
   for _, key in ipairs(keys) do
-    local value = content:match(('\n%s%%s*["\']([^"\']+)["\']'):format(key))
-    
+    local value = GetResourceMetadata(resource, key, 0)
     if value then
       metadata[key] = value
     end
-  end
-  
-  if #keys == 1 then
-    return metadata[keys[1]]
   end
   
   return metadata

@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.13.0'
+version '1.13.1'
 
 files {
   'modules/load/shared.lua',
