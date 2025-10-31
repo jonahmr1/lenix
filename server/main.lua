@@ -1,4 +1,4 @@
-local Jobs = require 'config.shared'
+local Jobs = require 'config/shared'
 local export = exports.qbx_core
 
 local function playerCitizenId(source)
@@ -181,6 +181,7 @@ lib.callback.register('tr_jobcenter:server:getProgress', function(source)
         }
     end
     assert(jobsWithProgress ~= nil, 'something went wrong | server:getProgress')
+    print(jobsWithProgress)
     return jobsWithProgress
 end)
 

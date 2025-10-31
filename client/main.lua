@@ -1,13 +1,12 @@
 local export = exports.qbx_core
-local Jobs = require 'config.shared'
-local UIConfig = require 'config.client'.ui
-local ThemeConfig = require 'config.client'.theme
+local Jobs = require 'config/shared'
+local UIConfig = require 'config/client'.ui
+local ThemeConfig = require 'config/client'.theme
 
 local function ShowNotification(message)
     export:Notify(message)
 end
 
--- Open/close UI
 local function openJobCenter()
     local jobsProgress = lib.callback.await('tr_jobcenter:server:getProgress', GetPlayerServerId(PlayerPedId()))
     SendNUIMessage({
@@ -28,14 +27,13 @@ local function closeJobCenter()
     TriggerScreenblurFadeOut(4000)
 end
 
--- NUI callbacks
-RegisterNUICallback('closeUI', function(_, cb) CloseJobCenter(); cb('ok') end)
+RegisterNUICallback('closeUI', function(_, cb) closeJobCenter(); cb('ok') end)
 
 RegisterNUICallback('takeJob', function(data, cb)
     if not Jobs[data.job] then cb(false) return end
 
     TriggerServerEvent('tr_jobcenter:takeJob', data.job, data.label)
-    CloseJobCenter()
+    closeJobCenter()
     cb('ok')
 end)
 
@@ -50,6 +48,5 @@ RegisterNUICallback('markLocation', function(data, cb)
     end
 end)
 
--- Exports
 exports('openJobCenter', openJobCenter)
 exports('closeJobCenter', closeJobCenter)

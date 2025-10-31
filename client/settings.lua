@@ -1,8 +1,8 @@
-lib = exports.tr_lib:require [[ @tr_lib/init ]]
+lib = exports.tr_lib:require [[@tr_lib/init]]
 require = function(arg) return lib.require(arg) end
 
 exports.ox_target:addBoxZone({
-  coords = require 'config.client'.ui.coords,
+  coords = require 'config/client'.ui.coords,
   name = 'jobcenter',
   size = vector3(1, 1, 1),
   rotation = 0,
@@ -11,10 +11,10 @@ exports.ox_target:addBoxZone({
     {
       label = 'Search For A Job',
       onSelect = function()
-        exports.tr_jobcenter:OpenJobCenter()
+        exports.tr_jobcenter:openJobCenter()
       end
     }
   }
 })
 
-exports.tr_kit:createBlip(json.encode(require('config.client').ui.coords), 1)
+exports.tr_kit:createBlip(json.encode(require('config/client').ui.coords), 1)

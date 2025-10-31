@@ -1,6 +1,6 @@
-lib = exports.tr_lib:require [[ @tr_lib/init ]]
+lib = exports.tr_lib:require [[@tr_lib/init]]
 require = function(arg) return lib.require(arg) end
-local config = require 'config.client'
+local config = require 'config/client'
 
 function PlayerLeveledUp(levelAfter)
   print("Level Up! Now level " .. levelAfter)
