@@ -1,4 +1,4 @@
-local enabledTypes<const> = lib.load 'config'
+local enabledTypes<const> = lib.load 'config'.enabledPrintTypes
 local logTypes<const> = {'error', 'err', 'warning', 'warn', 'info', 'inf', 'success', 'log', 'debug'}
 
 local function createPrint(logType, message, path, line)
@@ -30,7 +30,7 @@ local function createPrint(logType, message, path, line)
   elseif logType == 'inf' then baseType = 'info'
   end
 
-  for _, enabledType in ipairs(enabledTypes.enabledPrintTypes) do
+  for _, enabledType in ipairs(enabledTypes) do
     if enabledType == baseType then
       if baseType == "error" and not path and not line then
         error(message, 2)

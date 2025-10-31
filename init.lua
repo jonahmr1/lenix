@@ -2,9 +2,11 @@ require(true, 'modules/require/shared')
 
 lib = {
   print = {},
+  version = {},
   callback = {}, 
   require = require,
 }
+
 require(true, 'modules/load/shared')
 require(true, 'modules/print/shared')
 require(true, 'modules/callback/client')

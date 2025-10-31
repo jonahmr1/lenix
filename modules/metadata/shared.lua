@@ -1,6 +1,6 @@
 function lib.metadata(keys, resourceName)
   local resource = resourceName or GetInvokingResource() or GetCurrentResourceName()
-  
+
   if not keys then
     return nil
   end
