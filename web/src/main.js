@@ -150,11 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     textElement.textContent = data.text || '';
 
-    if (data.icon) {
-      iconText.innerHTML = `<i class="${data.icon}"></i>`;
-      iconElement.style.display = 'flex';
+    if (data.icon !== false || data.icon !== undefined || data.icon !== null) {
+        iconText.innerHTML = `<i class="${data.icon}"></i>`;
+        iconElement.style.display = 'flex';
     } else {
-      iconElement.style.display = 'none';
+      if (data.icon == false) {
+        iconElement.style.display = 'none';
+      } else {
+        iconText.innerHTML = `<i class="fas fa-bells"></i>`;
+        iconElement.style.display = 'flex';
+      }
     }
 
     if (data.key) {

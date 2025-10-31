@@ -7,13 +7,23 @@ SendNuiMessage(JSON.stringify({
 
 RegisterNuiCallback('nuiReady', function(data, cb) {
     cb(true)
+    let cache = {
+        text: '',
+        icon: '',
+        key: ''
+    }
     exports('show', function(text, icon, key) {
-        SendNuiMessage(JSON.stringify({
-            type: 'show',
-            icon: icon,
-            text: text,
-            key: key
-        }))
+        if (text !== cache.text || icon !== cache.icon || key !== cache.key) {
+            SendNuiMessage(JSON.stringify({
+                type: 'show',
+                icon: icon,
+                text: text,
+                key: key
+            }))
+            cache.text = text
+            cache.icon = icon
+            cache.key = key
+        }
     })
 
     exports('hide', function() {
