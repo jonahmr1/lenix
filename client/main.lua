@@ -8,7 +8,7 @@ local function ShowNotification(message)
 end
 
 -- Open/close UI
-local function OpenJobCenter()
+local function openJobCenter()
     local jobsProgress = lib.callback.await('tr_jobcenter:server:getProgress', GetPlayerServerId(PlayerPedId()))
     SendNUIMessage({
         action = 'openJobCenter',
@@ -22,7 +22,7 @@ local function OpenJobCenter()
     TriggerScreenblurFadeIn(4000)
 end
 
-local function CloseJobCenter()
+local function closeJobCenter()
     SendNUIMessage({ action = 'closeJobCenter' })
     SetNuiFocus(false, false)
     TriggerScreenblurFadeOut(4000)
@@ -51,5 +51,5 @@ RegisterNUICallback('markLocation', function(data, cb)
 end)
 
 -- Exports
-exports('OpenJobCenter', OpenJobCenter)
-exports('CloseJobCenter', CloseJobCenter)
+exports('openJobCenter', openJobCenter)
+exports('closeJobCenter', closeJobCenter)

@@ -184,9 +184,9 @@ lib.callback.register('tr_jobcenter:server:getProgress', function(source)
     return jobsWithProgress
 end)
 
-exports('GivePlayerRep', givePlayerRep)
-exports('GetPlayerLevel', playerLevel)
-exports('GetPlayerDifficultyMultiplier', function(identifier, jobName)
+exports('givePlayerRep', givePlayerRep)
+exports('getPlayerLevel', playerLevel)
+exports('getPlayerDiffMultiplier', function(identifier, jobName)
     return difficultyMultiplier(Jobs[jobName],
         math.floor(difficultyTiers(playerLevel(identifier, jobName), Jobs[jobName])))
 end)
