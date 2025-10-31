@@ -3,7 +3,7 @@ local checkReleaseVersionInstead<const> = lib.load('config').checkReleaseVersion
 local function checkSourceVersion(metadata, resourceName)
   assert(metadata.repository, 'No repository provided')
   
-  local owner<const>, repoName<const> = metadata.repository:match('github%.com/([^/]+)/([^/]+)')
+  local owner<const>, repoName = metadata.repository:match('github%.com/([^/]+)/([^/]+)')
   
   if not owner or not repoName then
     lib.print.warn('Invalid GitHub repository URL')
@@ -41,7 +41,7 @@ end
 local function checkReleaseVersion(metadata, resourceName)
   assert(metadata.repository, 'No repository provided')
   
-  local owner<const>, repoName<const> = metadata.repository:match('github%.com/([^/]+)/([^/]+)')
+  local owner<const>, repoName = metadata.repository:match('github%.com/([^/]+)/([^/]+)')
   
   if not owner or not repoName then
     lib.print.warn('Invalid GitHub repository URL')
@@ -100,7 +100,7 @@ local function checkAllVersion()
     local metadata<const> = lib.metadata({'version', 'repository'}, resource)
     
     if metadata and metadata.repository then
-      if config.checkReleaseInstead then
+      if checkReleaseVersionInstead then
         checkReleaseVersion(metadata, resource)
       else
         checkSourceVersion(metadata, resource)
