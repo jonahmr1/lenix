@@ -183,7 +183,6 @@ lib.callback.register('tr_jobcenter:server:getProgress', function(source)
         }
     end
     assert(jobsWithProgress ~= nil, 'something went wrong | server:getProgress')
-    print(jobsWithProgress)
     return jobsWithProgress
 end)
 
