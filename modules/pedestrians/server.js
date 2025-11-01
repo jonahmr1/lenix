@@ -67,6 +67,7 @@ function clearCreatedPed(entity) {
         lib.print.debug(`received ${typeof entity} instead of a number, if you passed an array of number to delete multiple peds, please use clearCreatedPeds instead of clearCreatePeds`)
     }
     DeleteEntity(entity);
+    return true
 }
 
 function clearCreatedPeds(entities) {
@@ -77,6 +78,7 @@ function clearCreatedPeds(entities) {
     for (let i = 0; i < entities.length; i++) {
         DeleteEntity(entities[i]);
     }
+    return true
 }
 
 lib.callback.register('createSinglePed', function(model, coords, scenario, isAccessPublic, isControlPublic) {
