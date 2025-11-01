@@ -1,4 +1,4 @@
-local enabledTypes<const> = lib.load 'config'.enabledPrintTypes
+local enabledTypes<const> = json.encode(lib.load('config').enabledPrintTypes)
 local logTypes<const> = {'error', 'err', 'warning', 'warn', 'info', 'inf', 'success', 'log', 'debug'}
 
 local function createPrint(logType, message, path, line)

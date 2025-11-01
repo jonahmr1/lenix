@@ -42,10 +42,10 @@ function require(localLoad, modulePath)
             error(err)
         end
         module = chunk()
-
+        
         package.loaded[cacheKey] = module
         return module
     else
-        error('Module "' .. actualPath .. '" not found in resource "' .. resourceName .. '"')
+        error('Module "' .. module .. '" not found in resource "' .. resourceName .. '"')
     end
 end
