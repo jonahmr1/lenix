@@ -1,4 +1,4 @@
-local lib<const> = exports.tr_lib:require [[@tr_lib/init]]
+local lib<const> = exports.tr_lib:require [[@tr_lib/get]]
 local require<const> = lib.require
 local core<const> = exports.qbx_core
 local config<const> = require 'config/server'
@@ -51,7 +51,6 @@ end
 lib.callback.register('tr_bossdesk:server:isPlayerBoss', function(source)
   local playerJob = core:GetPlayer(source).PlayerData.job
   local isPlayerBoss = core:IsGradeBoss(playerJob.name, playerJob.grade.level)
-  print(isPlayerBoss)
   return isPlayerBoss
 end)
 
