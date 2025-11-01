@@ -1,4 +1,4 @@
-lib = exports.tr_lib:require [[@tr_lib/init]]
+lib = exports.tr_lib:require [[@tr_lib/get]]
 require = function(arg) return lib.require(arg) end
 
 exports.ox_target:addBoxZone({
