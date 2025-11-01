@@ -7,14 +7,15 @@ function lib.callback.register(name, cb)
 end
 
 function lib.callback.await(debug, name, source, timeout, ...)
-    -- Handle backward compatibility
     if type(debug) ~= 'boolean' then
         return lib.callback.await(false, debug, name, source, timeout, ...)
     end
 
     if type(timeout) ~= 'number' then
-        return lib.callback.await(debug, name, source, 10000, timeout, ...)
+        return lib.callback.await(debug, name, source, 10000, ...)
     end
+    assert(type(name) == 'string', ('Callback name must be a string, received %s as %s'):format(name, type(name)))
+    assert(source, 'Caught invalid source')
 
     CallbackId = CallbackId + 1
     local requestId = CallbackId
@@ -85,11 +86,10 @@ end
 RegisterNetEvent('callback:triggerServer', function(name, requestId, ...)
     local src = source
     local args = { ... }
-
+    -- the server is faster than the client :), we don't need that thing that is in your head pal
     if Callbacks[name] then
         table.insert(args, 1, src)
 
-        -- Wrap in pcall to catch runtime errors
         local success, results = pcall(function()
             return { Callbacks[name](table.unpack(args)) }
         end)
