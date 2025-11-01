@@ -1,10 +1,8 @@
-local lib = exports.tr_lib:require [[@tr_lib/init]]
+local lib = exports.tr_lib:require [[@tr_lib/get]]
 local require = lib.require
 
 local function isPlayerBoss()
-    local value = lib.callback.await('tr_bossdesk:server:isPlayerBoss', GetPlayerServerId(PlayerPedId()))
-    print(value)
-    return value
+    return lib.callback.await('tr_bossdesk:server:isPlayerBoss', nil, GetPlayerServerId(PlayerPedId()))
 end
 
 ---@return table <id, name, badge, rank, status>
