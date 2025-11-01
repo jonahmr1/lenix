@@ -1,4 +1,4 @@
-local enabledTypes<const> = lib.load('config').enabledPrintTypes
+local enabledTypes<const> = lib.load('config') and lib.load('config').enabledPrintTypes or repeat Wait(0) until lib.load('config')
 
 -- Map short forms to base types
 local typeAliases<const> = {
