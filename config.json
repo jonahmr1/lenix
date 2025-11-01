@@ -1,4 +1,4 @@
 {
-  "enabledPrintTypes": ["error", "warning", "log", "info"],
+  "enabledPrintTypes": ["error", "warning", "info", "debug", "log"],
   "checkReleaseVersionInstead": false
 }
