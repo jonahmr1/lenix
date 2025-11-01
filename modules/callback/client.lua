@@ -1,19 +1,20 @@
 local Callbacks = {}
 local CallbackId = 0
+local registered = {}
 
 function lib.callback.register(name, cb)
     Callbacks[name] = cb
+    registered[name] = true
     return true, 'Callback requested successfully'
 end
 
 function lib.callback.await(debug, name, timeout, ...)
-    -- Handle backward compatibility
     if type(debug) ~= 'boolean' then
         return lib.callback.await(false, debug, name, timeout, ...)
     end
-
+    
     if type(timeout) ~= 'number' then
-        return lib.callback.await(debug, name, 10000, timeout, ...)
+        return lib.callback.await(debug, name, 10000, ...)
     end
 
     CallbackId = CallbackId + 1
@@ -46,7 +47,6 @@ function lib.callback.await(debug, name, timeout, ...)
     end)
 
     local result = Citizen.Await(promise)
-
     if result.success then
         local data = result.data
 
@@ -89,6 +89,7 @@ RegisterNetEvent('callback:responseClient', function(requestId, ...)
 end)
 
 RegisterNetEvent('callback:triggerClient', function(name, requestId, ...)
+    repeat Wait(0) until registered[name] ~= nil
     if Callbacks[name] then
         local results = { Callbacks[name](...) }
         TriggerServerEvent('callback:responseServer', requestId, table.unpack(results))
