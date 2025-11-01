@@ -19,7 +19,7 @@ local function checkSourceVersion(metadata, resourceName)
       local remoteVersion<const> = response:match('\nversion%s*["\']([^"\']+)["\']')
       
       if remoteVersion and remoteVersion ~= metadata.version then
-        lib.print.warn(('Unmatched versions available for %s\nCurrent: %s | Latest: %s\nRepository: %s'):format(
+        lib.print.warn(('Unmatched versions available for the resource %s\nCurrent: %s | Latest: %s\nRepository: %s'):format(
           resourceName or metadata.repository,
           metadata.version,
           remoteVersion,
@@ -70,7 +70,7 @@ local function checkReleaseVersion(metadata, resourceName)
       local currentVersion<const> = metadata.version:gsub('^v', '')
       
       if remoteVersion ~= currentVersion then
-        lib.print.warn(('New release available for %s\nCurrent: %s | Latest: %s\nDownload: %s'):format(
+        lib.print.warn(('New release available for the resource %s\nCurrent: %s | Latest: %s\nDownload: %s'):format(
           resourceName or metadata.repository,
           currentVersion,
           remoteVersion,
