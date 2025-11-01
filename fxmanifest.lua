@@ -2,14 +2,14 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 dependencies {
-  'tr_lib'
+  'tr_lib',
   'ox_inventory',
   'qbx_core',
 }
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.2'
+version '1.0.3'
 
 server_scripts {
   'server/main.lua',

@@ -1,8 +1,8 @@
-local lib<const> = exports.tr_lib:require [[ @tr_lib/ini ]]
-local require = lib.require
-local core = exports.qbx_core
-local config = require 'config.server'
-local bridge = require 'bridge.server'
+local lib<const> = exports.tr_lib:require [[@tr_lib/init]]
+local require<const> = lib.require
+local core<const> = exports.qbx_core
+local config<const> = require 'config/server'
+local bridge<const> = require 'server/bridge'
 
 local function getPlayerCitizenId(source)
   return core:GetPlayer(source).PlayerData.citizenid
@@ -51,6 +51,7 @@ end
 lib.callback.register('tr_bossdesk:server:isPlayerBoss', function(source)
   local playerJob = core:GetPlayer(source).PlayerData.job
   local isPlayerBoss = core:IsGradeBoss(playerJob.name, playerJob.grade.level)
+  print(isPlayerBoss)
   return isPlayerBoss
 end)
 
