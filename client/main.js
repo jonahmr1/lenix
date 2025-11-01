@@ -1,6 +1,3 @@
-const lib = exports.tr_lib.require('@tr_lib/init')
-const config = lib.load('config')
-
 RegisterNuiCallback('nuiReady', function(data, cb) {
   cb(true)
   const QBCore = exports['qb-core'].GetCoreObject()
@@ -38,7 +35,6 @@ RegisterNuiCallback('nuiReady', function(data, cb) {
           break
         }
       }
-
       SendNuiMessage(JSON.stringify({
         action: 'update',
         weapon: {
