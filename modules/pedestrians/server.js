@@ -1,11 +1,9 @@
 const lib = exports.tr_lib.require('@tr_lib/get')
 
 function createSinglePed(model, coords, scenario, isAccessPublic, isControlPublic) {
-    console.log(coords);
     if (typeof model !== 'string') {
         lib.print.debug(`wrong type on the first argument, expected string of hash received ${typeof model} or ${model} indeed`)
-    }
-    if (
+    } else if (
         typeof coords !== 'object' ||
         coords == null ||
         coords.x == null || coords.y == null ||

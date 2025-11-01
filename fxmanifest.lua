@@ -5,7 +5,7 @@ dependencies {
 }
 
 author 'Trippler'
-version '0.0.5'
+version '0.0.6'
 
 shared_scripts {
     'modules/blips/shared.js',
