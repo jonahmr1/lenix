@@ -38,10 +38,7 @@ local function checkSourceVersion(metadata, resourceName)
   end
   
   isRepoArchived(owner, repoName, function(archived)
-    if archived then
-      lib.print.debug(('%s repository is archived, skipping version check'):format(resourceName or 'Resource'))
-      return nil
-    end
+    if archived then return nil end
     
     local rawUrl<const> = ('https://raw.githubusercontent.com/%s/%s/refs/heads/main/fxmanifest.lua'):format(owner, repoName)
     
@@ -63,7 +60,6 @@ local function checkSourceVersion(metadata, resourceName)
         end
       else
         lib.print.debug(('Source version check failed with status code: %s for %s'):format(statusCode, resourceName))
-        lib.print.debug(('Could not retrieve fxmanifest.lua file on this repository.\nURL: %s'):format(metadata.repository))
         return nil
       end
     end, 'GET')
@@ -81,10 +77,7 @@ local function checkReleaseVersion(metadata, resourceName)
   end
   
   isRepoArchived(owner, repoName, function(archived)
-    if archived then
-      lib.print.debug(('%s repository is archived, skipping version check'):format(resourceName or 'Resource'))
-      return nil
-    end
+    if archived then return nil end
     
     local apiUrl<const> = ('https://api.github.com/repos/%s/%s/releases/latest'):format(owner, repoName)
     
@@ -97,10 +90,7 @@ local function checkReleaseVersion(metadata, resourceName)
           return nil
         end
         
-        if not data or not data.tag_name then
-          lib.print.debug('No release found in repository')
-          return nil
-        end
+        if not data or not data.tag_name then return nil end
         
         local remoteVersion<const> = data.tag_name:gsub('^v', '')
         local currentVersion<const> = metadata.version:gsub('^v', '')
@@ -117,12 +107,8 @@ local function checkReleaseVersion(metadata, resourceName)
           lib.print.success(('%s is up to date (v%s)'):format(resourceName or 'Resource', currentVersion))
           return true, currentVersion
         end
-      elseif statusCode == 404 then
-        lib.print.debug(('No releases found for %s/%s for %s'):format(owner, repoName, resourceName))
-        return nil
       else
         lib.print.debug(('Release version check failed with status code: %s for %s'):format(statusCode, resourceName))
-        lib.print.debug(('Repository: https://github.com/%s/%s'):format(owner, repoName))
         return nil
       end
     end, 'GET', '', {['Content-Type'] = 'application/json'})
