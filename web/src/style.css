@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-body {
+#root {
     font-family: 'Cairo', sans-serif;
     background: var(--gradient);
     color: #ffffff;
@@ -27,7 +27,7 @@ button {
     font-family: 'Cairo';
 }
 
-body.show {
+#root.show {
     display: flex;
     font-weight: bolder;
 }
@@ -44,7 +44,7 @@ body.show {
     transition: all 0.3s ease;
 }
 
-body.show .job-center-container {
+#root.show .job-center-container {
     opacity: 1;
     transform: scale(1);
 }

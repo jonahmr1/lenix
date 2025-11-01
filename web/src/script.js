@@ -98,7 +98,7 @@ function applyTheme(theme) {
   }
 
   if (theme.text) {
-    document.body.style.color = theme.text;
+    document.getElementById('root').style.color = theme.text;
     root.style.setProperty('--text-color', theme.text);
   }
 }
@@ -364,7 +364,7 @@ function markLocation(jobName) {
 
 // Function to close UI
 function closeUI() {
-  document.body.classList.remove('show');
+  document.getElementById('root').classList.remove('show');
   
   // Post to Lua callback
   fetch(`https://${GetParentResourceName()}/closeUI`, {
@@ -380,7 +380,7 @@ function closeUI() {
 
 // Function to show UI
 function showUI() {
-  document.body.classList.add('show');
+  document.getElementById('root').classList.add('show');
 }
 
 // Initialize UI when DOM is loaded
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Initialize with default state
-  document.body.classList.remove('show');
+  document.getElementById('root').classList.remove('show');
 });
 
 // Listen for messages from Lua script
@@ -434,7 +434,7 @@ window.addEventListener('message', (event) => {
       break;
 
     case 'closeJobCenter':
-      document.body.classList.remove('show');
+      document.getElementById('root').classList.remove('show');
       break;
 
     default:
