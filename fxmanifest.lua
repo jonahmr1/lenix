@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.13.6'
+version '1.14.0'
 
 files {
   'config.json',
@@ -15,6 +15,7 @@ files {
   'modules/split/shared.lua',
   'modules/resources/shared.lua',
   'modules/metadata/shared.lua',
+  'modules/filter/shared.lua',
   'modules/version/server.lua',
   'get.lua',
 }
