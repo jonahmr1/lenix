@@ -2,10 +2,12 @@ local Jobs = require 'config/shared'
 local export = exports.qbx_core
 
 local function playerCitizenId(source)
+    assert(export:GetPlayersData()[source], ('The player %s seems didn\'t loaded'):format(source))
     return export:GetPlayersData()[source].citizenid
 end
 
 local function playerMetaData(identifier)
+    assert(export:GetMetadata(identifier, 'jobrep'), ('The player %s seems didn\'t loaded'):format(identifier))
     return export:GetMetadata(identifier, 'jobrep')
 end
 
