@@ -1,4 +1,5 @@
 local checkReleaseVersionInstead<const> = lib.load('config').checkReleaseVersionInstead
+local excludedFromVersion<const> = json.encode(lib.load('config').excludedFromVersion)
 
 local function checkSourceVersion(metadata, resourceName)
   assert(metadata.repository, 'No repository provided')
@@ -31,8 +32,8 @@ local function checkSourceVersion(metadata, resourceName)
         return true, metadata.version
       end
     else
-      lib.print.debug(('Source version check failed with status code: %s'):format(statusCode))
-      lib.print.debug(('If this keeps occurring, verify the repository is public and has a valid fxmanifest.lua.\nURL: %s'):format(rawUrl))
+      lib.print.debug(('Source version check failed with status code: %s for %s'):format(statusCode, resourceName))
+      lib.print.debug(('Could not retrieve fxmanifest.lua file on this repository.\nURL: %s'):format(metadata.repository))
       return nil
     end
   end, 'GET')
@@ -82,18 +83,18 @@ local function checkReleaseVersion(metadata, resourceName)
         return true, currentVersion
       end
     elseif statusCode == 404 then
-      lib.print.debug(('No releases found for %s/%s'):format(owner, repoName))
+      lib.print.debug(('No releases found for %s/%s for %s'):format(owner, repoName, resourceName))
       return nil
     else
-      lib.print.debug(('Release version check failed with status code: %s'):format(statusCode))
+      lib.print.debug(('Release version check failed with status code: %s for %s'):format(statusCode, resourceName))
       lib.print.debug(('Repository: https://github.com/%s/%s'):format(owner, repoName))
       return nil
     end
   end, 'GET', '', {['Content-Type'] = 'application/json'})
 end
 
-local function checkAllVersion()
-  local resources<const> = lib.resources()
+local function checkAllVersion(exclude)
+  local resources<const> = lib.resources(exclude)
   
   for i = 1, #resources do
     local resource<const> = resources[i]
@@ -133,6 +134,6 @@ end
 
 AddEventHandler('onResourceStart', function(resourceName)
   if resourceName == 'tr_lib' then
-    checkAllVersion()
+    checkAllVersion(json.decode(excludedFromVersion))
   end
 end)

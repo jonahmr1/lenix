@@ -1,4 +1,37 @@
 {
-  "enabledPrintTypes": ["error", "warning", "info", "debug", "log"],
-  "checkReleaseVersionInstead": false
+  "enabledPrintTypes": [
+    "error",
+    "warning",
+    "info",
+    "debug",
+    "log"
+  ],
+  "checkReleaseVersionInstead": false,
+  "excludedFromVersion": [
+    "monitor",
+    "basic-gamemode",
+    "ped-money-drops",
+    "mapmanager",
+    "chat-theme-gtao",
+    "hardcap",
+    "playernames",
+    "redm-map-one",
+    "spawnmanager",
+    "chat",
+    "runcode",
+    "sessionmanager-rdr3",
+    "baseevents",
+    "rconlog",
+    "example-loadscreen",
+    "fivem",
+    "money",
+    "money-fountain",
+    "money-fountain-example-map",
+    "webpack",
+    "yarn",
+    "sessionmanager",
+    "fivem-map-hipster",
+    "player-data",
+    "fivem-map-skater"
+  ]
 }
