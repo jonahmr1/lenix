@@ -1,13 +1,12 @@
-local enabledTypes<const> = lib.load('config') and lib.load('config').enabledPrintTypes or repeat Wait(0) until lib.load('config')
+repeat Wait(0) until lib.load('config')
+local enabledTypes<const> = lib.load('config').enabledPrintTypes
 
--- Map short forms to base types
 local typeAliases<const> = {
   err = 'error',
   warn = 'warning',
   inf = 'info'
 }
 
--- Color codes for each base type
 local colors<const> = {
   error = '^1',
   warning = '^3',
@@ -37,13 +36,11 @@ local function createPrint(logType, message, path, line)
     return true, 'Printed successfully'
   end
 
-  -- Handle error type specially
   if baseType == 'error' and not path and not line then
     error(message, 2)
     return true, 'Printed successfully'
   end
 
-  -- Build formatted output
   local color<const> = colors[baseType]
   local prefix<const> = string.format('%s[%s]', color, baseType:upper())
   local location<const> = (path and line) and string.format('(%s:%s)', path, line) or ''
@@ -53,7 +50,6 @@ local function createPrint(logType, message, path, line)
   return true, 'Printed successfully'
 end
 
--- Register all log type methods
 local logTypes<const> = {'error', 'err', 'warning', 'warn', 'info', 'inf', 'success', 'log', 'debug'}
 
 for _, logType in ipairs(logTypes) do
