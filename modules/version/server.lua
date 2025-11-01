@@ -2,7 +2,7 @@ local checkReleaseVersionInstead<const> = lib.load('config').checkReleaseVersion
 local excludedFromVersion<const> = lib.load('config').excludedFromVersion
 
 local function parseGithubRepo(repository)
-  local cleanPath = lib.filterOut(repository, 'https://', 'http://', 'github.com/', '%.git$')
+  local cleanPath = lib.filter(repository, 'https://', 'http://', 'github.com/', '%.git$')
   local owner, repoName = cleanPath:match('^([^/]+)/([^/]+)')
   
   return owner, repoName
