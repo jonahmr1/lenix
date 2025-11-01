@@ -1,10 +1,10 @@
 const lib = exports.tr_lib.require('@tr_lib/get')
 
 function createSinglePed(model, coords, scenario, isAccessPublic, isControlPublic) {
+    console.log(coords);
     if (typeof model !== 'string') {
         lib.print.debug(`wrong type on the first argument, expected string of hash received ${typeof model} or ${model} indeed`)
     }
-    coords = JSON.parse(coords)
     if (
         typeof coords !== 'object' ||
         coords == null ||
@@ -101,8 +101,3 @@ exports('createSinglePed', createSinglePed)
 exports('createMultiplePeds', createMultiplePeds)
 exports('clearCreatedPed', clearCreatedPed)
 exports('clearCreatedPeds', clearCreatedPeds)
-
-on('playerJoining', () => {
-    const playerId = source; // This will be 1, 2, 3, etc.
-    console.log(`Player ${playerId} is joining`);
-});
