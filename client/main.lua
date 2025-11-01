@@ -8,7 +8,7 @@ local function ShowNotification(message)
 end
 
 local function openJobCenter()
-    local jobsProgress = lib.callback.await('tr_jobcenter:server:getProgress', GetPlayerServerId(PlayerPedId()))
+    local jobsProgress = lib.callback.await('tr_jobcenter:server:getProgress', nil, GetPlayerServerId(PlayerPedId()))
     SendNUIMessage({
         action = 'openJobCenter',
         jobs = jobsProgress,
