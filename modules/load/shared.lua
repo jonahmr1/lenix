@@ -1,19 +1,25 @@
 local moduleCache = {}
 
-function lib.load(path)
-    if moduleCache[path] then
-        return moduleCache[path]
+function lib.load(path, resourceName)
+    resourceName = resourceName or GetInvokingResource() or GetCurrentResourceName()
+    assert(resourceName, 'No resource could be found')
+    assert(path, 'No path could be found')
+
+    local cacheKey = resourceName .. ':' .. path
+    
+    if moduleCache[cacheKey] then
+        return moduleCache[cacheKey]
     end
     
     local data
-    
-    local file = LoadResourceFile(GetCurrentResourceName(), path .. '.json')
+    local file = LoadResourceFile(resourceName, path .. '.json')
+
     if file then
         data = json.decode(file)
     else
-        file = LoadResourceFile(GetCurrentResourceName(), path .. '.lua')
+        file = LoadResourceFile(resourceName, path .. '.lua')
         if file then
-            local chunk = load(file, path)
+            local chunk = load(file, '@' .. resourceName .. '/' .. path)
             if chunk then
                 data = chunk()
             end
@@ -21,8 +27,7 @@ function lib.load(path)
     end
     
     if data then
-        moduleCache[path] = data
+        moduleCache[cacheKey] = data
     end
-    
     return data
 end
