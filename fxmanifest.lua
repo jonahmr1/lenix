@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.13.3'
+version '1.13.4'
 
 files {
   'config.json',
