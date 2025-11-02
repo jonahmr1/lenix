@@ -17,6 +17,7 @@ function createSinglePed(model, coords, scenario, isAccessPublic, isControlPubli
     if (typeof scenario === 'object' && scenario != null) {
         emitNet('getPedScenario', -1, ped, scenario);
     }
+    scenario.freeze ? FreezeEntityPosition(ped, true) : null;
     on('onResourceStop', (resourceName) => {
         if (GetCurrentResourceName() == resourceName) {
             clearCreatedPed(ped)
