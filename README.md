@@ -1,3 +1,4 @@
+```lua
 locations = {
   {
       coords = vector4(x, y, z, w), ---@param ped_location
@@ -12,3 +13,4 @@ locations = {
       }
   }
 }
+```
