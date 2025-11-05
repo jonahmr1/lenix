@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local isActive = false
 PlayerJob = {}
 
@@ -33,10 +32,6 @@ end)
 RegisterNetEvent('lenix_patrolvehicles:client:SetActive', function(status)
     isActive = status
 end)
-
-function CloseMenu()
-    exports['qb-menu']:closeMenu()
-end
 
 function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)

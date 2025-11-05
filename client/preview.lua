@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterNetEvent("lenix_patrolvehicles:preview")
 AddEventHandler("lenix_patrolvehicles:preview", function(data)
     QBCore.Functions.TriggerCallback('lenix_patrolvehicles:CheckIfActive', function(status)

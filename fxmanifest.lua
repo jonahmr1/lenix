@@ -3,16 +3,11 @@ game 'gta5'
 lua54 'yes'
 dependencies {
     'qb-core',
-    'qb-menu',
-    'qb-target',
-    'ox_lib',
     'oxmysql',
-    'qb-fuel'
 }
 
 author 'Lenix'
 
-shared_script '@ox_lib/init.lua'
 client_scripts {
     'client/*.lua',
     'config/client.lua',

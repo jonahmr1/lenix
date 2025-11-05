@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 RegisterServerEvent('lenix_patrolvehicles:charge', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)

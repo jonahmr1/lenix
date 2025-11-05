@@ -2,14 +2,7 @@ Config = Config or {}
 
 Config.Interact = {
     {
-        interact = 'interact',
-        distance = 5,
-        interactDst = 2,
-        label = 'Take A Patrol',
-        icon = 'fas fa-car',
-        ped = 's_f_y_cop_01',
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        coords = vec4(457.59, -1026.37, 28.44, 61.35),
+        config = 'police1',
         spawn = vec4(454.0, -1023.25, 27.46, 47.41),
         preview = {
             coords = vec4(454.0, -1023.25, 27.46, 47.41),
@@ -23,10 +16,17 @@ Config.Interact = {
                 fov = 40.0
             }
         },
-        config = 'police1',
+        interact = 'interact',
+        distance = 5,
+        interactDst = 2,
+        label = 'Take A Patrol',
+        icon = 'fas fa-car',
         jobs = {
             police = 0,
         },
+        coords = vec4(457.59, -1026.37, 28.44, 61.35),
+        ped = 's_f_y_cop_01',
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
     },
     {
         interact = 'interact',

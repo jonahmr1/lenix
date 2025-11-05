@@ -1,4 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local car
 local function GetVehicleConfigByModel(model)
     for i, vehicles in pairs(Config.Vehicles) do

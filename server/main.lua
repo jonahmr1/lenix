@@ -1,5 +1,3 @@
-QBCore = exports['qb-core']:GetCoreObject()
-
 Config = {}
 local isActive = false
 
