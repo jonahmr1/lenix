@@ -1,5 +1,3 @@
-const lib = exports.tr_lib.require('@tr_lib/get')
-
 onNet('getPedScenario', (ped, scenario) => {
     try {
         TaskStartScenarioInPlace(ped, scenario.name, scenario.timeToLeave, scenario.playIntroClip);
@@ -8,8 +6,25 @@ onNet('getPedScenario', (ped, scenario) => {
     }
 });
 
-function createSinglePed(model, coords, scenario, isAccessPublic, isControlPublic) {
-    return lib.callback.await('createSinglePed', null, model, coords, scenario, isAccessPublic, isControlPublic)
+onNet('tr_kit:setEntityAsNoLongerNeeded', (entity) => {
+    SetEntityAsNoLongerNeeded(entity)
+})
+
+onNet('tr_kit:setBlockingOfNonTemporaryEvents', (entity) => {
+    SetBlockingOfNonTemporaryEvents(entity, true)
+    TaskSetBlockingOfNonTemporaryEvents(entity, true)
+})
+
+lib.callback.register('requestPedModel', async function(model) {
+    RequestModel(model);
+    while (!HasModelLoaded(model)) {
+        await new Promise(resolve => setTimeout(resolve, 0));
+    }
+    return true;
+});
+
+function createSinglePed(settings) {
+    return lib.callback.await('createSinglePed', null, settings)
 }
 
 function createMultiplePeds(peds, defaultSettings) {
