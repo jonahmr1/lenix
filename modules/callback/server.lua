@@ -1,5 +1,6 @@
 local Callbacks = {}
 local CallbackId = 0
+local callbackTimeout = lib.load('config') or 10000 -- Default 10 seconds if config fails
 
 function lib.callback.register(name, cb)
     Callbacks[name] = cb
