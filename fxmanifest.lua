@@ -13,7 +13,9 @@ shared_scripts {
 }
 server_scripts {
     'modules/pedestrians/server.js',
+    'modules/vehicles/server.js',
 }
 client_scripts {
-    'modules/pedestrians/client.js'
+    'modules/pedestrians/client.js',
+    'modules/vehicles/client.js',
 }

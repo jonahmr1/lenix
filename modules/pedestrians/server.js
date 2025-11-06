@@ -31,6 +31,14 @@ async function createSinglePed(settings) {
         console.error(`wrong type or missing a value on the second argument, (type: ${typeof coords}, values: x:${coords?.x || coords[0]}, y:${coords[1]}, z:${coords[2]}, w:${coords[3]})`)
         return;
     }
+    if (Array.isArray(coords)) {
+		coords = {
+			x: coords[0],
+			y: coords[1],
+			z: coords[2],
+			w: coords[3]
+		}
+	}
 
     const response = await requestLoadResponse(model)
     if (response) {
