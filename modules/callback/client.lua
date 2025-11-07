@@ -1,10 +1,10 @@
 local Callbacks = {}
 local CallbackId = 0
-local callbackTimeout = lib.load('config') or 10000 -- Default 10 seconds if config fails
+local callbackTimeout = lib.load('config')
+lib.callback = {}
 
 function lib.callback.register(name, cb)
     Callbacks[name] = cb
-    registered[name] = true
     return true, 'Callback requested successfully'
 end
 
@@ -89,7 +89,6 @@ RegisterNetEvent('callback:responseClient', function(requestId, ...)
 end)
 
 RegisterNetEvent('callback:triggerClient', function(name, requestId, ...)
-    repeat Wait(0) until registered[name] ~= nil
     if Callbacks[name] then
         local results = { Callbacks[name](...) }
         TriggerServerEvent('callback:responseServer', requestId, table.unpack(results))

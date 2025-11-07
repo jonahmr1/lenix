@@ -1,5 +1,6 @@
 local checkReleaseVersionInstead<const> = lib.load('config').checkReleaseVersionInstead
 local excludedFromVersion<const> = lib.load('config').excludedFromVersion
+lib.version = {}
 
 local function parseGithubRepo(repository)
   local cleanPath = lib.filter(repository, 'https://', 'http://', 'github.com/', '%.git$')

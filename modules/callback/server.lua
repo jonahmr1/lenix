@@ -1,6 +1,7 @@
 local Callbacks = {}
 local CallbackId = 0
 local callbackTimeout = lib.load('config') or 10000 -- Default 10 seconds if config fails
+lib.callback = {}
 
 function lib.callback.register(name, cb)
     Callbacks[name] = cb
@@ -87,10 +88,10 @@ end
 RegisterNetEvent('callback:triggerServer', function(name, requestId, ...)
     local src = source
     local args = { ... }
-    -- the server is faster than the client :), we don't need that thing that is in your head pal
     if Callbacks[name] then
         table.insert(args, 1, src)
-
+        
+        print(json.encode(args))
         local success, results = pcall(function()
             return { Callbacks[name](table.unpack(args)) }
         end)

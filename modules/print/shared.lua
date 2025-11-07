@@ -1,5 +1,5 @@
-repeat Wait(0) until lib.load('config')
 local enabledTypes<const> = lib.load('config').enabledPrintTypes
+lib.print = {}
 
 local typeAliases<const> = {
   err = 'error',

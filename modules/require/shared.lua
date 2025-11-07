@@ -6,9 +6,9 @@ local package = {
     })
 }
 
-function require(localLoad, modulePath)
+function lib.require(localLoad, modulePath)
     if type(localLoad) ~= 'boolean' then
-        return require(false, localLoad)
+        return lib.require(false, localLoad)
     end
     assert(modulePath, 'Module path caught nil')
 
@@ -48,4 +48,4 @@ function require(localLoad, modulePath)
     else
         error('Module "' .. module .. '" not found in resource "' .. resourceName .. '"')
     end
-end exports('require', require)
+end

@@ -8,12 +8,11 @@ version '1.14.5'
 
 files {
   'config.json',
-  'get.lua',
 }
 
 shared_scripts {
-  'modules/require/shared.lua',
   'init.lua',
+  'modules/require/shared.lua',
   'modules/load/shared.lua',
   'modules/print/shared.lua',
   'modules/split/shared.lua',
@@ -30,3 +29,5 @@ server_scripts {
   'modules/callback/server.lua',
   'modules/version/server.lua',
 }
+
+shared_script 'get.lua'
