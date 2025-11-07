@@ -1,1 +1,1 @@
-global.lib = exports.tr_lib.require('@tr_lib/get')
+const lib = exports.tr_lib.require('@tr_lib/get')

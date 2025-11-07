@@ -2,7 +2,7 @@ let clearedPeds = []
 
 async function requestLoadResponse(model) {
     try {
-        const response = await lib.callback.await('requestPedModel', -1, 1000, model);
+        const response = await lib.callback.await('requestPedModel', -1, null, model);
         if (!response) {
             console.error(`Failed to load model: ${model}`);
         }
@@ -16,12 +16,12 @@ async function requestLoadResponse(model) {
 async function createSinglePed(settings) {
     const caller = GetInvokingResource()
     const model = settings.model;
-    const coords = settings.coords;
     const scenario = settings.scenario;
     const isAccessPublic = settings.isAccessPublic;
     const isControlPublic = settings.isControlPublic;
+    let coords = settings.coords;
 
-    const isNotValidCoords = (typeof coords !== 'object' && Object.keys(coords).length !== 4) || (!Array.isArray(coords) && coords.length !== 4)
+    const isNotValidCoords = ((typeof coords !== 'object' && Object.keys(coords).length !== 4) || (!Array.isArray(coords) && coords.length !== 4)) ? true : false
 
     if (typeof model !== 'string') {
         console.log(`wrong type on the first argument, expected string of hash received ${typeof model} or ${model} indeed`)

@@ -15,7 +15,7 @@ onNet('tr_kit:setBlockingOfNonTemporaryEvents', (entity) => {
     TaskSetBlockingOfNonTemporaryEvents(entity, true)
 })
 
-lib.callback.register('requestPedModel', async function(model) {
+lib.callback.register('requestPedModel', 1000, async function(model) {
     RequestModel(model);
     while (!HasModelLoaded(model)) {
         await new Promise(resolve => setTimeout(resolve, 0));
@@ -24,7 +24,7 @@ lib.callback.register('requestPedModel', async function(model) {
 });
 
 function createSinglePed(settings) {
-    return lib.callback.await('createSinglePed', null, settings)
+    return lib.callback.await('createSinglePed', 1000, settings)
 }
 
 function createMultiplePeds(peds, defaultSettings) {
