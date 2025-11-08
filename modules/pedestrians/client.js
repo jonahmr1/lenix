@@ -15,7 +15,7 @@ onNet('tr_kit:setBlockingOfNonTemporaryEvents', (entity) => {
     TaskSetBlockingOfNonTemporaryEvents(entity, true)
 })
 
-lib.callback.register('requestPedModel', 1000, async function(model) {
+lib.callback.register('requestPedModel', async function(model) {
     RequestModel(model);
     while (!HasModelLoaded(model)) {
         await new Promise(resolve => setTimeout(resolve, 0));
