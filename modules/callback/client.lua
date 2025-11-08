@@ -4,8 +4,20 @@ local callbackTimeout = lib.load('config')
 lib.callback = {}
 
 function lib.callback.register(name, cb)
-    Callbacks[name] = cb
-    return true, 'Callback requested successfully'
+    if type(cb) == 'function' then
+        Callbacks[name] = cb
+        return true, 'Callback registered successfully'
+    end
+    
+    if type(cb) == 'table' then
+        Callbacks[name] = function(...)
+            return cb(...)
+        end
+        return true, 'JS Callback registered successfully'
+    end
+    
+    lib.print.err(string.format("Attempted to register callback '%s' with non-function value (type: %s)", name, type(cb)))
+    return false
 end
 
 function lib.callback.await(debug, name, timeout, ...)
