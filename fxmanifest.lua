@@ -1,24 +1,26 @@
 fx_version 'cerulean'
 game 'gta5'
-lua54 'yes'
 dependencies {
+    'tr_lib',
+    'tr_kit',
     'qb-core',
     'oxmysql',
 }
 
 author 'Lenix'
+version '2.0.0'
+
+shared_scripts {
+    'config/shared.js',
+    'shared/main.js',
+}
 
 client_scripts {
-    'client/*.lua',
-    'config/client.lua',
-}
-server_scripts {
-    '@oxmysql/lib/MySQL.lua',
-    'server/*.lua',
-    'config/server.lua',
+    'client/peds.js',
+    'client/interactions.js',
+    'client/menus.js',
 }
 
-escrow_ingore {
-    'config/client.lua',
-    'config/server.lua'
+server_scripts {
+    '@oxmysql/lib/MySQL.lua',
 }
