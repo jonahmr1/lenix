@@ -14,7 +14,6 @@ async function requestLoadResponse(model) {
 }
 
 async function createSinglePed(settings) {
-    const caller = GetInvokingResource()
     const model = settings.model;
     const scenario = settings.scenario;
     const isAccessPublic = settings.isAccessPublic;
@@ -53,7 +52,7 @@ async function createSinglePed(settings) {
 
         on('onResourceStop', async (resourceName) => {
             if (clearedPeds.includes(ped)) return;
-            if (caller == resourceName || GetCurrentResourceName() == resourceName) {
+            if (GetCurrentResourceName() == resourceName) {
                 console.log(`${resourceName} caught stopping, clearing ped ${ped}`)
                 clearCreatedPed(ped)
                 clearedPeds.push(ped)
