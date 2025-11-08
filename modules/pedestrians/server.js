@@ -1,5 +1,3 @@
-let clearedPeds = []
-
 async function requestLoadResponse(model) {
     try {
         const response = await lib.callback.await('requestPedModel', -1, null, model);
@@ -51,11 +49,9 @@ async function createSinglePed(settings) {
         }
 
         on('onResourceStop', async (resourceName) => {
-            if (clearedPeds.includes(ped)) return;
             if (GetCurrentResourceName() == resourceName) {
                 console.log(`${resourceName} caught stopping, clearing ped ${ped}`)
                 clearCreatedPed(ped)
-                clearedPeds.push(ped)
                 await new Promise(resolve => setTimeout(resolve, 0))
                 emitNet('setEntityAsNoLongerNeeded', -1, ped)
             }
