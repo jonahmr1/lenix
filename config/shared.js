@@ -140,7 +140,7 @@ Items = {
         registerable: true,
         allowed: { police: 0 },
         price: 0,
-        plate: ['SASP0', 100, 999],
+        plate: ['LENIX', 100, 999],
         style: { isDisabled: false, livery: 0, rgb: [81, 84, 89] },
         image: ''
     },
@@ -150,9 +150,9 @@ Items = {
         { vehicle: 'police3' },
     ],
     configB: [
-        { vehicle: 'socharger' },
-        { vehicle: 'mach1rb' },
-        { vehicle: 'poldemonrb' },
-        { vehicle: 'zr1RB' },
+        { vehicle: 'sultan' },
+        { vehicle: 'sultan2' },
+        { vehicle: 'neon' },
+        { vehicle: 'vstr' },
     ],
 }

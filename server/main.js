@@ -1,0 +1,2 @@
+Config = {}
+let isActive = false
