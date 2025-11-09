@@ -25,8 +25,8 @@ onNet('lenix_vehicles:proccess', async (systemKey, configIndex) => {
 })
 
 async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex) {
-    const handle = await exports.tr_kit.createVehicle({
-        model: Items[systemKey][configIndex].model,
+    const handle = await exports.tr_kit.createSingleVehicle({
+        hash: Items[systemKey][configIndex].model,
         coords: systemKey.VEHICLES.spawn,
     })
     if (isRegisterable) {
