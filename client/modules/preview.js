@@ -1,68 +1,50 @@
-let InPreview = false
+let isInPreview = false
 
-onNet('lenix_patrolvehicles:client:SetActive', function(status) {
-    isActive = status
-})
+function createPreviewCam(key, netId) {
+    const vehicle = NetworkGetEntityFromNetworkId(netId)
+    const cam = System[key].VEHICLES.preview.cam
+    isInPreview = true
+    FreezeEntityPosition(PlayerPedId(), true)
+    DoScreenFadeOut(200)
+    setTimeout(() => {
+        DoScreenFadeIn(200)
+    }, 500)
+    SetVehicleUndriveable(vehicle, true)
+    camHandle = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", cam.coords[0], cam.coords[1], cam.coords[2], cam.rotation.verticalrotate, cam.rotation.horizontalrotate, cam.rotation.left_n_right, cam.fov, false, 0)
+    SetCamActive(camHandle, true)
+    RenderScriptCams(true, true, 500, true, true)
+    exports['qb-core'].DrawText('⇽', 'bottom')
+}
 
-onNet('lenix_vehicles:preview', async (index) => {
-    const status = lib.callback.await('lenix_patrolvehicles:CheckIfActive')
-    if (status) {
-        const data = await QBCore.Functions.GetVehicleData(index)
-        const preview = data.preview
-        const cam = data.preview.cam
-        const coords = preview.coords
-        InPreview = true
-        const handle = await exports.tr_kit.createSingleVehicle({
-            model: data.vehicle,
-            coords: coords,
+async function clearPreviewCam(netId) {
+    exports['qb-core'].HideText()
+    FreezeEntityPosition(PlayerPedId(), false)
+    const success = await exports.tr_kit.clearCreatedVehicle(netId)
+    if (!success) lib.print.err('failed to create the preview vehicle, reponse was ' + success)
+    DoScreenFadeOut(200)
+    setTimeout(() => {
+        DoScreenFadeIn(200)
+    }, 500)
+    RenderScriptCams(false, false, 1, true, true)
+    isInPreview = false
+}
+
+async function PreviewVehicle(key, index) {
+    const selectedConfig = System[key].ITEM
+    const configItems = Items[selectedConfig]
+    if (!isInPreview) {
+        const netId = await exports.tr_kit.createSingleVehicle({
+            hash: GetHashKey(configItems[index].vehicle),
+            coords: System[key].VEHICLES.preview.coords,
         })
-        if (handle) {
-            const veh = handle.vehicle
-            FreezeEntityPosition(PlayerPedId(), true)
-            SetVehicleNumberPlateText(veh, "PREVIEW")
-            exports['qb-fuel'].SetFuel(veh, 0.0)
-            FreezeEntityPosition(veh, true)
-            SetVehicleEngineOn(veh, false, false, true)
-            DoScreenFadeOut(200)
-            setTimeout(() => {
-                DoScreenFadeIn(200)
-            }, 500)
-            SetVehicleUndriveable(veh, true)
-
-            VehicleCam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", cam.coords.x, cam.coords.y, cam.coords.z, cam.rotation.verticalrotate, cam.rotation.horizontalrotate, cam.rotation.left_n_right, cam.fov, false, 0)   
-            SetCamActive(VehicleCam, true)
-            RenderScriptCams(true, true, 2000, true, true)
-
-            while (true) {
-                if (InPreview) {
-                    exports['qb-core'].DrawText('⇽', 'bottom')
-                } else if (!InPreview) {
-                    exports['qb-core'].HideText()
-                    break
-                }
-                setTimeout(() => {}, 1)
-            }
-
-            while (true) {
+        if (netId) {
+            createPreviewCam(key, netId)
+            const tick = setTick(() => {
                 if (IsControlJustReleased(0, 177)) {
-                    FreezeEntityPosition(PlayerPedId(), false)
-                    const cleared = await exports.tr_kit.clearCreatedVehicle(veh)
-                    if (cleared) {
-                        DoScreenFadeOut(200)
-                        setTimeout(() => {
-                            DoScreenFadeIn(200)
-                        }, 500)
-                        RenderScriptCams(false, false, 1, true, true)
-                        InPreview = false
-                        TriggerServerEvent("lenix_patrolvehicles:server:SetActive", false)
-                        break
-                    } else {
-                        exports['qb-core'].Notify('error', 'Something went wrong')
-                        break
-                    }
+                    clearPreviewCam(netId);
+                    clearTick(tick);
                 }
-                setTimeout(() => {}, 1)
-            }
+            });
         }
     }
-})
+}
