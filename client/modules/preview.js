@@ -12,7 +12,7 @@ function createPreviewCam(key, netId) {
     SetVehicleUndriveable(vehicle, true)
     camHandle = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", cam.coords[0], cam.coords[1], cam.coords[2], cam.rotation.verticalrotate, cam.rotation.horizontalrotate, cam.rotation.left_n_right, cam.fov, false, 0)
     SetCamActive(camHandle, true)
-    RenderScriptCams(true, true, 500, true, true)
+    RenderScriptCams(true, true, 2000, true, true)
     exports['qb-core'].DrawText('⇽', 'bottom')
 }
 
@@ -25,7 +25,7 @@ async function clearPreviewCam(netId) {
     setTimeout(() => {
         DoScreenFadeIn(200)
     }, 500)
-    RenderScriptCams(false, false, 1, true, true)
+    RenderScriptCams(false, false, 2000, true, true)
     isInPreview = false
 }
 
