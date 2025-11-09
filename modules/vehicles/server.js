@@ -29,6 +29,23 @@ function createMultipleVehicles(vehicles, defaultSettings) {
 	return handles
 }
 
+function clearCreatedVehicle(vehicle) {
+	if (typeof vehicle !== 'number') {
+		console.log(`received ${typeof vehicle} instead of a number, if you passed an array of number to delete multiple vehicles, please use clearCreatedVehicles instead of clearCreatedVehicle`)
+	}
+	return DeleteEntity(vehicle)
+}
+
+function clearCreatedVehicles(vehicles) {
+	if (!Array.isArray(vehicles)) {
+		console.log(`received ${typeof vehicles} instead of array, use clearCreatedVehicle for single vehicle`)
+	}
+	for (let i = 0; i < vehicles.length; i++) {
+		DeleteEntity(vehicles[i]);
+	}
+	return true
+}
+
 lib.callback.register('createSingleVehicle', function(settings) {
 	return createSingleVehicle(settings)
 })
@@ -37,5 +54,15 @@ lib.callback.register('createMultipleVehicles', function(settings, defaultSettin
 	return createMultipleVehicles(settings, defaultSettings)
 })
 
+lib.callback.register('clearCreatedVehicle', function(vehicle) {
+	return clearCreatedVehicle(vehicle)
+})
+
+lib.callback.register('clearCreatedVehicles', function(vehicles) {
+	return clearCreatedVehicles(vehicles)
+})
+
 exports('createSingleVehicle', createSingleVehicle)
 exports('createMultipleVehicles', createMultipleVehicles)
+exports('clearCreatedVehicle', clearCreatedVehicle)
+exports('clearCreatedVehicles', clearCreatedVehicles)
