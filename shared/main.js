@@ -1,2 +1,2 @@
-global.QBCore = exports['qb-core'].GetCoreObject()
-global.lib = exports.tr_lib.require('@tr_lib/get')
+const QBCore = exports['qb-core'].GetCoreObject(),
+  lib = exports.tr_lib.require('@tr_lib/get')
