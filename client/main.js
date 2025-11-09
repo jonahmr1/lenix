@@ -1,21 +1,18 @@
-let isActive = false
 let PlayerJob = {}
+const Vehicles = exports['qb-core'].GetSharedVehicles()
 
 function returnVehicle(key) {
     
 }
 
 function tableFiller(...objects) {
-    // Filter out null/undefined objects
     objects = objects.filter(obj => obj != null);
     
     if (objects.length === 0) return {};
     if (objects.length === 1) return { ...objects[0] };
     
-    // Start with empty object
     const result = {};
     
-    // Merge each object
     for (const obj of objects) {
         deepMerge(result, obj);
     }
@@ -29,7 +26,6 @@ function deepMerge(target, source) {
             const sourceValue = source[key];
             const targetValue = target[key];
             
-            // If both are objects (and not arrays), merge recursively
             if (
                 sourceValue && 
                 typeof sourceValue === 'object' && 
@@ -40,7 +36,6 @@ function deepMerge(target, source) {
             ) {
                 target[key] = deepMerge({ ...targetValue }, sourceValue);
             } else {
-                // Otherwise, override with source value
                 target[key] = sourceValue;
             }
         }
@@ -50,27 +45,15 @@ function deepMerge(target, source) {
 }
 
 onNet('QBCore:Client:OnPlayerLoaded', function() {
-    QBCore.Functions.GetPlayerData(function(PlayerData) {
-        PlayerJob = PlayerData.job
-    })
+    init()
 })
 
-onNet('QBCore:Client:OnJobUpdate', function(JobInfo) {
-    PlayerJob = JobInfo
+onNet('QBCore:Client:OnJobUpdate', function(UpdatedData) {
+    PlayerJob = UpdatedData
 })
-
-on('onClientResourceStart',function() {
-    Citizen.CreateThread(function() {
-        while (true) {
-            if (QBCore && QBCore.Functions.GetPlayerData) {
-                QBCore.Functions.GetPlayerData(function(PlayerData) {
-                    if (PlayerData.job) {
-                        PlayerJob = PlayerData.job
-                    }
-                })
-                break
-            }
-        }
-        Citizen.Wait(1)
-    })
-})
+function init() {
+    PlayerJob = QBCore.Functions.GetPlayerData().job
+    createPeds()
+    createInteractions()
+}
+init()
