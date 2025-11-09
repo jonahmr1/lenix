@@ -1,13 +1,14 @@
-on('lenix_patrolvehicles:insert', function(mods, vehicle, hash, plate) {
-    let src = source
-    let Player = QBCore.Functions.GetPlayer(src)
-    MySQL.Async.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+async function insertSQL(mods, vehicle, plate, src) {
+    const source = src
+    let Player = await QBCore.Functions.GetPlayer(source)
+    const response = await exports.oxmysql.insert_async('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', [
         Player.PlayerData.license,
         Player.PlayerData.citizenid,
-        vehicle,
-        hash,
-        json.encode(mods),
+        vehicle.model,
+        vehicle.hash,
+        JSON.stringify(mods),
         plate,
         0
     ])
-})
+    return response
+}
