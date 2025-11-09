@@ -1,6 +1,6 @@
-async function requestLoadResponse(model) {
+async function requestLoadResponse(model, timeout) {
     try {
-        const response = await lib.callback.await('requestPedModel', -1, null, model);
+        const response = await lib.callback.await('requestPedModel', -1, null, model, timeout);
         if (!response) {
             console.error(`Failed to load model: ${model}`);
         }
@@ -37,12 +37,9 @@ async function createSinglePed(settings) {
 		}
 	}
 
-    const response = await requestLoadResponse(model)
+    const response = await requestLoadResponse(model, 1000)
     if (response) {
         const ped = CreatePed(null, model, coords.x, coords.y, coords.z, coords.w, !!isAccessPublic, !!isAccessPublic && !isControlPublic);
-        if (typeof scenario === 'object' && scenario != null) {
-            emitNet('tr_kit:setEntityAsNoLongerNeeded', -1, ped);
-        }
         if (scenario) {
             if (scenario.freeze) FreezeEntityPosition(ped, true);
             if (scenario.oblivious) emitNet('tr_kit:setBlockingOfNonTemporaryEvents', -1, ped);
@@ -53,7 +50,7 @@ async function createSinglePed(settings) {
                 console.log(`${resourceName} caught stopping, clearing ped ${ped}`)
                 clearCreatedPed(ped)
                 await new Promise(resolve => setTimeout(resolve, 0))
-                emitNet('setEntityAsNoLongerNeeded', -1, ped)
+                emitNet('tr_kit:setEntityAsNoLongerNeeded', -1, ped)
             }
         })
         return ped;
@@ -95,7 +92,6 @@ function createMultiplePeds(peds, defaultSettings) {
     }
     return created;
 }
-
 function clearCreatedPed(entity) {
     if (typeof entity !== 'number') {
         console.log(`received ${typeof entity} instead of a number, if you passed an array of number to delete multiple peds, please use clearCreatedPeds instead of clearCreatePeds`)
