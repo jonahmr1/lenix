@@ -73,7 +73,7 @@ System = {
             ],
         },
         VEHICLES: {
-            spawn: [454.0, -1023.25, 27.46, 47.41],
+            spawn: [450.75, -1025.06, 28.56, 283.73],
             preview: {
                 coords: [450.94, -1020.05, 28.43, 216.17],
                 cam: {
@@ -145,7 +145,7 @@ Items = {
         image: ''
     },
     configA: [
-        { vehicle: 'police' },
+        { vehicle: 'police', price: 10 },
         { vehicle: 'police2' },
         { vehicle: 'police3' },
     ],
