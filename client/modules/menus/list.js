@@ -25,10 +25,10 @@ Menu.list = function(key) {
                     }
                 }
             });
-            const description = (processedItem.registerable) ? ("Get: " + vehicles[item.vehicle]?.name + " For: $" + processedItem.price) : ("Take Out " + vehicles[item.vehicle]?.name)
+            const description = (processedItem.registerable) ? ("Get: " + Vehicles[item.vehicle]?.name + " For: $" + processedItem.price) : ("Take Out " + Vehicles[item.vehicle]?.name)
 
             options.push({
-                header: vehicles[item.vehicle]?.name,
+                header: Vehicles[item.vehicle]?.name,
                 txt: description,
                 icon: (processedItem.registerable) ? "fas fa-dollar-sign" : "fas fa-key",
                 image: processedItem.image,
