@@ -9,7 +9,7 @@ function createInteractions() {
                 {
                     x: pedElement.coords[0],
                     y: pedElement.coords[1],
-                    z: pedElement.coords[2]
+                    z: pedElement.coords[2] + 1.0
                 },
                 3.45,
                 3.35,
