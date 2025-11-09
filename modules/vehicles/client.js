@@ -14,6 +14,10 @@ function clearCreatedVehicles(vehicles) {
     return lib.callback.await('clearCreatedVehicles', null, vehicles)
 }
 
+lib.callback.register('requestModel', function(modelHash, timeout) {
+    return lib.requestModel(modelHash, timeout)
+})
+
 exports('createSingleVehicle', createSingleVehicle)
 exports('createMultipleVehicles', createMultipleVehicles)
 exports('clearCreatedVehicle', clearCreatedVehicle)
