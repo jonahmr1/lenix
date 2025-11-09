@@ -26,7 +26,7 @@ System = {
                     ballas: 0
                 }
             },
-            debug: true
+            debug: false
         },
         MENU: {
             main: {
@@ -75,13 +75,13 @@ System = {
         VEHICLES: {
             spawn: [454.0, -1023.25, 27.46, 47.41],
             preview: {
-                coords: [454.0, -1023.25, 27.46, 47.41],
+                coords: [450.94, -1020.05, 28.43, 216.17],
                 cam: {
-                    coords: [449.97, -1021.67, 28.44],
+                    coords: [451.42, -1025.71, 28.55],
                     rotation: {
                         verticalrotate: -10.00,
                         horizontalrotate: 0.00,
-                        left_n_right: 265.0,
+                        left_n_right: 8.14,
                     },
                     fov: 40.0
                 }
