@@ -30,8 +30,8 @@ client_scripts {
 }
 
 server_scripts {
+    '@oxmysql/lib/MySQL.lua',
     'server/main.js',
     'server/modules/db.js',
     'server/modules/process.js',
-    '@oxmysql/lib/MySQL.lua',
 }
