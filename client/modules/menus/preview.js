@@ -15,12 +15,12 @@ Menu.preview = function(key) {
     if (confgItems) {
         confgItems.forEach((item, index) => {
             options.push({
-                header: vehicles[item.vehicle]?.name,
-                txt: "Preview: " + vehicles[item.vehicle]?.name,
+                header: Vehicles[item.vehicle]?.name,
+                txt: "Preview: " + Vehicles[item.vehicle]?.name,
                 icon: "fas fa-search",
                 image: item?.image || Items._DEFAULT.image,
                 action: function() {
-                    emit('lenix_vehicles:preview', index)
+                    PreviewVehicle(key, index)
                 }
             })
         })
