@@ -1,49 +1,77 @@
-function createSingleVehicle(settings) {
-	const modelHash = settings.modelHash
-	const isAccessPublic = settings.isAccessPublic
-	const isControlPublic = settings.isControlPublic
+async function createSingleVehicle(settings) {
+	const hash = settings.hash
+	const isAccessPublic = settings.isAccessPublic ?? true
+	const isControlPublic = settings.isControlPublic ?? false
 	let coords = settings.coords
 	
+	const response = await lib.callback.await('requestModel', -1, 1000, hash, 1000)
+	if (!response) lib.print.err('failed to load the model with hash of: ' + hash)
+	
 	if (Array.isArray(coords)) {
-		coords = {
-			x: coords[0],
-			y: coords[1],
-			z: coords[2],
-			w: coords[3]
+		coords = { x: coords[0], y: coords[1], z: coords[2], w: coords[3] }
+	}
+	
+	const handle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, isAccessPublic, isControlPublic)
+
+	const netId = await new Promise((resolve) => {
+		const tick = setTick(() => {
+			if (DoesEntityExist(handle)) {
+				const netId = NetworkGetNetworkIdFromEntity(handle)
+				clearTick(tick)
+				resolve(netId)
+			}
+		})
+	})
+
+	on('onResourceStop', async (resourceName) => {
+		if (GetCurrentResourceName() == resourceName) {
+			console.log(`${resourceName} caught stopping, clearing vehicles ${netId}`)
+			clearCreatedVehicle(netId)
+		}
+	})
+
+	return netId
+}
+
+async function createMultipleVehicles(vehicles, defaultSettings) {
+	const promises = vehicles.map(vehicle => 
+		createSingleVehicle({
+			hash: vehicle.hash || defaultSettings.hash,
+			coords: vehicle.coords,
+			isAccessPublic: vehicle.isAccessPublic ?? defaultSettings.isAccessPublic,
+			isControlPublic: vehicle.isControlPublic ?? defaultSettings.isControlPublic
+		})
+	)
+	return await Promise.all(promises)
+}
+
+function clearCreatedVehicle(netId) {
+	if (typeof netId !== 'number') {
+		console.log(`received ${typeof netId} instead of a number, if you passed an array of number to delete multiple vehicles, please use clearCreatedVehicles instead of clearCreatedVehicle`)
+		return false
+	}
+	const vehicle = NetworkGetEntityFromNetworkId(netId)
+	if (DoesEntityExist(vehicle)) {
+		DeleteEntity(vehicle)
+		return true
+	}
+	return false
+}
+
+function clearCreatedVehicles(netIds) {
+	if (!Array.isArray(netIds)) {
+		console.log(`received ${typeof netIds} instead of array, use clearCreatedVehicle for single vehicle`)
+		return false
+	}
+	let deletedCount = 0
+	for (let i = 0; i < netIds.length; i++) {
+		const vehicle = NetworkGetEntityFromNetworkId(netIds[i])
+		if (DoesEntityExist(vehicle)) {
+			DeleteEntity(vehicle)
+			deletedCount++
 		}
 	}
-	const handle = CreateVehicle(modelHash, coords.x, coords.y, coords.z, coords.w, !!isAccessPublic, !!isAccessPublic && !isControlPublic)
-	return handle
-}
-
-function createMultipleVehicles(vehicles, defaultSettings) {
-	const handles = []
-	vehicles.forEach(vehicle => {
-		handles.push(createSingleVehicle({
-			modelHash: vehicle.model || defaultSettings.modelHash,
-			coords: vehicle.coords,
-			isAccessPublic: vehicle.isAccessPublic || defaultSettings.isAccessPublic,
-			isControlPublic: vehicle.isControlPublic || defaultSettings.isControlPublic
-		}))
-	});
-	return handles
-}
-
-function clearCreatedVehicle(vehicle) {
-	if (typeof vehicle !== 'number') {
-		console.log(`received ${typeof vehicle} instead of a number, if you passed an array of number to delete multiple vehicles, please use clearCreatedVehicles instead of clearCreatedVehicle`)
-	}
-	return DeleteEntity(vehicle)
-}
-
-function clearCreatedVehicles(vehicles) {
-	if (!Array.isArray(vehicles)) {
-		console.log(`received ${typeof vehicles} instead of array, use clearCreatedVehicle for single vehicle`)
-	}
-	for (let i = 0; i < vehicles.length; i++) {
-		DeleteEntity(vehicles[i]);
-	}
-	return true
+	return deletedCount > 0
 }
 
 lib.callback.register('createSingleVehicle', function(settings) {
