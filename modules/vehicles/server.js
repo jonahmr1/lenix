@@ -1,9 +1,9 @@
 function createSingleVehicle(settings) {
 	const modelHash = settings.modelHash
-	const coords = settings.coords
 	const isAccessPublic = settings.isAccessPublic
 	const isControlPublic = settings.isControlPublic
-
+	let coords = settings.coords
+	
 	if (Array.isArray(coords)) {
 		coords = {
 			x: coords[0],
