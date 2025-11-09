@@ -17,7 +17,6 @@ shared_scripts {
 }
 
 client_scripts {
-    'client/main.js',
     'client/modules/interfaces.js',
     'client/modules/peds.js',
     'client/modules/interactions.js',
@@ -27,12 +26,12 @@ client_scripts {
     'client/modules/menus/main.js',
     'client/modules/menus/list.js',
     'client/modules/menus/preview.js',
+    'client/main.js',
 }
 
 server_scripts {
     'server/main.js',
     'server/modules/db.js',
-    'server/modules/preview.js',
     'server/modules/process.js',
     '@oxmysql/lib/MySQL.lua',
 }
