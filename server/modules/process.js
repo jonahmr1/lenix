@@ -34,7 +34,16 @@ async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex, src) {
         hash: GetHashKey(Items[selectedConfig][configIndex].vehicle),
         coords: System[systemKey].VEHICLES.spawn,
     })
-    if (netId) {
+    const handle = NetworkGetEntityFromNetworkId(netId)
+    if (netId && handle) {
+        const plate = generatePlate(proccessedItems.plate)
+        SetVehicleNumberPlateText(handle, plate)
+        emitNet("qb-vehiclekeys:server:AcquireVehicleKeys", plate)
+        const response = lib.callback.await('prepareVehicle', src, 250, handle, proccessedItems.style)
+        if (!response) {
+            lib.print.warn(`Failed to prepare the vehicle ${handle} in time for the player with id of ${src}`)
+        }
+
         if (isRegisterable) {
             const response = await insertSQL(
                 [],
