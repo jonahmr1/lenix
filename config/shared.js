@@ -1,7 +1,7 @@
 System = {
     _DEFAULT: {
         PEDS: {
-            model: 's_f_y_cop_01',
+            model: 'ig_dix',
             scenario: {
                 name: 'WORLD_HUMAN_CLIPBOARD',
                 freeze: true,
@@ -10,9 +10,9 @@ System = {
         },
         INTERACTIONS: {
             take: {
-                label: 'Take A Patrol',
+                label: 'Take A Out',
                 icon: 'fas fa-car',
-                distance: 1,
+                distance: 3,
             },
             return: {
                 label: 'Return Vehicle',
@@ -145,7 +145,7 @@ Items = {
         image: ''
     },
     configA: [
-        { vehicle: 'police' },
+        { vehicle: 'police', registerable: false },
         { vehicle: 'police2' },
         { vehicle: 'police3' },
     ],

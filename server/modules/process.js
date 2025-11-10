@@ -22,7 +22,7 @@ onNet('lenix_vehicles:proccess', async (systemKey, configIndex) => {
         if (netId) {
             emitNet('QBCore:Notify', src, 'Vehicle Successfully took out', "success")
         } else {
-            lib.print.err('failed to sell the car to the player with the id of: ' + src)
+            lib.print.err('failed to take the car out to the player with the id of: ' + src)
         }
     }
 })
@@ -57,8 +57,12 @@ async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex, src) {
             if (response) {
                 return netId
             }
+        } else {
+            emitNet('lenix_vehicle:client:addReturnOption', src, netId)
         }
         return netId
+    } else {
+        lib.print.err('Vehicle net id could not be found')
     }
     return false
 }
