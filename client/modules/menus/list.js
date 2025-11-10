@@ -33,7 +33,11 @@ Menu.list = function(key) {
                 icon: (processedItem.registerable) ? "fas fa-dollar-sign" : "fas fa-key",
                 image: processedItem.image,
                 action: function() {
-                    emitNet('lenix_vehicles:proccess', key, index)
+                    if (IsZoneFree(System[key].VEHICLES.spawn)) {
+                        emitNet('lenix_vehicles:proccess', key, index)
+                    } else {
+                        emit('QBCore:Notify', 'The Spawn Point Is Not Free !', "error")
+                    }
                 }
             })
         })
