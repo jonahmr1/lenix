@@ -1,4 +1,4 @@
-local enabledTypes<const> = lib.load('config').enabledPrintTypes
+local enabledTypes<const> = lib.load('config', GetCurrentResourceName()).enabledPrintTypes
 lib.print = {}
 
 local typeAliases<const> = {

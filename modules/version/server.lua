@@ -1,5 +1,5 @@
-local checkReleaseVersionInstead<const> = lib.load('config').checkReleaseVersionInstead
-local excludedFromVersion<const> = lib.load('config').excludedFromVersion
+local checkReleaseVersionInstead<const> = lib.load('config', GetCurrentResourceName()).checkReleaseVersionInstead
+local excludedFromVersion<const> = lib.load('config', GetCurrentResourceName()).excludedFromVersion
 lib.version = {}
 
 local function parseGithubRepo(repository)
