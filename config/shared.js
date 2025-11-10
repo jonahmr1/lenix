@@ -143,7 +143,8 @@ Items = {
         plate: ['LENIX', 100, 999],
         style: { isDisabled: false, livery: 0, rgb: [81, 84, 89] },
         image: '',
-        warp: true
+        warp: false,
+        clearOnLeave: true
     },
     configA: [
         { vehicle: 'police' },
