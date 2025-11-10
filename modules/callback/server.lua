@@ -1,6 +1,6 @@
 local Callbacks = {}
 local CallbackId = 0
-local callbackTimeout = lib.load('config')
+local callbackTimeout<const> = lib.load('config', GetCurrentResourceName()).callbackTimeout
 lib.callback = {}
 
 function lib.callback.register(name, cb)
@@ -20,13 +20,13 @@ function lib.callback.register(name, cb)
     return false
 end
 
-function lib.callback.await(debug, name, source, timeout, ...)
+function lib.callback.await(debug, name, timeout, source, ...)
     if type(debug) ~= 'boolean' then
-        return lib.callback.await(false, debug, name, source, timeout, ...)
+        return lib.callback.await(false, debug, name, timeout, source, ...)
     end
 
     if type(timeout) ~= 'number' then
-        return lib.callback.await(debug, name, source, 10000, ...)
+        return lib.callback.await(debug, name, callbackTimeout, source, ...)
     end
     assert(type(name) == 'string', ('Callback name must be a string, received %s as %s'):format(name, type(name)))
     assert(source, 'Caught invalid source')
@@ -48,7 +48,7 @@ function lib.callback.await(debug, name, source, timeout, ...)
         end
     end
 
-    TriggerClientEvent('callback:triggerClient', source, name, requestId, ...)
+    TriggerClientEvent('__tr_cb:triggerClient', source, name, requestId, ...)
 
     SetTimeout(timeout, function()
         if Callbacks[requestId] then
@@ -97,28 +97,27 @@ function lib.callback.await(debug, name, source, timeout, ...)
     end
 end
 
-RegisterNetEvent('callback:triggerServer', function(name, requestId, ...)
+RegisterNetEvent('__tr_cb:triggerServer', function(name, requestId, ...)
     local src = source
     local args = { ... }
     if Callbacks[name] then
-        
         local success, results = pcall(function()
             return { Callbacks[name](table.unpack(args)) }
         end)
 
         if success then
-            TriggerClientEvent('callback:responseClient', src, requestId, table.unpack(results))
+            TriggerClientEvent('__tr_cb:responseClient', src, requestId, table.unpack(results))
         else
             lib.print.debug(("Server callback '%s' threw error: %s"):format(name, results))
-            TriggerClientEvent('callback:responseClient', src, requestId, nil)
+            TriggerClientEvent('__tr_cb:responseClient', src, requestId, nil)
         end
     else
         lib.print.debug(("Server callback %s does not exist"):format(name))
-        TriggerClientEvent('callback:responseClient', src, requestId, nil)
+        TriggerClientEvent('__tr_cb:responseClient', src, requestId, nil)
     end
 end)
 
-RegisterNetEvent('callback:responseServer', function(requestId, ...)
+RegisterNetEvent('__tr_cb:responseServer', function(requestId, ...)
     if Callbacks[requestId] then
         Callbacks[requestId](...)
         Callbacks[requestId] = nil

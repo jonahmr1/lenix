@@ -45,7 +45,7 @@ function lib.callback.await(debug, name, timeout, ...)
         end
     end
 
-    TriggerServerEvent('__tr_cb_:triggerServer', name, requestId, ...)
+    TriggerServerEvent('__tr_cb:triggerServer', name, requestId, ...)
 
     SetTimeout(timeout, function()
         if Callbacks[requestId] then
@@ -93,19 +93,19 @@ function lib.callback.await(debug, name, timeout, ...)
     end
 end
 
-RegisterNetEvent('__tr_cb_:responseClient', function(requestId, ...)
+RegisterNetEvent('__tr_cb:responseClient', function(requestId, ...)
     if Callbacks[requestId] then
         Callbacks[requestId](...)
         Callbacks[requestId] = nil
     end
 end)
 
-RegisterNetEvent('__tr_cb_:triggerClient', function(name, requestId, ...)
+RegisterNetEvent('__tr_cb:triggerClient', function(name, requestId, ...)
     if Callbacks[name] then
         local results = { Callbacks[name](...) }
-        TriggerServerEvent('__tr_cb_:responseServer', requestId, table.unpack(results))
+        TriggerServerEvent('__tr_cb:responseServer', requestId, table.unpack(results))
     else
         lib.print.debug(("Client callback %s does not exist"):format(name))
-        TriggerServerEvent('__tr_cb_:responseServer', requestId, nil)
+        TriggerServerEvent('__tr_cb:responseServer', requestId, nil)
     end
 end)
