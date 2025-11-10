@@ -1,9 +1,6 @@
 let PlayerJob = {}
+let netIdsRequested = []
 const Vehicles = exports['qb-core'].GetSharedVehicles()
-
-function returnVehicle(key) {
-    
-}
 
 onNet('QBCore:Client:OnPlayerLoaded', function() {
     init()
