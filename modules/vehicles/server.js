@@ -1,7 +1,7 @@
 async function createSingleVehicle(settings) {
 	const hash = settings.hash
 	const isAccessPublic = settings.isAccessPublic ?? true
-	const isControlPublic = settings.isControlPublic ?? false
+	const isControlPublic = settings.isControlPublic ?? true
 	let coords = settings.coords
 	
 	const response = await lib.callback.await('requestModel', -1, 1000, hash, 1000)
@@ -55,6 +55,7 @@ function clearCreatedVehicle(netId) {
 		DeleteEntity(vehicle)
 		return true
 	}
+	lib.print.warn('Could not clear the vehicle with the net id of: ' + netId)
 	return false
 }
 
