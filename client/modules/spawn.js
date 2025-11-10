@@ -20,11 +20,11 @@ async function returnVehicle(netIdsRequested) {
     const closestVehicleNetId = NetworkGetNetworkIdFromEntity(closestVehicleHandle)
     const response = await exports.tr_kit.clearCreatedVehicle(closestVehicleNetId)
     if (!response) {
-        return netIdsRequested
+        return false;
     }
     netIdsRequested.splice(netIdsRequested.indexOf(closestVehicleNetId), 1)
     exports['qb-core'].Notify('Vehicle returned successfully')
-    return netIdsRequested
+    return true
 }
 
 onNet('lenix_vehicle:client:addReturnOption', (netId) => {
