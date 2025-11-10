@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.14.11'
+version '1.16.0'
 
 files {
   'config.json',
@@ -23,6 +23,8 @@ shared_scripts {
 
 client_scripts {
   'modules/callback/client.lua',
+  'modules/request/client.lua',
+  'modules/get/closestVehicle/client.lua',
 }
 
 server_scripts {
