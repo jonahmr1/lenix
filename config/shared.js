@@ -139,13 +139,13 @@ Items = {
     _DEFAULT: {
         registerable: true,
         allowed: { police: 0 },
-        price: 0,
+        price: 500,
         plate: ['LENIX', 100, 999],
         style: { isDisabled: false, livery: 0, rgb: [81, 84, 89] },
         image: ''
     },
     configA: [
-        { vehicle: 'police', price: 10 },
+        { vehicle: 'police' },
         { vehicle: 'police2' },
         { vehicle: 'police3' },
     ],
