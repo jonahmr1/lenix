@@ -17,7 +17,6 @@ shared_scripts {
 }
 
 client_scripts {
-    'client/modules/interfaces.js',
     'client/modules/peds.js',
     'client/modules/interactions.js',
     'client/modules/menus.js',
