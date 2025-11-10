@@ -4,7 +4,7 @@ async function createSingleVehicle(settings) {
 	const isControlPublic = settings.isControlPublic ?? true
 	let coords = settings.coords
 	
-	const response = await lib.callback.await('requestModel', -1, 1000, hash, 1000)
+	const response = await lib.callback.await('requestModel', 1000, -1, hash, 1000)
 	if (!response) lib.print.err('failed to load the model with hash of: ' + hash)
 	
 	if (Array.isArray(coords)) {

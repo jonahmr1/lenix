@@ -1,6 +1,6 @@
 async function requestLoadResponse(model, timeout) {
     try {
-        const response = await lib.callback.await('requestPedModel', -1, null, model, timeout);
+        const response = await lib.callback.await('requestPedModel', null, -1, model, timeout);
         if (!response) {
             console.error(`Failed to load model: ${model}`);
         }
