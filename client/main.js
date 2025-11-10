@@ -17,4 +17,4 @@ function init() {
     createPeds()
     createInteractions()
 }
-init()
+init() // for dev mode only
