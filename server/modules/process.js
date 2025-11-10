@@ -39,7 +39,9 @@ async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex, src) {
         const plate = generatePlate(proccessedItems.plate)
         SetVehicleNumberPlateText(handle, plate)
         emitNet("qb-vehiclekeys:server:AcquireVehicleKeys", plate)
-        const response = lib.callback.await('prepareVehicle', src, 250, handle, proccessedItems.style)
+        proccessedItems.warp && TaskWarpPedIntoVehicle(GetPlayerPed(src), handle, -1)
+
+        const response = lib.callback.await('prepareVehicle', 250, src, handle, proccessedItems.style)
         if (!response) {
             lib.print.warn(`Failed to prepare the vehicle ${handle} in time for the player with id of ${src}`)
         }
