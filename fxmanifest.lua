@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.16.0'
+version '1.18.0'
 
 files {
   'config.json',
@@ -19,12 +19,14 @@ shared_scripts {
   'modules/resources/shared.lua',
   'modules/metadata/shared.lua',
   'modules/filter/shared.lua',
+  'modules/get/closestVehicle/shared.lua',
+  'modules/get/isInVehicle/shared.lua',
 }
 
 client_scripts {
   'modules/callback/client.lua',
   'modules/request/client.lua',
-  'modules/get/closestVehicle/client.lua',
+  'modules/get/isZoneFree/client.lua',
 }
 
 server_scripts {
