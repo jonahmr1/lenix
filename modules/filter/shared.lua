@@ -1,7 +1,7 @@
 function lib.filter(string, ...)
     local result = string
     local filters = {...}
-    
+
     for _, filter in ipairs(filters) do
         if type(filter) == 'string' then
             result = result:gsub(filter, '')
@@ -9,7 +9,7 @@ function lib.filter(string, ...)
             local pattern = filter[1]
             local targetIndex = filter[2]
             local count = 0
-            
+
             result = result:gsub(pattern, function(match)
                 count = count + 1
                 if count == targetIndex then
@@ -19,6 +19,6 @@ function lib.filter(string, ...)
             end)
         end
     end
-    
+
     return result
 end
