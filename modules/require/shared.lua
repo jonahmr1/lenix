@@ -6,10 +6,7 @@ local package = {
     })
 }
 
-function lib.require(localLoad, modulePath)
-    if type(localLoad) ~= 'boolean' then
-        return lib.require(false, localLoad)
-    end
+function lib.require(modulePath)
     assert(modulePath, 'Module path caught nil')
 
     local resourceName, actualPath
@@ -23,7 +20,7 @@ function lib.require(localLoad, modulePath)
             error('Invalid module path format: ' .. modulePath)
         end
     else
-        resourceName = localLoad and GetCurrentResourceName() or GetInvokingResource()
+        resourceName = GetInvokingResource()
         actualPath = modulePath
     end
     
