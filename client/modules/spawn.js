@@ -10,12 +10,23 @@ lib.callback.register('prepareVehicle', function(handle, processedStyle) {
     }
     return true
 })
-onNet('lenix_patrolvehicles:return', function() {
-    if (car !== null) {
-        QBCore.Functions.Notify('Vehicle Returned Back!')
-        DeleteVehicle(car)
-        DeleteEntity(car)
-    } else {
-        QBCore.Functions.Notify('You didn\'t take a vehicle from us', 'error')
+
+async function returnVehicle(netIdsRequested) {
+    const closestVehicleHandle = await lib.getPlayerClosestVehicle(5.0)
+    if (!closestVehicleHandle) {
+        exports['qb-core'].Notify('Could not find the vehicle you are trying to return, try to get closer to it')
+        return false;
     }
+    const closestVehicleNetId = NetworkGetNetworkIdFromEntity(closestVehicleHandle)
+    const response = await exports.tr_kit.clearCreatedVehicle(closestVehicleNetId)
+    if (!response) {
+        return netIdsRequested
+    }
+    netIdsRequested.splice(netIdsRequested.indexOf(closestVehicleNetId), 1)
+    exports['qb-core'].Notify('Vehicle returned successfully')
+    return netIdsRequested
+}
+
+onNet('lenix_vehicle:client:addReturnOption', (netId) => {
+  netIdsRequested.unshift(netId)
 })
