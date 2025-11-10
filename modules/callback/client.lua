@@ -1,6 +1,6 @@
 local Callbacks = {}
 local CallbackId = 0
-local callbackTimeout = lib.load('config')
+local callbackTimeout<const> = lib.load('config', GetCurrentResourceName()).callbackTimeout
 lib.callback = {}
 
 function lib.callback.register(name, cb)
@@ -26,7 +26,7 @@ function lib.callback.await(debug, name, timeout, ...)
     end
     
     if type(timeout) ~= 'number' then
-        return lib.callback.await(debug, name, 10000, ...)
+        return lib.callback.await(debug, name, callbackTimeout, ...)
     end
 
     CallbackId = CallbackId + 1
@@ -45,7 +45,7 @@ function lib.callback.await(debug, name, timeout, ...)
         end
     end
 
-    TriggerServerEvent('callback:triggerServer', name, requestId, ...)
+    TriggerServerEvent('__tr_cb_:triggerServer', name, requestId, ...)
 
     SetTimeout(timeout, function()
         if Callbacks[requestId] then
@@ -93,19 +93,19 @@ function lib.callback.await(debug, name, timeout, ...)
     end
 end
 
-RegisterNetEvent('callback:responseClient', function(requestId, ...)
+RegisterNetEvent('__tr_cb_:responseClient', function(requestId, ...)
     if Callbacks[requestId] then
         Callbacks[requestId](...)
         Callbacks[requestId] = nil
     end
 end)
 
-RegisterNetEvent('callback:triggerClient', function(name, requestId, ...)
+RegisterNetEvent('__tr_cb_:triggerClient', function(name, requestId, ...)
     if Callbacks[name] then
         local results = { Callbacks[name](...) }
-        TriggerServerEvent('callback:responseServer', requestId, table.unpack(results))
+        TriggerServerEvent('__tr_cb_:responseServer', requestId, table.unpack(results))
     else
         lib.print.debug(("Client callback %s does not exist"):format(name))
-        TriggerServerEvent('callback:responseServer', requestId, nil)
+        TriggerServerEvent('__tr_cb_:responseServer', requestId, nil)
     end
 end)
