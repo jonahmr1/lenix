@@ -1,16 +1,16 @@
 local moduleCache = {}
 
 function lib.load(path, resourceName)
-    resourceName = resourceName or GetInvokingResource() or GetCurrentResourceName()
+    resourceName = resourceName or GetInvokingResource()
     assert(resourceName, 'No resource could be found')
     assert(path, 'No path could be found')
 
     local cacheKey = resourceName .. ':' .. path
-    
+
     if moduleCache[cacheKey] then
         return moduleCache[cacheKey]
     end
-    
+
     local data
     local file = LoadResourceFile(resourceName, path .. '.json')
 
@@ -25,7 +25,7 @@ function lib.load(path, resourceName)
             end
         end
     end
-    
+
     if data then
         moduleCache[cacheKey] = data
     end
