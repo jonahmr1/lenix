@@ -12,7 +12,7 @@ onNet('lenix_vehicles:proccess', async (systemKey, configIndex) => {
                 Bridge.removeCash(proccessedItems.price)
                 Bridge.notify(src, 'Vehicle Successfully Bought', 'success')
             } else {
-                lib.print.err('Failed to sell the car to the player with the id of: ' + src)
+                lib.console.err('Failed to sell the car to the player with the id of: ' + src)
             }
         } else {
             Bridge.notify(src, 'You Don\'t Have Enough Money !', 'error')
@@ -22,7 +22,7 @@ onNet('lenix_vehicles:proccess', async (systemKey, configIndex) => {
         if (netId) {
             Bridge.notify(src, 'Vehicle Successfully took out', 'success')
         } else {
-            lib.print.err('Failed to take the car out to the player with the id of: ' + src)
+            lib.console.err('Failed to take the car out to the player with the id of: ' + src)
         }
     }
 })
@@ -43,7 +43,7 @@ async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex, src) {
 
         const response = lib.callback.await('prepareVehicle', 250, src, handle, proccessedItems.style)
         if (!response) {
-            lib.print.warn(`Failed to prepare the vehicle ${handle} in time for the player with id of ${src}`)
+            lib.console.warn(`Failed to prepare the vehicle ${handle} in time for the player with id of ${src}`)
         }
 
         if (isRegisterable) {
@@ -64,7 +64,7 @@ async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex, src) {
         }
         return netId
     } else {
-        lib.print.err('Vehicle net id could not be found')
+        lib.console.err('Vehicle net id could not be found')
     }
     return false
 }
