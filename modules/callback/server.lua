@@ -16,7 +16,7 @@ function lib.callback.register(name, cb)
         return true
     end
     
-    lib.print.err(("Attempted to register callback '%s' with non-function value (type: %s)"):format(name, type(cb)))
+    lib.console.fatal(("Attempted to register callback '%s' with non-function value (type: %s)"):format(name, type(cb)))
     return false
 end
 
@@ -33,7 +33,7 @@ function lib.callback.await(debug, name, timeout, source, ...)
     local timedOut = false
 
     if debug then
-        lib.print.debug(("Triggering client callback '%s' for player %d (ID: %d, Timeout: %dms)"):format(name, source,
+        lib.console.trace(("Triggering client callback '%s' for player %d (ID: %d, Timeout: %dms)"):format(name, source,
             requestId, timeout))
     end
 
@@ -50,7 +50,7 @@ function lib.callback.await(debug, name, timeout, source, ...)
             Callbacks[requestId] = nil
             timedOut = true
             if debug then
-                lib.print.debug(("Client callback '%s' for player %d timed out after %dms"):format(name, source, timeout))
+                lib.console.trace(("Client callback '%s' for player %d timed out after %dms"):format(name, source, timeout))
             end
             promise:resolve({ success = false, reason = 'timeout' })
         end
@@ -63,7 +63,7 @@ function lib.callback.await(debug, name, timeout, source, ...)
 
         if #data == 0 then
             if debug then
-                lib.print.debug(("Client callback '%s' returned nothing (nil)"):format(name))
+                lib.console.trace(("Client callback '%s' returned nothing (nil)"):format(name))
             end
             return nil
         end
@@ -72,21 +72,21 @@ function lib.callback.await(debug, name, timeout, source, ...)
             if debug then
                 local value = data[1]
                 if value == nil then
-                    lib.print.debug(("Client callback '%s' returned explicit nil"):format(name))
+                    lib.console.trace(("Client callback '%s' returned explicit nil"):format(name))
                 else
-                    lib.print.debug(("Client callback '%s' returned single value (type: %s)"):format(name, type(value)))
+                    lib.console.trace(("Client callback '%s' returned single value (type: %s)"):format(name, type(value)))
                 end
             end
             return data[1]
         end
 
         if debug then
-            lib.print.debug(("Client callback '%s' returned %d values"):format(name, #data))
+            lib.console.trace(("Client callback '%s' returned %d values"):format(name, #data))
         end
         return table.unpack(data)
     else
         if debug then
-            lib.print.debug(("Client callback '%s' for player %d timed out after %dms"):format(name, source, timeout))
+            lib.console.trace(("Client callback '%s' for player %d timed out after %dms"):format(name, source, timeout))
         end
         return nil
     end
@@ -105,11 +105,11 @@ RegisterNetEvent('__tr_cb:triggerServer', function(debug, name, requestId, ...)
             TriggerClientEvent('__tr_cb:responseClient', src, requestId, table.unpack(results))
         else
             TriggerClientEvent('__tr_cb:responseClient', src, requestId, nil)
-            lib.print.debug(("Server callback '%s' threw error: %s"):format(name, results))
+            lib.console.trace(("Server callback '%s' threw fatalor: %s"):format(name, results))
         end
     else
         TriggerClientEvent('__tr_cb:responseClient', src, requestId, nil)
-        lib.print.err(("Server callback '%s' does not exist"):format(name))
+        lib.console.fatal(("Server callback '%s' does not exist"):format(name))
     end
 end)
 
