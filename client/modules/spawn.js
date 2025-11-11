@@ -1,22 +1,30 @@
+function customizeVehicle(processedStyle, handle) {
+  SetVehicleCustomPrimaryColour(handle, processedStyle[0], processedStyle[1], processedStyle[2])
+  SetVehicleCustomSecondaryColour(handle, processedStyle[0], processedStyle[1], processedStyle[2])
+  SetVehicleLivery(handle, processedStyle.livery)
+  SetVehicleMod(handle, 48, processedStyle.livery, false)
+}
+
+async function isPlayerCloseEnough() {
+  const closestVehicleHandle = await lib.getPlayerClosestVehicle(10.0)
+  if (!closestVehicleHandle) {
+    Bridge.notify('Could not find the vehicle you are trying to return, try to get closer to it', 'error')
+    return;
+  }
+  return closestVehicleHandle
+}
+
 lib.callback.register('prepareVehicle', function (handle, processedStyle) {
   Bridge.setFuel(handle, 100)
   SetVehicleEngineOn(handle, false, false, false)
-
   if (processedStyle && !processedStyle.isDisabled) {
-    SetVehicleCustomPrimaryColour(handle, processedStyle[0], processedStyle[1], processedStyle[2])
-    SetVehicleCustomSecondaryColour(handle, processedStyle[0], processedStyle[1], processedStyle[2])
-    SetVehicleLivery(handle, processedStyle.livery)
-    SetVehicleMod(handle, 48, processedStyle.livery, false)
+    customizeVehicle(processedStyle, handle)
   }
   return true
 })
 
 async function returnVehicle(NetIdsRequested) {
   const closestVehicleHandle = await lib.getPlayerClosestVehicle(10.0)
-  if (!closestVehicleHandle) {
-    Bridge.notify('Could not find the vehicle you are trying to return, try to get closer to it', 'error')
-    return;
-  }
   const closestVehicleNetId = NetworkGetNetworkIdFromEntity(closestVehicleHandle)
   const response = await exports.tr_kit.clearCreatedVehicle(closestVehicleNetId)
   if (!response) {
