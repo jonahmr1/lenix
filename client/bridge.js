@@ -10,7 +10,8 @@ onNet('QBCore:Client:OnJobUpdate', function(UpdatedData) {
 })
 
 Bridge.getPlayerJob = function() {
-  return QBCore.Functions.GetPlayerData().job
+  const playerJob = QBCore.Functions.GetPlayerData().job
+  return { name: playerJob.name, gradeLevel: playerJob.grade.level }
 }
 
 Bridge.setFuel = function(handle, fuel) {

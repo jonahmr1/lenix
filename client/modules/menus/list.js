@@ -14,7 +14,7 @@ Menu.list = function(key) {
 
     if (configItems) {
         const playerJob = Bridge.getPlayerJob().name
-        const playerGrade = Bridge.getPlayerJob().grade.level
+        const playerGrade = Bridge.getPlayerJob().gradeLevel
     
         configItems.forEach((item, index) => {
             const processedItem = tableFiller(item, Items._DEFAULT)
