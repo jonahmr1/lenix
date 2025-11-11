@@ -29,14 +29,8 @@ local function isRepoArchived(owner, repoName, callback)
 end
 
 local function checkSourceVersion(metadata, resourceName)
-  assert(metadata.repository, 'No repository provided')
-  
   local owner<const>, repoName = parseGithubRepo(metadata.repository)
-  
-  if not owner or not repoName then
-    lib.print.warn('Invalid GitHub repository URL')
-    return nil
-  end
+  assert(owner ~= nil and repoName ~= nil, ('Invalid GitHub repository URL, got owner: %s, repoName: %s'):format(owner, repoName))
   
   isRepoArchived(owner, repoName, function(archived)
     if archived then return nil end
@@ -48,19 +42,19 @@ local function checkSourceVersion(metadata, resourceName)
         local remoteVersion<const> = response:match('\nversion%s*["\']([^"\']+)["\']')
         
         if remoteVersion and remoteVersion ~= metadata.version then
-          lib.print.warn(('Unmatched versions available for the resource %s\nCurrent: %s | Latest: %s\nRepository: %s'):format(
-            resourceName or metadata.repository,
+          lib.console.info(('Unmatched versions available for %s\nCurrent: %s | Latest: %s\nRepository: %s'):format(
+            resourceName,
             metadata.version,
             remoteVersion,
             metadata.repository
           ))
           return false, remoteVersion
         else
-          lib.print.success(('%s is up to date (v%s)'):format(resourceName or 'Resource', metadata.version))
+          lib.console.info(('%s is up to date (v%s)'):format(resourceName, metadata.version))
           return true, metadata.version
         end
       else
-        lib.print.debug(('Source version check failed with status code: %s for %s'):format(statusCode, resourceName))
+        lib.console.trace(('Source version check failed with status code: %s for %s'):format(statusCode, resourceName))
         return nil
       end
     end, 'GET')
@@ -68,15 +62,9 @@ local function checkSourceVersion(metadata, resourceName)
 end
 
 local function checkReleaseVersion(metadata, resourceName)
-  assert(metadata.repository, 'No repository provided')
-  
   local owner<const>, repoName = parseGithubRepo(metadata.repository)
-  
-  if not owner or not repoName then
-    lib.print.warn('Invalid GitHub repository URL')
-    return nil
-  end
-  
+  assert(owner ~= nil and repoName ~= nil, ('Invalid GitHub repository URL, got owner: %s, repoName: %s'):format(owner, repoName))
+
   isRepoArchived(owner, repoName, function(archived)
     if archived then return nil end
     
@@ -87,7 +75,7 @@ local function checkReleaseVersion(metadata, resourceName)
         local success<const>, data<const> = pcall(json.decode, response)
         
         if not success then
-          lib.print.debug('Failed to decode GitHub API response')
+          lib.console.trace('Failed to decode GitHub API response')
           return nil
         end
         
@@ -97,19 +85,19 @@ local function checkReleaseVersion(metadata, resourceName)
         local currentVersion<const> = metadata.version:gsub('^v', '')
         
         if remoteVersion ~= currentVersion then
-          lib.print.warn(('New release available for the resource %s\nCurrent: %s | Latest: %s\nDownload: %s'):format(
-            resourceName or metadata.repository,
+          lib.console.info(('New release available for %s\nCurrent: %s | Latest: %s\nDownload: %s'):format(
+            resourceName,
             currentVersion,
             remoteVersion,
             ('https://github.com/%s/%s/releases/latest'):format(owner, repoName)
           ))
           return false, remoteVersion
         else
-          lib.print.success(('%s is up to date (v%s)'):format(resourceName or 'Resource', currentVersion))
+          lib.console.info(('%s is up to date (v%s)'):format(resourceName, currentVersion))
           return true, currentVersion
         end
       else
-        lib.print.debug(('Release version check failed with status code: %s for %s'):format(statusCode, resourceName))
+        lib.console.trace(('Release version check failed with status code: %s for %s'):format(statusCode, resourceName))
         return nil
       end
     end, 'GET', '', {['Content-Type'] = 'application/json'})
@@ -117,25 +105,24 @@ local function checkReleaseVersion(metadata, resourceName)
 end
 
 function lib.version.source(repository, resourceName)
-  assert(repository, 'No repository provided')
-  
+  assert(repository, ('No repository provided, got %s'):format(repository))
+
   local metadata<const> = {
     version = lib.metadata('version'),
     repository = repository
   }
   
-  checkSourceVersion(metadata, resourceName)
+  checkSourceVersion(metadata, resourceName or GetInvokingResource())
 end
 
 function lib.version.release(repository, resourceName)
-  assert(repository, 'No repository provided')
-  
+  assert(repository, ('No repository provided, got %s'):format(repository))
   local metadata<const> = {
     version = lib.metadata('version'),
     repository = repository
   }
   
-  checkReleaseVersion(metadata, resourceName)
+  checkReleaseVersion(metadata, resourceName or GetInvokingResource())
 end
 
 AddEventHandler('onResourceStart', function(resourceName)
