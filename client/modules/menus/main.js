@@ -3,15 +3,13 @@ Menu.main = function(key) {
     const options = [
         {
             title: menu.main.browse.title,
-            description: menu.main.browse.description,
             icon: menu.main.browse.icon,
             onClick: function() {
                 Menu.list(key)
             }
         },
-        {
+        !System[key].VEHICLES.preview.isDisabled && {
             title: menu.main.preview.title, 
-            description: menu.main.preview.description,
             icon: menu.main.preview.icon,
             onClick: function() {
                 Menu.preview(key)
@@ -24,6 +22,6 @@ Menu.main = function(key) {
                 Bridge.menu.close()
             }
         }
-    ]
+    ].filter(Boolean)
     Bridge.menu.open(options)
 }
