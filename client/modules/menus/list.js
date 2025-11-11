@@ -1,4 +1,4 @@
-Menu.list = function(key) {
+Menu.list = async function(key) {
     const options = []
     const menu = tableFiller(System[key].MENU, System._DEFAULT.MENU)
     const itemConfig = System[key].ITEM
@@ -13,24 +13,24 @@ Menu.list = function(key) {
     })
 
     if (configItems) {
-        const playerJob = Bridge.getPlayerJob().name
-        const playerGrade = Bridge.getPlayerJob().gradeLevel
-    
-        configItems.forEach((item, index) => {
-            const processedItem = tableFiller(item, Items._DEFAULT)
-            Object.keys(processedItem.allowed).forEach(element => {
-                if (element === playerJob) {
-                    if (processedItem?.allowed?.[element] <= playerGrade) {
-                        return
-                    }
+        const optionsPromises = configItems.map(async (item, index) => {
+            const processedItem = tableFiller(Items._DEFAULT, item)
+            const restricted = !await isPlayerAllowed(processedItem)
+            let description = menu.subMain.list.descriptions
+            if (!restricted) {
+                if (processedItem.registerable) {
+                    description = description.get[0] + Vehicles[item.vehicle]?.name + description.get[1] + processedItem.price
+                } else {
+                    description = description.take + Vehicles[item.vehicle]?.name
                 }
-            });
-            const description = (processedItem.registerable) ? ("Get: " + Vehicles[item.vehicle]?.name + " For: $" + processedItem.price) : ("Take Out " + Vehicles[item.vehicle]?.name)
-
-            options.push({
-                title: Vehicles[item.vehicle]?.name,
+            } else {
+                description = menu.subMain.list.disabled
+            }
+            return {
+                title: Vehicles[item.vehicle]?.name || processedItem.label,
                 description: description,
-                icon: (processedItem.registerable) ? "fas fa-dollar-sign" : "fas fa-key",
+                icon: (processedItem.registerable) ? menu.subMain.list.icons.get : menu.subMain.list.icons.buy,
+                restricted: restricted,
                 image: processedItem.image,
                 onClick: function() {
                     if (IsZoneFree(System[key].VEHICLES.spawn)) {
@@ -39,10 +39,12 @@ Menu.list = function(key) {
                         Bridge.notify('The Spawn Point Is Not Free !', 'error')
                     }
                 }
-            })
+            }
         })
+
+        const options = await Promise.all(optionsPromises)
+        Bridge.menu.open(options)
     } else {
         console.warn("Warning: No vehicles found for item: " + itemConfig)
     }
-    Bridge.menu.open(options)
 }
