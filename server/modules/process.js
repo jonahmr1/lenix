@@ -1,28 +1,28 @@
 onNet('lenix_vehicles:proccess', async (systemKey, configIndex) => {
     const src = source
-    const Player = QBCore.Functions.GetPlayer(src)
+    const playerData = Bridge.getPlayerData(src)
     const selectedConfig = System[systemKey].ITEM
     const proccessedItems = tableFiller(Items._DEFAULT, Items[selectedConfig][configIndex])
     const isRegisterable = proccessedItems.registerable
 
     if (isRegisterable) {
-        if (Player.PlayerData.money.cash >= (proccessedItems.price)) {
+        if (playerData.money.cash >= (proccessedItems.price)) {
             const netId = await spawnBoughtVehicle(true, systemKey, configIndex, src)
             if (netId) {
-                Player.Functions.RemoveMoney("cash", proccessedItems.price)
-                emitNet('QBCore:Notify', src, 'Vehicle Successfully Bought', "success")
+                Bridge.removeMoney('cash', proccessedItems.price)
+                Bridge.notify(src, 'Vehicle Successfully Bought', 'success')
             } else {
-                lib.print.err('failed to sell the car to the player with the id of: ' + src)
+                lib.print.err('Failed to sell the car to the player with the id of: ' + src)
             }
         } else {
-            emitNet('QBCore:Notify', src, 'You Don\'t Have Enough Money !', "error")
+            Bridge.notify(src, 'You Don\'t Have Enough Money !', 'error')
         }
     } else {
         const netId = await spawnBoughtVehicle(false, systemKey, configIndex, src)
         if (netId) {
-            emitNet('QBCore:Notify', src, 'Vehicle Successfully took out', "success")
+            Bridge.notify(src, 'Vehicle Successfully took out', 'success')
         } else {
-            lib.print.err('failed to take the car out to the player with the id of: ' + src)
+            lib.print.err('Failed to take the car out to the player with the id of: ' + src)
         }
     }
 })
@@ -38,7 +38,7 @@ async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex, src) {
     if (netId && handle) {
         const plate = generatePlate(proccessedItems.plate)
         SetVehicleNumberPlateText(handle, plate)
-        emitNet("qb-vehiclekeys:server:AcquireVehicleKeys", plate)
+        Bridge.giveKeys(plate)
         proccessedItems.warp && TaskWarpPedIntoVehicle(GetPlayerPed(src), handle, -1)
 
         const response = lib.callback.await('prepareVehicle', 250, src, handle, proccessedItems.style)
