@@ -14,11 +14,11 @@ Menu.preview = function(key) {
 
     if (confgItems) {
         confgItems.forEach((item, index) => {
+            const image = tableFiller(Items._DEFAULT.image, item?.image)
             options.push({
-                title: Vehicles[item.vehicle]?.name,
-                description: "Preview: " + Vehicles[item.vehicle]?.name,
-                icon: "fas fa-search",
-                image: item?.image || Items._DEFAULT.image,
+                title: `${menu.subMain.preview.title} ${Vehicles[item.vehicle]?.name}`,
+                icon: menu.subMain.preview.icon,
+                image: image,
                 onClick: function() {
                     PreviewVehicle(key, index)
                 }
