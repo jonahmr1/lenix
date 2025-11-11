@@ -1,5 +1,6 @@
-const QBCore = exports['qb-core'].GetCoreObject(),
-  lib = exports.tr_lib.require('@tr_lib/get')
+const lib = exports.tr_lib.require('@tr_lib/get'),
+QBCore = exports['qb-core'].GetCoreObject()
+  
 
 function tableFiller(...objects) {
   objects = objects.filter(obj => obj != null);

@@ -9,7 +9,7 @@ onNet('lenix_vehicles:proccess', async (systemKey, configIndex) => {
         if (playerData.money.cash >= (proccessedItems.price)) {
             const netId = await spawnBoughtVehicle(true, systemKey, configIndex, src)
             if (netId) {
-                Bridge.removeMoney('cash', proccessedItems.price)
+                Bridge.removeCash(proccessedItems.price)
                 Bridge.notify(src, 'Vehicle Successfully Bought', 'success')
             } else {
                 lib.print.err('Failed to sell the car to the player with the id of: ' + src)
