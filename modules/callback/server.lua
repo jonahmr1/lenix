@@ -100,9 +100,10 @@ end
 RegisterNetEvent('__tr_cb:triggerServer', function(name, requestId, ...)
     local src = source
     local args = { ... }
+    
     if Callbacks[name] then
         local success, results = pcall(function()
-            return { Callbacks[name](table.unpack(args)) }
+            return { Callbacks[name](src, table.unpack(args)) }
         end)
 
         if success then
