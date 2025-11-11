@@ -1,4 +1,8 @@
 let isInPreview = false
+function IsZoneFree(zone) {
+  const response = lib.isZoneClear({ coords: zone, radius: 3.5 })
+  return response
+}
 
 function createPreviewCam(key, netId) {
     const vehicle = NetworkGetEntityFromNetworkId(netId)
@@ -23,7 +27,7 @@ async function clearPreviewCam(netId) {
 
     FreezeEntityPosition(PlayerPedId(), false)
     const success = await exports.tr_kit.clearCreatedVehicle(netId)
-    if (!success) lib.print.err('failed to create the preview vehicle, reponse was: ' + success)
+    if (!success) lib.console.err('failed to create the preview vehicle, reponse was: ' + success)
 
     DoScreenFadeOut(200)
     setTimeout(() => {
