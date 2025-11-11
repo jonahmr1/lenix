@@ -14,6 +14,11 @@ Bridge.getPlayerJob = function() {
   return { name: playerJob.name, gradeLevel: playerJob.grade.level }
 }
 
+Bridge.getPlayerGang = function() {
+  const playerGang = QBCore.Functions.GetPlayerData().gang
+  return { name: playerGang.name, gradeLevel: playerGang.grade.level }
+}
+
 Bridge.setFuel = function(handle, fuel) {
   exports['qb-fuel'].SetFuel(handle, fuel)
 }
@@ -45,8 +50,8 @@ Bridge.target = function(zoneName, pedElement, interactions, key) {
           type: "client",
           icon: interactions.take.icon,
           label: interactions.take.label,
-          job: interactions.targets.job,
-          gang: interactions.targets.gang,
+          job: interactions.targets?.job,
+          gang: interactions.targets?.gang,
           action: function () {
             Menu.main(key)
           },
@@ -55,8 +60,8 @@ Bridge.target = function(zoneName, pedElement, interactions, key) {
           type: "client",
           icon: interactions.return.icon,
           label: interactions.return.label,
-          job: interactions.targets.job,
-          gang: interactions.targets.gang,
+          job: interactions.targets?.job,
+          gang: interactions.targets?.gang,
           canInteract: function () {
             return NetIdsRequested.length !== 0
           },
@@ -71,16 +76,24 @@ Bridge.target = function(zoneName, pedElement, interactions, key) {
 }
 
 Bridge.menu = {
-  open: function(options) {
-    const data = {
+  open: function(arg) {
+    const data = arg.map(options => ({
       header: options.title,
       txt: options.description,
       icon: options.icon,
-      action: function() {
-        options.onClick()
-      }
-    }
+      disabled: options.restricted,
+      action: options.onClick
+    }));
     exports['qb-menu'].openMenu(data)
   },
   close: exports['qb-menu'].closeMenu
+}
+
+Bridge.drawText = {
+  show: function() {
+    exports['qb-core'].DrawText('⇽', 'right')
+  },
+  hide: function() {
+    exports['qb-core'].HideText()
+  }
 }
