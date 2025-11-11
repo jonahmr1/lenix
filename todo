@@ -1,1 +1,3 @@
-modules that serverize and clientize
+modules that serverify and clientify (asServer asClient)
+
+CBs with better naming for better tracking

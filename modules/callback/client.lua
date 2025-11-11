@@ -6,16 +6,16 @@ lib.callback = {}
 function lib.callback.register(name, cb)
     if type(cb) == 'function' then
         Callbacks[name] = cb
-        return true, 'Callback registered successfully'
+        return true
     end
     
     if type(cb) == 'table' then
         Callbacks[name] = function(...)
             return cb(...)
         end
-        return true, 'JS Callback registered successfully'
+        return true
     end
-    
+
     lib.print.err(string.format("Attempted to register callback '%s' with non-function value (type: %s)", name, type(cb)))
     return false
 end
@@ -45,7 +45,7 @@ function lib.callback.await(debug, name, timeout, ...)
         end
     end
 
-    TriggerServerEvent('__tr_cb:triggerServer', name, requestId, ...)
+    TriggerServerEvent('__tr_cb:triggerServer', debug, name, requestId, ...)
 
     SetTimeout(timeout, function()
         if Callbacks[requestId] then
@@ -86,7 +86,7 @@ function lib.callback.await(debug, name, timeout, ...)
         end
         return table.unpack(data)
     else
-        if not debug then
+        if debug then
             lib.print.debug(("Server callback '%s' timed out after %dms"):format(name, timeout))
         end
         return nil
@@ -105,7 +105,7 @@ RegisterNetEvent('__tr_cb:triggerClient', function(name, requestId, ...)
         local results = { Callbacks[name](...) }
         TriggerServerEvent('__tr_cb:responseServer', requestId, table.unpack(results))
     else
-        lib.print.debug(("Client callback %s does not exist"):format(name))
         TriggerServerEvent('__tr_cb:responseServer', requestId, nil)
+        lib.print.err(("Client callback %s does not exist"):format(name))
     end
 end)
