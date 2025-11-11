@@ -10,34 +10,25 @@ System = {
         },
         INTERACTIONS: {
             take: {
-                label: 'Take A Out',
+                label: 'Access Vehicles',
                 icon: 'fas fa-car',
                 distance: 3,
             },
             return: {
-                label: 'Return Vehicle',
+                label: 'Return The Vehicle',
                 icon: 'fas fa-warehouse',
             },
-            targets: {
-                job: {
-                    police: 0
-                },
-                gang: {
-                    ballas: 0
-                }
-            },
+            targets: {},
             debug: false
         },
         MENU: {
             main: {
                 browse: {
-                    title: 'Police Patrol',
-                    description: 'Browse police vehicles',
+                    title: 'Vehicles',
                     icon: 'fas fa-car',
                 },
                 preview: {
-                    title: 'Preview Vehicle',
-                    description: 'Preview Vehicle',
+                    title: 'Preview Vehicles',
                     icon: 'fas fa-eye',
                 },
                 exit: {
@@ -48,12 +39,18 @@ System = {
             subMain: {
                 list: {
                     title: 'Police Patrol',
-                    description: 'Take a Patrol',
-                    icon: 'fas fa-car',
+                    descriptions: {
+                        get: ['Get: ', 'For: $'],
+                        take: 'Take Out ',
+                    },
+                    icons: {
+                        get: 'fas fa-key',
+                        buy: 'fas fa-dollar-sign'
+                    },
+                    disabled: 'You are not eligable for this vehicle'
                 },
                 preview: {
-                    title: 'Preview Vehicle',
-                    description: 'Preview Vehicle',
+                    title: 'Preview: ',
                     icon: 'fas fa-eye',
                 },
                 return: {
@@ -63,8 +60,8 @@ System = {
             },
         }
     },
-    losSantos: {
-        ITEM: 'configA',
+    LosSantos: {
+        ITEM: 'patrols',
         PEDS: {
             peds: [
                 {
@@ -75,21 +72,35 @@ System = {
         VEHICLES: {
             spawn: [450.75, -1025.06, 28.56, 283.73],
             preview: {
+                isDisabled: true,
                 coords: [450.94, -1020.05, 28.43, 216.17],
                 cam: {
                     coords: [451.42, -1025.71, 28.55],
                     rotation: {
                         verticalrotate: -10.00,
                         horizontalrotate: 0.00,
-                        left_n_right: 8.14,
+                        left_n_right: 356.20,
                     },
                     fov: 40.0
                 }
             },
+        },
+        MENU: {
+            main: {
+                browse: {
+                    title: 'Los Santos Patrols'
+                }
+            }
+        },
+        INTERACTIONS: {
+            take: {
+                label: 'Access Patrols',
+            },
+            targets: {}
         }
     },
-    sandyShores: {
-        ITEM: 'configB',
+    SandyShores: {
+        ITEM: 'patrols',
         PEDS: {
             peds: [
                 { coords: [1828.33, 3671.63, 34.34, 71.09] }
@@ -109,10 +120,17 @@ System = {
                     fov: 100.00
                 }
             },
+        },
+        INTERACTIONS: {
+            targets: {
+                job: {
+                    sheriff: 0,
+                }
+            }
         }
     },
-    paletoBay: {
-        ITEM: 'configB',
+    Ballas: {
+        ITEM: 'gangs',
         PEDS: {
             peds: [
                 { coords: [-460.89, 6051.23, 31.34, 174.82] }
@@ -132,26 +150,50 @@ System = {
                     fov: 100.00
                 }
             },
+        },
+        INTERACTIONS: {
+            targets: {
+                gang: {
+                    ballas: 0,
+                }
+            }
         }
     }
 },
 Items = {
     _DEFAULT: {
         registerable: false,
-        allowed: { police: 0 },
+        allowed: {},
+        disallowed: {},
         price: 500,
         plate: ['LENIX', 100, 999],
-        style: { isDisabled: false, livery: 0, rgb: [81, 84, 89] },
+        style: {
+            isDisabled: false,
+            livery: 0,
+            rgb: [81, 84, 89]
+        },
         image: '',
         warp: false,
-        clearOnLeave: true
+        clearOnLeave: false
     },
-    configA: [
-        { vehicle: 'police' },
+    patrols: [
+        {
+            vehicle: 'police',
+            allowed: {
+                job: {
+                    police: 1
+                }
+            },
+            /* disallowed: {
+                gang: {
+                    ballas: 0
+                }
+            } */
+        },
         { vehicle: 'police2' },
         { vehicle: 'police3' },
     ],
-    configB: [
+    gangs: [
         { vehicle: 'sultan' },
         { vehicle: 'sultan2' },
         { vehicle: 'neon' },
