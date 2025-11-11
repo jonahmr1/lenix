@@ -1,4 +1,6 @@
 function lib.filter(string, ...)
+    assert(type(string) == 'string', 'p1 must be a string')
+
     local result = string
     local filters = {...}
 
