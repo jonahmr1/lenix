@@ -5,51 +5,7 @@ function createInteractions() {
     for (const pedElement of value.PEDS.peds) {
       const zoneName = `${GetCurrentResourceName()}_${key}_${pedElement}`
       const interactions = tableFiller(System._DEFAULT.INTERACTIONS, pedElement.INTERACTIONS)
-      exports['qb-target'].AddBoxZone(
-        zoneName,
-        {
-          x: pedElement.coords[0],
-          y: pedElement.coords[1],
-          z: pedElement.coords[2] + 1.0
-        },
-        3.45,
-        3.35,
-        {
-          name: zoneName,
-          heading: pedElement.coords[3],
-          debugPoly: interactions.debug,
-          minZ: pedElement.coords[2] - 1.0,
-          maxZ: pedElement.coords[2] + 1.0,
-        },
-        {
-          options: [
-            {
-              type: "client",
-              icon: interactions.take.icon,
-              label: interactions.take.label,
-              job: interactions.targets.job,
-              gang: interactions.targets.gang,
-              action: function () {
-                Menu.main(key)
-              },
-            },
-            {
-              type: "client",
-              icon: interactions.return.icon,
-              label: interactions.return.label,
-              job: interactions.targets.job,
-              gang: interactions.targets.gang,
-              canInteract: function () {
-                return netIdsRequested.length !== 0
-              },
-              action: async function () {
-                await returnVehicle(netIdsRequested)
-              },
-            },
-          ],
-          distance: interactions.take.distance,
-        }
-      )
+      Bridge.target(zoneName, pedElement, interactions, key)
     }
   }
 }
