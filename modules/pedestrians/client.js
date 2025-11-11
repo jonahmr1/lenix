@@ -1,9 +1,5 @@
 onNet('getPedScenario', (ped, scenario) => {
-    try {
-        TaskStartScenarioInPlace(ped, scenario.name, scenario.timeToLeave, scenario.playIntroClip);
-    } catch (error) {
-        console.error(`Failed to set scenario: ${error}`);
-    }
+    TaskStartScenarioInPlace(ped, scenario.name, scenario.timeToLeave, scenario.playIntroClip);
 });
 
 onNet('tr_kit:setEntityAsNoLongerNeeded', (entity) => {
@@ -17,8 +13,7 @@ onNet('tr_kit:setBlockingOfNonTemporaryEvents', (entity) => {
 
 lib.callback.register('requestPedModel', async function(model, timeout) {
     const response = await lib.requestModel(GetHashKey(model), timeout)
-    if (response) return true
-    return false;
+    return response;
 });
 
 function createSinglePed(settings) {
