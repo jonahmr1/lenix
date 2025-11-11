@@ -13,8 +13,8 @@ Menu.list = function(key) {
     })
 
     if (configItems) {
-        const playerJob = QBCore.Functions.GetPlayerData().job.name
-        const playerGrade = QBCore.Functions.GetPlayerData().job.grade.level
+        const playerJob = Bridge.getPlayerJob().name
+        const playerGrade = Bridge.getPlayerJob().grade.level
     
         configItems.forEach((item, index) => {
             const processedItem = tableFiller(item, Items._DEFAULT)
@@ -36,7 +36,7 @@ Menu.list = function(key) {
                     if (IsZoneFree(System[key].VEHICLES.spawn)) {
                         emitNet('lenix_vehicles:proccess', key, index)
                     } else {
-                        emit('QBCore:Notify', 'The Spawn Point Is Not Free !', "error")
+                        Bridge.notify('The Spawn Point Is Not Free !', 'error')
                     }
                 }
             })
