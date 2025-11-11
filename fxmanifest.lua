@@ -8,7 +8,7 @@ dependencies {
 }
 
 author 'Lenix'
-version '2.1.0'
+version '3.0.0'
 
 shared_scripts {
     'config/shared.js',
@@ -34,4 +34,5 @@ server_scripts {
     'server/main.js',
     'server/modules/db.js',
     'server/modules/process.js',
+    'server/modules/allow.js',
 }
