@@ -7,7 +7,7 @@ local package = {
 }
 
 function lib.require(modulePath)
-    assert(modulePath, 'Module path caught nil')
+    assert(type(modulePath) == 'string', ('Module path must be a string, got %s'):format(type(modulePath)))
 
     local resourceName, actualPath
     
@@ -17,7 +17,7 @@ function lib.require(modulePath)
             resourceName = modulePath:sub(2, separatorPos - 1)
             actualPath = modulePath:sub(separatorPos + 1)
         else
-            error('Invalid module path format: ' .. modulePath)
+            lib.console.info(('Invalid module path format: %s'):format(modulePath))
         end
     else
         resourceName = GetInvokingResource()
@@ -43,6 +43,6 @@ function lib.require(modulePath)
         package.loaded[cacheKey] = module
         return module
     else
-        error('Module "' .. module .. '" not found in resource "' .. resourceName .. '"')
+        lib.console.info(('Module "%s" not found in resource "%s"'):format(module, resourceName))
     end
 end
