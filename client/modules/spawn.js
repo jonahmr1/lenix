@@ -1,5 +1,5 @@
 lib.callback.register('prepareVehicle', function (handle, processedStyle) {
-  exports['qb-fuel'].SetFuel(handle, 100)
+  Bridge.setFuel(handle, 100)
   SetVehicleEngineOn(handle, false, false, false)
 
   if (processedStyle && !processedStyle.isDisabled) {
@@ -11,32 +11,32 @@ lib.callback.register('prepareVehicle', function (handle, processedStyle) {
   return true
 })
 
-async function returnVehicle(netIdsRequested) {
+async function returnVehicle(NetIdsRequested) {
   const closestVehicleHandle = await lib.getPlayerClosestVehicle(10.0)
   if (!closestVehicleHandle) {
-    exports['qb-core'].Notify('Could not find the vehicle you are trying to return, try to get closer to it')
-    return false;
+    Bridge.notify('Could not find the vehicle you are trying to return, try to get closer to it', 'error')
+    return;
   }
   const closestVehicleNetId = NetworkGetNetworkIdFromEntity(closestVehicleHandle)
   const response = await exports.tr_kit.clearCreatedVehicle(closestVehicleNetId)
   if (!response) {
-    return false;
+    Bridge.notify('Failed to return the vehicle, please try again later', 'error')
+    return;
   }
-  netIdsRequested.splice(netIdsRequested.indexOf(closestVehicleNetId), 1)
-  exports['qb-core'].Notify('Vehicle returned successfully')
-  return true
+  NetIdsRequested.splice(NetIdsRequested.indexOf(closestVehicleNetId), 1)
+  Bridge.notify('Vehicle returned successfully', 'success')
 }
 
 onNet('lenix_vehicle:client:addReturnOption', (netId, proccessedItems) => {
-  netIdsRequested.unshift(netId)
+  NetIdsRequested.unshift(netId)
   if (proccessedItems.clearOnLeave) {
     let wasInVehicle = lib.isInVehicle();
     const interval = setInterval(() => {
       const isInVehicle = lib.isInVehicle();
       if (wasInVehicle && !isInVehicle) {
         exports.tr_kit.clearCreatedVehicle(netId);
-        const idx = netIdsRequested.indexOf(netId);
-        if (idx !== -1) netIdsRequested.splice(idx, 1);
+        const netIdIndex = NetIdsRequested.indexOf(netId);
+        if (netIdIndex !== -1) NetIdsRequested.splice(netIdIndex, 1);
         clearInterval(interval);
       }
       wasInVehicle = isInVehicle;
