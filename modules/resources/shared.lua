@@ -1,4 +1,6 @@
 function lib.resources(exclude)
+    assert(exclude == nil or type(exclude) == 'string' or type(exclude) == 'table', ('exclude must be a string or table, got %s'):format(type(exclude)))
+    
     local numResources<const> = GetNumResources()
     local resources = {}
     
