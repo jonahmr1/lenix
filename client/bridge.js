@@ -69,3 +69,18 @@ Bridge.target = function(zoneName, pedElement, interactions, key) {
     }
   )
 }
+
+Bridge.menu = {
+  open: function(options) {
+    const data = {
+      header: options.title,
+      txt: options.description,
+      icon: options.icon,
+      action: function() {
+        options.onClick()
+      }
+    }
+    exports['qb-menu'].openMenu(data)
+  },
+  close: exports['qb-menu'].closeMenu
+}

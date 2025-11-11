@@ -31,33 +31,33 @@ System = {
         MENU: {
             main: {
                 browse: {
-                    header: 'Police Patrol',
-                    txt: 'Browse police vehicles',
+                    title: 'Police Patrol',
+                    description: 'Browse police vehicles',
                     icon: 'fas fa-car',
                 },
                 preview: {
-                    header: 'Preview Vehicle',
-                    txt: 'Preview Vehicle',
+                    title: 'Preview Vehicle',
+                    description: 'Preview Vehicle',
                     icon: 'fas fa-eye',
                 },
                 exit: {
-                    header: 'Exit',
+                    title: 'Exit',
                     icon: 'fas fa-times'
                 }
             },
             subMain: {
                 list: {
-                    header: 'Police Patrol',
-                    txt: 'Take a Patrol',
+                    title: 'Police Patrol',
+                    description: 'Take a Patrol',
                     icon: 'fas fa-car',
                 },
                 preview: {
-                    header: 'Preview Vehicle',
-                    txt: 'Preview Vehicle',
+                    title: 'Preview Vehicle',
+                    description: 'Preview Vehicle',
                     icon: 'fas fa-eye',
                 },
                 return: {
-                    header: 'back',
+                    title: 'back',
                     icon: 'fas fa-arrow-left',
                 }
             },

@@ -2,28 +2,28 @@ Menu.main = function(key) {
     const menu = tableFiller(System[key].MENU, System._DEFAULT.MENU)
     const options = [
         {
-            header: menu.main.browse.header,
-            txt: menu.main.browse.txt,
+            title: menu.main.browse.title,
+            description: menu.main.browse.description,
             icon: menu.main.browse.icon,
-            action: function() {
+            onClick: function() {
                 Menu.list(key)
             }
         },
         {
-            header: menu.main.preview.header, 
-            txt: menu.main.preview.txt,
+            title: menu.main.preview.title, 
+            description: menu.main.preview.description,
             icon: menu.main.preview.icon,
-            action: function() {
+            onClick: function() {
                 Menu.preview(key)
             }
         },
         {
-            header: menu.main.exit.header,
+            title: menu.main.exit.title,
             icon: menu.main.exit.icon,
-            action: function() {
-                exports['qb-menu'].closeMenu()
+            onClick: function() {
+                Bridge.menu.close()
             }
         }
     ]
-    exports['qb-menu'].openMenu(options)
+    Bridge.menu.open(options)
 }

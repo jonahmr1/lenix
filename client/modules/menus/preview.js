@@ -5,9 +5,9 @@ Menu.preview = function(key) {
     const menu = tableFiller(System[key].MENU, System._DEFAULT.MENU)
 
     options.push({
-        header: menu.subMain.return.header,
+        title: menu.subMain.return.title,
         icon: menu.subMain.return.icon,
-        action: function() {
+        onClick: function() {
             Menu.main(key)
         }
     })
@@ -15,11 +15,11 @@ Menu.preview = function(key) {
     if (confgItems) {
         confgItems.forEach((item, index) => {
             options.push({
-                header: Vehicles[item.vehicle]?.name,
-                txt: "Preview: " + Vehicles[item.vehicle]?.name,
+                title: Vehicles[item.vehicle]?.name,
+                description: "Preview: " + Vehicles[item.vehicle]?.name,
                 icon: "fas fa-search",
                 image: item?.image || Items._DEFAULT.image,
-                action: function() {
+                onClick: function() {
                     PreviewVehicle(key, index)
                 }
             })
@@ -27,5 +27,5 @@ Menu.preview = function(key) {
     } else {
         console.warn("Warning: No vehicles found for item: " + itemConfig)
     }
-    exports['qb-menu'].openMenu(options)
+    Bridge.menu.open(options)
 }

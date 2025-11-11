@@ -5,9 +5,9 @@ Menu.list = function(key) {
     const configItems = Items[itemConfig]
 
     options.push({
-        header: menu.subMain.return.header,
+        title: menu.subMain.return.title,
         icon: menu.subMain.return.icon,
-        action: function() {
+        onClick: function() {
             Menu.main(key)
         }
     })
@@ -28,11 +28,11 @@ Menu.list = function(key) {
             const description = (processedItem.registerable) ? ("Get: " + Vehicles[item.vehicle]?.name + " For: $" + processedItem.price) : ("Take Out " + Vehicles[item.vehicle]?.name)
 
             options.push({
-                header: Vehicles[item.vehicle]?.name,
-                txt: description,
+                title: Vehicles[item.vehicle]?.name,
+                description: description,
                 icon: (processedItem.registerable) ? "fas fa-dollar-sign" : "fas fa-key",
                 image: processedItem.image,
-                action: function() {
+                onClick: function() {
                     if (IsZoneFree(System[key].VEHICLES.spawn)) {
                         emitNet('lenix_vehicles:proccess', key, index)
                     } else {
@@ -44,5 +44,5 @@ Menu.list = function(key) {
     } else {
         console.warn("Warning: No vehicles found for item: " + itemConfig)
     }
-    exports['qb-menu'].openMenu(options)
+    Bridge.menu.open(options)
 }
