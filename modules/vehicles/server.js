@@ -5,7 +5,7 @@ async function createSingleVehicle(settings) {
 	let coords = settings.coords
 	
 	const response = await lib.callback.await('requestModel', 1000, -1, hash, 1000)
-	if (!response) lib.print.err('failed to load the model with hash of: ' + hash)
+	if (!response) lib.console.err('failed to load the model with hash of: ' + hash)
 	
 	if (Array.isArray(coords)) {
 		coords = { x: coords[0], y: coords[1], z: coords[2], w: coords[3] }
@@ -25,7 +25,7 @@ async function createSingleVehicle(settings) {
 
 	on('onResourceStop', async (resourceName) => {
 		if (GetCurrentResourceName() == resourceName) {
-			console.log(`${resourceName} caught stopping, clearing vehicles ${netId}`)
+			console.log(`${resourceName} caught stopping, clearing vehicle ${netId}`)
 			clearCreatedVehicle(netId)
 		}
 	})
@@ -51,12 +51,12 @@ function clearCreatedVehicle(netId) {
 		return false
 	}
 	const vehicle = NetworkGetEntityFromNetworkId(netId)
-	if (DoesEntityExist(vehicle)) {
-		DeleteEntity(vehicle)
-		return true
+	if (!DoesEntityExist(vehicle)) {
+		lib.console.warn('Could not clear the vehicle with the net id of: ' + netId)
+		return false
 	}
-	lib.print.warn('Could not clear the vehicle with the net id of: ' + netId)
-	return false
+	DeleteEntity(vehicle)
+	return true
 }
 
 function clearCreatedVehicles(netIds) {
@@ -75,19 +75,19 @@ function clearCreatedVehicles(netIds) {
 	return deletedCount > 0
 }
 
-lib.callback.register('createSingleVehicle', function(settings) {
+lib.callback.register('createSingleVehicle', function(_, settings) {
 	return createSingleVehicle(settings)
 })
 
-lib.callback.register('createMultipleVehicles', function(settings, defaultSettings) {
+lib.callback.register('createMultipleVehicles', function(_, settings, defaultSettings) {
 	return createMultipleVehicles(settings, defaultSettings)
 })
 
-lib.callback.register('clearCreatedVehicle', function(vehicle) {
+lib.callback.register('clearCreatedVehicle', function(_, vehicle) {
 	return clearCreatedVehicle(vehicle)
 })
 
-lib.callback.register('clearCreatedVehicles', function(vehicles) {
+lib.callback.register('clearCreatedVehicles', function(_, vehicles) {
 	return clearCreatedVehicles(vehicles)
 })
 
