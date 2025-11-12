@@ -54,7 +54,7 @@ function clearCreatedVehicle(netId) {
 	}
 	const vehicle = NetworkGetEntityFromNetworkId(netId)
 	if (!DoesEntityExist(vehicle)) {
-		lib.console.warn('Could not clear the vehicle with the net id of: ' + netId)
+		console.warn('Could not clear the vehicle with the net id of: ' + netId)
 		return false
 	}
 	DeleteEntity(vehicle)
