@@ -33,7 +33,7 @@ Bridge.target = function(zoneName, pedElement, interactions, key) {
     {
       x: pedElement.coords[0],
       y: pedElement.coords[1],
-      z: pedElement.coords[2] + 1.0
+      z: pedElement.coords[2]
     },
     3.45,
     3.35,
