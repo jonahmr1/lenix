@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.19.0'
+version '1.21.0'
 
 files {
   'config.json',
@@ -32,6 +32,8 @@ client_scripts {
 server_scripts {
   'modules/callback/server.lua',
   'modules/version/server.lua',
+  'modules/version/release/server.lua',
+  'modules/version/source/server.lua',
   'modules/get/closestVehicle/server.lua',
   'modules/get/isInVehicle/server.lua',
 }
