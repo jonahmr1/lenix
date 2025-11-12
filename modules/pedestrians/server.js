@@ -80,15 +80,15 @@ function createMultiplePeds(peds, defaultSettings) {
         const ped = peds[i];
 
         const processedSettings = {
-            ...defaultSettings,
-            ...ped,
-            scenario: {
-                ...defaultSettings?.scenario,
-                ...ped?.scenario
-            }
-        }
+    ...defaultSettings,
+    ...ped,
+    scenario: {
+        ...defaultSettings?.scenario,
+        ...ped?.scenario
+    }
+}
 
-        const netId = createSinglePed(processedSettings);
+const netId = createSinglePed(processedSettings);
         
         if (netId) netIds.push(netId);
     }
