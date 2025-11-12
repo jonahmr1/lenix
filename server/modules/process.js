@@ -33,6 +33,7 @@ async function spawnBoughtVehicle(isRegisterable, systemKey, configIndex, src) {
     const netId = await exports.tr_kit.createSingleVehicle({
         hash: GetHashKey(Items[selectedConfig][configIndex].vehicle),
         coords: System[systemKey].VEHICLES.spawn,
+        preCreate: true
     })
     const handle = NetworkGetEntityFromNetworkId(netId)
     if (netId && handle) {
