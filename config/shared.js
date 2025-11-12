@@ -103,28 +103,28 @@ System = {
         ITEM: 'patrols',
         PEDS: {
             peds: [
-                { coords: [1828.33, 3671.63, 34.34, 71.09] }
+                { coords: [1854.5, 3680.49, 34.27, 213.87] }
             ],
         },
         VEHICLES: {
             spawn: [1815.27, 3665.58, 33.59, 298.07],
             preview: {
-                coords: [1815.22, 3665.56, 33.93, 303.8],
+                coords: [1854.15, 3675.38, 33.15, 208.48],
                 cam: {
-                    coords: [449.97, -1021.67, 27.44],
+                    coords: [1859.55, 3673.18, 33.77],
                     rotation: {
                         verticalrotate: -10.00,
                         horizontalrotate: 0.00,
-                        left_n_right: 161.84,
+                        left_n_right: 72.96,
                     },
-                    fov: 100.00
+                    fov: 45.00
                 }
             },
         },
         INTERACTIONS: {
             targets: {
                 job: {
-                    sheriff: 0,
+                    police: 0,
                 }
             }
         }
