@@ -25,7 +25,8 @@ function lib.callback.await(debug, name, timeout, source, ...)
         return lib.callback.await(false, debug, name, timeout, source, ...)
     end
     assert(source, 'Caught invalid source')
-
+    
+    timeout = timeout or callbackTimeout
     CallbackId = CallbackId + 1
     local requestId = CallbackId
 
@@ -105,7 +106,7 @@ RegisterNetEvent('__tr_cb:triggerServer', function(debug, name, requestId, ...)
             TriggerClientEvent('__tr_cb:responseClient', src, requestId, table.unpack(results))
         else
             TriggerClientEvent('__tr_cb:responseClient', src, requestId, nil)
-            lib.console.trace(("Server callback '%s' threw fatalor: %s"):format(name, results))
+            lib.console.trace(("Server callback '%s' threw error: %s"):format(name, results))
         end
     else
         TriggerClientEvent('__tr_cb:responseClient', src, requestId, nil)
