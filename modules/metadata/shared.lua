@@ -1,5 +1,5 @@
 function lib.metadata(keys, resourceName)
-  local resource<const> = resourceName or GetInvokingResource()
+  local resource<const> = resourceName or GetInvokingResource() or GetCurrentResourceName()
   assert(resource, ('resourceName is required, got %s'):format(resource))
   assert(type(keys) == 'string' or #keys > 0, ('keys must be a string or array, got %s'):format(type(keys)))
 
