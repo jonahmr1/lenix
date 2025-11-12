@@ -41,7 +41,7 @@ async function createSinglePed(settings) {
 	}
 
     const response = await requestLoadResponse(model, 1000)
-    if (response) return false;
+    if (!response) return;
     const handle = CreatePed(null, model, coords.x, coords.y, coords.z, coords.w, !!isAccessPublic, !!isAccessPublic && !isControlPublic);
     
     const netId = await new Promise((resolve) => {
@@ -56,7 +56,7 @@ async function createSinglePed(settings) {
 
     if (scenario) {
         if (scenario.freeze) FreezeEntityPosition(handle, true);
-        if (scenario.oblivious) emitNet('tr_kit:setBlockingOfNonTemporaryEvents', -1, ped);
+        if (scenario.oblivious) emitNet('tr_kit:setBlockingOfNonTemporaryEvents', -1, handle);
     }
 
     on('onResourceStop', async (resourceName) => {
@@ -87,31 +87,14 @@ function createMultiplePeds(peds, defaultSettings) {
                 ...ped?.scenario
             }
         }
-        const model = processedSettings.model;
-        const coords = processedSettings.coords;
-        const isAccessPublic = processedSettings.isAccessPublic;
-        const isControlPublic = processedSettings.isControlPublic;
 
-        const scenario = {
-            name: processedSettings.scenario?.name,
-            freeze: processedSettings.scenario?.freeze,
-            oblivious: processedSettings.scenario?.oblivious,
-            timeToLeave: processedSettings.scenario?.timeToLeave,
-            playIntroClip: processedSettings.scenario?.playIntroClip
-        };
-
-        const netId = createSinglePed({ 
-            model, 
-            coords, 
-            scenario, 
-            isAccessPublic, 
-            isControlPublic 
-        });
+        const netId = createSinglePed(processedSettings);
         
         if (netId) netIds.push(netId);
     }
     return netIds;
 }
+
 function clearCreatedPed(netId) {
     if (typeof netId !== 'number') {
         console.warn(`Invalid argument, expected a number, received ${typeof netId}`)
