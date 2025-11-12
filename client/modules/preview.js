@@ -1,8 +1,4 @@
 let isInPreview = false
-function IsZoneFree(zone) {
-  const response = lib.isZoneClear({ coords: zone, radius: 3.5 })
-  return response
-}
 
 function createPreviewCam(key, netId) {
     const vehicle = NetworkGetEntityFromNetworkId(netId)
@@ -41,6 +37,17 @@ async function PreviewVehicle(key, index) {
     const selectedConfig = System[key].ITEM
     const configItems = Items[selectedConfig]
     if (!isInPreview) {
+        const isPreviewSessionClear = await lib.callback.await('sessionStatus')
+        if (!isPreviewSessionClear) {
+            Bridge.notify('Preview service is currently busy, try again later')
+            return
+        }
+        const isThePlaceClear = await IsZoneFree(System[key].VEHICLES.preview.coords)
+        if (!isThePlaceClear) {
+            Bridge.notify('Preview point is currently busy!', 'error')
+            return
+        }
+        emitNet('lenix_vehicles:server:setPreviewSessionBusy', true)
         const netId = await exports.tr_kit.createSingleVehicle({
             hash: GetHashKey(configItems[index].vehicle),
             coords: System[key].VEHICLES.preview.coords,
@@ -49,6 +56,7 @@ async function PreviewVehicle(key, index) {
             createPreviewCam(key, netId)
             const tick = setTick(() => {
                 if (IsControlJustReleased(0, 177)) {
+                    emitNet('lenix_vehicles:server:setPreviewSessionBusy', false)
                     clearPreviewCam(netId);
                     clearTick(tick);
                 }
