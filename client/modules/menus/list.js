@@ -33,11 +33,7 @@ Menu.list = async function(key) {
                 restricted: restricted,
                 image: processedItem.image,
                 onClick: function() {
-                    if (IsZoneFree(System[key].VEHICLES.spawn)) {
-                        emitNet('lenix_vehicles:proccess', key, index)
-                    } else {
-                        Bridge.notify('The Spawn Point Is Not Free !', 'error')
-                    }
+                    spawnSelectedVehicle(key, index, System[key].VEHICLES.spawn)
                 }
             }
         })
