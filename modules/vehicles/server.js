@@ -2,6 +2,7 @@ async function createSingleVehicle(settings) {
 	const hash = settings.hash
 	const isAccessPublic = settings.isAccessPublic ?? true
 	const isControlPublic = settings.isControlPublic ?? true
+	const preCreate = settings.preCreate ?? false
 	let coords = settings.coords
 	
 	const response = await lib.callback.await('requestModel', 1000, -1, hash, 1000)
@@ -10,9 +11,9 @@ async function createSingleVehicle(settings) {
 	if (Array.isArray(coords)) {
 		coords = { x: coords[0], y: coords[1], z: coords[2], w: coords[3] }
 	}
-	
-	const handle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, isAccessPublic, isControlPublic)
 
+	const handle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, isAccessPublic, isControlPublic)
+	
 	const netId = await new Promise((resolve) => {
 		const tick = setTick(() => {
 			if (DoesEntityExist(handle)) {
@@ -22,6 +23,7 @@ async function createSingleVehicle(settings) {
 			}
 		})
 	})
+	preCreate && emitNet('tr_kit:client:preCreateVehicle', -1, netId);
 
 	on('onResourceStop', async (resourceName) => {
 		if (GetCurrentResourceName() == resourceName) {
