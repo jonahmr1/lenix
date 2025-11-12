@@ -1,5 +1,5 @@
 function lib.requestModel(model, timeout)
-  assert(type(model) == 'string', ('model must be a string of hash, got %s'):format(type(model)))
+  assert(type(model) == 'number', ('model must be a number of hash, got %s'):format(type(model)))
   assert(timeout == nil or type(timeout) == 'number', ('timeout must be a number, got %s'):format(type(timeout)))
 
   RequestModel(model)
