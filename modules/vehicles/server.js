@@ -1,7 +1,5 @@
 async function createSingleVehicle(settings) {
 	const hash = settings.hash
-	const isAccessPublic = settings.isAccessPublic ?? true
-	const isControlPublic = settings.isControlPublic ?? true
 	const preCreate = settings.preCreate ?? false
 	let coords = settings.coords
 	
@@ -12,7 +10,7 @@ async function createSingleVehicle(settings) {
 		coords = { x: coords[0], y: coords[1], z: coords[2], w: coords[3] }
 	}
 
-	const handle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, isAccessPublic, isControlPublic)
+	const handle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, true, true)
 	
 	const netId = await new Promise((resolve) => {
 		const tick = setTick(() => {
@@ -36,13 +34,12 @@ async function createSingleVehicle(settings) {
 }
 
 async function createMultipleVehicles(vehicles, defaultSettings) {
-	const promises = vehicles.map(vehicle => 
+	const promises = vehicles.map(vehicle => {
 		createSingleVehicle({
-			hash: vehicle.hash || defaultSettings.hash,
+			hash: vehicle?.hash || defaultSettings.hash,
 			coords: vehicle.coords,
-			isAccessPublic: vehicle.isAccessPublic ?? defaultSettings.isAccessPublic,
-			isControlPublic: vehicle.isControlPublic ?? defaultSettings.isControlPublic
-		})
+			preCreate: vehicle?.preCreate || defaultSettings?.preCreate,
+		})}
 	)
 	return await Promise.all(promises)
 }
