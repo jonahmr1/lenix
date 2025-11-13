@@ -1,19 +1,30 @@
-onNet('getPedScenario', (ped, scenario) => {
-    TaskStartScenarioInPlace(ped, scenario.name, scenario.timeToLeave, scenario.playIntroClip);
+onNet('tr_kit:client:playPedScenario', async(netId, name, timeToLeave, playIntroClip) => {
+    const entity = await lib.awaitNetworkExisting(netId)
+    if (!entity) return;
+    TaskStartScenarioInPlace(entity, name, timeToLeave, playIntroClip);
 });
 
-onNet('tr_kit:setEntityAsNoLongerNeeded', (entity) => {
+onNet('tr_kit:client:setEntityAsNoLongerNeeded', async (netId) => {
+    const entity = await lib.awaitNetworkExisting(netId)
+    if (!entity) return;
     SetEntityAsNoLongerNeeded(entity)
 })
 
-onNet('tr_kit:setBlockingOfNonTemporaryEvents', (entity) => {
+onNet('tr_kit:client:setBlockingOfNonTemporaryEvents', async (netId) => {
+    const entity = await lib.awaitNetworkExisting(netId)
+    if (!entity) return;
     SetBlockingOfNonTemporaryEvents(entity, true)
-    TaskSetBlockingOfNonTemporaryEvents(entity, true)
 })
 
 lib.callback.register('requestPedModel', async function(model, timeout) {
     const response = await lib.requestModel(GetHashKey(model), timeout)
     return response;
+});
+
+lib.callback.register('awaitNetworkExisting', async function(netId) {
+    const entity = lib.awaitNetworkExisting(netId)
+    console.log(entity)
+    return entity;
 });
 
 function createSinglePed(settings) {
