@@ -2,15 +2,6 @@ local checkReleaseVersionInstead<const> = lib.load('config', GetCurrentResourceN
 local excludedFromVersion<const> = lib.load('config', GetCurrentResourceName()).excludedFromVersion
 lib.version = {}
 
-local function getApiVoid(apiUrl, cb)
-  PerformHttpRequest(apiUrl, function(statusCode, response)
-    assert(statusCode == 200, ('Failed to check repository status, got status code: %s'):format(statusCode))
-    if cb then
-      cb(response)
-    end
-  end, 'GET', '', { ['Content-Type'] = 'application/json' })
-end
-
 local function parseGithubRepo(repository)
   local cleanPath = lib.filter(repository, 'https://', 'http://', 'github.com/', '%.git$')
   local owner, repoName = cleanPath:match('^([^/]+)/([^/]+)')
@@ -20,16 +11,19 @@ local function parseGithubRepo(repository)
 end
 
 local function getRepositoryResponse(apiUrl)
-  getApiVoid(apiUrl, function (data)
-    local success, response<const> = pcall(json.decode, data)
-    assert(success, 'Failed to decode GitHub API response')
-
-    return response
-  end)
+  local statusCode, response = PerformHttpRequestAwait(apiUrl)
+  while statusCode == nil do
+    Wait(0)
+  end
+  if statusCode == 200 then
+    return true, response
+  else
+    lib.console.info(('Failed to access repository\'s fxmanifest, got statusCode: %s from %s'):format(statusCode, apiUrl))
+  end
 end
 
 AddEventHandler('onResourceStart', function(resourceName)
-  if resourceName == 'tr_lib' then
+  if GetCurrentResourceName() == resourceName then
     local resources<const> = lib.resources(excludedFromVersion)
     for i = 1, #resources do
       local resource<const> = resources[i]
