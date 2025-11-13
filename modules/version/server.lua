@@ -26,7 +26,6 @@ local function getRepositoryResponse(apiUrl)
   if statusCode == 200 then
     return true, response
   else
-    lib.console.info(('Could not retrieve repository\'s content, got statusCode: %s from %s'):format(statusCode, apiUrl))
     return false, ('Could not retrieve repository\'s content, got statusCode: %s from %s'):format(statusCode, apiUrl)
   end
 end
