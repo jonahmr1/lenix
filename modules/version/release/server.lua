@@ -1,37 +1,47 @@
+local getResourceMetadata = lib.require('modules/version/server').getResourceMetadata
 local parseGithubRepo = lib.require('modules/version/server').parseGithubRepo
 local getRepositoryResponse = lib.require('modules/version/server').getRepositoryResponse
 
 local function getReleaseVersion(tag_name, metadata, resourceName, owner, repoName)
   local remoteVersion <const> = tag_name:gsub('^v', '')
-  local currentVersion <const> = metadata.version:gsub('^v', '')
+  local releaseTag <const> = metadata.version
 
-  if remoteVersion ~= currentVersion then
+  if remoteVersion ~= releaseTag then
     lib.console.info(('New release available for %s\nCurrent: %s | Found: %s\nDownload Latest: %s'):format(
       resourceName,
-      currentVersion,
+      releaseTag,
       remoteVersion,
       ('https://github.com/%s/%s/releases/latest'):format(owner, repoName)
     ))
     return false, remoteVersion
   else
-    lib.console.info(('%s is up to date (%s)'):format(resourceName, currentVersion))
-    return true, currentVersion
+    lib.console.info(('%s release is up to date (%s)'):format(resourceName, releaseTag))
+    return true, releaseTag
   end
 end
 
-function lib.version.release(repository, version, resourceName)
-  assert(repository, ('No repository provided, got %s'):format(repository))
+function lib.version.release(repositoryURL, releaseTag, targetResourceName)
+  local resourceName<const> = targetResourceName or GetInvokingResource() or GetCurrentResourceName()
 
-  local metadata <const> = {
-    version = version,
-    repository = repository
-  }
+  local metadata = getResourceMetadata(releaseTag, resourceName, repositoryURL)
 
+  assert(metadata.repository, ('Got %s from %s\'s fxmanifest, pass repository URL argument or update your fxmanifest'):format(metadata.repository, resourceName))
   local owner <const>, repoName = parseGithubRepo(metadata.repository)
   assert((owner and repoName) ~= nil, ('Failed to parse the repository, got owner: %s, repoName: %s'):format(owner, repoName))
 
-  local response = getRepositoryResponse(owner, repoName, ('https://api.github.com/repos/%s/%s/releases/latest'):format(owner, repoName))
-  assert(response.tag_name ~= nil, 'No tag_name found in GitHub API response')
+  local success<const>, response<const> = getRepositoryResponse(('https://api.github.com/repos/%s/%s/releases/latest'):format(owner, repoName))
+  if not success then
+    return success, response
+  end
 
-  return getReleaseVersion(response.tag_name, metadata, resourceName or GetInvokingResource(), owner, repoName)
+  if response then
+    local decodedResponse<const> = json.decode(response)
+    local tag_name<const> = decodedResponse?.tag_name
+    if not tag_name then
+      return success, ('Could not retrieve %s\'s tag name'):format(repoName)
+    end
+    _G.tag_name = tag_name
+  end
+
+  return getReleaseVersion(tag_name, metadata, resourceName, owner, repoName)
 end
