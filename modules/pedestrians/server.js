@@ -11,8 +11,6 @@ async function requestLoadResponse(model, timeout) {
 async function createSinglePed(settings) {
     const model = settings.model;
     const scenario = settings.scenario;
-    const isAccessPublic = settings.isAccessPublic;
-    const isControlPublic = settings.isControlPublic;
     let coords = settings.coords;
 
     const isNotValidCoords = ((typeof coords !== 'object' && Object.keys(coords).length !== 4) || (!Array.isArray(coords) && coords.length !== 4)) ? true : false
@@ -42,28 +40,22 @@ async function createSinglePed(settings) {
 
     const response = await requestLoadResponse(model, 1000)
     if (!response) return;
-    const handle = CreatePed(null, model, coords.x, coords.y, coords.z, coords.w, !!isAccessPublic, !!isAccessPublic && !isControlPublic);
-    
-    const netId = await new Promise((resolve) => {
-		const tick = setTick(() => {
-			if (DoesEntityExist(handle)) {
-				const netId = NetworkGetNetworkIdFromEntity(handle)
-				clearTick(tick)
-				resolve(netId)
-			}
-		})
-	})
+
+    const handle = CreatePed(null, GetHashKey(model), coords.x, coords.y, coords.z, coords.w, true, true);
+    const netId = await lib.awaitInstanceExisting(handle)
+    if (!netId) return;
 
     if (scenario) {
+        if (scenario.name) emitNet('tr_kit:client:playPedScenario', -1, netId, scenario.name, scenario?.timeToLeave, scenario?.playIntroClip);
         if (scenario.freeze) FreezeEntityPosition(handle, true);
-        if (scenario.oblivious) emitNet('tr_kit:setBlockingOfNonTemporaryEvents', -1, handle);
+        if (scenario.oblivious) emitNet('tr_kit:client:setBlockingOfNonTemporaryEvents', -1, netId);
     }
 
     on('onResourceStop', async (resourceName) => {
         if (GetCurrentResourceName() == resourceName) {
-            console.log(`${resourceName} caught stopping, clearing ped ${handle}`)
+            console.log(`${resourceName} caught stopping, clearing ped (netId: ${netId})`)
             clearCreatedPed(netId)
-            emitNet('tr_kit:setEntityAsNoLongerNeeded', -1, handle)
+            emitNet('tr_kit:client:setEntityAsNoLongerNeeded', -1, netId)
         }
     })
     return netId;
@@ -95,29 +87,30 @@ function createMultiplePeds(peds, defaultSettings) {
     return netIds;
 }
 
-function clearCreatedPed(netId) {
+async function clearCreatedPed(netId) {
     if (typeof netId !== 'number') {
         console.warn(`Invalid argument, expected a number, received ${typeof netId}`)
         return false;
     }
-	const handle = NetworkGetEntityFromNetworkId(netId)
-    if (!DoesEntityExist(handle)) {
+	const handle = await lib.callback.await(true, 'awaitNetworkExisting', null, 1, netId)
+    if (!handle) {
         console.warn(`The entity with network id of ${netId} does not exist`)
         return false;
     }
+    console.log(handle)
     DeleteEntity(handle);
     return true
 }
 
-function clearCreatedPeds(entities) {
+async function clearCreatedPeds(entities) {
     if (!Array.isArray(entities)) {
         console.log(`Invalid argument, expected an array, received ${typeof entities}`)
         return false
     }
 
     for (let i = 0; i < entities.length; i++) {
-        const handle = NetworkGetEntityFromNetworkId(entities[i])
-        if (!DoesEntityExist(handle)) {
+	    const handle = await lib.callback.await('awaitNetworkExisting', null, -1, entities[i])
+        if (!handle) {
             console.warn(`The entity with network id of ${entities[i]} does not exist`)
             continue;
         }
