@@ -13,7 +13,7 @@ local function getSourceVersion(response, metadata, resourceName)
     ))
     return false, remoteVersion
   else
-    lib.console.info(('%s is up to date (v%s)'):format(resourceName, metadata.version))
+    lib.console.info(('%s is up to date (%s)'):format(resourceName, metadata.version))
     return true, metadata.version
   end
 end
@@ -29,8 +29,10 @@ function lib.version.source(repository, version, resourceName)
   local owner, repoName = parseGithubRepo(metadata.repository)
   assert((owner and repoName) ~= nil, ('Failed to parse the repository, got owner: %s, repoName: %s'):format(owner, repoName))
 
-  local response<const> = getRepositoryResponse(('https://raw.githubusercontent.com/%s/%s/refs/heads/main/fxmanifest.lua'):format(owner, repoName))
-  assert(response ~= nil, 'Failed to get repository response')
+  local success<const>, response<const> = getRepositoryResponse(('https://raw.githubusercontent.com/%s/%s/refs/heads/main/fxmanifest.lua'):format(owner, repoName))
+  if not success then
+    return
+  end
 
-  return getSourceVersion(response, metadata, resourceName or GetInvokingResource())
+  return getSourceVersion(response, metadata, resourceName or GetInvokingResource() or GetCurrentResourceName())
 end
