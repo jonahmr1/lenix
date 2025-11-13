@@ -2,6 +2,14 @@ local checkReleaseVersionInstead<const> = lib.load('config', GetCurrentResourceN
 local excludedFromVersion<const> = lib.load('config', GetCurrentResourceName()).excludedFromVersion
 lib.version = {}
 
+local function getResourceMetadata(currentVersion, resourceName, repositoryURL)
+  local metadata <const> = {
+    version = currentVersion or lib.metadata('version', resourceName),
+    repository = repositoryURL or lib.metadata('repository', resourceName)
+  }
+  return metadata
+end
+
 local function parseGithubRepo(repository)
   local cleanPath = lib.filter(repository, 'https://', 'http://', 'github.com/', '%.git$')
   local owner, repoName = cleanPath:match('^([^/]+)/([^/]+)')
@@ -18,7 +26,8 @@ local function getRepositoryResponse(apiUrl)
   if statusCode == 200 then
     return true, response
   else
-    lib.console.info(('Failed to access repository\'s fxmanifest, got statusCode: %s from %s'):format(statusCode, apiUrl))
+    lib.console.info(('Could not retrieve repository\'s content, got statusCode: %s from %s'):format(statusCode, apiUrl))
+    return false, ('Could not retrieve repository\'s content, got statusCode: %s from %s'):format(statusCode, apiUrl)
   end
 end
 
@@ -31,9 +40,9 @@ AddEventHandler('onResourceStart', function(resourceName)
 
       if metadata and metadata.repository then
         if checkReleaseVersionInstead then
-          lib.version.release(metadata.repository, metadata.version)
+          lib.version.release(metadata.repository, metadata.version, resource)
         else
-          lib.version.source(metadata.repository, metadata.version)
+          lib.version.source(metadata.repository, metadata.version, resource)
         end
       end
     end
@@ -41,6 +50,7 @@ AddEventHandler('onResourceStart', function(resourceName)
 end)
 
 return {
+  getResourceMetadata = getResourceMetadata,
   parseGithubRepo = parseGithubRepo,
   getRepositoryResponse = getRepositoryResponse,
 }

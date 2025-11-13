@@ -5,10 +5,11 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '1.21.1'
+version '1.21.2'
 
 files {
   'config.json',
+  'modules/version/server.lua'
 }
 
 shared_scripts {
@@ -32,7 +33,6 @@ client_scripts {
 
 server_scripts {
   'modules/callback/server.lua',
-  'modules/version/server.lua',
   'modules/version/release/server.lua',
   'modules/version/source/server.lua',
   'modules/get/closestVehicle/server.lua',
