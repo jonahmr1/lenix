@@ -1,72 +1,17 @@
-async function requestLoadResponse(model, timeout) {
-    try {
-        const response = await lib.callback.await('requestPedModel', null, -1, model, timeout);
-        return response;
-    } catch (error) {
-        console.error(`Error in requestLoadResponse for model ${model}: ${error.message}`);
-        return false;
-    }
+const deletedPeds = new Set();
+
+async function createSinglePed(source, settings) {
+    const [entityHandle, netId] = lib.callback.await('createSinglePed', null, source, settings)
+    return [entityHandle, netId];
 }
 
-async function createSinglePed(settings) {
-    const model = settings.model;
-    const scenario = settings.scenario;
-    let coords = settings.coords;
-
-    const isNotValidCoords = ((typeof coords !== 'object' && Object.keys(coords).length !== 4) || (!Array.isArray(coords) && coords.length !== 4)) ? true : false
-
-    if (typeof model !== 'string') {
-        console.error(`Invalid argument: expected a string hash as the first argument, but received type "${typeof model}" with value "${model}".`)
-        return;
-    }
-    if (isNotValidCoords) {
-        console.error(
-        `Invalid argument: expected a valid vector4 object as the second argument, but received type "${typeof coords}" with values: ` +
-        `x: ${coords?.x ?? coords?.[0] ?? 'undefined'}, ` +
-        `y: ${coords?.y ?? coords?.[1] ?? 'undefined'}, ` +
-        `z: ${coords?.z ?? coords?.[2] ?? 'undefined'}, ` +
-        `w: ${coords?.w ?? coords?.[3] ?? 'undefined'}`
-        );
-        return;
-    }
-    if (Array.isArray(coords)) {
-		coords = {
-			x: coords[0],
-			y: coords[1],
-			z: coords[2],
-			w: coords[3]
-		}
-	}
-
-    const response = await requestLoadResponse(model, 1000)
-    if (!response) return;
-
-    const handle = CreatePed(null, GetHashKey(model), coords.x, coords.y, coords.z, coords.w, true, true);
-    const [_, netId] = await lib.awaitInstanceExisting(handle)
-    if (!netId) return;
-
-    if (scenario) {
-        if (scenario.name) emitNet('tr_kit:client:playPedScenario', -1, handle, netId, scenario.name, scenario?.timeToLeave, scenario?.playIntroClip);
-        if (scenario.freeze) FreezeEntityPosition(handle, true);
-        if (scenario.oblivious) emitNet('tr_kit:client:setBlockingOfNonTemporaryEvents', -1, netId);
-    }
-
-    on('onResourceStop', async (resourceName) => {
-        if (GetCurrentResourceName() == resourceName) {
-            console.log(`${resourceName} caught stopping, clearing ped (netId: ${netId})`)
-            clearCreatedPed(netId)
-            emitNet('tr_kit:client:setEntityAsNoLongerNeeded', -1, netId)
-        }
-    })
-    return netId;
-}
-
-function createMultiplePeds(peds, defaultSettings) {
+function createMultiplePeds(source, peds, defaultSettings) {
     if (!Array.isArray(peds) || peds.length === 0) {
         console.error('expected an array of peds, received data will not be processed')
         return [];
     }
 
+    const entityHandles = [];
     const netIds = [];
     for (let i = 0; i < peds.length; i++) {
         const ped = peds[i];
@@ -80,11 +25,12 @@ function createMultiplePeds(peds, defaultSettings) {
             }
         }
 
-        const netId = createSinglePed(processedSettings);
+        const [entityHandle, netId] = createSinglePed(source, processedSettings);
         
         if (netId) netIds.push(netId);
+        if (entityHandle) entityHandles.push(entityHandle);
     }
-    return netIds;
+    return [entityHandles, netIds];
 }
 
 async function clearCreatedPed(netId) {
@@ -92,14 +38,27 @@ async function clearCreatedPed(netId) {
         console.warn(`Invalid argument, expected a number, received ${typeof netId}`)
         return false;
     }
-	const [handle, _] = await lib.awaitInstanceExisting(null, netId)
-    if (!handle) {
-        console.warn(`The entity with network id of ${netId} does not exist`)
+    if (deletedPeds.has(netId)) {
+        console.log(`Ped ${netId} already deleted, skipping`);
+        return true;
+    }
+	try {
+        const result = await lib.awaitInstanceExisting(null, netId);
+        
+        const [entityHandle, _] = Array.isArray(result) ? result : [result, null];
+        
+        if (!entityHandle || entityHandle === false) {
+            console.warn(`Entity ${netId} does not exist`);
+            return false;
+        }
+
+        DeleteEntity(entityHandle);
+        deletedPeds.add(netId);
+        return true;
+    } catch (error) {
+        console.error(`Error in clearCreatedPed for ${netId}:`, error);
         return false;
     }
-    console.log(handle)
-    DeleteEntity(handle);
-    return true
 }
 
 async function clearCreatedPeds(entities) {
@@ -109,7 +68,7 @@ async function clearCreatedPeds(entities) {
     }
 
     for (let i = 0; i < entities.length; i++) {
-	    const handle = await lib.awaitInstanceExisting(entities[i])
+	    const [handle, _] = await lib.awaitInstanceExisting(entities[i])
         if (!handle) {
             console.warn(`The entity with network id of ${entities[i]} does not exist`)
             continue;
@@ -119,12 +78,8 @@ async function clearCreatedPeds(entities) {
     return true
 }
 
-lib.callback.register('createSinglePed', function(_, settings) {
-    return createSinglePed(settings)
-})
-
-lib.callback.register('createMultiplePeds', function(_, peds, defaultSettings) {
-    return createMultiplePeds(peds, defaultSettings)
+lib.callback.register('createMultiplePeds', function(source, peds, defaultSettings) {
+    return createMultiplePeds(source, peds, defaultSettings)
 })
 
 lib.callback.register('clearCreatedPed', function(_, entity) {
