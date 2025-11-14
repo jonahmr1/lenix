@@ -102,8 +102,17 @@ end)
 
 RegisterNetEvent('__tr_cb:triggerClient', function(name, requestId, ...)
     if Callbacks[name] then
-        local results = { Callbacks[name](...) }
-        TriggerServerEvent('__tr_cb:responseServer', requestId, table.unpack(results))
+        local args = { ... }
+        local success, results = pcall(function()
+            return { Callbacks[name](table.unpack(args)) }
+        end)
+
+        if success then
+            TriggerServerEvent('__tr_cb:responseServer', requestId, table.unpack(results))
+        else
+            TriggerServerEvent('__tr_cb:responseServer', requestId, nil)
+            lib.console.trace(("Client callback '%s' threw error: %s"):format(name, results))
+        end
     else
         TriggerServerEvent('__tr_cb:responseServer', requestId, nil)
         lib.console.fatal(("Client callback %s does not exist"):format(name))
