@@ -3,17 +3,18 @@ function lib.awaitNetworkExisting(netId, timeout)
   assert(timeout == nil or type(timeout) == 'number', ('timeout must be a number, got %s'):format(type(timeout)))
 
   timeout = timeout or 10000
+  local startTime = GetGameTimer()
+
   while not NetworkDoesEntityExistWithNetworkId(netId) do
-    timeout -= 1
-    if timeout <= 0 then
-      lib.console.trace('awaitNetworkedExisting timeout reached')
+    if GetGameTimer() - startTime >= timeout then
+      lib.console.trace(('awaitNetworkedExisting timeout reached, netId: %d'):format(netId))
       return false
     end
     Wait(0)
   end
 
   local entity<const> = NetworkGetEntityFromNetworkId(netId)
-  lib.awaitInstanceExisting(entity, timeout)
+  lib.awaitInstanceExisting(entity, netId, timeout)
 
   if not entity then
     return false
