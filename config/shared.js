@@ -1,7 +1,7 @@
 System = {
     _DEFAULT: {
         PEDS: {
-            model: 'ig_dix',
+            hash: GetHashKey('ig_dix'),
             scenario: {
                 name: 'WORLD_HUMAN_CLIPBOARD',
                 freeze: true,
