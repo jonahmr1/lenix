@@ -1,4 +1,7 @@
-onNet('tr_kit:client:playPedScenario', async(netId, name, timeToLeave, playIntroClip) => {
+onNet('tr_kit:client:playPedScenario', async(handle, netId, name, timeToLeave, playIntroClip) => {
+    SetNetworkIdExistsOnAllMachines(netId, true);
+    await new Promise(resolve => setImmediate(resolve));
+    console.log(NetworkGetEntityIsNetworked(handle))
     const entity = await lib.awaitNetworkExisting(netId)
     if (!entity) return;
     TaskStartScenarioInPlace(entity, name, timeToLeave, playIntroClip);
@@ -19,12 +22,6 @@ onNet('tr_kit:client:setBlockingOfNonTemporaryEvents', async (netId) => {
 lib.callback.register('requestPedModel', async function(model, timeout) {
     const response = await lib.requestModel(GetHashKey(model), timeout)
     return response;
-});
-
-lib.callback.register('awaitNetworkExisting', async function(netId) {
-    const entity = lib.awaitNetworkExisting(netId)
-    console.log(entity)
-    return entity;
 });
 
 function createSinglePed(settings) {

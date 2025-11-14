@@ -42,11 +42,11 @@ async function createSinglePed(settings) {
     if (!response) return;
 
     const handle = CreatePed(null, GetHashKey(model), coords.x, coords.y, coords.z, coords.w, true, true);
-    const netId = await lib.awaitInstanceExisting(handle)
+    const [_, netId] = await lib.awaitInstanceExisting(handle)
     if (!netId) return;
 
     if (scenario) {
-        if (scenario.name) emitNet('tr_kit:client:playPedScenario', -1, netId, scenario.name, scenario?.timeToLeave, scenario?.playIntroClip);
+        if (scenario.name) emitNet('tr_kit:client:playPedScenario', -1, handle, netId, scenario.name, scenario?.timeToLeave, scenario?.playIntroClip);
         if (scenario.freeze) FreezeEntityPosition(handle, true);
         if (scenario.oblivious) emitNet('tr_kit:client:setBlockingOfNonTemporaryEvents', -1, netId);
     }
@@ -92,7 +92,7 @@ async function clearCreatedPed(netId) {
         console.warn(`Invalid argument, expected a number, received ${typeof netId}`)
         return false;
     }
-	const handle = await lib.callback.await(true, 'awaitNetworkExisting', null, 1, netId)
+	const [handle, _] = await lib.awaitInstanceExisting(null, netId)
     if (!handle) {
         console.warn(`The entity with network id of ${netId} does not exist`)
         return false;
@@ -109,7 +109,7 @@ async function clearCreatedPeds(entities) {
     }
 
     for (let i = 0; i < entities.length; i++) {
-	    const handle = await lib.callback.await('awaitNetworkExisting', null, -1, entities[i])
+	    const handle = await lib.awaitInstanceExisting(entities[i])
         if (!handle) {
             console.warn(`The entity with network id of ${entities[i]} does not exist`)
             continue;

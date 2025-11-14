@@ -5,7 +5,7 @@ dependencies {
 }
 
 author 'Trippler'
-version '0.0.15'
+version '0.0.16'
 
 shared_scripts {
     'shared.js',
