@@ -1,3 +1,5 @@
+---@diagnostic disable: duplicate-set-field
+
 function lib.getPlayerClosestVehicle(radialSpace, source)
   assert(type(radialSpace) == 'number', ('radialSpace must be a number, received (%s)'):format(radialSpace))
   assert(type(source) == 'number', ('source must be a number, received (%s)'):format(source))

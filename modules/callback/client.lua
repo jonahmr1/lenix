@@ -1,3 +1,5 @@
+---@diagnostic disable: duplicate-set-field
+
 local Callbacks = {}
 local CallbackId = 0
 local callbackTimeout<const> = lib.load('config', GetCurrentResourceName()).callbackTimeout
