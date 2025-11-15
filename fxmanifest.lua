@@ -27,9 +27,9 @@ shared_scripts {
 client_scripts {
   'modules/callback/client.lua',
   'modules/request/client.lua',
-  'modules/get/isZoneClear/client.lua',
-  'modules/get/closestVehicle/client.lua',
-  'modules/get/isInVehicle/client.lua',
+  'modules/probe/isZoneClear/client.lua',
+  'modules/probe/closestVehicle/client.lua',
+  'modules/probe/isInVehicle/client.lua',
   'modules/existing/network/client.lua',
 }
 
@@ -37,8 +37,8 @@ server_scripts {
   'modules/callback/server.lua',
   'modules/version/release/server.lua',
   'modules/version/source/server.lua',
-  'modules/get/closestVehicle/server.lua',
-  'modules/get/isInVehicle/server.lua',
+  'modules/probe/closestVehicle/server.lua',
+  'modules/probe/isInVehicle/server.lua',
 }
 
 shared_script 'get.lua'
