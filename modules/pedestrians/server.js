@@ -1,8 +1,8 @@
 const deletedPeds = new Set();
 
 async function createSinglePed(source, settings) {
-    const [entityHandle, netId] = lib.callback.await('createSinglePed', null, source, settings)
-    return [entityHandle, netId];
+    const [entityClientHandle, netId] = lib.callback.await('createSinglePed', null, source, settings)
+    return [entityClientHandle, netId];
 }
 
 function createMultiplePeds(source, peds, defaultSettings) {
@@ -11,7 +11,7 @@ function createMultiplePeds(source, peds, defaultSettings) {
         return [];
     }
 
-    const entityHandles = [];
+    const entityClientHandles = [];
     const netIds = [];
     for (let i = 0; i < peds.length; i++) {
         const ped = peds[i];
@@ -25,12 +25,12 @@ function createMultiplePeds(source, peds, defaultSettings) {
             }
         }
 
-        const [entityHandle, netId] = createSinglePed(source, processedSettings);
+        const [entityClientHandle, netId] = createSinglePed(source, processedSettings);
         
         if (netId) netIds.push(netId);
-        if (entityHandle) entityHandles.push(entityHandle);
+        if (entityClientHandle) entityClientHandles.push(entityClientHandle);
     }
-    return [entityHandles, netIds];
+    return [entityClientHandles, netIds];
 }
 
 async function clearCreatedPed(netId) {
@@ -45,14 +45,14 @@ async function clearCreatedPed(netId) {
 	try {
         const result = await lib.awaitInstanceExisting(null, netId);
         
-        const [entityHandle, _] = Array.isArray(result) ? result : [result, null];
+        const [entityServerHandle, _] = Array.isArray(result) ? result : [result, null];
         
-        if (!entityHandle || entityHandle === false) {
+        if (!entityServerHandle || entityServerHandle === false) {
             console.warn(`Entity ${netId} does not exist`);
             return false;
         }
 
-        DeleteEntity(entityHandle);
+        DeleteEntity(entityServerHandle);
         deletedPeds.add(netId);
         return true;
     } catch (error) {
@@ -61,19 +61,19 @@ async function clearCreatedPed(netId) {
     }
 }
 
-async function clearCreatedPeds(entities) {
-    if (!Array.isArray(entities)) {
-        console.log(`Invalid argument, expected an array, received ${typeof entities}`)
+async function clearCreatedPeds(netIds) {
+    if (!Array.isArray(netIds)) {
+        console.log(`Invalid argument, expected an array, received ${typeof netIds}`)
         return false
     }
 
-    for (let i = 0; i < entities.length; i++) {
-	    const [handle, _] = await lib.awaitInstanceExisting(entities[i])
-        if (!handle) {
-            console.warn(`The entity with network id of ${entities[i]} does not exist`)
+    for (let i = 0; i < netIds.length; i++) {
+	    const [entityServerHandle, _] = await lib.awaitInstanceExisting(null, netIds[i])
+        if (!entityServerHandle) {
+            console.warn(`The entity with network id of ${netIds[i]} does not exist`)
             continue;
         }
-        DeleteEntity(handle);
+        DeleteEntity(entityServerHandle);
     }
     return true
 }
