@@ -16,7 +16,7 @@ function lib.awaitInstanceExisting(entity, netId, timeout)
 
   while not DoesEntityExist(entity) do
     if GetGameTimer() - startTime >= timeout then
-      lib.console.trace(('awaitExisting timeout reached, entity: %d'):format(entity))
+      lib.console.trace(('awaitInstanceExisting timeout reached, entity: %d'):format(entity))
       return false, nil
     end
     Wait(0)
@@ -25,7 +25,7 @@ function lib.awaitInstanceExisting(entity, netId, timeout)
   if not netId then
     netId = NetworkGetNetworkIdFromEntity(entity)
     if not netId or netId == 0 then
-      return false, nil
+      return entity, nil
     end
   end
 

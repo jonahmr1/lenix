@@ -25,7 +25,7 @@ function lib.awaitNetworkExisting(entity, netId, timeout)
 
   local entityHandle = NetworkGetEntityFromNetworkId(netId)
   if not entityHandle or entityHandle == 0 then 
-    return false, nil
+    return false, netId
   end
 
   return entityHandle, netId
