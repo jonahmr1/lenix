@@ -21,7 +21,7 @@ shared_scripts {
   'modules/resources/shared.lua',
   'modules/metadata/shared.lua',
   'modules/filter/shared.lua',
-  'modules/exist/shared.lua',
+  'modules/existing/instance/shared.lua',
 }
 
 client_scripts {
@@ -30,7 +30,7 @@ client_scripts {
   'modules/get/isZoneClear/client.lua',
   'modules/get/closestVehicle/client.lua',
   'modules/get/isInVehicle/client.lua',
-  'modules/exist/client.lua',
+  'modules/existing/network/client.lua',
 }
 
 server_scripts {
