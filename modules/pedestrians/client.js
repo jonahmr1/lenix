@@ -1,4 +1,4 @@
-async function createSinglePed(settings) {
+async function createSinglePed(settings, timeout) {
     const hash = settings.hash;
     const scenario = settings.scenario;
     let coords = settings.coords;
@@ -28,11 +28,11 @@ async function createSinglePed(settings) {
 		}
 	}
 
-    const response = await lib.requestModel(hash, 1000)
+    const response = await lib.requestModel(hash, timeout)
     if (!response) return;
 
     const entityHandle = CreatePed(null, hash, coords.x, coords.y, coords.z, coords.w, true, true);
-    let [_, netId] = await lib.awaitInstanceExisting(entityHandle)
+    let [_, netId] = await lib.awaitInstanceExisting(entityHandle, null, timeout)
     if (!netId) return;
 
     if (scenario) {
@@ -51,20 +51,20 @@ async function createSinglePed(settings) {
     return entityHandle, netId
 }
 
-lib.callback.register('createSinglePed', (settings) => {
-    return createSinglePed(settings)
+lib.callback.register('createSinglePed', (settings, timeout) => {
+    return createSinglePed(settings, timeout)
 })
 
-function createMultiplePeds(peds, defaultSettings) {
-    return lib.callback.await('createMultiplePeds', null, peds, defaultSettings)
+function createMultiplePeds(peds, defaultSettings, timeout) {
+    return lib.callback.await('createMultiplePeds', timeout, peds, defaultSettings)
 }
 
-function clearCreatedPed(netId) {
-    return lib.callback.await('clearCreatedPed', null, netId)
+function clearCreatedPed(netId, timeout) {
+    return lib.callback.await('clearCreatedPed', timeout, netId)
 }
 
-function clearCreatedPeds(entities) {
-    return lib.callback.await('clearCreatedPeds', null, entities)
+function clearCreatedPeds(entities, timeout) {
+    return lib.callback.await('clearCreatedPeds', timeout, entities)
 }
 
 exports('createSinglePed', createSinglePed)
