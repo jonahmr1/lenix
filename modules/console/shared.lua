@@ -1,4 +1,4 @@
-local enabledTypes<const> = lib.load('config', GetCurrentResourceName()).enabledPrintTypes
+local enabledTypes<const> = lib.require('config').enabledPrintTypes
 lib.console = {}
 
 local function isTypeEnabled(type)

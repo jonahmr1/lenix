@@ -1,5 +1,5 @@
-local checkReleaseVersionInstead<const> = lib.load('config', GetCurrentResourceName()).checkReleaseVersionInstead
-local excludedFromVersion<const> = lib.load('config', GetCurrentResourceName()).excludedFromVersion
+local checkReleaseVersionInstead<const> = lib.require('config').checkReleaseVersionInstead
+local excludedFromVersion<const> = lib.require('config').excludedFromVersion
 lib.version = {}
 
 local function getResourceMetadata(currentVersion, resourceName, repositoryURL)

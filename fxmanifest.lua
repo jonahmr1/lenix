@@ -5,7 +5,7 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '1.24.0'
+version '1.25.0'
 
 files {
   'config.json',
@@ -15,7 +15,6 @@ files {
 shared_scripts {
   'init.lua',
   'modules/require/shared.lua',
-  'modules/load/shared.lua',
   'modules/console/shared.lua',
   'modules/split/shared.lua',
   'modules/resources/shared.lua',
@@ -41,5 +40,3 @@ server_scripts {
   'modules/probe/closestVehicle/server.lua',
   'modules/probe/isInVehicle/server.lua',
 }
-
-shared_script 'get.lua'
