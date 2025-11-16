@@ -129,25 +129,25 @@ System = {
             }
         }
     },
-    Ballas: {
+    PaletoBay: {
         ITEM: 'gangs',
         PEDS: {
             peds: [
-                { coords: [-460.89, 6051.23, 31.34, 174.82] }
+                { coords: [-460.89, 6051.23, 30.34, 174.82] }
             ],
         },
         VEHICLES: {
-            spawn: [-460.64, 6046.97, 30.76, 132.34],
+            spawn: [-469.14, 6038.7, 30.76, 228.05],
             preview: {
-                coords: [-448.14, 5994.5, 31.15, 265.16],
+                coords: [-460.42, 6047.56, 30.76, 137.68],
                 cam: {
-                    coords: [-443.54, 5997.72, 32.45],
+                    coords: [-461.65, 6041.85, 31.34],
                     rotation: {
                         verticalrotate: -10.00,
                         horizontalrotate: 0.00,
-                        left_n_right: 161.84,
+                        left_n_right: 356.43,
                     },
-                    fov: 100.00
+                    fov: 40.00
                 }
             },
         },

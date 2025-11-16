@@ -37,9 +37,9 @@ async function PreviewVehicle(key, index) {
     const selectedConfig = System[key].ITEM
     const configItems = Items[selectedConfig]
     if (!isInPreview) {
-        const isPreviewSessionClear = await lib.callback.await('sessionStatus')
-        if (!isPreviewSessionClear) {
-            Bridge.notify('Preview service is currently busy, try again later')
+        const isPreviewSessionBusy = await lib.callback.await('sessionStatus')
+        if (isPreviewSessionBusy) {
+            Bridge.notify('Preview service is currently busy, try again later', 'error')
             return
         }
         const isThePlaceClear = await IsZoneFree(System[key].VEHICLES.preview.coords)
