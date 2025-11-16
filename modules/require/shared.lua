@@ -30,19 +30,27 @@ function lib.require(modulePath)
         return package.loaded[cacheKey]
     end
 
-    local module = ('%s.lua'):format(actualPath)
-    local fileContent <const> = LoadResourceFile(resourceName, module)
+    local module, fileContent
 
+    fileContent = LoadResourceFile(resourceName, actualPath .. '.lua')
     if fileContent then
-        local chunk <const>, err <const> = load(fileContent, '@' .. resourceName .. '/' .. module)
+        local chunk <const>, err <const> = load(fileContent, '@' .. resourceName .. '/' .. actualPath .. '.lua')
         if not chunk then
             error(err)
         end
         module = chunk()
-
-        package.loaded[cacheKey] = module
-        return module
     else
-        lib.console.info(('Module "%s" not found in resource "%s"'):format(module, resourceName))
+        fileContent = LoadResourceFile(resourceName, actualPath .. '.json')
+        if fileContent then
+            module = json.decode(fileContent)
+        else
+            lib.console.info(('Module "%s.lua" or "%s.json" not found in resource "%s"'):format(actualPath, actualPath, resourceName))
+        end
     end
+
+    if module then
+        package.loaded[cacheKey] = module
+    end
+    
+    return module
 end
