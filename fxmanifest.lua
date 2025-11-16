@@ -5,7 +5,7 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '1.23.2'
+version '1.24.0'
 
 files {
   'config.json',
@@ -22,6 +22,7 @@ shared_scripts {
   'modules/metadata/shared.lua',
   'modules/filter/shared.lua',
   'modules/existing/instance/shared.lua',
+  'modules/cache/shared.lua'
 }
 
 client_scripts {
