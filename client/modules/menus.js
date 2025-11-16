@@ -14,8 +14,8 @@ async function isPlayerAllowed(processedItem) {
   return isAllowed
 }
 
-function spawnSelectedVehicle(zone) {
-  if (IsZoneFree(key, index, zone)) {
+function spawnSelectedVehicle(key, index, zone) {
+  if (IsZoneFree(zone)) {
     emitNet('lenix_vehicles:proccess', key, index)
   } else {
     Bridge.notify('The Spawn Point Is Not Free !', 'error')
