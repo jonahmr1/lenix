@@ -1,12 +1,12 @@
 const deletedPeds = new Set();
 
-async function createSinglePed(source, settings, timeout) {
-    const [entityClientHandle, netId] = await lib.callback.await('createSinglePed', null, source, settings, timeout)
+async function createSinglePed(settings, timeout) {
+    const [entityClientHandle, netId] = await lib.callback.await('createSinglePed', null, lib.source, settings, timeout)
     const [entityServerHandle, _] = await lib.awaitInstanceExisting(null, netId, timeout);
     return [entityServerHandle, netId];
 }
 
-async function createMultiplePeds(source, peds, defaultSettings, timeout) {
+async function createMultiplePeds(peds, defaultSettings, timeout) {
     if (!Array.isArray(peds) || peds.length === 0) {
         console.error('expected an array of peds, received data will not be processed')
         return [];
@@ -26,7 +26,7 @@ async function createMultiplePeds(source, peds, defaultSettings, timeout) {
             }
         }
 
-        const [entityServerHandle, netId] = await createSinglePed(source, processedSettings, timeout);
+        const [entityServerHandle, netId] = await createSinglePed(lib.source, processedSettings, timeout);
         
         if (netId) netIds.push(netId);
         if (entityServerHandle) entityServerHandles.push(entityServerHandle);
@@ -72,8 +72,8 @@ async function clearCreatedPeds(netIds, timeout) {
     return true
 }
 
-lib.callback.register('createMultiplePeds', function(source, peds, defaultSettings, timeout) {
-    return createMultiplePeds(source, peds, defaultSettings, timeout)
+lib.callback.register('createMultiplePeds', function(_, peds, defaultSettings, timeout) {
+    return createMultiplePeds(peds, defaultSettings, timeout)
 })
 
 lib.callback.register('clearCreatedPed', function(_, entity, timeout) {
