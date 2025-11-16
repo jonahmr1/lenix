@@ -1,3 +1,0 @@
-function lib.cache()
-  
-end

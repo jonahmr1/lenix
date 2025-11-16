@@ -5,11 +5,11 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '1.25.0'
+version '1.26.0'
 
 files {
   'config.json',
-  'modules/version/server.lua'
+  'modules/version/server.lua',
 }
 
 shared_scripts {
@@ -21,7 +21,7 @@ shared_scripts {
   'modules/metadata/shared.lua',
   'modules/filter/shared.lua',
   'modules/existing/instance/shared.lua',
-  'modules/cache/shared.lua'
+  'modules/task/shared.lua',
 }
 
 client_scripts {
@@ -31,6 +31,7 @@ client_scripts {
   'modules/probe/closestVehicle/client.lua',
   'modules/probe/isInVehicle/client.lua',
   'modules/existing/network/client.lua',
+  'modules/targets/client.lua',
 }
 
 server_scripts {
@@ -39,4 +40,5 @@ server_scripts {
   'modules/version/source/server.lua',
   'modules/probe/closestVehicle/server.lua',
   'modules/probe/isInVehicle/server.lua',
+  'modules/targets/server.lua',
 }
