@@ -51,6 +51,6 @@ function lib.require(modulePath)
     if module then
         package.loaded[cacheKey] = module
     end
-    
+
     return module
 end
