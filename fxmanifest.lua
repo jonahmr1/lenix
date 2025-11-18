@@ -5,14 +5,14 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '1.26.3'
+version '1.29.0'
 
 files {
-  'config.json',
   'modules/version/server.lua',
 }
 
 shared_scripts {
+  'config.lua',
   'init.lua',
   'modules/require/shared.lua',
   'modules/console/shared.lua',
@@ -22,23 +22,25 @@ shared_scripts {
   'modules/filter/shared.lua',
   'modules/existing/instance/shared.lua',
   'modules/task/shared.lua',
+  'modules/array/shared.lua',
+  'modules/object/shared.lua',
+  'modules/_mics/shared.lua',
 }
 
 client_scripts {
+  'modules/targets/client.lua',
   'modules/callback/client.lua',
   'modules/request/client.lua',
-  'modules/probe/isZoneClear/client.lua',
-  'modules/probe/closestVehicle/client.lua',
-  'modules/probe/isInVehicle/client.lua',
+  'modules/probe/closestEntity/shared.lua',
+  'modules/probe/native/isInVehicle/client.lua',
+  'modules/probe/native/isZoneClear/client.lua',
   'modules/existing/network/client.lua',
-  'modules/targets/client.lua',
 }
 
 server_scripts {
+  'modules/targets/server.lua',
   'modules/callback/server.lua',
   'modules/version/release/server.lua',
   'modules/version/source/server.lua',
-  'modules/probe/closestVehicle/server.lua',
-  'modules/probe/isInVehicle/server.lua',
-  'modules/targets/server.lua',
+  'modules/probe/native/isInVehicle/server.lua',
 }
