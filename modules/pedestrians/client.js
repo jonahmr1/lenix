@@ -51,20 +51,20 @@ async function createSinglePed(settings, timeout) {
     return entityHandle, netId
 }
 
-lib.callback.register('createSinglePed', (settings, timeout) => {
-    return createSinglePed(settings, timeout)
+lib.callback.register('createSinglePed', async (settings, timeout) => {
+    return await createSinglePed(settings, timeout)
 })
 
-function createMultiplePeds(peds, defaultSettings, timeout) {
-    return lib.callback.await('createMultiplePeds', timeout, peds, defaultSettings)
+async function createMultiplePeds(peds, defaultSettings, timeout) {
+    return await lib.callback.await('createMultiplePeds', timeout, peds, defaultSettings)
 }
 
-function clearCreatedPed(netId, timeout) {
-    return lib.callback.await('clearCreatedPed', timeout, netId)
+async function clearCreatedPed(netId, timeout) {
+    return await lib.callback.await('clearCreatedPed', timeout, netId)
 }
 
-function clearCreatedPeds(entities, timeout) {
-    return lib.callback.await('clearCreatedPeds', timeout, entities)
+async function clearCreatedPeds(entities, timeout) {
+    return await lib.callback.await('clearCreatedPeds', timeout, entities)
 }
 
 exports('createSinglePed', createSinglePed)
