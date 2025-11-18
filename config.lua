@@ -1,12 +1,17 @@
-{
-  "enabledPrintTypes": [
+config = {
+  modules = {
+    _misc = {
+      indent = true
+    }
+  },
+  enabledPrintTypes = {
     "fatal",
     "info",
     "trace"
-  ],
-  "checkReleaseVersionInstead": false,
-  "callbackTimeout": 10000,
-  "excludedFromVersion": [
+  },
+  checkReleaseVersionInstead = false,
+  callbackTimeout = 10000,
+  excludedFromVersion = {
     "monitor",
     "basic-gamemode",
     "ped-money-drops",
@@ -32,5 +37,5 @@
     "fivem-map-hipster",
     "player-data",
     "fivem-map-skater"
-  ]
-}
+  }
+};
