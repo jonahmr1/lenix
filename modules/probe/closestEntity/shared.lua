@@ -1,8 +1,10 @@
 function lib.closestEntity(inputCoords, radialDistance, pool, exclude)
-  assert(inputCoords == nil or type(inputCoords) == "table",
-    ("inputCoords must be a table, got %s"):format(type(inputCoords)))
+  assert(inputCoords == nil or type(inputCoords) == "table", ("inputCoords must be a table, got %s"):format(type(inputCoords)))
   assert(type(radialDistance) == "number", ("radialDistance must be a number, got %s"):format(type(radialDistance)))
   assert(type(pool) == "string", ("pool must be a string, got %s"):format(type(pool)))
+  assert(exclude == nil or type(exclude) == "table", ("exclude must be a table, got %s"):format(type(exclude)))
+
+  local inputVec = type(inputCoords.x) == 'number' and vec3(inputCoords.x, inputCoords.y, inputCoords.z) or inputCoords
 
   local gamePools <const> = { GetGamePool(('C%s'):format(pool)) }
 
@@ -11,16 +13,13 @@ function lib.closestEntity(inputCoords, radialDistance, pool, exclude)
 
   local excludeMap
   if exclude then
-    if type(exclude) == "table" then
-      excludeMap = {}
-      for i = 1, #exclude do
-        excludeMap[exclude[i]] = true
-      end
-    else
-      excludeMap = { [exclude] = true }
+    excludeMap = {}
+    for i = 1, #exclude do
+      excludeMap[exclude[i]] = true
     end
   end
 
+  print(excludeMap)
   for currentPool = 1, #gamePools do
     local entities <const> = gamePools[currentPool]
 
@@ -32,7 +31,7 @@ function lib.closestEntity(inputCoords, radialDistance, pool, exclude)
       end
 
       local entityCoords <const> = GetEntityCoords(entity)
-      local distance <const> = #(inputCoords - entityCoords)
+      local distance <const> = #(inputVec - entityCoords)
 
       if distance < closestDistance then
         closestDistance = distance
