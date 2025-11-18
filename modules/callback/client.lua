@@ -2,7 +2,7 @@
 
 local Callbacks = {}
 local CallbackId = 0
-local callbackTimeout<const> = lib.require('config').callbackTimeout
+local callbackTimeout<const> = config.callbackTimeout
 lib.callback = {}
 
 function lib.callback.register(name, cb)

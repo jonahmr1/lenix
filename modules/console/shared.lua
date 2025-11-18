@@ -1,4 +1,4 @@
-local enabledTypes<const> = lib.require('config').enabledPrintTypes
+local enabledTypes<const> = config.enabledPrintTypes
 lib.console = {}
 
 local function isTypeEnabled(type)
