@@ -1,36 +1,5 @@
 async function createSingleVehicle(settings) {
-	const hash = settings.hash
-	const preCreate = settings.preCreate ?? false
-	let coords = settings.coords
-	
-	const response = await lib.callback.await('requestModel', 1000, -1, hash, 1000)
-	if (!response) lib.console.err('failed to load the model with hash of: ' + hash)
-	
-	if (Array.isArray(coords)) {
-		coords = { x: coords[0], y: coords[1], z: coords[2], w: coords[3] }
-	}
-
-	const handle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, true, true)
-	
-	const netId = await new Promise((resolve) => {
-		const tick = setTick(() => {
-			if (DoesEntityExist(handle)) {
-				const netId = NetworkGetNetworkIdFromEntity(handle)
-				clearTick(tick)
-				resolve(netId)
-			}
-		})
-	})
-	preCreate && emitNet('tr_kit:client:preCreateVehicle', -1, netId);
-
-	on('onResourceStop', async (resourceName) => {
-		if (GetCurrentResourceName() == resourceName) {
-			console.log(`${resourceName} caught stopping, clearing vehicle ${netId}`)
-			clearCreatedVehicle(netId)
-		}
-	})
-
-	return netId
+	return await lib.callback.await('createSingleVehicle', lib.source, settings)
 }
 
 async function createMultipleVehicles(vehicles, defaultSettings) {
@@ -58,25 +27,16 @@ function clearCreatedVehicle(netId) {
 	return true
 }
 
-function clearCreatedVehicles(netIds) {
+async function clearCreatedVehicles(netIds) {
 	if (!Array.isArray(netIds)) {
 		console.log(`received ${typeof netIds} instead of array, use clearCreatedVehicle for single vehicle`)
 		return false
 	}
-	let deletedCount = 0
 	for (let i = 0; i < netIds.length; i++) {
-		const vehicle = NetworkGetEntityFromNetworkId(netIds[i])
-		if (DoesEntityExist(vehicle)) {
-			DeleteEntity(vehicle)
-			deletedCount++
-		}
+		await createSingleVehicle(netIds[i])
 	}
-	return deletedCount > 0
+	return true
 }
-
-lib.callback.register('createSingleVehicle', function(_, settings) {
-	return createSingleVehicle(settings)
-})
 
 lib.callback.register('createMultipleVehicles', function(_, settings, defaultSettings) {
 	return createMultipleVehicles(settings, defaultSettings)
