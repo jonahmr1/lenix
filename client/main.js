@@ -7,7 +7,7 @@ function Initialization(currentJob) {
 }
 
 function IsZoneFree(zone) {
-  const response = lib.isZoneClear(zone, 2)
+  const response = lib.isZoneClear(zone, 2, [ lib.player ])
   return response
 }
 Initialization(Bridge.getPlayerJob()) // for dev mode only
