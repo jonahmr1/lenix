@@ -19,7 +19,6 @@ function lib.closestEntity(inputCoords, radialDistance, pool, exclude)
     end
   end
 
-  print(excludeMap)
   for currentPool = 1, #gamePools do
     local entities <const> = gamePools[currentPool]
 

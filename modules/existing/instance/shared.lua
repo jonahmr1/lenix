@@ -3,7 +3,7 @@ function lib.awaitInstanceExisting(entity, netId, timeout)
   assert(type(netId) == 'number' or netId == nil, ('netId must be a number, got %s'):format(type(netId)))
   assert(timeout == nil or type(timeout) == 'number', ('timeout must be a number, got %s'):format(type(timeout)))
   assert(entity ~= nil or netId ~= nil, 'entity or netId must be valid values')
-  
+
   timeout = timeout or 10000
   local startTime = GetGameTimer()
 

@@ -9,7 +9,7 @@ function lib.awaitNetworkExisting(netId, entity, timeout)
 
   if not netId then
     local e, n = lib.awaitInstanceExisting(entity, nil, timeout)
-    if not n or n == 0 then 
+    if not n or n == 0 then
       return false, nil
     end
     netId = n
@@ -23,10 +23,10 @@ function lib.awaitNetworkExisting(netId, entity, timeout)
     Wait(0)
   end
 
-  local entityHandle = NetworkGetEntityFromNetworkId(netId)
-  if not entityHandle or entityHandle == 0 then
-    return false, netId
+  entity = NetworkGetEntityFromNetworkId(netId)
+  if not entity or entity == 0 then
+    return netId, false
   end
 
-  return netId, entityHandle
+  return netId, entity
 end
