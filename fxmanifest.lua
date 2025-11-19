@@ -5,7 +5,7 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '1.29.3'
+version '1.30.0'
 
 files {
   'modules/version/server.lua',
@@ -32,6 +32,7 @@ client_scripts {
   'modules/callback/client.lua',
   'modules/request/client.lua',
   'modules/probe/closestEntity/shared.lua',
+  'modules/probe/native/closestVehicle/client.lua',
   'modules/probe/native/isInVehicle/client.lua',
   'modules/probe/native/isZoneClear/client.lua',
   'modules/existing/network/client.lua',
@@ -42,5 +43,6 @@ server_scripts {
   'modules/callback/server.lua',
   'modules/version/release/server.lua',
   'modules/version/source/server.lua',
+  'modules/probe/native/closestVehicle/server.lua',
   'modules/probe/native/isInVehicle/server.lua',
 }

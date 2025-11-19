@@ -1,10 +1,10 @@
 ---@diagnostic disable: duplicate-set-field
 
-function lib.getPlayerClosestVehicle(radialSpace)
+function lib.closestVehicle(entity, radialSpace)
+  assert(type(entity) == 'number', ('entity must be a number, received (%s)'):format(radialSpace))
   assert(type(radialSpace) == 'number', ('radialSpace must be a number, received (%s)'):format(radialSpace))
 
-  local playerPed<const> = PlayerPedId()
-  local coords<const> = GetEntityCoords(playerPed)
+  local coords<const> = GetEntityCoords(entity)
   local vehicles<const> = GetGamePool('CVehicle')
 
   local closestVehicle = nil
