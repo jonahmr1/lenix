@@ -5,11 +5,13 @@ RegisterNuiCallback('contentLoaded', (_, cb) => {
       SendNuiMessage(JSON.stringify({
         action: 'init'
       }))
+      cb(true)
       clearInterval(interval)
     }
   }, 500)
 })
 
-RegisterNuiCallback('loseFocus', () => {
+RegisterNuiCallback('loseFocus', (_, cb) => {
   SetNuiFocus(false, false)
+  cb(true)
 })
