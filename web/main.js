@@ -1,137 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const root = document.getElementById('root');
-  const playVideoEl = document.getElementById('playVideo');
-  const closeVideoEl = document.getElementById('closeVideo');
-
-  const fade = document.createElement('div');
-  fade.id = "fade";
-  document.body.appendChild(fade);
-
-  function playAudio(name) {
-    new Audio(`./${name}.mp3`).play().catch(() => {});
-  }
-
-  function playVideo() {
-    playVideoEl.style.display = 'block';
-    closeVideoEl.style.display = 'none';
-    playVideoEl.play().catch(() => {});
-  }
-
-  function closeVideo() {
-    playVideoEl.style.display = 'none';
-    closeVideoEl.style.display = 'block';
-    closeVideoEl.currentTime = 1;
-    closeVideoEl.play().catch(() => {});
-  }
-
-  function fadeOut(ms = 800) {
-    fade.style.transition = `opacity ${ms}ms ease`;
-    fade.style.opacity = 1;
-  }
-
-  function fadeIn(ms = 800) {
-    fade.style.transition = `opacity ${ms}ms ease`;
-    fade.style.opacity = 0;
-  }
-
-  function showContext() {
-    const context = document.createElement('div');
-    context.id = 'context';
-
-    context.innerHTML = `
-      <div id="contextLine" role="button" tabindex="0">
-        <span id="pressLeft">Press the</span>
-        <p class="loader" aria-hidden="true"><span>SPACE BAR</span></p>
-        <span id="pressRight">to start</span>
-      </div>
-    `;
-
-    root.appendChild(context);
-
-    requestAnimationFrame(() => {
-      context.classList.add('show');
-    });
-
-    function startSequence() {
-      playAudio('click');
-      
-      const loaderEl = document.querySelector('.loader');
-      loaderEl.classList.add('pressed');
-
-      const left = document.getElementById('pressLeft');
-      const right = document.getElementById('pressRight');
-      left.classList.add('press-anim');
-      right.classList.add('press-anim');
-
-      setTimeout(() => {
-        closeVideo();
-        setTimeout(() => {
-          fadeOut(700);
-          setTimeout(() => fadeIn(1000), 1000);
-        }, 600);
-      }, 250);
-
-      document.removeEventListener('keydown', checkKey);
-      context.removeEventListener('click', onClick);
-      context.removeEventListener('keydown', onEnter);
+setInterval(() => {
+  try {
+    if (window.frameElement) {
+      window.frameElement.style.zIndex = '99999'
+      window.frameElement.style.position = 'fixed'
     }
+  } catch(e) {}
+}, 100)
 
-
-    function onClick() { startSequence(); }
-    function onEnter(e) { if (e.key === 'Enter' || e.key === ' ') startSequence(); }
-    function checkKey(e) { if (e.code === 'Space') startSequence(); }
-
-    context.addEventListener('click', onClick);
-    context.addEventListener('keydown', onEnter);
-    document.addEventListener('keydown', checkKey);
-  }
-
-  setTimeout(() => {
-    playVideo();
-    playAudio('hype_audio');
-
-    setTimeout(() => {
-      playAudio('speech');
-
-      setTimeout(() => {
-        const brand = document.createElement('div');
-        brand.id = 'brand';
-        brand.innerHTML = `<span id="brandText">Trippler</span>`;
-        root.appendChild(brand);
-
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            const brandText = document.getElementById('brandText');
-            brandText.classList.add('brandFadeIn');
-            setTimeout(() => {
-              const brandDiv = document.getElementById('brand');
-              brandDiv.classList.add('brandDown');
-              setTimeout(() => {
-                brandDiv.classList.remove('brandDown');
-                brandDiv.classList.add('brandUp');
-              }, 50);
-            }, 1150);
-          });
-        });
-
-        setTimeout(() => { showContext(); }, 3500);
-      }, 1500);
-
-    }, 6000);
-
-  }, 1000);
-
+function generateCSS() {
   const styleContent = `
     @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-
-    body, #root {
+    * {
+      pointer-events: none;
+    }
+    body {
       margin: 0;
       padding: 0;
+    }
+    #root {
       overflow: hidden;
       width: 100%;
       height: 100%;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Urbanist', sans-serif;
       background: #000;
+      transition: transform 0.8s ease, opacity 0.8s ease;
     }
 
     video {
@@ -145,11 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
       position: absolute;
       top: 80%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      width: auto;
-      pointer-events: auto;
-      opacity: 0;
       transform: translate(-50%, -40%);
+      opacity: 0;
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
@@ -160,13 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     #contextLine {
       display: flex;
+      flex-direction: row;
       align-items: center;
-      gap: 14px;
+      gap: 0.5rem;
       font-size: 1.5em;
       color: white;
-      cursor: pointer;
       user-select: none;
-      outline: none;
     }
 
     #pressLeft, #pressRight {
@@ -183,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     .loader {
-      max-width: fit-content;
       color: rgb(242, 255, 240);
       font-size: 1.5em;
       font-family: "Archivo Black", sans-serif;
@@ -192,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
       font-weight: 500;
       margin: 0;
       padding: 0 6px;
-      z-index: 2;
     }
 
     .loader span {
@@ -208,11 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
       border-radius: 4px;
       background-color: #00ff9d91;
       top: 0px;
-      filter: blur(10px);
       animation: scan 2s infinite;
       left: 0;
       z-index: -1;
-      pointer-events: none;
     }
 
     .loader::before {
@@ -225,15 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
       top: 0px;
       animation: scan 2s infinite;
       left: 0;
-      z-index: 0;
-      pointer-events: none;
     }
 
     .loader.pressed span {
-      color: #00ff9d; /* neon green or any color you want */
-      text-shadow: 0 0 15px #00ff9d;
+      color: #00ff9d;
+      text-shadow: 0 0 6px #00ff9d;
     }
-
 
     @keyframes scan {
       0% { top: 0px; }
@@ -249,15 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
       75% { clip-path: inset(0 0 0 0); }
     }
 
-    /* Brand (Trippler) */
     #brand {
       position: absolute;
       top: 70%;
       left: 50%;
       transform: translate(-50%, -50%);
       transition: transform 0.45s cubic-bezier(.2,.9,.3,1);
-      will-change: transform;
-      pointer-events: none;
     }
 
     #brandText {
@@ -269,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.65s ease, transform 0.65s ease;
-      will-change: transform, opacity;
     }
 
     #brandText.brandFadeIn {
@@ -285,24 +162,164 @@ document.addEventListener('DOMContentLoaded', () => {
       transform: translate(-50%, -50%) translateY(-2rem);
     }
 
-    #fade {
-      position: fixed;
-      inset: 0;
-      background: black;
-      opacity: 0;
-      z-index: 9999;
-      pointer-events: none;
-    }
-
-    /* small accessibility & responsiveness tweaks */
     @media (max-width: 600px) {
       .loader { font-size: 1.1rem; }
       #pressLeft, #pressRight { font-size: 0.95rem; }
       #brandText { font-size: 2rem; }
     }
-  `;
+  `
+  const style = document.createElement('style')
+  style.innerHTML = styleContent
+  document.head.appendChild(style)
+}
 
-  const style = document.createElement('style');
-  style.innerHTML = styleContent;
-  document.head.appendChild(style);
-});
+const root = document.getElementById('root')
+root.innerHTML = `
+  <video id="playVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/playVideo.mp4" width="100%" height="100%"></video>
+  <video id="closeVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/closeVideo.mp4" width="100%" height="100%"></video>
+`
+const audioInstances = {}
+const playVideoEl = document.getElementById('playVideo')
+const closeVideoEl = document.getElementById('closeVideo')
+let skipped = true
+let finishedScene = false
+let playedSpeech = false
+
+function playAudio(name) {
+  audioInstances[name] = new Audio(`https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/${name}.mp3`)
+  audioInstances[name].play().catch(() => {})
+}
+
+function stopAudio(name) {
+  if (audioInstances[name]) {
+    audioInstances[name].pause()
+    audioInstances[name].currentTime = 0
+  }
+}
+
+function playVideo() {
+  playVideoEl.style.display = 'block'
+  closeVideoEl.style.display = 'none'
+  playVideoEl.play().catch(() => {})
+}
+
+function closeVideo() {
+  playVideoEl.style.display = 'none'
+  closeVideoEl.style.display = 'block'
+  closeVideoEl.currentTime = 1
+  closeVideoEl.play().catch(() => {})
+}
+
+function generateContext() {
+  const context = document.createElement('div')
+  context.id = 'context'
+  context.innerHTML = `
+    <div id="contextLine" role="button" tabindex="0">
+      <span id="pressLeft">Press the</span>
+      <p class="loader"><span>SPACE BAR </span></p>
+      <span id="pressRight">to start</span>
+    </div>
+  `
+  root.appendChild(context)
+}
+
+function hideTheLoader() {
+  const rootEl = document.getElementById('root')
+  rootEl.style.transition = 'transform 1s ease'
+  rootEl.style.transform = 'translateY(-100%)'
+  
+  setTimeout(() => {
+    rootEl.style.display = 'none'
+  }, 800)
+}
+
+function showContext() {
+  requestAnimationFrame(() => {
+    context.classList.add('show')
+  })
+}
+
+function showBrand() {
+  const brand = document.createElement('div')
+  brand.id = 'brand'
+  brand.innerHTML = `<span id="brandText">Trippler</span>`
+  root.appendChild(brand)
+  requestAnimationFrame(() => {
+    const brandText = document.getElementById('brandText')
+    brandText.classList.add('brandFadeIn')
+    setTimeout(() => {
+      const brandDiv = document.getElementById('brand')
+      brandDiv.classList.add('brandDown')
+      setTimeout(() => {
+        brandDiv.classList.remove('brandDown')
+        brandDiv.classList.add('brandUp')
+      }, 50)
+    }, 1150)
+  })
+}
+
+function startScene() {
+  playVideo()
+  playAudio('hype_audio')
+  setTimeout(() => {
+    playAudio('speech')
+    playedSpeech = true
+    setTimeout(() => {
+      showBrand()
+      setTimeout(() => {
+        showContext()
+        finishedScene = true
+      }, 3500)
+    }, 1600)
+  }, 6100)
+}
+
+function endScene() {
+  playAudio('click')
+  
+  const loaderEl = document.querySelector('.loader')
+  loaderEl.classList.add('pressed')
+
+  const left = document.getElementById('pressLeft')
+  const right = document.getElementById('pressRight')
+  left.classList.add('press-anim')
+  right.classList.add('press-anim')
+
+  setTimeout(() => {
+    if (!skipped) {
+      closeVideo()
+    }
+  }, 250)
+
+  setTimeout(() => {
+    hideTheLoader()
+    stopAudio('hype_audio')
+  }, 1500)
+}
+
+function checkKey(e) {
+  if (e.code === 'Space') return true
+}
+
+function Init() {
+  generateCSS()
+  generateContext()
+  startScene()
+  let hasEnded = false;
+  document.addEventListener('keydown', (e) => {
+    if (checkKey(e) && !hasEnded) {
+      hasEnded = true;
+      if (!finishedScene) {
+        skipped = true;
+        if (playedSpeech) stopAudio('speech');
+      }
+      endScene();
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('message', (event) => {
+    event.data.action === 'init' && Init()
+  })
+})
