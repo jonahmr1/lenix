@@ -187,6 +187,7 @@ let playedSpeech = false
 
 function playAudio(name) {
   audioInstances[name] = new Audio(`https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/${name}.mp3`)
+  audioInstances[name].volume = 0.3
   audioInstances[name].play().catch(() => {})
 }
 
