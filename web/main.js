@@ -1,11 +1,9 @@
-setInterval(() => {
-  try {
-    if (window.frameElement) {
-      window.frameElement.style.zIndex = '99999'
-      window.frameElement.style.position = 'fixed'
-    }
-  } catch(e) {}
-}, 100)
+try {
+  if (window.frameElement) {
+    window.frameElement.style.zIndex = '99999'
+    window.frameElement.style.position = 'fixed'
+  }
+} catch(e) {}
 
 function generateCSS() {
   const styleContent = `
@@ -139,8 +137,8 @@ function generateCSS() {
     }
 
     #brandText {
-      font-size: 3em;
-      font-weight: 600;
+      font-size: 2em;
+      font-weight: 200;
       color: white;
       letter-spacing: 4px;
       font-family: "Urbanist", sans-serif;
@@ -159,7 +157,7 @@ function generateCSS() {
     }
 
     #brand.brandUp {
-      transform: translate(-50%, -50%) translateY(-2rem);
+      transform: translate(-50%, -50%) translateY(-5.5rem);
     }
 
     @media (max-width: 600px) {
@@ -178,6 +176,7 @@ root.innerHTML = `
   <video id="playVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/playVideo.mp4" width="100%" height="100%"></video>
   <video id="closeVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/closeVideo.mp4" width="100%" height="100%"></video>
 `
+
 const audioInstances = {}
 const playVideoEl = document.getElementById('playVideo')
 const closeVideoEl = document.getElementById('closeVideo')
@@ -295,6 +294,13 @@ function endScene() {
   setTimeout(() => {
     hideTheLoader()
     stopAudio('hype_audio')
+    fetch(`https://${GetParentResourceName()}/loseFocus`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    })
   }, 1500)
 }
 
@@ -320,7 +326,16 @@ function Init() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  fetch(`https://${GetParentResourceName()}/contentLoaded`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({})
+  })
   window.addEventListener('message', (event) => {
-    event.data.action === 'init' && Init()
+    if (event.data.action === 'init') {
+      Init()
+    }
   })
 })
