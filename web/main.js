@@ -20,7 +20,7 @@ function generateCSS() {
       width: 100%;
       height: 100%;
       font-family: 'Urbanist', sans-serif;
-      background: #000;
+      background: #ffffffff;
       transition: transform 0.8s ease, opacity 0.8s ease;
     }
 
@@ -33,7 +33,7 @@ function generateCSS() {
 
     #context {
       position: absolute;
-      top: 80%;
+      top: 85%;
       left: 50%;
       transform: translate(-50%, -40%);
       opacity: 0;
@@ -49,14 +49,14 @@ function generateCSS() {
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 1.5em;
-      color: white;
+      gap: 0.2rem;
+      font-size: 2rem;
+      color: black;
       user-select: none;
     }
 
     #pressLeft, #pressRight {
-      text-shadow: 0 0 15px rgba(255,255,255,0.7);
+      text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
       font-family: "Bebas Neue", sans-serif;
       font-weight: 500;
       letter-spacing: 1px;
@@ -69,12 +69,13 @@ function generateCSS() {
     }
 
     .loader {
-      color: rgb(242, 255, 240);
-      font-size: 1.5em;
+      color: rgba(0, 0, 0, 1);
+      font-size: 2rem;
       font-family: "Archivo Black", sans-serif;
       position: relative;
       font-style: italic;
-      font-weight: 500;
+      font-weight: 100;
+      top: -0.1rem;
       margin: 0;
       padding: 0 6px;
     }
@@ -110,8 +111,8 @@ function generateCSS() {
     }
 
     .loader.pressed span {
-      color: #00ff9d;
-      text-shadow: 0 0 6px #00ff9d;
+      color: #007548ff;
+      text-shadow: 0 0 6px #29ffadff;
     }
 
     @keyframes scan {
@@ -128,42 +129,9 @@ function generateCSS() {
       75% { clip-path: inset(0 0 0 0); }
     }
 
-    #brand {
-      position: absolute;
-      top: 70%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transition: transform 0.45s cubic-bezier(.2,.9,.3,1);
-    }
-
-    #brandText {
-      font-size: 2em;
-      font-weight: 200;
-      color: white;
-      letter-spacing: 4px;
-      font-family: "Urbanist", sans-serif;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
-
-    #brandText.brandFadeIn {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    #brand.brandDown {
-      transform: translate(-50%, -50%) translateY(1rem);
-    }
-
-    #brand.brandUp {
-      transform: translate(-50%, -50%) translateY(-5.5rem);
-    }
-
     @media (max-width: 600px) {
       .loader { font-size: 1.1rem; }
       #pressLeft, #pressRight { font-size: 0.95rem; }
-      #brandText { font-size: 2rem; }
     }
   `
   const style = document.createElement('style')
@@ -173,41 +141,21 @@ function generateCSS() {
 
 const root = document.getElementById('root')
 root.innerHTML = `
-  <video id="playVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/playVideo.mp4" width="100%" height="100%"></video>
-  <video id="closeVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/closeVideo.mp4" width="100%" height="100%"></video>
+  <video id="playVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/trippler.mp4" width="100%" height="100%"></video>
 `
 
 const audioInstances = {}
 const playVideoEl = document.getElementById('playVideo')
-const closeVideoEl = document.getElementById('closeVideo')
-let skipped = true
-let finishedScene = false
-let playedSpeech = false
-
-function playAudio(name) {
-  audioInstances[name] = new Audio(`https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/${name}.mp3`)
-  audioInstances[name].volume = 0.3
-  audioInstances[name].play().catch(() => {})
-}
-
-function stopAudio(name) {
-  if (audioInstances[name]) {
-    audioInstances[name].pause()
-    audioInstances[name].currentTime = 0
-  }
-}
 
 function playVideo() {
   playVideoEl.style.display = 'block'
-  closeVideoEl.style.display = 'none'
   playVideoEl.play().catch(() => {})
 }
 
-function closeVideo() {
-  playVideoEl.style.display = 'none'
-  closeVideoEl.style.display = 'block'
-  closeVideoEl.currentTime = 1
-  closeVideoEl.play().catch(() => {})
+function playAudio(name) {
+  audioInstances[name] = new Audio(`https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/${name}.mp3`)
+  audioInstances[name].volume = 1
+  audioInstances[name].play().catch(() => {})
 }
 
 function generateContext() {
@@ -216,7 +164,7 @@ function generateContext() {
   context.innerHTML = `
     <div id="contextLine" role="button" tabindex="0">
       <span id="pressLeft">Press the</span>
-      <p class="loader"><span>SPACE BAR </span></p>
+      <p class="loader"><span>&nbsp;SPACE BAR&nbsp;</span></p>
       <span id="pressRight">to start</span>
     </div>
   `
@@ -239,39 +187,11 @@ function showContext() {
   })
 }
 
-function showBrand() {
-  const brand = document.createElement('div')
-  brand.id = 'brand'
-  brand.innerHTML = `<span id="brandText">Trippler</span>`
-  root.appendChild(brand)
-  requestAnimationFrame(() => {
-    const brandText = document.getElementById('brandText')
-    brandText.classList.add('brandFadeIn')
-    setTimeout(() => {
-      const brandDiv = document.getElementById('brand')
-      brandDiv.classList.add('brandDown')
-      setTimeout(() => {
-        brandDiv.classList.remove('brandDown')
-        brandDiv.classList.add('brandUp')
-      }, 50)
-    }, 1150)
-  })
-}
-
 function startScene() {
   playVideo()
-  playAudio('hype_audio')
   setTimeout(() => {
-    playAudio('speech')
-    playedSpeech = true
-    setTimeout(() => {
-      showBrand()
-      setTimeout(() => {
-        showContext()
-        finishedScene = true
-      }, 3500)
-    }, 1600)
-  }, 6100)
+    showContext()
+  }, 11200)
 }
 
 function endScene() {
@@ -286,14 +206,7 @@ function endScene() {
   right.classList.add('press-anim')
 
   setTimeout(() => {
-    if (!skipped) {
-      closeVideo()
-    }
-  }, 250)
-
-  setTimeout(() => {
     hideTheLoader()
-    stopAudio('hype_audio')
     fetch(`https://${GetParentResourceName()}/loseFocus`, {
       method: 'POST',
       headers: {
@@ -309,23 +222,19 @@ function checkKey(e) {
 }
 
 function Init() {
-  generateCSS()
-  generateContext()
   startScene()
   let hasEnded = false;
   document.addEventListener('keydown', (e) => {
     if (checkKey(e) && !hasEnded) {
       hasEnded = true;
-      if (!finishedScene) {
-        skipped = true;
-        if (playedSpeech) stopAudio('speech');
-      }
       endScene();
     }
   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  generateCSS()
+  generateContext()
   fetch(`https://${GetParentResourceName()}/contentLoaded`, {
     method: 'POST',
     headers: {
