@@ -1,10 +1,10 @@
-async function createSingleVehicle(settings) {
-	return await lib.callback.await('createSingleVehicle', lib.source, settings)
+async function createSingleVehicle(source, settings) {
+	return await lib.callback.await('createSingleVehicle', null, source, settings)
 }
 
-async function createMultipleVehicles(vehicles, defaultSettings) {
+async function createMultipleVehicles(source, vehicles, defaultSettings) {
 	const promises = vehicles.map(vehicle => {
-		createSingleVehicle({
+		createSingleVehicle(source, {
 			hash: vehicle?.hash || defaultSettings.hash,
 			coords: vehicle.coords,
 			preCreate: vehicle?.preCreate || defaultSettings?.preCreate,
@@ -38,8 +38,8 @@ async function clearCreatedVehicles(netIds) {
 	return true
 }
 
-lib.callback.register('createMultipleVehicles', function(_, settings, defaultSettings) {
-	return createMultipleVehicles(settings, defaultSettings)
+lib.callback.register('createMultipleVehicles', function(source, settings, defaultSettings) {
+	return createMultipleVehicles(source, settings, defaultSettings)
 })
 
 lib.callback.register('clearCreatedVehicle', function(_, vehicle) {
