@@ -46,7 +46,7 @@ async function createSingleVehicle(settings) {
 			clearCreatedVehicle(netId)
 		}
 	})
-	return
+	return [handle, netId]
 }
 
 lib.callback.register('createSingleVehicle', async (settings) => {
