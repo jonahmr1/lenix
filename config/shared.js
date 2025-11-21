@@ -23,6 +23,7 @@ System = {
         },
         MENU: {
             main: {
+                header: 'Vehicle Menu',
                 browse: {
                     title: 'Vehicles',
                     icon: 'fas fa-car',
@@ -31,10 +32,6 @@ System = {
                     title: 'Preview Vehicles',
                     icon: 'fas fa-eye',
                 },
-                exit: {
-                    title: 'Exit',
-                    icon: 'fas fa-times'
-                }
             },
             subMain: {
                 list: {
@@ -72,7 +69,7 @@ System = {
         VEHICLES: {
             spawn: [450.75, -1025.06, 28.56, 283.73],
             preview: {
-                isDisabled: true,
+                isDisabled: false,
                 coords: [450.94, -1020.05, 28.43, 216.17],
                 cam: {
                     coords: [451.42, -1025.71, 28.55],
@@ -173,8 +170,8 @@ Items = {
             rgb: [81, 84, 89]
         },
         image: '',
-        warp: false,
-        clearOnLeave: false
+        warp: true,
+        clearOnLeave: true
     },
     patrols: [
         {
