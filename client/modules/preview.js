@@ -23,7 +23,7 @@ async function clearPreviewCam(netId) {
 
     FreezeEntityPosition(PlayerPedId(), false)
     const success = await exports.tr_kit.clearCreatedVehicle(netId)
-    if (!success) lib.console.err('failed to create the preview vehicle, reponse was: ' + success)
+    if (!success) lib.console.trace('failed to create the preview vehicle, reponse was: ' + success)
 
     DoScreenFadeOut(200)
     setTimeout(() => {
@@ -48,11 +48,11 @@ async function PreviewVehicle(key, index) {
             return
         }
         emitNet('lenix_vehicles:server:setPreviewSessionBusy', true)
-        const netId = await exports.tr_kit.createSingleVehicle({
+        const [handle, netId] = await exports.tr_kit.createSingleVehicle({
             hash: GetHashKey(configItems[index].vehicle),
             coords: System[key].VEHICLES.preview.coords,
         })
-        if (netId) {
+        if (handle && netId) {
             createPreviewCam(key, netId)
             const tick = setTick(() => {
                 if (IsControlJustReleased(0, 177)) {
