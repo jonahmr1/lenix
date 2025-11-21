@@ -6,7 +6,7 @@ function customizeVehicle(processedStyle, handle) {
 }
 
 async function isPlayerCloseEnough() {
-  const closestVehicleHandle = await lib.getPlayerClosestVehicle(10.0)
+  const closestVehicleHandle = await lib.closestVehicle(PlayerPedId(), 10.0)
   if (!closestVehicleHandle) {
     Bridge.notify('Could not find the vehicle you are trying to return, try to get closer to it', 'error')
     return;
@@ -14,18 +14,20 @@ async function isPlayerCloseEnough() {
   return closestVehicleHandle
 }
 
-lib.callback.register('prepareVehicle', function (handle, processedStyle) {
+lib.callback.register('prepareVehicle', async (netId, processedStyle) => {
+  const [handle, _] = await lib.awaitInstanceExisting(null, netId)
   Bridge.setFuel(handle, 100)
   SetVehicleEngineOn(handle, false, false, false)
   if (processedStyle && !processedStyle.isDisabled) {
     customizeVehicle(processedStyle, handle)
   }
+
   return true
 })
 
 async function returnVehicle(NetIdsRequested) {
-  const closestVehicleHandle = await lib.getPlayerClosestVehicle(10.0)
-  const closestVehicleNetId = NetworkGetNetworkIdFromEntity(closestVehicleHandle)
+  const closestVehicleHandle = await lib.closestVehicle(PlayerPedId(), 10.0)
+  const [closestVehicleNetId, _] = await lib.awaitNetworkExisting(null, closestVehicleHandle)
   const response = await exports.tr_kit.clearCreatedVehicle(closestVehicleNetId)
   if (!response) {
     Bridge.notify('Failed to return the vehicle, please try again later', 'error')
