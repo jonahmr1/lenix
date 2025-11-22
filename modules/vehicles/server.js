@@ -1,3 +1,5 @@
+let deletedVehicles = new Set()
+
 async function createSingleVehicle(source, settings) {
 	return await lib.callback.await('createSingleVehicle', null, source, settings)
 }
@@ -8,22 +10,34 @@ async function createMultipleVehicles(source, vehicles, defaultSettings) {
 			hash: vehicle?.hash || defaultSettings.hash,
 			coords: vehicle.coords,
 			preCreate: vehicle?.preCreate || defaultSettings?.preCreate,
+			warp: vehicle?.warp || defaultSettings?.warp,
+			plate: vehicle?.plate || defaultSettings?.plate,
+			giveKey: vehicle?.giveKey || defaultSettings?.giveKey,
+			setFuelAmount: vehicle?.setFuelAmount || defaultSettings?.setFuelAmount,
+			engine: vehicle?.engine || defaultSettings?.engine,
+			customize: vehicle?.customize || defaultSettings?.customize,
+			register: vehicle?.register || defaultSettings?.register,
 		})}
 	)
 	return await Promise.all(promises)
 }
 
-function clearCreatedVehicle(netId) {
+async function clearCreatedVehicle(netId) {
 	if (typeof netId !== 'number') {
 		console.log(`received ${typeof netId} instead of a number, if you passed an array of number to delete multiple vehicles, please use clearCreatedVehicles instead of clearCreatedVehicle`)
 		return false
 	}
-	const vehicle = NetworkGetEntityFromNetworkId(netId)
-	if (!DoesEntityExist(vehicle)) {
-		console.warn('Could not clear the vehicle with the net id of: ' + netId)
-		return false
+	if (deletedVehicles.has(netId)) {
+		console.log(`Vehicle ${netId} already deleted, skipping`)
+		return true
+	}
+	const [vehicle, netId] = await lib.awaitInstanceExisting(null, netId);
+	if (!vehicle || vehicle === false) {
+		console.warn(`Vehicle ${netId} does not exist`);
+		return false;
 	}
 	DeleteEntity(vehicle)
+	deletedVehicles.add(netId)
 	return true
 }
 
