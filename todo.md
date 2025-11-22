@@ -1,1 +1,2 @@
 camera module
+remove consoles
