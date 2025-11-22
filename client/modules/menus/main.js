@@ -14,14 +14,11 @@ Menu.main = function(key) {
             onClick: function() {
                 Menu.preview(key)
             }
-        },
-        {
-            title: menu.main.exit.title,
-            icon: menu.main.exit.icon,
-            onClick: function() {
-                Bridge.menu.close()
-            }
         }
     ].filter(Boolean)
-    Bridge.menu.open(options)
+    const main = {
+        id: 'main_menu',
+        header: menu.main.header
+    }
+    Bridge.menu.open(main, options)
 }
