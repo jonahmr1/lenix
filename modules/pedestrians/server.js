@@ -44,14 +44,13 @@ async function clearCreatedPed(netId, timeout) {
         return true;
     }
 	try {
-        const result = await lib.awaitInstanceExisting(null, netId, timeout);
-        const [entityServerHandle, _] = Array.isArray(result) ? result : [result, null];
-        if (!entityServerHandle || entityServerHandle === false) {
+        const [entity, netId] = await lib.awaitInstanceExisting(null, netId, timeout);
+        if (!entity || entity === false) {
             console.warn(`Entity ${netId} does not exist`);
             return false;
         }
 
-        DeleteEntity(entityServerHandle);
+        DeleteEntity(entity);
         deletedPeds.add(netId);
         return true;
     } catch (error) {
