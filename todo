@@ -3,3 +3,5 @@ modules that serverify and clientify (asServer asClient)
 CBs with better naming for better tracking
 
 local and global cbs
+
+client and server metadata communication
