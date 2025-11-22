@@ -16,7 +16,7 @@ Menu.preview = function(key) {
         confgItems.forEach((item, index) => {
             const image = tableFiller(Items._DEFAULT.image, item?.image)
             options.push({
-                title: `${menu.subMain.preview.title} ${Vehicles[item.vehicle]?.name}`,
+                title: `${menu.subMain.preview.title} ${Bridge.getVehicles(item.vehicle)?.name}`,
                 icon: menu.subMain.preview.icon,
                 image: image,
                 onClick: function() {
@@ -27,5 +27,9 @@ Menu.preview = function(key) {
     } else {
         console.warn("Warning: No vehicles found for item: " + itemConfig)
     }
-    Bridge.menu.open(options)
+    const main = {
+        id: 'preview',
+        header: menu.subMain.preview.title,
+    }
+    Bridge.menu.open(main, options)
 }
