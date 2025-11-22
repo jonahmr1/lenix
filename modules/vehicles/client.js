@@ -17,7 +17,21 @@ function preCreateVehicle(netId) {
 
 async function createSingleVehicle(settings) {
 	const hash = settings.hash
+	const model = GetDisplayNameFromVehicleModel(hash)
 	const preCreate = settings.preCreate ?? false
+	const plate = settings.plate ?? false
+	const warp = {
+		entityNetId: settings.warp.entityNetId ?? false,
+		seat: settings.warp.seat ?? -1
+	}
+	const giveKey = settings.giveKey ?? false
+	const setFuelAmount = settings.setFuelAmount ?? false
+	const engine = {
+		instantly: settings.engine.instantly ?? false,
+		disableAutoStart: settings.engine.disableAutoStart ?? false,
+	} ?? false
+	const customize = settings.customize ?? false
+	const register = settings.register ?? false
 	let coords = settings.coords
 	
 	const response = await lib.requestModel(hash, 1000)
@@ -27,26 +41,34 @@ async function createSingleVehicle(settings) {
 		coords = { x: coords[0], y: coords[1], z: coords[2], w: coords[3] }
 	}
 
-	const handle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, true, true)
+	const createdHandle = CreateVehicle(hash, coords.x, coords.y, coords.z, coords.w, true, true)
 	
-	const netId = await new Promise((resolve) => {
-		const tick = setTick(() => {
-			if (DoesEntityExist(handle)) {
-				const netId = NetworkGetNetworkIdFromEntity(handle)
-				clearTick(tick)
-				resolve(netId)
-			}
-		})
-	})
-	preCreate && preCreateVehicle(netId);
+	let [handle, netId] = await lib.awaitInstanceExisting(createdHandle)
+	if (!netId) return;
 
-	on('onResourceStop', async (resourceName) => {
+	preCreate && preCreateVehicle(netId);
+	plate && SetVehicleNumberPlateText(handle, plate);
+	const [entityHandle, _] = await lib.awaitInstanceExisting(null, warp.entityNetId)
+
+	warp && TaskWarpPedIntoVehicle(entityHandle, handle, warp.seat)
+	plate && giveKey && Bridge.giveKey(plate)
+  setFuelAmount && Bridge.setFuel(handle, setFuelAmount)
+	engine && SetVehicleEngineOn(handle, true, engine.instantly, engine.disableAutoStart)
+	if (customize) {
+		SetVehicleCustomPrimaryColour(handle, customize[0], customize[1], customize[2])
+		SetVehicleCustomSecondaryColour(handle, customize[0], customize[1], customize[2])
+		SetVehicleLivery(handle, customize.livery)
+		SetVehicleMod(handle, 48, customize.livery, false)
+	}
+	register && await lib.callback.await('registerCreatedVehicle', null, model, hash, null, plate)
+
+	on('onResourceStop', (resourceName) => {
 		if (GetCurrentResourceName() == resourceName) {
 			console.log(`${resourceName} caught stopping, clearing vehicle ${netId}`)
 			clearCreatedVehicle(netId)
 		}
 	})
-	return
+	return [handle, netId]
 }
 
 lib.callback.register('createSingleVehicle', async (settings) => {
