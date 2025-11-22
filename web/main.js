@@ -152,8 +152,13 @@ function playVideo() {
   playVideoEl.play().catch(() => {})
 }
 
+function stopVideo() {
+  playVideoEl.style.display = 'none'
+  playVideoEl.pause()
+}
+
 function playAudio(name) {
-  audioInstances[name] = new Audio(`https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/${name}.mp3`)
+  audioInstances[name] = new Audio(`https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/click.mp3`)
   audioInstances[name].volume = 1
   audioInstances[name].play().catch(() => {})
 }
@@ -172,6 +177,7 @@ function generateContext() {
 }
 
 function hideTheLoader() {
+  stopVideo()
   const rootEl = document.getElementById('root')
   rootEl.style.transition = 'transform 1s ease'
   rootEl.style.transform = 'translateY(-100%)'
@@ -195,7 +201,7 @@ function startScene() {
 }
 
 function endScene() {
-  playAudio('click')
+  playAudio()
   
   const loaderEl = document.querySelector('.loader')
   loaderEl.classList.add('pressed')
