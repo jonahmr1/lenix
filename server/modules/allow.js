@@ -1,4 +1,3 @@
-
 function isPlayerBelongToPositionOf(targetedPosition, playerPosition) {
   if (targetedPosition == playerPosition) return true
   return false

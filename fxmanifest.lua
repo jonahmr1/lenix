@@ -3,12 +3,13 @@ game 'gta5'
 dependencies {
     'tr_lib',
     'tr_kit',
-    'qb-core',
+    'ox_lib',
+    'qbx_core',
     'oxmysql',
 }
 
 author 'Lenix'
-version '3.1.2'
+version '3.3.0'
 
 shared_scripts {
     'config/shared.js',
@@ -16,6 +17,8 @@ shared_scripts {
 }
 
 client_scripts {
+    '@ox_lib/init.lua',
+    'client/lib.lua',
     'client/bridge.js',
     'client/modules/peds.js',
     'client/modules/interactions.js',
@@ -29,10 +32,8 @@ client_scripts {
 }
 
 server_scripts {
-    '@oxmysql/lib/MySQL.lua',
     'server/bridge.js',
     'server/main.js',
-    'server/modules/db.js',
     'server/modules/process.js',
     'server/modules/allow.js',
 }

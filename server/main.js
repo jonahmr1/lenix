@@ -15,7 +15,6 @@ onNet('lenix_vehicles:server:setPreviewSessionBusy', function(status) {
   isPreviewSessionBusy = status
   if (isPreviewSessionBusy) {
     on("playerDropped", () => {
-      print(source, global.source)
       if (source === global.source) {
         isPreviewSessionBusy = false
       }

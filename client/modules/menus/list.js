@@ -13,21 +13,24 @@ Menu.list = async function(key) {
     })
 
     if (configItems) {
-        const optionsPromises = configItems.map(async (item, index) => {
+        for (let index = 0; index < configItems.length; index++) {
+            const item = configItems[index]
             const processedItem = tableFiller(Items._DEFAULT, item)
             const restricted = !await isPlayerAllowed(processedItem)
+            
             let description = menu.subMain.list.descriptions
             if (!restricted) {
                 if (processedItem.registerable) {
-                    description = description.get[0] + Vehicles[item.vehicle]?.name + description.get[1] + processedItem.price
+                    description = description.get[0] + Bridge.getVehicles(item.vehicle)?.name + description.get[1] + processedItem.price
                 } else {
-                    description = description.take + Vehicles[item.vehicle]?.name
+                    description = description.take + Bridge.getVehicles(item.vehicle)?.name
                 }
             } else {
                 description = menu.subMain.list.disabled
             }
-            return {
-                title: Vehicles[item.vehicle]?.name || processedItem.label,
+
+            options.push({
+                title: Bridge.getVehicles(item.vehicle)?.name || processedItem.label,
                 description: description,
                 icon: (processedItem.registerable) ? menu.subMain.list.icons.get : menu.subMain.list.icons.buy,
                 restricted: restricted,
@@ -35,11 +38,14 @@ Menu.list = async function(key) {
                 onClick: function() {
                     spawnSelectedVehicle(key, index, System[key].VEHICLES.spawn)
                 }
-            }
-        })
+            })
+        }
 
-        const options = await Promise.all(optionsPromises)
-        Bridge.menu.open(options)
+        const main = {
+            id: 'list_menu',
+            header: menu.subMain.list.title
+        }
+        Bridge.menu.open(main, options)
     } else {
         console.warn("Warning: No vehicles found for item: " + itemConfig)
     }
