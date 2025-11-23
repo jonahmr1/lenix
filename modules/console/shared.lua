@@ -30,8 +30,7 @@ lib.console.trace = function(message)
   print(("^6[TRACE]: %s ^7"):format(message))
 end
 
---[[ Backward compatibility (temporary) ]]
-
+---@deprecated
 lib.print = {}
 
 lib.print.err = function(message)

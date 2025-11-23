@@ -25,6 +25,8 @@ shared_scripts {
   'modules/array/shared.lua',
   'modules/object/shared.lua',
   'modules/_mics/shared.lua',
+  ---@deprecated
+  'get.lua',
 }
 
 client_scripts {

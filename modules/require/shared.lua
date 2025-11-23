@@ -54,3 +54,6 @@ function lib.require(modulePath)
 
     return module
 end
+
+---@deprecated
+exports('require', lib.require)
