@@ -4,8 +4,7 @@ lua54 'yes'
 dependencies {
   'tr_lib',
   'tr_kit',
-  'qbx_core',
-  'ox_inventory',
+  'qbx_core'
 }
 
 author 'Trippler'
@@ -33,4 +32,5 @@ escrow_ignore {
   'config/shared.lua',
   'client/settings.lua',
   'server/settings.lua',
+
 }
