@@ -4,7 +4,7 @@ lua54 'yes
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.4'
+version '1.0.5'
 
 client_scripts {
     'config.js',
@@ -13,3 +13,4 @@ client_scripts {
 ui_page 'web/index.html'
 
 file 'web/**'
+
