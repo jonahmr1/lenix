@@ -3,13 +3,12 @@ game 'gta5'
 lua54 'yes'
 dependencies {
   'tr_lib',
-  'ox_inventory',
   'qbx_core',
 }
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.6'
+version '1.0.7'
 
 server_scripts {
   'server/main.lua',

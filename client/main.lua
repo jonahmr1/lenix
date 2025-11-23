@@ -2,7 +2,7 @@ local lib = exports.tr_lib:require [[@tr_lib/get]]
 local require = lib.require
 
 local function isPlayerBoss()
-    return lib.callback.await('tr_bossdesk:server:isPlayerBoss', nil, GetPlayerServerId(PlayerPedId()))
+    return lib.callback.await('tr_bossdesk:server:isPlayerBoss')
 end
 
 ---@return table <id, name, badge, rank, status>
@@ -67,7 +67,7 @@ RegisterNUICallback('hirePlayer', function(data, cb)
     if isSelfInteraction(data.citizenid) then
         return showNotification('Are you kidding me?!', 'error')
     end
-    lib.callback('tr_bossdesk:server:hirePlayer', false, function(success, message)
+    lib.callback.register('tr_bossdesk:server:hirePlayer', false, function(success, message)
         if success then
             showNotification(message or 'Employee hired successfully!', 'success')
             refreshUIData()
@@ -86,7 +86,7 @@ RegisterNUICallback('firePlayer', function(data, cb)
         cb(true)
         return
     end
-    lib.callback('tr_bossdesk:server:firePlayer', false, function(success, message)
+    lib.callback.register('tr_bossdesk:server:firePlayer', false, function(success, message)
         if success then
             showNotification(message or 'Employee fired successfully!', 'success')
             refreshUIData()
@@ -100,7 +100,7 @@ RegisterNUICallback('firePlayer', function(data, cb)
 end)
 
 RegisterNUICallback('updateReputation', function(data, cb)
-    lib.callback('tr_bossdesk:server:updateReputation', false, function(success, message)
+    lib.callback.register('tr_bossdesk:server:updateReputation', false, function(success, message)
         if success then
             local actionText = data.action == "commendation" and "Commendation added" or
                 data.action == "warning" and "Warning issued" or
@@ -117,7 +117,7 @@ RegisterNUICallback('updateReputation', function(data, cb)
 end)
 
 RegisterNUICallback('transferFunds', function(data, cb)
-    lib.callback('tr_bossdesk:server:transferFunds', false, function(success, message)
+    lib.callback.register('tr_bossdesk:server:transferFunds', false, function(success, message)
         if success then
             showNotification(message or '$' .. data.amount .. ' transferred successfully!', 'success')
             refreshUIData()
@@ -131,7 +131,7 @@ RegisterNUICallback('transferFunds', function(data, cb)
 end)
 
 RegisterNUICallback('manageFunds', function(data, cb)
-    lib.callback('tr_bossdesk:server:manageFunds', false, function(success, message)
+    lib.callback.register('tr_bossdesk:server:manageFunds', false, function(success, message)
         if success then
             local actionText = data.action == "deposit" and "deposited to" or "withdrawn from"
             showNotification(message or '$' .. data.amount .. ' ' .. actionText .. ' department budget!', 'success')
@@ -158,9 +158,4 @@ RegisterNUICallback('closeUI', function(data, cb)
 end)
 
 RegisterNetEvent('tr_bossdesk:client:openDesk', openDesk)
-
-RegisterCommand('policedesk', function()
-    TriggerEvent('tr_bossdesk:client:openDesk')
-end)
-
 exports('OpenDesk', openDesk)
