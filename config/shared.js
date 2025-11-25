@@ -69,7 +69,7 @@ System = {
         VEHICLES: {
             spawn: [450.75, -1025.06, 28.56, 283.73],
             preview: {
-                isDisabled: false,
+                isDisabled: true,
                 coords: [450.94, -1020.05, 28.43, 216.17],
                 cam: {
                     coords: [451.42, -1025.71, 28.55],
@@ -159,10 +159,10 @@ System = {
 },
 Items = {
     _DEFAULT: {
-        registerable: true,
+        registerable: false,
         allowed: {},
         disallowed: {},
-        price: 500,
+        price: 0,
         plate: ['LENIX', 100, 999],
         style: {
             isDisabled: false,
