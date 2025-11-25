@@ -8,7 +8,7 @@ dependencies {
 
 author 'Trippler'
 docs 'https://docs.trippler.store'
-version '1.0.7'
+version '1.0.8'
 
 server_scripts {
   'server/main.lua',

@@ -1,5 +1,4 @@
 local lib = exports.tr_lib:require [[@tr_lib/get]]
-local require = lib.require
 
 local function isPlayerBoss()
     return lib.callback.await('tr_bossdesk:server:isPlayerBoss')
@@ -119,7 +118,7 @@ end)
 RegisterNUICallback('transferFunds', function(data, cb)
     lib.callback.register('tr_bossdesk:server:transferFunds', false, function(success, message)
         if success then
-            showNotification(message or '$' .. data.amount .. ' transferred successfully!', 'success')
+            showNotification(message or ('$' .. data.amount .. ' transferred successfully!'), 'success')
             refreshUIData()
         else
             showNotification(message or 'Transfer failed! Insufficient funds or error.', 'error')
@@ -134,7 +133,7 @@ RegisterNUICallback('manageFunds', function(data, cb)
     lib.callback.register('tr_bossdesk:server:manageFunds', false, function(success, message)
         if success then
             local actionText = data.action == "deposit" and "deposited to" or "withdrawn from"
-            showNotification(message or '$' .. data.amount .. ' ' .. actionText .. ' department budget!', 'success')
+            showNotification(message or ('$' .. data.amount .. ' ' .. actionText .. ' department budget!'), 'success')
             refreshUIData()
         else
             showNotification(message or 'Budget transaction failed!', 'error')
