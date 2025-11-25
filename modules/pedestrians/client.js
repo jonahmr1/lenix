@@ -26,7 +26,7 @@ const validateInputs = (coords, hash) => {
   return true
 }
 
-const spawnEntity = async (hash, timeout, coords) => {
+const spawnPedEntity = async (hash, timeout, coords) => {
   const response = await lib.requestModel(hash, timeout)
   if (!response) return;
 
@@ -47,7 +47,7 @@ async function createSinglePed(settings, timeout) {
   let coords = settings.coords;
   if (!validateInputs(coords, hash)) return;
   
-  const entityHandle = await spawnEntity(hash, timeout, coords)
+  const entityHandle = await spawnPedEntity(hash, timeout, coords)
   if (!entityHandle) return;
   
   if (scenario) {

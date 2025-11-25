@@ -15,7 +15,7 @@ function preCreateVehicle(netId) {
 	}, 2000);
 }
 
-const spawnEntity = async (hash, coords) => {
+const spawnVehicleEntity = async (hash, coords) => {
 	const response = await lib.requestModel(hash, 1000)
 	if (!response) lib.console.err('failed to load the model with hash of: ' + hash)
 	
@@ -27,8 +27,8 @@ const spawnEntity = async (hash, coords) => {
 }
 
 const applySettings = async (warp, preCreate, netId, handle, plate, giveKey, setFuelAmount, engine, customize) => {
-	const [pedHandle, _] = await lib.awaitInstanceExisting(null, warp.pedHandle)
-	preCreate && preCreateVehicle(netId);
+	const [pedHandle, existingNetId] = await lib.awaitInstanceExisting(null, warp.entityNetId)
+	preCreate && preCreateVehicle(existingNetId);	
 	plate && SetVehicleNumberPlateText(handle, plate);
 
 	warp && TaskWarpPedIntoVehicle(pedHandle, handle, warp.seat)
@@ -66,7 +66,7 @@ async function createSingleVehicle(settings) {
 		coords = { x: coords[0], y: coords[1], z: coords[2], w: coords[3] }
 	}
 
-	const [handle, netId] = await spawnEntity(hash, coords)
+	const [handle, netId] = await spawnVehicleEntity(hash, coords)
 	if (!netId) return;
 
 	applySettings(warp, preCreate, netId, handle, plate, giveKey, setFuelAmount, engine, customize)

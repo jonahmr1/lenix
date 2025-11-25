@@ -31,13 +31,13 @@ async function clearCreatedVehicle(netId) {
 		console.log(`Vehicle ${netId} already deleted, skipping`)
 		return true
 	}
-	const [vehicle, netId] = await lib.awaitInstanceExisting(null, netId);
+	const [vehicle, existingNetId] = await lib.awaitInstanceExisting(null, netId);
 	if (!vehicle || vehicle === false) {
 		console.warn(`Vehicle ${netId} does not exist`);
 		return false;
 	}
 	DeleteEntity(vehicle)
-	deletedVehicles.add(netId)
+	deletedVehicles.add(existingNetId)
 	return true
 }
 
