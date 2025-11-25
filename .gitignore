@@ -1,6 +1,5 @@
 node_modules
+build.js
 package.json
 package-lock.json
-build.js
-client/build/main.js
-web/src/build/main.js
+build
