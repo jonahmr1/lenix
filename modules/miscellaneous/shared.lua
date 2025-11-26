@@ -5,14 +5,14 @@ function print(...)
   for i = 1, select('#', ...) do
     local arg<const> = select(i, ...)
     if type(arg) == 'table' then
-      local encoded = json.encode(arg, { indent = config.modules._misc.indent })
+      local encoded = json.encode(arg, { indent = config.modules.miscellaneous.indent })
       encoded = encoded:gsub('"', '')
       table.insert(parts, encoded)
     else
       table.insert(parts, tostring(arg))
     end
   end
-  
+
   for i = 1, #parts do
     _print(parts[i])
   end

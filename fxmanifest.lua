@@ -21,10 +21,10 @@ shared_scripts {
   'modules/metadata/shared.lua',
   'modules/filter/shared.lua',
   'modules/existing/instance/shared.lua',
-  'modules/task/shared.lua',
+  'modules/repeat/shared.lua',
   'modules/array/shared.lua',
   'modules/object/shared.lua',
-  'modules/_mics/shared.lua',
+  'modules/miscellaneous/shared.lua',
   ---@deprecated
   'get.lua',
 }
