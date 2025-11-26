@@ -1,6 +1,7 @@
 config = {
   modules = {
-    _misc = {
+    miscellaneous = {
+      enabled = false,
       indent = true
     }
   },
