@@ -31,8 +31,9 @@ const spawnPedEntity = async (hash, timeout, coords) => {
   if (!response) return;
 
   const entityHandle = CreatePed(null, hash, coords.x, coords.y, coords.z, coords.w, true, true);
-  let [_, netId] = await lib.awaitInstanceExisting(entityHandle, null, timeout)
+  let [entity, netId] = await lib.awaitInstanceExisting(entityHandle, null, timeout)
   if (!netId) return;
+  return entity
 }
 
 const applyScenario = (entityHandle, scenario) => {
@@ -47,7 +48,8 @@ async function createSinglePed(settings, timeout) {
   let coords = settings.coords;
   if (!validateInputs(coords, hash)) return;
   
-  const entityHandle = await spawnPedEntity(hash, timeout, coords)
+  const entityHandle = await spawnPedEntity(hash, timeout | 1000, coords)
+  console.log(entityHandle)
   if (!entityHandle) return;
   
   if (scenario) {
