@@ -5,20 +5,22 @@ const createCam = (settings) => {
     fov: settings?.more?.fov ?? 40.0,
   }
   DoScreenFadeOut(200)
-  setTimeout(() => {
-    DoScreenFadeIn(200)
-  }, 500)
   camHandle = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords[0], coords[1], coords[2], rotation.vertical, rotation.horizontal, coords[3], more.fov, false, 0)
-  SetCamActive(camHandle, true)
-  RenderScriptCams(true, true, 2000, true, true)
+  setTimeout(() => {
+    SetCamActive(camHandle, true)
+    RenderScriptCams(true, true, 0, true, true)
+    DoScreenFadeIn(200)
+  }, 2000)
+  return camHandle
 }
 
-const destroyCam = () => {
+const destroyCam = (camHandle) => {
   DoScreenFadeOut(200)
   setTimeout(() => {
+    RenderScriptCams(false, false, 2000, true, true)
+    SetCamActive(camHandle, false)
     DoScreenFadeIn(200)
-  }, 500)
-  RenderScriptCams(false, false, 2000, true, true)
+  }, 2000)
 }
 
 exports('createCam', createCam)
