@@ -4,7 +4,7 @@ function createPeds() {
         const fallbackSettings = System._DEFAULT.PEDS
         value.PEDS.peds.forEach(async pedElement => {
             const settings = tableFiller(fallbackSettings, pedElement)
-            const netId = await exports.tr_kit.createSinglePed(settings)
+            const [handle, netId] = await exports.tr_kit.createSinglePed(settings)
             on('onResourceStop', (resourceName) => {
                 resourceName == GetCurrentResourceName() && exports.tr_kit.clearCreatedPed(netId)
             })
