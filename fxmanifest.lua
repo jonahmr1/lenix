@@ -24,4 +24,5 @@ client_scripts {
     'bridge/client.js',
     'modules/pedestrians/client.js',
     'modules/vehicles/client.js',
+    'modules/camera/client.js',
 }
