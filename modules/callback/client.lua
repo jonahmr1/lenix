@@ -10,7 +10,7 @@ function lib.callback.register(name, cb)
         Callbacks[name] = cb
         return true
     end
-    
+
     if type(cb) == 'table' then
         Callbacks[name] = function(...)
             return cb(...)
@@ -26,7 +26,7 @@ function lib.callback.await(debug, name, timeout, ...)
     if type(debug) ~= 'boolean' then
         return lib.callback.await(false, debug, name, timeout, ...)
     end
-    
+
     if type(timeout) ~= 'number' then
         return lib.callback.await(debug, name, callbackTimeout, ...)
     end
