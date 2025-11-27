@@ -4,4 +4,6 @@ CBs with better naming for better tracking
 
 local and global cbs
 
-client and server metadata communication
+client and server metadata communication instead of events
+
+better commands
