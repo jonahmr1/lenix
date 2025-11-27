@@ -3,13 +3,10 @@ game 'gta5'
 dependencies {
     'tr_lib',
     'tr_kit',
-    'ox_lib',
-    'qbx_core',
-    'oxmysql',
 }
 
 author 'Lenix'
-version '3.3.0'
+version '3.3.2'
 
 shared_scripts {
     'config/shared.js',

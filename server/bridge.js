@@ -6,9 +6,6 @@ Bridge.getPlayerMoney = function(source) {
 }
 
 Bridge.removeCash = function(source, amount) {
-  console.log(JSON.stringify(QBCore))
-  console.log(JSON.stringify(QBCore.Functions))
-  console.log(JSON.stringify(QBCore.Functions.GetPlayer(source)))
   QBCore.Functions.GetPlayer(source).Functions.RemoveMoney('cash', amount)
 }
 
