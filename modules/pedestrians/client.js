@@ -30,10 +30,11 @@ const spawnPedEntity = async (hash, timeout, coords) => {
   const response = await lib.requestModel(hash, timeout)
   if (!response) return;
 
+  console.log(hash, coords)
   const entityHandle = CreatePed(null, hash, coords.x, coords.y, coords.z, coords.w, true, true);
   let [entity, netId] = await lib.awaitInstanceExisting(entityHandle, null, timeout)
-  if (!netId) return;
-  return entity
+  if (!netId || !entity) return;
+  return [entity, netId]
 }
 
 const applyScenario = (entityHandle, scenario) => {
@@ -48,8 +49,7 @@ async function createSinglePed(settings, timeout) {
   let coords = settings.coords;
   if (!validateInputs(coords, hash)) return;
   
-  const entityHandle = await spawnPedEntity(hash, timeout | 1000, coords)
-  console.log(entityHandle)
+  const [entityHandle, netId] = await spawnPedEntity(hash, timeout | 1000, coords)
   if (!entityHandle) return;
   
   if (scenario) {
@@ -63,7 +63,7 @@ async function createSinglePed(settings, timeout) {
       clearCreatedPed(netId)
     }
   })
-  return entityHandle, netId
+  return [entityHandle, netId]
 }
 
 lib.callback.register('createSinglePed', async (settings, timeout) => {
