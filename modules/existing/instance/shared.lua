@@ -1,3 +1,5 @@
+---@see this need to be refactored
+
 function lib.awaitInstanceExisting(entity, netId, timeout)
   assert(type(entity) == 'number' or entity == nil, ('entity must be a number, got %s'):format(type(entity)))
   assert(type(netId) == 'number' or netId == nil, ('netId must be a number, got %s'):format(type(netId)))

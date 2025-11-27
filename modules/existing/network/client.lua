@@ -1,3 +1,5 @@
+---@see this need to be refactored
+
 function lib.awaitNetworkExisting(netId, entity, timeout)
   assert(type(netId) == 'number' or netId == nil, ('netId must be a number, got %s'):format(type(netId)))
   assert(type(entity) == 'number' or entity == nil, ('entity must be a number, got %s'):format(type(entity)))
@@ -8,11 +10,11 @@ function lib.awaitNetworkExisting(netId, entity, timeout)
   local startTime = GetGameTimer()
 
   if not netId then
-    local e, n = lib.awaitInstanceExisting(entity, nil, timeout)
-    if not n or n == 0 then
+    local entity, existingNetId = lib.awaitInstanceExisting(entity, nil, timeout)
+    if not existingNetId or existingNetId == 0 then
       return false, nil
     end
-    netId = n
+    netId = existingNetId
   end
 
   while not NetworkDoesEntityExistWithNetworkId(netId) do

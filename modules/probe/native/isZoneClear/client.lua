@@ -14,11 +14,11 @@ function lib.isZoneClear(inputCoords, radius, exclude)
   local pools <const> = { 'Vehicle', 'Object' }
 
   for i = 1, #pools do
-    local entity = lib.closestEntity(coords, radial, pools[i], exclude)
+    local entity = lib.closestEntity(coords, radial, pools, exclude)
     if entity then return false end
   end
 
-  local closestPed = lib.closestEntity(coords, radial, 'Ped', exclude)
+  local closestPed = lib.closestEntity(coords, radial, {'Ped'}, exclude)
   if closestPed then
     return false
   end

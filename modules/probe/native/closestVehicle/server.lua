@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 
-function lib.closestVehicle(entity, radialSpace, source)
+function lib.closestVehicle(source, entity, radialSpace)
   assert(type(entity) == 'number', ('entity must be a number, received (%s)'):format(radialSpace))
   assert(type(radialSpace) == 'number', ('radialSpace must be a number, received (%s)'):format(radialSpace))
   assert(type(source) == 'number', ('source must be a number, received (%s)'):format(source))
