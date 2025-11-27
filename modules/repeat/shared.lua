@@ -1,7 +1,7 @@
 local tasks = {}
 local running = false
 
-function lib.repeat(func)
+function lib.Repeat(func)
   table.insert(tasks, func)
 
   if not running then
