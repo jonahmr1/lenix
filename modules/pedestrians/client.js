@@ -30,7 +30,6 @@ const spawnPedEntity = async (hash, timeout, coords) => {
   const response = await lib.requestModel(hash, timeout)
   if (!response) return;
 
-  console.log(hash, coords)
   const entityHandle = CreatePed(null, hash, coords.x, coords.y, coords.z, coords.w, true, true);
   let [entity, netId] = await lib.awaitInstanceExisting(entityHandle, null, timeout)
   if (!netId || !entity) return;
