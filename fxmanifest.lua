@@ -6,7 +6,7 @@ dependencies {
 }
 
 author 'Lenix'
-version '3.3.2'
+version '3.3.3'
 
 shared_scripts {
     'config/shared.js',
