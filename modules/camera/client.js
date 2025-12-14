@@ -18,7 +18,7 @@ const createCam = (settings) => {
 }
 
 const destroyCam = (settings) => {
-  const camHandle = settings.camHandle
+  const handle = settings.handle
   const fadeOut = settings?.more?.fadeOut ?? 0
   const fadeIn = settings?.more?.fadeIn ?? 0
   const delay = settings?.more?.delay ?? 0
