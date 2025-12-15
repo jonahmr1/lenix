@@ -5,10 +5,11 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '1.30.13'
+version '1.31.0'
 
 files {
   'modules/version/server.lua',
+  'binds.json',
 }
 
 shared_scripts {
@@ -38,6 +39,7 @@ client_scripts {
   'modules/probe/native/isInVehicle/client.lua',
   'modules/probe/native/isZoneClear/client.lua',
   'modules/existing/network/client.lua',
+  'modules/control/client.lua',
 }
 
 server_scripts {
