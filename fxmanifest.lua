@@ -10,6 +10,7 @@ dependencies {
 
 author 'Trippler'
 version '1.1.3'
+repository 'https://github.com/TripplerScripts/tr_kit'
 
 shared_scripts {
     'shared.js',
