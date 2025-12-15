@@ -8,7 +8,7 @@ async function createSinglePed(source, settings, timeout) {
 
 async function createMultiplePeds(source, peds, defaultSettings, timeout) {
     if (!Array.isArray(peds) || peds.length === 0) {
-        console.error('expected an array of peds, received data will not be processed')
+        lib.console.fatal('expected an array of peds, received data will not be processed')
         return [];
     }
 
@@ -36,17 +36,17 @@ async function createMultiplePeds(source, peds, defaultSettings, timeout) {
 
 async function clearCreatedPed(netId, timeout) {
     if (typeof netId !== 'number') {
-        console.warn(`Invalid argument, expected a number, received ${typeof netId}`)
+        lib.console.info(`Invalid argument, expected a number, received ${typeof netId}`)
         return false;
     }
     if (deletedPeds.has(netId)) {
-        console.log(`Ped ${netId} already deleted, skipping`);
+        lib.console.trace(`Ped ${netId} already deleted, skipping`);
         return true;
     }
 	try {
         const [entity, existingNetId] = await lib.awaitInstanceExisting(null, netId, timeout);
         if (!entity || entity === false) {
-            console.warn(`Entity ${existingNetId} does not exist`);
+            lib.console.info(`Entity ${existingNetId} does not exist`);
             return false;
         }
 
@@ -54,14 +54,14 @@ async function clearCreatedPed(netId, timeout) {
         deletedPeds.add(existingNetId);
         return true;
     } catch (error) {
-        console.error(`Error in clearCreatedPed for ${existingNetId}:`, error);
+        lib.console.fatal(`Error in clearCreatedPed for ${existingNetId}:`, error);
         return false;
     }
 }
 
 async function clearCreatedPeds(netIds, timeout) {
     if (!Array.isArray(netIds)) {
-        console.log(`Invalid argument, expected an array, received ${typeof netIds}`)
+        lib.console.trace(`Invalid argument, expected an array, received ${typeof netIds}`)
         return false
     }
 

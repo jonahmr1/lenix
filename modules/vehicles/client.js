@@ -75,7 +75,7 @@ async function createSingleVehicle(settings) {
 
 	on('onResourceStop', (resourceName) => {
 		if (GetCurrentResourceName() == resourceName) {
-			console.log(`${resourceName} caught stopping, clearing vehicle ${netId}`)
+			lib.console.trace(`${resourceName} caught stopping, clearing vehicle ${netId}`)
 			clearCreatedVehicle(netId)
 		}
 	})

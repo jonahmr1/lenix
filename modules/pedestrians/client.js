@@ -2,11 +2,11 @@ const validateInputs = (coords, hash) => {
   const isNotValidCoords = ((typeof coords !== 'object' && Object.keys(coords).length !== 4) || (!Array.isArray(coords) && coords.length !== 4)) ? true : false
 
   if (typeof hash !== 'number') {
-    console.error(`Expecter a number of hash, got ${typeof hash}(${hash})`)
+    lib.console.fatal(`Expecter a number of hash, got ${typeof hash}(${hash})`)
     return;
   }
   if (isNotValidCoords) {
-    console.error(
+    lib.console.fatal(
       `Invalid argument: expected a valid vector4 object as the second argument, but received type "${typeof coords}" with values: ` +
       `x: ${coords?.x ?? coords?.[0] ?? 'undefined'}, ` +
       `y: ${coords?.y ?? coords?.[1] ?? 'undefined'}, ` +
@@ -57,7 +57,7 @@ async function createSinglePed(settings, timeout) {
 
   on('onResourceStop', async (resourceName) => {
     if (GetCurrentResourceName() == resourceName) {
-      console.log(`${resourceName} caught stopping, clearing ped (netId: ${netId})`)
+      lib.console.trace(`${resourceName} caught stopping, clearing ped (netId: ${netId})`)
       SetEntityAsNoLongerNeeded(entityHandle, true)
       clearCreatedPed(netId)
     }

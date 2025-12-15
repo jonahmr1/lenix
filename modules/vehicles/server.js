@@ -24,16 +24,16 @@ async function createMultipleVehicles(source, vehicles, defaultSettings) {
 
 async function clearCreatedVehicle(netId) {
 	if (typeof netId !== 'number') {
-		console.log(`received ${typeof netId} instead of a number, if you passed an array of number to delete multiple vehicles, please use clearCreatedVehicles instead of clearCreatedVehicle`)
+		lib.console.trace(`received ${typeof netId} instead of a number, if you passed an array of number to delete multiple vehicles, please use clearCreatedVehicles instead of clearCreatedVehicle`)
 		return false
 	}
 	if (deletedVehicles.has(netId)) {
-		console.log(`Vehicle ${netId} already deleted, skipping`)
+		lib.console.trace(`Vehicle ${netId} already deleted, skipping`)
 		return true
 	}
 	const [vehicle, existingNetId] = await lib.awaitInstanceExisting(null, netId);
 	if (!vehicle || vehicle === false) {
-		console.warn(`Vehicle ${netId} does not exist`);
+		lib.console.info(`Vehicle ${netId} does not exist`);
 		return false;
 	}
 	DeleteEntity(vehicle)
@@ -43,7 +43,7 @@ async function clearCreatedVehicle(netId) {
 
 async function clearCreatedVehicles(netIds) {
 	if (!Array.isArray(netIds)) {
-		console.log(`received ${typeof netIds} instead of array, use clearCreatedVehicle for single vehicle`)
+		lib.console.trace(`received ${typeof netIds} instead of array, use clearCreatedVehicle for single vehicle`)
 		return false
 	}
 	for (let i = 0; i < netIds.length; i++) {
