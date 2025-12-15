@@ -9,61 +9,61 @@ local function isTypeEnabled(type)
   end
 end
 
-lib.console.fatal = function(message)
+lib.console.fatal = function(...)
   if not isTypeEnabled('fatal') then
     return
   end
-  print(("^1[FATAL]: %s ^7"):format(message))
+  print(("^1[FATAL]: %s ^7"):format(...))
 end
 
-lib.console.info = function(message)
+lib.console.info = function(...)
   if not isTypeEnabled('info') then
     return
   end
-  print(("^5[INFO]: %s ^7"):format(message))
+  print(("^5[INFO]: %s ^7"):format(...))
 end
 
-lib.console.trace = function(message)
+lib.console.trace = function(...)
   if not isTypeEnabled('trace') then
     return
   end
-  print(("^6[TRACE]: %s ^7"):format(message))
+  print(("^6[TRACE]: %s ^7"):format(...))
 end
 
 ---@deprecated
 lib.print = {}
 
-lib.print.err = function(message)
-  error(message)
+lib.print.err = function(...)
+  error(...)
 end
 
-lib.print.error = function(message)
-  error(message)
+lib.print.error = function(...)
+  error(...)
 end
 
-lib.print.warn = function(message)
-  warn(message)
+lib.print.warn = function(...)
+  warn(...)
 end
 
-lib.print.warning = function(message)
-  warn(message)
+lib.print.warning = function(...)
+  warn(...)
 end
 
-lib.print.info = function(message)
-  lib.console.info(message)
+lib.print.info = function(...)
+  lib.console.info(...)
 end
 
-lib.print.debug = function(message)
-  lib.console.trace(message)
+lib.print.debug = function(...)
+  lib.console.trace(...)
 end
 
-lib.print.success = function(message)
+lib.print.success = function(...)
   if not isTypeEnabled('success') then
     return
   end
-  print(("^2[SUCCESS]: %s ^7"):format(message))
+  print(("^2[SUCCESS]: %s ^7"):format(...))
 end
 
-lib.print.log = function(message)
-  lib.console.info(message)
+lib.print.log = function(...)
+  lib.console.info(...)
 end
