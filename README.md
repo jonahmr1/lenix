@@ -5,7 +5,7 @@ Bundle of UI helpers for players interaction
 
 
 ```lua
-exports.tr_fusion:show(parameter)
+exports.lenix_fusion:show(parameter)
 ```
 
 ### Parameters
@@ -17,5 +17,5 @@ exports.tr_fusion:show(parameter)
 
 
 ```lua
-exports.tr_fusion:hide()
+exports.lenix_fusion:hide()
 ```
