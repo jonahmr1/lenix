@@ -8,6 +8,4 @@ else
   require = lib.require
   callback = lib.callback
   console = lib.console
-  ---@see not tested
-  print = config.modules.miscellaneous.enabled and print
 end
