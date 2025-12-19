@@ -3,8 +3,8 @@ DefinedAsyncs = {}
 DefinedAsyncs.client = {}
 DefinedAsyncs.server = {}
 
----@deprecated
 if IsDuplicityVersion() then
+  ---@deprecated
   lib.callback = {}
   ---@diagnostic disable: duplicate-set-field
   function lib.callback.register(name, func)
@@ -24,6 +24,7 @@ if IsDuplicityVersion() then
     return lib.async.await({ timeout, debug }, name, source)
   end
 else
+  ---@deprecated
   lib.callback = {}
   function lib.callback.register(name, func)
     lib.console.fatal(("Callbacks are deprecated, Async expected at '%s'"):format(GetInvokingResource()))
