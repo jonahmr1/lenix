@@ -1,0 +1,9 @@
+node_modules/
+src/
+client/
+server/
+shared/
+.gitignore
+package-lock.json
+tsconfig*.json
+*.ts

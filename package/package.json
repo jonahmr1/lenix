@@ -1,0 +1,28 @@
+{
+  "name": "@trippler/tr_lib",
+  "version": "2.0.0",
+  "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Trippler",
+  "license": "GPL-3.0",
+  "keywords": ["fivem", "library", "trippler", "tr_lib"],  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tripplerscripts/tr_lib"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "tsc -p client/tsconfig.json",
+    "build:server": "tsc -p server/tsconfig.json"
+  },
+  "devDependencies": {
+    "@citizenfx/client": "^2.0.0",
+    "@citizenfx/server": "^2.0.0",
+    "typescript": "^5.0.0"
+  }
+}
