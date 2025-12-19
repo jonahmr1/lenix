@@ -1,26 +1,26 @@
 ---@diagnostic disable: duplicate-set-field
 
-function lib.async.define(name, func)
-  assert(type(name) == 'string', ("expected 'string' at #1, received '%s'"): format(type(name)))
-  assert(type(func) == 'function', ("expected 'function' at #2, received '%s'"): format(type(func)))
+function lib.async.define(endpoint, Function)
+  assert(type(endpoint) == 'string', ("expected 'string' at #1, received '%s'"): format(type(endpoint)))
+  assert(type(Function) == 'function', ("expected 'function' at #2, received '%s'"): format(type(Function)))
 
-  if DefinedAsyncs.client[name] then
-    lib.console.fatal(("client async '%s' is already defined"):format(name))
+  if DefinedAsyncs.client[endpoint] then
+    lib.console.fatal(("client async '%s' is already defined"):format(endpoint))
     return false
   end
-  DefinedAsyncs.client[name] = true
+  DefinedAsyncs.client[endpoint] = true
 
-  RegisterNetEvent(("__tr_async_define:%s"):format(name), function(promiseId, ...)
+  RegisterNetEvent(("__tr_async_define:%s"):format(endpoint), function(promiseId, ...)
     local args = { ... }
 
     local success, response = pcall(function()
-      return { func(table.unpack(args)) }
+      return { Function(table.unpack(args)) }
     end)
     if success then
-      TriggerServerEvent(("__tr_async_await:%s"):format(name), promiseId, response)
+      TriggerServerEvent(("__tr_async_await:%s"):format(endpoint), promiseId, response)
     else
-      TriggerServerEvent(("__tr_async_await:%s"):format(name), promiseId, nil)
-      lib.console.trace(("client async '%s' threw error: %s"):format(name, response))
+      TriggerServerEvent(("__tr_async_await:%s"):format(endpoint), promiseId, nil)
+      lib.console.trace(("client async '%s' threw error: %s"):format(endpoint, response))
     end
   end)
   return true

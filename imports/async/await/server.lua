@@ -6,17 +6,17 @@ local definedAddress = {}
 local promiseId = 0
 local awaitLimit <const> = config.awaitLimit
 
-function lib.async.await(options, name, source, ...)
+function lib.async.await(options, endpoint, source, ...)
   if type(options) == 'string' then
-    return lib.async.await({ awaitLimit, false }, options, name, source, ...)
+    return lib.async.await({ awaitLimit, false }, options, endpoint, source, ...)
   end
 
   if type(options) == 'number' then
-    return lib.async.await({ options, false }, name, source, ...)
+    return lib.async.await({ options, false }, endpoint, source, ...)
   end
 
   if type(options) == 'boolean' then
-    return lib.async.await({ awaitLimit, options }, name, source, ...)
+    return lib.async.await({ awaitLimit, options }, endpoint, source, ...)
   end
   assert(source, ("expected defined source, received '%s' of '%s'"):format(type(source), source))
 
@@ -28,7 +28,7 @@ function lib.async.await(options, name, source, ...)
   local currentPromiseId = promiseId
   pendingPromises[currentPromiseId] = promise
 
-  local responseEvent = ("__tr_async_await:%s"):format(name)
+  local responseEvent = ("__tr_async_await:%s"):format(endpoint)
   if not definedAddress[responseEvent] then
     definedAddress[responseEvent] = true
     RegisterNetEvent(responseEvent, function(selfpromiseId, response)
@@ -38,12 +38,12 @@ function lib.async.await(options, name, source, ...)
       end
     end)
   end
-  if not DefinedAsyncs.client[name] then
-    lib.console.fatal(("async '%s' is not defined"):format(name))
+  if not DefinedAsyncs.client[endpoint] then
+    lib.console.fatal(("async '%s' is not defined"):format(endpoint))
     return
   end
 
-  TriggerClientEvent(("__tr_async_define:%s"):format(name), source, currentPromiseId, ...)
+  TriggerClientEvent(("__tr_async_define:%s"):format(endpoint), source, currentPromiseId, ...)
 
   SetTimeout(timeout, function()
     if pendingPromises[currentPromiseId] then
@@ -55,12 +55,12 @@ function lib.async.await(options, name, source, ...)
   local response = Citizen.Await(promise)
   if response.success then
     if debug then
-      lib.console.trace(("client async '%s' returned %d values"):format(name, #response.returned))
+      lib.console.trace(("client async '%s' returned %d values"):format(endpoint, #response.returned))
     end
     return table.unpack(response.returned)
   else
     if debug then
-      lib.console.info(("client async '%s' (source: %d) timed out after %dms"):format(name, source, timeout))
+      lib.console.info(("client async '%s' (source: %d) timed out after %dms"):format(endpoint, source, timeout))
     end
   end
 

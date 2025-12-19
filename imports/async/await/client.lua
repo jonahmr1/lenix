@@ -7,17 +7,17 @@ local promiseId = 0
 local awaitLimit <const> = config.awaitLimit
 
 
-function lib.async.await(options, name, ...)
+function lib.async.await(options, endpoint, ...)
   if type(options) == 'string' then
-    return lib.async.await({ awaitLimit, false }, options, name, ...)
+    return lib.async.await({ awaitLimit, false }, options, endpoint, ...)
   end
 
   if type(options) == 'number' then
-    return lib.async.await({ options, false }, name, ...)
+    return lib.async.await({ options, false }, endpoint, ...)
   end
 
   if type(options) == 'boolean' then
-    return lib.async.await({ awaitLimit, options }, name, ...)
+    return lib.async.await({ awaitLimit, options }, endpoint, ...)
   end
 
   local timeout = options[1] or awaitLimit
@@ -28,7 +28,7 @@ function lib.async.await(options, name, ...)
   local currentPromiseId = promiseId
   pendingPromises[currentPromiseId] = promise
 
-  local responseEvent = ("__tr_async_await:%s"):format(name)
+  local responseEvent = ("__tr_async_await:%s"):format(endpoint)
   if not definedAddress[responseEvent] then
     definedAddress[responseEvent] = true
     RegisterNetEvent(responseEvent, function(selfpromiseId, response)
@@ -39,11 +39,11 @@ function lib.async.await(options, name, ...)
     end)
   end
 
-  if not DefinedAsyncs.server[name] then
-    lib.console.fatal(("async '%s' is not defined"):format(name))
+  if not DefinedAsyncs.server[endpoint] then
+    lib.console.fatal(("async '%s' is not defined"):format(endpoint))
     return
   end
-  TriggerServerEvent(("__tr_async_define:%s"):format(name), currentPromiseId, ...)
+  TriggerServerEvent(("__tr_async_define:%s"):format(endpoint), currentPromiseId, ...)
 
   SetTimeout(timeout, function()
     if pendingPromises[currentPromiseId] then
@@ -55,12 +55,12 @@ function lib.async.await(options, name, ...)
   local response = Citizen.Await(promise)
   if response.success then
     if debug then
-      lib.console.trace(("server async '%s' returned %d values"):format(name, #response.returned))
+      lib.console.trace(("server async '%s' returned %d values"):format(endpoint, #response.returned))
     end
     return table.unpack(response.returned)
   else
     if debug then
-      lib.console.info(("server async '%s' timed out after %dms"):format(name, timeout))
+      lib.console.info(("server async '%s' timed out after %dms"):format(endpoint, timeout))
     end
   end
 
