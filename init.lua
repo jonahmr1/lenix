@@ -6,6 +6,6 @@ if resourceName == 'tr_lib' then
 else
   lib = exports.tr_lib:init()
   require = lib.require
-  callback = lib.callback
+  async = lib.async
   console = lib.console
 end

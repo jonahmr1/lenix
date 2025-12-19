@@ -11,7 +11,7 @@ config = {
     "trace"
   },
   checkReleaseVersionInstead = false,
-  callbackTimeout = 10000,
+  awaitLimit = 10000,
   excludedFromVersion = {
     "monitor",
     "basic-gamemode",
