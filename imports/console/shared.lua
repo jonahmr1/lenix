@@ -13,7 +13,7 @@ lib.console.fatal = function(...)
   if not isTypeEnabled('fatal') then
     return
   end
-  print(("^1[FATAL]: %s ^7"):format(...))
+  error(("^1[FATAL]: %s ^7"):format(...))
 end
 
 lib.console.info = function(...)
