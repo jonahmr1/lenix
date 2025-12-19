@@ -1,28 +1,34 @@
 {
   "name": "@trippler/tr_lib",
-  "version": "2.0.0",
+  "version": "2.0.6",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "author": "Trippler",
   "license": "GPL-3.0",
-  "keywords": ["fivem", "library", "trippler", "tr_lib"],  
+  "keywords": [
+    "fivem",
+    "library",
+    "trippler",
+    "tr_lib"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/tripplerscripts/tr_lib"
   },
-  "files": [
-    "dist",
-    "README.md"
-  ],
+  "exports": {
+    "./client": "./client/index.js",
+    "./server": "./server/index.js",
+    "./shared": "./shared/index.js"
+  },
+  "files": ["client", "server", "shared", "README.md"],
   "scripts": {
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "tsc -p client/tsconfig.json",
-    "build:server": "tsc -p server/tsconfig.json"
+    "build": "npm run build:client && npm run build:server && npm run build:shared",
+    "build:client": "tsc -p src/client/tsconfig.json",
+    "build:server": "tsc -p src/server/tsconfig.json",
+    "build:shared": "tsc -p src/shared/tsconfig.json"
   },
   "devDependencies": {
-    "@citizenfx/client": "^2.0.0",
-    "@citizenfx/server": "^2.0.0",
+    "@citizenfx/client": "^2.0.23683-1",
+    "@citizenfx/server": "^2.0.23683-1",
     "typescript": "^5.0.0"
   }
 }

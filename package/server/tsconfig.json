@@ -1,8 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "types": ["@citizenfx/server"],
-    "outDir": "../dist"
-  },
-  "include": ["./index.ts", "**/index.ts", "**/**/index.ts"]
-}
