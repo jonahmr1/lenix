@@ -1,6 +1,6 @@
-local getResourceMetadata = lib.require('modules/version/server').getResourceMetadata
-local parseGithubRepo = lib.require('modules/version/server').parseGithubRepo
-local getRepositoryResponse = lib.require('modules/version/server').getRepositoryResponse
+local getResourceMetadata = lib.require('imports/version/server').getResourceMetadata
+local parseGithubRepo = lib.require('imports/version/server').parseGithubRepo
+local getRepositoryResponse = lib.require('imports/version/server').getRepositoryResponse
 
 local function getSourceVersion(response, metadata, resourceName)
   local remoteVersion <const> = response:match('\nversion%s*["\']([^"\']+)["\']')

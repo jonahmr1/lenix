@@ -1,6 +1,6 @@
-local getResourceMetadata = lib.require('modules/version/server').getResourceMetadata
-local parseGithubRepo = lib.require('modules/version/server').parseGithubRepo
-local getRepositoryResponse = lib.require('modules/version/server').getRepositoryResponse
+local getResourceMetadata = lib.require('imports/version/server').getResourceMetadata
+local parseGithubRepo = lib.require('imports/version/server').parseGithubRepo
+local getRepositoryResponse = lib.require('imports/version/server').getRepositoryResponse
 
 local function getReleaseVersion(tag_name, metadata, resourceName, owner, repoName)
   local remoteVersion <const> = tag_name:gsub('^v', '')
