@@ -5,7 +5,7 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '2.0.9'
+version '2.0.11'
 
 files {
   'imports/version/server.lua',
@@ -17,7 +17,7 @@ shared_scripts {
   'init.lua',
   'imports/require/shared.lua',
   'imports/console/shared.lua',
-  'imports/async/shared.lua',
+  'imports/promise/shared.lua',
   'imports/split/shared.lua',
   'imports/resources/shared.lua',
   'imports/metadata/shared.lua',
@@ -33,8 +33,8 @@ shared_scripts {
 
 client_scripts {
   'imports/targets/client.lua',
-  'imports/async/await/client.lua',
-  'imports/async/define/client.lua',
+  'imports/promise/await/client.lua',
+  'imports/promise/on/client.lua',
   'imports/request/client.lua',
   'imports/probe/closestEntity/shared.lua',
   'imports/probe/native/closestVehicle/client.lua',
@@ -46,8 +46,8 @@ client_scripts {
 
 server_scripts {
   'imports/targets/server.lua',
-  'imports/async/await/server.lua',
-  'imports/async/define/server.lua',
+  'imports/promise/await/server.lua',
+  'imports/promise/on/server.lua',
   'imports/version/release/server.lua',
   'imports/version/source/server.lua',
   'imports/probe/native/closestVehicle/server.lua',

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../client",
+    "rootDir": ".",
+    "types": ["@citizenfx/client"]
+  },
+  "references": [
+    { "path": "../shared" }
+  ],
+  "include": ["./**/*", "../shared/console/console"]
+}

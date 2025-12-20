@@ -1,6 +1,6 @@
 {
   "name": "@trippler/tr_lib",
-  "version": "2.0.9",
+  "version": "2.0.11",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
   "author": "Trippler",
   "license": "GPL-3.0",
@@ -19,7 +19,12 @@
     "./server": "./server/index.js",
     "./shared": "./shared/index.js"
   },
-  "files": ["client", "server", "shared", "README.md"],
+  "files": [
+    "client",
+    "server",
+    "shared",
+    "README.md"
+  ],
   "scripts": {
     "patch": "npm version patch && npm publish",
     "build": "npm run build:shared && npm run build:client && npm run build:server",
