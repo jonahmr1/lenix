@@ -6,7 +6,7 @@ const averageServerResponseTime = 1000
 const promises: string[] = []
 let promiseId = 0
 
-export const triggerPromise = async <T = unknown>(options: [number, boolean] | number | boolean | string, endpoint: string | any, ...parameters: any[]): Promise<T | null> => {
+export const triggerPromise = async <T = unknown>(options: [number, boolean] | number | boolean | string,  endpoint?: string | any, ...parameters: any[]): Promise<T | null> => {
   if (typeof options === 'string') {
     return triggerPromise([patienceLimit, false], options, endpoint, ...parameters)
   }
@@ -18,7 +18,7 @@ export const triggerPromise = async <T = unknown>(options: [number, boolean] | n
   }
 
   await new Promise(resolve => {
-    if (!promises.includes(endpoint)) {
+    if (!promises.includes(endpoint!)) {
       const handler = (defined: boolean) => {
         removeEventListener('__tr_promise_self_server_response', handler)
         if (!defined) {
@@ -26,7 +26,7 @@ export const triggerPromise = async <T = unknown>(options: [number, boolean] | n
           resolve(false)
           return
         }
-        promises.push(endpoint)
+        promises.push(endpoint!)
         resolve(true)
       }
       onNet('__tr_promise_self_server_response', handler)
@@ -38,8 +38,8 @@ export const triggerPromise = async <T = unknown>(options: [number, boolean] | n
     } else resolve(true)
   })
   
-  const timeout = options[0] ?? patienceLimit
-  const debug = options[1] ?? false
+  const timeout = options?.[0] ?? patienceLimit
+  const debug = options?.[1] ?? false
   
   const promise = () => {
     return new Promise(resolve => {
@@ -48,8 +48,8 @@ export const triggerPromise = async <T = unknown>(options: [number, boolean] | n
       pendingPromises[currentPromiseId] = { resolve }
       const responseEvent = `__tr_promise_await:${endpoint}`
 
-      if (!promises.includes(endpoint)) {
-        promises.push(endpoint)
+      if (!promises.includes(endpoint!)) {
+        promises.push(endpoint!)
         onNet(responseEvent, (selfpromiseId: number, response: any) => {
           if (pendingPromises[selfpromiseId]) {
             pendingPromises[selfpromiseId].resolve({ success: true, returned: response })
