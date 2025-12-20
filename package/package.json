@@ -1,6 +1,6 @@
 {
   "name": "@trippler/tr_lib",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
   "author": "Trippler",
   "license": "GPL-3.0",
@@ -21,6 +21,7 @@
   },
   "files": ["client", "server", "shared", "README.md"],
   "scripts": {
+    "patch": "npm version patch && npm publish",
     "build": "npm run build:shared && npm run build:client && npm run build:server",
     "build:client": "npx tsc -p src/client/tsconfig.json",
     "build:server": "npx tsc -p src/server/tsconfig.json",
