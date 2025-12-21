@@ -1,1 +1,1 @@
-export default true
+export { default as awaitInstanceExisting } from './existing'
