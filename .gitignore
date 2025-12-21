@@ -4,4 +4,5 @@ dist
 package/client
 package/server
 package/shared
+package/web
 .DS_Store

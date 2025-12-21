@@ -8,8 +8,6 @@
     "skipLibCheck": true,
     "declaration": true,
     "lib": ["ES2020", "DOM"],
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
   },
-  "exclude": ["node_modules", "client", "server", "shared"]
+  "exclude": ["node_modules", "client", "server", "shared", "web"]
 }

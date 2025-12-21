@@ -1,6 +1,6 @@
 {
   "name": "@trippler/tr_lib",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
   "author": "Trippler",
   "license": "GPL-3.0",
@@ -17,20 +17,23 @@
   "exports": {
     "./client": "./client/index.js",
     "./server": "./server/index.js",
-    "./shared": "./shared/index.js"
+    "./shared": "./shared/index.js",
+    "./web": "./web/index.js"
   },
   "files": [
     "client",
     "server",
     "shared",
+    "web",
     "README.md"
   ],
   "scripts": {
     "patch": "npm version patch && npm publish",
-    "build": "npm run build:shared && npm run build:client && npm run build:server",
+    "build": "npm run build:shared && npm run build:client && npm run build:server && npm run build:web",
     "build:client": "npx tsc -p src/client/tsconfig.json",
     "build:server": "npx tsc -p src/server/tsconfig.json",
-    "build:shared": "npx tsc -p src/shared/tsconfig.json"
+    "build:shared": "npx tsc -p src/shared/tsconfig.json",
+    "build:web": "npx tsc -p src/web/tsconfig.json"
   },
   "devDependencies": {
     "@citizenfx/client": "^2.0.23683-1",

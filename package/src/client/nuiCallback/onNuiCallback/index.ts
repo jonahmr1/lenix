@@ -1,5 +1,4 @@
-declare function RegisterNuiCallback<T = any>(
+export default <T = unknown>(
   callbackType: string, 
-  callback: (data: T, callback: Function) => void
-): void
-export default () => RegisterNuiCallback
+  Function: (data: T, callback: Function) => void
+) => RegisterNuiCallback(callbackType, Function)
