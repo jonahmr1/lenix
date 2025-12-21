@@ -1,4 +1,4 @@
-export const triggerNuiCallback = async <T = unknown>(
+export default async <T = unknown>(
   callbackEnpoint: string, 
   dataObject?: object
 ): Promise<T> => {
