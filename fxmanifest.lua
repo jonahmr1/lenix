@@ -14,16 +14,16 @@ repository 'https://github.com/TripplerScripts/tr_kit'
 
 shared_scripts {
     'shared.js',
-    'modules/blips/shared.js',
+    'exports/blips/shared.js',
 }
 server_scripts {
     'bridge/server.js',
-    'modules/pedestrians/server.js',
-    'modules/vehicles/server.js',
+    'exports/pedestrians/server.js',
+    'exports/vehicles/server.js',
 }
 client_scripts {
     'bridge/client.js',
-    'modules/pedestrians/client.js',
-    'modules/vehicles/client.js',
-    'modules/camera/client.js',
+    'exports/pedestrians/client.js',
+    'exports/vehicles/client.js',
+    'exports/camera/client.js',
 }
