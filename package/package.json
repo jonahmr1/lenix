@@ -1,6 +1,6 @@
 {
   "name": "@trippler/tr_lib",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
   "author": "Trippler",
   "license": "GPL-3.0",
@@ -36,8 +36,8 @@
     "build:web": "npx tsc -p src/web/tsconfig.json"
   },
   "devDependencies": {
-    "@citizenfx/client": "^2.0.23683-1",
-    "@citizenfx/server": "^2.0.23683-1",
+    "@citizenfx/client": "latest",
+    "@citizenfx/server": "latest",
     "typescript": "^5.0.0"
   }
 }

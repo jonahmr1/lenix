@@ -1,0 +1,1 @@
+export default (hash: number, timeout: number): Promise<boolean> => exports.tr_lib.init().requestModel(hash, timeout)
