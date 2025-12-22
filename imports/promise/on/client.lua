@@ -19,9 +19,9 @@ function lib.promise.on(endpoint, Function)
       return { Function(table.unpack(args)) }
     end)
     if success then
-      TriggerServerEvent(("__tr_promise_await:%s"):format(endpoint), promiseId, response)
+      TriggerServerEvent(("__tr_promise_trigger:%s"):format(endpoint), promiseId, response)
     else
-      TriggerServerEvent(("__tr_promise_await:%s"):format(endpoint), promiseId, nil)
+      TriggerServerEvent(("__tr_promise_trigger:%s"):format(endpoint), promiseId, nil)
       lib.console.trace(("client promise '%s' threw error: %s"):format(endpoint, response))
     end
   end)

@@ -28,7 +28,7 @@ function lib.promise.await(options, endpoint, source, ...)
   local currentPromiseId = promiseId
   pendingPromises[currentPromiseId] = promise
 
-  local responseEvent = ("__tr_promise_await:%s"):format(endpoint)
+  local responseEvent = ("__tr_promise_trigger:%s"):format(endpoint)
   if not definedAddress[responseEvent] then
     definedAddress[responseEvent] = true
     RegisterNetEvent(responseEvent, function(selfpromiseId, response)

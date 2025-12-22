@@ -28,7 +28,7 @@ function lib.promise.await(options, endpoint, ...)
   local currentPromiseId = promiseId
   pendingPromises[currentPromiseId] = promise
 
-  local responseEvent = ("__tr_promise_await:%s"):format(endpoint)
+  local responseEvent = ("__tr_promise_trigger:%s"):format(endpoint)
   if not definedAddress[responseEvent] then
     definedAddress[responseEvent] = true
     RegisterNetEvent(responseEvent, function(selfpromiseId, response)
@@ -43,7 +43,7 @@ function lib.promise.await(options, endpoint, ...)
     lib.console.fatal(("promise '%s' is not defined"):format(endpoint))
     return
   end
-  TriggerServerEvent(("__tr_promise_define:%s"):format(endpoint), currentPromiseId, ...)
+  TriggerServerEvent(("__tr_promise_on:%s"):format(endpoint), currentPromiseId, ...)
 
   SetTimeout(timeout, function()
     if pendingPromises[currentPromiseId] then
