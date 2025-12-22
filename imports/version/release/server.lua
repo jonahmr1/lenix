@@ -15,7 +15,7 @@ local function getReleaseVersion(tag_name, metadata, resourceName, owner, repoNa
     ))
     return false, remoteVersion
   else
-    lib.console.info(('%s release is up to date (%s)'):format(resourceName, releaseTag))
+    lib.console.trace(('%s release is up to date (%s)'):format(resourceName, releaseTag))
     return true, releaseTag
   end
 end

@@ -14,7 +14,7 @@ local function getSourceVersion(response, metadata, resourceName)
     ))
     return false, remoteVersion
   else
-    lib.console.info(('%s source is up to date (%s)'):format(resourceName, metadata.version))
+    lib.console.trace(('%s source is up to date (%s)'):format(resourceName, metadata.version))
     return true, metadata.version
   end
 end
