@@ -46,7 +46,7 @@ export const triggerPromise = async <T = unknown>(options: [number, boolean] | n
       promiseId = promiseId + 1
       const currentPromiseId = promiseId
       pendingPromises[currentPromiseId] = { resolve }
-      const responseEvent = `__tr_promise_await:${endpoint}`
+      const responseEvent = `__tr_promise_trigger:${endpoint}`
 
       if (!promises.includes(endpoint!)) {
         promises.push(endpoint!)

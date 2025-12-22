@@ -26,9 +26,9 @@ export default <T extends (...args: any) => ReturnType<T>>(endpoint: string, Fun
   onNet(`__tr_promise_on:${endpoint}`, (promiseId: number, ...parameters: any) => {
     try {
       const result = Function(...parameters)
-      emitNet(`__tr_promise_on:${endpoint}`, promiseId, result)
+      emitNet(`__tr_promise_await:${endpoint}`, promiseId, result)
     } catch (error) {
-      emitNet(`__tr_promise_on:${endpoint}`, promiseId)
+      emitNet(`__tr_promise_await:${endpoint}`, promiseId)
       console.trace(`client promise '${endpoint}' (server (promise: ${promiseId}) threw error: ${error}`)
     }
   })
