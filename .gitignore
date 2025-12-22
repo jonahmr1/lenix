@@ -5,3 +5,4 @@ package/server
 package/shared
 package/web
 .DS_Store
+.env
