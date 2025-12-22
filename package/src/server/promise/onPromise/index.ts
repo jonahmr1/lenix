@@ -21,10 +21,11 @@ export default <T extends (source: number, ...args: any) => ReturnType<T>>(endpo
   if (typeof Function !== 'function') return false
 
   promises.push(endpoint)
-  emitNet('__tr_promise_on_self_server_ts_backward_compatibility', source, endpoint)
   
   onNet(`__tr_promise_on:${endpoint}`, (promiseId: number, ...parameters: any) => {
     const clientSource = source
+    emitNet('__tr_promise_on_self_server_ts_backward_compatibility', clientSource, endpoint)
+
     try {
       const result = Function(clientSource, ...parameters)
       emitNet(`__tr_promise_on:${endpoint}`, source, promiseId, result)
