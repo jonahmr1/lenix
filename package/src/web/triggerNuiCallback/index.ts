@@ -9,5 +9,9 @@ export default async <T = unknown>(
     },
     body: JSON.stringify(dataObject || {}),
   })
-  return await response.json()
+  try {
+    return await response.json()
+  } catch (error) {
+    throw console.error(error)
+  }
 }
