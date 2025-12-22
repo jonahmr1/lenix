@@ -1,4 +1,5 @@
 export { default as onNuiCallback } from './nuiCallback/onNuiCallback'
+export { default as triggerNuiCallback } from './nuiCallback/triggerNuiCallback'
 export { default as onPromise } from './promise/onPromise'
 export { default as requestModel } from './request'
 export * from './promise/triggerPromise'
