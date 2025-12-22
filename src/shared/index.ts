@@ -1,3 +1,5 @@
+export default null
+
 export interface CreateSinglePed {
   hash: number,
   coords: [number, number, number, number]
@@ -15,7 +17,7 @@ export interface CreateSingleVehicle {
 	preCreate: boolean
 	plate: string
 	giveKey: boolean
-	setFuelAmount: number
+	fuelAmount: number
 	register: boolean
 	coords: [number, number, number, number]
 	engine: {
@@ -23,7 +25,7 @@ export interface CreateSingleVehicle {
 		disableAutoStart: boolean
 	}
 	warp: {
-		entityNetId: number
+		netId: number
 		seat: number
 	}
 	customize: [

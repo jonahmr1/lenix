@@ -36,7 +36,7 @@
     "build:web": "npx tsc -p src/web/tsconfig.json"
   },
   "devDependencies": {
-    "@trippler/tr_lib": "2.2.1",
+    "@trippler/tr_lib": "2.2.3",
     "@citizenfx/client": "^2.0.23683-1",
     "@citizenfx/server": "^2.0.23683-1",
     "typescript": "^5.0.0"

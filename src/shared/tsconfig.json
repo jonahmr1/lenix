@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "",
+    "outDir": "../../shared",
     "rootDir": ".",
     "types": ["@citizenfx/client", "@citizenfx/server"],
     "composite": true

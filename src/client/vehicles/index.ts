@@ -11,20 +11,22 @@ export const createSingleVehicle = async (settings: CreateSingleVehicle) => {
 	const preCreateEntity = settings?.preCreate
 	const vehiclePlate = settings?.plate
 	const giveVehicleKey = settings?.giveKey
-	const setFuelAmount = settings?.setFuelAmount
+	const setFuelAmount = settings?.fuelAmount
 	const customizeVehicle = settings?.customize
 	const registerOwnedVehicle = settings?.register
 	const warpIntoVehicle = {
-		entityNetId: settings?.warp?.entityNetId,
+		entityNetId: settings?.warp?.netId,
 		seat: settings?.warp?.seat
 	}
 	const vehicleEngine = {
 		instantly: settings?.engine?.instantly,
 		disableAutoStart: settings?.engine?.disableAutoStart,
 	}
-	let coords = settings.coords
-	
-	const [entityHandle, entityNetId] = await spawnVehicleEntity(entityHash, coords)
+	const spawnCoords = settings.coords
+	const result = await spawnVehicleEntity(entityHash, spawnCoords)
+  if (!result) return
+
+	const [entityHandle, entityNetId] = result
 	if (!entityNetId) return
 	
 	if (registerOwnedVehicle) {
@@ -42,10 +44,10 @@ export const createSingleVehicle = async (settings: CreateSingleVehicle) => {
 		handle: entityHandle,
 		plate: vehiclePlate,
 		giveKey: giveVehicleKey,
-		setFuelAmount,
+		fuelAmount: setFuelAmount,
 		engine: vehicleEngine,
 		customize: customizeVehicle
-	} as CreateSingleVehicle & { handle: number })
+	} as unknown as CreateSingleVehicle & { handle: number })
 
 	on('onResourceStop', (resourceName: string) => {
 		if (GetCurrentResourceName() == resourceName) {
@@ -66,11 +68,11 @@ export const destroyCreatedVehicle = async (netId: number) => {
 		return true
 	}
 	const [vehicle, existingNetId] = await awaitInstanceExisting(null, netId)
-	if (!vehicle || vehicle === false) {
+	if (!vehicle) {
 		info(`Vehicle ${netId} does not exist`)
 		return false
 	}
 	DeleteEntity(vehicle)
-	deletedVehicles.add(existingNetId)
+	deletedVehicles.add(netId)
 	return true
 }

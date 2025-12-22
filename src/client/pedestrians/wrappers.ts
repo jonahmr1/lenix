@@ -7,7 +7,7 @@ export const spawnPedEntity = async (hash: number, timeout: number, coords: numb
   if (!response) return
 
   const entityHandle = CreatePed(0, hash, coords[0], coords[1], coords[2], coords[3], true, true)
-  let [entity, netId] = await awaitInstanceExisting(entityHandle, null, timeout)
+  const [entity, netId] = await awaitInstanceExisting(entityHandle, null, timeout)
   if (!netId || !entity) return
   return [entity, netId]
 }

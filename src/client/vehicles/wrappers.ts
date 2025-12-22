@@ -33,7 +33,7 @@ const preCreateVehicle = (netId: number) => {
 
 export const spawnVehicleEntity = async (entityHash: number, spawnCoords: [number, number, number, number]) => {
   const response = await requestModel(entityHash, 1000)
-  if (!response) fatal('failed to load the model with hash of: ' + hash)
+  if (!response) fatal('failed to load the model with hash of: ' + entityHash)
   
   const entityHandle = CreateVehicle(entityHash, spawnCoords[0], spawnCoords[1], spawnCoords[2], spawnCoords[3], true, true)
   
@@ -48,18 +48,21 @@ export const applySettings = async ({
   handle,
   plate,
   giveKey,
-  setFuelAmount,
+  fuelAmount,
   engine,
   customize
-}: CreateSingleVehicle & { handle: number }) => {
-  const [pedHandle, existingNetId] = await awaitInstanceExisting(null, warp.entityNetId)
-  preCreate && preCreateVehicle(existingNetId)	
+}: Partial<CreateSingleVehicle> & { handle: number }) => {
+  const [entityHandle, existingNetId] = await awaitInstanceExisting(handle, warp?.netId)
   plate && SetVehicleNumberPlateText(handle, plate)
-
-  warp && TaskWarpPedIntoVehicle(pedHandle, handle, warp.seat)
   plate && giveKey && bridge.giveKey(plate)
-    setFuelAmount && bridge.setFuel(handle, setFuelAmount)
+  fuelAmount && bridge.setFuel(handle, fuelAmount)
   engine && SetVehicleEngineOn(handle, true, engine.instantly, engine.disableAutoStart)
+  if (preCreate && existingNetId) {
+    preCreateVehicle(existingNetId)	
+  }
+  if (warp && entityHandle) {
+    TaskWarpPedIntoVehicle(entityHandle, handle, warp.seat)
+  }
   if (customize) {
     SetVehicleCustomPrimaryColour(handle, customize[0], customize[1], customize[2])
     SetVehicleCustomSecondaryColour(handle, customize[0], customize[1], customize[2])

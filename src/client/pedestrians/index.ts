@@ -12,7 +12,10 @@ export const createSinglePed = async (settings: CreateSinglePed, timeout: number
   let coords = settings.coords
   if (!validateInputs(coords, hash)) return
 
-  const [entityHandle, entityNetId] = await spawnPedEntity(hash, timeout, coords)
+  const result = await spawnPedEntity(hash, timeout, coords)
+  if (!result) return
+
+  const [entityHandle, entityNetId] = result
   if (!entityHandle) return
 
   if (scenario) {
@@ -40,7 +43,7 @@ export const destroyCreatedPed = async (netId: number, timeout: number) => {
   }
   try {
     const [entity, existingNetId] = await awaitInstanceExisting(null, netId, timeout)
-    if (!entity || entity === false) {
+    if (!entity) {
       info(`Entity ${existingNetId} does not exist`)
       return false
     } else {
