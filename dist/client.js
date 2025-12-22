@@ -60,9 +60,6 @@
 
   // node_modules/@trippler/tr_lib/client/promise/onPromise/index.js
   var promises = [];
-  onNet("__tr_promise_self_request_client", (endpoint) => {
-    emitNet("__tr_promise_self_client_response", source, promises.includes(endpoint));
-  });
   onNet("__tr_promise_on_self_client_lua_backward_compatibility", (endpoint) => {
     promises.push(endpoint);
   });
@@ -73,7 +70,6 @@
   // node_modules/@trippler/tr_lib/client/promise/triggerPromise/index.js
   var pendingPromises = {};
   var patienceLimit = 5e3;
-  var averageServerResponseTime = 1e3;
   var promises2 = [];
   var promiseId = 0;
   var triggerPromise = async (options, endpoint, ...parameters) => {
@@ -86,27 +82,6 @@
     if (typeof options === "boolean") {
       return triggerPromise([patienceLimit, options], endpoint, ...parameters);
     }
-    await new Promise((resolve) => {
-      if (!promises2.includes(endpoint)) {
-        const handler = (defined) => {
-          removeEventListener("__tr_promise_self_server_response", handler);
-          if (!defined) {
-            fatal(`promise ${endpoint} is not defined`);
-            resolve(false);
-            return;
-          }
-          promises2.push(endpoint);
-          resolve(true);
-        };
-        onNet("__tr_promise_self_server_response", handler);
-        emitNet("__tr_promise_self_request_server", endpoint);
-        setTimeout(() => {
-          removeEventListener("__tr_promise_self_server_response", handler);
-          resolve(false);
-        }, averageServerResponseTime);
-      } else
-        resolve(true);
-    });
     const timeout = options?.[0] ?? patienceLimit;
     const debug = options?.[1] ?? false;
     const promise = () => {
@@ -114,7 +89,7 @@
         promiseId = promiseId + 1;
         const currentPromiseId = promiseId;
         pendingPromises[currentPromiseId] = { resolve };
-        const responseEvent = `__tr_promise_await:${endpoint}`;
+        const responseEvent = `__tr_promise_trigger:${endpoint}`;
         if (!promises2.includes(endpoint)) {
           promises2.push(endpoint);
           onNet(responseEvent, (selfpromiseId, response2) => {
@@ -141,7 +116,7 @@
       return response.returned;
     } else {
       if (debug) {
-        trace(`server promise ${endpoint} timed out after ${timeout}ms`);
+        trace(`server promise ${endpoint} timed out after ${timeout}ms, possible slow respose or promise does not exist`);
       }
     }
     return null;

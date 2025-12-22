@@ -47,9 +47,6 @@ var init_onPromise = __esm({
   "node_modules/@trippler/tr_lib/server/promise/onPromise/index.js"() {
     init_console();
     promises = [];
-    onNet("__tr_promise_self_request_server", (endpoint) => {
-      emitNet("__tr_promise_self_server_response", source, promises.includes(endpoint));
-    });
     onNet("__tr_promise_on_self_server_lua_backward_compatibility", (endpoint) => {
       promises.push(endpoint);
     });
@@ -63,15 +60,15 @@ var init_onPromise = __esm({
       if (typeof Function !== "function")
         return false;
       promises.push(endpoint);
-      emitNet("__tr_promise_on_self_server_ts_backward_compatibility", source, endpoint);
+      emitNet("__tr_promise_on_self_server_ts_backward_compatibility", -1, endpoint);
       onNet(`__tr_promise_on:${endpoint}`, (promiseId, ...parameters) => {
         const clientSource = source;
         try {
           const result = Function(clientSource, ...parameters);
-          emitNet(`__tr_promise_on:${endpoint}`, source, promiseId, result);
+          emitNet(`__tr_promise_trigger:${endpoint}`, source, promiseId, result);
         } catch (error) {
-          emitNet(`__tr_promise_on:${endpoint}`, source, promiseId);
-          console.trace(`server promise '${endpoint}' (client ${source}) threw error: ${error}`);
+          emitNet(`__tr_promise_trigger:${endpoint}`, source, promiseId);
+          console.trace(`server promise '${endpoint}' (client id: ${source}) threw error: ${error}`);
         }
       });
       return true;
