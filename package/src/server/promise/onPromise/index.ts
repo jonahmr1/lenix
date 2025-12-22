@@ -19,15 +19,15 @@ export default <T extends (source: number, ...args: any) => ReturnType<T>>(endpo
   promises.push(endpoint)
   emitNet('__tr_promise_on_self_server_ts_backward_compatibility', -1, endpoint)
 
-  onNet(`__tr_promise_on:${endpoint}`, (promiseId: number, ...parameters: any) => {
+  onNet(`__tr_promise_on:${endpoint}`, async(promiseId: number, ...parameters: any) => {
     const clientSource = source
 
     try {
-      const result = Function(clientSource, ...parameters)
-      emitNet(`__tr_promise_trigger:${endpoint}`, source, promiseId, result)
+      const result = await Promise.resolve(Function(clientSource, ...parameters))
+      emitNet(`__tr_promise_trigger:${endpoint}`, clientSource, promiseId, result)
     } catch (error) {
-      emitNet(`__tr_promise_trigger:${endpoint}`, source, promiseId)
       console.trace(`server promise '${endpoint}' (client id: ${source}) threw error: ${error}`)
+      emitNet(`__tr_promise_trigger:${endpoint}`, clientSource, promiseId)
     }
   })
 
