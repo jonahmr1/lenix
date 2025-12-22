@@ -2,7 +2,6 @@ import { trace, fatal } from '../../../shared/console'
 
 const pendingPromises: { [key: number]: { resolve: (value: any) => void } } = {}
 const patienceLimit = 5000
-const averageServerResponseTime = 1000
 const promises: string[] = []
 let promiseId = 0
 
@@ -17,27 +16,6 @@ export const triggerPromise = async <T = unknown>(options: [number, boolean] | n
     return triggerPromise([patienceLimit, options], endpoint, ...parameters)
   }
 
-  await new Promise(resolve => {
-    if (!promises.includes(endpoint!)) {
-      const handler = (defined: boolean) => {
-        removeEventListener('__tr_promise_self_client_response', handler)
-        if (!defined) {
-          fatal(`promise ${endpoint} is not defined`)
-          resolve(false)
-          return
-        }
-        promises.push(endpoint!)
-        resolve(true)
-      }
-      onNet('__tr_promise_self_client_response', handler)
-      emitNet('__tr_promise_self_request_client', endpoint)
-      setTimeout(() => {
-        removeEventListener('__tr_promise_self_client_response', handler)
-        resolve(false)
-      }, averageServerResponseTime)
-    } else resolve(true)
-  })
-  
   const timeout = options?.[0] ?? patienceLimit
   const debug = options?.[1] ?? false
   
