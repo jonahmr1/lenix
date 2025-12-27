@@ -38,7 +38,7 @@
     "bundle": "npm run bundle:client && npm run bundle:server && npm run bundle:web",
     "bundle:client": "esbuild src/client/index.ts --bundle --outfile=dist/client.js --platform=browser --external:@citizenfx/*",
     "bundle:server": "esbuild src/server/index.ts --bundle --outfile=dist/server.js --platform=node --external:@citizenfx/*",
-    "bundle:web": "esbuild src/web/index.ts --bundle --outfile=dist/web.js --platform=browser"
+    "bundle:web": ""
   },
   "devDependencies": {
     "esbuild": "^0.20.0",
