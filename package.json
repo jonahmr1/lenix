@@ -1,6 +1,6 @@
 {
   "name": "@trippler/tr_kit",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
   "author": "Trippler",
   "license": "GPL-3.0",
