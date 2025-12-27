@@ -1,11 +1,11 @@
 export const trace = (...parameters: any): void => {
-  console.trace(...parameters)
+  console.trace(`^6`, ...parameters)
 }
 
 export const info = (...parameters: any): void => {
-  console.info(...parameters)
+  console.info(`^5`, ...parameters)
 }
 
 export const fatal = (...parameters: any): void => {
-  console.error(...parameters)
+  throw new Error(...parameters)
 }

@@ -8,5 +8,5 @@
   "references": [
     { "path": "../shared" }
   ],
-  "include": ["./**/*", "../shared/console"]
+  "include": ["./**/*", "../shared"]
 }

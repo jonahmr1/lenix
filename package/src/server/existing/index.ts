@@ -1,0 +1,1 @@
+export default (entityHandle: number | null, netId?: number | null, timeout?: number): Promise<[number | null, number | null]> => exports.tr_lib.init().awaitInstanceExisting(entityHandle, netId, timeout)
