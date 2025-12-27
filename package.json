@@ -1,6 +1,6 @@
 {
   "name": "@trippler/tr_kit",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
   "author": "Trippler",
   "license": "GPL-3.0",
@@ -34,7 +34,6 @@
     "build:server": "npx tsc -p src/server/tsconfig.json",
     "build:shared": "npx tsc -p src/shared/tsconfig.json",
     "build:web": "npx tsc -p src/web/tsconfig.json",
-    
     "bundle": "npm run bundle:client && npm run bundle:server && npm run bundle:web",
     "bundle:client": "esbuild src/client/index.ts --bundle --outfile=dist/client.js --platform=browser --external:@citizenfx/*",
     "bundle:server": "esbuild src/server/index.ts --bundle --outfile=dist/server.js --platform=node --external:@citizenfx/*",
