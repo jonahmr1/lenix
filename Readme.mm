@@ -22,4 +22,5 @@ main.js → build/main.js
 web/script.js → web/build/script.js
 ```
 
+
 That's it! ✨
