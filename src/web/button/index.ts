@@ -1,4 +1,4 @@
-import createElement from '../div/index'
+import useDiv from '../div/index'
 
 interface ButtonConfig {
   parent: string
@@ -53,7 +53,7 @@ export default ({ parent, content, id, className, type, size, disableKey, onClic
     throw new Error(`Parent element "${parent}" not found`)
   }
 
-  const button = createElement({parent: parent, id: id, className: className, content: content})
+  const button = useDiv({parent: parent, id: id, className: className, content: content})
   button.className = getType(type, size) != undefined ? getType(type, size)?.trim().replace(/\s+/g, ' ')! : className!
 
   let isDisabled = false

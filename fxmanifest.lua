@@ -8,7 +8,7 @@ dependencies {
 }
 
 author 'Trippler'
-version '2.0.2'
+version '2.0.3'
 repository 'https://github.com/TripplerScripts/tr_kit'
 
 server_scripts {
