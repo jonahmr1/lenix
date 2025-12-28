@@ -5,7 +5,11 @@ const patienceLimit = 5000
 const promises: string[] = []
 let promiseId = 0
 
-export const triggerPromise = async <T = unknown>(options: [number, boolean] | number | boolean | string,  endpoint?: string | any, ...parameters: any[]): Promise<T | null> => {
+export const triggerPromise = async <T = unknown>(
+  options: [number, boolean] | number | boolean | string,
+  endpoint?: string | any,
+  ...parameters: any[]
+): Promise<T | null> => {
   if (typeof options === 'string') {
     return triggerPromise([patienceLimit, false], options, endpoint, ...parameters)
   }

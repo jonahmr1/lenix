@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "../../client",
     "rootDir": ".",
-    "types": ["@citizenfx/client"]
+    "types": ["@citizenfx/client"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "references": [
     { "path": "../shared" }
