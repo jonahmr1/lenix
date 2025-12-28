@@ -1,4 +1,4 @@
-import { fatal } from '@trippler/tr_lib/client'
+import { fatal } from '@trippler/tr_lib/shared'
 
 export const isValidCoords = (coords: number[] | object) => {
   if (Array.isArray(coords) && coords.length === 4) 

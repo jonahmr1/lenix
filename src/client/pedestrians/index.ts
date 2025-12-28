@@ -1,8 +1,8 @@
-import { fatal, info, trace } from '@trippler/tr_lib/client'
+import { fatal, info, trace } from '@trippler/tr_lib/shared'
 import { validateInputs } from './validators'
 import { applyScenario, spawnPedEntity } from './wrappers'
 import { CreateSinglePed } from '../../shared'
-import { awaitInstanceExisting } from '@trippler/tr_lib/shared'
+import { awaitInstanceExisting } from '@trippler/tr_lib/client'
 
 const deletedPeds = new Set()
 

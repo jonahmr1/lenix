@@ -33,10 +33,10 @@ var trace, fatal;
 var init_console = __esm({
   "node_modules/@trippler/tr_lib/shared/console/index.js"() {
     trace = (...parameters) => {
-      console.trace(...parameters);
+      console.trace(`^6`, ...parameters, "^0");
     };
     fatal = (...parameters) => {
-      console.error(...parameters);
+      throw new Error(...parameters);
     };
   }
 });
@@ -61,14 +61,14 @@ var init_onPromise = __esm({
         return false;
       promises.push(endpoint);
       emitNet("__tr_promise_on_self_server_ts_backward_compatibility", -1, endpoint);
-      onNet(`__tr_promise_on:${endpoint}`, (promiseId, ...parameters) => {
+      onNet(`__tr_promise_on:${endpoint}`, async (promiseId, ...parameters) => {
         const clientSource = source;
         try {
-          const result = Function(clientSource, ...parameters);
-          emitNet(`__tr_promise_trigger:${endpoint}`, source, promiseId, result);
+          const result = await Promise.resolve(Function(clientSource, ...parameters));
+          emitNet(`__tr_promise_trigger:${endpoint}`, clientSource, promiseId, result);
         } catch (error) {
-          emitNet(`__tr_promise_trigger:${endpoint}`, source, promiseId);
           console.trace(`server promise '${endpoint}' (client id: ${source}) threw error: ${error}`);
+          emitNet(`__tr_promise_trigger:${endpoint}`, clientSource, promiseId);
         }
       });
       return true;
@@ -83,11 +83,24 @@ var init_triggerPromise = __esm({
   }
 });
 
+// node_modules/@trippler/tr_lib/server/existing/index.js
+var init_existing = __esm({
+  "node_modules/@trippler/tr_lib/server/existing/index.js"() {
+  }
+});
+
 // node_modules/@trippler/tr_lib/server/index.js
 var init_server = __esm({
   "node_modules/@trippler/tr_lib/server/index.js"() {
     init_onPromise();
     init_triggerPromise();
+    init_existing();
+  }
+});
+
+// node_modules/@trippler/tr_lib/shared/index.js
+var init_shared = __esm({
+  "node_modules/@trippler/tr_lib/shared/index.js"() {
     init_console();
   }
 });
@@ -97,6 +110,7 @@ var require_vehicles = __commonJS({
   "src/server/vehicles/index.ts"(exports2) {
     "use strict";
     init_server();
+    init_shared();
     var bridge = {
       getPlayerData: (source2) => {
         const playerData = exports2["qb-core"].GetCoreObject().Functions.GetPlayer(source2).PlayerData;

@@ -1,4 +1,5 @@
-import { onPromise, trace } from "@trippler/tr_lib/server"
+import { onPromise } from "@trippler/tr_lib/server"
+import { trace } from "@trippler/tr_lib/shared"
 
 const bridge = {
 	getPlayerData: (source: number) => {

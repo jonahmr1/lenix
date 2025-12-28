@@ -49,13 +49,32 @@
 
   // node_modules/@trippler/tr_lib/shared/console/index.js
   var trace = (...parameters) => {
-    console.trace(...parameters);
+    console.trace(`^6`, ...parameters, "^0");
   };
   var info = (...parameters) => {
-    console.info(...parameters);
+    console.info(`^5`, ...parameters, "^0");
   };
   var fatal = (...parameters) => {
-    console.error(...parameters);
+    throw new Error(...parameters);
+  };
+
+  // src/client/pedestrians/validators.ts
+  var isValidCoords = (coords) => {
+    if (Array.isArray(coords) && coords.length === 4)
+      return true;
+    else
+      return false;
+  };
+  var validateInputs = (coords, hash) => {
+    if (typeof hash !== "number") {
+      fatal(`Expecter a number of hash, got ${typeof hash}(${hash})`);
+      return;
+    }
+    if (!isValidCoords(coords)) {
+      fatal(`expected array of number with length of 4, got ${typeof coords}(${coords})`);
+      return;
+    }
+    return true;
   };
 
   // node_modules/@trippler/tr_lib/client/promise/onPromise/index.js
@@ -66,6 +85,9 @@
 
   // node_modules/@trippler/tr_lib/client/request/index.js
   var request_default = (hash, timeout) => exports.tr_lib.init().requestModel(hash, timeout);
+
+  // node_modules/@trippler/tr_lib/client/existing/index.js
+  var existing_default = (entityHandle, netId, timeout) => exports.tr_lib.init().awaitInstanceExisting(entityHandle, netId, timeout);
 
   // node_modules/@trippler/tr_lib/client/promise/triggerPromise/index.js
   var pendingPromises = {};
@@ -121,28 +143,6 @@
     }
     return null;
   };
-
-  // src/client/pedestrians/validators.ts
-  var isValidCoords = (coords) => {
-    if (Array.isArray(coords) && coords.length === 4)
-      return true;
-    else
-      return false;
-  };
-  var validateInputs = (coords, hash) => {
-    if (typeof hash !== "number") {
-      fatal(`Expecter a number of hash, got ${typeof hash}(${hash})`);
-      return;
-    }
-    if (!isValidCoords(coords)) {
-      fatal(`expected array of number with length of 4, got ${typeof coords}(${coords})`);
-      return;
-    }
-    return true;
-  };
-
-  // node_modules/@trippler/tr_lib/shared/existing/index.js
-  var existing_default = (entityHandle, netId, timeout) => exports.tr_lib.init().awaitInstanceExisting(entityHandle, netId, timeout);
 
   // src/client/pedestrians/wrappers.ts
   var spawnPedEntity = async (hash, timeout, coords) => {

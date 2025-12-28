@@ -1,5 +1,5 @@
-import { triggerPromise, trace, info } from '@trippler/tr_lib/client'
-import { awaitInstanceExisting } from '@trippler/tr_lib/shared'
+import { trace, info } from '@trippler/tr_lib/shared'
+import { awaitInstanceExisting , triggerPromise} from '@trippler/tr_lib/client'
 import { CreateSingleVehicle } from '../../shared'
 import { spawnVehicleEntity, applySettings } from './wrappers'
 

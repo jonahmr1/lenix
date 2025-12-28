@@ -1,6 +1,6 @@
-import { awaitInstanceExisting } from "@trippler/tr_lib/shared"
+import { awaitInstanceExisting, requestModel } from "@trippler/tr_lib/client"
 import { CreateSingleVehicle } from "../../shared"
-import { fatal, requestModel } from "@trippler/tr_lib/client"
+import { fatal } from "@trippler/tr_lib/shared"
 
 const bridge = {
   giveKey: (plate: string) => {
