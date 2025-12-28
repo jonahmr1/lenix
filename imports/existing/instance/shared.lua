@@ -1,24 +1,20 @@
----@see this need to be refactored
-
 function lib.awaitInstanceExisting(entity, netId, timeout)
-  assert(type(entity) == 'number' or entity == nil, ('entity must be a number, got %s'):format(type(entity)))
-  assert(type(netId) == 'number' or netId == nil, ('netId must be a number, got %s'):format(type(netId)))
-  assert(timeout == nil or type(timeout) == 'number', ('timeout must be a number, got %s'):format(type(timeout)))
-  assert(entity ~= nil or netId ~= nil, 'entity or netId must be valid values')
+  assert(entity or netId, 'entity or netId required')
+  assert(type(entity) == 'number' or not entity, 'entity must be number')
+  assert(type(netId) == 'number' or not netId, 'netId must be number')
+  assert(type(timeout) == 'number' or not timeout, 'timeout must be number')
 
   timeout = timeout or 10000
-  local startTime = GetGameTimer()
+  local start = GetGameTimer()
 
   if not entity then
     entity = NetworkGetEntityFromNetworkId(netId)
-    if not entity or entity == 0 then 
-      return false, nil
-    end
+    if not entity or entity == 0 then return false, nil end
   end
 
   while not DoesEntityExist(entity) do
-    if GetGameTimer() - startTime >= timeout then
-      lib.console.trace(('awaitInstanceExisting timeout reached, entity: %d'):format(entity))
+    if GetGameTimer() - start >= timeout then
+      lib.console.trace(('timeout: entity %d'):format(entity))
       return false, nil
     end
     Wait(0)
@@ -26,9 +22,7 @@ function lib.awaitInstanceExisting(entity, netId, timeout)
 
   if not netId then
     netId = NetworkGetNetworkIdFromEntity(entity)
-    if not netId or netId == 0 then
-      return entity, nil
-    end
+    if not netId or netId == 0 then netId = nil end
   end
 
   return entity, netId

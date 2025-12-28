@@ -6,5 +6,5 @@
     "rootDir": ".",
     "composite": true
   },
-  "include": ["./**/*", "console"]
+  "include": ["./**/*"]
 }
