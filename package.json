@@ -11,6 +11,10 @@
     "watch:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --watch --outfile=build/server.js",
     "watch:web": "esbuild web/src/index.ts --bundle --platform=browser --target=es2020 --watch --outfile=build/web.js"
   },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "dotenv": "^16.0.0"
+  },
   "devDependencies": {
     "@lenixdev/ui_components": "latest",
     "@trippler/tr_kit": "latest",

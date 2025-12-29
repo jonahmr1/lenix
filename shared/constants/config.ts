@@ -8,7 +8,16 @@ export const profile: ServerProfile = {
 export const lobbyCoords = [476.8345, -1314.8319, 28.2045, 239.2849]
 
 export const openDelay = 1000
-
+export type PlayerObject = {
+  name: string,
+  role: {
+    name: string,
+    color: string,
+  }
+}
+export const maxTextLength = 128
+export const messagesCooldown = 5
+export const messagesFadeDuration = 5000
 /* 
 477.2212, -1316.0479, 29.2047, 78.4225
 -622.7123, -1620.3428, 33.0105, 95.8117
