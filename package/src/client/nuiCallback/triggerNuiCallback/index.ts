@@ -1,3 +1,2 @@
-// experimental
-
-export default (arg: object) => SendNuiMessage(JSON.stringify(arg))
+export default (name: string, ...params: any[]) => 
+  SendNuiMessage(JSON.stringify({ __name: name, params }))

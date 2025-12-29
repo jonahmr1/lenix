@@ -4,5 +4,8 @@
     "outDir": "../../web",
     "rootDir": ".",
   },
-  "include": ["./**/*"]
+  "references": [
+    { "path": "../shared" }
+  ],
+  "include": ["./**/*", "../shared"]
 }
