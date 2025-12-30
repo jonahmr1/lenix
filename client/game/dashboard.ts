@@ -13,7 +13,7 @@ const setCoords = (coords: number[]) => {
   }
 }
 
-export let lastCamHandle: number
+let lastCamHandle: number
 
 const createCamera = (fadeIn: number, fadeOut: number, delay: number) => {
   const cam: [number, number, number, number] = [ 479.3787, -1316.2129, 29.2034, 62.6716 ]
@@ -27,6 +27,16 @@ const createCamera = (fadeIn: number, fadeOut: number, delay: number) => {
       delay: delay ?? 2000,
     }
   })
+}
+
+const placePlayerInLobby = () => {
+  createCam
+  setTimeout(() => {
+    const coords = GetEntityCoords(PlayerPedId(), true)
+    lastPlayerCoords = [ ...coords ]
+    setCoords(lobbyCoords)
+    FreezeEntityPosition(PlayerPedId(), true)
+  }, openDelay)
 }
 
 export const openGame = () => {
@@ -47,16 +57,6 @@ export const showGame = () => {
   triggerNuiCallback('show')
   SetNuiFocus(true, true)
   createCamera(0, 0, 0)
-}
-
-export const placePlayerInLobby = () => {
-  createCam
-  setTimeout(() => {
-    const coords = GetEntityCoords(PlayerPedId(), true)
-    lastPlayerCoords = [ ...coords ]
-    setCoords(lobbyCoords)
-    FreezeEntityPosition(PlayerPedId(), true)
-  }, openDelay)
 }
 
 export const closeGame = () => {
