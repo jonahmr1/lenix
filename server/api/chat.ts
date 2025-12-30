@@ -3,6 +3,8 @@ import { fatal, split } from "@trippler/tr_lib/shared"
 import { info } from "console"
 import fetchDiscordServer from "../services/chat"
 
+const playersSources: number[] = []
+
 onPromise('createNewMessageRequest', (senderSource, message: string) => {
   try {
     playersSources.forEach(async source => {
@@ -24,9 +26,6 @@ onPromise('createNewMessageRequest', (senderSource, message: string) => {
     throw fatal(error)
   }
 })
-
-
-export const playersSources: number[] = []
 
 on("playerDropped", (_reason: string, _resourceName: string, _clientDropReason: number) => {
   playersSources.splice(playersSources.indexOf(source), 1)
