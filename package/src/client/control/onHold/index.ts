@@ -3,10 +3,6 @@ import { Bind, isInvalidKey, onKey } from ".."
 export default (key: Bind, callback: Function) => {
   if (isInvalidKey(key)) return false
 
-  setImmediate(() => {
-    while (true) {
-      setTick(() => onKey(IsControlPressed, key, callback))
-    }
-  })
+  setTick(() => onKey(IsControlPressed, key, callback))
   return true
 }
