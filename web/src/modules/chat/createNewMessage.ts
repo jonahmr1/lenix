@@ -23,7 +23,7 @@ export default (message: string) => {
   const characterLeftElement = document.getElementById('characters-left')
   characterLeftElement?.classList.add('hidden')
 
- const response = triggerNuiCallback<boolean>('createNewMessageRequest', { message })
+ const response = triggerNuiCallback<boolean>('chat/createNewMessageRequest', { message })
  if (!response) {
   throw new Error("Failed to create new message")
  }

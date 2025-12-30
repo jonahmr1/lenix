@@ -13,6 +13,6 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     useUnfocus()
   } else if (event.key === 'F11') {
-    triggerNuiCallback<unknown>('focus')
+    triggerNuiCallback<unknown>('chat/focus')
   }
 })

@@ -36,5 +36,5 @@ export default () => {
       message?.add('opacity-0')
     }
   }
-  triggerNuiCallback<void>('closeChat')
+  triggerNuiCallback<unknown>('chat/closeChat')
 }

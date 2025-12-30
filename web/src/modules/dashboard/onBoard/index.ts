@@ -16,7 +16,7 @@ export default async (): Promise<{ userName: string, userAvatar: string }> => {
         button: "Get Started",
         onClick: () => {
           success.remove()
-          triggerNuiCallback('startCharacterProcess')
+          triggerNuiCallback<unknown>('dashboard/startCharacterProcess')
           resolve({ userName, userAvatar })
         }
       })
