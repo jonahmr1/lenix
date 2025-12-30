@@ -1,7 +1,7 @@
 import { useButton, useInput, useDiv } from '@trippler/tr_kit/web'
 import { messagesCooldown } from '../../../../shared/constants'
 import useCharacterLeft from '../../hooks/chat/useCharactersLeft'
-import createNewMessage from '../../components/chat/createNewMessage'
+import createNewMessage from '../../modules/chat/createNewMessage'
 
 document.body.id = 'body'
 document.documentElement.className = '[scrollbar-width:none]'
