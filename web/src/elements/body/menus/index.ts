@@ -1,5 +1,5 @@
 import { useDiv, useButton} from "@trippler/tr_kit/web"
-import serviceUnavailable from "../../../components/serviceUnavailable"
+import serviceUnavailable from "../../../components/dashboard/serviceUnavailable"
 
 const buttonsStyle = "text-2xl text-white italic h-1/5"
 const buttonsContentsStyle = "hover:font-semibold hover:text-3xl transition-all"

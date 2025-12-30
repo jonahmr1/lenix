@@ -1,6 +1,6 @@
 import './api'
 import { createDatabaseTable } from './database/schema'
-import { fatal } from '@trippler/tr_lib/server'
+import { fatal } from '@trippler/tr_lib/shared'
 
 setImmediate(async () => {
   const success = await createDatabaseTable()

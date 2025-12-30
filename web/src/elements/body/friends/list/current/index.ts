@@ -1,6 +1,6 @@
 import { useDiv } from "@trippler/tr_kit/web"
 import { getPlayerFriends } from "../../../../../api/friendship"
-import createFriendItem from "../../../../../modules/createFriendItem"
+import createFriendItem from "../../../../../modules/dashboard/createFriendItem"
 
 (() => {
   useDiv({

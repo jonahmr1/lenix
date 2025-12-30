@@ -1,2 +1,2 @@
-import './friendship'
-import './user'
+import './dashboard'
+import './chat'

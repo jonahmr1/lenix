@@ -1,8 +1,8 @@
-import './friendship'
-import './user'
+import './dashboard'
+import './chat'
 import { closeGame } from '../game'
 import { profile } from '../../shared/constants/config'
-import startCharacterProcess from '../game/index'
+import startCharacterProcess from '../api'
 import { onNuiCallback } from '@trippler/tr_lib/client'
 
 onNuiCallback<undefined>('closeGame', (_data, callback) => callback(closeGame()))

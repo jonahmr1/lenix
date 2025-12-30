@@ -1,5 +1,5 @@
 import { useButton } from "@trippler/tr_kit/web"
-import unavailableNotice from "../../../../components/serviceUnavailable"
+import unavailableNotice from "../../../../components/dashboard/serviceUnavailable"
 
 useButton({
   parent: "player-details",

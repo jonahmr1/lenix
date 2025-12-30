@@ -1,6 +1,6 @@
 import { useDiv, useButton } from "@trippler/tr_kit/web"
 import { getIncomingFriends, removeIncomingRequest, acceptFriendship } from "../../../../../api/friendship"
-import playerDetails from "../../../../../modules/playerDetails"
+import playerDetails from "../../../../../modules/dashboard/playerDetails"
 
 useDiv({
   parent: "friendsRequests",

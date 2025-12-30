@@ -1,6 +1,7 @@
+import './chat'
 import createCam, { lastCamHandle } from './camera'
 import { lobbyCoords, openDelay } from "../../shared/constants/config"
-import { doesUserAlreadyExist } from "../api/user"
+import { doesUserAlreadyExist } from "../api/dashboard"
 import { destroyCam } from "@trippler/tr_kit/client"
 import { triggerNuiCallback } from '@trippler/tr_lib/client'
 
@@ -17,24 +18,22 @@ export const openGame = () => {
   placePlayerInLobby()
   setTimeout(async () => {
     const identity = await doesUserAlreadyExist()
-    triggerNuiCallback({ action: 'open', identity})
+    triggerNuiCallback('open', identity)
     SetNuiFocus(true, true)
   }, openDelay)
 }
 
 export const hideGame = () => {
-  triggerNuiCallback({
-    action: 'hide'
-  })
+  triggerNuiCallback('hide')
   SetNuiFocus(false, false)
 }
+
 export const showGame = () => {
-  triggerNuiCallback({
-    action: 'show'
-  })
+  triggerNuiCallback('show')
   SetNuiFocus(true, true)
   createCam(0, 0, 0)
 }
+
 export const placePlayerInLobby = () => {
   createCam
   setTimeout(() => {
@@ -46,14 +45,12 @@ export const placePlayerInLobby = () => {
 }
 
 export const closeGame = () => {
-  triggerNuiCallback({ action: 'close' })
+  triggerNuiCallback('close')
   SetNuiFocus(false, false)
   destroyCam({handle: lastCamHandle})
   Wait(200)
   setCoords(lastPlayerCoords)
   FreezeEntityPosition(PlayerPedId(), false)
-  TriggerServerEvent('tr_spawn/server/logout')
+  emitNet('tr_spawn/server/logout')
   return true
 }
-
-export default async () => exports.tr_onboarding.startCharacterProcess(lobbyCoords, lobbyCoords, hideGame, showGame)
