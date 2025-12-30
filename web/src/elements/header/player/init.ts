@@ -1,5 +1,0 @@
-import '.'
-import './card'
-import './coins'
-import './money'
-import './friends'
