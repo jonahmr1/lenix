@@ -3,7 +3,7 @@ import('./server')
 import('./player')
 
 useDiv({
-  parent: "root",
+  parent: "dashboard-root",
   id: "header",
   className: "w-full h-[8vh] blured-15 flex items-center justify-around gap-[10%]"
 })

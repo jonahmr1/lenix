@@ -3,17 +3,16 @@ import { messagesCooldown } from '../../../../shared/constants'
 import useCharacterLeft from '../../hooks/chat/useCharactersLeft'
 import createNewMessage from '../../modules/chat/createNewMessage'
 
-document.body.id = 'body'
 document.documentElement.className = '[scrollbar-width:none]'
 
 useDiv({
   parent: 'body',
-  id: 'root',
+  id: 'chat-root',
   className: 'select-none w-full h-screen'
 })
 
 useDiv({
-  parent: 'root',
+  parent: 'chat-root',
   id: 'container',
   className: 'w-full h-[80vh] flex items-end justify-start px-2'
 })

@@ -1,7 +1,9 @@
+import { useDiv } from '@trippler/tr_kit/web'
 import('./header')
 import('./body')
 
-const root = document.createElement("div")
-root.id = 'root'
-root.className = 'select-none hidden'
-document.body.appendChild(root)
+useDiv({
+  id: 'dashboard-root',
+  className: 'select-none hidden',
+  parent: 'body'
+})
