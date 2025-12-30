@@ -1,4 +1,4 @@
-import refreshFriends from "../utils/dashboard/dom"
+import refreshFriends from "../dom/dashboard"
 import createFriendItem from "../modules/dashboard/createFriendItem"
 import {
   CancelOutgoingFriendship,
