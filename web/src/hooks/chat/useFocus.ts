@@ -1,4 +1,4 @@
-import { inCooldown, messageCount, setFocus } from '../../../../../tr_freeroam/web/src'
+import { inCooldown, messageCount, setFocus } from '.'
 
 export default () => {
   setFocus(true)

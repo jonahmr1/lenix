@@ -1,5 +1,5 @@
-import { pendingMessageForFadeCount, setFocus } from '../../../../../tr_freeroam/web/src/index'
-import { messageCount } from '../../../../../tr_freeroam/web/src/index'
+import { pendingMessageForFadeCount, setFocus } from '.'
+import { messageCount } from '.'
 import { triggerNuiCallback } from '@trippler/tr_lib/web'
 
 export default () => {

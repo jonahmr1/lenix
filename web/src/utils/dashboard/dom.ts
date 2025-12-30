@@ -1,5 +1,5 @@
 import closeDashboard from "../../modules/dashboard/states/closeDashboard"
-import { isDashboardOn } from "../variables"
+import { isDashboardOn } from "../../hooks/dashboard"
 
 export default (count: number) => {
   const friendsBTN = document.getElementById('friendsButton')

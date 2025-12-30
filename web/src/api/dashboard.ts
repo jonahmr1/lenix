@@ -19,7 +19,7 @@ import closeDashboard from '../modules/dashboard/states/closeDashboard'
 import hideDashboard from '../modules/dashboard/states/hideDashboard'
 import showDashboard from '../modules/dashboard/states/showDashboard'
 import { onNuiCallback, triggerNuiCallback } from '@trippler/tr_lib/web'
-import { setDashboardState } from "../utils/variables"
+import { setDashboardState } from "../hooks/dashboard"
 
 onNuiCallback('open', async (identity) => {
   if (typeof identity === 'number') {

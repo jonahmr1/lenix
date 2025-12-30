@@ -1,4 +1,4 @@
-import { setInCooldown } from "../../../../../tr_freeroam/web/src"
+import { setInCooldown } from "."
 
 export default () => {
   const bar = document.getElementById('cooldown-bar')
