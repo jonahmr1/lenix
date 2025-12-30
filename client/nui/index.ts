@@ -1,7 +1,7 @@
 import './dashboard'
 import './chat'
 import { closeGame } from '../game'
-import { profile } from '../../shared/constants/config'
+import { profile } from '../../shared/constants'
 import startCharacterProcess from '../api'
 import { onNuiCallback } from '@trippler/tr_lib/client'
 

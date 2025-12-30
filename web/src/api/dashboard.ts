@@ -11,7 +11,8 @@ import {
   RemovePlayerFriendship,
   SendUserFriendInvitation,
   CreateUser,
-  GetUserProfile
+  GetUserProfile,
+  ServerProfile
 } from "../../../shared/types"
 import openDashboard from '../modules/dashboard/states/openDashboard'
 import closeDashboard from '../modules/dashboard/states/closeDashboard'
@@ -19,7 +20,6 @@ import hideDashboard from '../modules/dashboard/states/hideDashboard'
 import showDashboard from '../modules/dashboard/states/showDashboard'
 import { onNuiCallback, triggerNuiCallback } from '@trippler/tr_lib/web'
 import { setDashboardState } from "../utils/dashboard/variables"
-
 
 onNuiCallback('open', async (identity) => {
   if (typeof identity === 'number') {
@@ -46,6 +46,7 @@ onNuiCallback('show', () => {
   showDashboard()
 })
 
+export const getServerProfile = () => triggerNuiCallback<ServerProfile>('getServerProfile')
 export const createUser =  (name: string, avatar: string) => triggerNuiCallback<Awaited<CreateUser>>('createUser', { name, avatar })
 export const getUserProfile = (identity: number) => triggerNuiCallback<GetUserProfile>('getUserProfile', { identity })
 

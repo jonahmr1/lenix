@@ -1,6 +1,6 @@
 import './chat'
 import createCam, { lastCamHandle } from './camera'
-import { lobbyCoords, openDelay } from "../../shared/constants/config"
+import { lobbyCoords, openDelay } from "../../shared/constants"
 import { doesUserAlreadyExist } from "../api/dashboard"
 import { destroyCam } from "@trippler/tr_kit/client"
 import { triggerNuiCallback } from '@trippler/tr_lib/client'

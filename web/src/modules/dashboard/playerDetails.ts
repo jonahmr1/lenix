@@ -1,5 +1,5 @@
 import { getUserProfile } from '../../api/dashboard'
-import updatePlayerCard from '../../elements/header/player/card'
+import updatePlayerCard from '../../elements/dashboard/header/player/card'
 
 export default class playerDetails {
   private name: string = 'undefined'

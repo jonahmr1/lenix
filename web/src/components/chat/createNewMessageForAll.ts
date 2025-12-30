@@ -1,7 +1,7 @@
 import { useDiv } from "@trippler/tr_kit/web"
-import { isFocused, messageCount, pendingMessageForFadeCount, setMessagesCount, setPendingMessageForFadeCount } from ".."
-import { PlayerObject } from "../../../shared/constants"
-import { messagesFadeDuration } from "../../../shared/constants"
+import { isFocused, messageCount, pendingMessageForFadeCount, setMessagesCount, setPendingMessageForFadeCount } from "../../utils/dashboard/variables"
+import { PlayerObject } from "../../../../shared/types"
+import { messagesFadeDuration } from "../../../../shared/constants"
 
 export default (message: string, player: PlayerObject) => {
   useDiv({
