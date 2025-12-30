@@ -1,6 +1,6 @@
 import { useButton, useDiv, useInput } from "@trippler/tr_kit/web"
-import { getFriendablePlayers, sendUserFriendInvitation } from "../../../../../api/friendship"
 import playerDetails from "../../../../../../modules/dashboard/playerDetails"
+import { getFriendablePlayers, sendUserFriendInvitation } from "../../../../../../api/dashboard"
 
 const container = document.getElementById("playersSearchContainer")
 const resultsBox = document.getElementById("playersResults")
