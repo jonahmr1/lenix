@@ -12,7 +12,13 @@ import {
   createUser,
   getUserProfile
 } from '../api/dashboard'
+import { closeGame } from '../game/dashboard'
+import { profile } from '../../shared/constants'
+import { startCharacterProcess } from '../api/dashboard'
 
+onNuiCallback<undefined>('closeGame', (_data, callback) => callback(closeGame()))
+onNuiCallback<undefined>('startCharacterProcess', async (_data, callback) => callback(await startCharacterProcess()))
+onNuiCallback<undefined>('getServerProfile', async (_data, callback) => callback(profile))
 onNuiCallback<{ name: string, avatar: string }>('createUser', async (data, callback) => callback(await createUser(data.name, data.avatar)))
 onNuiCallback<{ identity: number }>('getUserProfile', async (data, callback) => callback(await getUserProfile(data.identity)))
 onNuiCallback<{ identity: number }>('acceptFriendship', async (data, callback) => callback(await acceptFriendship(data.identity)))

@@ -1,3 +1,5 @@
+type SQLValue = string | number | boolean | null
+
 export const getSingleRow = async <T extends Record<string, unknown>>(columns: string, table: string, conditions?: string, ...values: SQLValue[]): Promise<T | null> => await exports.oxmysql.single_async(
   `SELECT ${columns} FROM ${table}${conditions ? ` WHERE ${conditions}` : ''}`
 , values)

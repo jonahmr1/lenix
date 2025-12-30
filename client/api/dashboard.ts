@@ -15,11 +15,11 @@ import {
 } from '../../shared/types'
 
 import { lobbyCoords } from '../../shared/constants'
-import { hideGame, showGame } from '../game'
+import { hideGame, showGame, closeGame, openGame } from '../game/dashboard'
 
 export const startCharacterProcess = async () => exports.tr_onboarding.startCharacterProcess(lobbyCoords, lobbyCoords, hideGame, showGame)
-export const getUserProfile = (identity: number) => triggerPromise<GetUserProfile>('getUserProfile', identity)
 export const doesUserAlreadyExist = () => triggerPromise<DoesUserAlreadyExist>('doesUserAlreadyExist')
+export const getUserProfile = (identity: number) => triggerPromise<GetUserProfile>('getUserProfile', identity)
 export const createUser = (name: string, avatar: string) => triggerPromise<CreateUserIntoTheDatabase>('createUser', name, avatar)
 export const acceptFriendship = (identity: number) => triggerPromise<AcceptFriendship>('acceptFriendship', identity)
 export const getPlayerFriends = () => triggerPromise<GetPlayerFriends>('getPlayerFriends')
@@ -30,3 +30,14 @@ export const removeIncomingRequest = (identity: number) => triggerPromise<Remove
 export const removePlayerFriendship = (identity: number) => triggerPromise<RemovePlayerFriendship>('removePlayerFriendship', identity)
 export const cancelOutgoingFriendship = (identity: number) => triggerPromise<CancelOutgoingFriendship>('cancelOutgoingFriendship', identity)
 export const sendUserFriendInvitation = (identity: number) => triggerPromise<SendUserFriendInvitation>('sendUserFriendInvitation', identity)
+
+on('onResourceStop', (resourceName: string) => {
+  if (resourceName === GetCurrentResourceName()) {
+    emitNet('tr_onboarding/server/logout')
+  }
+})
+
+globalThis.exports('showGame', showGame)
+globalThis.exports('hideGame', hideGame)
+globalThis.exports('closeGame', closeGame)
+globalThis.exports('start', openGame)
