@@ -1,4 +1,4 @@
-import { isFocused } from '../utils/dashboard/variables'
+import { isFocused } from '../utils/variables'
 import { PlayerObject } from '../../../shared/types'
 import createNewMessageForAll from '../components/chat/createNewMessageForAll'
 import useFocus from '../hooks/chat/useFocus'

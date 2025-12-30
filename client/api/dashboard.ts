@@ -14,6 +14,10 @@ import {
   GetUserProfile
 } from '../../shared/types'
 
+import { lobbyCoords } from '../../shared/constants'
+import { hideGame, showGame } from '../game'
+
+export const startCharacterProcess = async () => exports.tr_onboarding.startCharacterProcess(lobbyCoords, lobbyCoords, hideGame, showGame)
 export const getUserProfile = (identity: number) => triggerPromise<GetUserProfile>('getUserProfile', identity)
 export const doesUserAlreadyExist = () => triggerPromise<DoesUserAlreadyExist>('doesUserAlreadyExist')
 export const createUser = (name: string, avatar: string) => triggerPromise<CreateUserIntoTheDatabase>('createUser', name, avatar)

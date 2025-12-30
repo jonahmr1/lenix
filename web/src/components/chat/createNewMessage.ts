@@ -1,8 +1,8 @@
-import { maxTextLength, messagesCooldown } from "../../../shared/constants"
-import useCooldown from "../hooks/useCooldown"
-import { input } from "../../../../tr_competitive/web/src/elements/chat"
+import { maxTextLength, messagesCooldown } from "../../../../shared/constants"
+import useCooldown from "../../hooks/chat/useCooldown"
+import { input } from "../../elements/chat"
 import { triggerNuiCallback } from "@trippler/tr_lib/web"
-import { setInCooldown } from ".."
+import { setInCooldown } from "../../utils/variables"
 
 let canSend = true
 
