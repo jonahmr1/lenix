@@ -5,7 +5,7 @@ export default (key: Bind, callback: Function) => {
 
   setImmediate(() => {
     while (true) {
-      onKey(IsControlJustReleased, key, callback)
+      setTick(() => onKey(IsControlJustReleased, key, callback))
     }
   })
   return true

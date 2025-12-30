@@ -5,7 +5,7 @@ export default (key: Bind, callback: Function) => {
   setImmediate(() => {
     while (true) {
       try {
-        onKey(IsControlReleased, key, callback)
+        setTick(() => onKey(IsControlReleased, key, callback))
       } catch (error) {
         console.error(error)
       }

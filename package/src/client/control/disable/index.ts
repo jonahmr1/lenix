@@ -5,7 +5,7 @@ export default (key: Bind,) => {
 
   setImmediate(() => {
     while (true) {
-      onKey(DisableControlAction, key, noop, true)
+      setTick(() => onKey(DisableControlAction, key, noop, true) )
     }
   })
   return true

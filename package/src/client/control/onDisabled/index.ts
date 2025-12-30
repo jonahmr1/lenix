@@ -5,8 +5,10 @@ export default (key: Bind, callback: Function) => {
 
   setImmediate(() => {
     while (true) {
-      onKey(DisableControlAction, key, noop, true)
-      onKey(IsDisabledControlJustPressed, key, callback)
+      setTick(() => {
+        onKey(DisableControlAction, key, noop, true)
+        onKey(IsDisabledControlJustPressed, key, callback)
+      })
     }
   })
   return true
