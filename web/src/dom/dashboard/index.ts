@@ -1,5 +1,5 @@
-import closeDashboard from "../../modules/dashboard/states/closeDashboard"
 import { isDashboardOn } from "../../hooks/dashboard"
+import openEscapeMenu from "../../modules/dashboard/states/openEscapeMenu"
 
 export default (count: number) => {
   const friendsBTN = document.getElementById('friendsButton')
@@ -9,7 +9,7 @@ export default (count: number) => {
 window.addEventListener('keydown', (event: KeyboardEvent) => {
   if (event.key === 'Escape') {
     if (isDashboardOn) {
-      closeDashboard()
+      openEscapeMenu()
     }
   }
 })
