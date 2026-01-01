@@ -1,9 +1,10 @@
 import { useDiv } from '@trippler/tr_kit/web'
-import('./header')
-import('./body')
 
 useDiv({
+  parent: 'body',
   id: 'dashboard-root',
-  className: 'select-none hidden',
-  parent: 'body'
+  className: 'select-none hidden absolute',
 })
+
+import('./header')
+import('./body')

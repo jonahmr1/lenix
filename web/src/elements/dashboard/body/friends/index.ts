@@ -3,7 +3,7 @@ import('./list')
 import('./requests')
 
 useDiv({
-  parent: "body",
+  parent: "dashboard-body",
   id: "friends",
   className: "w-[20%] h-full relative overflow-hidden"
 })

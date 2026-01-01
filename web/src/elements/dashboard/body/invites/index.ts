@@ -1,7 +1,7 @@
 import { useButton, useDiv} from "@trippler/tr_kit/web"
 
 useDiv({
-  parent: "body",
+  parent: "dashboard-body",
   id: "invites",
   className: "w-[65%] h-[75%] flex justify-between items-center gap-[25%]"
 })

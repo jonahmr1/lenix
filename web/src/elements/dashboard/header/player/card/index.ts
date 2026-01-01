@@ -1,6 +1,5 @@
 import { useDiv, useButton} from "@trippler/tr_kit/web"
 import unavailableNotice from "../../../../../components/dashboard/serviceUnavailable"
-import playerDetails from "../../../../../modules/dashboard/playerDetails"
 
 useButton({
   parent: "player-details",
@@ -26,8 +25,7 @@ const nameElement = useDiv({
   className: "h-full text-white flex items-center"
 })
 
-export default async (identity: number) => {
-  const details = await new playerDetails().getUserDetails(identity)
-  avatarElement.innerHTML = `<img src='${details.avatar}' class='rounded-sm'>`
-  nameElement.innerHTML = details.name
+export const updatePlayerCard = (name: string, avatar: string) => {
+  avatarElement.innerHTML = `<img src='${avatar}' class='rounded-sm'>`
+  nameElement.innerHTML = name
 }

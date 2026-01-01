@@ -6,7 +6,7 @@ const buttonsContentsStyle = "hover:font-semibold hover:text-3xl transition-all"
 const buttonsOnClick = serviceUnavailable
 
 useDiv({
-  parent: "body",
+  parent: "dashboard-body",
   id: "menus",
   className: "w-[20%] h-[75%] flex flex-col items-center gap-5"
 })

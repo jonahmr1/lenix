@@ -1,5 +1,5 @@
 import { useDiv, useButton } from "@trippler/tr_kit/web"
-import { useFriendsPanel } from "../../../../../hooks/dashboard/useFriendsPanel"
+import { useFriendsList } from "../../../../../hooks/dashboard/useFriendsPanel"
 import('./current')
 import('./search')
 
@@ -57,6 +57,6 @@ useButton({
   size: "sm",
   type: "secondary",
   onClick: () => {
-    useFriendsPanel()
+    useFriendsList()
   }
 })

@@ -3,12 +3,12 @@ import { messagesCooldown } from '../../../../shared/constants'
 import useCharacterLeft from '../../hooks/chat/useCharactersLeft'
 import createNewMessage from '../../modules/chat/createNewMessage'
 
-document.documentElement.className = '[scrollbar-width:none]'
+document.body.className = '[scrollbar-width:none]'
 
 useDiv({
   parent: 'body',
   id: 'chat-root',
-  className: 'select-none w-full h-screen'
+  className: 'select-none w-full h-screen absolute'
 })
 
 useDiv({
