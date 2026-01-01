@@ -20,16 +20,10 @@ export default (state?: boolean) => {
   if (state === true) {
     if (isRequestsBlockCollapsed) return
     collapse(requests)
-  } else {
-    if (state === false) {
-      if (!isRequestsBlockCollapsed) return
-      expand(requests)
-    } else {
-      if (isRequestsBlockCollapsed) {
-        expand(requests)
-      } else {
-        collapse(requests)
-      }
-    }
+  } else if (state === false) {
+    if (!isRequestsBlockCollapsed) return
+    expand(requests)
+  } else if (isRequestsBlockCollapsed) {
+    expand(requests)
   }
 }

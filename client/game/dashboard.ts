@@ -30,7 +30,7 @@ const createCamera = (fadeIn: number, fadeOut: number, delay: number) => {
 }
 
 const placePlayerInLobby = () => {
-  createCam
+  createCamera(0, 0, 0)
   setTimeout(() => {
     const coords = GetEntityCoords(PlayerPedId(), true)
     lastPlayerCoords = [ ...coords ]

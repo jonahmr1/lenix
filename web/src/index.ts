@@ -1,3 +1,3 @@
 import './api'
-import './dom'
 import './elements'
+import './dom'
