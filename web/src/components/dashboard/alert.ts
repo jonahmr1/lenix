@@ -1,4 +1,5 @@
 import { useDiv, useButton} from "@trippler/tr_kit/web";
+import { nuiFocus, triggerNuiCallback } from "@trippler/tr_lib/web";
 let alerts = []
 
 const types = {
@@ -13,10 +14,15 @@ interface AlertOptions {
   title: string
   message: string
   button?: string
+  buttons?: Array<{
+    content: string
+    type?: 'primary' | 'secondary' | 'soft' | 'none';
+    onClick: () => void
+  }>
   onClick?: () => void
 }
 
-export default ({ type, title, message, button, onClick }: AlertOptions): [typeof index, number] => {
+export default ({ type, title, message, button, buttons, onClick }: AlertOptions): [typeof index, number] => {
   alerts.push(alerts.length)
   document.body.setAttribute('id', 'index')
   document.body.setAttribute('class', 'relative')
@@ -60,6 +66,20 @@ export default ({ type, title, message, button, onClick }: AlertOptions): [typeo
       index.remove(),
       onClick && onClick()
     }
-  })  
+  })
+
+  buttons?.forEach(button => {
+    useButton({
+      parent: "alert-button-block-" + alerts.length,
+      content: button.content,
+      size: "xl",
+      type: button?.type || "soft",
+      onClick: () => {
+        index.remove(),
+        button.onClick && button.onClick()
+      }
+    })
+  })
+  nuiFocus(true, true)
   return [index, alerts.length]
 }
