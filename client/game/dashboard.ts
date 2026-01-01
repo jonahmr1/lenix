@@ -66,6 +66,6 @@ export const closeGame = () => {
   Wait(200)
   setCoords(lastPlayerCoords)
   FreezeEntityPosition(PlayerPedId(), false)
-  emitNet('tr_spawn/server/logout')
+  emitNet('tr_onboarding/server/logout')
   return true
 }
