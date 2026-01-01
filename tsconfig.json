@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "lib": ["ES2020", "DOM"],
+  },
+  "exclude": ["node_modules", "client", "server", "shared", "web"]
+}

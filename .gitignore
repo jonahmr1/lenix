@@ -1,5 +1,7 @@
-node_modules
-package.json
 package-lock.json
-build.js
-**/build/main.js
+node_modules
+.DS_Store
+/client
+/server
+/shared
+/web
