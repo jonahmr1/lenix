@@ -1,4 +1,4 @@
 export default () => {
-  const root = document.getElementById('root')
+  const root = document.getElementById('dashboard-root')
   root?.classList.add('hidden')
 }

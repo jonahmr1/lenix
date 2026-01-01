@@ -5,7 +5,7 @@ export default async (fromEvent?: boolean) => {
     const response = await triggerNuiCallback<boolean>('dashboard/closeGame')
     if (!response) return
   }
-  const root = document.getElementById('root')
+  const root = document.getElementById('dashboard-root')
   if (root) {
     root.classList.add('hidden')
   }
