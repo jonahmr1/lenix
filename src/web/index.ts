@@ -1,1 +1,1 @@
-export * from './alert'
+export { default as useAlert } from './alert'

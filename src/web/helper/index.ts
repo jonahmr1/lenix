@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+/* document.addEventListener('DOMContentLoaded', function() {
   const root = document.getElementById('root');
   
   const interactionApp = document.createElement('div');
@@ -130,4 +130,4 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     body: JSON.stringify({}),
   })
-});
+}); */

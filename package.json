@@ -21,9 +21,6 @@
     "./web": "./web/index.js"
   },
   "files": [
-    "client",
-    "server",
-    "shared",
     "web",
     "README.md"
   ],
@@ -32,10 +29,7 @@
     "minor": "npm run rebuild && npm version minor && npm publish",
     "rebuild": "rmdir /s /q client server shared web 2>nul & npm run build",
     "reinstall": "rimraf package-lock.json node_modules/.package-lock.json && npm install",
-    "build": "npm run build:shared && npm run build:client && npm run build:server && npm run build:web",
-    "build:client": "npx tsc -p src/client/tsconfig.json",
-    "build:server": "npx tsc -p src/server/tsconfig.json",
-    "build:shared": "npx tsc -p src/shared/tsconfig.json",
+    "build": "npm run build:web",
     "build:web": "npx tsc -p src/web/tsconfig.json"
   },
   "devDependencies": {
