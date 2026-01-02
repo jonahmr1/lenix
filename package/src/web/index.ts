@@ -1,5 +1,5 @@
 declare global {
-  const GetParentResourceName: () => string;
+  const GetParentResourceName: () => string
 }
 
 export { default as onNuiCallback } from './onNuiCallback'

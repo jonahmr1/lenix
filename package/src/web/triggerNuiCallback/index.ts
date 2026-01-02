@@ -10,7 +10,7 @@ export default async <T = unknown>(
     body: JSON.stringify(dataObject || {}),
   })
   try {
-    return await response.json();
+    return await response.json()
   } catch(error) {
     throw new Error(
       `nui callback invoke was not ok, was the endpoint '${callbackEnpoint}' already defined before the invoke?

@@ -39,4 +39,4 @@ config = {
     "player-data",
     "fivem-map-skater"
   }
-};
+}
