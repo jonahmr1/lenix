@@ -1,15 +1,21 @@
 import onNuiCallback from "../nuiCallback/onNuiCallback"
 
 let domLoaded = false
-onNuiCallback('__DOMLoaded', () => domLoaded = true)
+const waitingCallbacks: Array<() => void> = []
 
-export default (Function: () => void): Promise<boolean> => {
+onNuiCallback('__DOMLoaded', () => {
+  domLoaded = true
+  waitingCallbacks.forEach(fn => fn())
+  waitingCallbacks.length = 0
+})
+
+export default (Function: () => void) => {
   return new Promise(resolve => {
     if (domLoaded) {
       Function()
       resolve(true)
     } else {
-      onNuiCallback('__DOMLoaded', () => {
+      waitingCallbacks.push(() => {
         Function()
         resolve(true)
       })
