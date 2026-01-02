@@ -4,7 +4,7 @@ import createNewMessageForAll from '../modules/chat/createNewMessageForAll'
 import useFocus from '../hooks/chat/useFocus'
 import { onNuiCallback } from '@trippler/tr_lib/web'
 
-onNuiCallback('chat/open', () => {
+onNuiCallback('chat/openChat', () => {
   if (isFocused) return
   useFocus()
 })
