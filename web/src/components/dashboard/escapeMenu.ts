@@ -1,5 +1,6 @@
 import { triggerNuiCallback } from "@trippler/tr_lib/web"
-import alert from "../../components/dashboard/alert"
+import alert from "./alert"
+import { closeDashboard } from "../../modules/dashboard"
 
 let menuState = false
 let lastElement: HTMLElement | null
@@ -14,7 +15,10 @@ export default () => {
         {
           content: "Cancel",
           type: "primary",
-          onClick: () => alertElement.remove()
+          onClick: () => {
+            alertElement.remove()
+            menuState = false
+          }
         },
         {
           content: "Leave",
@@ -22,6 +26,7 @@ export default () => {
           onClick: () => {
             alertElement.remove()
             triggerNuiCallback('dashboard/leaveGame')
+            menuState = false
           }
         }
       ]

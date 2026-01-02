@@ -1,4 +1,4 @@
-import openEscapeMenu from "../modules/dashboard/openEscapeMenu"
+import openEscapeMenu from "../components/dashboard/escapeMenu"
 import { getState } from "../states"
 
 export default (count: number) => {
