@@ -37,13 +37,13 @@ useDiv({
   parent: "playersItems",
   id: "playersSearchContainer",
   className: "w-full flex flex-col gap-2"
-});
+})
 
 useDiv({
   parent: "playersSearchContainer",
   id: "playersResults",
   className: "w-full flex flex-col gap-2"
-});
+})
 
 useDiv({
   parent: "friendsHeader",

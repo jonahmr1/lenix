@@ -1,5 +1,5 @@
-import { triggerNuiCallback } from "@trippler/tr_lib/web";
-import alert from "../../../components/dashboard/alert";
+import { triggerNuiCallback } from "@trippler/tr_lib/web"
+import alert from "../../../components/dashboard/alert"
 
 export default () => {
   const [ alertElement, _alertIndex ] = alert({

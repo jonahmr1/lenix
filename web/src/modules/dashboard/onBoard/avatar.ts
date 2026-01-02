@@ -1,5 +1,5 @@
-import Alert from "../../../components/dashboard/alert";
-import { useInput, useButton } from "@trippler/tr_kit/web";
+import Alert from "../../../components/dashboard/alert"
+import { useInput, useButton } from "@trippler/tr_kit/web"
 
 const setupAvatar = () => new Promise((resolve) => {
   const [setupElement, alertIndex] = Alert({

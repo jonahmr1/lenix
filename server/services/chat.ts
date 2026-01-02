@@ -14,7 +14,7 @@ const BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
 const SERVER_ID = process.env.DISCORD_SERVER_ID
 
 function integerToHexadecimal(integer: number): string {
-  return `#${integer.toString(16).padStart(6, '0')}`;
+  return `#${integer.toString(16).padStart(6, '0')}`
 }
 
 export default async (userId: string) => {
@@ -44,7 +44,7 @@ export default async (userId: string) => {
       member.roles.includes(role.id)
     )
     
-    const hoistedRole = userRoles.find((role: { name: string; id: string, color: number, hoist: boolean }) => {
+    const hoistedRole = userRoles.find((role: { name: string, id: string, color: number, hoist: boolean }) => {
       return role.hoist
     })
 

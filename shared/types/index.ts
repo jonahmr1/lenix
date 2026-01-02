@@ -13,8 +13,8 @@ import {
 import { createUserIntoTheDatabase, doesUserAlreadyExist } from '../../server/services/dashboard'
 
 export interface ServerProfile {
-  name: string;
-  avatar: string;
+  name: string
+  avatar: string
 }
 export type PlayerObject = {
   name: string,

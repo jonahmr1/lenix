@@ -1,5 +1,5 @@
-import Alert from "../../../components/dashboard/alert";
-import { useInput, useButton, useDiv } from "@trippler/tr_kit/web";
+import Alert from "../../../components/dashboard/alert"
+import { useInput, useButton, useDiv } from "@trippler/tr_kit/web"
 
 const nameSetup = () => new Promise((resolve) => {
   const [setupElement, setupIndex] = Alert({

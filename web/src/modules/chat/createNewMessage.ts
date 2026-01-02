@@ -16,7 +16,7 @@ export default (message: string) => {
   setTimeout(() => {
     canSend = true
     setInCooldown(false)
-  }, messagesCooldown * 1000);
+  }, messagesCooldown * 1000)
   
   input.value = ''
 

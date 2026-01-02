@@ -40,7 +40,7 @@ export const useRequestBlock = (state: boolean) => {
   const requestHeaderText = document.getElementById('requestsHeaderText')!
   const requestSwitchButton = document.getElementById('requestSwitchButton')!
 
-  event?.stopPropagation();
+  event?.stopPropagation()
   updateRequestBlockState(state)
   if (requestsBlockSelected == "incoming") {
     outgoingClass?.remove("hidden")
