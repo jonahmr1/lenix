@@ -40,4 +40,4 @@ on('onResourceStop', (resourceName: string) => {
 globalThis.exports('showGame', showGame)
 globalThis.exports('hideGame', hideGame)
 globalThis.exports('closeGame', closeGame)
-globalThis.exports('start', openGame)
+globalThis.exports('startMode', openGame)
