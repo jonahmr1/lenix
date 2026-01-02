@@ -4,8 +4,3 @@ onNuiCallback<{ message: string }>("chat/createNewMessageRequest", async (data, 
   const response = await triggerPromise("createNewMessageRequest", null, data.message)  
   callback(response)
 })
-
-onNuiCallback<null>("chat/closeChat", (_data, callback) => {
-  SetNuiFocus(false, false)
-  callback(true)
-})

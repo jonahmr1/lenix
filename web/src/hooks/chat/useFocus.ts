@@ -1,3 +1,4 @@
+import { nuiFocus } from '@trippler/tr_lib/web'
 import { inCooldown, messageCount, setFocus } from '.'
 
 export default () => {
@@ -30,4 +31,5 @@ export default () => {
     message?.add('opacity-100')
     message?.remove('opacity-0')
   }
+  nuiFocus(true, false)
 }

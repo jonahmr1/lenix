@@ -1,6 +1,6 @@
 import { pendingMessageForFadeCount, setFocus } from '.'
 import { messageCount } from '.'
-import { triggerNuiCallback } from '@trippler/tr_lib/web'
+import { nuiFocus, triggerNuiCallback } from '@trippler/tr_lib/web'
 
 export default () => {
   setFocus(false)
@@ -36,5 +36,5 @@ export default () => {
       message?.add('opacity-0')
     }
   }
-  triggerNuiCallback<unknown>('chat/closeChat')
+  nuiFocus(false, false)
 }

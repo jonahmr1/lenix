@@ -44,24 +44,20 @@ export const openGame = () => {
   setTimeout(async () => {
     const identity = await doesUserAlreadyExist()
     triggerNuiCallback('dashboard/open', identity)
-    SetNuiFocus(true, true)
   }, openDelay)
 }
 
 export const hideGame = () => {
   triggerNuiCallback('dashboard/hide')
-  SetNuiFocus(false, false)
 }
 
 export const showGame = () => {
   triggerNuiCallback('dashboard/show')
-  SetNuiFocus(true, true)
   createCamera(0, 0, 0)
 }
 
 export const closeGame = () => {
   triggerNuiCallback('dashboard/close')
-  SetNuiFocus(false, false)
   destroyCam({handle: lastCamHandle})
   Wait(200)
   setCoords(lastPlayerCoords)

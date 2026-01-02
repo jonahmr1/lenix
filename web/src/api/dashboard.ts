@@ -18,10 +18,11 @@ import openDashboard from '../modules/dashboard/states/openDashboard'
 import closeDashboard from '../modules/dashboard/states/closeDashboard'
 import hideDashboard from '../modules/dashboard/states/hideDashboard'
 import showDashboard from '../modules/dashboard/states/showDashboard'
-import { onNuiCallback, triggerNuiCallback } from '@trippler/tr_lib/web'
+import { nuiFocus, onNuiCallback, triggerNuiCallback } from '@trippler/tr_lib/web'
 import { setDashboardState } from "../hooks/dashboard"
 
 onNuiCallback('dashboard/open', async (identity) => {
+  nuiFocus(true, true)
   if (typeof identity === 'number') {
     const response = await triggerNuiCallback<boolean>('dashboard/startCharacterProcess')
     if (!response) return
@@ -36,14 +37,17 @@ onNuiCallback('dashboard/open', async (identity) => {
 onNuiCallback('dashboard/close', () => {
   closeDashboard(true)
   setDashboardState(false)
+  nuiFocus(false, false)
 })
 
 onNuiCallback('dashboard/hide', () => {
   hideDashboard()
+  nuiFocus(false, false)
 })
 
 onNuiCallback('dashboard/show', () => {
   showDashboard()
+  nuiFocus(true, true)
 })
 
 export const getServerProfile = () => triggerNuiCallback<ServerProfile>('dashboard/getServerProfile')
