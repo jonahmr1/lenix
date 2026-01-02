@@ -1,9 +1,7 @@
 import { RemoveIncomingRequest } from "../../../shared/types"
-import openDashboard from '../modules/dashboard/states/openDashboard'
-import closeDashboard from '../modules/dashboard/states/closeDashboard'
-import hideDashboard from '../modules/dashboard/states/hideDashboard'
-import showDashboard from '../modules/dashboard/states/showDashboard'
 import { onNuiCallback, triggerNuiCallback } from '@trippler/tr_lib/web'
+import { closeDashboard, hideDashboard, showDashboard } from "../modules/dashboard"
+import openDashboard from "../modules/dashboard/openDashboard"
 
 onNuiCallback('dashboard/open', async (identity) => {
   openDashboard(identity)

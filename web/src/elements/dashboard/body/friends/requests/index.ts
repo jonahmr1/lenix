@@ -1,6 +1,6 @@
 import { useDiv, useButton} from "@trippler/tr_kit/web"
-import updateRequestBlockState from "../../../../../hooks/dashboard/useCollapse"
-import { useRequestBlock } from "../../../../../hooks/dashboard/useFriendsPanel"
+import updateRequestBlockState from "../../../../../modules/dashboard/collapseRequestBlock"
+import { useRequestBlock } from "../../../../../modules/dashboard/friendsPanel"
 import('./incoming')
 import('./outgoing')
 

@@ -1,5 +1,4 @@
 import { useButton, useDiv } from "@trippler/tr_kit/web"
-import { removePlayerFriendship } from "../../api/dashboard"
 import playerDetails from "./playerDetails"
 import { triggerNuiCallback } from "@trippler/tr_lib/web"
 import { RemovePlayerFriendship } from "../../../../shared/types"

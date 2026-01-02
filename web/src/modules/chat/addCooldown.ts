@@ -1,9 +1,9 @@
-import { setInCooldown } from "../../modules/states"
+import { setState } from "../../states"
 
 export default () => {
   const bar = document.getElementById('cooldown-bar')
   if (bar) {
-    setInCooldown(true)
+    setState.inCooldown(true)
     bar.classList.remove('opacity-0')
     bar.classList.add('opacity-100')
     bar.style.transition = 'none'

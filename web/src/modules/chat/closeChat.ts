@@ -1,9 +1,8 @@
-import { pendingMessageForFadeCount, setFocus } from '../../modules/states'
-import { messageCount } from '../../modules/states'
-import { nuiFocus, triggerNuiCallback } from '@trippler/tr_lib/web'
+import { nuiFocus } from '@trippler/tr_lib/web'
+import { getState, setState } from '../../states'
 
 export default () => {
-  setFocus(false)
+  setState.focused(true)
   const input = document.getElementById('input')?.classList
   const block = document.getElementById('block')?.classList
   const messages = document.getElementById('messages')?.classList
@@ -21,12 +20,12 @@ export default () => {
   charactersLeft?.remove('opacity-100')
   messages?.remove('blured-20')
   ;(window as any).refreshBlurElements?.()
-  
+
   const inputElement = document.querySelector('.input') as HTMLInputElement
   inputElement?.blur()
-  for (let i = 1; i <= messageCount; i++) {
+  for (let i = 1; i <= getState.messageCount; i++) {
     const message = document.getElementById('message-' + i)?.classList
-    if (pendingMessageForFadeCount.includes(i)) {
+    if (getState.pendingMessageForFadeCount.includes(i)) {
       message?.add('duration-[5s]')
       message?.add('opacity-100')
       message?.remove('opacity-0')

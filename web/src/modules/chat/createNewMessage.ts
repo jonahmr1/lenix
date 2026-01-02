@@ -1,8 +1,8 @@
 import { maxTextLength, messagesCooldown } from "../../../../shared/constants"
-import useCooldown from "../../hooks/chat/useCooldown"
+import useCooldown from "./addCooldown"
 import { input } from "../../elements/chat"
 import { triggerNuiCallback } from "@trippler/tr_lib/web"
-import { setInCooldown } from "../states"
+import { setState } from "../../states"
 
 let canSend = true
 
@@ -15,7 +15,7 @@ export default (message: string) => {
   canSend = false
   setTimeout(() => {
     canSend = true
-    setInCooldown(false)
+    setState.inCooldown(false)
   }, messagesCooldown * 1000)
   
   input.value = ''

@@ -1,5 +1,5 @@
 import { triggerNuiCallback } from "@trippler/tr_lib/web"
-import alert from "../../../components/dashboard/alert"
+import alert from "../../components/dashboard/alert"
 
 let menuState = false
 let lastElement: HTMLElement | null

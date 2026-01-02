@@ -1,5 +1,5 @@
 import { useDiv, useButton } from "@trippler/tr_kit/web"
-import { useFriendsList } from "../../../../../hooks/dashboard/useFriendsPanel"
+import { useFriendsList } from "../../../../../modules/dashboard/friendsPanel"
 import('./current')
 import('./search')
 

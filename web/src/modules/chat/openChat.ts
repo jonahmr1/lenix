@@ -1,9 +1,9 @@
 import { nuiFocus } from '@trippler/tr_lib/web'
-import { inCooldown, isFocused, messageCount, setFocus } from '../../modules/states'
+import { getState, setState } from '../../states'
 
 export default () => {
-  if (isFocused) return
-  setFocus(true)
+  if (getState.focused) return
+  setState.focused(true)
   const inputElement = document.querySelector('.input') as HTMLInputElement
   inputElement?.focus()
   const input = document.getElementById('input')
@@ -11,7 +11,7 @@ export default () => {
   const messages = document.getElementById('messages')?.classList
   const cooldown = document.getElementById('cooldown-bar')?.classList
   const charactersLeft = document.getElementById('characters-left')?.classList
-  if (inCooldown) {
+  if (getState.inCooldown) {
     cooldown?.remove('opacity-0')
   }
   input?.classList.add('opacity-100')
@@ -25,7 +25,7 @@ export default () => {
   messages?.add('blured-20')
   ;(window as any).refreshBlurElements?.()
 
-  for (let i = 1; i <= messageCount; i++) {
+  for (let i = 1; i <= getState.messageCount; i++) {
     const message = document.getElementById('message-' + i)?.classList
     message?.remove('duration-[5s]')
     message?.add('duration-[0s]')

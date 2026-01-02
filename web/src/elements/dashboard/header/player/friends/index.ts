@@ -1,5 +1,5 @@
 import { useButton } from "@trippler/tr_kit/web"
-import { useFriendsPanel } from "../../../../../hooks/dashboard/useFriendsPanel"
+import { useFriendsPanel } from "../../../../../modules/dashboard/friendsPanel"
 
 useButton({
   parent: "player-details",
