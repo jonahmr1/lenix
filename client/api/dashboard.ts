@@ -15,7 +15,7 @@ import {
 } from '../../shared/types'
 
 import { lobbyCoords } from '../../shared/constants'
-import { hideGame, showGame, closeGame, openGame } from '../game/dashboard'
+import { hideGame, showGame, openGame } from '../game/dashboard'
 
 export const startCharacterProcess = async () => exports.tr_onboarding.startCharacterProcess(lobbyCoords, lobbyCoords, hideGame, showGame)
 export const doesUserAlreadyExist = () => triggerPromise<DoesUserAlreadyExist>('doesUserAlreadyExist')
@@ -37,7 +37,4 @@ on('onResourceStop', (resourceName: string) => {
   }
 })
 
-globalThis.exports('showGame', showGame)
-globalThis.exports('hideGame', hideGame)
-globalThis.exports('closeGame', closeGame)
 globalThis.exports('startMode', openGame)

@@ -16,7 +16,10 @@ import { closeGame } from '../game/dashboard'
 import { profile } from '../../shared/constants'
 import { startCharacterProcess } from '../api/dashboard'
 
-onNuiCallback<undefined>('dashboard/closeGame', (_data, callback) => callback(closeGame()))
+onNuiCallback<undefined>('dashboard/closeGame', (_data, callback) => {
+  closeGame()
+  callback(true)
+})
 onNuiCallback<undefined>('dashboard/startCharacterProcess', async (_data, callback) => callback(await startCharacterProcess()))
 onNuiCallback<undefined>('dashboard/getServerProfile', async (_data, callback) => callback(profile))
 onNuiCallback<{ name: string, avatar: string }>('dashboard/createUser', async (data, callback) => callback(await createUser(data.name, data.avatar)))

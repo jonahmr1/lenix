@@ -5,15 +5,14 @@ import { triggerNuiCallback } from '@trippler/tr_lib/client'
 import { createCam } from '@trippler/tr_kit/client'
 
 let lastPlayerCoords: number[] = []
+let lastCamHandle: number
 
 const setCoords = (coords: number[]) => {
-  SetEntityCoords(PlayerPedId(), coords[1], coords[2], coords[3], true, false, true, false)
-  if (coords[4] != null) {
-    SetEntityHeading(PlayerPedId(), coords[4])
+  SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2], true, false, true, false)
+  if (coords[3]) {
+    SetEntityHeading(PlayerPedId(), coords[3])
   }
 }
-
-let lastCamHandle: number
 
 const createCamera = (fadeIn: number, fadeOut: number, delay: number) => {
   const cam: [number, number, number, number] = [ 479.3787, -1316.2129, 29.2034, 62.6716 ]
@@ -63,5 +62,4 @@ export const closeGame = () => {
   setCoords(lastPlayerCoords)
   FreezeEntityPosition(PlayerPedId(), false)
   exports.tr_onboarding.logoutPlayer()
-  return true
 }
