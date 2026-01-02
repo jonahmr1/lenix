@@ -1,6 +1,8 @@
 import { useButton, useDiv } from "@trippler/tr_kit/web"
 import { removePlayerFriendship } from "../../api/dashboard"
 import playerDetails from "./playerDetails"
+import { triggerNuiCallback } from "@trippler/tr_lib/web"
+import { RemovePlayerFriendship } from "../../../../shared/types"
 
 let currentItems = document.getElementById('friendsItems') as HTMLDivElement
 let friendsItems = 0
@@ -45,7 +47,7 @@ export default async (identity: number): Promise<void> => {
     className: "w-[16%] h-[12.5%] hover:bg-red-500 flex items-center justify-center",
     content: '➖',
     onClick: async () => {
-      const response = await removePlayerFriendship(identity)
+      const response = await triggerNuiCallback<RemovePlayerFriendship>('dashboard/removePlayerFriendship', { identity })
       if (!response) return
       friend.remove()
       friendsItems--

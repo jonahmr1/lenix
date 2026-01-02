@@ -1,16 +1,23 @@
 import initOnBoarding from '../onBoard'
-import { createUser } from '../../../api/dashboard'
 import playerDetails from '../playerDetails'
+import { nuiFocus, triggerNuiCallback } from '@trippler/tr_lib/web'
+import { setDashboardState } from '../../../hooks/dashboard'
+import { CreateUser } from '../../../../../shared/types'
+
+const root = document.getElementById('dashboard-root')
 
 export default async (identity: number | boolean) => {
-  const root = document.getElementById('dashboard-root')
+  nuiFocus(true, true)
   const { updatePlayerCard } = await import("../../../elements/dashboard/header/player/card")
-  if (!identity) {
-    const { userName, userAvatar } = await initOnBoarding()
-    const identity = await createUser(userName, userAvatar)
-    new playerDetails().getUserDetails(identity, updatePlayerCard)
-  } else {
+  if (typeof identity === 'number') {
+    const response = await triggerNuiCallback<boolean>('dashboard/startCharacterProcess')
+    if (!response) return
     new playerDetails().getUserDetails(identity as number, updatePlayerCard)
+  } else {
+    const { userName, userAvatar } = await initOnBoarding()
+    const identity = await triggerNuiCallback<CreateUser>('dashboard/createUser', { name: userName, avatar: userAvatar })
+    new playerDetails().getUserDetails(identity, updatePlayerCard)
   }
+  setDashboardState(true)
   root?.classList.remove('hidden')
 }

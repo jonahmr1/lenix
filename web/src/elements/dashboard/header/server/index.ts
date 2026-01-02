@@ -1,5 +1,6 @@
 import { useDiv } from "@trippler/tr_kit/web"
-import { getServerProfile } from "../../../../api/dashboard"
+import { triggerNuiCallback } from "@trippler/tr_lib/web"
+import { ServerProfile } from "../../../../../../shared/types"
 
 (async () => {
   useDiv({
@@ -8,7 +9,7 @@ import { getServerProfile } from "../../../../api/dashboard"
     className: "w-[25%] h-[75%] flex items-center justify-start gap-1"
   })
 
-  const profile = await getServerProfile()
+  const profile = await triggerNuiCallback<ServerProfile>('dashboard/getServerProfile')
 
   useDiv({
     parent: "server-details",

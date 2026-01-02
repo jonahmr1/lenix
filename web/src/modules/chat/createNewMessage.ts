@@ -2,7 +2,7 @@ import { maxTextLength, messagesCooldown } from "../../../../shared/constants"
 import useCooldown from "../../hooks/chat/useCooldown"
 import { input } from "../../elements/chat"
 import { triggerNuiCallback } from "@trippler/tr_lib/web"
-import { setInCooldown } from "../../hooks/chat"
+import { setInCooldown } from "../states"
 
 let canSend = true
 

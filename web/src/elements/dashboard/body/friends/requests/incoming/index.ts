@@ -1,6 +1,9 @@
 import { useDiv, useButton } from "@trippler/tr_kit/web"
 import playerDetails from "../../../../../../modules/dashboard/playerDetails"
-import { removeIncomingRequest, acceptFriendship, getIncomingFriends } from "../../../../../../api/dashboard"
+import { removeIncomingRequest } from "../../../../../../api/dashboard"
+import { triggerNuiCallback } from "@trippler/tr_lib/web"
+import { GetIncomingFriends } from "../../../../../../../../shared/types"
+import { acceptFriendship } from "../../../../../../modules/dashboard"
 
 useDiv({
   parent: "friendsRequests",
@@ -57,6 +60,6 @@ const addNewIncomingRequest = async (index: number, identity: number): Promise<v
 }
 
 setTimeout(async () => {
-  const incoming = await getIncomingFriends()
+  const incoming = await triggerNuiCallback<GetIncomingFriends>('dashboard/getIncomingFriends')
   incoming?.forEach((identity, index: number) => addNewIncomingRequest(index, identity))
 }, 0)

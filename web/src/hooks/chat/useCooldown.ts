@@ -1,4 +1,4 @@
-import { setInCooldown } from "."
+import { setInCooldown } from "../../modules/states"
 
 export default () => {
   const bar = document.getElementById('cooldown-bar')

@@ -1,6 +1,7 @@
 import { useDiv, useButton} from "@trippler/tr_kit/web"
 import playerDetails from "../../../../../../modules/dashboard/playerDetails"
-import { cancelOutgoingFriendship, getOutgoingFriends } from "../../../../../../api/dashboard"
+import { triggerNuiCallback } from "@trippler/tr_lib/web"
+import { CancelOutgoingFriendship, GetOutgoingFriends } from "../../../../../../../../shared/types"
 
 useDiv({
   parent: "friendsRequests",
@@ -34,7 +35,7 @@ const addNewOutgoingRequest = async (index: number, identity: number): Promise<v
     className: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
     content: '🚫',
     onClick: async () => {
-      const response = await cancelOutgoingFriendship(identity)
+      const response = await triggerNuiCallback<CancelOutgoingFriendship>('dashboard/cancelOutgoingFriendship', { identity })
       if (!response) return
       request.remove()
       outgoingRequests.splice(index, 1)
@@ -45,6 +46,6 @@ const addNewOutgoingRequest = async (index: number, identity: number): Promise<v
 }
 
 setTimeout(async () => {
-  const outgoing = await getOutgoingFriends()
+  const outgoing = await triggerNuiCallback<GetOutgoingFriends>('dashboard/getOutgoingFriends')
   outgoing.forEach((identity, index: number) => addNewOutgoingRequest(index, identity))
 }, 0)

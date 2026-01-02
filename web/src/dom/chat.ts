@@ -1,5 +1,5 @@
 import { nuiFocus } from "@trippler/tr_lib/web"
-import useUnfocus from "../../hooks/chat/useUnfocus"
+import useUnfocus from "../hooks/chat/useUnfocus"
 
 const block = document.getElementById('block')
 

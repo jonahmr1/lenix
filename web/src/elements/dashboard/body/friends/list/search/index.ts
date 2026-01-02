@@ -1,6 +1,7 @@
 import { useButton, useDiv, useInput } from "@trippler/tr_kit/web"
 import playerDetails from "../../../../../../modules/dashboard/playerDetails"
-import { getFriendablePlayers, sendUserFriendInvitation } from "../../../../../../api/dashboard"
+import { triggerNuiCallback } from "@trippler/tr_lib/web"
+import { GetFriendablePlayers, SendUserFriendInvitation } from "../../../../../../../../shared/types"
 
 const container = document.getElementById("playersSearchContainer")
 const resultsBox = document.getElementById("playersResults")
@@ -12,7 +13,7 @@ const searchInput = useInput({
   className: "w-full p-2 bg-stone-700 rounded text-white outline-none",
   placeholder: "Search players by: <name>",
   onJoin: async () => {
-    const playerIds = await getFriendablePlayers()
+    const playerIds = await triggerNuiCallback<GetFriendablePlayers>('dashboard/getFriendablePlayers')
 
     players = await Promise.all(
       playerIds ?
@@ -50,7 +51,7 @@ const searchInput = useInput({
           onClick: async (disable) => {
             btn.innerText = '💬'
             disable()
-            btn.innerText = await sendUserFriendInvitation(player.id) ? '✅' : '❌'
+            btn.innerText = await triggerNuiCallback<SendUserFriendInvitation>('dashboard/sendUserFriendInvitation', { identity: player.id }) ? '✅' : '❌'
           }
         })
       })

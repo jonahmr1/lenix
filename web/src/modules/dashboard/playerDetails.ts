@@ -1,4 +1,5 @@
-import { getUserProfile } from '../../api/dashboard'
+import { triggerNuiCallback } from "@trippler/tr_lib/web"
+import { GetUserProfile } from "../../../../shared/types"
 
 export default class playerDetails {
   private name: string = 'undefined'
@@ -6,7 +7,7 @@ export default class playerDetails {
   private id: number = -1
 
   public async getUserDetails(identity: number, updateCard?: (name: string, avatar: string) => void) {
-    const user = await getUserProfile(identity)
+    const user = await triggerNuiCallback<GetUserProfile>('dashboard/getUserProfile', { identity })
     this.id = identity
     this.name = user!.name
     this.avatar = user!.avatar

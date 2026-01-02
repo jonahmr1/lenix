@@ -1,7 +1,8 @@
 import { nuiFocus } from '@trippler/tr_lib/web'
-import { inCooldown, messageCount, setFocus } from '.'
+import { inCooldown, isFocused, messageCount, setFocus } from '../../modules/states'
 
 export default () => {
+  if (isFocused) return
   setFocus(true)
   const inputElement = document.querySelector('.input') as HTMLInputElement
   inputElement?.focus()
