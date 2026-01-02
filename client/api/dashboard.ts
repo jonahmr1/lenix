@@ -33,7 +33,7 @@ export const sendUserFriendInvitation = (identity: number) => triggerPromise<Sen
 
 on('onResourceStop', (resourceName: string) => {
   if (resourceName === GetCurrentResourceName()) {
-    emitNet('tr_onboarding/server/logout')
+    exports.tr_onboarding.logoutPlayer()
   }
 })
 

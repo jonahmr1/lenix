@@ -1,2 +1,3 @@
 import './database'
-import './api'
+import './api/dashboard'
+import './api/chat'
