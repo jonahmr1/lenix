@@ -17,7 +17,7 @@
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "@lenixdev/ui_components": "latest",
+    "@lenixdev/fusion": "latest",
     "@trippler/tr_kit": "latest",
     "@trippler/tr_lib": "latest",
     "typescript": "^5.0.0",
