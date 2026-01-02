@@ -29,7 +29,7 @@ export default ({
 
   if (onSubmit) input.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
-      onSubmit();
+      onSubmit()
     }
   })
   
