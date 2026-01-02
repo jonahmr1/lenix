@@ -30,4 +30,7 @@ onNuiCallback<null>('dashboard/getPlayerFriends', async (_data, callback) => cal
 onNuiCallback<null>('dashboard/getIncomingFriends', async (_data, callback) => callback(await getIncomingFriends()))
 onNuiCallback<null>('dashboard/getOutgoingFriends', async (_data, callback) => callback(await getOutgoingFriends()))
 onNuiCallback<null>('dashboard/getFriendablePlayers', async (_data, callback) => callback(await getFriendablePlayers()))
-onNuiCallback<null>('dashboard/leaveGame', async (_data, callback) => callback(closeGame()))
+onNuiCallback<null>('dashboard/leaveGame', async (_data, callback) => {
+  closeGame()
+  callback(true)
+})
