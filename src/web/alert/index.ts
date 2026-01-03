@@ -28,32 +28,32 @@ export default ({ type, title, message, button, buttons, onClick }: AlertOptions
   document.body.setAttribute('class', 'relative')
   const index = useDiv({
     parent: "index",
-    className: "absolute top-0 flex flex-col justify-center bg-stone-900/95 w-full h-[100vh]",
+    style: "absolute top-0 flex flex-col justify-center bg-stone-900/95 w-full h-[100vh]",
     id: "alert-" + alerts.length
   })
   
   useDiv({
     parent: "alert-" + alerts.length,
     id: "alert-content-block-" + alerts.length,
-    className: "w-full h-[30%] bg-stone-800 flex flex-col items-center justify-around",
+    style: "w-full h-[30%] bg-stone-800 flex flex-col items-center justify-around",
   })
 
   useDiv({
     parent: "alert-" + alerts.length,
     id: "alert-button-block-" + alerts.length,
-    className: "w-full h-fit py-2 gap-1 bg-stone-700 flex flex-col items-center justify-center",
+    style: "w-full h-fit py-2 gap-1 bg-stone-700 flex flex-col items-center justify-center",
   })
   
   useDiv({
     parent: "alert-content-block-" + alerts.length,
     id: "alert-title",
-    className: "text-white tracking-tighter text-center text-4xl italic font-extrabold flex gap-3 items-center",
+    style: "text-white tracking-tighter text-center text-4xl italic font-extrabold flex gap-3 items-center",
     content: (types[type] || types['info']) + title.toUpperCase(),
   })
 
   useDiv({
     parent: "alert-content-block-" + alerts.length,
-    className: "text-gray-300 max-w-[60%] text-center",
+    style: "text-gray-300 max-w-[60%] text-center",
     content: message
   })
 
