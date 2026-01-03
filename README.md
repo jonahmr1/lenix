@@ -5,7 +5,7 @@ Customizable Drawtext UI helper
 * ## Lua
 ### Show
 ```lua
-exports.tr_lib:show(text, icon, key)
+exports.lenix_drawtext:show(text, icon, key)
 ```
 > Parameters
 - text: `string`
@@ -14,13 +14,13 @@ exports.tr_lib:show(text, icon, key)
 
 ### hide
 ```lua
-exports.tr_lib:hide()
+exports.lenix_drawtext:hide()
 ```
 
 * ## Typescript
 ### Show
 ```ts
-exports.tr_lib.show(text, icon, key)
+exports.lenix_drawtext.show(text, icon, key)
 ```
 > Parameters
 - text: `string`
@@ -29,7 +29,7 @@ exports.tr_lib.show(text, icon, key)
 
 ### hide
 ```ts
-exports.tr_lib.hide()
+exports.lenix_drawtext.hide()
 ```
 
 ## Notes
