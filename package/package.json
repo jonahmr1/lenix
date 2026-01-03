@@ -25,7 +25,7 @@
     "server",
     "shared",
     "web",
-    "README.md"
+    "Readme.md"
   ],
   "scripts": {
     "patch": "npm run rebuild && npm version patch && npm publish",
