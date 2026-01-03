@@ -25,7 +25,7 @@ https://docs.trippler.store/tr_kit
 - [ ]  Add more features and options to each module
 
 ## 🧾License
-[![](https://img.shields.io/npm/l/%40trippler%2Ftr_kit)](./LICENSE)
+![](https://img.shields.io/npm/l/%40trippler%2Ftr_kit)
 
 ## 📞 Support
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/vPwaW3rpUk)
