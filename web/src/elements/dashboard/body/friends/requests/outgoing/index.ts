@@ -6,7 +6,7 @@ import { CancelOutgoingFriendship, GetOutgoingFriends } from "../../../../../../
 useDiv({
   parent: "friendsRequests",
   id: "outgoingRequests",
-  className: "w-full hidden h-full overflow-auto [scrollbar-width:none]"
+  style: "w-full hidden h-full overflow-auto [scrollbar-width:none]"
 })
 
 let currentOutgoing = document.getElementById('outgoingRequests')
@@ -18,11 +18,11 @@ const addNewOutgoingRequest = async (index: number, identity: number): Promise<v
   const request = useDiv({
     parent: "outgoingRequests",
     id: `outgoing-item-${index}`,
-    className: "flex items-center justify-between hover:bg-stone-600 text-sm py-1"
+    style: "flex items-center justify-between hover:bg-stone-600 text-sm py-1"
   })
   useDiv({
     parent: `outgoing-item-${index}`,
-    className: "w-[75%] flex items-center justify-start",
+    style: "w-[75%] flex items-center justify-start",
     content: `
       <img src=${user.avatar} class="w-[20%]" />
       <div class="ml-2 flex flex-col">
@@ -32,7 +32,7 @@ const addNewOutgoingRequest = async (index: number, identity: number): Promise<v
   })
   useButton({
     parent: `outgoing-item-${index}`,
-    className: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
+    style: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
     content: '🚫',
     onClick: async () => {
       const response = await triggerNuiCallback<CancelOutgoingFriendship>('dashboard/cancelOutgoingFriendship', { identity })

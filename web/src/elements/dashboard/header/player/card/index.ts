@@ -4,25 +4,25 @@ import unavailableNotice from "../../../../../components/dashboard/serviceUnavai
 useButton({
   parent: "player-details",
   id: "player-card",
-  className: "w-[35%] h-full bg-gray-700 flex justify-center items-center rounded-md overflow-hidden",
+  style: "w-[35%] h-full bg-gray-700 flex justify-center items-center rounded-md overflow-hidden",
   onClick: () => unavailableNotice()
 })
 
 const avatarElement = useDiv({
   parent: "player-card",
   id: "player-avatar",
-  className: "w-full h-full bg-stone-800 flex-[1] flex justify-center items-center p-1"
+  style: "w-full h-full bg-stone-800 flex-[1] flex justify-center items-center p-1"
 })
 
 useDiv({
   parent: "player-card",
   id: "player-info",
-  className: "w-full h-full hover:bg-gray-600 flex flex-[4] px-2"
+  style: "w-full h-full hover:bg-gray-600 flex flex-[4] px-2"
 })
 
 const nameElement = useDiv({
   parent: "player-info",
-  className: "h-full text-white flex items-center"
+  style: "h-full text-white flex items-center"
 })
 
 export const updatePlayerCard = (name: string, avatar: string) => {

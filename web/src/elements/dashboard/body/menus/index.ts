@@ -8,63 +8,63 @@ const buttonsOnClick = serviceUnavailable
 useDiv({
   parent: "dashboard-body",
   id: "menus",
-  className: "w-[20%] h-[75%] flex flex-col items-center gap-5"
+  style: "w-[20%] h-[75%] flex flex-col items-center gap-5"
 })
 
 useDiv({
   parent: "menus",
-  className: "w-[80%] blured-15 h-1/2"
+  style: "w-[80%] blured-15 h-1/2"
 })
 useDiv({
   parent: "menus",
   id: "main-menu",
-  className: "w-[80%] h-1/2 blured-15 flex justify-end"
+  style: "w-[80%] h-1/2 blured-15 flex justify-end"
 })
 
 useDiv({
   parent: "main-menu",
   id: "main-menu-block",
-  className: "flex flex-col justify-center overflow-hidden w-[75%]"
+  style: "flex flex-col justify-center overflow-hidden w-[75%]"
 })
 
 useButton({
   parent: "main-menu-block",
-  className: buttonsStyle,
+  style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Battlepass</span>`,
   onClick: buttonsOnClick
 })
 
 useButton({
   parent: "main-menu-block",
-  className: buttonsStyle,
+  style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Settings</span>`,
   onClick: buttonsOnClick
 })
 
 useButton({
   parent: "main-menu-block",
-  className: buttonsStyle,
+  style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Arsenal</span>`,
   onClick: buttonsOnClick
 })
 
 useButton({
   parent: "main-menu-block",
-  className: buttonsStyle,
+  style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Store</span>`,
   onClick: buttonsOnClick
 })
 
 useButton({
   parent: "main-menu-block",
-  className: buttonsStyle,
+  style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Style</span>`,
   onClick: buttonsOnClick
 })
 
 useButton({
   parent: "main-menu-block",
-  className: buttonsStyle,
+  style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Play</span>`,
   onClick: buttonsOnClick
 })

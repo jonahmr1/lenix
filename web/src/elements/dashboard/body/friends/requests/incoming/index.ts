@@ -8,7 +8,7 @@ import { acceptFriendship } from "../../../../../../modules/dashboard"
 useDiv({
   parent: "friendsRequests",
   id: "incomingRequests",
-  className: "w-full h-full overflow-auto [scrollbar-width:none]"
+  style: "w-full h-full overflow-auto [scrollbar-width:none]"
 })
 
 let currentIncoming = document.getElementById('incomingRequests')
@@ -20,11 +20,11 @@ const addNewIncomingRequest = async (index: number, identity: number): Promise<v
   const request = useDiv({
     parent: "incomingRequests",
     id: `incoming-item-${index}`,
-    className: "flex items-center justify-between hover:bg-stone-600 text-sm py-2"
+    style: "flex items-center justify-between hover:bg-stone-600 text-sm py-2"
   })
   useDiv({
     parent: `incoming-item-${index}`,
-    className: "w-[75%] flex items-center justify-start",
+    style: "w-[75%] flex items-center justify-start",
     content: `
       <img src="${user.avatar}" class="w-[20%]" />
       <div class="ml-2 flex flex-col">
@@ -34,7 +34,7 @@ const addNewIncomingRequest = async (index: number, identity: number): Promise<v
   })
   useButton({
     parent: `incoming-item-${index}`,
-    className: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
+    style: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
     content: '✅',
     onClick: async () => {
       const response = await removeIncomingRequest(identity)
@@ -46,7 +46,7 @@ const addNewIncomingRequest = async (index: number, identity: number): Promise<v
   })
   useButton({
     parent: `incoming-item-${index}`,
-    className: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
+    style: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
     content: '❌',
     onClick: async () => {
       const response = await removeIncomingRequest(identity)

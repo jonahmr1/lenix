@@ -5,5 +5,5 @@ import('./player')
 useDiv({
   parent: "dashboard-root",
   id: "header",
-  className: "w-full h-[8vh] blured-15 flex items-center justify-around gap-[10%]"
+  style: "w-full h-[8vh] blured-15 flex items-center justify-around gap-[10%]"
 })

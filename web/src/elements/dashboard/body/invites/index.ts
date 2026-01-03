@@ -3,19 +3,19 @@ import { useButton, useDiv} from "@trippler/tr_kit/web"
 useDiv({
   parent: "dashboard-body",
   id: "invites",
-  className: "w-[65%] h-[75%] flex justify-between items-center gap-[25%]"
+  style: "w-[65%] h-[75%] flex justify-between items-center gap-[25%]"
 })
 
 useDiv({
   parent: "invites",
   id: "left-InviteSide",
-  className: "w-full flex justify-around"
+  style: "w-full flex justify-around"
 })
 
 useDiv({
   parent: "invites",
   id: "right-InviteSide",
-  className: "w-full flex justify-around"
+  style: "w-full flex justify-around"
 })
 
 useButton({

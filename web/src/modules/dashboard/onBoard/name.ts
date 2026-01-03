@@ -73,7 +73,7 @@ const nameSetup = () => new Promise((resolve) => {
     useDiv({
       parent: "alert-button-block-" + confimationIndex,
       id: "confirm-buttons-" + confimationIndex,
-      className: "w-full flex justify-center gap-2"
+      style: "w-full flex justify-center gap-2"
     })
     useButton({
       parent: "confirm-buttons-" + confimationIndex,

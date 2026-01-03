@@ -7,24 +7,24 @@ export default (message: string, player: PlayerObject) => {
   useDiv({
     parent: 'messages',
     id: 'message-' + setState.messageCount(getState.messageCount++),
-    className: 'w-full text-white text-lg p-1 rounded flex flex-wrap items-start gap-1 transition-opacity duration-[5s] opacity-100',
+    style: 'w-full text-white text-lg p-1 rounded flex flex-wrap items-start gap-1 transition-opacity duration-[5s] opacity-100',
   })
 
   useDiv({
     parent: "message-" + getState.messageCount,
-    className: "text-stone-400 text-lg shrink-0",
+    style: "text-stone-400 text-lg shrink-0",
     content: '@' + player.name
   })
 
   useDiv({
     parent: "message-" + getState.messageCount,
-    className: "text-[" + player.role.color + "] text-lg shrink-0",
+    style: "text-[" + player.role.color + "] text-lg shrink-0",
     content: ' (' + player.role.name + '): '
   })
 
   useDiv({
     parent: "message-" + getState.messageCount,
-    className: "text-white text-lg break-words min-w-0",
+    style: "text-white text-lg break-words min-w-0",
     content: message
   })
 

@@ -10,7 +10,7 @@ let players: Awaited<ReturnType<playerDetails['getUserDetails']>>[]
 
 const searchInput = useInput({
   parent: "playersSearchContainer",
-  className: "w-full p-2 bg-stone-700 rounded text-white outline-none",
+  style: "w-full p-2 bg-stone-700 rounded text-white outline-none",
   placeholder: "Search players by: <name>",
   onJoin: async () => {
     const playerIds = await triggerNuiCallback<GetFriendablePlayers>('dashboard/getFriendablePlayers')
@@ -31,7 +31,7 @@ const searchInput = useInput({
         useDiv({
           parent: "playersResults",
           id: `player-item-${player.name}`,
-          className: "flex items-center justify-between hover:bg-stone-600 text-sm py-1 px-2 rounded"
+          style: "flex items-center justify-between hover:bg-stone-600 text-sm py-1 px-2 rounded"
         })
 
         useButton({
@@ -40,7 +40,7 @@ const searchInput = useInput({
             <img src="${player.avatar}" class="w-[40px] h-[40px] rounded mr-2">
             <span>${player.name}</span>
           `,
-          className: "flex items-center text-white gap-2",
+          style: "flex items-center text-white gap-2",
           onClick: () => event?.stopPropagation()
         })
 
