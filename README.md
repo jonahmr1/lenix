@@ -2,6 +2,9 @@
 
 Kit of modules that you need on your daily coding instead of writing them on multiple environments
 
+![](https://img.shields.io/github/downloads/tripplerscripts/tr_kit/total)
+![](https://img.shields.io/github/v/release/tripplerscripts/tr_kit)
+
 ## 📥 Download
 https://github.com/tripplerscripts/tr_kit/releases/latest/download/tr_kit.zip
 
