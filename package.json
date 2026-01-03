@@ -1,6 +1,6 @@
 {
-  "name": "@lenix/fusion",
-  "version": "1.0.0",
+  "name": "@lenixdev/fusion",
+  "version": "1.0.1",
   "description": "Bundle of UI helpers for players interaction",
   "author": "Lenix",
   "license": "GPL-3.0",
@@ -15,9 +15,6 @@
     "url": "https://github.com/lenixdev/npm"
   },
   "exports": {
-    "./client": "./client/index.js",
-    "./server": "./server/index.js",
-    "./shared": "./shared/index.js",
     "./web": "./web/index.js"
   },
   "files": [
@@ -27,7 +24,7 @@
   "scripts": {
     "patch": "npm run rebuild && npm version patch && npm publish",
     "minor": "npm run rebuild && npm version minor && npm publish",
-    "rebuild": "rmdir /s /q client server shared web 2>nul & npm run build",
+    "rebuild": "rmdir /s /q web 2>nul & npm run build",
     "reinstall": "rimraf package-lock.json node_modules/.package-lock.json && npm install",
     "build": "npm run build:web",
     "build:web": "npx tsc -p src/web/tsconfig.json"
