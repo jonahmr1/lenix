@@ -5,9 +5,14 @@ Bundle of UI helpers for players interaction.
 ![](https://img.shields.io/npm/d18m/%40lenixdev%2Ffusion)
 ![](https://img.shields.io/npm/v/%40lenixdev%2Ffusion)
 
-## 📥 Depend
+## 🔗 Depend
 ```json
 "@lenixdev/lenix_fusion": "latest",
+```
+
+## 📥 Install
+```bash
+npm i @lenixdev/fusion
 ```
 
 ## 📚 Documentation
