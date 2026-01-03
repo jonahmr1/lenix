@@ -14,9 +14,6 @@ https://docs.trippler.store/tr_kit
 ## 📦 Node Package Module
 [![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/@trippler/tr_kit)
 
-## 🗺️ Roadmap
-- [ ]  Add more features and options to each module
-
 ## 🧾License
 [![](https://img.shields.io/github/license/tripplerscripts/tr_kit
 )](./LICENSE)
