@@ -8,7 +8,7 @@ local function ShowNotification(message)
 end
 
 local function openJobCenter()
-    local jobsProgress = lib.callback.await('tr_jobcenter:server:getProgress')
+    local jobsProgress = lib.callback.await('lenix_jobcenter:server:getProgress')
     SendNUIMessage({
         action = 'openJobCenter',
         jobs = jobsProgress,
@@ -32,7 +32,7 @@ RegisterNUICallback('closeUI', function(_, cb) closeJobCenter(); cb('ok') end)
 RegisterNUICallback('takeJob', function(data, cb)
     if not Jobs[data.job] then cb(false) return end
 
-    TriggerServerEvent('tr_jobcenter:takeJob', data.job, data.label)
+    TriggerServerEvent('lenix_jobcenter:takeJob', data.job, data.label)
     closeJobCenter()
     cb('ok')
 end)

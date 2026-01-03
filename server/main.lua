@@ -143,7 +143,7 @@ function updatePlayerMetaData(source, identifier, jobName, value)
     end
 end
 
-RegisterNetEvent('tr_jobcenter:takeJob', function(jobName, jobLabel)
+RegisterNetEvent('lenix_jobcenter:takeJob', function(jobName, jobLabel)
     local src = source
 
     if isPlayerAlreadyHasJob(src, jobName) then
@@ -160,7 +160,7 @@ RegisterNetEvent('tr_jobcenter:takeJob', function(jobName, jobLabel)
     export:Notify(src, ('You took the job: %s'):format(jobLabel), 'success')
 end)
 
-lib.callback.register('tr_jobcenter:server:getProgress', function(source)
+lib.callback.register('lenix_jobcenter:server:getProgress', function(source)
     local citizenid = playerCitizenId(source)
     local jobsWithProgress = {}
 

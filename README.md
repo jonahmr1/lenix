@@ -5,16 +5,16 @@ Job center for players to get hired with a fun experience system and reputation
 ## Client
 ### openJobCenter
 ```lua
-exports.tr_jobcenter:openJobCenter()
+exports.lenix_jobcenter:openJobCenter()
 ```
 ### closeJobCenter
 ```lua
-exports.tr_jobcenter:closeJobCenter()
+exports.lenix_jobcenter:closeJobCenter()
 ```
 ## Server
 ## givePlayerRep
 ```lua
-exports.tr_jobcenter:givePlayerRep(source, identifier, jobName, type)
+exports.lenix_jobcenter:givePlayerRep(source, identifier, jobName, type)
 ```
 ### Parameters
 * source: `number` The player source
@@ -30,12 +30,12 @@ exports.tr_jobcenter:givePlayerRep(source, identifier, jobName, type)
 
 ### Example
 ```lua
-exports.tr_jobcenter:givePlayerRep(source, '3R4L5T', 'police', 'low')
+exports.lenix_jobcenter:givePlayerRep(source, '3R4L5T', 'police', 'low')
 ```
 
 ## getPlayerLevel
 ```lua
-exports.tr_jobcenter:getPlayerLevel(identifier, jobName)
+exports.lenix_jobcenter:getPlayerLevel(identifier, jobName)
 ```
 ### Parameters
 * identifier: `string` The player identifier aka citizenid
@@ -46,12 +46,12 @@ exports.tr_jobcenter:getPlayerLevel(identifier, jobName)
 
 ### Example
 ```lua
-exports.tr_jobcenter:getPlayerLevel('3R4L5T', 'police')
+exports.lenix_jobcenter:getPlayerLevel('3R4L5T', 'police')
 ```
 
 ## getPlayerDiffMultiplier
 ```lua
-exports.tr_jobcenter:getPlayerDiffMultiplier(identifier, jobName)
+exports.lenix_jobcenter:getPlayerDiffMultiplier(identifier, jobName)
 ```
 ### Parameters
 * identifier: `string` The player identifier aka citizenid
@@ -62,7 +62,7 @@ exports.tr_jobcenter:getPlayerDiffMultiplier(identifier, jobName)
 
 ### Example
 ```lua
-exports.tr_jobcenter:getPlayerDiffMultiplier('3R4L5T', 'police')
+exports.lenix_jobcenter:getPlayerDiffMultiplier('3R4L5T', 'police')
 ```
 # Config
 ### config/client.lua

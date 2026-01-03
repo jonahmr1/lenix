@@ -11,7 +11,7 @@ exports.ox_target:addBoxZone({
     {
       label = 'Search For A Job',
       onSelect = function()
-        exports.tr_jobcenter:openJobCenter()
+        exports.lenix_jobcenter:openJobCenter()
       end
     }
   }
