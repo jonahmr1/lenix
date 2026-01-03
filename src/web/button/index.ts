@@ -4,7 +4,7 @@ interface ButtonConfig {
   parent: string
   content?: string
   id?: string
-  className?: string
+  style?: string
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl' | '8xl' | '9xl'
   type?: 'primary' | 'secondary' | 'soft' | 'none'
   disableKey?: boolean
@@ -47,14 +47,14 @@ const getType = (type: ButtonConfig['type'], size: ButtonConfig['size']): string
   }
 }
 
-export default ({ parent, content, id, className, type, size, disableKey, onClick, onHover }: ButtonConfig): typeof button => {
+export default ({ parent, content, id, style, type, size, disableKey, onClick, onHover }: ButtonConfig): typeof button => {
   const parentElement = document.getElementById(parent) || document.querySelector(`.${parent}`)
   if (!parentElement) {
     throw new Error(`Parent element "${parent}" not found`)
   }
 
-  const button = useDiv({parent: parent, id: id, className: className, content: content})
-  button.className = getType(type, size) != undefined ? getType(type, size)?.trim().replace(/\s+/g, ' ')! : className!
+  const button = useDiv({parent: parent, id: id, style: style, content: content})
+  button.className = getType(type, size) != undefined ? getType(type, size)?.trim().replace(/\s+/g, ' ')! : style!
 
   let isDisabled = false
 

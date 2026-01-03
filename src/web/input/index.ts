@@ -1,6 +1,6 @@
 interface InputOptions {
   parent: string
-  className?: string
+  style?: string
   defaultValue?: string
   placeholder?: string
   type?: string
@@ -11,7 +11,7 @@ interface InputOptions {
 
 export default ({
     parent,
-    className = "bg-stone-800 outline-none p-2 rounded text-white",
+    style = "bg-stone-800 outline-none p-2 rounded text-white",
     defaultValue = "",
     placeholder = "press tab to jump in",
     type = "text",
@@ -25,7 +25,7 @@ export default ({
   input.type = type
   input.value = defaultValue
   input.placeholder = placeholder
-  input.className = className
+  input.className = style
 
   if (onSubmit) input.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {

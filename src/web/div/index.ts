@@ -1,15 +1,15 @@
 interface ElementOptions {
   parent: string
   id?: string
-  className?: string
+  style?: string
   content?: string
 }
 
-export default ({ parent, id, className, content}: ElementOptions): typeof element => {
+export default ({ parent, id, style, content}: ElementOptions): typeof element => {
   const element = document.createElement('div')
   
   if (id) element.id = id
-  if (className) element.className = className
+  if (style) element.className = style
   if (content) element.innerHTML = content
 
   const parentElement = document.getElementById(parent) || document.querySelector(`.${parent}`)
