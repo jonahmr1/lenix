@@ -17,7 +17,7 @@ import {
 import { lobbyCoords } from '../../shared/constants'
 import { hideGame, showGame, openGame } from '../game/dashboard'
 
-export const startCharacterProcess = async () => exports.tr_onboarding.startCharacterProcess(lobbyCoords, lobbyCoords, hideGame, showGame)
+export const startCharacterProcess = () => exports.tr_onboarding.startCharacterProcess(lobbyCoords, lobbyCoords, hideGame, showGame)
 export const doesUserAlreadyExist = () => triggerPromise<DoesUserAlreadyExist>('doesUserAlreadyExist')
 export const getUserProfile = (identity: number) => triggerPromise<GetUserProfile>('getUserProfile', identity)
 export const createUser = (name: string, avatar: string) => triggerPromise<CreateUserIntoTheDatabase>('createUser', name, avatar)
