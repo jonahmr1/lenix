@@ -5,7 +5,7 @@ const waitingCallbacks: Array<() => void> = []
 
 onNuiCallback('__DOMLoaded', () => {
   domLoaded = true
-  waitingCallbacks.forEach(fn => fn())
+  waitingCallbacks.forEach(Function => Function())
   waitingCallbacks.length = 0
 })
 

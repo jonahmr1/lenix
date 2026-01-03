@@ -16,6 +16,6 @@ export default <T extends any[] = any[]>(
   }
   
   window.addEventListener('message', handler)
-  
+
   return () => window.removeEventListener('message', handler)
 }

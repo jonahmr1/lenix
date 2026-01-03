@@ -1,6 +1,0 @@
-modules that serverify and clientify (asServer asClient)
-
-client and server metadata communication instead of events
-
-end repeats after done
-better commands
