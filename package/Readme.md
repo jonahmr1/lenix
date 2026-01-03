@@ -5,9 +5,15 @@ A lightweight utility & helper library for FiveM developers. Designed to improve
 ![](https://img.shields.io/npm/d18m/%40trippler%2Ftr_lib)
 ![](https://img.shields.io/npm/v/%40trippler%2Ftr_lib)
 
-## 📥 Depend
+## npm i @trippler/tr_lib
+ Depend
 ```json
 "@trippler/tr_lib": "latest",
+```
+
+## 📥 Install
+```bash
+npm i @trippler/tr_lib
 ```
 
 ## 📚 Documentation
@@ -29,4 +35,3 @@ https://docs.trippler.store/tr_lib
 
 ## 💻 Build with
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
