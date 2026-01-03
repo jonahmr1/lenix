@@ -28,7 +28,7 @@ https://docs.trippler.store/tr_lib
 - [ ]  add controlled commands
 
 ## 🧾License
-[![](https://img.shields.io/npm/l/%40trippler%2Ftr_lib)](./LICENSE)
+![](https://img.shields.io/npm/l/%40trippler%2Ftr_lib)
 
 ## 📞 Support
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/vPwaW3rpUk)
