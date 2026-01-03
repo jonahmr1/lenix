@@ -1,8 +1,8 @@
 package-lock.json
 node_modules
 .DS_Store
-/client
-/server
-/shared
-/web
+package/client
+package/server
+package/shared
+package/web
 dist

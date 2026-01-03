@@ -5,9 +5,14 @@ Kit of modules that you need on your daily coding instead of writing them on mul
 ![](https://img.shields.io/npm/d18m/%40trippler%2Ftr_kit)
 ![](https://img.shields.io/npm/v/%40trippler%2Ftr_kit)
 
-## 📥 Depend
+## 🔗 Depend
 ```json
 "@trippler/tr_kit": "latest",
+```
+
+## 📥 Install
+```bash
+npm i @trippler/tr_kit
 ```
 
 ## 📚 Documentation
