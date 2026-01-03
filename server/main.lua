@@ -48,13 +48,13 @@ local function getSocietyBudget()
   return bridge.getAccountBudget()
 end
 
-lib.callback.register('tr_bossdesk:server:isPlayerBoss', function(source)
+lib.callback.register('lenix_bossdesk:server:isPlayerBoss', function(source)
   local playerJob = core:GetPlayer(source).PlayerData.job
   local isPlayerBoss = core:IsGradeBoss(playerJob.name, playerJob.grade.level)
   return isPlayerBoss
 end)
 
-lib.callback.register('tr_bossdesk:server:getTotalPlayers', function()
+lib.callback.register('lenix_bossdesk:server:getTotalPlayers', function()
   local playersdata = core:GetGroupMembers('police', 'job')
   local count = 0
   for i = 1, #playersdata do
@@ -63,7 +63,7 @@ lib.callback.register('tr_bossdesk:server:getTotalPlayers', function()
   return count
 end)
 
-lib.callback.register('tr_bossdesk:server:getJobPlayersData', function()
+lib.callback.register('lenix_bossdesk:server:getJobPlayersData', function()
   local player = core:GetGroupMembers('police', 'job')
   local players = {}
   for i = 1, #player do
@@ -83,11 +83,11 @@ lib.callback.register('tr_bossdesk:server:getJobPlayersData', function()
   return players
 end)
 
-lib.callback.register('tr_bossdesk:server:getJobBudget', function()
+lib.callback.register('lenix_bossdesk:server:getJobBudget', function()
   return getSocietyBudget()
 end)
 
-lib.callback.register('tr_bossdesk:server:getJobOnlinePlayers', function(_, playersData)
+lib.callback.register('lenix_bossdesk:server:getJobOnlinePlayers', function(_, playersData)
   local onlinePlayers = 0
   for i = 1, #playersData do
     local citizenid = playersData[i].id
@@ -98,7 +98,7 @@ lib.callback.register('tr_bossdesk:server:getJobOnlinePlayers', function(_, play
   return onlinePlayers
 end)
 
-lib.callback.register('tr_bossdesk:server:hirePlayer', function(_, citizenid, grade, badge)
+lib.callback.register('lenix_bossdesk:server:hirePlayer', function(_, citizenid, grade, badge)
   if not isPlayerOnline(citizenid) then
     return false, 'Employee is not online'
   end
@@ -114,7 +114,7 @@ lib.callback.register('tr_bossdesk:server:hirePlayer', function(_, citizenid, gr
   end
 end)
 
-lib.callback.register('tr_bossdesk:server:firePlayer', function(_, citizenid, reason)
+lib.callback.register('lenix_bossdesk:server:firePlayer', function(_, citizenid, reason)
   core:RemovePlayerFromJob(citizenid, 'police')
   core:SetMetadata(citizenid, 'callsign', 'NO CALLSIGN')
   if hasPoliceJob(getPlayerSourceByCitizenId(citizenid)) then
@@ -123,8 +123,8 @@ lib.callback.register('tr_bossdesk:server:firePlayer', function(_, citizenid, re
   return true, 'Employee fired successfully'
 end)
 
-lib.callback.register('tr_bossdesk:server:updateReputation', function(_, citizenid, action, points)
-  assert(type(citizenid) == 'string' and type(action) == 'string' and type(points) == 'number', 'something went wrong in tr_bossdesk:server:updateReputation')
+lib.callback.register('lenix_bossdesk:server:updateReputation', function(_, citizenid, action, points)
+  assert(type(citizenid) == 'string' and type(action) == 'string' and type(points) == 'number', 'something went wrong in lenix_bossdesk:server:updateReputation')
   local playerRep = getMetadata(citizenid)
   if action == 'commendation' then
     return setMetadata(citizenid, playerRep + points), 'Commendation added'
@@ -135,17 +135,17 @@ lib.callback.register('tr_bossdesk:server:updateReputation', function(_, citizen
       if action == 'suspension' then
         return setMetadata(citizenid, 0), 'Employee suspended'
       else
-        lib.print.error('tr_bossdesk:server:updateReputation', 'Invalid action: ' .. action)
+        lib.print.error('lenix_bossdesk:server:updateReputation', 'Invalid action: ' .. action)
       end
     end
   end
 end)
 
-lib.callback.register('tr_bossdesk:server:isSelfInteraction', function(_, citizenid)
+lib.callback.register('lenix_bossdesk:server:isSelfInteraction', function(_, citizenid)
   return citizenid == core:GetPlayer(source).PlayerData.citizenid
 end)
 
-lib.callback.register('tr_bossdesk:server:getJobRanks', function()
+lib.callback.register('lenix_bossdesk:server:getJobRanks', function()
   local grades = exports.qbx_core:GetJobs().police.grades
   local gradesArray = {}
   
@@ -164,7 +164,7 @@ lib.callback.register('tr_bossdesk:server:getJobRanks', function()
   return gradesArray
 end)
 
-lib.callback.register('tr_bossdesk:server:transferFunds', function(_, citizenid, reason, amount)
+lib.callback.register('lenix_bossdesk:server:transferFunds', function(_, citizenid, reason, amount)
   if citizenid == nil or reason == nil or amount == nil then
     return false, 'Invalid parameters'
   else
@@ -177,7 +177,7 @@ lib.callback.register('tr_bossdesk:server:transferFunds', function(_, citizenid,
   end
 end)
 
-lib.callback.register('tr_bossdesk:server:manageFunds', function(source, action, amount, reason)
+lib.callback.register('lenix_bossdesk:server:manageFunds', function(source, action, amount, reason)
   if source == 0 or action == nil or amount == nil or reason == nil then
     return false, 'Invalid parameters'
   else

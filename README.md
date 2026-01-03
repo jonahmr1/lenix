@@ -5,11 +5,11 @@ AKA management, for managers with control over finance, members and more
 * ### OpenDesk
 ### Exports
 ```lua
-exports.tr_bossdesk:OpenDesk()
+exports.lenix_bossdesk:OpenDesk()
 ```
 ### Events
 ```lua
-TriggerEvent('tr_bossdesk:client:openDesk')
+TriggerEvent('lenix_bossdesk:client:openDesk')
 ```
 
 # Roadmap
