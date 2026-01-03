@@ -14,7 +14,7 @@ Kit of modules that you need on your daily coding instead of writing them on mul
 https://docs.trippler.store/tr_kit
 
 ## GitHub
-[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://www.npmjs.com/package/@trippler/tr_kit)
+[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/TripplerScripts/tr_kit)
 
 ## 🗺️ Roadmap
 - [ ]  Add more features and options to each module

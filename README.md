@@ -15,8 +15,7 @@ https://docs.trippler.store/tr_kit
 [![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/@trippler/tr_kit)
 
 ## 🧾License
-[![](https://img.shields.io/github/license/tripplerscripts/tr_kit
-)](./LICENSE)
+[![](https://img.shields.io/github/license/tripplerscripts/tr_kit)](./LICENSE)
 
 ## 📞 Support
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/vPwaW3rpUk)
