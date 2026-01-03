@@ -44,7 +44,7 @@ RegisterNuiCallback('nuiReady', function(data, cb) {
           reserve: reserve - ammo,
           clipSize: clipSize
         },
-        playerKills: exports.tr_gunhud.getPlayerKills()
+        playerKills: exports.lenix_gunhud.getPlayerKills()
       }))
     }, 90)
   }
