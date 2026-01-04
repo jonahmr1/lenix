@@ -23,6 +23,7 @@ https://docs.trippler.store/tr_kit
 
 ## 🗺️ Roadmap
 - [ ]  Add more features and options to each module
+- [ ]  Double check the useDiv module
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/%40trippler%2Ftr_kit)

@@ -32,7 +32,7 @@ export const createSinglePed = async (settings: CreateSinglePed, timeout: number
   return [entityHandle, entityNetId]
 }
 
-export const destroyCreatedPed = async (netId: number, timeout: number) => {
+export const destroyCreatedPed = async (netId: number, timeout?: number) => {
   if (typeof netId !== 'number') {
     info(`expected a number at #1, got ${typeof netId}`)
     return false
