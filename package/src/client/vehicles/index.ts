@@ -1,11 +1,11 @@
-import { trace, info } from '@trippler/tr_lib/shared'
+import { trace, info, fatal } from '@trippler/tr_lib/shared'
 import { awaitInstanceExisting , triggerPromise} from '@trippler/tr_lib/client'
 import { CreateSingleVehicle } from '../../shared'
-import { spawnVehicleEntity, applySettings } from './wrappers'
+import { spawnVehicleEntity, applySettings, registerVehicle } from './wrappers'
 
 const deletedVehicles = new Set<number>()
 
-export const createSingleVehicle = async (settings: CreateSingleVehicle) => {
+export const createSingleVehicle = async (settings: CreateSingleVehicle): Promise<[number | null, number] | [false, false] | undefined> => {
 	const entityHash = settings.hash
 	const entityModel = GetDisplayNameFromVehicleModel(entityHash)
 	const preCreateEntity = settings?.preCreate
@@ -30,12 +30,10 @@ export const createSingleVehicle = async (settings: CreateSingleVehicle) => {
 	if (!entityNetId) return
 	
 	if (registerOwnedVehicle) {
-		const response = await triggerPromise('registerCreatedVehicle', null, entityModel, entityHash, null, vehiclePlate)
-		if (!response) {
-			trace('Failed to register the vehicle')
-			destroyCreatedVehicle(entityNetId)
-			return [false, false]
-		}
+    if (!vehiclePlate && entityHandle) {
+      const response = registerVehicle(entityModel, entityHash, GetVehicleNumberPlateText(entityHandle), entityNetId)
+      if (!response) return response
+    } else fatal`failed to process the entityHandle while trying to register the vehicle, please pass the vehiclePlate to proceed`
 	}
 
 	applySettings({

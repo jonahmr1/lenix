@@ -1,6 +1,7 @@
-import { awaitInstanceExisting, requestModel } from "@trippler/tr_lib/client"
+import { awaitInstanceExisting, requestModel, triggerPromise } from "@trippler/tr_lib/client"
 import { CreateSingleVehicle } from "../../shared"
-import { fatal } from "@trippler/tr_lib/shared"
+import { fatal, trace } from "@trippler/tr_lib/shared"
+import { destroyCreatedVehicle } from "."
 
 const bridge = {
   giveKey: (plate: string) => {
@@ -69,4 +70,15 @@ export const applySettings = async ({
     SetVehicleLivery(handle, customize[3].livery)
     SetVehicleMod(handle, 48, customize[3].livery, false)
   }
+}
+
+
+export const registerVehicle = async (entityModel: string, entityHash: number, vehiclePlate: string, entityNetId: number) => {
+  const response = await triggerPromise('registerCreatedVehicle', null, entityModel, entityHash, null, vehiclePlate)
+  if (!response) {
+    trace('Failed to register the vehicle')
+    destroyCreatedVehicle(entityNetId)
+    return [false, false]
+  }
+  return true
 }

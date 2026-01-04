@@ -6,7 +6,7 @@ import { awaitInstanceExisting } from '@trippler/tr_lib/client'
 
 const deletedPeds = new Set()
 
-export const createSinglePed = async (settings: CreateSinglePed, timeout: number) => {
+export const createSinglePed = async (settings: CreateSinglePed, timeout: number): Promise<[number, number] | undefined> => {
   const hash = settings.hash
   const scenario = settings?.scenario
   let coords = settings.coords
