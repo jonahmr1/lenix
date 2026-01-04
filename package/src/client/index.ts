@@ -17,4 +17,4 @@ globalThis.exports('clearCreatedVehicle', destroyCreatedVehicle)
 export { default as createBlip } from './blips'
 export * from './camera'
 export * from './pedestrians'
-export * from './pedestrians'
+export * from './vehicles'

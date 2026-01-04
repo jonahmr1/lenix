@@ -1,7 +1,7 @@
 import { requestModel, awaitInstanceExisting } from '@trippler/tr_lib/client'
 import { CreateSinglePed } from '../../shared'
 
-export const spawnPedEntity = async (hash: number, timeout: number, coords: number[]) => {
+export const spawnPedEntity = async (hash: number, timeout: number | undefined, coords: number[]) => {
   const response = await requestModel(hash, timeout)
   if (!response) return
 

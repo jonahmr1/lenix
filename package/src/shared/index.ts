@@ -4,11 +4,11 @@ export interface CreateSinglePed {
   hash: number,
   coords: [number, number, number, number]
   scenario?: {
-    name: string,
-    freeze: boolean,
-    oblivious: boolean,
-    timeToLeave: number,
-    playIntroClip: boolean
+    name?: string,
+    freeze?: boolean,
+    oblivious?: boolean,
+    timeToLeave?: number,
+    playIntroClip?: boolean
   },
 }
 

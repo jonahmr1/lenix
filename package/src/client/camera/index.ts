@@ -3,6 +3,8 @@ import { CreateCamSettings, DestroyCamSettings } from '../../shared'
 export const createCam = (settings: CreateCamSettings): number => {
   const coords = settings.coords
   const rotation = settings.rotation
+
+  // TODO: remove this pollution
   const details = {
     fov: settings?.details?.fov ?? 40.0,
     fadeOut: settings?.details?.fadeOut ?? 0,
@@ -10,6 +12,7 @@ export const createCam = (settings: CreateCamSettings): number => {
     delay: settings?.details?.delay ?? 0,
     rotationOrder: settings?.details?.rotationOrder ?? 0
   }
+
   DoScreenFadeOut(details.fadeOut)
   const camHandle = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", coords[0], coords[1], coords[2], rotation.vertical, rotation.horizontal, coords[3], details.fov, false, details.rotationOrder)
   setTimeout(() => {
@@ -22,6 +25,8 @@ export const createCam = (settings: CreateCamSettings): number => {
 
 export const destroyCam = (settings: DestroyCamSettings): void => {
   const handle = settings.handle
+
+  // TODO: remove this pollution
   const details = {
     fadeOut: settings?.details?.fadeOut ?? 0,
     fadeIn: settings?.details?.fadeIn ?? 0,

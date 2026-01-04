@@ -6,7 +6,7 @@ import { awaitInstanceExisting } from '@trippler/tr_lib/client'
 
 const deletedPeds = new Set()
 
-export const createSinglePed = async (settings: CreateSinglePed, timeout: number) => {
+export const createSinglePed = async (settings: CreateSinglePed, timeout?: number) => {
   const hash = settings.hash
   const scenario = settings?.scenario
   let coords = settings.coords
@@ -32,7 +32,7 @@ export const createSinglePed = async (settings: CreateSinglePed, timeout: number
   return [entityHandle, entityNetId]
 }
 
-export const destroyCreatedPed = async (netId: number, timeout: number) => {
+export const destroyCreatedPed = async (netId: number, timeout?: number) => {
   if (typeof netId !== 'number') {
     info(`expected a number at #1, got ${typeof netId}`)
     return false
