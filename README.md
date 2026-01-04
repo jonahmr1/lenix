@@ -2,6 +2,19 @@
 Job center for players to get hired with a fun experience system and reputation
 
 ## About
+### Introduction
+Welcome to Job Center.
+
+This script is designed to enhance your server's gameplay by:
+* Your player snow can head to the cityhall and get a job, earn points and reputation on each job to level up, grade up and make more points, money and rewards.
+
+### Instructions
+* Installation: drag and drop
+* Environment: QBox
+* Support: available
+
+> Enjoy your improved gaming experience with Job Center!
+
 <img width="1209" height="627" alt="jobcenter" src="https://github.com/user-attachments/assets/8934b405-52e1-4663-a9ae-cb1c199cca01" />
 
 # Imports
