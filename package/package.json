@@ -18,7 +18,7 @@
     "./client": "./client/index.js",
     "./server": "./server/index.js",
     "./shared": "./shared/index.js",
-    "./web": "./web/index.js"
+    "./nui": "./nui/index.js"
   },
   "files": [
     "client",
@@ -33,7 +33,7 @@
     "build:client": "npx tsc -p src/client/tsconfig.json",
     "build:server": "npx tsc -p src/server/tsconfig.json",
     "build:shared": "npx tsc -p src/shared/tsconfig.json",
-    "build:web": "npx tsc -p src/web/tsconfig.json",
+    "build:web": "npx tsc -p src/nui/tsconfig.json",
     "bundle": "npm run bundle:client && npm run bundle:server && npm run bundle:web",
     "bundle:client": "esbuild src/client/index.ts --bundle --outfile=../dist/client.js --platform=browser --external:@citizenfx/*",
     "bundle:server": "esbuild src/server/index.ts --bundle --outfile=../dist/server.js --platform=node --external:@citizenfx/*",

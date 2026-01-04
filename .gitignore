@@ -4,5 +4,5 @@ node_modules
 package/client
 package/server
 package/shared
-package/web
+package/nui
 dist
