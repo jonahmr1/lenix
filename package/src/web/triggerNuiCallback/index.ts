@@ -1,19 +1,19 @@
 export default async <T = unknown>(
-  callbackEnpoint: string, 
-  dataObject?: object
+  endpoint: string, 
+  parameters?: object
 ): Promise<T> => {
-  const response = await fetch(`https://${GetParentResourceName()}/${callbackEnpoint}`, {
+  const response = await fetch(`https://${GetParentResourceName()}/${endpoint}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: JSON.stringify(dataObject || {}),
+    body: JSON.stringify(parameters || {}),
   })
   try {
     return await response.json()
   } catch(error) {
     throw new Error(
-      `nui callback invoke was not ok, was the endpoint '${callbackEnpoint}' already defined before the invoke?
+      `nui callback invoke was not ok, was the endpoint '${endpoint}' already defined before the invoke?
       learn more: ${error}`
     )
   }

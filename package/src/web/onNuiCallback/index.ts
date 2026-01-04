@@ -16,8 +16,9 @@ window.addEventListener('message', (event: MessageEvent) => {
 })
 
 export default <T extends any[] = any[]>(
-  name: string, 
-  Function: (...args: T) => void
+  endpoint: string, 
+  callback: (...args: T) => void
 ) => {
-  callbacks.set(name, Function)
+  callbacks.set(endpoint, callback)
+  return true
 }
