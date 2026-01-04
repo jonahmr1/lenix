@@ -1,8 +1,12 @@
 import { Bind, isInvalidKey, noop, onKey } from ".."
 
-export default (key: Bind,) => {
+export default (key: Bind) => {
   if (isInvalidKey(key)) return false
 
-  setTick(() => onKey(DisableControlAction, key, noop, true) )
+  try {
+    setTick(() => onKey(DisableControlAction, key, noop, true) )
+  } catch (error) {
+    console.error(error)
+  }
   return true
 }
