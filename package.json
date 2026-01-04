@@ -5,11 +5,11 @@
     "build": "npm run build:client && npm run build:server && npm run build:web",
     "build:client": "esbuild client/index.ts --bundle --format=iife --target=es2020 --minify --outfile=build/client.js",
     "build:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --minify --outfile=build/server.js",
-    "build:web": "esbuild web/src/index.ts --bundle --platform=browser --target=es2020 --minify --outfile=build/web.js",
+    "build:web": "esbuild web/src/index.ts --bundle --platform=browser --target=es2020 --minify --outfile=build/nui.js",
     "watch": "concurrently \"npm:watch:client\" \"npm:watch:server\" \"npm:watch:web\"",
     "watch:client": "esbuild client/index.ts --bundle --format=iife --target=es2020 --watch --outfile=build/client.js",
     "watch:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --watch --outfile=build/server.js",
-    "watch:web": "esbuild web/src/index.ts --bundle --platform=browser --target=es2020 --watch --outfile=build/web.js",
+    "watch:web": "esbuild web/src/index.ts --bundle --platform=browser --target=es2020 --watch --outfile=build/nui.js",
     "ins": "rimraf package-lock.json node_modules/.package-lock.json && npm install"
   },
   "dependencies": {

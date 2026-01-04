@@ -1,1 +1,0 @@
-export { useAlert as default } from "@lenixdev/fusion/web"

@@ -18,5 +18,5 @@ server_scripts {
 ui_page 'web/public/index.html'
 files {
   'web/public/index.html',
-  'build/web.js'
+  'build/nui.js'
 }
