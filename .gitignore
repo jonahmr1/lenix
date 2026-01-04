@@ -3,6 +3,6 @@ package-lock.json
 package/client
 package/server
 package/shared
-package/web
+package/nui
 .DS_Store
 .env

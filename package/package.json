@@ -1,6 +1,6 @@
 {
   "name": "@trippler/tr_lib",
-  "version": "2.9.4",
+  "version": "2.10.0",
   "description": "A lightweight utility & helper library for FiveM developers. Designed to improve code reusability, consistency, and performance across and outcross Trippler resources.",
   "author": "Trippler",
   "license": "GPL-3.0",
@@ -18,24 +18,24 @@
     "./client": "./client/index.js",
     "./server": "./server/index.js",
     "./shared": "./shared/index.js",
-    "./web": "./web/index.js"
+    "./nui": "./nui/index.js"
   },
   "files": [
     "client",
     "server",
     "shared",
-    "web",
+    "nui",
     "Readme.md"
   ],
   "scripts": {
     "patch": "npm run rebuild && npm version patch && npm publish",
     "minor": "npm run rebuild && npm version minor && npm publish",
-    "rebuild": "rmdir /s /q client server shared web 2>nul & npm run build",
-    "build": "npm run build:shared && npm run build:client && npm run build:server && npm run build:web",
+    "rebuild": "rmdir /s /q client server shared nui 2>nul & npm run build",
+    "build": "npm run build:shared && npm run build:client && npm run build:server && npm run build:nui",
     "build:client": "npx tsc -p src/client/tsconfig.json",
     "build:server": "npx tsc -p src/server/tsconfig.json",
     "build:shared": "npx tsc -p src/shared/tsconfig.json",
-    "build:web": "npx tsc -p src/web/tsconfig.json"
+    "build:nui": "npx tsc -p src/nui/tsconfig.json"
   },
   "devDependencies": {
     "@citizenfx/client": "latest",
