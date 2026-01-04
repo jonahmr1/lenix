@@ -5,7 +5,7 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '2.9.1'
+version '2.9.2'
 
 files {
   'imports/version/server.lua',
@@ -32,7 +32,7 @@ shared_scripts {
 }
 
 client_scripts {
-  'imports/targets/client.lua',
+  'imports/players/client.lua',
   'imports/promise/await/client.lua',
   'imports/promise/on/client.lua',
   'imports/request/client.lua',
@@ -45,7 +45,7 @@ client_scripts {
 }
 
 server_scripts {
-  'imports/targets/server.lua',
+  'imports/players/server.lua',
   'imports/promise/await/server.lua',
   'imports/promise/on/server.lua',
   'imports/version/release/server.lua',
