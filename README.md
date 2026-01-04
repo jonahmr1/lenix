@@ -1,6 +1,9 @@
 # lenix_gunhud
 HUD for gun stats: ammo, name, image, etc
 
+## About
+<img width="487" height="178" alt="gunhud" src="https://github.com/user-attachments/assets/cc6a138f-0972-4b9e-b335-76832e29b39b" />
+
 ## Instructions
 this script is basically a dnd resource, you just need to implement your own kills function and integrate it into your database so the gunhud gets a synced data
 
