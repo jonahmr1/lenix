@@ -26,6 +26,7 @@ https://docs.trippler.store/tr_lib
 - [ ]  add modules that serverify and clientify (asServer asClient)
 - [ ]  add client and server metadata communication module instead of heating events
 - [ ]  add controlled commands
+- [ ] fix keybinds indexes
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/%40trippler%2Ftr_lib)
