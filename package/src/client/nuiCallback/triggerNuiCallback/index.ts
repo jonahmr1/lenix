@@ -1,2 +1,2 @@
-export default (name: string, ...params: any[]) => 
-  SendNuiMessage(JSON.stringify({ __name: name, params }))
+export default (endpoint: string, ...parameters: any[]) => 
+  SendNuiMessage(JSON.stringify({ __name: endpoint, params: parameters }))
