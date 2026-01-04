@@ -15,7 +15,9 @@ https://docs.trippler.store/tr_lib
 [![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/@trippler/tr_lib)
 
 ## 🗺️ Roadmap
-- [ ]  add endLoop callback to the Repeat Module
+- [ ] add endLoop callback to the Repeat Module
+- [ ] complete players module
+- [ ] provide the print module with the import
 
 ## 🧾License
 [![](https://img.shields.io/github/license/tripplerscripts/tr_lib)](./LICENSE)
