@@ -1,6 +1,9 @@
 # lenix_jobcenter
 Job center for players to get hired with a fun experience system and reputation
 
+## About
+<img width="1209" height="627" alt="jobcenter" src="https://github.com/user-attachments/assets/8934b405-52e1-4663-a9ae-cb1c199cca01" />
+
 # Imports
 ## Client
 ### openJobCenter
