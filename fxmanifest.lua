@@ -2,8 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 
-author 'Trippler'
-docs 'https://docs.trippler.store'
+author 'https://github.com/LenixDev'
 version '1.0.5'
 
 client_scripts {
