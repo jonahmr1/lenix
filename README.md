@@ -1,6 +1,9 @@
 # lenix_drawtext
 Customizable Drawtext UI helper
 
+## About
+<img width="339" height="57" alt="drawtext" src="https://github.com/user-attachments/assets/41b35f65-3ff0-465d-9ec5-d6883953e622" />
+
 ## Imports
 * ## Lua
 ### Show
