@@ -12,7 +12,7 @@ interface ButtonConfig {
   onHover?: () => void
 }
 
-const getSize = (size: ButtonConfig['size']): string => {
+const getButtonSizes = (size: ButtonConfig['size']): string => {
   const sizes = {
     'xs': 'text-xs py-1 px-4',
     'sm': 'text-sm py-1 px-4',
@@ -31,8 +31,8 @@ const getSize = (size: ButtonConfig['size']): string => {
   return sizes[size!]
 }
 
-const getType = (type: ButtonConfig['type'], size: ButtonConfig['size']): string | undefined => {
-  const sizeClass = getSize(size!)
+const getButtonTypes = (type: ButtonConfig['type'], size: ButtonConfig['size']): string | undefined => {
+  const sizeClass = getButtonSizes(size!)
   const baseClasses = `${sizeClass} w-fit h-fit font-semibold rounded cursor-default transition-all whitespace-nowrap`
   
   switch(type) {
@@ -54,7 +54,7 @@ export default ({ parent, content, id, style, type, size, disableKey, onClick, o
   }
 
   const button = useDiv({parent: parent, id: id, style: style, content: content})
-  button.className = getType(type, size) != undefined ? getType(type, size)?.trim().replace(/\s+/g, ' ')! : style!
+  button.className = getButtonTypes(type, size) != undefined ? getButtonTypes(type, size)?.trim().replace(/\s+/g, ' ')! : style!
 
   let isDisabled = false
 
