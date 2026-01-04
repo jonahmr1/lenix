@@ -4,9 +4,9 @@ function lib.requestModel(hash, timeout)
 
   RequestModel(hash)
   timeout = timeout or 10000
+  local start = GetGameTimer()
   while not HasModelLoaded(hash) do
-    timeout -= 1
-    if timeout <= 0 then
+    if GetGameTimer() - start >= timeout then
       return false
     end
     Wait(0)
