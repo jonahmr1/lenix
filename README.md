@@ -2,6 +2,19 @@
 Customizable Drawtext UI helper
 
 ## About
+### Introoduction
+Welcome to Draw Text.
+
+This script is designed to enhance your server's gameplay by:
+* Light weight UI design that comes with configurations
+
+### Instructions
+* Installation: drag and drop
+* Environment: standalone
+* Support: available
+
+> Enjoy your improved gaming experience with Draw Text!
+
 <img width="339" height="57" alt="drawtext" src="https://github.com/user-attachments/assets/41b35f65-3ff0-465d-9ec5-d6883953e622" />
 
 ## Imports
