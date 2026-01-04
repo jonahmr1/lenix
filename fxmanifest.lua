@@ -7,8 +7,7 @@ dependencies {
   'qbx_core'
 }
 
-author 'Trippler'
-docs 'https://docs.trippler.store'
+author 'https://github.com/LenixDev'
 version '1.0.4'
 
 files {
@@ -26,12 +25,3 @@ client_scripts {
 }
 ui_page 'web/index.html'
 file 'web/**'
-
-escrow_ignore {
-  'config/client.lua',
-  'config/shared.lua',
-  'client/settings.lua',
-  'server/settings.lua',
-
-}
-
