@@ -5,7 +5,7 @@ lua54 'yes'
 author 'Trippler'
 docs 'https://docs.trippler.store'
 repository 'https://github.com/TripplerScripts/tr_lib'
-version '2.9.6'
+version '2.9.7'
 
 files {
   'imports/version/server.lua',
