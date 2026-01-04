@@ -6,7 +6,10 @@ onNet('__tr_promise_on_self_client_lua_backward_compatibility', (endpoint: strin
   promises.push(endpoint)
 })
 
-export default <T extends (...args: any) => ReturnType<T>>(endpoint: string, Function: T): boolean => {
+export default <T extends (...args: any) => ReturnType<T>>(
+  endpoint: string,
+  Function: T
+): boolean => {
   if (typeof endpoint !== 'string') return false
 
   if (promises.includes(endpoint)) {
