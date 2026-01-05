@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lenixdev/npm"
+    "url": "https://github.com/lenixdev/lenix_fusion"
   },
   "exports": {
     "./web": "./web/index.js"

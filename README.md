@@ -22,7 +22,9 @@ soon...
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/lenixstudio/lenix_fusion)
 
 ## 🗺️ Roadmap
-- [ ]  implement the commented module and bring it to service
+- [x]  implement the commented module and bring it to service
+- [ ]  deploy the production mode of both the drawtext and helper modules
+- [ ]  test the drawtext and helper modules
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/%40lenixdev%2Ffusion)
