@@ -1,6 +1,9 @@
 # lenix_drawtext
 Customizable Drawtext UI helper
 
+# IMPORTANT
+THIS SCRIPT HAS BEEN MERGED TO [lenix_fusion](https://github.com/LenixStudio/lenix_fusion)
+
 ## About
 ### Introoduction
 Welcome to Draw Text.
