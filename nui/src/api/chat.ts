@@ -7,6 +7,6 @@ onNuiCallback('chat/openChat', () => {
   useFocus()
 })
 
-onNuiCallback<[ string, PlayerObject ]>('chat/createNewMessage', (message, userRole) => {
+onNuiCallback('chat/createNewMessage', (message: string, userRole: PlayerObject) => {
   createNewMessageForAll(message, userRole)
 })
