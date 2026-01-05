@@ -24,22 +24,22 @@
     "client",
     "server",
     "shared",
-    "web",
+    "nui",
     "src/Readme.md"
   ],
   "scripts": {
     "patch": "npm run build && npm version patch && npm publish",
     "minor": "npm run rebuild && npm version minor && npm publish",
     "rebuild": "rmdir /s /q client server shared nui 2>nul & npm run build",
-    "build": "npm run build:shared && npm run build:client && npm run build:server && npm run build:web",
+    "build": "npm run build:shared && npm run build:client && npm run build:server && npm run build:nui",
     "build:client": "npx tsc -p src/client/tsconfig.json",
     "build:server": "npx tsc -p src/server/tsconfig.json",
     "build:shared": "npx tsc -p src/shared/tsconfig.json",
-    "build:web": "npx tsc -p src/nui/tsconfig.json",
-    "bundle": "npm run bundle:client && npm run bundle:server && npm run bundle:web",
+    "build:nui": "npx tsc -p src/nui/tsconfig.json",
+    "bundle": "npm run bundle:client && npm run bundle:server && npm run bundle:nui",
     "bundle:client": "esbuild src/client/index.ts --bundle --outfile=../dist/client.js --platform=browser --external:@citizenfx/*",
     "bundle:server": "esbuild src/server/index.ts --bundle --outfile=../dist/server.js --platform=node --external:@citizenfx/*",
-    "bundle:web": ""
+    "bundle:nui": ""
   },
   "devDependencies": {
     "esbuild": "^0.20.0",
