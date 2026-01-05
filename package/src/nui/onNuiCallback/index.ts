@@ -1,6 +1,6 @@
 import { fatal } from "../../shared"
 
-const callbacks = new Map<string, (...args: any[]) => void>()
+const callbacks = new Map<string, (...parameters: any[]) => void>()
 
 window.addEventListener('message', (event: MessageEvent) => {
   const { __name, params } = event.data
@@ -15,9 +15,9 @@ window.addEventListener('message', (event: MessageEvent) => {
   }
 })
 
-export default (
+export default <T extends any[] = any[]>(
   endpoint: string, 
-  callback: (...args: any[]) => void
+  callback: (...parameters: T) => void
 ) => {
   callbacks.set(endpoint, callback)
   return true
