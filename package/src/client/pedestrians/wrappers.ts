@@ -11,8 +11,10 @@ export const spawnPedEntity = async (hash: number, timeout: number | undefined, 
   return [entity, netId]
 }
 
-export const applyScenario = (entityHandle: number, scenario: CreateSinglePed['scenario']) => {
-  scenario?.name && TaskStartScenarioInPlace(entityHandle, scenario.name, scenario?.timeToLeave, scenario?.playIntroClip)
-  scenario?.freeze && FreezeEntityPosition(entityHandle, true)
-  scenario?.oblivious && SetBlockingOfNonTemporaryEvents(entityHandle, true)
+export const applyScenario = (entityHandle: number, scenario: CreateSinglePed['scenario'], behavior: CreateSinglePed['behavior']) => {
+  if (scenario) {
+    TaskStartScenarioInPlace(entityHandle, scenario.name, scenario.timeToLeave, scenario.playIntroClip)
+  }
+  behavior?.freeze && FreezeEntityPosition(entityHandle, true)
+  behavior?.oblivious && SetBlockingOfNonTemporaryEvents(entityHandle, true)
 }

@@ -9,6 +9,7 @@ const deletedPeds = new Set()
 export const createSinglePed = async (settings: CreateSinglePed, timeout: number): Promise<[number, number] | undefined> => {
   const hash = settings.hash
   const scenario = settings?.scenario
+  const behavior = settings?.behavior
   let coords = settings.coords
   if (!validateInputs(coords, hash)) return
 
@@ -19,7 +20,7 @@ export const createSinglePed = async (settings: CreateSinglePed, timeout: number
   if (!entityHandle) return
 
   if (scenario) {
-    applyScenario(entityHandle, scenario)
+    applyScenario(entityHandle, scenario, behavior)
   }
 
   on('onResourceStop', async (resourceName: string) => {
