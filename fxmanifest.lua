@@ -14,7 +14,7 @@ files {
 
 shared_scripts {
   'config.lua',
-  'init.lua',
+  'index.lua',
   'imports/require/shared.lua',
   'imports/console/shared.lua',
   'imports/promise/shared.lua',

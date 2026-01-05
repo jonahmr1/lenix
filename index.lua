@@ -6,6 +6,6 @@ if resourceName == 'tr_lib' then
 else
   lib = exports.tr_lib:init()
   require = lib.require
-  async = lib.async
+  promise = lib.promise
   console = lib.console
 end
