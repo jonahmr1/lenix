@@ -1,5 +1,5 @@
-import { useDiv, useButton} from "@trippler/tr_kit/web";
-import { nuiFocus } from "@trippler/tr_lib/web";
+import { useDiv, useButton} from "@trippler/tr_kit/nui";
+import { nuiFocus } from "@trippler/tr_lib/nui";
 let alerts = []
 
 const types = {

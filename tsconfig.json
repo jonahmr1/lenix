@@ -9,5 +9,5 @@
     "declaration": true,
     "lib": ["ES2020", "DOM"],
   },
-  "exclude": ["node_modules", "web"]
+  "exclude": ["node_modules", "nui"]
 }

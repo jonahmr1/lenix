@@ -15,19 +15,19 @@
     "url": "https://github.com/lenixdev/lenix_fusion"
   },
   "exports": {
-    "./web": "./web/index.js"
+    "./nui": "./nui/index.js"
   },
   "files": [
-    "web",
+    "nui",
     "README.md"
   ],
   "scripts": {
     "patch": "npm run rebuild && npm version patch && npm publish",
     "minor": "npm run rebuild && npm version minor && npm publish",
-    "rebuild": "rmdir /s /q web 2>nul & npm run build",
+    "rebuild": "rmdir /s /q nui 2>nul & npm run build",
     "reinstall": "rimraf package-lock.json node_modules/.package-lock.json && npm install",
-    "build": "npm run build:web",
-    "build:web": "npx tsc -p src/web/tsconfig.json"
+    "build": "npm run build:nui",
+    "build:nui": "npx tsc -p src/nui/tsconfig.json"
   },
   "devDependencies": {
     "esbuild": "^0.20.0",
