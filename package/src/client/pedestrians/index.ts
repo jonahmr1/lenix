@@ -6,18 +6,18 @@ import { awaitInstanceExisting } from '@trippler/tr_lib/client'
 
 const deletedPeds = new Set()
 
-export const createSinglePed = async (settings: CreateSinglePed, timeout?: number): Promise<[number, number] | undefined> => {
+export const createSinglePed = async (settings: CreateSinglePed, timeout?: number) => {
   const hash = settings.hash
   const scenario = settings?.scenario
   const behavior = settings?.behavior
   let coords = settings.coords
-  if (!validateInputs(coords, hash)) return
+  if (!validateInputs(coords, hash)) return [0, 0]
 
   const result = await spawnPedEntity(hash, timeout, coords)
-  if (!result) return
+  if (!result) return [0, 0]
 
   const [entityHandle, entityNetId] = result
-  if (!entityHandle) return
+  if (!entityHandle) return [0, 0]
 
   if (scenario) {
     applyScenario(entityHandle, scenario, behavior)
