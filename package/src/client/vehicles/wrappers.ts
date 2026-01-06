@@ -67,8 +67,10 @@ export const applySettings = async ({
   if (customize) {
     SetVehicleCustomPrimaryColour(handle, customize[0], customize[1], customize[2])
     SetVehicleCustomSecondaryColour(handle, customize[0], customize[1], customize[2])
-    SetVehicleLivery(handle, customize[3].livery)
-    SetVehicleMod(handle, 48, customize[3].livery, false)
+    if (customize[3].livery) {
+      SetVehicleLivery(handle, customize[3].livery)
+      SetVehicleMod(handle, 48, customize[3].livery, false)
+    }
   }
 }
 

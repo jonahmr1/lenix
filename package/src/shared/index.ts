@@ -16,25 +16,25 @@ export interface CreateSinglePed {
 
 export interface CreateSingleVehicle {
 	hash: number
-	preCreate: boolean
-	plate: string
-	giveKey: boolean
-	fuelAmount: number
-	register: boolean
 	coords: number[]
-	engine: {
+	preCreate?: boolean
+	plate?: string
+	giveKey?: boolean
+	fuelAmount?: number
+	register?: boolean
+	engine?: {
 		instantly: boolean
 		disableAutoStart: boolean
 	}
-	warp: {
+	warp?: {
 		netId: number
 		seat: number
 	}
-	customize: [
+	customize?: [
 		number,
 		number,
 		number,
-		{ livery: number },
+		{ livery?: number },
 	]
 }
 
