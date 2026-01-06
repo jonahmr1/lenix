@@ -2,6 +2,8 @@ import { triggerNuiCallback } from "@trippler/tr_lib/nui"
 import { jobsConfig, styleConfig } from "../../../shared/constants"
 import { JobConfig, JobName } from "../../../shared/types"
 
+let jobsProgress: JobConfig["progress"]
+
 const applyTheme = () => {
   const root = document.documentElement
 
@@ -89,8 +91,8 @@ const generateJobList = () => {
       }
 
       jobListContainer.appendChild(jobItem)
-      break
       selectJob(jobId as JobName)
+      break
     }
   }
 }
@@ -303,8 +305,9 @@ export const closeUI = () => {
   triggerNuiCallback('closeUI')
 }
 
-export const showUI = () => {
+export const showUI = (this_jobsProgress: JobConfig["progress"]) => {
   document.getElementById('root')?.classList.add('show')
+  jobsProgress = this_jobsProgress
 }
 
 export const hideDashboard = () => document.getElementById('root')?.classList.remove('show')

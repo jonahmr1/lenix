@@ -6,7 +6,7 @@ setImmediate(async () => {
   addTarget()
   createBlip(styleConfig.ui.coords, 1)
 
-  const [pedHandle, pedNetId] = await createSinglePed({
+  const [_pedHandle, pedNetId] = await createSinglePed({
     hash: GetHashKey('ig_talcc'),
     coords: styleConfig.ui.coords,
     scenario: {
