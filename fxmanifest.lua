@@ -1,36 +1,18 @@
 fx_version 'cerulean'
 game 'gta5'
 dependencies {
-    'tr_lib',
-    'tr_kit',
+  'tr_lib',
+  'qbx_core',
 }
 
-author 'Lenix'
-version '3.3.3'
+author 'https://gitb.com/LenixDev'
+version '4.0.0'
 
-shared_scripts {
-    'config/shared.js',
-    'shared/main.js',
-}
+client_script 'build/client.js'
+server_script 'build/server.js'
 
-client_scripts {
-    '@ox_lib/init.lua',
-    'client/lib.lua',
-    'client/bridge.js',
-    'client/modules/peds.js',
-    'client/modules/interactions.js',
-    'client/modules/menus.js',
-    'client/modules/preview.js',
-    'client/modules/spawn.js',
-    'client/modules/menus/main.js',
-    'client/modules/menus/list.js',
-    'client/modules/menus/preview.js',
-    'client/main.js',
-}
-
-server_scripts {
-    'server/bridge.js',
-    'server/main.js',
-    'server/modules/process.js',
-    'server/modules/allow.js',
+ui_page 'nui/public/index.html'
+files {
+  'nui/public/index.html',
+  'build/nui.js'
 }
