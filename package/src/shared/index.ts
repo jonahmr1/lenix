@@ -2,7 +2,7 @@ export default null
 
 export interface CreateSinglePed {
   hash: number,
-  coords: [number, number, number, number]
+  coords: number[]
   scenario?: {
     name: string,
     timeToLeave: number,
@@ -21,7 +21,7 @@ export interface CreateSingleVehicle {
 	giveKey: boolean
 	fuelAmount: number
 	register: boolean
-	coords: [number, number, number, number]
+	coords: number[]
 	engine: {
 		instantly: boolean
 		disableAutoStart: boolean
@@ -39,7 +39,7 @@ export interface CreateSingleVehicle {
 }
 
 export interface CreateCamSettings {
-  coords: [number, number, number, number],
+  coords: number[],
   rotation: {
     vertical: number,
     horizontal: number

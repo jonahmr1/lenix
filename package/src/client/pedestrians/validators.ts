@@ -6,7 +6,7 @@ export const isValidCoords = (coords: number[] | object) => {
   else return false
 }
 
-export const validateInputs = (coords: [number, number, number, number], hash: number) => {
+export const validateInputs = (coords: number[], hash: number) => {
   if (typeof hash !== 'number') {
     fatal(`Expecter a number of hash, got ${typeof hash}(${hash})`)
     return

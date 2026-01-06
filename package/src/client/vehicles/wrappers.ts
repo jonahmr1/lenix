@@ -32,7 +32,7 @@ const preCreateVehicle = (netId: number) => {
   }, 2000)
 }
 
-export const spawnVehicleEntity = async (entityHash: number, spawnCoords: [number, number, number, number]) => {
+export const spawnVehicleEntity = async (entityHash: number, spawnCoords: number[]) => {
   const response = await requestModel(entityHash, 1000)
   if (!response) fatal('failed to load the model with hash of: ' + entityHash)
   
