@@ -27,6 +27,7 @@ https://docs.trippler.store/tr_lib
 - [ ]  add client and server metadata communication module instead of heating events
 - [ ]  add controlled commands
 - [ ] fix keybinds indexes
+- [ ] ADD A DIRECT SAFE CONNECTION BETWEEN NUI AND THE SERVER
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/%40trippler%2Ftr_lib)
