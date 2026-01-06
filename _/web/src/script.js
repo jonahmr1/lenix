@@ -74,7 +74,7 @@ function renderPlayers() {
           <div class="player-info">
               <div class="player-name">${player.name}</div>
               <div class="player-details">
-                  <span><span class="status-dot"></span>#${player.badge}</span>
+                  <span><span class="status-dot"></span>#${player.callsign}</span>
                   <span>${player.rank}</span>
               </div>
           </div>
@@ -103,7 +103,7 @@ function populateSelects() {
           return '';
         }
 
-        return `<option value="${citizenId}">${o.name} (#${o.badge})</option>`;
+        return `<option value="${citizenId}">${o.name} (#${o.callsign})</option>`;
       }).filter(option => option !== '').join('');
   });
 }
@@ -111,9 +111,9 @@ function populateSelects() {
 function submitHire() {
   const hireName = document.getElementById('hireName').value;
   const hireRank = document.getElementById('hireRank').value;
-  const hireBadge = document.getElementById('hireBadge').value;
+  const hireCallsign = document.getElementById('hireCallsign').value;
 
-  if (!hireName || !hireRank || !hireBadge) {
+  if (!hireName || !hireRank || !hireCallsign) {
     showNotification('Please fill in all fields!', 'error');
     return;
   }
@@ -121,7 +121,7 @@ function submitHire() {
   const data = {
     citizenid: hireName,
     rank: hireRank,
-    badge: parseInt(hireBadge)
+    callsign: parseInt(hireCallsign)
   };
 
   fetch(`https://${GetParentResourceName()}/hirePlayer`, {
@@ -376,8 +376,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Badge Number</label>
-                    <input type="number" class="form-input" id="hireBadge" placeholder="Enter badge number">
+                    <label class="form-label">Callsign Number</label>
+                    <input type="number" class="form-input" id="hireCallsign" placeholder="Enter callsign number">
                 </div>
                 <button class="btn btn-success" onclick="submitHire()">
                     <i class="fas fa-user-plus"></i>
