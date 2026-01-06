@@ -10,7 +10,7 @@ export const triggerPromise = async <T = unknown>(
   endpoint: string | number,
   source?: number,
   ...parameters: any[]
-): Promise<T | null> => {
+): Promise<T | []> => {
   if (typeof options === 'string') {
     return triggerPromise([patienceLimit, false], options, endpoint as number, ...parameters)
   }
@@ -64,5 +64,5 @@ export const triggerPromise = async <T = unknown>(
       trace(`client #${source} promise ${endpoint} timed out after ${timeout}ms`)
     }
   }
-  return null
+  return []
 }
