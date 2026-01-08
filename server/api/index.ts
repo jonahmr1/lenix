@@ -48,9 +48,9 @@ onPromise('lenix_jobcenter:server:getProgress', async (source) => {
   return jobsWithProgress
 })
 
-exports('givePlayerRep', givePlayerRep)
-exports('getPlayerLevel', playerLevel)
-exports('getPlayerDiffMultiplier', async (identifier: string, jobName: JobName) => {
+globalThis.exports('givePlayerRep', givePlayerRep)
+globalThis.exports('getPlayerLevel', playerLevel)
+globalThis.exports('getPlayerDiffMultiplier', async (identifier: string, jobName: JobName) => {
   const difficultyTiersValue = difficultyTiers(await playerLevel(identifier, jobName), jobsConfig[jobName])
   if (difficultyTiersValue) return difficultyMultiplier(jobsConfig[jobName], Math.floor(difficultyTiersValue))
 })
