@@ -1,12 +1,17 @@
-version: v0.0.2
+version: v0.0.3
 name: dev
-author: author_name
-description: change_me
+author: Lenix
+description: for dev use
 
 tasks: 
     - action: download_file
+      path: ./tmp/tr_lib.zip
       url: https://github.com/tripplerscripts/tr_lib/releases/latest/download/tr_lib.zip
-      path: ./resources/
+    - action: unzip
+      src: ./tmp/tr_lib.zip
+      dest: ./resources/
+    - action: remove_path
+      path: ./tmp
 
     - action: download_file
       url: https://raw.githubusercontent.com/lenixdev/recipe/refs/heads/main/server.cfg
