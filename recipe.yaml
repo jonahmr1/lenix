@@ -1,12 +1,9 @@
-version: v0.0.9
+version: v0.0.10
 name: dev
 author: Lenix
 description: for dev use
 $minFxVersion: 17000
 $onesync: on
-
-variables:
-  deploymentID: 59
 
 tasks: 
     - action: connect_database
@@ -15,18 +12,75 @@ tasks:
       url: https://raw.githubusercontent.com/lenixdev/recipe/refs/heads/main/server.cfg
       path: ./server.cfg
 
-    - action: download_github
-      src: qbox-project/qbx_core
-      dest: ./resources/qbx_core
-    - action: query_database
-      file: ./resources/qbx_core/qbx_core.sql
-
     - action: download_file
       path: ./tmp/tr_lib.zip
       url: https://github.com/tripplerscripts/tr_lib/releases/latest/download/tr_lib.zip
     - action: unzip
       src: ./tmp/tr_lib.zip
-      dest: ./resources/
+      dest: ./resources
+
+    - action: download_github
+      src: qbox-project/qbx_core
+      dest: ./resources/[qbx_core]/qbx_core
+    - action: query_database
+      file: ./resources/[qbx_core]/qbx_core/qbx_core.sql
+
+    - action: download_file
+      path: ./tmp/ox_lib.zip
+      url: https://github.com/communityox/ox_lib/releases/latest/download/ox_lib.zip
+    - action: unzip
+      src: ./tmp/ox_lib.zip
+      dest: ./resources/[qbx_core]/[dependencies]
+
+    - action: download_file
+      path: ./tmp/oxmysql.zip
+      url: https://github.com/communityox/oxmysql/releases/latest/download/oxmysql.zip
+    - action: unzip
+      src: ./tmp/oxmysql.zip
+      dest: ./resources/[qbx_core]/[dependencies]
+
+    - action: download_file
+      path: ./tmp/ox_inventory.zip
+      url: https://github.com/communityox/ox_inventory/releases/latest/download/ox_inventory.zip
+    - action: unzip
+      src: ./tmp/ox_inventory.zip
+      dest: ./resources/[qbx_core]/[dependencies]
+
+    - action: download_file
+      path: ./tmp/ox_target.zip
+      url: https://github.com/communityox/ox_target/releases/latest/download/ox_target.zip
+    - action: unzip
+      src: ./tmp/ox_target.zip
+      dest: ./resources/[qbx_core]/[dependencies]
+
+    - action: download_github
+      src: qbox-project/qbx_vehicles
+      dest: ./resources/[qbx_core]/[dependencies]/qbx_vehicles
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/qbx_vehicles/vehicles.sql
+
+    - action: download_github
+      src: qbox-project/qbx_vehiclekeys
+      dest: ./resources/[qbx_core]/[dependencies]/qbx_vehiclekeys
+
+    - action: download_file
+      path: ./tmp/Renewed-Banking.zip
+      url: https://github.com/Renewed-Scripts/Renewed-Banking/releases/latest/download/Renewed-Banking.zip
+    - action: unzip
+      dest: ./resources/[qbx_core]/[dependencies]
+      src: ./tmp/Renewed-Banking.zip
+
+    - action: download_file
+      path: ./tmp/illenium-appearance.zip
+      url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+    - action: unzip
+      dest: ./resources/[qbx_core]/[dependencies]
+      src: ./tmp/illenium-appearance.zip
+
+    - action: download_github
+      src: https://github.com/citizenfx/cfx-server-data
+      subpath: resources/[managers]/spawnmanager
+      dest: ./resources/[qbx_core]/[dependencies]/spawnmanager
 
     - action: remove_path
       path: ./tmp
