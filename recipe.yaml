@@ -1,4 +1,4 @@
-version: v0.0.11
+version: v0.0.13
 name: dev
 author: Lenix
 description: for dev use
@@ -30,28 +30,28 @@ tasks:
       url: https://github.com/communityox/ox_lib/releases/latest/download/ox_lib.zip
     - action: unzip
       src: ./tmp/ox_lib.zip
-      dest: ./resources/[qbx_core]/[dependencies]
+      dest: ./resources/[qbx_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/oxmysql.zip
       url: https://github.com/communityox/oxmysql/releases/latest/download/oxmysql.zip
     - action: unzip
       src: ./tmp/oxmysql.zip
-      dest: ./resources/[qbx_core]/[dependencies]
+      dest: ./resources/[qbx_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/ox_inventory.zip
       url: https://github.com/communityox/ox_inventory/releases/latest/download/ox_inventory.zip
     - action: unzip
       src: ./tmp/ox_inventory.zip
-      dest: ./resources/[qbx_core]/[dependencies]
+      dest: ./resources/[qbx_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/ox_target.zip
       url: https://github.com/communityox/ox_target/releases/latest/download/ox_target.zip
     - action: unzip
       src: ./tmp/ox_target.zip
-      dest: ./resources/[qbx_core]/[dependencies]
+      dest: ./resources/[qbx_core]/[mandatories]
 
     - action: download_github
       src: qbox-project/qbx_vehicles
