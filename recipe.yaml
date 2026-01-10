@@ -1,4 +1,4 @@
-version: v0.0.10
+version: v0.0.11
 name: dev
 author: Lenix
 description: for dev use
@@ -69,6 +69,8 @@ tasks:
     - action: unzip
       dest: ./resources/[qbx_core]/[dependencies]
       src: ./tmp/Renewed-Banking.zip
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/Renewed-Banking/Renewed-Banking.sql
 
     - action: download_file
       path: ./tmp/illenium-appearance.zip
@@ -76,6 +78,15 @@ tasks:
     - action: unzip
       dest: ./resources/[qbx_core]/[dependencies]
       src: ./tmp/illenium-appearance.zip
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/management_outfits.sql
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/player_outfit_codes.sql
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/player_outfits.sql
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/playerskins.sql
+
 
     - action: download_github
       src: https://github.com/citizenfx/cfx-server-data
