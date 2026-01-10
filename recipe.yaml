@@ -79,13 +79,13 @@ tasks:
       dest: ./resources/[qbx_core]/[dependencies]
       src: ./tmp/illenium-appearance.zip
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/management_outfits.sql
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/management_outfits.sql
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/player_outfit_codes.sql
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/player_outfit_codes.sql
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/player_outfits.sql
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/player_outfits.sql
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/playerskins.sql
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/playerskins.sql
 
 
     - action: download_github
