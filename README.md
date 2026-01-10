@@ -1,3 +1,3 @@
 # recipe
 
-https://raw.githubusercontent.com/lenixdev/recipe/main/recipe.yaml
+https://raw.githubusercontent.com/LenixDev/recipe/refs/heads/main/recipe.yaml

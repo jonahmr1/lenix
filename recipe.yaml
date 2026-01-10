@@ -1,4 +1,4 @@
-version: v0.0.5
+version: v0.0.6
 name: dev
 author: Lenix
 description: for dev use
@@ -6,7 +6,7 @@ $minFxVersion: 17000
 $onesync: on
 
 variables:
-  deploymentID: 59
+  # deploymentID: 59
   dbHost: localhost
   dbUsername: root
   dbPassword: ""
