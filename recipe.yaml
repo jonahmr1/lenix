@@ -1,18 +1,33 @@
-version: v0.0.3
+version: v0.0.4
 name: dev
 author: Lenix
 description: for dev use
+$minFxVersion: 17000
+$onesync: on
+
+variables:
+  deploymentID: 59
+  dbName: database
 
 tasks: 
+    - action: connect_database
+
+    - action: download_file
+      url: https://raw.githubusercontent.com/lenixdev/recipe/refs/heads/main/server.cfg
+      path: ./server.cfg
+
+    - action: download_github
+      src: qbox-project/qbx_core
+      dest: ./resources
+    - action: query_database
+      file: ./qbx_core/qbx_core.sql
+
     - action: download_file
       path: ./tmp/tr_lib.zip
       url: https://github.com/tripplerscripts/tr_lib/releases/latest/download/tr_lib.zip
     - action: unzip
       src: ./tmp/tr_lib.zip
       dest: ./resources/
+
     - action: remove_path
       path: ./tmp
-
-    - action: download_file
-      url: https://raw.githubusercontent.com/lenixdev/recipe/refs/heads/main/server.cfg
-      path: ./server.cfg
