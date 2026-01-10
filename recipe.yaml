@@ -1,4 +1,4 @@
-version: v0.0.7
+version: v0.0.8
 name: dev
 author: Lenix
 description: for dev use
@@ -19,7 +19,7 @@ tasks:
       src: qbox-project/qbx_core
       dest: ./resources
     - action: query_database
-      file: ./qbx_core/qbx_core.sql
+      file: ./resources/qbx_core/qbx_core.sql
 
     - action: download_file
       path: ./tmp/tr_lib.zip
