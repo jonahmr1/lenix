@@ -1,0 +1,12 @@
+version: v0.0.1
+author: author_name
+description: change_me
+
+tasks: 
+    - action: download_file
+      url: https://github.com/tripplerscripts/tr_lib/releases/latest/download/tr_lib.zip
+      path: ./resources/
+
+    - action: download_file
+      url: https://raw.githubusercontent.com/lenixdev/recipe/refs/heads/main/server.cfg
+      path: ./server.cfg
