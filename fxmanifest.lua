@@ -15,8 +15,8 @@ server_scripts {
   'build/server.js',
 }
 
-ui_page 'web/public/index.html'
+ui_page 'nui/public/index.html'
 files {
-  'web/public/index.html',
+  'nui/public/index.html',
   'build/nui.js'
 }
