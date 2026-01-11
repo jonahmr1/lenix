@@ -23,11 +23,12 @@ https://docs.trippler.store/tr_lib
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/TripplerScripts/tr_lib)
 
 ## 🗺️ Roadmap
-- [ ]  add modules that serverify and clientify (asServer asClient)
-- [ ]  add client and server metadata communication module instead of heating events
-- [ ]  add controlled commands
+- [ ] add modules that serverify and clientify (asServer asClient)
+- [ ] add client and server metadata communication module instead of heating events
+- [ ] add controlled commands
 - [ ] fix keybinds indexes
 - [ ] ADD A DIRECT SAFE CONNECTION BETWEEN NUI AND THE SERVER
+- [ ] a solution for the coords from the lua vectors
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/%40trippler%2Ftr_lib)
