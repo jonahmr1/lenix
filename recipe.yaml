@@ -1,5 +1,5 @@
-version: v0.0.17
-name: Lenix
+version: v0.0.19
+name: lenix
 author: Lenix
 $minFxVersion: 17000
 $onesync: on
@@ -21,7 +21,14 @@ tasks:
       url: https://github.com/tripplerscripts/tr_lib/releases/latest/download/tr_lib.zip
     - action: unzip
       src: ./tmp/tr_lib.zip
-      dest: ./resources
+      dest: ./resources/[trippler]
+
+    - action: download_file
+      path: ./tmp/tr_kit.zip
+      url: https://github.com/tripplerscripts/tr_kit/releases/latest/download/tr_kit.zip
+    - action: unzip
+      src: ./tmp/tr_kit.zip
+      dest: ./resources/[trippler]
 
     - action: download_github
       src: qbox-project/qbx_core
