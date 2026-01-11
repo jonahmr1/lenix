@@ -44,6 +44,7 @@ export const openGame = () => {
     const identity = await doesUserAlreadyExist()
     triggerNuiCallback('dashboard/open', identity)
   }, openDelay)
+  return openDelay + 500
 }
 
 export const hideGame = () => {
