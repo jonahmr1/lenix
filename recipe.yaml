@@ -1,11 +1,16 @@
-version: v0.0.15
+version: v0.0.16
 name: Lenix
 author: Lenix
 $minFxVersion: 17000
 $onesync: on
 
-tasks: 
+tasks:
     - action: connect_database
+
+    - action: download_github
+      src: lenixdev/recipe
+      subpath: config
+      dest: ./config
 
     - action: download_file
       url: https://raw.githubusercontent.com/lenixdev/recipe/refs/heads/main/server.cfg
