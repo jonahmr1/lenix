@@ -1,7 +1,7 @@
 import { Suggestion } from "../../../../shared/types/freeroam"
 
 export const setState = {
-  currentItemSelected: (element: typeof getState.currentItemSelected) => getState.currentItemSelected = element
+currentItemSelected: (element: typeof getState.currentItemSelected) => getState.currentItemSelected = element
 }
 
 export const getState = {

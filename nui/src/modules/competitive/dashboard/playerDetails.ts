@@ -7,7 +7,7 @@ export default class playerDetails {
   private id: number = -1
 
   public async getUserDetails(identity: number, updateCard?: (name: string, avatar: string) => void) {
-    const user = await triggerNuiCallback<GetUserProfile>('dashboard/getUserProfile', { identity })
+    const user = await triggerNuiCallback<GetUserProfile>('competitive/dashboard/getUserProfile', { identity })
     this.id = identity
     this.name = user!.name
     this.avatar = user!.avatar

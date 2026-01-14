@@ -46,7 +46,7 @@ export default async (identity: number): Promise<void> => {
     style: "w-[16%] h-[12.5%] hover:bg-red-500 flex items-center justify-center",
     content: '➖',
     onClick: async () => {
-      const response = await triggerNuiCallback<RemovePlayerFriendship>('dashboard/removePlayerFriendship', { identity })
+      const response = await triggerNuiCallback<RemovePlayerFriendship>('competitive/dashboard/removePlayerFriendship', { identity })
       if (!response) return
       friend.remove()
       friendsItems--

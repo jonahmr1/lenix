@@ -7,9 +7,5 @@ export default (count: number) => {
 }
 
 document.addEventListener('keydown', (event: KeyboardEvent) => {
-  if (event.key === 'Escape') {
-    if (getState.dashboardOn) {
-      openEscapeMenu()
-    }
-  }
+  if (event.key === 'Escape' && getState.dashboardOn) openEscapeMenu()
 })

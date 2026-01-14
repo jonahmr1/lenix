@@ -15,7 +15,7 @@ export const getPlayerCharacters = exports.tr_onboarding.getPlayerCharacters()
 
 onNet('tr_pvpmodes/client/onboarding/openMainMenu', openMainMenu)
 
-const logoutPlayer = () => emitNet('tr_pvpmodes/server/onboarding/logoutPlayer')
+export const logoutPlayer = () => emitNet('tr_pvpmodes/server/onboarding/logoutPlayer')
 
 on('onResourceStop', (resourceName: string) => {
   if (resourceName === GetCurrentResourceName()) logoutPlayer()

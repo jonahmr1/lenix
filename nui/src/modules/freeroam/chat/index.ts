@@ -36,15 +36,13 @@ export const removeSuggestion = (name: Suggestion['name']) => {
   trace(`tried to remove suggestion '${name}' but it was not found`)
 }
 
-
-
 export const acceptSuggetion = (suggestion: string | undefined) => {
   if (!suggestion || resultsFound < 1) return
   input.value = `/${suggestion}`
 }
 
 export const sendCommand = (raw: string) => {
-  triggerNuiCallback<boolean>('chat/sendCommand', { command: getArrayfiedPassedCharacters(raw) })
+  triggerNuiCallback<boolean>('freeroam/chat/sendCommand', { command: getArrayfiedPassedCharacters(raw) })
   changeBorderColor()
   hideChat()
 }

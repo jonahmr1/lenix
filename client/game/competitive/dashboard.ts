@@ -42,22 +42,22 @@ export const openGame = () => {
   placePlayerInLobby()
   setTimeout(async () => {
     const identity = await doesUserAlreadyExist()
-    triggerNuiCallback('dashboard/open', identity)
+    triggerNuiCallback('competitive/dashboard/open', identity)
   }, openDelay)
   return openDelay + 500
 }
 
 export const hideGame = () => {
-  triggerNuiCallback('dashboard/hide')
+  triggerNuiCallback('competitive/dashboard/hide')
 }
 
 export const showGame = () => {
-  triggerNuiCallback('dashboard/show')
+  triggerNuiCallback('competitive/dashboard/show')
   createCamera(0, 0, 0)
 }
 
 export const closeGame = () => {
-  triggerNuiCallback('dashboard/close')
+  triggerNuiCallback('competitive/dashboard/close')
   destroyCam({handle: lastCamHandle})
   Wait(200)
   setCoords(lastPlayerCoords)

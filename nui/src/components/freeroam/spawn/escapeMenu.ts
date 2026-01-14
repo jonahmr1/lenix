@@ -26,7 +26,7 @@ export default () => {
           onClick: () => {
             alertElement.remove()
             nuiFocus(false, false)
-            triggerNuiCallback("leaveFreeroam")
+            triggerNuiCallback("competitive/spawn/leaveFreeroam")
             menuState = false
           }
         }

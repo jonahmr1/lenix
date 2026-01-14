@@ -10,12 +10,12 @@ export default async (identity: number | boolean) => {
   nuiFocus(true, true)
   const { updatePlayerCard } = await import("../../../elements/competitive/dashboard/header/player/card")
   if (typeof identity === 'number') {
-    const response = await triggerNuiCallback<boolean>('dashboard/startCharacterProcess')
+    const response = await triggerNuiCallback<boolean>('competitive/dashboard/startCharacterProcess')
     if (!response) return
     new playerDetails().getUserDetails(identity as number, updatePlayerCard)
   } else {
     const { userName, userAvatar } = await initOnBoarding()
-    const identity = await triggerNuiCallback<CreateUser>('dashboard/createUser', { name: userName, avatar: userAvatar })
+    const identity = await triggerNuiCallback<CreateUser>('competitive/dashboard/createUser', { name: userName, avatar: userAvatar })
     new playerDetails().getUserDetails(identity, updatePlayerCard)
   }
   setState.dashboard(true)

@@ -1,7 +1,7 @@
 import { fatal, trace } from "@trippler/tr_lib/shared"
 
 export const everyScalar = (
-  coords: [number, number, number, number] | (number | undefined)[] | false,
+  coords: [number, number, number, number] | (number | undefined)[] | false | undefined,
   debug?: boolean
 ): number[] | false => {
   if (!Array.isArray(coords)) return fatal`expected array of numbers, got ${coords}`

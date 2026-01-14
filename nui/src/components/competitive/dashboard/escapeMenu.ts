@@ -24,7 +24,7 @@ export default () => {
           type: "soft",
           onClick: () => {
             alertElement.remove()
-            triggerNuiCallback('dashboard/leaveGame')
+            triggerNuiCallback('competitive/dashboard/leaveGame')
             menuState = false
           }
         }

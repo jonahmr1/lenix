@@ -1,6 +1,3 @@
-import { control } from "@trippler/tr_lib/client";
-import { openEscapeMenu } from "../../nui/freeroam/spawn";
+import { control, triggerNuiCallback } from "@trippler/tr_lib/client";
 
-control.onDisabled('ESC', () => {
-  openEscapeMenu()
-})
+control.onDisabled('ESC', () => triggerNuiCallback('spawn/openEscapeMenu'))

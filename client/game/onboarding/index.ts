@@ -2,7 +2,7 @@ import { createPlayerNewCharacter, getPlayerCharacterCitizenId, loadPlayerCharac
 import { closeMainMenu } from "../../nui/onboarding"
 import { everyScalar } from "../../modules"
 
-export const startCharacterProcess = async (passedOnCreationFinishCoords: number[], passedSpawnCoords: number[], onClothingMenuOpen?: Function, onSubmitOrCancel?: Function) => {
+export const startCharacterProcess = async (passedOnCreationFinishCoords?: number[], passedSpawnCoords?: number[], onClothingMenuOpen?: Function, onSubmitOrCancel?: Function) => {
   const citizenId = await getPlayerCharacterCitizenId()
   if (citizenId) {
     const [clothes, model] = await preparePlayerCharacterPed(citizenId)

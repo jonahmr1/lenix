@@ -46,7 +46,6 @@ export const useCommandSelection = (direction: string) => {
   } else {
     const prev = getPrevValid(getState.currentItemSelected.previousElementSibling)
     if (!prev) {
-      // Wrap to last valid element
       const container = document.getElementById('chat-suggestions-items')
       setState.currentItemSelected(getPrevValid(container?.lastElementChild))
     } else {
