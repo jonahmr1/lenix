@@ -1,6 +1,6 @@
 export const createDatabaseTable = async () => await exports.oxmysql.query_async(
   `
-    CREATE TABLE IF NOT EXISTS tr_pvpmodes-users (
+    CREATE TABLE IF NOT EXISTS tr_pvpmodes_users (
       identity int UNSIGNED NOT NULL AUTO_INCREMENT,
       name varchar(255) NOT NULL,
       avatar varchar(255) NOT NULL,
