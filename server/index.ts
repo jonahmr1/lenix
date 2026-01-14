@@ -8,13 +8,16 @@ if (config.competitive) {
 }
 
 if (config.freeroam) {
-  const { fatal } = await import('@trippler/tr_lib/shared')
-  const { modulesEnabled } = await import('../shared/constants/freeroam')
-  
-  if (modulesEnabled.chat) { setTimeout(() => {
-    if (GetResourceState('chat') !== 'missing')
-      fatal(`${GetCurrentResourceName()} will stop running since the resource 'chat' is not missing`)
-    else import('./api/freeroam/chat')
-  })
-}
+  (async () => {
+    const { fatal } = await import('@trippler/tr_lib/shared')
+    const { modulesEnabled } = await import('../shared/constants/freeroam')
+    
+    if (modulesEnabled.chat) {
+      setTimeout(() => {
+        if (GetResourceState('chat') !== 'missing')
+          fatal(`${GetCurrentResourceName()} will stop running since the resource 'chat' is not missing`)
+        else import('./api/freeroam/chat')
+      })
+    }
+  })()
 }
