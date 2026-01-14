@@ -1,22 +1,8 @@
-import { trace } from "@trippler/tr_lib/shared"
 import { createPlayerNewCharacter, getPlayerCharacterCitizenId, loadPlayerCharactersPed, onPlayerLoaded, openAppearanceMenu, preparePlayerCharacterPed, spawnPlayerPed } from "../../modules/onboarding"
 import { closeMainMenu } from "../../nui/onboarding"
+import { everyScalar } from "../../modules"
 
-const everyScalar = (coords: [number, number, number, number] | number[], debug?: boolean) => {
-  if (coords.length === 4) {
-    if (coords.every(scalar => { return typeof scalar === 'number' })) {
-      return coords
-    } else {
-      debug && trace(`expected array of numbers only, got ${coords}`)
-      return false
-    }
-  } else {
-    debug && trace(`expected array of length 4, got ${coords}`)
-    return false
-  }
-}
-
-export const startCharacterProcess = async (passedOnCreationFinishCoords: number[], passedSpawnCoords: number[], onClothingMenuOpen: Function, onSubmitOrCancel: Function) => {
+export const startCharacterProcess = async (passedOnCreationFinishCoords: number[], passedSpawnCoords: number[], onClothingMenuOpen?: Function, onSubmitOrCancel?: Function) => {
   const citizenId = await getPlayerCharacterCitizenId()
   if (citizenId) {
     const [clothes, model] = await preparePlayerCharacterPed(citizenId)

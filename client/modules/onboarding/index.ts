@@ -1,6 +1,10 @@
 import { fatal, trace } from "@trippler/tr_lib/shared"
-import { createNewCharacter, getCharacterPreviewData, getPlayerCharacters, loadCharacter, setPedAppearance, spawnPlayer, startGameMode } from "../../api/onboarding"
+import { createNewCharacter, getCharacterPreviewData, getPlayerCharacters, loadCharacter, setPedAppearance, spawnPlayer } from "../../api/onboarding"
 import { closeMainMenu } from "../../nui/onboarding"
+import { openGame } from "../../game/competitive/dashboard"
+import { startCharacterProcess } from "../../game/onboarding"
+import { spawn } from "../../../shared/constants/freeroam"
+import { getSpawnCoords } from "../freeroam/spawn"
 
 export let modeSelected: string | undefined
 
@@ -43,21 +47,23 @@ export const createPlayerNewCharacter = async () => {
   }
 }
 
-export const openAppearanceMenu = (onClothingMenuOpen: Function, onSubmitOrCancel: Function) => {
+export const openAppearanceMenu = (onClothingMenuOpen?: Function, onSubmitOrCancel?: Function) => {
   onClothingMenuOpen && onClothingMenuOpen()
-  emit('qb-clothes:client:CreateFirstCharacter', onSubmitOrCancel, onSubmitOrCancel)
+  emit('qb-clothes:client:CreateFirstCharacter', onSubmitOrCancel, onSubmitOrCancel || (() => {}))
 }
 
 export const selecteGameMode = (mode: string) => {
   if (mode === 'competitive') {
     if (GetResourceState('tr_competitive') !== 'started') fatal('tr_competitive is not started')
-    const delayToCloseDashboard = startGameMode.competitive()
+    const delayToCloseDashboard = openGame()
     if (delayToCloseDashboard) 
     setTimeout(() => closeMainMenu(), delayToCloseDashboard)
     modeSelected = mode
   } else if (mode === 'freeroam') {
     if (GetResourceState('tr_freeroam') !== 'started') fatal('tr_freeroam is not started')
-    startGameMode.freeroam()
+    const coords = getSpawnCoords()
+    if (!coords) fatal('No spawn coords found')
+    startCharacterProcess(spawn.creationSpawnCoords, coords)
     modeSelected = mode
   }
 }

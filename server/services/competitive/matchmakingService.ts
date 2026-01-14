@@ -4,7 +4,7 @@ const homeLocation = [-353.7528, -822.3127, 31.5012, 0.9013]
 const awayLocation = [-343.9194, -706.1902, 32.6280, 284.1532]
 
 const shutDownDashboard = (source: number) => {
-  emitNet('tr_competitive:client:shutDownDashboard', source)
+  emitNet('tr_pvpmodes/client/competitive/shutDownDashboard', source)
 }
 
 const startNewSession = (homePlayer: number, awayPlayer: number) => {
@@ -14,19 +14,19 @@ const startNewSession = (homePlayer: number, awayPlayer: number) => {
   SetEntityHeading(GetPlayerPed(awayPlayer.toString()), awayLocation[3])
 }
 
-onNet('tr_competitive:server:startMatchmaking', () => {
-  console.log(`[TR_COMPETITIVE] ${source} joined the waiting room.`)
+onNet('tr_pvpmodes/server/competitive/startMatchmaking', () => {
+  console.log(`${source} joined the waiting room.`)
   waitingRoom.push(source)
 })
 
-onNet('tr_competitive:server:stopMatchmaking', () => {
-  console.log(`[TR_COMPETITIVE] ${source} left the waiting room.`)
+onNet('tr_pvpmodes/server/competitive/stopMatchmaking', () => {
+  console.log(`${source} left the waiting room.`)
   waitingRoom = waitingRoom.filter(player => player !== source) 
 })
 
 setInterval(() => {
   if (waitingRoom.length >= 2) {
-    console.log('[TR_COMPETITIVE] Starting new session... for ', waitingRoom[0], 'and', waitingRoom[1])
+    console.log('Starting new session... for ', waitingRoom[0], 'and', waitingRoom[1])
     startNewSession(waitingRoom[0], waitingRoom[1])
     shutDownDashboard(waitingRoom[0])
     shutDownDashboard(waitingRoom[1])

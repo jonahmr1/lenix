@@ -5,6 +5,17 @@ exports('isQboxCharactersHandlerDisabled', function()
   return isQboxCharactersHandlerDisabled
 end)
 
+exports('lastCoords', function ()
+  local playerData<const> = exports.qbx_core:GetPlayerData()
+  if not playerData.position then return end
+  return {
+    x = playerData.position.x,
+    y = playerData.position.y,
+    z = playerData.position.z,
+    w = playerData.position.w
+  }
+end)
+
 exports('createNewCharacter' , function(timeout, data)
   local newData<const> = lib.callback.await('qbx_core:server:createCharacter', timeout, data)
   return newData

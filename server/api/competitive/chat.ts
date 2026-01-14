@@ -5,7 +5,7 @@ import fetchDiscordServer from "../../services/competitive/chat"
 
 const playersSources: number[] = []
 
-onPromise('createNewMessageRequest', (senderSource, message: string) => {
+onPromise('tr_pvpmodes/server/competitive/createNewMessageRequest', (senderSource, message: string) => {
   try {
     playersSources.forEach(async source => {
       const discordId = GetPlayerIdentifierByType(senderSource as any, 'discord')
@@ -37,5 +37,5 @@ on("playerJoining", (_source: number, oldID: string) => {
 
 on("onResourceStop", (resourceName: string) => {
   if (GetCurrentResourceName() !== resourceName) return
-  fatal("tr_freeroam caught stopping, please restart your server")
+  fatal(`${GetCurrentResourceName()} has caught stopping, please restart your server`)
 })

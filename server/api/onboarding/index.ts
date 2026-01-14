@@ -1,10 +1,8 @@
 const logoutPlayer = (source: number) => {
   globalThis.exports.qbx_core.Logout(source)
-  emitNet('tr_onboarding/client/openMainMenu', source)
+  emitNet('tr_pvpmodes/client/onboarding/openMainMenu', source)
 }
 
-onNet('tr_onboarding/server/logoutPlayer', () => {
+onNet('tr_pvpmodes/server/onboarding/logoutPlayer', () => {
   logoutPlayer(source)
 })
-
-globalThis.exports('logoutPlayer', logoutPlayer)

@@ -4,8 +4,7 @@ export const modulesEnabled = {
 }
 export const spawn = {
   creationSpawnCoords: [298.5893, -581.2991, 43.260, 111.2940],
-  spawnLastLocation: true,
-  fallbackSpawnCoords: [298.5893, -581.2991, 43.260, 111.2940]
+  spawnLastLocation: true, 
 }
 export const chat = {
   suggestionsCount: 5
