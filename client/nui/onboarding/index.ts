@@ -1,7 +1,7 @@
 import { onNuiCallback, triggerNuiCallback } from "@trippler/tr_lib/client"
 import { selecteGameMode } from "../../modules/onboarding"
 
-onNuiCallback<{ mode: string }>('selectMode', (data, callback) => {
+onNuiCallback<{ mode: string }>('onboarding/selectMode', (data, callback) => {
   selecteGameMode(data.mode)
   callback(true)
 })

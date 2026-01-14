@@ -2,9 +2,6 @@ import './elements'
 import './elements/onboarding'
 import './api/onboarding'
 import { config } from '../../shared/constants'
-   
-document.body.id = 'body'
-document.body.style = 'relative'
 
 if (config.competitive) {
   import('./elements/competitive/dashboard')

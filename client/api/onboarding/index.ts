@@ -2,7 +2,7 @@ import { openMainMenu } from '../../nui/onboarding'
 import { playerCharacterInfo } from '../../../shared/constants/onboarding'
 
 export const setPedAppearance = (clothes: string) => exports['illenium-appearance'].setPedAppearance(PlayerPedId(), JSON.parse(clothes))
-export const spawnPlayer = (spawnCoords: number[]) => exports.spawnmanager.spawnPlayer({
+export const spawnPlayer = (spawnCoords?: number[]) => exports.spawnmanager.spawnPlayer(spawnCoords &&{
   x: spawnCoords[0],
   y: spawnCoords[1],
   z: spawnCoords[2],

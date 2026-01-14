@@ -36,10 +36,6 @@ export const loadPlayerCharactersPed = async (model: string, clothes: string, ci
   onPlayerLoaded()
 }
 
-export const spawnPlayerPed = (spawnCoords: number[]) => {
-  spawnPlayer(spawnCoords)
-}
-
 export const createPlayerNewCharacter = async () => {
   const newCreatedCharacter = await createNewCharacter()
   if (!newCreatedCharacter) {
@@ -54,13 +50,11 @@ export const openAppearanceMenu = (onClothingMenuOpen?: Function, onSubmitOrCanc
 
 export const selecteGameMode = (mode: string) => {
   if (mode === 'competitive') {
-    if (GetResourceState('tr_competitive') !== 'started') fatal('tr_competitive is not started')
     const delayToCloseDashboard = openGame()
     if (delayToCloseDashboard) 
     setTimeout(() => closeMainMenu(), delayToCloseDashboard)
     modeSelected = mode
   } else if (mode === 'freeroam') {
-    if (GetResourceState('tr_freeroam') !== 'started') fatal('tr_freeroam is not started')
     const coords = getSpawnCoords()
     if (!coords) fatal('No spawn coords found')
     startCharacterProcess(spawn.creationSpawnCoords, coords)

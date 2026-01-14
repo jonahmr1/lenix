@@ -12,15 +12,15 @@ import {
   createUser,
   getUserProfile
 } from '../../api/competitive/dashboard'
-import { closeGame } from '../../game/competitive/dashboard'
-import { profile } from '../../../shared/constants/competitive'
+import { closeGame, openGame } from '../../game/competitive/dashboard'
+import { lobbyCoords, profile } from '../../../shared/constants/competitive'
 import { startCharacterProcess } from '../../game/onboarding'
 
 onNuiCallback<undefined>('competitive/dashboard/closeGame', (_data, callback) => {
   closeGame()
   callback(true)
 })
-onNuiCallback<undefined>('competitive/dashboard/startCharacterProcess', async (_data, callback) => callback(await startCharacterProcess()))
+onNuiCallback<undefined>('competitive/dashboard/startCharacterProcess', async (_data, callback) => callback(await startCharacterProcess(lobbyCoords, undefined, undefined, openGame)))
 onNuiCallback<undefined>('competitive/dashboard/getServerProfile', async (_data, callback) => callback(profile))
 onNuiCallback<{ name: string, avatar: string }>('competitive/dashboard/createUser', async (data, callback) => callback(await createUser(data.name, data.avatar)))
 onNuiCallback<{ identity: number }>('competitive/dashboard/getUserProfile', async (data, callback) => callback(await getUserProfile(data.identity)))

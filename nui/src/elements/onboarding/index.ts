@@ -3,7 +3,8 @@ import { selectMode } from '../../modules/onboarding'
 
 useDiv({
   parent: "body",
-  id: "onboarding-root"
+  id: "onboarding-root",
+  style: "absolute"
 })
 
 useDiv({
