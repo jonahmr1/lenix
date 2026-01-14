@@ -1,5 +1,5 @@
 import { useDiv, useButton } from "@trippler/tr_kit/nui"
-import { useFriendsList } from "../../../../../modules/dashboard/friendsPanel"
+import { useFriendsList } from "../../../../../../modules/competitive/dashboard/friendsPanel"
 import('./current')
 import('./search')
 

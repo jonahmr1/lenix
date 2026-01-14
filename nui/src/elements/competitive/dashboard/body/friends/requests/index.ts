@@ -1,6 +1,6 @@
 import { useDiv, useButton} from "@trippler/tr_kit/nui"
-import updateRequestBlockState from "../../../../../modules/dashboard/collapseRequestBlock"
-import { useRequestBlock } from "../../../../../modules/dashboard/friendsPanel"
+import updateRequestBlockState from "../../../../../../modules/competitive/dashboard/collapseRequestBlock"
+import { useRequestBlock } from "../../../../../../modules/competitive/dashboard/friendsPanel"
 import('./incoming')
 import('./outgoing')
 

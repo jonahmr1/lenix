@@ -1,5 +1,5 @@
 import { useButton, useDiv, useInput } from "@trippler/tr_kit/nui"
-import playerDetails from "../../../../../../modules/dashboard/playerDetails"
+import playerDetails from "../../../../../../../modules/competitive/dashboard/playerDetails"
 import { triggerNuiCallback } from "@trippler/tr_lib/nui"
 import { GetFriendablePlayers, SendUserFriendInvitation } from "../../../../../../../../../shared/types/competitive"
 

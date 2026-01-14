@@ -1,10 +1,10 @@
 import { useButton, useInput, useDiv } from '@trippler/tr_kit/nui'
-import useUpdateSuggetions from '../../../modules/chat/updateSuggetions'
-import { useChangeBorderColor } from '../../../modules/chat/changeBorderColor'
+import useUpdateSuggetions from '../../../../modules/freeroam/chat/updateSuggetions'
+import { useChangeBorderColor } from '../../../../modules/freeroam/chat/changeBorderColor'
 import { sendCommand } from '../../../../../../nui/src/api/freeroam/chat'
-import { clearStoredFrequentlyUsedCommands, useStoreFrequentlyUsedCommands } from '../../../modules/chat/localStorage'
-import { getPassedArgumentsFirstString } from '../../../utils/chat'
-import { useClearCommandSelection } from '../../../modules/chat/commandSelection'
+import { clearStoredFrequentlyUsedCommands, useStoreFrequentlyUsedCommands } from '../../../../modules/freeroam/chat/localStorage'
+import { getPassedArgumentsFirstString } from '../../../../utils/chat'
+import { useClearCommandSelection } from '../../../../modules/freeroam/chat/commandSelection'
 import { chat } from '../../../../../../shared/constants/freeroam'
 
 useDiv({

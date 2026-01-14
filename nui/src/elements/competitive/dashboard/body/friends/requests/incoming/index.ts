@@ -1,9 +1,9 @@
 import { useDiv, useButton } from "@trippler/tr_kit/nui"
-import playerDetails from "../../../../../../modules/dashboard/playerDetails"
+import playerDetails from "../../../../../../../modules/competitive/dashboard/playerDetails"
 import { removeIncomingRequest } from "../../../../../../../../../nui/src/api/competitive/dashboard"
 import { triggerNuiCallback } from "@trippler/tr_lib/nui"
 import { GetIncomingFriends } from "../../../../../../../../../shared/types/competitive"
-import { acceptFriendship } from "../../../../../../modules/dashboard"
+import { acceptFriendship } from "../../../../../../../modules/competitive/dashboard"
 
 useDiv({
   parent: "friendsRequests",

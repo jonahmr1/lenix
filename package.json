@@ -1,13 +1,13 @@
 {
   "scripts": {
     "build": "npm run build:client && npm run build:server && npm run build:nui",
-    "build:client": "node scripts/build.js --mode=production",
-    "build:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --minify --outfile=build/server.js",
-    "build:nui": "esbuild nui/src/index.ts --bundle --platform=browser --target=es2020 --minify --outfile=build/nui.js",
+    "build:client": "esbuild client/index.ts --bundle --format=esm --target=es2022 --minify --outfile=build/client.js",
+    "build:server": "esbuild server/index.ts --bundle --format=esm --platform=node --target=es2022 --minify --outfile=build/server.js",
+    "build:nui": "esbuild nui/src/index.ts --bundle --format=esm --platform=browser --target=es2022 --minify --outfile=build/nui.js",
     "watch": "concurrently \"npm:watch:client\" \"npm:watch:server\" \"npm:watch:nui\"",
-    "watch:client": "esbuild client/index.ts --bundle --format=iife --target=es2020 --watch --outfile=build/client.js",
-    "watch:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --watch --outfile=build/server.js",
-    "watch:nui": "esbuild nui/src/index.ts --bundle --platform=browser --target=es2020 --watch --outfile=build/nui.js",
+    "watch:client": "esbuild client/index.ts --bundle --format=esm --target=es2022 --watch --outfile=build/client.js",
+    "watch:server": "esbuild server/index.ts --bundle --format=esm --platform=node --target=es2022 --watch --outfile=build/server.js",
+    "watch:nui": "esbuild nui/src/index.ts --bundle --format=esm --platform=browser --target=es2022 --watch --outfile=build/nui.js",
     "reinstall": "rimraf package-lock.json node_modules/.package-lock.json && npm install"
   },
   "dependencies": {

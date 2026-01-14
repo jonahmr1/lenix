@@ -1,6 +1,6 @@
 import { useDiv } from "@trippler/tr_kit/nui"
-import createFriendItem from "../../../../../../modules/dashboard/createFriendItem"
-import { getPlayerFriends } from "../../../../../../modules/dashboard"
+import createFriendItem from "../../../../../../../modules/competitive/dashboard/createFriendItem"
+import { getPlayerFriends } from "../../../../../../../modules/competitive/dashboard"
 
 (() => {
   useDiv({

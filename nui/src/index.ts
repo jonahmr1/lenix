@@ -1,5 +1,5 @@
-import './elements'
-import './api'
+import './elements/onboarding'
+import './api/onboarding'
 import { config } from '../../shared/constants'
 
 document.body.id = 'body'

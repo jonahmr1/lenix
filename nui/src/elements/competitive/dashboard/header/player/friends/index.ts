@@ -1,5 +1,5 @@
 import { useButton } from "@trippler/tr_kit/nui"
-import { useFriendsPanel } from "../../../../../modules/dashboard/friendsPanel"
+import { useFriendsPanel } from "../../../../../../modules/competitive/dashboard/friendsPanel"
 
 useButton({
   parent: "player-details",
