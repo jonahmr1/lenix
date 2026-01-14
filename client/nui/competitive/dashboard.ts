@@ -16,7 +16,7 @@ import { closeGame } from '../../game/competitive/dashboard'
 import { profile } from '../../../shared/constants/competitive'
 import { startCharacterProcess } from '../../game/onboarding'
 
-onNuiCallback<undefined>('dashboard/closeGame', (_data, callback) => {
+onNuiCallback<undefined>('competitive/dashboard/closeGame', (_data, callback) => {
   closeGame()
   callback(true)
 })

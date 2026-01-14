@@ -22,6 +22,7 @@ if (config.competitive) {
   import('./api/competitive/dashboard')
   import('./api/competitive/chat')
   import('./nui/competitive/chat')
+  import('./nui/competitive/dashboard')
   import('./game/competitive/chat')
 }
 
