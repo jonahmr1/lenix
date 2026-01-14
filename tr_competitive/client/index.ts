@@ -1,6 +1,0 @@
-import './api/dashboard'
-import './api/chat'
-import './nui/dashboard'
-import './nui/chat'
-import './game/dashboard'
-import './game/chat'

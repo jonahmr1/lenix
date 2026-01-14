@@ -2,7 +2,9 @@ fx_version 'cerulean'
 game 'gta5'
 dependencies {
   'qbx_core',
-  'illenium-appearance'
+  'illenium-appearance',
+  'oxmysql',
+  --[[ MariaDB 8.0.13 ]]
 }
 
 author 'Lenix'
