@@ -1,7 +1,7 @@
-import { modeSelected } from '../modules'
-import { startCharacterProcess } from '../game'
-import { openMainMenu } from '../nui'
-import { playerCharacterInfo } from '../../shared/constants'
+import { modeSelected } from '../../modules/onboarding'
+import { startCharacterProcess } from '../../game/onboarding'
+import { openMainMenu } from '../../nui/onboarding'
+import { playerCharacterInfo } from '../../../shared/constants/onboarding'
 
 export const getCharacterPreviewData = (citizenId: string) => exports.tr_onboarding.getCharacterPreviewData(citizenId)
 export const setPedAppearance = (clothes: string) => exports['illenium-appearance'].setPedAppearance(PlayerPedId(), JSON.parse(clothes))

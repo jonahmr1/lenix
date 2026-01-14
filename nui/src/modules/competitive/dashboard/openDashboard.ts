@@ -2,13 +2,13 @@ import initOnBoarding from './onBoard'
 import playerDetails from './playerDetails'
 import { nuiFocus, triggerNuiCallback } from '@trippler/tr_lib/nui'
 import { CreateUser } from '../../../../../shared/types/competitive'
-import { setState } from '../../states'
+import { setState } from '../../../states/competitive'
 
 const root = document.getElementById('dashboard-root')
 
 export default async (identity: number | boolean) => {
   nuiFocus(true, true)
-  const { updatePlayerCard } = await import("../../elements/dashboard/header/player/card")
+  const { updatePlayerCard } = await import("../../../elements/competitive/dashboard/header/player/card")
   if (typeof identity === 'number') {
     const response = await triggerNuiCallback<boolean>('dashboard/startCharacterProcess')
     if (!response) return

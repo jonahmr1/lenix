@@ -1,6 +1,6 @@
 import { PlayerObject } from '../../../../shared/types/competitive'
-import createNewMessageForAll from '../../../../tr_competitive/nui/src/modules/chat/createNewMessageForAll'
-import useFocus from '../../../../tr_competitive/nui/src/modules/chat/openChat'
+import createNewMessageForAll from '../../modules/competitive/chat/createNewMessageForAll'
+import useFocus from '../../modules/competitive/chat/openChat'
 import { onNuiCallback } from '@trippler/tr_lib/nui'
 
 onNuiCallback('chat/openChat', () => {

@@ -1,5 +1,5 @@
 import { nuiFocus } from '@trippler/tr_lib/nui'
-import { getState, setState } from '../../states'
+import { getState, setState } from '../../../states/competitive'
 
 export default () => {
   setState.focused(true)

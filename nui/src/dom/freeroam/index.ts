@@ -5,12 +5,12 @@ let modules: any = {}
 ;(async () => {
   if (modulesEnabled.chat) {
     modules.nuiFocus = (await import("@trippler/tr_lib/nui")).nuiFocus
-    modules.input = (await import("../../../../tr_freeroam/nui/src/elements/chat/input")).input
-    modules.hideChat = (await import("../../../../tr_freeroam/nui/src/modules/chat/toggles")).hideChat
-    modules.acceptSuggetion = (await import("../../../../tr_freeroam/nui/src/modules/chat")).acceptSuggetion
-    modules.useCommandSelection = (await import("../../../../tr_freeroam/nui/src/modules/chat/commandSelection")).useCommandSelection
-    modules.currentItemSelected = (await import("../../../../tr_freeroam/nui/src/states")).getState.currentItemSelected
-    modules.closestRelative = (await import("../../../../tr_freeroam/nui/src/modules/chat/updateSuggetions")).closestRelative
+    modules.input = (await import("../../elements/freeroam/chat/input")).input
+    modules.hideChat = (await import("../../modules/freeroam/chat/toggles")).hideChat
+    modules.acceptSuggetion = (await import("../../modules/freeroam/chat")).acceptSuggetion
+    modules.useCommandSelection = (await import("../../modules/freeroam/chat/commandSelection")).useCommandSelection
+    modules.currentItemSelected = (await import("../../states/freeroam")).getState.currentItemSelected
+    modules.closestRelative = (await import("../../modules/freeroam/chat/updateSuggetions")).closestRelative
   }
   if (modulesEnabled.spawn) {
     modules.escapeMenu = (await import("../../components/freeroam/spawn/escapeMenu")).default

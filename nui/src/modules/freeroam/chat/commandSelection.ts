@@ -1,5 +1,5 @@
-import { getState, setState } from "../../states"
-import { input } from "../../elements/chat/input"
+import { getState, setState } from "../../../states/freeroam"
+import { input } from "../../../elements/freeroam/chat/input"
 
 const isValidItem = (el: Element | null | undefined) => {
   if (!el) return false

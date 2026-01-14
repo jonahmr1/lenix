@@ -2,7 +2,7 @@ import { nuiFocus, triggerNuiCallback } from "@trippler/tr_lib/nui"
 import { AcceptFriendship, GetPlayerFriends } from "../../../../../shared/types/competitive"
 import createFriendItem from "./createFriendItem"
 import refreshFriends from "../../../../../nui/src/dom/competitive/dashboard"
-import { setState } from "../../states"
+import { setState } from "../../../states/competitive"
 
 export const acceptFriendship = async (identity: number) => {
   const response = await triggerNuiCallback<AcceptFriendship>('dashboard/acceptFriendship', {identity})

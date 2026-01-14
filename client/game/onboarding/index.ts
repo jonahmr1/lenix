@@ -1,6 +1,6 @@
 import { trace } from "@trippler/tr_lib/shared"
-import { createPlayerNewCharacter, getPlayerCharacterCitizenId, loadPlayerCharactersPed, onPlayerLoaded, openAppearanceMenu, preparePlayerCharacterPed, spawnPlayerPed } from "../modules"
-import { closeMainMenu } from "../nui"
+import { createPlayerNewCharacter, getPlayerCharacterCitizenId, loadPlayerCharactersPed, onPlayerLoaded, openAppearanceMenu, preparePlayerCharacterPed, spawnPlayerPed } from "../../modules/onboarding"
+import { closeMainMenu } from "../../nui/onboarding"
 
 const everyScalar = (coords: [number, number, number, number] | number[], debug?: boolean) => {
   if (coords.length === 4) {

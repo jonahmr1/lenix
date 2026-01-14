@@ -1,4 +1,4 @@
-import { getState, setState } from "../../states"
+import { getState, setState } from "../../../states/competitive"
 
 const collapse = (requests: HTMLDivElement) => {
   document.getElementById('friendsContainer')?.classList.remove("hidden")

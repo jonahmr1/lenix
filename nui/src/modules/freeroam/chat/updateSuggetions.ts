@@ -1,9 +1,20 @@
 import { useDiv } from "@trippler/tr_kit/nui"
-import { findClosest, getCommandArguments, getPassedArgumentsLastIndex, getPassedArgumentsFirstString, isInShowRecentCommandsPosition, isTextInCommandSyntax, getCommandHelp, isCharNumber, getPassedBlocksCount, getPassedSpacesCount } from "../../utils/chat"
+import {
+  findClosest,
+  getCommandArguments, 
+  getPassedArgumentsLastIndex,
+  getPassedArgumentsFirstString,
+  isInShowRecentCommandsPosition,
+  isTextInCommandSyntax,
+  getCommandHelp,
+  isCharNumber,
+  getPassedBlocksCount,
+  getPassedSpacesCount
+} from "../../../utils/chat"
 import { preventPlaceholderDuplication } from "."
 import { changeBorderColor } from "./changeBorderColor"
 import { getStoredFrequentlyUsedCommands } from "./localStorage"
-import { getState } from "../../states"
+import { getState } from "../../../states/freeroam"
 import { chat } from "../../../../../shared/constants/freeroam"
 import { Suggestion, CommandName } from "../../../../../shared/types/freeroam"
 import { useClearCommandSelection } from "./commandSelection"

@@ -1,7 +1,7 @@
 import { useDiv } from "@trippler/tr_kit/nui"
 import { PlayerObject } from "../../../../../shared/types/competitive"
 import { messagesFadeDuration } from "../../../../../shared/constants/competitive"
-import { getState, setState } from "../../states"
+import { getState, setState } from "../../../states/competitive"
 
 export default (message: string, player: PlayerObject) => {
   useDiv({

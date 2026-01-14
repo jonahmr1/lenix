@@ -1,8 +1,8 @@
 import { triggerNuiCallback } from "@trippler/tr_lib/client"
 import { fatal, info } from '@trippler/tr_lib/shared'
 import { Message, Suggestion } from '../../../shared/types/freeroam'
-import { isIterable } from "../../../tr_freeroam/client/utils"
-import { DOMLoaded, earlySuggestionsInsertion } from "../../../tr_freeroam/client"
+import { isIterable } from "../../states/freeroam"
+import { DOMLoaded, earlySuggestionsInsertion } from "../../states/freeroam"
 
 export const openChat = () => {
   if (globalThis.exports.tr_onboarding.modeSelected() !== 'freeroam') return 

@@ -1,5 +1,5 @@
 import { nuiFocus } from "@trippler/tr_lib/nui"
-import useUnfocus from "../../../../tr_competitive/nui/src/modules/chat/closeChat"
+import useUnfocus from "../../modules/competitive/chat/closeChat"
 
 const block = document.getElementById('block')
 

@@ -1,5 +1,5 @@
-import { CommandName } from "../../../../../shared/types/freeroam"
-import { getState } from "../../states"
+import { CommandName } from "../../../../shared/types/freeroam"
+import { getState } from "../../states/freeroam"
 
 const getCommandNames = () => {
   let commandNames: string[] = []

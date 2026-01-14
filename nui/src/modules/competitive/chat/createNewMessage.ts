@@ -1,8 +1,8 @@
 import { maxTextLength, messagesCooldown } from "../../../../../shared/constants/competitive"
 import useCooldown from "./addCooldown"
-import { input } from "../../elements/chat"
+import { input } from "../../../elements/competitive/chat"
 import { triggerNuiCallback } from "@trippler/tr_lib/nui"
-import { setState } from "../../states"
+import { setState } from "../../../states/competitive"
 
 let canSend = true
 

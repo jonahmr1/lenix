@@ -1,5 +1,5 @@
-import { input } from "../../elements/chat/input"
-import { getCommandArguments, getPassedArgumentsFirstString, getPassedBlocksCount } from "../../utils/chat"
+import { input } from "../../../elements/freeroam/chat/input"
+import { getCommandArguments, getPassedArgumentsFirstString, getPassedBlocksCount } from "../../../utils/chat"
 
 let lastProperty: string
 

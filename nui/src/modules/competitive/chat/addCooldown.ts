@@ -1,4 +1,4 @@
-import { setState } from "../../states"
+import { setState } from "../../../states/competitive"
 
 export default () => {
   const bar = document.getElementById('cooldown-bar')

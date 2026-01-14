@@ -1,4 +1,4 @@
-import { getState, setState } from "../../states"
+import { getState, setState } from "../../../states/competitive"
 import updateRequestBlockState from "./collapseRequestBlock"
 
 export const useFriendsPanel = () => {

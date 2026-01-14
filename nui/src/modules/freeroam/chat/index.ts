@@ -1,13 +1,13 @@
 import { triggerNuiCallback } from "@trippler/tr_lib/nui"
-import { getArrayfiedPassedCharacters } from "../../utils/chat"
+import { getArrayfiedPassedCharacters } from "../../../utils/chat"
 import { changeBorderColor } from "./changeBorderColor"
 import { trace } from "@trippler/tr_lib/shared"
 import { Message, Suggestion } from "../../../../../shared/types/freeroam"
-import { getState } from "../../states"
-import { input } from "../../elements/chat/input"
+import { getState } from "../../../states/freeroam"
+import { input } from "../../../elements/freeroam/chat/input"
 import { resultsFound } from "./updateSuggetions"
 import { hideChat } from "./toggles"
-import { createNewMessage } from "../../elements/chat/messages"
+import { createNewMessage } from "../../../elements/freeroam/chat/messages"
 
 export const addMessage = (message: Message) => {
   createNewMessage(message.args)

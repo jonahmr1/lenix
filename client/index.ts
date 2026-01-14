@@ -4,6 +4,7 @@ import './game/onboarding'
 import { openMainMenu } from './nui/onboarding'
 import { onDOMLoaded } from '@trippler/tr_lib/client'
 import { fatal } from '@trippler/tr_lib/shared'
+import { config } from '../shared/constants'
 
 const isQboxCharactersHandlerDisabled = globalThis.exports[GetCurrentResourceName()].isQboxCharactersHandlerDisabled()
 
@@ -17,33 +18,22 @@ onDOMLoaded(() => {
   })
 })
 
-
-import './api/competitive/dashboard'
-import './api/competitive/chat'
-import './nui/competitive/dashboard'
-import './nui/competitive/chat'
-import './game/competitive/dashboard'
-import './game/competitive/chat'
-
-
-
-
-
-import { Suggestion } from '../shared/types/onboarding'
-import { modulesEnabled } from '../shared/constants/onboarding'
-
-if (modulesEnabled.spawn) {
-  import('../../client/api/freeroam/spawn')
-  import('../../client/modules/freeroam/spawn')
-}
-if (modulesEnabled.chat) {
-  import('../../client/api/freeroam/chat')
-  import('../../client/nui/freeroam/chat')
-  import('../../client/modules/freeroam/chat')
+if (config.competitive) {
+  import('./api/competitive/dashboard')
+  import('./api/competitive/chat')
+  import('./nui/competitive/chat')
+  import('./game/competitive/chat')
 }
 
-export let DOMLoaded = false
-export const earlySuggestionsInsertion: Suggestion[] = []
-
-export const setDOMLoaded = (state: boolean) => DOMLoaded = state
-export const isIterable = (obj: any) => obj != null && typeof obj[Symbol.iterator] === 'function'
+if (config.freeroam) {
+  const { modulesEnabled } = (await import('../shared/constants/freeroam'))
+  if (modulesEnabled.spawn) {
+    import('./api/freeroam/spawn')
+    import('./modules/freeroam/spawn')
+  }
+  if (modulesEnabled.chat) {
+    import('./api/freeroam/chat')
+    import('./nui/freeroam/chat')
+    import('./modules/freeroam/chat')
+  }
+}

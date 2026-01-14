@@ -1,5 +1,5 @@
 import { fatal, trace } from "@trippler/tr_lib/shared"
-import { createNewCharacter, getCharacterPreviewData, getPlayerCharacters, loadCharacter, setPedAppearance, spawnPlayer, startGameMode } from "../api"
+import { createNewCharacter, getCharacterPreviewData, getPlayerCharacters, loadCharacter, setPedAppearance, spawnPlayer, startGameMode } from "../../api/onboarding"
 import { closeMainMenu } from "../../nui/onboarding"
 
 export let modeSelected: string | undefined

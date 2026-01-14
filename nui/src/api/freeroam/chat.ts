@@ -1,7 +1,7 @@
 import { onNuiCallback } from "@trippler/tr_lib/nui"
 import { Message, Suggestion } from "../../../../shared/types/freeroam"
-import { addMessage, addSuggestion, removeSuggestion } from "../../../../tr_freeroam/nui/src/modules/chat"
-import { openChat } from "../../../../tr_freeroam/nui/src/modules/chat/toggles"
+import { addMessage, addSuggestion, removeSuggestion } from "../../modules/freeroam/chat"
+import { openChat } from "../../modules/freeroam/chat/toggles"
 
 onNuiCallback('chat/openChat', () => {
   openChat()

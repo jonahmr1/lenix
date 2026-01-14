@@ -1,5 +1,5 @@
 import openEscapeMenu from "../../components/competitive/dashboard/escapeMenu"
-import { getState } from "../../../../tr_competitive/nui/src/states"
+import { getState } from "../../states/competitive"
 
 export default (count: number) => {
   const friendsBTN = document.getElementById('friendsButton')

@@ -1,6 +1,5 @@
 import { triggerNuiCallback } from "@trippler/tr_lib/nui"
 import alert from "./alert"
-import { closeDashboard } from "../../../../../tr_competitive/nui/src/modules/dashboard"
 
 let menuState = false
 let lastElement: HTMLElement | null
