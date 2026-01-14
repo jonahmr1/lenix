@@ -26,14 +26,16 @@ if (config.competitive) {
 }
 
 if (config.freeroam) {
-  const { modulesEnabled } = (await import('../shared/constants/freeroam'))
-  if (modulesEnabled.spawn) {
-    import('./api/freeroam/spawn')
-    import('./modules/freeroam/spawn')
-  }
-  if (modulesEnabled.chat) {
-    import('./api/freeroam/chat')
-    import('./nui/freeroam/chat')
-    import('./modules/freeroam/chat')
-  }
+  (async () => {
+    const { modulesEnabled } = await import('../shared/constants/freeroam')
+    if (modulesEnabled.spawn) {
+      import('./api/freeroam/spawn')
+      import('./modules/freeroam/spawn')
+    }
+    if (modulesEnabled.chat) {
+      import('./api/freeroam/chat')
+      import('./nui/freeroam/chat')
+      import('./modules/freeroam/chat')
+    }
+  })()
 }
