@@ -3,7 +3,7 @@ import { triggerNuiCallback } from "@trippler/tr_lib/nui"
 
 export const toggleMenu = (state: boolean = true) => {
   nuiFocus(state, state)
-  const menu = document.getElementById('main-menu')?.classList
+  const menu = document.getElementById('onboarding-main-menu')?.classList
   state ? menu?.remove('hidden') : menu?.add('hidden')
 }
 

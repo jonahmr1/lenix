@@ -5,12 +5,12 @@ import createNewMessage from '../../../modules/competitive/chat/createNewMessage
 
 useDiv({
   parent: 'body',
-  id: 'chat-root',
+  id: 'competitive-chat-root',
   style: 'select-none w-full h-screen absolute'
 })
 
 useDiv({
-  parent: 'chat-root',
+  parent: 'competitive-chat-root',
   id: 'container',
   style: 'w-full h-[80vh] flex items-end justify-start px-2'
 })

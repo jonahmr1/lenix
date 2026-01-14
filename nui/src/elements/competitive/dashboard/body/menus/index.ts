@@ -16,12 +16,12 @@ useDiv({
 })
 useDiv({
   parent: "menus",
-  id: "main-menu",
+  id: "competitive-main-menu",
   style: "w-[80%] h-1/2 blured-15 flex justify-end"
 })
 
 useDiv({
-  parent: "main-menu",
+  parent: "competitive-main-menu",
   id: "main-menu-block",
   style: "flex flex-col justify-center overflow-hidden w-[75%]"
 })

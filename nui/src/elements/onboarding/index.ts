@@ -3,17 +3,17 @@ import { selectMode } from '../../modules/onboarding'
 
 useDiv({
   parent: "body",
-  id: "root"
+  id: "onboarding-root"
 })
 
 useDiv({
-  parent: "root",
-  id: "main-menu",
+  parent: "onboarding-root",
+  id: "onboarding-main-menu",
   style: "hidden w-[100vw] h-[100vh] flex items-end justify-center py-52 bg-stone-900/20 bg-[url(https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/onboardingbg2.jpg)] bg-cover bg-center"
 })
 
 useDiv({
-  parent: "main-menu",
+  parent: "onboarding-main-menu",
   id: "dashboard-content",
   style: "flex flex-col items-center gap-5"    
 })
