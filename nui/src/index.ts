@@ -1,3 +1,4 @@
+import './elements'
 import './elements/onboarding'
 import './api/onboarding'
 import { config } from '../../shared/constants'

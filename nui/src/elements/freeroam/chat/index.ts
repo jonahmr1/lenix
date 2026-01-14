@@ -2,7 +2,6 @@ import { useDiv } from '@trippler/tr_kit/nui'
 import('./messages')
 import('./input')
 
-document.body.id = `body`
 useDiv({
   parent: `body`,
   id: `chat-root`,

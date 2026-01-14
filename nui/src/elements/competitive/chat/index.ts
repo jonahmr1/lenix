@@ -1,9 +1,7 @@
 import { useButton, useInput, useDiv } from '@trippler/tr_kit/nui'
 import { messagesCooldown } from '../../../../../shared/constants/competitive'
-import useCharacterLeft from '../../modules/chat/updateCharactersLeft'
-import createNewMessage from '../../modules/chat/createNewMessage'
-
-document.body.className = '[scrollbar-width:none]'
+import useCharacterLeft from '../../../modules/competitive/chat/updateCharactersLeft'
+import createNewMessage from '../../../modules/competitive/chat/createNewMessage'
 
 useDiv({
   parent: 'body',

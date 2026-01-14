@@ -1,7 +1,6 @@
 import { useDiv, useButton } from '@trippler/tr_kit/nui'
 import { selectMode } from '../../modules/onboarding'
 
-document.body.id = 'body'
 useDiv({
   parent: "body",
   id: "root"
