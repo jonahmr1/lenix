@@ -1,9 +1,8 @@
 import { useDiv, useButton} from "@trippler/tr_kit/nui"
-import serviceUnavailable from "../../../../../../../nui/src/components/competitive/dashboard/serviceUnavailable"
+import serviceUnavailable from "../../../../../components/competitive/dashboard/serviceUnavailable"
 
 const buttonsStyle = "text-2xl text-white italic h-1/5"
 const buttonsContentsStyle = "hover:font-semibold hover:text-3xl transition-all"
-const buttonsOnClick = serviceUnavailable
 
 useDiv({
   parent: "dashboard-body",
@@ -31,40 +30,40 @@ useButton({
   parent: "main-menu-block",
   style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Battlepass</span>`,
-  onClick: buttonsOnClick
+  onClick: serviceUnavailable
 })
 
 useButton({
   parent: "main-menu-block",
   style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Settings</span>`,
-  onClick: buttonsOnClick
+  onClick: serviceUnavailable
 })
 
 useButton({
   parent: "main-menu-block",
   style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Arsenal</span>`,
-  onClick: buttonsOnClick
+  onClick: serviceUnavailable
 })
 
 useButton({
   parent: "main-menu-block",
   style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Store</span>`,
-  onClick: buttonsOnClick
+  onClick: serviceUnavailable
 })
 
 useButton({
   parent: "main-menu-block",
   style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Style</span>`,
-  onClick: buttonsOnClick
+  onClick: serviceUnavailable
 })
 
 useButton({
   parent: "main-menu-block",
   style: buttonsStyle,
   content: `<span class="${buttonsContentsStyle}">Play</span>`,
-  onClick: buttonsOnClick
+  onClick: serviceUnavailable
 })

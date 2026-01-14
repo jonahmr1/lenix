@@ -1,5 +1,5 @@
 import { useDiv, useButton} from "@trippler/tr_kit/nui"
-import unavailableNotice from "../../../../../../../../nui/src/components/competitive/dashboard/serviceUnavailable"
+import unavailableNotice from "../../../../../../components/competitive/dashboard/serviceUnavailable"
 
 useButton({
   parent: "player-details",
