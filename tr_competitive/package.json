@@ -1,0 +1,31 @@
+{
+  "name": "lenix-typescript-template",
+  "version": "2.2.0",
+  "scripts": {
+    "build": "npm run build:client && npm run build:server && npm run build:nui",
+    "build:client": "esbuild client/index.ts --bundle --format=iife --target=es2020 --minify --outfile=build/client.js",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --minify --outfile=build/server.js",
+    "build:nui": "esbuild nui/src/index.ts --bundle --platform=browser --target=es2020 --minify --outfile=build/nui.js",
+    "watch": "concurrently \"npm:watch:client\" \"npm:watch:server\" \"npm:watch:nui\"",
+    "watch:client": "esbuild client/index.ts --bundle --format=iife --target=es2020 --watch --outfile=build/client.js",
+    "watch:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --watch --outfile=build/server.js",
+    "watch:nui": "esbuild nui/src/index.ts --bundle --platform=browser --target=es2020 --watch --outfile=build/nui.js",
+    "reinstall": "rimraf package-lock.json node_modules/.package-lock.json && npm install"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@lenixdev/fusion": "latest",
+    "@trippler/tr_kit": "latest",
+    "@trippler/tr_lib": "latest",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@citizenfx/client": "latest",
+    "@citizenfx/server": "latest",
+    "esbuild": "^0.24.2",
+    "concurrently": "^8.2.0",
+    "rimraf": "^6.0.1"
+  }
+}
