@@ -12,7 +12,7 @@ version '2.0.0'
 
 client_scripts {
   '@ox_lib/init.lua',
-  'build/client.lua',
+  'client/index.lua',
   'build/client.js',
 }
 
