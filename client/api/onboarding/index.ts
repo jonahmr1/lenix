@@ -8,10 +8,10 @@ export const spawnPlayer = (spawnCoords: number[]) => exports.spawnmanager.spawn
   z: spawnCoords[2],
   heading: spawnCoords[3]
 })
-export const loadCharacter = (citizenId: string) => exports.tr_onboarding.loadCharacter(citizenId)
-export const getCharacterPreviewData = (citizenId: string) => exports.tr_onboarding.getCharacterPreviewData(citizenId)
-export const createNewCharacter = exports.tr_onboarding.createNewCharacter(null, playerCharacterInfo)
-export const getPlayerCharacters = exports.tr_onboarding.getPlayerCharacters()
+export const loadCharacter = (citizenId: string) => exports[GetCurrentResourceName()].loadCharacter(citizenId)
+export const getCharacterPreviewData = (citizenId: string) => exports[GetCurrentResourceName()].getCharacterPreviewData(citizenId)
+export const createNewCharacter = exports[GetCurrentResourceName()].createNewCharacter(null, playerCharacterInfo)
+export const getPlayerCharacters = exports[GetCurrentResourceName()].getPlayerCharacters()
 
 onNet('tr_pvpmodes/client/onboarding/openMainMenu', openMainMenu)
 

@@ -60,6 +60,6 @@ const addNewIncomingRequest = async (index: number, identity: number): Promise<v
 }
 
 setTimeout(async () => {
-  const incoming = await triggerNuiCallback<GetIncomingFriends>('dashboard/getIncomingFriends')
+  const incoming = await triggerNuiCallback<GetIncomingFriends>('competitive/dashboard/getIncomingFriends')
   incoming?.forEach((identity, index: number) => addNewIncomingRequest(index, identity))
 }, 0)

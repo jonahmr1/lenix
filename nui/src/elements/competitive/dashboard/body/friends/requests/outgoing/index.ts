@@ -35,7 +35,7 @@ const addNewOutgoingRequest = async (index: number, identity: number): Promise<v
     style: "w-[25%] h-[12.5%] hover:bg-blue-500 flex items-center justify-center",
     content: '🚫',
     onClick: async () => {
-      const response = await triggerNuiCallback<CancelOutgoingFriendship>('dashboard/cancelOutgoingFriendship', { identity })
+      const response = await triggerNuiCallback<CancelOutgoingFriendship>('competitive/dashboard/cancelOutgoingFriendship', { identity })
       if (!response) return
       request.remove()
       outgoingRequests.splice(index, 1)
@@ -46,6 +46,6 @@ const addNewOutgoingRequest = async (index: number, identity: number): Promise<v
 }
 
 setTimeout(async () => {
-  const outgoing = await triggerNuiCallback<GetOutgoingFriends>('dashboard/getOutgoingFriends')
+  const outgoing = await triggerNuiCallback<GetOutgoingFriends>('competitive/dashboard/getOutgoingFriends')
   outgoing.forEach((identity, index: number) => addNewOutgoingRequest(index, identity))
 }, 0)

@@ -9,7 +9,7 @@ import { ServerProfile } from "../../../../../../../shared/types/competitive"
     style: "w-[25%] h-[75%] flex items-center justify-start gap-1"
   })
 
-  const profile = await triggerNuiCallback<ServerProfile>('dashboard/getServerProfile')
+  const profile = await triggerNuiCallback<ServerProfile>('competitive/dashboard/getServerProfile')
 
   useDiv({
     parent: "server-details",

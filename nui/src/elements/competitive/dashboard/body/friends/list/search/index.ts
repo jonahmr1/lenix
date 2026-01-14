@@ -13,7 +13,7 @@ const searchInput = useInput({
   style: "w-full p-2 bg-stone-700 rounded text-white outline-none",
   placeholder: "Search players by: <name>",
   onJoin: async () => {
-    const playerIds = await triggerNuiCallback<GetFriendablePlayers>('dashboard/getFriendablePlayers')
+    const playerIds = await triggerNuiCallback<GetFriendablePlayers>('competitive/dashboard/getFriendablePlayers')
 
     players = await Promise.all(
       playerIds ?
@@ -51,7 +51,7 @@ const searchInput = useInput({
           onClick: async (disable) => {
             btn.innerText = '💬'
             disable()
-            btn.innerText = await triggerNuiCallback<SendUserFriendInvitation>('dashboard/sendUserFriendInvitation', { identity: player.id }) ? '✅' : '❌'
+            btn.innerText = await triggerNuiCallback<SendUserFriendInvitation>('competitive/dashboard/sendUserFriendInvitation', { identity: player.id }) ? '✅' : '❌'
           }
         })
       })
