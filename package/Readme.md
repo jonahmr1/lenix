@@ -29,6 +29,7 @@ https://docs.trippler.store/tr_lib
 - [ ] fix keybinds indexes
 - [ ] ADD A DIRECT SAFE CONNECTION BETWEEN NUI AND THE SERVER
 - [ ] a solution for the coords from the lua vectors
+- [ ] the first arg on the promise module must receive a non empty arg
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/%40trippler%2Ftr_lib)
