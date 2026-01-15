@@ -1,0 +1,24 @@
+{
+  "name": "lenix-typescript-template",
+  "version": "2.2.0",
+  "scripts": {
+    "build": "npm run build:client && npm run build:server && npm run build:web",
+    "build:client": "esbuild client/index.ts --bundle --format=iife --target=es2020 --minify --outfile=build/client.js",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --minify --outfile=build/server.js",
+    "build:web": "esbuild web/src/index.ts --bundle --platform=browser --target=es2020 --minify --outfile=build/web.js",
+    "watch": "concurrently \"npm:watch:client\" \"npm:watch:server\" \"npm:watch:web\"",
+    "watch:client": "esbuild client/index.ts --bundle --format=iife --target=es2020 --watch --outfile=build/client.js",
+    "watch:server": "esbuild server/index.ts --bundle --platform=node --target=es2020 --watch --outfile=build/server.js",
+    "watch:web": "esbuild web/src/index.ts --bundle --platform=browser --target=es2020 --watch --outfile=build/web.js"
+  },
+  "devDependencies": {
+    "@trippler/tr_kit": "latest",
+    "@trippler/tr_lib": "latest",
+    "typescript": "^5.9.3",
+    "@types/node": "^25.0.3",
+    "@citizenfx/client": "latest",
+    "@citizenfx/server": "latest",
+    "esbuild": "^0.27.2",
+    "concurrently": "^9.2.1"
+  }
+}
