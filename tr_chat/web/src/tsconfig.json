@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../build",
-    "rootDir": "../../",
-    "types": []
-  },
-  "include": ["**/*", "../../shared/**/*", "../../../tr_freeroam/web/src/hooks/chat/useAcceptSuggetion.ts", "../../../tr_freeroam/web/src/hooks/chat/useChangeBorderColor.ts", "../../../tr_freeroam/web/src/hooks/chat/useCommandSelection.ts", "../../../tr_freeroam/web/src/hooks/chat/useFrequentlyUsedCommands.ts", "../../../tr_freeroam/web/src/hooks/chat/useUpdateSuggetions.ts", "../../../tr_freeroam/web/src/utils/chat/dom", "../../../tr_freeroam/web/src/utils/chat/index.ts"]
-}
