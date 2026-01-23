@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'https://github.com/TripplerScripts'
-repository 'https://github.com/TripplerScripts/tr_preloader'
+repository 'https://github.com/TripplerScripts/tr_sponsor'
 version '2.0.0'
 
 client_script 'build/client.js'
