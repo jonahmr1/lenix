@@ -1,15 +1,15 @@
 fx_version 'cerulean'
 game 'gta5'
 
-author 'Trippler'
-version '1.0.0'
+author 'https://github.com/TripplerScripts'
 repository 'https://github.com/TripplerScripts/tr_preloader'
+version '1.0.0'
 
-client_script 'client/main.js'
-ui_page 'web/index.html'
+client_script 'build/client.js'
+server_script 'build/server.js'
+
+ui_page 'nui/public/index.html'
 files {
-  'web/index.html',
-  'web/main.js',
-  'web/*.mp4',
-  'web/*.mp3'
+  'nui/public/index.html',
+  'build/nui.js'
 }

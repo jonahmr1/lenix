@@ -1,11 +1,14 @@
-try {
-  if (window.frameElement) {
-    window.frameElement.style.zIndex = '99999'
-    window.frameElement.style.position = 'fixed'
-  }
-} catch(e) {}
+import { useDiv } from "@trippler/tr_kit/nui"
 
-function generateCSS() {
+export default () => {
+  document.body.id = 'body'
+  useDiv({
+    parent: 'body',
+    id: 'root',
+    content: `
+      <video id="playVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/trippler.mp4" width="100%" height="100%"></video>
+    `
+  })
   const styleContent = `
     @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
     * {
@@ -138,119 +141,3 @@ function generateCSS() {
   style.innerHTML = styleContent
   document.head.appendChild(style)
 }
-
-const root = document.getElementById('root')
-root.innerHTML = `
-  <video id="playVideo" src="https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/trippler.mp4" width="100%" height="100%"></video>
-`
-
-const audioInstances = {}
-const playVideoEl = document.getElementById('playVideo')
-
-function playVideo() {
-  playVideoEl.style.display = 'block'
-  playVideoEl.play().catch(() => {})
-}
-
-function stopVideo() {
-  playVideoEl.style.display = 'none'
-  playVideoEl.pause()
-}
-
-function playAudio(name) {
-  audioInstances[name] = new Audio(`https://r2.fivemanage.com/COKMc8Wcmk9K5dp547rEw/click.mp3`)
-  audioInstances[name].volume = 1
-  audioInstances[name].play().catch(() => {})
-}
-
-function generateContext() {
-  const context = document.createElement('div')
-  context.id = 'context'
-  context.innerHTML = `
-    <div id="contextLine" role="button" tabindex="0">
-      <span id="pressLeft">Press the</span>
-      <p class="loader"><span>&nbsp;SPACE BAR&nbsp;</span></p>
-      <span id="pressRight">to start</span>
-    </div>
-  `
-  root.appendChild(context)
-}
-
-function hideTheLoader() {
-  stopVideo()
-  const rootEl = document.getElementById('root')
-  rootEl.style.transition = 'transform 1s ease'
-  rootEl.style.transform = 'translateY(-100%)'
-  
-  setTimeout(() => {
-    rootEl.style.display = 'none'
-  }, 800)
-}
-
-function showContext() {
-  requestAnimationFrame(() => {
-    context.classList.add('show')
-  })
-}
-
-function startScene() {
-  playVideo()
-  setTimeout(() => {
-    showContext()
-  }, 11200)
-}
-
-function endScene() {
-  playAudio()
-  
-  const loaderEl = document.querySelector('.loader')
-  loaderEl.classList.add('pressed')
-
-  const left = document.getElementById('pressLeft')
-  const right = document.getElementById('pressRight')
-  left.classList.add('press-anim')
-  right.classList.add('press-anim')
-
-  setTimeout(() => {
-    hideTheLoader()
-    fetch(`https://${GetParentResourceName()}/loseFocus`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-    })
-  }, 1500)
-}
-
-function checkKey(e) {
-  if (e.code === 'Space') return true
-}
-
-function Init() {
-  startScene()
-  let hasEnded = false;
-  document.addEventListener('keydown', (e) => {
-    if (checkKey(e) && !hasEnded) {
-      hasEnded = true;
-      endScene();
-    }
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  generateCSS()
-  generateContext()
-  fetch(`https://${GetParentResourceName()}/contentLoaded`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
-  })
-  window.addEventListener('message', (event) => {
-    if (event.data.action === 'init') {
-      Init()
-    }
-  })
-})
