@@ -65,13 +65,13 @@ tasks:
       dest: ./resources/[ox_core]/[dependencies]
       src: ./tmp/illenium-appearance.zip
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/management_outfits.sql
+      file: ./resources/[ox_core]/[dependencies]/illenium-appearance/sql/management_outfits.sql
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/player_outfit_codes.sql
+      file: ./resources/[ox_core]/[dependencies]/illenium-appearance/sql/player_outfit_codes.sql
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/player_outfits.sql
+      file: ./resources/[ox_core]/[dependencies]/illenium-appearance/sql/player_outfits.sql
     - action: query_database
-      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/playerskins.sql
+      file: ./resources/[ox_core]/[dependencies]/illenium-appearance/sql/playerskins.sql
 
 
     - action: remove_path
