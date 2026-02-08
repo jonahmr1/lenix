@@ -8,30 +8,21 @@ tasks:
     - action: connect_database
 
     - action: download_github
-      src: lenixdev/recipe
-      subpath: config
-      dest: ./config
+      src: lenixdev/txAdminRecipes
+      subpath: config/shared
+      dest: ./config/shared
+      
+    - action: download_github
+      src: lenixdev/txAdminRecipes
+      subpath: config/qbox
+      dest: ./config/qbox
 
     - action: download_file
-      url: https://raw.githubusercontent.com/lenixdev/recipe/refs/heads/main/server.cfg
+      url: https://raw.githubusercontent.com/lenixdev/txAdminRecipes/refs/heads/main/server/qbox/server.cfg
       path: ./server.cfg
 
-    - action: download_file
-      path: ./tmp/tr_lib.zip
-      url: https://github.com/tripplerscripts/tr_lib/releases/latest/download/tr_lib.zip
-    - action: unzip
-      src: ./tmp/tr_lib.zip
-      dest: ./resources/[trippler]
-
-    - action: download_file
-      path: ./tmp/tr_kit.zip
-      url: https://github.com/tripplerscripts/tr_kit/releases/latest/download/tr_kit.zip
-    - action: unzip
-      src: ./tmp/tr_kit.zip
-      dest: ./resources/[trippler]
-
     - action: download_github
-      src: qbox-project/qbx_core
+      src: communityox/qbx_core
       dest: ./resources/[qbx_core]/qbx_core
     - action: query_database
       file: ./resources/[qbx_core]/qbx_core/qbx_core.sql

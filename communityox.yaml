@@ -1,0 +1,78 @@
+version: v0.0.1
+name: lenix
+author: Lenix
+$minFxVersion: 17000
+$onesync: on
+
+tasks:
+    - action: connect_database
+
+    - action: download_github
+      src: lenixdev/txAdminRecipes
+      subpath: config/shared
+      dest: ./config
+      
+    - action: download_github
+      src: lenixdev/txAdminRecipes
+      subpath: config/communityox
+      dest: ./config
+
+    - action: download_file
+      url: https://raw.githubusercontent.com/lenixdev/txAdminRecipes/refs/heads/main/server/communityox/server.cfg
+      path: ./server.cfg
+
+    - action: download_file
+      path: ./tmp/ox_core.zip
+      url: https://github.com/communityox/ox_core/releases/latest/download/ox_core.zip
+    - action: unzip
+      src: ./tmp/ox_core.zip
+      dest: ./resources/[ox_core]
+    - action: query_database
+      file: ./resources/[ox_core]/ox_core/sql/install.sql
+
+    - action: download_file
+      path: ./tmp/ox_lib.zip
+      url: https://github.com/communityox/ox_lib/releases/latest/download/ox_lib.zip
+    - action: unzip
+      src: ./tmp/ox_lib.zip
+      dest: ./resources/[ox_core]/[mandatories]
+
+    - action: download_file
+      path: ./tmp/ox_inventory.zip
+      url: https://github.com/communityox/ox_inventory/releases/latest/download/ox_inventory.zip
+    - action: unzip
+      src: ./tmp/ox_inventory.zip
+      dest: ./resources/[ox_core]/[mandatories]
+
+    - action: download_file
+      path: ./tmp/ox_target.zip
+      url: https://github.com/communityox/ox_target/releases/latest/download/ox_target.zip
+    - action: unzip
+      src: ./tmp/ox_target.zip
+      dest: ./resources/[ox_core]/[dependencies]
+
+    - action: download_file
+      path: ./tmp/oxmysql.zip
+      url: https://github.com/communityox/oxmysql/releases/latest/download/oxmysql.zip
+    - action: unzip
+      src: ./tmp/oxmysql.zip
+      dest: ./resources/[ox_core]/[dependencies]
+
+    - action: download_file
+      path: ./tmp/illenium-appearance.zip
+      url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+    - action: unzip
+      dest: ./resources/[ox_core]/[dependencies]
+      src: ./tmp/illenium-appearance.zip
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/management_outfits.sql
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/player_outfit_codes.sql
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/player_outfits.sql
+    - action: query_database
+      file: ./resources/[qbx_core]/[dependencies]/illenium-appearance/sql/playerskins.sql
+
+
+    - action: remove_path
+      path: ./tmp
