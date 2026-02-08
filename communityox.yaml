@@ -27,6 +27,10 @@ tasks:
     - action: unzip
       src: ./tmp/ox_core.zip
       dest: ./resources/[ox_core]
+    - action: replace_string
+      file: ./resources/[ox]/ox_core/sql/install.sql
+      search: "overextended"
+      replace: "{{dbName}}"
     - action: query_database
       file: ./resources/[ox_core]/ox_core/sql/install.sql
 
