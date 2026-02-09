@@ -1,6 +1,6 @@
 {
   "name": "lenix",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "author": "Lenix",
   "license": "GPL-3.0",
@@ -13,7 +13,9 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p src/fxmanifest/tsconfig.json"
   },
