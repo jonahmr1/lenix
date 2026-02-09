@@ -1,7 +1,7 @@
 node_modules/
 src/
 .gitignore
-package-lock.json
+*-lock.json
+*-lock.yaml
 tsconfig.json
-fxmanifest.lua
 LICENSE

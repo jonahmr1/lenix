@@ -1,7 +1,5 @@
-package-lock.json
+*-lock.json
+*-lock.yaml
 node_modules
 .DS_Store
-/client
-/server
-/shared
-/web
+dist

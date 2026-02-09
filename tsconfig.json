@@ -1,13 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
     "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
     "declaration": true,
-    "lib": ["ES2020", "DOM"],
+    "outDir": "./dist"
   },
-  "exclude": ["node_modules", "client", "server", "shared", "web"]
+  "include": ["src"]
 }
