@@ -1,0 +1,14 @@
+{
+  "fx_version": "cerulean",
+  "game": "gta5",
+  "client_scripts": [
+    "dist/client.js"
+  ],
+  "server_scripts": [
+    "dist/server.js"
+  ],
+  "ui_page": "client/nui/dist/index.html",
+  "files": [
+    "client/nui/dist/**"
+  ]
+}
