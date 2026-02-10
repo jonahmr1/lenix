@@ -4,7 +4,7 @@ Auto-configure Lua to use `./lua_modules` (like `node_modules`).
 
 ### Install
 ```bash
-npx lenix-lua_modules
+npx lenix-lua-modules
 ```
 
 ### Usage
