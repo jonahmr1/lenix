@@ -6,6 +6,8 @@ if [ -f "${HOME}/.bashrc" ]; then
   SHELL_CONFIG="${HOME}/.bashrc"
 fi
 
+touch "$SHELL_CONFIG"
+
 echo "===================================="
 echo "Lua Modules Setup"
 echo "===================================="

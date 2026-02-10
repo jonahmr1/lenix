@@ -17,7 +17,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "lenix-lua-modules": "bin/lua_modules.sh"
+    "mac-lua-modules": "bin/mac-lua_modules.sh"
   },
   "files": [
     "dist",
