@@ -1,17 +1,14 @@
 #!/bin/bash
 
-# Detect actual shell
-SHELL_CONFIG="${HOME}/.bashrc"
-
-if [[ "$SHELL" == *"zsh"* ]]; then
+if [ -n "$ZSH_VERSION" ]; then
   SHELL_CONFIG="${HOME}/.zshrc"
-elif [[ "$SHELL" == *"bash"* ]]; then
-  # Bash needs .bash_profile to source .bashrc
+elif [ -n "$BASH_VERSION" ]; then
   SHELL_CONFIG="${HOME}/.bashrc"
   PROFILE_CONFIG="${HOME}/.bash_profile"
+else
+  SHELL_CONFIG="${HOME}/.profile"
 fi
 
-# Create shell config if it doesn't exist
 touch "$SHELL_CONFIG"
 
 echo "===================================="
@@ -34,7 +31,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 if grep -q "# Lua local modules setup" "$SHELL_CONFIG"; then
-  echo "⚠️  Already installed in $SHELL_CONFIG"
+  echo "  Already installed in $SHELL_CONFIG"
   echo "Installation aborted."
   exit 0
 fi
@@ -46,9 +43,9 @@ echo 'export LUA_PATH="./lua_modules/share/lua/5.4/?.lua;./lua_modules/share/lua
 echo 'export LUA_CPATH="./lua_modules/lib/lua/5.4/?.so;;"' >> "$SHELL_CONFIG"
 echo '# Lua local modules end.' >> "$SHELL_CONFIG"
 
-# For bash, ensure .bash_profile sources .bashrc
-if [[ "$SHELL" == *"bash"* ]] && [ -n "$PROFILE_CONFIG" ]; then
-  if [ ! -f "$PROFILE_CONFIG" ] || ! grep -q "source.*bashrc" "$PROFILE_CONFIG"; then
+if [ -n "$BASH_VERSION" ] && [ -n "$PROFILE_CONFIG" ]; then
+  touch "$PROFILE_CONFIG"
+  if ! grep -q "source.*bashrc" "$PROFILE_CONFIG"; then
     echo '' >> "$PROFILE_CONFIG"
     echo '# Source .bashrc' >> "$PROFILE_CONFIG"
     echo 'if [ -f ~/.bashrc ]; then source ~/.bashrc; fi' >> "$PROFILE_CONFIG"
@@ -58,12 +55,12 @@ fi
 source "$SHELL_CONFIG" 2>/dev/null || true
 
 echo ""
-echo "✓ Setup complete!"
-echo "✓ Added to: $SHELL_CONFIG"
+echo "Setup complete!"
+echo "Added to: $SHELL_CONFIG"
 echo ""
-echo "📦 Usage:"
+echo "Usage:"
 echo "  luarocks install --tree ./lua_modules <package>"
 echo ""
-echo "⚠️  IMPORTANT: Restart your terminal for changes to take effect"
+echo "  IMPORTANT: Restart your terminal for changes to take effect"
 echo ""
 echo "To undo, remove lines containing '# Lua local modules setup' from $SHELL_CONFIG"
