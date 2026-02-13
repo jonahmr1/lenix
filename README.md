@@ -7,12 +7,12 @@ Bundle of UI helpers for players interaction.
 
 ## 🔗 Depend
 ```json
-"@lenixdev/lenix_fusion": "latest",
+"@lenixstudio/fusion": "latest",
 ```
 
 ## 📥 Install
 ```bash
-npm i @lenixdev/fusion
+npm i @lenixstudio/fusion
 ```
 
 ## 📚 Documentation
@@ -27,7 +27,7 @@ soon...
 - [ ]  test the drawtext and helper modules
 
 ## 🧾License
-![](https://img.shields.io/npm/l/%40lenixdev%2Ffusion)
+![](https://img.shields.io/npm/l/%40lenixstudio%2Ffusion)
 
 ## 📞 Support
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/9CC2wud38C)
