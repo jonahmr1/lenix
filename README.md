@@ -2,8 +2,8 @@
 
 Bundle of UI helpers for players interaction.
 
-![](https://img.shields.io/npm/d18m/%40lenixdev%2Ffusion)
-![](https://img.shields.io/npm/v/%40lenixdev%2Ffusion)
+![](https://img.shields.io/npm/d18m/%40lenixstudio%2Ffusion)
+![](https://img.shields.io/npm/v/%40lenixstudio%2Ffusion)
 
 ## 🔗 Depend
 ```json
