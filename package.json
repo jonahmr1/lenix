@@ -1,14 +1,17 @@
 {
   "name": "lenix",
   "version": "1.1.0",
-  "description": "",
+  "description": "Helpful modules for the software engineers",
   "author": "Lenix",
   "license": "GPL-3.0",
   "keywords": [
     "lenix",
+    "modules",
+    "typescript",
     "lua",
     "luarocks",
-    "modules"
+    "fivem",
+    "fxmanifest"
   ],
   "repository": {
     "type": "git",
