@@ -21,6 +21,4 @@ const generateContent = () => {
   return defaultContent
 }
 
-const createFxmanifest = async (content?: FileContent) => await writeFile('fxmanifest.lua', content || generateContent())
-
-export { createFxmanifest }
+export const createFxmanifest = async (content?: FileContent) => await writeFile('fxmanifest.lua', content || generateContent())
