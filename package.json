@@ -27,12 +27,11 @@
     "bin"
   ],
   "scripts": {
-    "build": "tsc -p src/fxmanifest/tsconfig.json"
+    "build": "tsc -p src/fxmanifest/tsconfig.json && tsc-alias"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.3.3",
     "@types/node": "^20.7.1"
   }
 }
