@@ -20,5 +20,3 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: npm publish --access public --provenance
-        env:
-            NODE_AUTH_TOKEN: ""
