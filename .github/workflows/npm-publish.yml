@@ -1,10 +1,10 @@
+# This workflow will run build using node and then publish a package to GitHub Packages when a commit is pushed to the main branch
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
 name: lenix
 on:
   push:
     branches: [main]
-permissions:
-  id-token: write
-  contents: read
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
@@ -13,10 +13,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
       - uses: pnpm/action-setup@v4
         with:
           version: latest
-      - run: npm install -g npm@latest
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: npm publish --access public --provenance
+      - run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
