@@ -22,4 +22,5 @@ jobs:
           version: latest
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - run: npm config delete //registry.npmjs.org/:_authToken
       - run: npm publish --access public --provenance
