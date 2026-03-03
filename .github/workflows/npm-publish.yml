@@ -1,25 +1,26 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# This workflow will run build using node and then publish a package to GitHub Packages when a commit is pushed to the main branch
 # For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 
 name: lenix
-
 on:
   push:
     branches:
       - main
-
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm run build
-      - run: npm version patch --no-git-tag-version
-      - run: npm publish
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm version patch --no-git-tag-version
+      - run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
