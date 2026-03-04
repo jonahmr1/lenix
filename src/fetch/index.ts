@@ -1,9 +1,9 @@
 /**
  * @param domain - domain of the URL (e.g. api.github.com)
- * @param endpoint - endpoint of the URL (e.g. /users/lenixdev)
+ * @param endpoint - endpoint of the URL (e.g. users/lenixdev)
  * @param request - request options (e.g. { method: 'GET' })
  */
-export const safeRequest = async (domain: string, endpoint: string, request: RequestInit) => {
+export const safeRequest = async (domain: string, endpoint: string, request?: RequestInit) => {
   try {
     return await fetch(`https://${domain}/${endpoint}`, request)
   } catch(error) {
