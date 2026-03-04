@@ -11,7 +11,8 @@
     "lua",
     "luarocks",
     "fivem",
-    "fxmanifest"
+    "fxmanifest",
+    "api"
   ],
   "repository": {
     "type": "git",

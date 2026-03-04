@@ -9,6 +9,6 @@ export const safeRequest = async (domain: string, endpoint: string, request?: Re
   } catch(error) {
     throw new Error('An error occurred while making the request.', { cause: error })
   } finally {
-    console.log(`End of ${domain}${endpoint} request`)
+    console.log(`End of ${domain}/${endpoint} request`)
   }
 }
