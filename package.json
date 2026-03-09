@@ -12,7 +12,9 @@
     "luarocks",
     "fivem",
     "fxmanifest",
-    "api"
+    "api",
+    "oop",
+    "class"
   ],
   "repository": {
     "type": "git",
