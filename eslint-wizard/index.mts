@@ -222,7 +222,7 @@ async function main() {
   process.stdout.write(dim('o=off  w=warn  e=error  s/Enter=skip  q=save & exit\n\n'))
 
   const checkpoint = loadCheckpoint()
-  const state: State = { allRules: {}, completedSections: new Set(), outFile: 'eslint.config.js', pausedSection: null, pausedAt: 0 }
+  const state: State = { allRules: {}, completedSections: new Set(), outFile: 'eslint.config.ts', pausedSection: null, pausedAt: 0 }
 
   if (checkpoint) {
     process.stdout.write(`${tag('found', c.yellow)} Saved progress detected (${Object.keys(checkpoint.rules).length} rules configured).\n`)
@@ -233,11 +233,7 @@ async function main() {
       state.completedSections = new Set(checkpoint.completedSections)
       state.pausedSection = checkpoint.pausedSection ?? null
       state.pausedAt = checkpoint.pausedAt ?? 0
-    } else {
-      state.outFile = readLine(pr('Output file [eslint.config.js]: ')).trim() || 'eslint.config.js'
     }
-  } else {
-    state.outFile = readLine(pr('Output file [eslint.config.js]: ')).trim() || 'eslint.config.js'
   }
 
   const coreByCategory = await getCoreRules()
@@ -252,10 +248,15 @@ async function main() {
   askSection('Imports', buildPluginRules((importPlugin.rules ?? {}) as Record<string, any>, 'import'), state)
 
   const config = generateConfig(state.allRules)
-  fs.writeFileSync(state.outFile, config, 'utf8')
-  if (fs.existsSync(CHECKPOINT)) fs.unlinkSync(CHECKPOINT)
-
-  process.stdout.write(`\n${tag('done', c.green)} Written to ${bold(state.outFile)}\n`)
+  let outFile = state.outFile
+    if (fs.existsSync(outFile)) {
+      const overwrite = readLine(pr(`\n${outFile} already exists. Overwrite? [y/N]: `)).trim().toLowerCase()
+      if (overwrite !== 'y')
+        outFile = readLine(pr('Enter new filename: ')).trim() || outFile
+    }
+    fs.writeFileSync(outFile, config, 'utf8')
+    if (fs.existsSync(CHECKPOINT)) fs.unlinkSync(CHECKPOINT)
+    process.stdout.write(`\n${tag('done', c.green)} Written to ${bold(outFile)}\n`)
   process.stdout.write(dim(`Rules configured: ${Object.keys(state.allRules).length}\n`))
   process.stdout.write(dim(`Run: pnpm add -D eslint @eslint/js globals typescript-eslint eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-import\n\n`))
 
