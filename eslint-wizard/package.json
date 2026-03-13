@@ -2,9 +2,13 @@
   "name": "eslint-wizard",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": { "eslint-wizard": "./dist/index.js" },
+  "files": ["dist"],
   "scripts": {
-    "start": "npx tsx index.mts",
+    "start": "tsx index.mts",
+    "prepare": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,7 +17,6 @@
   "packageManager": "pnpm@10.32.1",
   "dependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.3",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -21,8 +24,9 @@
     "typescript-eslint": "^8.57.0"
   },
   "devDependencies": {
+    "@types/eslint": "^9.6.1",
     "@types/node": "^25.4.0",
-    "jiti": "^2.6.1",
+    "eslint": "^10.0.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
