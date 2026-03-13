@@ -1,5 +1,5 @@
 {
-  "outFile": "eslint.config.ts",
+  "outFile": "eslint.config.mts",
   "rules": {
     "accessor-pairs": "error",
     "array-callback-return": "warn",

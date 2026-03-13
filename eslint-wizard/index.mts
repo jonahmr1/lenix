@@ -4,9 +4,9 @@ import { fileURLToPath } from 'url'
 import path from 'path'
 import eslintJs from '@eslint/js'
 import tseslint from 'typescript-eslint'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import importPlugin from 'eslint-plugin-import'
+// import react from 'eslint-plugin-react'
+// import reactHooks from 'eslint-plugin-react-hooks'
+// import importPlugin from 'eslint-plugin-import'
 import type { ESLint } from 'eslint'
 
 type PluginWithRules = ESLint.Plugin & { rules: Record<string, any> }
@@ -189,28 +189,37 @@ function generateConfig(allRules: Record<string, string>): string {
     hasReact ? `import pluginReact from 'eslint-plugin-react'` : '',
     hasReact ? `import reactHooks from 'eslint-plugin-react-hooks'` : '',
     hasImp   ? `import importPlugin from 'eslint-plugin-import'` : '',
-    `import { defineConfig } from 'eslint/config'`,
     ``,
-    `export default defineConfig([`,
+    `export default [`,
+    `  { ignores: ['node_modules'] },`,
+    hasTs ? `  ...tseslint.configs.strictTypeChecked.map(config => ({ ...config, files: ['**/*.{ts,tsx,mts}'] })),` : '',
+    `  js.configs.recommended,`,
     `  {`,
-    `    files: ['**/*.{ts,tsx}'],`,
-    `    plugins: { js },`,
-    `    extends: ['js/recommended'],`,
+    `    files: ['**/*.{ts,tsx,mts}'],`,
     `    languageOptions: {`,
     `      globals: { ...globals.browser, ...globals.node },`,
     hasTs ? `      parserOptions: {\n        projectService: true,\n        tsconfigRootDir: import.meta.dirname,\n      },` : '',
     `    },`,
-    `    ignores: ['node_modules'],`,
     hasCore ? `    rules: ${ind(core, 4)},` : '',
     `  },`,
-    hasTs ? `  ...tseslint.configs.strictTypeChecked,` : '',
-    hasTs ? `  { rules: ${ind(ts, 4)} },` : '',
+    hasTs ? `  {\n    files: ['**/*.{ts,tsx,mts}'],\n    rules: ${ind(ts, 4)},\n  },` : '',
     hasReact ? `  pluginReact.configs.flat['jsx-runtime'],` : '',
     hasReact ? `  { settings: { react: { version: 'detect' } } },` : '',
     hasReact ? `  {\n    plugins: { 'react-hooks': reactHooks },\n    rules: ${ind(reactR, 4)},\n  },` : '',
     hasImp ? `  {\n    plugins: { import: importPlugin },\n    rules: ${ind(imp, 4)},\n  },` : '',
-    `])`,
+    `]`,
   ].filter(Boolean).join('\n')
+}
+
+const clone = process.argv.includes('--clone')
+if (clone) {
+  const src = path.join(process.env.HOME!, '.eslint-wizard-settings.json')
+  const data = JSON.parse(fs.readFileSync(src, 'utf8')) as CheckpointData
+  const config = generateConfig(data.rules)
+  fs.writeFileSync(data.outFile, config, 'utf8')
+  process.stdout.write(`${tag('done', c.green)} Written to ${bold(data.outFile)}\n`)
+  fs.closeSync(ttyFd)
+  process.exit(0)
 }
 
 async function main() {
@@ -222,7 +231,7 @@ async function main() {
   process.stdout.write(dim('o=off  w=warn  e=error  s/Enter=skip  q=save & exit\n\n'))
 
   const checkpoint = loadCheckpoint()
-  const state: State = { allRules: {}, completedSections: new Set(), outFile: 'eslint.config.ts', pausedSection: null, pausedAt: 0 }
+  const state: State = { allRules: {}, completedSections: new Set(), outFile: 'eslint.config.mts', pausedSection: null, pausedAt: 0 }
 
   if (checkpoint) {
     process.stdout.write(`${tag('found', c.yellow)} Saved progress detected (${Object.keys(checkpoint.rules).length} rules configured).\n`)
@@ -255,7 +264,7 @@ async function main() {
         outFile = readLine(pr('Enter new filename: ')).trim() || outFile
     }
     fs.writeFileSync(outFile, config, 'utf8')
-    if (fs.existsSync(CHECKPOINT)) fs.unlinkSync(CHECKPOINT)
+    // if (fs.existsSync(CHECKPOINT)) fs.unlinkSync(CHECKPOINT)
     process.stdout.write(`\n${tag('done', c.green)} Written to ${bold(outFile)}\n`)
   process.stdout.write(dim(`Rules configured: ${Object.keys(state.allRules).length}\n`))
   process.stdout.write(dim(`Run: pnpm add -D eslint @eslint/js globals typescript-eslint eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-import\n\n`))

@@ -1,17 +1,12 @@
 import js from '@eslint/js'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
-import importPlugin from 'eslint-plugin-import'
 export default [
-  { ignores: ['eslint.config.mts', 'node_modules'] },
-  ...tseslint.configs.strictTypeChecked.map(config => ({
-    ...config,
-    files: ['**/*.{ts,tsx,mts}'],
-  })),
+  { ignores: ['node_modules'] },
+  ...tseslint.configs.strictTypeChecked.map(config => ({ ...config, files: ['**/*.{ts,tsx,mts}'] })),
   js.configs.recommended,
   {
     files: ['**/*.{ts,tsx,mts}'],
-    plugins: { js },
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
       parserOptions: {
@@ -221,6 +216,7 @@ export default [
     },
   },
   {
+    files: ['**/*.{ts,tsx,mts}'],
     rules: {
       "@typescript-eslint/adjacent-overload-signatures": "error",
       "@typescript-eslint/array-type": "error",
@@ -346,13 +342,6 @@ export default [
       "@typescript-eslint/switch-exhaustiveness-check": "error",
       "@typescript-eslint/unbound-method": "warn",
       "@typescript-eslint/use-unknown-in-catch-callback-variable": "error"
-    } 
-  },
-  {
-    plugins: { import: importPlugin },
-    rules: {
-      "import/no-namespace": "error",
-      "import/no-mutable-exports": "error"
     },
   },
 ]
