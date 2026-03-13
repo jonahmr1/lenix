@@ -243,9 +243,9 @@ async function main() {
   const tsAll = buildPluginRules(((tseslint.plugin as unknown) as PluginWithRules).rules ?? {}, '@typescript-eslint')
   askSection('TypeScript', tsAll.filter(r => !r.requiresTypeChecking), state)
   askSection('TypeScript — type-aware', tsAll.filter(r => r.requiresTypeChecking), state)
-  askSection('React', buildPluginRules((react.rules ?? {}) as Record<string, any>, 'react'), state)
-  askSection('React Hooks', buildPluginRules((reactHooks.rules ?? {}) as Record<string, any>, 'react-hooks'), state)
-  askSection('Imports', buildPluginRules((importPlugin.rules ?? {}) as Record<string, any>, 'import'), state)
+  // askSection('React', buildPluginRules((react.rules ?? {}) as Record<string, any>, 'react'), state)
+  // askSection('React Hooks', buildPluginRules((reactHooks.rules ?? {}) as Record<string, any>, 'react-hooks'), state)
+  // askSection('Imports', buildPluginRules((importPlugin.rules ?? {}) as Record<string, any>, 'import'), state)
 
   const config = generateConfig(state.allRules)
   let outFile = state.outFile
