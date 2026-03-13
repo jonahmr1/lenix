@@ -232,6 +232,9 @@ async function main() {
 
   const checkpoint = loadCheckpoint()
   const state: State = { allRules: {}, completedSections: new Set(), outFile: 'eslint.config.mts', pausedSection: null, pausedAt: 0 }
+  const hasTs    = Object.keys(state.allRules).some(k => k.startsWith('@typescript-eslint/'))
+  const hasReact = Object.keys(state.allRules).some(k => k.startsWith('react/') || k.startsWith('react-hooks/'))
+  const hasImp   = Object.keys(state.allRules).some(k => k.startsWith('import/'))
 
   if (checkpoint) {
     process.stdout.write(`${tag('found', c.yellow)} Saved progress detected (${Object.keys(checkpoint.rules).length} rules configured).\n`)
@@ -258,17 +261,42 @@ async function main() {
 
   const config = generateConfig(state.allRules)
   let outFile = state.outFile
-    if (fs.existsSync(outFile)) {
-      const overwrite = readLine(pr(`\n${outFile} already exists. Overwrite? [y/N]: `)).trim().toLowerCase()
-      if (overwrite !== 'y')
-        outFile = readLine(pr('Enter new filename: ')).trim() || outFile
-    }
-    fs.writeFileSync(outFile, config, 'utf8')
-    // if (fs.existsSync(CHECKPOINT)) fs.unlinkSync(CHECKPOINT)
-    process.stdout.write(`\n${tag('done', c.green)} Written to ${bold(outFile)}\n`)
+  if (fs.existsSync(outFile)) {
+    const overwrite = readLine(pr(`\n${outFile} already exists. Overwrite? [y/N]: `)).trim().toLowerCase()
+    if (overwrite !== 'y')
+      outFile = readLine(pr('Enter new filename: ')).trim() || outFile
+  }
+  fs.writeFileSync(outFile, config, 'utf8')
+  // if (fs.existsSync(CHECKPOINT)) fs.unlinkSync(CHECKPOINT)
+  process.stdout.write(`\n${tag('done', c.green)} Written to ${bold(outFile)}\n`)
   process.stdout.write(dim(`Rules configured: ${Object.keys(state.allRules).length}\n`))
-  process.stdout.write(dim(`Run: pnpm add -D eslint @eslint/js globals typescript-eslint eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-import\n\n`))
+  const deps = [
+    'eslint',
+    '@eslint/js',
+    'globals',
+    hasTs ? 'typescript-eslint' : '',
+    hasReact ? 'eslint-plugin-react eslint-plugin-react-hooks' : '',
+    hasImp ? 'eslint-plugin-import' : '',
+  ].filter(Boolean).join(' ')
+  if (hasTs) {
+  const tsconfig = {
+    compilerOptions: {
+      target: 'ESNext',
+      module: 'NodeNext',
+      moduleResolution: 'NodeNext',
+      strict: true,
+    },
+    include: ['**/*.ts', '**/*.mts', '**/*.tsx'],
+    exclude: ['node_modules'],
+  }
+  if (!fs.existsSync('tsconfig.json'))
+    fs.writeFileSync('tsconfig.json', JSON.stringify(tsconfig, null, 2), 'utf8')
+  else
+    process.stdout.write(dim('tsconfig.json already exists, skipping.\n'))
+  }
 
+  const pm = fs.existsSync('pnpm-lock.yaml') ? 'pnpm' : fs.existsSync('yarn.lock') ? 'yarn' : 'npm'
+  process.stdout.write(dim(`Run: ${pm} add -D ${deps}\n\n`))
   fs.closeSync(ttyFd)
   process.exit(0)
 }

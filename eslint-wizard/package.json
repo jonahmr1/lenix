@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "dist/index.js",
-  "bin": { "eslint-wizard": "./dist/index.js" },
+  "main": "dist/index.mjs",
+  "bin": { "eslint-wizard": "./dist/index.mjs" },
   "files": ["dist"],
   "scripts": {
     "start": "tsx index.mts",
