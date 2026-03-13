@@ -222,6 +222,17 @@ if (clone) {
   process.exit(0)
 }
 
+const preset = process.argv.includes('--preset')
+if (preset) {
+  const res = await fetch('https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/eslint-wizard/.eslint-wizard-progress.json')
+  const data = await res.json() as CheckpointData
+  const config = generateConfig(data.rules)
+  fs.writeFileSync('eslint.config.mts', config, 'utf8')
+  process.stdout.write(`${tag('done', c.green)} Written to ${bold('eslint.config.tms')}\n`)
+  fs.closeSync(ttyFd)
+  process.exit(0)
+}
+
 async function main() {
   process.stdout.write('\x1Bc')
   process.stdout.write(title('╔════════════════════════════════╗\n'))
