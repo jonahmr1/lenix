@@ -200,7 +200,7 @@ function generateConfig(allRules: Record<string, string>): string {
     `      globals: { ...globals.browser, ...globals.node },`,
     hasTs ? `      parserOptions: {\n        projectService: true,\n        tsconfigRootDir: import.meta.dirname,\n      },` : '',
     `    },`,
-    `    ignores: ['dist', 'node_modules', 'src-tauri'],`,
+    `    ignores: ['node_modules'],`,
     hasCore ? `    rules: ${ind(core, 4)},` : '',
     `  },`,
     hasTs ? `  ...tseslint.configs.strictTypeChecked,` : '',

@@ -4,5 +4,6 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true
-  }
+  },
+  "include": ["**/*.ts", "**/*.mts"]
 }
