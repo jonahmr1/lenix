@@ -271,7 +271,6 @@ async function main() {
   process.stdout.write(`\n${tag('done', c.green)} Written to ${bold(outFile)}\n`)
   process.stdout.write(dim(`Rules configured: ${Object.keys(state.allRules).length}\n`))
   const deps = [
-    'eslint',
     '@eslint/js',
     'globals',
     hasTs ? 'typescript-eslint' : '',
@@ -279,20 +278,20 @@ async function main() {
     hasImp ? 'eslint-plugin-import' : '',
   ].filter(Boolean).join(' ')
   if (hasTs) {
-  const tsconfig = {
-    compilerOptions: {
-      target: 'ESNext',
-      module: 'NodeNext',
-      moduleResolution: 'NodeNext',
-      strict: true,
-    },
-    include: ['**/*.ts', '**/*.mts', '**/*.tsx'],
-    exclude: ['node_modules'],
-  }
-  if (!fs.existsSync('tsconfig.json'))
-    fs.writeFileSync('tsconfig.json', JSON.stringify(tsconfig, null, 2), 'utf8')
-  else
-    process.stdout.write(dim('tsconfig.json already exists, skipping.\n'))
+    const tsconfig = {
+      compilerOptions: {
+        target: 'ESNext',
+        module: 'NodeNext',
+        moduleResolution: 'NodeNext',
+        strict: true,
+      },
+      include: ['**/*.ts', '**/*.mts', '**/*.tsx'],
+      exclude: ['node_modules'],
+    }
+    if (!fs.existsSync('tsconfig.json'))
+      fs.writeFileSync('tsconfig.json', JSON.stringify(tsconfig, null, 2), 'utf8')
+    else
+      process.stdout.write(dim('tsconfig.json already exists, skipping.\n'))
   }
 
   const pm = fs.existsSync('pnpm-lock.yaml') ? 'pnpm' : fs.existsSync('yarn.lock') ? 'yarn' : 'npm'
