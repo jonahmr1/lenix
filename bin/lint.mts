@@ -11,7 +11,7 @@ import type { ESLint } from 'eslint'
 
 const [,, cmd, ...args] = process.argv
 if (cmd !== '--lint') {
-  process.stdout.write('Usage: lenix --lint [--preset] [--clone]\n')
+  process.stdout.write('Usage: lenix --lint [--preset]\n')
   process.exit(0)
 }
 process.argv = [process.argv[0], process.argv[1], ...args]
