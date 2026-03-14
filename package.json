@@ -23,18 +23,28 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "mac-lua-modules": "bin/mac-lua_modules.sh"
+    "mac-lua-modules": "bin/mac-lua_modules.sh",
+    "lenix": "./bin/lenix.js"
   },
   "files": [
     "dist",
     "bin"
   ],
   "scripts": {
-    "build": "tsc -p src/fxmanifest/tsconfig.json && tsc-alias"
+    "build": "tsc -p src/fxmanifest/tsconfig.json && tsc-alias && tsc -p bin/tsconfig.json"
   },
   "devDependencies": {
     "tsc-alias": "^1.8.16",
     "typescript": "^5.3.3",
-    "@types/node": "^20.7.1"
+    "@types/node": "^20.7.1",
+    "@eslint/js": "^10.0.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "globals": "^17.4.0",
+    "typescript-eslint": "^8.57.0",
+    "@types/eslint": "^9.6.1",
+    "eslint": "^10.0.3",
+    "tsx": "^4.21.0"
   }
 }

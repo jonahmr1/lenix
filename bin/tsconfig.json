@@ -4,8 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
-    "outDir": "dist"
+    "outDir": "bin/dist"
   },
-  "include": ["**/*.ts", "**/*.mts"],
-  "exclude": ["dist"]
+  "include": ["bin/lint.mts"]
 }
