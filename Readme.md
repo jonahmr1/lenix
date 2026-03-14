@@ -32,7 +32,7 @@ yarn add lenix
 [![](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/lenixdev/lenix)
 
 ## 🗺️ Roadmap
-- [ ]
+- [ ] fix the lint tsconfig.json file creation when no file is found
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/lenix)

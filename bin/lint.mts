@@ -236,7 +236,7 @@ if (preset) {
   const config = generateConfig(data.rules)
   fs.writeFileSync('eslint.config.mts', config, 'utf8')
   process.stdout.write(`${tag('done', c.green)} Written to ${bold('eslint.config.mts')}\n`)
-  process.stdout.write(`${tag('notice', c.cyan)} Run:  ${bold('npm add -D @eslint/js globals typescript-eslint')}\n`)
+  process.stdout.write(`${tag('notice', c.cyan)} Run: ${bold('npm add -D @eslint/js globals typescript-eslint')}\n`)
   fs.closeSync(ttyFd)
   process.exit(0)
 }
