@@ -228,7 +228,8 @@ if (preset) {
   const data = await res.json() as CheckpointData
   const config = generateConfig(data.rules)
   fs.writeFileSync('eslint.config.mts', config, 'utf8')
-  process.stdout.write(`${tag('done', c.green)} Written to ${bold('eslint.config.tms')}\n`)
+  process.stdout.write(`${tag('done', c.green)} Written to ${bold('eslint.config.mts')}\n`)
+  process.stdout.write(`${tag('notice', c.cyan)} Run:  ${bold('npm add -D @eslint/js globals typescript-eslint')}\n`)
   fs.closeSync(ttyFd)
   process.exit(0)
 }
