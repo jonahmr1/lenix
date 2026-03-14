@@ -1,11 +1,22 @@
 {
   "name": "lenix",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Helpful modules for the software engineers",
   "author": "Lenix",
   "license": "GPL-3.0",
   "type": "module",
-  "keywords": ["lenix", "modules", "typescript", "lua", "luarocks", "fivem", "fxmanifest", "api", "oop", "class"],
+  "keywords": [
+    "lenix",
+    "modules",
+    "typescript",
+    "lua",
+    "luarocks",
+    "fivem",
+    "fxmanifest",
+    "api",
+    "oop",
+    "class"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lenixdev/lenix.git"
@@ -16,7 +27,10 @@
     "mac-lua-modules": "bin/mac-lua_modules.sh",
     "lenix": "./bin/dist/lint.mjs"
   },
-  "files": ["dist", "bin"],
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
     "build": "tsc -p src/fxmanifest/tsconfig.json && tsc-alias && tsc -p bin/tsconfig.json"
   },
