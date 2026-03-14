@@ -45,7 +45,7 @@ function readLine(question: string): string {
   return result
 }
 
-const CHECKPOINT = '.eslint-preset.json'
+const CHECKPOINT = '.lint-preset.json'
 
 type State = {
   outFile: string
@@ -220,7 +220,7 @@ function generateConfig(allRules: Record<string, string>): string {
 
 const clone = process.argv.includes('--clone')
 if (clone) {
-  const src = path.join(process.env.HOME!, '.eslint-preset.json')
+  const src = path.join(process.env.HOME!, '.lint-preset.json')
   const data = JSON.parse(fs.readFileSync(src, 'utf8')) as CheckpointData
   const config = generateConfig(data.rules)
   fs.writeFileSync(data.outFile, config, 'utf8')
@@ -251,9 +251,6 @@ async function main() {
 
   const checkpoint = loadCheckpoint()
   const state: State = { allRules: {}, completedSections: new Set(), outFile: 'eslint.config.mts', pausedSection: null, pausedAt: 0 }
-  const hasTs    = Object.keys(state.allRules).some(k => k.startsWith('@typescript-eslint/'))
-  const hasReact = Object.keys(state.allRules).some(k => k.startsWith('react/') || k.startsWith('react-hooks/'))
-  const hasImp   = Object.keys(state.allRules).some(k => k.startsWith('import/'))
 
   if (checkpoint) {
     process.stdout.write(`${tag('found', c.yellow)} Saved progress detected (${Object.keys(checkpoint.rules).length} rules configured).\n`)
@@ -289,6 +286,9 @@ async function main() {
   // if (fs.existsSync(CHECKPOINT)) fs.unlinkSync(CHECKPOINT)
   process.stdout.write(`\n${tag('done', c.green)} Written to ${bold(outFile)}\n`)
   process.stdout.write(dim(`Rules configured: ${Object.keys(state.allRules).length}\n`))
+  const hasTs    = Object.keys(state.allRules).some(k => k.startsWith('@typescript-eslint/'))
+  const hasReact = Object.keys(state.allRules).some(k => k.startsWith('react/') || k.startsWith('react-hooks/'))
+  const hasImp   = Object.keys(state.allRules).some(k => k.startsWith('import/'))
   const deps = [
     '@eslint/js',
     'globals',
