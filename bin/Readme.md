@@ -21,4 +21,13 @@ print(inspect({name = "Lenix"}))
 ### What it does
 
 Adds environment variables to your shell config (for mac users: `~/.zshrc` or `~/.bashrc`) to automatically change your Lua modules configurations to `./lua_modules` instead of hidden nested directories.
+
+## ESLINT Usage
+### Build your own linter
+```zsh
+npx lenix --lint
+```
+### Clone a preset lint
+```zsh
+npx lenix --lint --preset
 ```

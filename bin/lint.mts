@@ -9,6 +9,13 @@ import tseslint from 'typescript-eslint'
 // import importPlugin from 'eslint-plugin-import'
 import type { ESLint } from 'eslint'
 
+const [,, cmd, ...args] = process.argv
+if (cmd !== '--lint') {
+  process.stdout.write('Usage: lenix --lint [--preset] [--clone]\n')
+  process.exit(0)
+}
+process.argv = [process.argv[0], process.argv[1], ...args]
+
 type PluginWithRules = ESLint.Plugin & { rules: Record<string, any> }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -38,7 +45,7 @@ function readLine(question: string): string {
   return result
 }
 
-const CHECKPOINT = '.eslint-wizard-progress.json'
+const CHECKPOINT = '.eslint-preset.json'
 
 type State = {
   outFile: string
@@ -153,7 +160,7 @@ function askSection(label: string, rules: RuleInfo[], state: State) {
     if (entry === 'save') {
       saveCheckpoint({ ...state, pausedSection: label, pausedAt: i })
       process.stdout.write(`\n${tag('saved', c.green)} Progress saved to ${bold(CHECKPOINT)}\n`)
-      process.stdout.write(dim('Run the wizard again to resume.\n\n'))
+      process.stdout.write(dim('Run the lint again to resume.\n\n'))
       fs.closeSync(ttyFd)
       process.exit(0)
     }
@@ -213,7 +220,7 @@ function generateConfig(allRules: Record<string, string>): string {
 
 const clone = process.argv.includes('--clone')
 if (clone) {
-  const src = path.join(process.env.HOME!, '.eslint-wizard-settings.json')
+  const src = path.join(process.env.HOME!, '.eslint-preset.json')
   const data = JSON.parse(fs.readFileSync(src, 'utf8')) as CheckpointData
   const config = generateConfig(data.rules)
   fs.writeFileSync(data.outFile, config, 'utf8')
@@ -224,7 +231,7 @@ if (clone) {
 
 const preset = process.argv.includes('--preset')
 if (preset) {
-  const res = await fetch('https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/eslint-wizard/.eslint-wizard-progress.json')
+  const res = await fetch('https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/bin/lint-preset.json')
   const data = await res.json() as CheckpointData
   const config = generateConfig(data.rules)
   fs.writeFileSync('eslint.config.mts', config, 'utf8')
@@ -236,9 +243,9 @@ if (preset) {
 
 async function main() {
   process.stdout.write('\x1Bc')
-  process.stdout.write(title('╔════════════════════════════════╗\n'))
-  process.stdout.write(title('║     ESLint Config Wizard       ║\n'))
-  process.stdout.write(title('╚════════════════════════════════╝\n'))
+  process.stdout.write(title('╔═══════════════════════╗\n'))
+  process.stdout.write(title('║     ESLint Config     ║\n'))
+  process.stdout.write(title('╚═══════════════════════╝\n'))
   process.stdout.write(dim('\nWalks through every rule across all plugins.\n'))
   process.stdout.write(dim('o=off  w=warn  e=error  s/Enter=skip  q=save & exit\n\n'))
 
