@@ -1,6 +1,6 @@
 # lenix
 
-Helpful modules for the software engineers
+The Monorepo for the software engineering community
 
 ![](https://img.shields.io/npm/d18m/lenix)
 ![](https://img.shields.io/npm/v/lenix)
