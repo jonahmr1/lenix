@@ -1,2 +1,2 @@
-export { wait } from '~/src/wait'
-export { safeRequest } from '~/src/fetch'
+export { wait } from '~/wait'
+export { safeRequest } from '~/fetch'
