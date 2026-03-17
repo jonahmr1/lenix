@@ -26,12 +26,12 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "mac-lua-modules": "bin/mac-lua_modules.sh",
+    "mac-lua-modules": "lua/mac-lua-modules.sh",
     "lenix": "./lint/dist/lint.mjs"
   },
   "files": [
     "dist",
-    "bin",
+    "lua",
     "lint"
   ],
   "scripts": {
