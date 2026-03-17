@@ -31,11 +31,11 @@
   },
   "files": [
     "ts/dist",
-    "lua",
+    "lua/dist",
     "lint"
   ],
   "scripts": {
-    "build": "tsc -p ts/fxmanifest/tsconfig.json && tsc-alias && tsc -p lint/tsconfig.json",
+    "build": "tsc -p ts/src/fxmanifest/tsconfig.json && tsc-alias && tsc -p lint/tsconfig.json",
     "bump": "pnpm version patch"
   },
   "dependencies": {
