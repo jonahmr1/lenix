@@ -35,7 +35,7 @@
     "lint"
   ],
   "scripts": {
-    "build": "tsc -p ts/src/fxmanifest/tsconfig.json && tsc-alias && tsc -p lint/tsconfig.json",
+    "build": "tsc -p ts/src/fxmanifest/tsconfig.json && tsc-alias && tsc -p lint/src/tsconfig.json",
     "bump": "pnpm version patch"
   },
   "dependencies": {
