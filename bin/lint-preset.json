@@ -12,7 +12,10 @@
     "consistent-return": "warn",
     "consistent-this": "warn",
     "constructor-super": "warn",
-    "curly": "error",
+    "curly": [
+      "error",
+      "multi"
+    ],
     "default-case": "error",
     "default-case-last": "error",
     "default-param-last": "error",
@@ -26,14 +29,21 @@
     "grouped-accessor-pairs": "error",
     "guard-for-in": "warn",
     "id-denylist": "warn",
-    "id-length": "error",
+    "id-length": [
+      "error",
+      {
+        "exceptions": [
+          "_"
+        ]
+      }
+    ],
     "id-match": "error",
     "init-declarations": "error",
     "logical-assignment-operators": "error",
     "max-classes-per-file": "error",
     "max-depth": "error",
     "max-lines": "error",
-    "max-lines-per-function": "error",
+    "max-lines-per-function": "warn",
     "max-nested-callbacks": "error",
     "max-params": "error",
     "max-statements": "error",
@@ -48,7 +58,7 @@
     "no-class-assign": "error",
     "no-compare-neg-zero": "error",
     "no-cond-assign": "warn",
-    "no-console": "error",
+    "no-console": "warn",
     "no-const-assign": "error",
     "no-constant-binary-expression": "warn",
     "no-constant-condition": "warn",
@@ -96,7 +106,18 @@
     "no-lonely-if": "error",
     "no-loop-func": "warn",
     "no-loss-of-precision": "error",
-    "no-magic-numbers": "error",
+    "no-magic-numbers": [
+      "error",
+      {
+        "detectObjects": true,
+        "enforceConst": true,
+        "ignore": [
+          0,
+          1
+        ],
+        "ignoreReadonlyClassProperties": true
+      }
+    ],
     "no-misleading-character-class": "warn",
     "no-multi-assign": "error",
     "no-multi-str": "error",
@@ -136,9 +157,9 @@
     "no-this-before-super": "error",
     "no-throw-literal": "error",
     "no-unassigned-vars": "error",
-    "no-undef": "warn",
+    "no-undef": "error",
     "no-undef-init": "error",
-    "no-undefined": "warn",
+    "no-undefined": "off",
     "no-underscore-dangle": "warn",
     "no-unexpected-multiline": "error",
     "no-unmodified-loop-condition": "warn",
@@ -168,7 +189,7 @@
     "no-warning-comments": "warn",
     "no-with": "error",
     "object-shorthand": "error",
-    "one-var": "error",
+    "one-var": "off",
     "operator-assignment": "warn",
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
@@ -189,8 +210,8 @@
     "require-await": "error",
     "require-unicode-regexp": "warn",
     "require-yield": "error",
-    "sort-imports": "warn",
-    "sort-keys": "error",
+    "sort-imports": "off",
+    "sort-keys": "off",
     "sort-vars": "error",
     "strict": "error",
     "symbol-description": "error",
@@ -211,9 +232,9 @@
     "@typescript-eslint/consistent-type-definitions": "error",
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/default-param-last": "warn",
-    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/init-declarations": "error",
     "@typescript-eslint/max-params": "error",
     "@typescript-eslint/member-ordering": "error",
@@ -231,7 +252,7 @@
     "@typescript-eslint/no-inferrable-types": "error",
     "@typescript-eslint/no-invalid-void-type": "error",
     "@typescript-eslint/no-loop-func": "error",
-    "@typescript-eslint/no-magic-numbers": "warn",
+    "@typescript-eslint/no-magic-numbers": "off",
     "@typescript-eslint/no-misused-new": "error",
     "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "warn",
@@ -266,7 +287,17 @@
     "@typescript-eslint/consistent-return": "error",
     "@typescript-eslint/consistent-type-exports": "error",
     "@typescript-eslint/dot-notation": "error",
-    "@typescript-eslint/naming-convention": "warn",
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "variable",
+        "format": [
+          "camelCase",
+          "UPPER_CASE",
+          "PascalCase"
+        ]
+      }
+    ],
     "@typescript-eslint/no-array-delete": "error",
     "@typescript-eslint/no-base-to-string": "warn",
     "@typescript-eslint/no-confusing-void-expression": "error",
@@ -279,14 +310,14 @@
     "@typescript-eslint/no-misused-promises": "error",
     "@typescript-eslint/no-misused-spread": "error",
     "@typescript-eslint/no-mixed-enums": "error",
-    "@typescript-eslint/no-redundant-type-constituents": "warn",
+    "@typescript-eslint/no-redundant-type-constituents": "error",
     "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
     "@typescript-eslint/no-unnecessary-condition": "error",
     "@typescript-eslint/no-unnecessary-qualifier": "warn",
     "@typescript-eslint/no-unnecessary-template-expression": "error",
     "@typescript-eslint/no-unnecessary-type-arguments": "error",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
-    "@typescript-eslint/no-unnecessary-type-conversion": "warn",
+    "@typescript-eslint/no-unnecessary-type-conversion": "error",
     "@typescript-eslint/no-unnecessary-type-parameters": "error",
     "@typescript-eslint/no-unsafe-argument": "error",
     "@typescript-eslint/no-unsafe-assignment": "error",
@@ -306,7 +337,12 @@
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/prefer-promise-reject-errors": "error",
     "@typescript-eslint/prefer-readonly": "error",
-    "@typescript-eslint/prefer-readonly-parameter-types": "error",
+    "@typescript-eslint/prefer-readonly-parameter-types": [
+      "error",
+      {
+        "ignoreInferredTypes": true
+      }
+    ],
     "@typescript-eslint/prefer-reduce-type-parameter": "error",
     "@typescript-eslint/prefer-regexp-exec": "warn",
     "@typescript-eslint/prefer-return-this-type": "error",
@@ -319,7 +355,7 @@
     "@typescript-eslint/restrict-template-expressions": "error",
     "@typescript-eslint/return-await": "error",
     "@typescript-eslint/strict-boolean-expressions": "error",
-    "@typescript-eslint/strict-void-return": "warn",
+    "@typescript-eslint/strict-void-return": "off",
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/unbound-method": "warn",
     "@typescript-eslint/use-unknown-in-catch-callback-variable": "error"
