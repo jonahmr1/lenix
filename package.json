@@ -23,19 +23,19 @@
     "type": "git",
     "url": "git+https://github.com/lenixdev/lenix.git"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./ts/dist/index.js",
+  "types": "./ts/dist/index.d.ts",
   "bin": {
     "mac-lua-modules": "lua/mac-lua-modules.sh",
     "lenix": "./lint/dist/lint.mjs"
   },
   "files": [
-    "dist",
+    "ts/dist",
     "lua",
     "lint"
   ],
   "scripts": {
-    "build": "tsc -p src/fxmanifest/tsconfig.json && tsc-alias && tsc -p lint/tsconfig.json"
+    "build": "tsc -p ts/fxmanifest/tsconfig.json && tsc-alias && tsc -p lint/tsconfig.json"
   },
   "dependencies": {
     "@eslint/js": "^10.0.1",
