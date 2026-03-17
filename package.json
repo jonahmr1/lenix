@@ -31,8 +31,8 @@
   },
   "files": [
     "ts/dist",
-    "lua/dist",
-    "lint"
+    "lua",
+    "lint/dist"
   ],
   "scripts": {
     "build": "tsc -p ts/src/fxmanifest/tsconfig.json && tsc-alias && tsc -p lint/src/tsconfig.json",
