@@ -1,5 +1,7 @@
 fn main() {
-    println!("Hello, world!");
+    dotenvy::dotenv().ok();
+    let api_key = std::env::var("GROQ_API_KEY").unwrap();
+    println!("Hello, Lenix!, You API Key is: {}", api_key);
 }
 
 /* 
