@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { execSync } from 'child_process'
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -18,6 +19,19 @@ export function activate(context: vscode.ExtensionContext) {
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from Lenix!');
 	});
+	
+	const button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left)
+	button.text = "$(sparkle) Generate Commit"
+	button.tooltip = "Generate commit message with AI"
+	button.command = "lenix.generateCommit"
+	button.show()
+	context.subscriptions.push(button)
+
+	vscode.commands.registerCommand("lenix.generateCommit", () => {
+		console.warn("Generate commit")
+		const result = execSync('git diff --cached').toString()
+		vscode.window.showInformationMessage(result)
+	})
 
 	context.subscriptions.push(disposable);
 }
