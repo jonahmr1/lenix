@@ -9,15 +9,39 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
+    "menus": {
+      "scm/title": [
+        {
+          "command": "lenix.composeCommit",
+          "group": "navigation",
+          "when": "scmProvider == git"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "lenix.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "lenix.composeCommit",
+        "title": "Lenix: Generate Commit",
+        "icon": "$(edit-sparkle)"
       }
-    ] 
+    ],
+    "configuration": {
+      "properties": {
+        "lenix.apiKey": {
+          "type": "string",
+          "description": "API Key"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
@@ -34,15 +58,19 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.110.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.56.1",
-    "eslint": "^9.39.3",
+    "@types/vscode": "^1.110.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "esbuild": "^0.27.3",
+    "eslint": "^9.39.3",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": {
+    "@vscode/webview-ui-toolkit": "^1.4.0",
+    "groq-sdk": "^1.1.1"
   }
 }

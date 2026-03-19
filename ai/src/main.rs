@@ -1,12 +1,12 @@
 use std::io::{self, Write};
-mod send;
+mod chatbot;
 
 #[tokio::main]
 async fn main() {
   // trigger the dotenvy's function to load tthe key
   dotenvy::dotenv().ok();
   // get the key from the environment
-  let api_key = std::env::var("GROQ_API_KEY").unwrap();
+  let api_key = std::env::var("API_KEY").unwrap();
   println!("Hello, Lenix!, You API Key is: {}", api_key);
 
   loop {
@@ -19,13 +19,13 @@ async fn main() {
 
     if input == "exit" { break }
 
-    let response = send::send_message(&api_key, input).await;
+    let response = chatbot::send_message(&api_key, input).await;
     if response.get("error").is_some() {
       println!("Code: {}", response["error"]["code"]);
       println!("Message: {}", response["error"]["message"]);
       println!("Type: {}", response["error"]["type"]);
       break;
-  }
+    }
     println!("AI: {}", response["choices"][0]["message"]["content"]);
   }
 }
