@@ -1,3 +1,4 @@
+use std::io::{self, Write};
 mod send;
 
 #[tokio::main]
@@ -7,9 +8,26 @@ async fn main() {
   // get the key from the environment
   let api_key = std::env::var("GROQ_API_KEY").unwrap();
   println!("Hello, Lenix!, You API Key is: {}", api_key);
-  
-  let body = send::send_message(&api_key).await;
-  println!("{}", body["choices"][0]["message"]["content"]);
+
+  loop {
+    print!("You: ");
+    io::stdout().flush().unwrap();
+
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).unwrap();
+    let input = input.trim();
+
+    if input == "exit" { break }
+
+    let response = send::send_message(&api_key, input).await;
+    if response.get("error").is_some() {
+      println!("Code: {}", response["error"]["code"]);
+      println!("Message: {}", response["error"]["message"]);
+      println!("Type: {}", response["error"]["type"]);
+      break;
+  }
+    println!("AI: {}", response["choices"][0]["message"]["content"]);
+  }
 }
 
 /*

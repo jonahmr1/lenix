@@ -1,4 +1,4 @@
-pub async fn send_message(api_key: &str) -> serde_json::Value {
+pub async fn send_message(api_key: &str, input: &str) -> serde_json::Value {
   // create a client for a new request
   let client = reqwest::Client::new();
 
@@ -14,7 +14,7 @@ pub async fn send_message(api_key: &str) -> serde_json::Value {
       "messages": [
         {
           "role": "user",
-          "content": "Say hello"
+          "content": input
         }
       ]
     }))
