@@ -3,8 +3,8 @@ import { execSync } from 'child_process'
 import Ai from 'groq-sdk';
 import { setup } from '../setup';
 
-const defaultModel: string = 'llama-3.1-8b-instant' as const
-const models: string[] = [
+const defaultModel = 'llama-3.1-8b-instant' as const
+const models: readonly string[] = [
   "allam-2-7b",
   "canopylabs/orpheus-arabic-saudi",
   "canopylabs/orpheus-v1-english",
@@ -23,10 +23,10 @@ const models: string[] = [
   "qwen/qwen3-32b",
   "whisper-large-v3",
   "whisper-large-v3-turbo",
-] as const
-let constructedInstance: false | Ai = false as const
-let availableModels: string[] = [] as const
-let modelChecked: boolean = false as const
+]
+let constructedInstance: false | Ai = false
+let availableModels: string[] = []
+let modelChecked: boolean = false
 
 const updateAiKey = (apiKey: string) => {
   if (!constructedInstance) {
@@ -42,9 +42,10 @@ const checkAiModelsRace = async (apiKey: string) => {
   const res = await fetch('https://api.groq.com/openai/v1/models', {
     headers: { 'Authorization': `Bearer ${apiKey}` }
   })
-  const data = await res.json() as { data: { id: string }[] }
+  const data = await res.json() as { data: { id: typeof models[number] }[] }
   availableModels = data.data.map(m => m.id)
-  vscode.window.showErrorMessage(`Models not in local list: ${availableModels.filter(m => !models.includes(m))}`)
+  const racedList = availableModels.filter(m => !models.includes(m))
+  racedList.length > 0 && vscode.window.showErrorMessage(`Models not in local list: ${racedList}`)
   modelChecked = true
 }
 
@@ -55,7 +56,7 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext) =>
     "Use Setup Page (recommended)",
     "Setup manually in settings"
   ).then(action => {
-    if (action === 'Use Setup Page (recommended)') setup(context, defaultModel, models)
+    if (action === 'Use Setup Page (recommended)') setup(context, defaultModel, models as string[])
     else if (action === 'Setup manually in settings') vscode.commands.executeCommand('workbench.action.openSettings', 'lenix.apiKey')
     })
 
