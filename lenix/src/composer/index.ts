@@ -91,7 +91,7 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext) =>
         repo.inputBox.value = commitMessage
       } catch (error: any) {
         vscode.window.showErrorMessage(
-          `Lenix: CODE: ${error.error.error.code}. MESSAGE: ${error.error.error.message}.`,
+          `CODE: ${error.error.error.code}. MESSAGE: ${error.error.error.message}.`,
           "Upgrade",
           "Change Model"
         ).then(action => {

@@ -8,7 +8,7 @@ export const setup = (context: vscode.ExtensionContext, defaultModel: string, mo
     { enableScripts: true, localResourceRoots: [context.extensionUri] }
   )
 
-  panel.webview.html = getWebviewContent(panel.webview, context.extensionUri, defaultModel, models)
+  panel.webview.html = getWebviewContent(defaultModel, models)
 
   panel.webview.onDidReceiveMessage(async msg => {
     await vscode.workspace.getConfiguration('lenix').update('apiKey', msg.key, true)
@@ -18,17 +18,12 @@ export const setup = (context: vscode.ExtensionContext, defaultModel: string, mo
   })
 }
 
-function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, defaultModel: string, models: string[]): string {
-  const toolkitUri = webview.asWebviewUri(
-    vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/webview-ui-toolkit', 'dist', 'toolkit.js')
-  )
-
+function getWebviewContent(defaultModel: string, models: string[]): string {
   return (
   `<!DOCTYPE html>
     <html>
     <head>
     <meta charset="UTF-8">
-    <script type="module" src="${toolkitUri}"><\/script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
@@ -133,15 +128,6 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, de
       a { color: var(--vscode-textLink-foreground); text-decoration: none; }
       a:hover { text-decoration: underline; }
 
-      vscode-text-field {
-        width: 100%;
-        margin-bottom: 1rem;
-      }
-
-      vscode-button {
-        width: 100%;
-      }
-
       .success {
         display: none;
         text-align: center;
@@ -151,6 +137,30 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, de
         font-family: 'IBM Plex Mono', monospace;
         animation: fadeUp 0.3s ease both;
       }
+      input, select {
+        width: 100%;
+        padding: 8px 10px;
+        background: var(--vscode-input-background);
+        color: var(--vscode-input-foreground);
+        border: 1px solid var(--vscode-input-border, #444);
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.8rem;
+        outline: none;
+        margin-bottom: 1rem;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background: var(--vscode-button-background);
+        color: var(--vscode-button-foreground);
+        border: none;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+
+      button:hover { opacity: 0.85; }
     </style>
     </head>
     <body>
@@ -162,12 +172,13 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, de
         <li><span class="step-num">02</span><span>Go to <a href="https://console.groq.com/keys">console.groq.com/keys</a> and Click <strong>Create API Key</strong> if you don't have one then submit</span></li>
         <li><span class="step-num">03</span><span>Click <strong>Copy</strong> and Paste your key in the input below</span></li>
       </ol>
-      <vscode-text-field id="key" type="password" placeholder="gsk_...">API Key <span style="color:red">*</span></vscode-text-field>
-      <vscode-text>Select model</vscode-text>
-      <vscode-dropdown id="model" style="width:100%;margin-bottom:1rem">
-        ${models.map(m => `<vscode-option value="${m}"${m === defaultModel ? ' selected' : ''}>${m}</vscode-option>`).join('')}
-      </vscode-dropdown>
-      <vscode-text>If you don't know what to choose the best for you, we recommed you pick one of the recommended model listed below based on your needs (rate limits, models, plans pricing, etc):</vscode-text>
+      <input id="key" type="password" placeholder="gsk_..." />
+      <label style="font-size:0.75rem;color:var(--vscode-descriptionForeground);margin-bottom:4px;display:block">Select model</label>
+      <select id="model">
+        ${models.map(m => `<option value="${m}"${m === defaultModel ? ' selected' : ''}>${m}</option>`).join('')}
+      </select>
+      <p style="font-size:0.75rem;color:var(--vscode-descriptionForeground);margin-bottom:0.75rem">If you don't know what to choose, pick one from the recommended models below based on your needs.</p>
+      <p style="font-size:0.75rem;color:var(--vscode-descriptionForeground);margin-bottom:1.5rem">Visit <a href="https://console.groq.com/docs/rate-limits#rate-limits">rate limits</a> and <a href="https://console.groq.com/docs/models">models</a> for more information.</p>
       <ul>
         <li><span>🏆 Best overall / most intelligent: <strong>openai/gpt-oss-120b</strong></span></li>
         <li><span>⚡ Best for speed: <strong>llama-3.1-8b-instant</strong></span></li>
@@ -176,9 +187,7 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, de
         <li><span>🔧 Best for tool use / function calling: <strong>llama-3.3-70b-versatile</strong></span></li>
         <li><span>🔍 Best with built-in web search: <strong>groq/compound</strong></span></li>
       </ul>
-
-      <vscode-text>To visit <a href="https://console.groq.com/docs/rate-limits#rate-limits">rate limits</a>, <a href="https://console.groq.com/docs/models">models</a> for more information</vscode-text>
-      <vscode-button style="margin-top:1rem" id="save" appearance="primary" onclick="save()">Save & Connect</vscode-button>
+      <button id="save" style="margin-top:1rem" onclick="save()">Save & Connect</button>
       <div class="success" id="success">✓ key saved — you're good to go</div>
     </div>
     <script>
