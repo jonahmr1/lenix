@@ -33,7 +33,7 @@
     "commands": [
       {
         "command": "lenix.composeCommit",
-        "title": "Lenix: Generate Commit",
+        "title": "Lenix: Compose Commit Message",
         "icon": "$(edit-sparkle)"
       },
       {

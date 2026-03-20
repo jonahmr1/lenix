@@ -37,8 +37,9 @@ yarn add lenix
 - [ ] use walkthrough instead of custom page
 - [ ] use webview to add quick settings
 - [ ] use modal dialog to confirm the walkthrough
-- [ ] use progressive notify
+- [x] use progressive notify
 - [ ] use add commit reminder
+- [ ] add a revert last commit button
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/lenix)
