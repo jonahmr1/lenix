@@ -1,13 +1,20 @@
 {
   "name": "lenix",
   "displayName": "Lenix",
+  "publisher": "Lenix",
   "description": "Lenix's complete extentions",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lenixdev/lenix.git"
+  },
   "engines": {
     "vscode": "^1.110.0"
   },
   "categories": [
-    "Other"
+    "AI",
+    "SCM Providers"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -43,14 +50,6 @@
         "lenix.aiModel": {
           "type": "string",
           "default": "llama-3.1-8b-instant",
-          "recommended": [
-            "openai/gpt-oss-120b",
-            "llama-3.1-8b-instant",
-            "qwen/qwen3-32b",
-            "moonshotai/kimi-k2-instruct-0905",
-            "llama-3.3-70b-versatile",
-            "groq/compound"
-          ],
           "enum": [
             "llama-3.1-8b-instant",
             "openai/gpt-oss-120b",
@@ -64,6 +63,7 @@
             "meta-llama/llama-prompt-guard-2-86m",
             "moonshotai/kimi-k2-instruct",
             "canopylabs/orpheus-v1-english",
+            "groq/compound-mini",
             "openai/gpt-oss-20b",
             "openai/gpt-oss-safeguard-20b",
             "canopylabs/orpheus-arabic-saudi",

@@ -38,7 +38,7 @@ const updateAiKey = (apiKey: string) => {
   return constructedInstance
 }
 
-const checkAiModelsRace = async (apiKey: string) => {
+const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
   if (modelChecked) return
   const res = await fetch('https://api.groq.com/openai/v1/models', {
     headers: { 'Authorization': `Bearer ${apiKey}` }
@@ -46,15 +46,18 @@ const checkAiModelsRace = async (apiKey: string) => {
   const data = await res.json() as { data: { id: typeof models[number] }[] }
   availableModels = data.data.map(m => m.id)
   const racedList = availableModels.filter(m => !models.includes(m))
-  racedList.length > 0 && vscode.window.showErrorMessage(`Lenix: Models not in local list: ${racedList}`)
+  if (racedList.length > 0) {
+    notify.report(racedList, bar)
+  }
+
   modelChecked = true
 }
 
-export const composeCommitMessage =  async (context: vscode.ExtensionContext) => {
+export const composeCommitMessage =  async (context: vscode.ExtensionContext, bar: vscode.StatusBarItem) => {
   const apiKey = vscode.workspace.getConfiguration('lenix').get<string>('apiKey')
   if (!apiKey) return notify.setup(() => setup(context, defaultModel, models as string[]))
 
-  await checkAiModelsRace(apiKey)
+  await checkAiModelsRace(apiKey, bar)
 
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
   if (!workspaceFolder) return vscode.window.showErrorMessage('Lenix: No workspace open')
