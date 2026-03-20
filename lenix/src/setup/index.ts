@@ -13,7 +13,7 @@ export const setup = (context: vscode.ExtensionContext, defaultModel: string, mo
   panel.webview.onDidReceiveMessage(async msg => {
     await vscode.workspace.getConfiguration('lenix').update('apiKey', msg.key, true)
     await vscode.workspace.getConfiguration('lenix').update('aiModel', msg.model, true)
-    vscode.window.showInformationMessage('Setup complete!')
+    vscode.window.showInformationMessage('Lenix: Setup complete!')
     panel.dispose()
   })
 }

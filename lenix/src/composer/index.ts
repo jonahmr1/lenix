@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { execSync } from 'child_process'
 import Ai from 'groq-sdk';
 import { setup } from '../setup';
+import notify from '../notify';
 
 const defaultModel = 'llama-3.1-8b-instant' as const
 const models: readonly string[] = [
@@ -45,33 +46,26 @@ const checkAiModelsRace = async (apiKey: string) => {
   const data = await res.json() as { data: { id: typeof models[number] }[] }
   availableModels = data.data.map(m => m.id)
   const racedList = availableModels.filter(m => !models.includes(m))
-  racedList.length > 0 && vscode.window.showErrorMessage(`Models not in local list: ${racedList}`)
+  racedList.length > 0 && vscode.window.showErrorMessage(`Lenix: Models not in local list: ${racedList}`)
   modelChecked = true
 }
 
 export const composeCommitMessage =  async (context: vscode.ExtensionContext) => {
   const apiKey = vscode.workspace.getConfiguration('lenix').get<string>('apiKey')
-  if (!apiKey) return vscode.window.showInformationMessage(
-    "Seems like you don't have an API key set, let's do that first",
-    "Use Setup Page (recommended)",
-    "Setup manually in settings"
-  ).then(action => {
-    if (action === 'Use Setup Page (recommended)') setup(context, defaultModel, models as string[])
-    else if (action === 'Setup manually in settings') vscode.commands.executeCommand('workbench.action.openSettings', 'lenix.apiKey')
-    })
+  if (!apiKey) return notify.setup(() => setup(context, defaultModel, models as string[]))
 
   await checkAiModelsRace(apiKey)
 
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
-  if (!workspaceFolder) return vscode.window.showErrorMessage('No workspace open')
+  if (!workspaceFolder) return vscode.window.showErrorMessage('Lenix: No workspace open')
 
   const diff = execSync('git diff --cached', { cwd: workspaceFolder }).toString()
-  if (diff === '') return vscode.window.showErrorMessage('No changes staged for commit')
+  if (diff === '') return vscode.window.showErrorMessage('Lenix: No changes staged for commit')
 
   const ai = updateAiKey(apiKey)
 
   const model = vscode.workspace.getConfiguration('lenix').get<string>('aiModel')
-  if (!model) return vscode.window.showErrorMessage('Unexpected: No model selected, it should\'ve been set by the setup process by default, but something went wrong')
+  if (!model) return vscode.window.showErrorMessage('Lenix: Unexpected: No model selected, it should\'ve been set by the setup process by default, but something went wrong')
   try {
     vscode.window.withProgress({
       location: vscode.ProgressLocation.SourceControl,
@@ -89,7 +83,7 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext) =>
           ]
         })
         const commitMessage = response.choices[0].message.content
-        if (typeof commitMessage !== 'string') return vscode.window.showErrorMessage('Expected the response from the LLM to have a string in nest')
+        if (typeof commitMessage !== 'string') return vscode.window.showErrorMessage('Lenix: Expected the response from the LLM to have a string in nest')
 
         const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
         const git = gitExtension.getAPI(1)
@@ -97,7 +91,7 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext) =>
         repo.inputBox.value = commitMessage
       } catch (error: any) {
         vscode.window.showErrorMessage(
-          `CODE: ${error.error.error.code}. MESSAGE: ${error.error.error.message}.`,
+          `Lenix: CODE: ${error.error.error.code}. MESSAGE: ${error.error.error.message}.`,
           "Upgrade",
           "Change Model"
         ).then(action => {
@@ -107,7 +101,7 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext) =>
       }
     })
   } catch (error) {
-    vscode.window.showErrorMessage('Composer throwed')
+    vscode.window.showErrorMessage('Lenix: Composer throwed')
     throw error
   }
 }

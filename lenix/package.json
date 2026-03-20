@@ -25,10 +25,6 @@
     },
     "commands": [
       {
-        "command": "lenix.helloWorld",
-        "title": "Hello World"
-      },
-      {
         "command": "lenix.composeCommit",
         "title": "Lenix: Generate Commit",
         "icon": "$(edit-sparkle)"
