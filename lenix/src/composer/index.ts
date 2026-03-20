@@ -55,26 +55,25 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 }
 
 export const composeCommitMessage =  async (context: vscode.ExtensionContext, bar: vscode.StatusBarItem) => {
-  const apiKey = vscode.workspace.getConfiguration('lenix').get<string>('apiKey')
-  if (!apiKey) return notify.setup(() => setup(context, defaultModel, models as string[]))
-
-  await checkAiModelsRace(apiKey, bar)
-
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
   if (!workspaceFolder) return vscode.window.showErrorMessage('Lenix: No workspace open')
 
   const diff = execSync('git diff --cached', { cwd: workspaceFolder }).toString()
-  const branch = execSync('git branch --show-current', { cwd: workspaceFolder }).toString().trim()
-  const log = execSync('git log --oneline -5', { cwd: workspaceFolder }).toString().trim()
-  const files = execSync('git diff --cached --name-only', { cwd: workspaceFolder }).toString().trim()
-  const truncatedDiff = diff.length > MAX_DIFF_TOKENS ? diff.slice(0, MAX_DIFF_TOKENS) + '\n... (truncated)' : diff
-
   if (diff === '') return vscode.window.showErrorMessage('Lenix: No changes staged for commit')
-
-  const ai = updateAiKey(apiKey)
 
   const model = vscode.workspace.getConfiguration('lenix').get<string>('aiModel')
   if (!model) return vscode.window.showErrorMessage('Lenix: Unexpected: No model selected, it should\'ve been set by the setup process by default, but something went wrong')
+
+  const apiKey = vscode.workspace.getConfiguration('lenix').get<string>('apiKey')
+  if (!apiKey) return notify.setup(() => setup(context, defaultModel, models as string[]))
+
+  await checkAiModelsRace(apiKey, bar)
+  const ai = updateAiKey(apiKey)
+  const truncatedDiff = diff.length > MAX_DIFF_TOKENS ? diff.slice(0, MAX_DIFF_TOKENS) + '\n... (truncated)' : diff
+  const branch = execSync('git branch --show-current', { cwd: workspaceFolder }).toString().trim()
+  const log = execSync('git log --oneline -5', { cwd: workspaceFolder }).toString().trim()
+  const files = execSync('git diff --cached --name-only', { cwd: workspaceFolder }).toString().trim()
+
   try {
     vscode.window.withProgress({
       location: vscode.ProgressLocation.SourceControl,
