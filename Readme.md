@@ -33,7 +33,7 @@ yarn add lenix
 
 ## 🗺️ Roadmap
 - [ ] fix the lint tsconfig.json file creation when no file is found
-- [ ] trim the diff's unusefull text
+- [-] trim the diff's unusefull text
 - [ ] use walkthrough instead of custom page
 - [ ] use webview to add quick settings
 - [ ] use modal dialog to confirm the walkthrough

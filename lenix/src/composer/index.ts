@@ -4,6 +4,7 @@ import Ai from 'groq-sdk';
 import { setup } from '../setup';
 import notify from '../notify';
 
+const MAX_DIFF_TOKENS = 3000 as const
 const defaultModel = 'llama-3.1-8b-instant' as const
 const models: readonly string[] = [
   "allam-2-7b",
@@ -66,6 +67,7 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext, ba
   const branch = execSync('git branch --show-current', { cwd: workspaceFolder }).toString().trim()
   const log = execSync('git log --oneline -5', { cwd: workspaceFolder }).toString().trim()
   const files = execSync('git diff --cached --name-only', { cwd: workspaceFolder }).toString().trim()
+  const truncatedDiff = diff.length > MAX_DIFF_TOKENS ? diff.slice(0, MAX_DIFF_TOKENS) + '\n... (truncated)' : diff
 
   if (diff === '') return vscode.window.showErrorMessage('Lenix: No changes staged for commit')
 
@@ -94,7 +96,7 @@ Recent commits:
 ${log}
 
 Diff:
-${diff}`
+${truncatedDiff}`
             }
           ]
         })
