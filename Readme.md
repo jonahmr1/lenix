@@ -33,6 +33,7 @@ yarn add lenix
 
 ## 🗺️ Roadmap
 - [ ] fix the lint tsconfig.json file creation when no file is found
+- [ ] trim the diff's unsefull text
 
 ## 🧾License
 ![](https://img.shields.io/npm/l/lenix)

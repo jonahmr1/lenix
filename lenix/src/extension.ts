@@ -14,7 +14,9 @@ export function activate(context: vscode.ExtensionContext) {
 	bar.show()
 
 	const settings = vscode.commands.registerCommand('lenix.settings', () => {
-		vscode.window.showInformationMessage('Lenix Commit message composer', );
+		vscode.window.showInformationMessage('Lenix commit message composer', 'Open Lenix in settings').then((action) => {
+			if (action === 'Open Lenix in settings') vscode.commands.executeCommand('workbench.action.openSettings', 'lenix.')
+		});
 	});
 
 	vscode.commands.registerCommand("lenix.composeCommit", () => composeCommitMessage(context))

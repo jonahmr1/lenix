@@ -174,7 +174,7 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, de
         <li><span>🧠 Best for reasoning / hard problems: <strong>qwen/qwen3-32b</strong></span></li>
         <li><span>🌐 Best for long documents: <strong>moonshotai/kimi-k2-instruct-0905</strong></span></li>
         <li><span>🔧 Best for tool use / function calling: <strong>llama-3.3-70b-versatile</strong></span></li>
-        <li><span>🔍 Best with built-in web search: <strong>groq-compound</strong></span></li>
+        <li><span>🔍 Best with built-in web search: <strong>groq/compound</strong></span></li>
       </ul>
 
       <vscode-text>To visit <a href="https://console.groq.com/docs/rate-limits#rate-limits">rate limits</a>, <a href="https://console.groq.com/docs/models">models</a> for more information</vscode-text>

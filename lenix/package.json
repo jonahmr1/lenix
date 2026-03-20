@@ -42,32 +42,58 @@
       "properties": {
         "lenix.apiKey": {
           "type": "string",
-          "description": "API Key"
+          "description": "API Key, control access: https://console.groq.com/keys"
         },
         "lenix.aiModel": {
           "type": "string",
           "default": "llama-3.1-8b-instant",
-          "enum": [
-            "allam-2-7b",
-            "canopylabs/orpheus-arabic-saudi",
-            "canopylabs/orpheus-v1-english",
-            "groq/compound",
-            "groq/compound-mini",
+          "recommended": [
+            "openai/gpt-oss-120b",
             "llama-3.1-8b-instant",
+            "qwen/qwen3-32b",
+            "moonshotai/kimi-k2-instruct-0905",
             "llama-3.3-70b-versatile",
+            "groq/compound"
+          ],
+          "enum": [
+            "llama-3.1-8b-instant",
+            "openai/gpt-oss-120b",
+            "qwen/qwen3-32b",
+            "moonshotai/kimi-k2-instruct-0905",
+            "llama-3.3-70b-versatile",
+            "groq/compound",
+            "allam-2-7b",
             "meta-llama/llama-4-scout-17b-16e-instruct",
             "meta-llama/llama-prompt-guard-2-22m",
             "meta-llama/llama-prompt-guard-2-86m",
             "moonshotai/kimi-k2-instruct",
-            "moonshotai/kimi-k2-instruct-0905",
-            "openai/gpt-oss-120b",
+            "canopylabs/orpheus-v1-english",
             "openai/gpt-oss-20b",
             "openai/gpt-oss-safeguard-20b",
-            "qwen/qwen3-32b",
+            "canopylabs/orpheus-arabic-saudi",
             "whisper-large-v3",
             "whisper-large-v3-turbo"
           ],
-          "description": "AI model to use"
+          "enumDescriptions": [
+            "⚡ Best for speed",
+            "🏆 Best overall / most intelligent",
+            "🧠 Best for reasoning / hard problems",
+            "🌐 Best for long documents",
+            "🔧 Best for tool use / function calling",
+            "🔍 Best with built-in web search",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "description": "AI model that will be used to compose the commit message, Docs: https://console.groq.com/docs"
         }
       }
     }
