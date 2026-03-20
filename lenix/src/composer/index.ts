@@ -63,6 +63,10 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext, ba
   if (!workspaceFolder) return vscode.window.showErrorMessage('Lenix: No workspace open')
 
   const diff = execSync('git diff --cached', { cwd: workspaceFolder }).toString()
+  const branch = execSync('git branch --show-current', { cwd: workspaceFolder }).toString().trim()
+  const log = execSync('git log --oneline -5', { cwd: workspaceFolder }).toString().trim()
+  const files = execSync('git diff --cached --name-only', { cwd: workspaceFolder }).toString().trim()
+
   if (diff === '') return vscode.window.showErrorMessage('Lenix: No changes staged for commit')
 
   const ai = updateAiKey(apiKey)
@@ -81,7 +85,16 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext, ba
           messages: [
             {
               role: 'user',
-              content: `Generate a single git commit message following Conventional Commits format (type(scope): description). Return only the commit message, no explanation, no quotes, no alternatives:\n\n${diff}`
+              content:
+`Generate a single git commit message following Conventional Commits format (type(scope): description). Return only the commit message, no explanation, no quotes, no alternatives.
+
+Branch: ${branch}
+Files changed: ${files}
+Recent commits:
+${log}
+
+Diff:
+${diff}`
             }
           ]
         })
