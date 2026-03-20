@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-export const setup = (context: vscode.ExtensionContext) => {
+export const setup = (context: vscode.ExtensionContext, defaultModel: string, models: string[]) => {
   const panel = vscode.window.createWebviewPanel(
     'lenixSetup',
     'Lenix Setup',
@@ -8,16 +8,17 @@ export const setup = (context: vscode.ExtensionContext) => {
     { enableScripts: true, localResourceRoots: [context.extensionUri] }
   )
 
-  panel.webview.html = getWebviewContent(panel.webview, context.extensionUri)
+  panel.webview.html = getWebviewContent(panel.webview, context.extensionUri, defaultModel, models)
 
   panel.webview.onDidReceiveMessage(async msg => {
     await vscode.workspace.getConfiguration('lenix').update('apiKey', msg.key, true)
-    vscode.window.showInformationMessage('API key saved!')
+    await vscode.workspace.getConfiguration('lenix').update('aiModel', msg.model, true)
+    vscode.window.showInformationMessage('Setup complete!')
     panel.dispose()
   })
 }
 
-function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri): string {
+function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, defaultModel: string, models: string[]): string {
   const toolkitUri = webview.asWebviewUri(
     vscode.Uri.joinPath(extensionUri, 'node_modules', '@vscode/webview-ui-toolkit', 'dist', 'toolkit.js')
   )
@@ -156,25 +157,38 @@ function getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri): s
     <div class="card">
       <div class="badge">Lenix — one-time setup</div>
       <h1>Connect to Groq</h1>
-      <p class="subtitle">Free tier · 14k requests/day · no credit card</p>
       <ol class="steps">
-        <li><span class="step-num">01</span><span>Go to <a href="https://console.groq.com/keys">console.groq.com/keys</a></span></li>
-        <li><span class="step-num">02</span><span>Sign up for a free account</span></li>
-        <li><span class="step-num">03</span><span>Click <strong>Create API Key</strong></span></li>
-        <li><span class="step-num">04</span><span>Paste your key below</span></li>
+        <li><span class="step-num">01</span><span>Login into your account or create one if you don't have one already <a href="https://console.groq.com/home">console.groq.com/home</a></span></li>
+        <li><span class="step-num">02</span><span>Go to <a href="https://console.groq.com/keys">console.groq.com/keys</a> and Click <strong>Create API Key</strong> if you don't have one then submit</span></li>
+        <li><span class="step-num">03</span><span>Click <strong>Copy</strong> and Paste your key in the input below</span></li>
       </ol>
-      <vscode-text-field id="key" type="password" placeholder="gsk_...">API Key</vscode-text-field>
-      <vscode-button id="save" appearance="primary" onclick="save()">Save & Connect</vscode-button>
+      <vscode-text-field id="key" type="password" placeholder="gsk_...">API Key <span style="color:red">*</span></vscode-text-field>
+      <vscode-text>Select model</vscode-text>
+      <vscode-dropdown id="model" style="width:100%;margin-bottom:1rem">
+        ${models.map(m => `<vscode-option value="${m}"${m === defaultModel ? ' selected' : ''}>${m}</vscode-option>`).join('')}
+      </vscode-dropdown>
+      <vscode-text>If you don't know what to choose the best for you, we recommed you pick one of the recommended model listed below based on your needs (rate limits, models, plans pricing, etc):</vscode-text>
+      <ul>
+        <li><span>🏆 Best overall / most intelligent: <strong>openai/gpt-oss-120b</strong></span></li>
+        <li><span>⚡ Best for speed: <strong>llama-3.1-8b-instant</strong></span></li>
+        <li><span>🧠 Best for reasoning / hard problems: <strong>qwen/qwen3-32b</strong></span></li>
+        <li><span>🌐 Best for long documents: <strong>moonshotai/kimi-k2-instruct-0905</strong></span></li>
+        <li><span>🔧 Best for tool use / function calling: <strong>llama-3.3-70b-versatile</strong></span></li>
+        <li><span>🔍 Best with built-in web search: <strong>groq-compound</strong></span></li>
+      </ul>
+
+      <vscode-text>To visit <a href="https://console.groq.com/docs/rate-limits#rate-limits">rate limits</a>, <a href="https://console.groq.com/docs/models">models</a> for more information</vscode-text>
+      <vscode-button style="margin-top:1rem" id="save" appearance="primary" onclick="save()">Save & Connect</vscode-button>
       <div class="success" id="success">✓ key saved — you're good to go</div>
     </div>
     <script>
       const vscode = acquireVsCodeApi()
 
       function save() {
-        const field = document.getElementById('key')
-        const key = field.value.trim()
+        const key = document.getElementById('key').value.trim()
         if (!key) return
-        vscode.postMessage({ key })
+        const model = document.getElementById('model').value
+        vscode.postMessage({ key, model })
         document.getElementById('save').textContent = 'Saved'
         document.getElementById('save').disabled = true
         document.getElementById('success').style.display = 'block'

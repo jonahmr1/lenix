@@ -32,6 +32,10 @@
         "command": "lenix.composeCommit",
         "title": "Lenix: Generate Commit",
         "icon": "$(edit-sparkle)"
+      },
+      {
+        "command": "lenix.settings",
+        "title": "Lenix: Open Settings"
       }
     ],
     "configuration": {
@@ -39,6 +43,31 @@
         "lenix.apiKey": {
           "type": "string",
           "description": "API Key"
+        },
+        "lenix.aiModel": {
+          "type": "string",
+          "default": "llama-3.1-8b-instant",
+          "enum": [
+            "allam-2-7b",
+            "canopylabs/orpheus-arabic-saudi",
+            "canopylabs/orpheus-v1-english",
+            "groq/compound",
+            "groq/compound-mini",
+            "llama-3.1-8b-instant",
+            "llama-3.3-70b-versatile",
+            "meta-llama/llama-4-scout-17b-16e-instruct",
+            "meta-llama/llama-prompt-guard-2-22m",
+            "meta-llama/llama-prompt-guard-2-86m",
+            "moonshotai/kimi-k2-instruct",
+            "moonshotai/kimi-k2-instruct-0905",
+            "openai/gpt-oss-120b",
+            "openai/gpt-oss-20b",
+            "openai/gpt-oss-safeguard-20b",
+            "qwen/qwen3-32b",
+            "whisper-large-v3",
+            "whisper-large-v3-turbo"
+          ],
+          "description": "AI model to use"
         }
       }
     }
@@ -63,6 +92,7 @@
     "@types/vscode": "^1.110.0",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.7.1",
     "esbuild": "^0.27.3",
     "eslint": "^9.39.3",
     "npm-run-all": "^4.1.5",
