@@ -44,7 +44,7 @@ const checkAiModelsRace = async (apiKey: string) => {
   })
   const data = await res.json() as { data: { id: string }[] }
   availableModels = data.data.map(m => m.id)
-  console.debug('Models not in local list:', availableModels.filter(m => !models.includes(m)))
+  vscode.window.showErrorMessage(`Models not in local list: ${availableModels.filter(m => !models.includes(m))}`)
   modelChecked = true
 }
 
@@ -77,22 +77,33 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext) =>
       title: "Composing commit message...",
       cancellable: false
     }, async () => {
-      const response = await ai.chat.completions.create({
-        model,
-        messages: [
-          {
-            role: 'user',
-            content: `Generate a single git commit message following Conventional Commits format (type(scope): description). Return only the commit message, no explanation, no quotes, no alternatives:\n\n${diff}`
-          }
-        ]
-      })
-      const commitMessage = response.choices[0].message.content
-      if (typeof commitMessage !== 'string') return vscode.window.showErrorMessage('Expected the response from the LLM to have a string in nest')
+      try {
+        const response = await ai.chat.completions.create({
+          model,
+          messages: [
+            {
+              role: 'user',
+              content: `Generate a single git commit message following Conventional Commits format (type(scope): description). Return only the commit message, no explanation, no quotes, no alternatives:\n\n${diff}`
+            }
+          ]
+        })
+        const commitMessage = response.choices[0].message.content
+        if (typeof commitMessage !== 'string') return vscode.window.showErrorMessage('Expected the response from the LLM to have a string in nest')
 
-      const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
-      const git = gitExtension.getAPI(1)
-      const repo = git.repositories[0]
-      repo.inputBox.value = commitMessage
+        const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
+        const git = gitExtension.getAPI(1)
+        const repo = git.repositories[0]
+        repo.inputBox.value = commitMessage
+      } catch (error: any) {
+        vscode.window.showErrorMessage(
+          `CODE: ${error.error.error.code}. MESSAGE: ${error.error.error.message}.`,
+          "Upgrade",
+          "Change Model"
+        ).then(action => {
+          if (action === 'Upgrade') vscode.env.openExternal(vscode.Uri.parse('https://console.groq.com/settings/billing'))
+          else if (action === 'Change Model') vscode.commands.executeCommand('workbench.action.openSettings', 'lenix.aiModel')
+        })
+      }
     })
   } catch (error) {
     vscode.window.showErrorMessage('Composer throwed')
