@@ -73,7 +73,6 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext, ba
   const branch = execSync('git branch --show-current', { cwd: workspaceFolder }).toString().trim()
   const log = execSync('git log --oneline -5', { cwd: workspaceFolder }).toString().trim()
   const files = execSync('git diff --cached --name-only', { cwd: workspaceFolder }).toString().trim()
-
   try {
     vscode.window.withProgress({
       location: vscode.ProgressLocation.SourceControl,
@@ -105,7 +104,21 @@ ${truncatedDiff}`
         const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
         const git = gitExtension.getAPI(1)
         const repo = git.repositories[0]
+        let lastHead = repo.state.HEAD?.commit
         repo.inputBox.value = commitMessage
+
+        vscode.window.withProgress({
+          location: vscode.ProgressLocation.Window,
+          title: "Lenix: Please review the commit message before committing",
+        }, () => new Promise<void>(resolve => {
+          const listener = repo.state.onDidChange(() => {
+            const currentHead = repo.state.HEAD?.commit
+            if (currentHead !== lastHead) {
+              listener.dispose()
+              resolve()
+            }
+          })
+        }))
       } catch (error: any) {
         vscode.window.showErrorMessage(
           `CODE: ${error.error.error.code}. MESSAGE: ${error.error.error.message}.`,
