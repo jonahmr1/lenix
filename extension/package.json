@@ -3,7 +3,7 @@
   "displayName": "Lenix Suite",
   "publisher": "Lenix",
   "description": "All-in-one extension, AI commit message composer/generator",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "icon": "icon.png",
   "repository": {
     "type": "git",
@@ -106,7 +106,8 @@
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "bypasspublish": "vsce package --out lenix.vsix"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",

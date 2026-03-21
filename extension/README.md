@@ -7,9 +7,9 @@ The All-in-one extension, AI commit message composer/generator
 1. __Commit message composer__: Compose a git commit message in seconds based on the changes staged in the current git repository with AI.
 - Here is a preview of the extension and how it works:
   1. Generate a new commit
-  ![Generate commit](https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/lenix/assets/img_a.png)
+  ![Generate commit](https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/extension/assets/img_a.png)
   2. Review & Commit the changes
-  ![Review and commit](https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/lenix/assets/img_b.png)
+  ![Review and commit](https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/extension/assets/img_b.png)
 
 > Tip: If you are willing to request more often; meaning clicking the generate commit much more than usual, switch to an AI model with more __request credit__.
 
