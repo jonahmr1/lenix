@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { execSync } from 'child_process'
 import Ai from 'groq-sdk';
 import { setup } from '../setup';
 import notify from '../notify';
@@ -54,15 +53,22 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
   modelChecked = true
 }
 
-export const composeCommitMessage =  async (context: vscode.ExtensionContext, bar: vscode.StatusBarItem) => {
-  const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
-  if (!workspaceFolder) return vscode.window.showErrorMessage('Lenix: No workspace open')
+export const composeCommitMessage = async (context: vscode.ExtensionContext, bar: vscode.StatusBarItem) => {
+  const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
+  if (!gitExtension) return vscode.window.showErrorMessage('Lenix: Git extension not available')
 
-  const diff = execSync('git diff --cached', { cwd: workspaceFolder }).toString()
-  if (diff === '') return vscode.window.showErrorMessage('Lenix: No changes staged for commit')
+  const git = gitExtension.getAPI(1)
+  const repo = git.repositories.find((r: any) => r.ui.selected)
+  if (!repo) return vscode.window.showErrorMessage('Lenix: No git repository found')
+
+  if (!vscode.workspace.workspaceFolders?.[0]) return vscode.window.showErrorMessage('Lenix: No workspace open')
+
+  await repo.status()
+  const diff = await repo.diff(true)
+  if (!diff) return vscode.window.showErrorMessage('Lenix: No changes staged for commit')
 
   const model = vscode.workspace.getConfiguration('lenix').get<string>('aiModel')
-  if (!model) return vscode.window.showErrorMessage('Lenix: Unexpected: No model selected, it should\'ve been set by the setup process by default, but something went wrong')
+  if (!model) return vscode.window.showErrorMessage('Lenix: Unexpected: No model selected')
 
   const apiKey = vscode.workspace.getConfiguration('lenix').get<string>('apiKey')
   if (!apiKey) return notify.setup(() => setup(context, defaultModel, models as string[]))
@@ -70,9 +76,9 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext, ba
   await checkAiModelsRace(apiKey, bar)
   const ai = updateAiKey(apiKey)
   const truncatedDiff = diff.length > MAX_DIFF_TOKENS ? diff.slice(0, MAX_DIFF_TOKENS) + '\n... (truncated)' : diff
-  const branch = execSync('git branch --show-current', { cwd: workspaceFolder }).toString().trim()
-  const log = execSync('git log --oneline -5', { cwd: workspaceFolder }).toString().trim()
-  const files = execSync('git diff --cached --name-only', { cwd: workspaceFolder }).toString().trim()
+  const branch = repo.state.HEAD?.name ?? ''
+  const files = repo.state.indexChanges.map((c: any) => c.uri.fsPath).join('\n')
+
   try {
     vscode.window.withProgress({
       location: vscode.ProgressLocation.SourceControl,
@@ -82,28 +88,21 @@ export const composeCommitMessage =  async (context: vscode.ExtensionContext, ba
       try {
         const response = await ai.chat.completions.create({
           model,
-          messages: [
-            {
-              role: 'user',
-              content:
+          messages: [{
+            role: 'user',
+            content:
 `Generate a single git commit message following Conventional Commits format (type(scope): description). Return only the commit message, no explanation, no quotes, no alternatives.
 
 Branch: ${branch}
 Files changed: ${files}
-Recent commits:
-${log}
 
 Diff:
 ${truncatedDiff}`
-            }
-          ]
+          }]
         })
         const commitMessage = response.choices[0].message.content
         if (typeof commitMessage !== 'string') return vscode.window.showErrorMessage('Lenix: Expected the response from the LLM to have a string in nest')
 
-        const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
-        const git = gitExtension.getAPI(1)
-        const repo = git.repositories[0]
         let lastHead = repo.state.HEAD?.commit
         repo.inputBox.value = commitMessage
 
@@ -112,8 +111,7 @@ ${truncatedDiff}`
           title: "Lenix: Please review the commit message before committing",
         }, () => new Promise<void>(resolve => {
           const listener = repo.state.onDidChange(() => {
-            const currentHead = repo.state.HEAD?.commit
-            if (currentHead !== lastHead) {
+            if (repo.state.HEAD?.commit !== lastHead) {
               listener.dispose()
               resolve()
             }
