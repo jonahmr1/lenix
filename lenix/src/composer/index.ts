@@ -91,7 +91,9 @@ export const composeCommitMessage = async (context: vscode.ExtensionContext, bar
           messages: [{
             role: 'user',
             content:
-`Generate a single git commit message following Conventional Commits format (type(scope): description). Return only the commit message, no explanation, no quotes, no alternatives.
+`Generate a single git commit message following Conventional Commits format (type(scope): description).
+Return only the commit message, no explanation, no quotes, no alternatives.
+IMPORTANT: Your response must be a single line only. No markdown, no explanation, no reasoning, no alternatives. Only the commit message itself.
 
 Branch: ${branch}
 Files changed: ${files}
