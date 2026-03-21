@@ -4,12 +4,12 @@
     "module": "esnext",
     "strict": true,
     "declaration": true,
-    "outDir": "./ts/dist",
+    "outDir": "./modules/dist",
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["ts/src/*"]
+      "~/*": ["modules/src/*"]
     }
   },
-  "include": ["ts/src/**/*"]
+  "include": ["modules/src/**/*"]
 }
