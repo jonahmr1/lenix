@@ -1,6 +1,6 @@
 # Lenix Suite
 
-The Omniextension for the software engineering community
+The All-in-one extension, AI commit message composer/generator
 
 ## Features
 
@@ -16,7 +16,7 @@ The Omniextension for the software engineering community
 > Tip: If you stage too much files at once or commit with big changes context, consider to use an AI model with more __token credit__.
 
 ## Requirements
-- None
+- An account with [Groq](https://console.groq.com) to access dozens of AI models. (steps already included in the setup walkthrough, we got you covered :)
 
 ## Extension Settings
 
@@ -26,10 +26,11 @@ This extension contributes the following settings:
 * `lenix.aiModel`: Select your suitable AI model.
 
 ## Known Issues
+
 - None
 
 ## For more information
 
-* [Lenix Dev Contact Form](http://lenix.dev/#contact)
+* [Lenix Contact Form](http://lenix.dev/#contact)
 
 **Enjoy!**
