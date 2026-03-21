@@ -11,10 +11,10 @@
     "typescript",
     "lua",
     "luarocks",
+    "oop",
     "fivem",
     "fxmanifest",
     "api",
-    "oop",
     "class",
     "eslint",
     "linter"
@@ -26,12 +26,12 @@
   "main": "./ts/dist/index.js",
   "types": "./ts/dist/index.d.ts",
   "bin": {
-    "mac-lua-modules": "lua/mac-lua-modules.sh",
+    "mac-lua-modules": "oop/mac-lua-modules.sh",
     "lenix": "./lint/dist/lint.mjs"
   },
   "files": [
     "ts/dist",
-    "lua",
+    "oop",
     "lint/dist"
   ],
   "scripts": {
