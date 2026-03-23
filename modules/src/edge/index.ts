@@ -4,7 +4,7 @@ export interface CreateUser<Role> {
   role: Role
   password: string
 }
-export interface UserAccount<Role, Label> {
+export interface UserAccount<Role, Label = unknown | string> {
   id: string
   identifier: string
   role: Role
