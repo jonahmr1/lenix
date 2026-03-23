@@ -337,7 +337,7 @@
     "@typescript-eslint/prefer-promise-reject-errors": "error",
     "@typescript-eslint/prefer-readonly": "error",
     "@typescript-eslint/prefer-readonly-parameter-types": [
-      "error",
+      "warn",
       {
         "ignoreInferredTypes": true
       }
