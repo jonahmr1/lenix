@@ -1,3 +1,4 @@
 export { wait } from '~/wait'
-export { safeRequest } from '~/fetch'
+export { caughtFetch } from '~/fetch'
 export { entries } from '~/entries'
+export { lint } from '~/lint'

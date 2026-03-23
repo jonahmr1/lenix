@@ -3,7 +3,7 @@
  * @param endpoint - endpoint of the URL (e.g. users/lenixdev)
  * @param request - request options (e.g. { method: 'GET' })
  */
-export const safeRequest = async (domain: string, endpoint: string, request?: RequestInit) => {
+export const caughtFetch = async (domain: string, endpoint: string, request?: RequestInit) => {
   try {
     return await fetch(`https://${domain}/${endpoint}`, request)
   } catch(error) {

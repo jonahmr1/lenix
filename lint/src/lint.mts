@@ -18,8 +18,6 @@ process.argv = [process.argv[0], process.argv[1], ...args]
 
 type PluginWithRules = ESLint.Plugin & { rules: Record<string, any> }
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
 const c = { reset:'\x1b[0m',bold:'\x1b[1m',dim:'\x1b[2m',cyan:'\x1b[36m',yellow:'\x1b[33m',green:'\x1b[32m',red:'\x1b[31m',blue:'\x1b[34m',magenta:'\x1b[35m',gray:'\x1b[90m' }
 const title   = (s: string) => `${c.bold}${c.cyan}${s}${c.reset}`
 const section = (s: string) => `\n${c.bold}${c.blue}━━ ${s} ━━${c.reset}`
@@ -176,44 +174,36 @@ function askSection(label: string, rules: RuleInfo[], state: State) {
 function generateConfig(allRules: Record<string, string>): string {
   const core: Record<string, string> = {}
   const ts: Record<string, string> = {}
-  const reactR: Record<string, string> = {}
-  const imp: Record<string, string> = {}
   for (const [k, v] of Object.entries(allRules)) {
     if (k.startsWith('@typescript-eslint/')) ts[k] = v
-    else if (k.startsWith('react/') || k.startsWith('react-hooks/')) reactR[k] = v
-    else if (k.startsWith('import/')) imp[k] = v
     else core[k] = v
   }
-  const hasTs    = Object.keys(ts).length > 0
-  const hasReact = Object.keys(reactR).length > 0
-  const hasImp   = Object.keys(imp).length > 0
-  const hasCore  = Object.keys(core).length > 0
-  const ind = (o: object, n: number) => JSON.stringify(o, null, 2).split('\n').map((l, i) => i === 0 ? l : ' '.repeat(n) + l).join('\n')
+  const ind = (o: object) => JSON.stringify(o, null, 2).split('\n').map((l, i) => i === 0 ? l : '      ' + l).join('\n')
   return [
     `import js from '@eslint/js'`,
     `import globals from 'globals'`,
-    hasTs    ? `import tseslint from 'typescript-eslint'` : '',
-    hasReact ? `import pluginReact from 'eslint-plugin-react'` : '',
-    hasReact ? `import reactHooks from 'eslint-plugin-react-hooks'` : '',
-    hasImp   ? `import importPlugin from 'eslint-plugin-import'` : '',
+    `import tseslint from 'typescript-eslint'`,
+    `import { dirname } from 'path'`,
+    `import { fileURLToPath } from 'url'`,
+    ``,
+    `const __dirname = dirname(fileURLToPath(import.meta.url))`,
     ``,
     `export default [`,
-    `  { ignores: ['node_modules'] },`,
-    hasTs ? `  ...tseslint.configs.strictTypeChecked.map(config => ({ ...config, files: ['**/*.{ts,tsx,mts}'] })),` : '',
+    `  { ignores: ['node_modules', 'dist'] },`,
     `  js.configs.recommended,`,
+    `  ...tseslint.configs.strictTypeChecked,`,
     `  {`,
     `    files: ['**/*.{ts,tsx,mts}'],`,
     `    languageOptions: {`,
     `      globals: { ...globals.browser, ...globals.node },`,
-    hasTs ? `      parserOptions: {\n        projectService: true,\n        tsconfigRootDir: import.meta.dirname,\n      },` : '',
+    `      parserOptions: {`,
+    `        projectService: true,`,
+    `        tsconfigRootDir: __dirname,`,
+    `      },`,
     `    },`,
-    hasCore ? `    rules: ${ind(core, 4)},` : '',
+    `    rules: ${ind(core)},`,
     `  },`,
-    hasTs ? `  {\n    files: ['**/*.{ts,tsx,mts}'],\n    rules: ${ind(ts, 4)},\n  },` : '',
-    hasReact ? `  pluginReact.configs.flat['jsx-runtime'],` : '',
-    hasReact ? `  { settings: { react: { version: 'detect' } } },` : '',
-    hasReact ? `  {\n    plugins: { 'react-hooks': reactHooks },\n    rules: ${ind(reactR, 4)},\n  },` : '',
-    hasImp ? `  {\n    plugins: { import: importPlugin },\n    rules: ${ind(imp, 4)},\n  },` : '',
+    Object.keys(ts).length > 0 ? `  {\n    files: ['**/*.{ts,tsx,mts}'],\n    rules: ${ind(ts)},\n  },` : '',
     `]`,
   ].filter(Boolean).join('\n')
 }
@@ -231,7 +221,8 @@ if (clone) {
 
 const preset = process.argv.includes('--preset')
 if (preset) {
-  const res = await fetch('https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/bin/lint-preset.json')
+  process.stdout.write(`${tag('IMPORTANT', c.red)}: This tool is deprecated, import our rules instead, e.g ${bold('import { lint } from "lenix"')}`)
+  const res = await fetch('https://raw.githubusercontent.com/LenixDev/lenix/refs/heads/main/lint/src/lint-preset.json')
   const data = await res.json() as CheckpointData
   const config = generateConfig(data.rules)
   fs.writeFileSync('eslint.config.mts', config, 'utf8')
@@ -242,6 +233,7 @@ if (preset) {
 }
 
 async function main() {
+  process.stdout.write(`${tag('IMPORTANT', c.red)}: This tool is deprecated')}`)
   process.stdout.write('\x1Bc')
   process.stdout.write(title('╔═══════════════════════╗\n'))
   process.stdout.write(title('║     ESLint Config     ║\n'))

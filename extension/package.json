@@ -2,8 +2,8 @@
   "name": "lenix",
   "displayName": "Lenix Suite",
   "publisher": "Lenix",
-  "description": "All-in-one extension, AI commit message composer/generator",
-  "version": "0.0.1",
+  "description": "All-in-one extension, Fast light weight AI commit message composer/generator",
+  "version": "0.0.10",
   "icon": "icon.png",
   "repository": {
     "type": "git",
