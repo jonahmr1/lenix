@@ -1,0 +1,6 @@
+{
+  "name": "@lenix/edge",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": "./modules/src/index.ts"
+}
