@@ -26,15 +26,19 @@
   },
   "main": "./modules/src/index.ts",
   "types": "./modules/src/index.ts",
-  "bin": {
-    "mac-lua-modules": "oop/mac-lua-modules.sh",
-    "lenix": "./lint/dist/lint.mjs"
+  "exports": {
+    ".": "./modules/src/index.ts",
+    "./lint": "./modules/src/lint/preset.json"
   },
   "files": [
     "modules/src",
     "oop",
     "lint/dist"
   ],
+  "bin": {
+    "mac-lua-modules": "oop/mac-lua-modules.sh",
+    "lenix": "./lint/dist/lint.mjs"
+  },
   "scripts": {
     "build-lint": "tsc -p lint/src/tsconfig.json",
     "bump": "pnpm version patch"
