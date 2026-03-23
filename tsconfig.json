@@ -4,11 +4,9 @@
     "module": "esnext",
     "strict": true,
     "declaration": true,
-    "outDir": "./modules/dist",
     "moduleResolution": "bundler",
-    "baseUrl": ".",
     "paths": {
-      "~/*": ["modules/src/*"]
+      "~/*": ["./modules/src/*"]
     }
   },
   "include": ["modules/src/**/*"]
