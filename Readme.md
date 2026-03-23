@@ -18,3 +18,21 @@ The All-in-one Repository
 - [ ] Implement the complete annotation
 - [ ] Provide Documentation
 - [ ] Clearify the installation steps
+
+## Usage
+### Lint
+```ts
+import lint from 'lenix/lint' with { type: "json" }
+languageOptions: {
+  [....],
+  parserOptions: {
+    projectService: true,
+    tsconfigRootDir: import.meta.dirname,
+  },
+  [....],
+}
+rules: {
+  [....],
+  ...lint.strict
+  [....],
+}
