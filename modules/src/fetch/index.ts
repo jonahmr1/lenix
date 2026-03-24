@@ -1,4 +1,5 @@
 /**
+ * A wrapper for fetch that throws an error if the request fails.
  * @param domain - domain of the URL (e.g. api.github.com)
  * @param endpoint - endpoint of the URL (e.g. users/lenixdev)
  * @param request - request options (e.g. { method: 'GET' })

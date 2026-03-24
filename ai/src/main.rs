@@ -26,6 +26,12 @@ async fn main() {
       println!("Type: {}", response["error"]["type"]);
       break;
     }
-    println!("AI: {}", response["choices"][0]["message"]["content"]);
+    let content = &response["choices"][0]["message"]["content"].as_str().unwrap();
+
+    let texts = content.split("\n");
+    
+    for text in texts {
+      println!("AI: {}", text);
+    }
   }
 }
