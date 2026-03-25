@@ -23,16 +23,20 @@ The All-in-one Repository
 ### Lint
 ```ts
 import lint from 'lenix/lint' with { type: "json" }
-languageOptions: {
-  [....],
-  parserOptions: {
-    projectService: true,
-    tsconfigRootDir: import.meta.dirname,
+{
+  ...
+  languageOptions: {
+    ...,
+    parserOptions: {
+      projectService: true,
+      tsconfigRootDir: import.meta.dirname,
+    },
+    ...,
   },
-  [....],
-}
-rules: {
-  [....],
-  ...lint.strict
-  [....],
-}
+  rules: {
+    ...,
+    ...lint.strict,
+    ...,
+  }
+  ...
+},
