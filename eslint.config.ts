@@ -7,6 +7,7 @@ import lint from 'lenix/lint' with { type: 'json' }
 
 export default defineConfig([
 	{
+		ignores: ['lint/**'],
 		files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
 		plugins: { js },
 		extends: ['js/recommended', prettier],
@@ -17,7 +18,7 @@ export default defineConfig([
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
-    // @ts-ignore
+		// @ts-expect-error - Somehow eslint RuleConfig type is requiring an unknown value on each key
 		rules: lint.strict,
 	},
 	tseslint.configs.recommended,
