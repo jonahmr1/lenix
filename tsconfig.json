@@ -5,9 +5,11 @@
     "strict": true,
     "declaration": true,
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "paths": {
-      "~/*": ["./modules/src/*"]
+      "~/*": ["./*"]
     }
   },
-  "include": ["modules/src/**/*"]
+  "include": ["**/*.ts"]
 }
