@@ -7,7 +7,9 @@ import lint from 'lenix/lint' with { type: 'json' }
 
 export default defineConfig([
 	{
-		ignores: ['lint/**'],
+    ignores: ['lint/**', 'extension/**'],
+  },
+	{
 		files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
 		plugins: { js },
 		extends: ['js/recommended', prettier],
