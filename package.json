@@ -42,7 +42,8 @@
 	"scripts": {
 		"build-lint": "tsc -p lint/src/tsconfig.json",
 		"bump": "pnpm version patch",
-		"format": "pnpm exec prettier . --write"
+		"format": "pnpm exec prettier . --write",
+		"lint": "pnpm exec eslint ."
 	},
 	"dependencies": {
 		"@clack/prompts": "^1.1.0",
