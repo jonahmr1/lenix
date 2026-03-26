@@ -41,25 +41,27 @@
 	},
 	"scripts": {
 		"build-lint": "tsc -p lint/src/tsconfig.json",
-		"bump": "pnpm version patch"
+		"bump": "pnpm version patch",
+		"format": "pnpm exec prettier . --write"
 	},
 	"dependencies": {
 		"@clack/prompts": "^1.1.0",
-		"@eslint/js": "^10.0.1",
-		"eslint": "^10.0.3",
 		"eslint-plugin-import": "^2.32.0",
 		"eslint-plugin-react": "^7.37.5",
-		"eslint-plugin-react-hooks": "^7.0.1",
-		"globals": "^17.4.0",
-		"typescript-eslint": "^8.57.0"
+		"eslint-plugin-react-hooks": "^7.0.1"
 	},
 	"devDependencies": {
+		"@eslint/js": "^10.0.1",
 		"@types/eslint": "^9.6.1",
 		"@types/node": "^20.7.1",
+		"eslint": "^10.0.3",
 		"eslint-config-prettier": "10.1.8",
+		"globals": "^17.4.0",
+		"jiti": "^2.6.1",
 		"prettier": "3.8.1",
 		"tsc-alias": "^1.8.16",
 		"tsx": "^4.21.0",
-		"typescript": "^5.3.3"
+		"typescript": "^5.3.3",
+		"typescript-eslint": "^8.57.0"
 	}
 }
