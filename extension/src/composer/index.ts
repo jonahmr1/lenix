@@ -4,7 +4,7 @@ import { setup } from '../setup';
 import notify from '../notify';
 
 const MAX_DIFF_TOKENS = 3000 as const
-const defaultModel = 'llama-3.1-8b-instant' as const
+const defaultModel = 'openai/gpt-oss-120b' as const
 const models: readonly string[] = [
   "allam-2-7b",
   "canopylabs/orpheus-arabic-saudi",

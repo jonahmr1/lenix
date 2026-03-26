@@ -10,7 +10,7 @@ pub async fn send_message(api_key: &str, input: &str) -> serde_json::Value {
     .header("Content-Type", "application/json")
     // stringify the body
     .json(&serde_json::json!({
-      "model": "llama-3.1-8b-instant",
+      "model": "openai/gpt-oss-120b",
       "messages": [
         {
           "role": "user",

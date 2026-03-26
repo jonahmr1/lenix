@@ -49,10 +49,10 @@
         },
         "lenix.aiModel": {
           "type": "string",
-          "default": "llama-3.1-8b-instant",
+          "default": "openai/gpt-oss-120b",
           "enum": [
-            "llama-3.1-8b-instant",
             "openai/gpt-oss-120b",
+            "llama-3.1-8b-instant",
             "qwen/qwen3-32b",
             "moonshotai/kimi-k2-instruct-0905",
             "llama-3.3-70b-versatile",
