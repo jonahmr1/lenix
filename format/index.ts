@@ -8,19 +8,19 @@ const install = await confirm({
 	message:
 		'Install prettier + eslint-config-prettier(to prevent conflicts)? (see https://prettier.io/docs/install)',
 })
-if (install) {
-	const s = spinner()
-	s.start('Installing...')
+if (install === true) {
+	const span = spinner()
+	span.start('Installing...')
 	execSync('pnpm add --save-dev --save-exact prettier eslint-config-prettier', {
 		stdio: 'pipe',
 	})
-	s.stop('Installed')
+	span.stop('Installed')
 }
 
-const rc = await confirm({ message: 'Create .prettierrc with a preset?' })
-if (rc) {
-	const preset = await import('./preset.json').then(m =>
-		JSON.stringify(m.default, null, 2),
+const prompt = await confirm({ message: 'Create .prettierrc with a preset?' })
+if (prompt === true) {
+	const preset = await import('./preset.json').then(file =>
+		JSON.stringify(file.default, null, 2),
 	)
 	fs.writeFileSync('.prettierrc', `${preset}\n`)
 	log.success('Created .prettierrc with a preset')
@@ -29,7 +29,7 @@ if (rc) {
 const ignore = await confirm({
 	message: 'Create .prettierignore? (see https://prettier.io/docs/ignore)',
 })
-if (ignore) {
+if (ignore === true) {
 	fs.writeFileSync('.prettierignore', '# Ignore artifacts:\nbuild\ncoverage\n')
 	log.success('Created .prettierignore')
 }
@@ -54,11 +54,11 @@ await confirm({ message: 'Done?' })
 const format = await confirm({
 	message: 'Run prettier on existing files now to test it out?',
 })
-if (format) {
-	const s = spinner()
-	s.start('Formatting...')
+if (format === true) {
+	const span = spinner()
+	span.start('Formatting...')
 	execSync('pnpm exec prettier . --write', { stdio: 'pipe' })
-	s.stop('Formatted')
+	span.stop('Formatted')
 }
 
 outro('Prettier setup complete!')
