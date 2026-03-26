@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import fs from 'fs'
-import { fileURLToPath } from 'url'
 import path from 'path'
 import eslintJs from '@eslint/js'
 import tseslint from 'typescript-eslint'
