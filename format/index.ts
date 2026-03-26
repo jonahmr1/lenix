@@ -25,14 +25,14 @@ if (ignore) {
   log.success('Created .prettierignore')
 }
 
-log.warn('Manual — copy paste the import below and add "prettier" to the `end` of your ESLint extends')
-log.info("++ import prettier from 'eslint-config-prettier' ++")
+log.warn('Manual (optional) — copy paste the import below and add "prettier" to the `end` of your ESLint extends')
+log.info("---> import prettier from 'eslint-config-prettier' <---")
 await confirm({ message: 'Done?' })
 
-log.warn('Manual — add to .vscode/settings.json:\n  "editor.formatOnSave": true\n  "editor.defaultFormatter": "esbenp.prettier-vscode"')
+log.warn('Manual — add to .vscode/settings.json:\n  "editor.formatOnSave": true,\n  "editor.defaultFormatter": "esbenp.prettier-vscode"')
 await confirm({ message: 'Done?' })
 
-log.warn('Manual — add to .vscode/extensions.json (inside "recommendations" array):\n  "esbenp.prettier-vscode"')
+log.warn('Manual (optional) — add to .vscode/extensions.json (inside "recommendations" array):\n  "esbenp.prettier-vscode"')
 log.info('like: "recommendations": ["esbenp.prettier-vscode"]')
 await confirm({ message: 'Done?' })
 
