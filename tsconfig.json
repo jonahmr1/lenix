@@ -1,15 +1,15 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "declaration": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "paths": {
-      "~/*": ["./*"]
-    }
-  },
-  "include": ["**/*.ts"]
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"strict": true,
+		"declaration": true,
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		"paths": {
+			"~/*": ["./*"]
+		}
+	},
+	"include": ["**/*.ts"]
 }

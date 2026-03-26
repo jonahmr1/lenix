@@ -1,17 +1,17 @@
-export type Events = "users-management"
+export type Events = 'users-management'
 export interface CreateUser<Role> {
-  identifier: string
-  role: Role
-  password: string
+	identifier: string
+	role: Role
+	password: string
 }
 export interface UserAccount<Role, Label = unknown | string> {
-  id: string
-  identifier: string
-  role: Role
-  roleLabel: Label
+	id: string
+	identifier: string
+	role: Role
+	roleLabel: Label
 }
 export interface DeleteUser {
-  identifier: string
+	identifier: string
 }
 
 /**

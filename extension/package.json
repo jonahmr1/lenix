@@ -1,128 +1,128 @@
 {
-  "name": "lenix",
-  "displayName": "Lenix Suite",
-  "publisher": "Lenix",
-  "description": "All-in-one extension, Fast light weight AI commit message composer/generator",
-  "version": "0.0.10",
-  "icon": "icon.png",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lenixdev/lenix.git"
-  },
-  "engines": {
-    "vscode": "^1.110.0"
-  },
-  "categories": [
-    "AI",
-    "SCM Providers"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "menus": {
-      "scm/title": [
-        {
-          "command": "lenix.composeCommit",
-          "group": "navigation",
-          "when": "scmProvider == git"
-        }
-      ]
-    },
-    "commands": [
-      {
-        "command": "lenix.composeCommit",
-        "title": "Lenix: Compose Commit Message",
-        "icon": "$(edit-sparkle)"
-      },
-      {
-        "command": "lenix.settings",
-        "title": "Lenix: Open Settings"
-      }
-    ],
-    "configuration": {
-      "properties": {
-        "lenix.apiKey": {
-          "type": "string",
-          "description": "API Key, control access: https://console.groq.com/keys"
-        },
-        "lenix.aiModel": {
-          "type": "string",
-          "default": "openai/gpt-oss-120b",
-          "enum": [
-            "openai/gpt-oss-120b",
-            "llama-3.1-8b-instant",
-            "qwen/qwen3-32b",
-            "moonshotai/kimi-k2-instruct-0905",
-            "llama-3.3-70b-versatile",
-            "groq/compound",
-            "allam-2-7b",
-            "meta-llama/llama-4-scout-17b-16e-instruct",
-            "meta-llama/llama-prompt-guard-2-22m",
-            "meta-llama/llama-prompt-guard-2-86m",
-            "moonshotai/kimi-k2-instruct",
-            "canopylabs/orpheus-v1-english",
-            "groq/compound-mini",
-            "openai/gpt-oss-20b",
-            "openai/gpt-oss-safeguard-20b",
-            "canopylabs/orpheus-arabic-saudi",
-            "whisper-large-v3",
-            "whisper-large-v3-turbo"
-          ],
-          "enumDescriptions": [
-            "⚡ Best for speed",
-            "🏆 Best overall / most intelligent",
-            "🧠 Best for reasoning / hard problems",
-            "🌐 Best for long documents",
-            "🔧 Best for tool use / function calling",
-            "🔍 Best with built-in web search",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "description": "AI model that will be used to compose the commit message, Docs: https://console.groq.com/docs"
-        }
-      }
-    }
-  },
-  "scripts": {
-    "vscode:prepublish": "pnpm run package",
-    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test",
-    "bypasspublish": "vsce package --out lenix.vsix"
-  },
-  "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "22.x",
-    "@types/vscode": "^1.110.0",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.7.1",
-    "esbuild": "^0.27.3",
-    "eslint": "^9.39.3",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1"
-  },
-  "dependencies": {
-    "groq-sdk": "^1.1.1"
-  }
+	"name": "lenix",
+	"displayName": "Lenix Suite",
+	"publisher": "Lenix",
+	"description": "All-in-one extension, Fast light weight AI commit message composer/generator",
+	"version": "0.0.10",
+	"icon": "icon.png",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lenixdev/lenix.git"
+	},
+	"engines": {
+		"vscode": "^1.110.0"
+	},
+	"categories": [
+		"AI",
+		"SCM Providers"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"menus": {
+			"scm/title": [
+				{
+					"command": "lenix.composeCommit",
+					"group": "navigation",
+					"when": "scmProvider == git"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "lenix.composeCommit",
+				"title": "Lenix: Compose Commit Message",
+				"icon": "$(edit-sparkle)"
+			},
+			{
+				"command": "lenix.settings",
+				"title": "Lenix: Open Settings"
+			}
+		],
+		"configuration": {
+			"properties": {
+				"lenix.apiKey": {
+					"type": "string",
+					"description": "API Key, control access: https://console.groq.com/keys"
+				},
+				"lenix.aiModel": {
+					"type": "string",
+					"default": "openai/gpt-oss-120b",
+					"enum": [
+						"openai/gpt-oss-120b",
+						"llama-3.1-8b-instant",
+						"qwen/qwen3-32b",
+						"moonshotai/kimi-k2-instruct-0905",
+						"llama-3.3-70b-versatile",
+						"groq/compound",
+						"allam-2-7b",
+						"meta-llama/llama-4-scout-17b-16e-instruct",
+						"meta-llama/llama-prompt-guard-2-22m",
+						"meta-llama/llama-prompt-guard-2-86m",
+						"moonshotai/kimi-k2-instruct",
+						"canopylabs/orpheus-v1-english",
+						"groq/compound-mini",
+						"openai/gpt-oss-20b",
+						"openai/gpt-oss-safeguard-20b",
+						"canopylabs/orpheus-arabic-saudi",
+						"whisper-large-v3",
+						"whisper-large-v3-turbo"
+					],
+					"enumDescriptions": [
+						"⚡ Best for speed",
+						"🏆 Best overall / most intelligent",
+						"🧠 Best for reasoning / hard problems",
+						"🌐 Best for long documents",
+						"🔧 Best for tool use / function calling",
+						"🔍 Best with built-in web search",
+						"",
+						"",
+						"",
+						"",
+						"",
+						"",
+						"",
+						"",
+						"",
+						"",
+						""
+					],
+					"description": "AI model that will be used to compose the commit message, Docs: https://console.groq.com/docs"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "pnpm run package",
+		"compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+		"watch": "npm-run-all -p watch:*",
+		"watch:esbuild": "node esbuild.js --watch",
+		"watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+		"package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+		"check-types": "tsc --noEmit",
+		"lint": "eslint src",
+		"test": "vscode-test",
+		"bypasspublish": "vsce package --out lenix.vsix"
+	},
+	"devDependencies": {
+		"@types/mocha": "^10.0.10",
+		"@types/node": "22.x",
+		"@types/vscode": "^1.110.0",
+		"@vscode/test-cli": "^0.0.12",
+		"@vscode/test-electron": "^2.5.2",
+		"@vscode/vsce": "^3.7.1",
+		"esbuild": "^0.27.3",
+		"eslint": "^9.39.3",
+		"npm-run-all": "^4.1.5",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.56.1"
+	},
+	"dependencies": {
+		"groq-sdk": "^1.1.1"
+	}
 }

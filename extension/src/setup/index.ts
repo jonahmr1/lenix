@@ -1,26 +1,33 @@
-import * as vscode from 'vscode';
+import * as vscode from 'vscode'
 
-export const setup = (context: vscode.ExtensionContext, defaultModel: string, models: string[]) => {
-  const panel = vscode.window.createWebviewPanel(
-    'lenixSetup',
-    'Lenix Setup',
-    vscode.ViewColumn.One,
-    { enableScripts: true, localResourceRoots: [context.extensionUri] }
-  )
+export const setup = (
+	context: vscode.ExtensionContext,
+	defaultModel: string,
+	models: string[],
+) => {
+	const panel = vscode.window.createWebviewPanel(
+		'lenixSetup',
+		'Lenix Setup',
+		vscode.ViewColumn.One,
+		{ enableScripts: true, localResourceRoots: [context.extensionUri] },
+	)
 
-  panel.webview.html = getWebviewContent(defaultModel, models)
+	panel.webview.html = getWebviewContent(defaultModel, models)
 
-  panel.webview.onDidReceiveMessage(async msg => {
-    await vscode.workspace.getConfiguration('lenix').update('apiKey', msg.key, true)
-    await vscode.workspace.getConfiguration('lenix').update('aiModel', msg.model, true)
-    vscode.window.showInformationMessage('Lenix: Setup complete!')
-    panel.dispose()
-  })
+	panel.webview.onDidReceiveMessage(async msg => {
+		await vscode.workspace
+			.getConfiguration('lenix')
+			.update('apiKey', msg.key, true)
+		await vscode.workspace
+			.getConfiguration('lenix')
+			.update('aiModel', msg.model, true)
+		vscode.window.showInformationMessage('Lenix: Setup complete!')
+		panel.dispose()
+	})
 }
 
 function getWebviewContent(defaultModel: string, models: string[]): string {
-  return (
-  `<!DOCTYPE html>
+	return `<!DOCTYPE html>
     <html>
     <head>
     <meta charset="UTF-8">
@@ -205,5 +212,4 @@ function getWebviewContent(defaultModel: string, models: string[]): string {
     </script>
     </body>
     </html>`
-  )
 }

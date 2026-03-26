@@ -1,65 +1,65 @@
 {
-  "name": "lenix",
-  "version": "1.4.4",
-  "description": "The All-in-one Package",
-  "author": "Lenix",
-  "license": "GPL-3.0",
-  "type": "module",
-  "readme": "modules/README.md",
-  "keywords": [
-    "lenix",
-    "modules",
-    "typescript",
-    "lua",
-    "luarocks",
-    "oop",
-    "fivem",
-    "fxmanifest",
-    "api",
-    "class",
-    "eslint",
-    "linter"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lenixdev/lenix.git"
-  },
-  "main": "./modules/src/index.ts",
-  "types": "./modules/src/index.ts",
-  "exports": {
-    ".": "./modules/src/index.ts",
-    "./lint": "./modules/src/lint/preset.json"
-  },
-  "files": [
-    "modules/src",
-    "oop",
-    "lint/dist"
-  ],
-  "bin": {
-    "mac-lua-modules": "oop/mac-lua-modules.sh",
-    "lenix": "./index.ts"
-  },
-  "scripts": {
-    "build-lint": "tsc -p lint/src/tsconfig.json",
-    "bump": "pnpm version patch"
-  },
-  "dependencies": {
-    "@clack/prompts": "^1.1.0",
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.3",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "globals": "^17.4.0",
-    "typescript-eslint": "^8.57.0"
-  },
-  "devDependencies": {
-    "@types/eslint": "^9.6.1",
-    "@types/node": "^20.7.1",
-    "eslint-config-prettier": "10.1.8",
-    "prettier": "3.8.1",
-    "tsc-alias": "^1.8.16",
-    "tsx": "^4.21.0",
-    "typescript": "^5.3.3"
-  }
+	"name": "lenix",
+	"version": "1.4.4",
+	"description": "The All-in-one Package",
+	"author": "Lenix",
+	"license": "GPL-3.0",
+	"type": "module",
+	"readme": "modules/README.md",
+	"keywords": [
+		"lenix",
+		"modules",
+		"typescript",
+		"lua",
+		"luarocks",
+		"oop",
+		"fivem",
+		"fxmanifest",
+		"api",
+		"class",
+		"eslint",
+		"linter"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lenixdev/lenix.git"
+	},
+	"main": "./modules/src/index.ts",
+	"types": "./modules/src/index.ts",
+	"exports": {
+		".": "./modules/src/index.ts",
+		"./lint": "./modules/src/lint/preset.json"
+	},
+	"files": [
+		"modules/src",
+		"oop",
+		"lint/dist"
+	],
+	"bin": {
+		"mac-lua-modules": "oop/mac-lua-modules.sh",
+		"lenix": "./index.ts"
+	},
+	"scripts": {
+		"build-lint": "tsc -p lint/src/tsconfig.json",
+		"bump": "pnpm version patch"
+	},
+	"dependencies": {
+		"@clack/prompts": "^1.1.0",
+		"@eslint/js": "^10.0.1",
+		"eslint": "^10.0.3",
+		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^7.0.1",
+		"globals": "^17.4.0",
+		"typescript-eslint": "^8.57.0"
+	},
+	"devDependencies": {
+		"@types/eslint": "^9.6.1",
+		"@types/node": "^20.7.1",
+		"eslint-config-prettier": "10.1.8",
+		"prettier": "3.8.1",
+		"tsc-alias": "^1.8.16",
+		"tsx": "^4.21.0",
+		"typescript": "^5.3.3"
+	}
 }
