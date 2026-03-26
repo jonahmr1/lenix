@@ -106,14 +106,10 @@
     "no-loop-func": "warn",
     "no-loss-of-precision": "error",
     "no-magic-numbers": [
-      "error",
+      "warn",
       {
         "detectObjects": true,
         "enforceConst": true,
-        "ignore": [
-          0,
-          1
-        ],
         "ignoreReadonlyClassProperties": true
       }
     ],
@@ -337,7 +333,7 @@
     "@typescript-eslint/prefer-promise-reject-errors": "error",
     "@typescript-eslint/prefer-readonly": "error",
     "@typescript-eslint/prefer-readonly-parameter-types": [
-      "warn",
+      "off",
       {
         "ignoreInferredTypes": true
       }
