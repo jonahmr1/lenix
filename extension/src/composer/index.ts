@@ -44,6 +44,7 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 		headers: { Authorization: `Bearer ${apiKey}` },
 	})
 	const data = (await res.json()) as { data: { id: (typeof models)[number] }[] }
+	console.log("race")
 	availableModels = data.data.map(m => m.id)
 	const racedList = availableModels.filter(m => !models.includes(m))
 	if (racedList.length > 0) {
@@ -95,6 +96,8 @@ export const composeCommitMessage = async (
 			diff.slice(0, MAX_DIFF_TOKENS) + '\n... (truncated)'
 		:	diff
 	const branch = repo.state.HEAD?.name ?? ''
+	console.warn(repo.state, repo.state.indexChanges, repo)
+	console.log("mess")
 	const files = repo.state.indexChanges.map((c: any) => c.uri.fsPath).join('\n')
 
 	try {
