@@ -2,6 +2,9 @@ import * as vscode from 'vscode'
 import Ai from 'groq-sdk'
 import { setup } from '../setup'
 import notify from '../notify'
+import { logger } from '../logger'
+
+logger.log('Composer loaded')
 
 const MAX_DIFF_TOKENS = 3000 as const
 const defaultModel = 'openai/gpt-oss-120b' as const
@@ -43,15 +46,24 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 	const res = await fetch('https://api.groq.com/openai/v1/models', {
 		headers: { Authorization: `Bearer ${apiKey}` },
 	})
-	const data = (await res.json()) as { data: { id: (typeof models)[number] }[] }
-	console.log("race")
-	availableModels = data.data.map(m => m.id)
-	const racedList = availableModels.filter(m => !models.includes(m))
-	if (racedList.length > 0) {
-		notify.report(racedList, bar)
+	const data = (await res.json()) as {
+		data: {
+			id: (typeof models)[number]
+		}[]
+		error: { message: string, code: string }
 	}
-
-	modelChecked = true
+	logger.log(`${JSON.stringify(data)}`)
+	try {
+		availableModels = data.data.map(m => m.id)
+		const racedList = availableModels.filter(m => !models.includes(m))
+		if (racedList.length > 0) {
+			notify.report(racedList, bar)
+		}
+	
+		modelChecked = true
+	} catch (e) {
+		logger.log(String(e))
+	}
 }
 
 export const composeCommitMessage = async (
@@ -96,8 +108,6 @@ export const composeCommitMessage = async (
 			diff.slice(0, MAX_DIFF_TOKENS) + '\n... (truncated)'
 		:	diff
 	const branch = repo.state.HEAD?.name ?? ''
-	console.warn(repo.state, repo.state.indexChanges, repo)
-	console.log("mess")
 	const files = repo.state.indexChanges.map((c: any) => c.uri.fsPath).join('\n')
 
 	try {
