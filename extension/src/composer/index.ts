@@ -4,8 +4,6 @@ import { setup } from '../setup'
 import notify from '../notify'
 import { logger } from '../logger'
 
-logger.log('Composer loaded')
-
 const MAX_DIFF_TOKENS = 3000 as const
 const defaultModel = 'openai/gpt-oss-120b' as const
 const models: readonly string[] = [
@@ -33,10 +31,8 @@ let availableModels: string[] = []
 let modelChecked: boolean = false
 
 const updateAiKey = (apiKey: string) => {
-	if (!constructedInstance) {
-		const instance = new Ai({ apiKey })
-		constructedInstance = instance
-		return instance
+	if (!constructedInstance || constructedInstance.apiKey !== apiKey) {
+		constructedInstance = new Ai({ apiKey })
 	}
 	return constructedInstance
 }
@@ -52,7 +48,6 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 		}[]
 		error: { message: string, code: string }
 	}
-	logger.log(`${JSON.stringify(data)}`)
 	try {
 		availableModels = data.data.map(m => m.id)
 		const racedList = availableModels.filter(m => !models.includes(m))

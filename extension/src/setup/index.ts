@@ -27,7 +27,6 @@ export const setup = (
 }
 
 function getWebviewContent(defaultModel: string, models: string[]): string {
-  console.log("mod", models)
 	return `<!DOCTYPE html>
     <html>
     <head>
