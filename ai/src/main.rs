@@ -7,7 +7,7 @@ async fn main() {
   dotenvy::dotenv().ok();
   // get the key from the environment
   let api_key = std::env::var("API_KEY").unwrap();
-  println!("Hello, Lenix!, You API Key is: {}", api_key);
+  println!("Hello, Lenix!, Welcome to Intellenix, Your API Key is: {}", api_key);
 
   loop {
     print!("You: ");
@@ -31,7 +31,7 @@ async fn main() {
     let texts = content.split("\n");
     
     for text in texts {
-      println!("AI: {}", text);
+      println!("Intellenix: {}", text);
     }
   }
 }
