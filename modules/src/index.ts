@@ -1,4 +1,6 @@
 export { wait } from './wait'
 export { caughtFetch } from './fetch'
 export { entries } from './entries'
+export { raise } from './raise'
+export { guard } from './guard'
 export type * as edge from './edge'
