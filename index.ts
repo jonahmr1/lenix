@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S npx tsx
 const [, , cmd] = process.argv
 
 switch (cmd) {
