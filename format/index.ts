@@ -51,6 +51,11 @@ log.warn(
 log.info('like: "recommendations": ["esbenp.prettier-vscode"]')
 await confirm({ message: 'Done?' })
 
+log.warn(
+	'Manual (optional) - add the following script into your package.json\'s scripts object : "format": "pnpm exec prettier . --write",',
+)
+await confirm({ message: 'Done?' })
+
 const format = await confirm({
 	message: 'Run prettier on existing files now to test it out?',
 })
