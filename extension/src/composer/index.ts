@@ -46,7 +46,7 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 		data: {
 			id: (typeof models)[number]
 		}[]
-		error: { message: string, code: string }
+		error: { message: string; code: string }
 	}
 	try {
 		availableModels = data.data.map(m => m.id)
@@ -54,7 +54,7 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 		if (racedList.length > 0) {
 			notify.report(racedList, bar)
 		}
-	
+
 		modelChecked = true
 	} catch (e) {
 		logger.log(String(e))

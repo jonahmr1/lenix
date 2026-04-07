@@ -6,4 +6,6 @@
  * @example
  * foo().catch(raise)
  */
-export const raise = (error: unknown, cause?: unknown): never => { throw new Error(String(error), { cause }) }
+export const raise = (error: unknown, cause?: unknown): never => {
+	throw new Error(String(error), { cause })
+}
