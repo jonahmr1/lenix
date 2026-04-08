@@ -43,9 +43,17 @@ import lint from 'lenix/lint' with { type: "json" }
   },
   rules: {
     ...,
-    ...lint.strict,
+    ...lint.strict as any,
     ...,
   }
   ...
 },
+```
+
+```json
+	"compilerOptions": {
+		...,
+		"types": ["node"],
+		...
+	}
 ```
