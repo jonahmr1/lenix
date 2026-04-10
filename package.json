@@ -28,13 +28,14 @@
 	"types": "./modules/src/index.ts",
 	"exports": {
 		".": "./modules/src/index.ts",
-		"./lint": "./modules/src/lint/preset.json"
+		"./lint": "./modules/src/lint/preset.json",
+		"./beta": "./tsconfig.beta.json"
 	},
 	"files": [
 		"modules/src",
 		"format",
 		"oop",
-		"lint/dist"
+		"tsconfig.beta.json"
 	],
 	"bin": {
 		"mac-lua-modules": "oop/mac-lua-modules.sh",
