@@ -1,4 +1,5 @@
 {
+	"extends": "./tsconfig.beta",
 	"compilerOptions": {
 		"target": "esnext",
 		"module": "esnext",

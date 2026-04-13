@@ -2,8 +2,11 @@
 
 The All-in-one Package
 
+![](https://img.shields.io/crates/l/lenix)
 ![](https://img.shields.io/npm/d18m/lenix)
-![](https://img.shields.io/npm/v/lenix)
+![](https://img.shields.io/jsr/v/@lenix/lenix)
+![](https://img.shields.io/crates/v/lenix)
+![](https://img.shields.io/crates/d/lenix)
 
 ## 📥 Install
 
@@ -15,38 +18,7 @@ deno add jsr:@lenix/lenix
 ## Usage
 ### Modules
 ```ts
-import { wait, caughtFetch, entries, raise, guard } from '@lenix/lenix'
-```
-
-### Lint
-
-```ts
-import lint from '@lenix/lenix/lint' with { type: "json" }
-{
-  ...
-  languageOptions: {
-    ...,
-    parserOptions: {
-      projectService: true,
-      tsconfigRootDir: import.meta.dirname,
-    },
-    ...,
-  },
-  rules: {
-    ...,
-    ...lint.strict as any,
-    ...,
-  }
-  ...
-},
-```
-
-```json
-	"compilerOptions": {
-		...,
-		"types": ["node"],
-		...
-	}
+import { module... } from '@lenix/lenix'
 ```
 
 ### TypeScript
@@ -55,10 +27,4 @@ import lint from '@lenix/lenix/lint' with { type: "json" }
 {
   "extends": ["@lenix/lenix/beta"]
 }
-```
-
-### Formatter
-
-```sh
-deno run jsr:@lenix/lenix format
 ```
