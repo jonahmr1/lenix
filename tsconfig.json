@@ -9,7 +9,8 @@
 		"noEmit": true,
 		"paths": {
 			"~/*": ["./*"]
-		}
+		},
+		"types": ["node"]
 	},
 	"include": ["*.ts", "modules/**/*", "format/*.ts"]
 }
