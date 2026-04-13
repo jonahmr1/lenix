@@ -19,6 +19,8 @@
     "singleQuote": true,
     "operatorPosition": "nextLine",
     "lineWidth": 100,
+		"typeLiteral.separatorKind": "comma",
+		"trailingCommas": "never",
     "include": ["modules"]
   },
   "lint": {
