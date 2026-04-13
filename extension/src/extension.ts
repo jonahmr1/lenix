@@ -4,7 +4,7 @@ import { statusBar } from './bar'
 import notify from './notify'
 import { logger } from './logger'
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext): void {
 	logger.init()
 	vscode.commands.registerCommand('lenix.settings', notify.statusBar)
 	const bar = statusBar()
@@ -14,4 +14,4 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(bar)
 }
 
-export function deactivate() {}
+export function deactivate(): void {}

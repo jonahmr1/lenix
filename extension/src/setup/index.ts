@@ -4,7 +4,7 @@ export const setup = (
 	context: vscode.ExtensionContext,
 	defaultModel: string,
 	models: string[],
-) => {
+): void => {
 	const panel = vscode.window.createWebviewPanel(
 		'lenixSetup',
 		'Lenix Setup',
@@ -172,7 +172,7 @@ function getWebviewContent(defaultModel: string, models: string[]): string {
     </head>
     <body>
     <div class="card">
-      <div class="badge">Lenix — one-time setup</div>
+      <div class="badge">Lenix - one-time setup</div>
       <h1>Connect to Groq</h1>
       <ol class="steps">
         <li><span class="step-num">01</span><span>Login into your account or create one if you don't have one already <a href="https://console.groq.com/home">console.groq.com/home</a></span></li>
@@ -195,7 +195,7 @@ function getWebviewContent(defaultModel: string, models: string[]): string {
         <li><span>🔍 Best with built-in web search: <strong>groq/compound</strong></span></li>
       </ul>
       <button id="save" style="margin-top:1rem" onclick="save()">Save & Connect</button>
-      <div class="success" id="success">✓ key saved — you're good to go</div>
+      <div class="success" id="success">✓ key saved - you're good to go</div>
     </div>
     <script>
       const vscode = acquireVsCodeApi()

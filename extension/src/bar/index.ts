@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 
-export const statusBar = () => {
+export const statusBar = (): vscode.StatusBarItem => {
 	const bar = vscode.window.createStatusBarItem(
 		vscode.StatusBarAlignment.Left,
 		100,

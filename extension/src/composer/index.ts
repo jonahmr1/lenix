@@ -28,7 +28,7 @@ const models: readonly string[] = [
 ]
 let constructedInstance: false | Ai = false
 let availableModels: string[] = []
-let modelChecked: boolean = false
+let modelChecked = false
 
 const updateAiKey = (apiKey: string) => {
 	if (!constructedInstance || constructedInstance.apiKey !== apiKey) {
@@ -64,13 +64,13 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 export const composeCommitMessage = async (
 	context: vscode.ExtensionContext,
 	bar: vscode.StatusBarItem,
-) => {
+): Promise<void> => {
 	const gitExtension = vscode.extensions.getExtension('vscode.git')?.exports
 	if (!gitExtension)
 		return vscode.window.showErrorMessage('Lenix: Git extension not available')
 
 	const git = gitExtension.getAPI(1)
-	const repo = git.repositories.find((r: any) => r.ui.selected)
+	const repo = git.repositories.find(r: any => r.ui.selected)
 	if (!repo)
 		return vscode.window.showErrorMessage('Lenix: No git repository found')
 
@@ -103,7 +103,7 @@ export const composeCommitMessage = async (
 			diff.slice(0, MAX_DIFF_TOKENS) + '\n... (truncated)'
 		:	diff
 	const branch = repo.state.HEAD?.name ?? ''
-	const files = repo.state.indexChanges.map((c: any) => c.uri.fsPath).join('\n')
+	const files = repo.state.indexChanges.map(c: any => c.uri.fsPath).join('\n')
 
 	try {
 		vscode.window.withProgress(
@@ -137,7 +137,7 @@ ${truncatedDiff}`,
 							'Lenix: Expected the response from the LLM to have a string in nest',
 						)
 
-					let lastHead = repo.state.HEAD?.commit
+					const lastHead = repo.state.HEAD?.commit
 					repo.inputBox.value = commitMessage
 
 					vscode.window.withProgress(
