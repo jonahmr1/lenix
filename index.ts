@@ -7,7 +7,7 @@ switch (cmd) {
 		break
 	default:
 		console.log(
-			'Usage: lenix <command>\n\nCommands:\n  format    Setup prettier\n  --lint    Setup eslint\n',
+			'Usage: lenix <command>\n\nCommands:\n  format    Setup prettier\n',
 		)
 		Deno.exit(0)
 }
