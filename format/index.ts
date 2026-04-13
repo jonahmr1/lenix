@@ -1,6 +1,6 @@
-import { intro, outro, confirm, log, spinner } from '@clack/prompts'
-import { execSync } from 'child_process'
-import fs from 'fs'
+import { intro, outro, confirm, log, spinner } from 'npm:@clack/prompts'
+import { execSync } from 'node:child_process'
+import fs from 'node:fs'
 
 intro('Prettier Setup')
 

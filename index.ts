@@ -1,4 +1,4 @@
-#!/usr/bin/env -S npx tsx
+#!/usr/bin/env -S deno run --allow-run --allow-read --allow-write
 const [, , cmd] = process.argv
 
 switch (cmd) {
