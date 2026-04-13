@@ -4,7 +4,7 @@
  * @returns Array of the passed entries
  */
 export const entries = <T extends Record<string, unknown>>(
-	object: T,
+	object: T
 ): {
 	[K in keyof T]: [K, T[K]]
 }[keyof T][] =>

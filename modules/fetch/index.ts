@@ -7,13 +7,13 @@
 export const caughtFetch = async (
 	domain: string,
 	endpoint: string,
-	request?: RequestInit,
+	request?: RequestInit
 ): Promise<Response> => {
 	try {
 		return await fetch(`https://${domain}/${endpoint}`, request)
 	} catch (error) {
 		throw new Error('An error occurred while making the request.', {
-			cause: error,
+			cause: error
 		})
 	} finally {
 		console.debug(`End of ${domain}/${endpoint} request`)
