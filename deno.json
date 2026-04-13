@@ -1,10 +1,11 @@
 {
-  "name": "@lenix/lenix",
-  "version": "0.0.1",
-  "exports": "./modules/src/index.ts",
-  "tasks": {
-    "lint": "npx eslint .",
-    "check": "deno check modules/src/index.ts",
+	"name": "@lenix/lenix",
+	"version": "0.0.1",
+	"license": "MIT",
+	"exports": "./modules/src/index.ts",
+	"tasks": {
+		"lint": "npx eslint .",
+		"check": "deno check modules/src/index.ts",
 		"format": "npx prettier . --write"
-  }
+	}
 }
