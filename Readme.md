@@ -8,7 +8,7 @@ The All-in-one Package
 ## 📥 Install
 
 ### Deno
-```bash
+```sh
 deno add jsr:@lenix/lenix
 ```
 
@@ -59,6 +59,6 @@ import lint from '@lenix/lenix/lint' with { type: "json" }
 
 ### Formatter
 
-```bash
+```sh
 deno run jsr:@lenix/lenix format
 ```

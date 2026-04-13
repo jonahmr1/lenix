@@ -1,9 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
-import { defineConfig } from 'eslint/config'
-import prettier from 'eslint-config-prettier'
-import lint from './modules/src/lint/preset.json' with { type: 'json' }
+import js from 'npm:@eslint/js'
+import globals from 'npm:globals'
+import tseslint from 'npm:typescript-eslint'
+import { defineConfig } from 'npm:eslint/config'
+import prettier from 'npm:eslint-config-prettier'
+import lint from './modules/lint/preset.json' with { type: 'json' }
 
 export default defineConfig([
 	{
