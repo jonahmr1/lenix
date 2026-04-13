@@ -1,9 +1,0 @@
-# Ignore artifacts:
-build
-coverage
-ai
-lint
-rust
-oop
-.github
-*-lock.*

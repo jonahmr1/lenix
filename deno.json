@@ -8,5 +8,49 @@
   },
   "tasks": {
     "check": "deno check modules/index.ts"
+  },
+  "publish": {
+    "include": ["modules/**", "tsconfig.beta.json", "LICENSE", "README.md"]
+  },
+  "fmt": {
+    "useTabs": true,
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "operatorPosition": "nextLine",
+    "lineWidth": 100,
+    "include": ["modules"]
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended", "fresh", "workspace", "jsr"],
+      "include": [
+        "camelcase",
+        "default-param-last",
+        "eqeqeq",
+        "explicit-function-return-type",
+        "explicit-module-boundary-types",
+        "no-await-in-loop",
+        "no-boolean-literal-for-arguments",
+        "no-console",
+        "no-eval",
+        "no-external-import",
+        "no-implicit-declare-namespace-export",
+        "no-inferrable-types",
+        "no-non-null-asserted-optional-chain",
+        "no-non-null-assertion",
+        "no-self-compare",
+        "no-sparse-arrays",
+        "no-sync-fn-in-async-fn",
+        "no-throw-literal",
+        "no-top-level-await",
+        "no-undef",
+        "no-useless-rename",
+        "prefer-ascii",
+        "prefer-primordials",
+        "single-var-declarator",
+        "triple-slash-reference"
+      ]
+    }
   }
 }
