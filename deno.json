@@ -1,11 +1,15 @@
 {
-	"name": "@lenix/lenix",
-	"version": "1.7.0",
-	"license": "MIT",
-	"exports": "./modules/src/index.ts",
-	"tasks": {
-		"lint": "npx eslint .",
-		"check": "deno check modules/src/index.ts",
-		"format": "npx prettier . --write"
-	}
+  "name": "@lenix/lenix",
+  "version": "1.7.0",
+  "license": "MIT",
+  "exports": {
+    ".": "./modules/index.ts",
+    "./lint": "./modules/lint/preset.json",
+    "./beta": "./tsconfig.beta.json"
+  },
+  "tasks": {
+    "lint": "npx eslint .",
+    "check": "deno check modules/index.ts",
+    "format": "npx prettier . --write"
+  }
 }
