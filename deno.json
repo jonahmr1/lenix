@@ -4,12 +4,9 @@
   "license": "MIT",
   "exports": {
     ".": "./modules/index.ts",
-    "./lint": "./modules/lint/preset.json",
     "./beta": "./tsconfig.beta.json"
   },
   "tasks": {
-    "lint": "npx eslint .",
-    "check": "deno check modules/index.ts",
-    "format": "npx prettier . --write"
+    "check": "deno check modules/index.ts"
   }
 }
