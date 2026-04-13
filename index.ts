@@ -1,17 +1,14 @@
 #!/usr/bin/env -S deno run --allow-run --allow-read --allow-write
-const [, , cmd] = process.argv
+const [, , cmd] = Deno.args
 
 switch (cmd) {
 	case 'format':
 		await import('./format/index')
 		break
-	case '--lint':
-		await import('./lint/src/lint.mts')
-		break
 	default:
-		process.stdout.write(
+		console.log(
 			'Usage: lenix <command>\n\nCommands:\n  format    Setup prettier\n  --lint    Setup eslint\n',
 		)
-		process.exit(0)
+		Deno.exit(0)
 }
 export {}

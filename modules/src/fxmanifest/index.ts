@@ -1,4 +1,4 @@
-import { writeFile } from 'fs/promises'
+import { writeFile } from 'node:fs/promises'
 type FileContent = Parameters<typeof writeFile>[1]
 
 const fxmanifest = Object.entries((await import('./fxmanifest.json')).default)

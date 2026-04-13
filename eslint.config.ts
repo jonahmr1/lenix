@@ -3,7 +3,7 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import { defineConfig } from 'eslint/config'
 import prettier from 'eslint-config-prettier'
-import lint from 'lenix/lint' with { type: 'json' }
+import lint from './modules/src/lint/preset.json' with { type: 'json' }
 
 export default defineConfig([
 	{
