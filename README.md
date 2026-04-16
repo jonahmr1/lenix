@@ -18,6 +18,7 @@ https://docs.trippler.store/tr_lib
 - [ ] add endLoop callback to the Repeat Module
 - [ ] complete players module
 - [ ] provide the print module with the import
+- [ ] support folder require instead of full relative path, e.g. require 'client/api' instead of require 'client/api/index'
 
 ## 🧾License
 [![](https://img.shields.io/github/license/tripplerscripts/tr_lib)](./LICENSE)
