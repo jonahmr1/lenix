@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'https://github.com/LenixDev'
-version '2.0.0'
+version '2.0.1'
 
 dependencies {
   'qbx_core',
