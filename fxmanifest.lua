@@ -1,17 +1,37 @@
 fx_version 'cerulean'
 game 'gta5'
+
+author 'https://github.com/LenixDev'
+version '4.0.1'
+
 dependencies {
-  'tr_lib',
   'qbx_core',
+  'ox_lib',
+  'tr_lib',
+  'tr_kit'
 }
 
-author 'https://gitb.com/LenixDev'
-version '4.0.0'
+shared_scripts {
+  '@tr_lib/index.lua',
+  'shared/utils/index.lua',
+  'shared/constants/index.lua'
+}
 
-client_script 'build/client.js'
-server_script 'build/server.js'
+client_scripts {
+  'client/index.lua',
+  'client/states/*.lua',
+  'client/api/*.lua',
+  'client/modules/*.lua'
+}
+
+server_scripts {
+  'server/index.lua',
+  'server/api/*.lua',
+  'server/services/*.lua'
+}
 
 ui_page 'nui/public/index.html'
+
 files {
   'nui/public/index.html',
   'build/nui.js'
