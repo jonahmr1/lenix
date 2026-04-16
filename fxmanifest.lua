@@ -1,15 +1,23 @@
 fx_version 'cerulean'
 game 'gta5'
-dependency 'qb-core'
+dependencies {
+	'qb-core',
+	'tr_lib'
+}
 
 author 'https://github.com/LenixDev'
-version '2.0.0'
+version '2.0.1'
 
-client_script 'build/client.js'
-server_script 'build/server.js'
+shared_script '@tr_lib/index.lua'
+
+client_script 'client/index.lua'
+server_script 'server/index.lua'
 
 ui_page 'nui/public/index.html'
 files {
   'nui/public/index.html',
-  'build/nui.js'
+  'build/nui.js',
+	'shared/**/*.lua',
+	'server/**/*.lua',
+	'client/**/*.lua',
 }
