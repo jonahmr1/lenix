@@ -1,0 +1,11 @@
+[package]
+name = "lenix"
+version = "0.1.0"
+edition = "2024"
+description = "modular crate"
+license = "MIT"
+include = [
+  "src/",
+  "Cargo.toml",
+]
+[dependencies]
