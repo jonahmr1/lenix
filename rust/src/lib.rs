@@ -1,6 +1,6 @@
 pub struct Player {
-	name: String,
-	score: i32,
+	pub name: String,
+	pub score: i32,
 }
 
 impl Player {
