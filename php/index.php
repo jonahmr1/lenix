@@ -72,6 +72,25 @@
 					$columns = mysqli_query($conn, "SHOW COLUMNS FROM `" . $_POST["selectTable"] . "` IN `" . $_POST["selectDB"] . "`");
 				}
 
+				if (isset($_POST["addRow"])) {
+						mysqli_select_db($conn, $_POST["selectDB"]);
+						$fields = implode(", ", array_map(fn($k) => "`$k`", array_keys($_POST["newRow"])));
+						$values = implode(", ", array_map(fn($v) => "'" . mysqli_real_escape_string($conn, $v) . "'", $_POST["newRow"]));
+						mysqli_query($conn, "INSERT INTO `" . $_POST["selectTable"] . "` ($fields) VALUES ($values)");
+				}
+
+				if (isset($_POST["deleteRow"])) {
+						mysqli_select_db($conn, $_POST["selectDB"]);
+						$where = implode(" AND ", array_map(fn($k, $v) => "`$k` = '" . mysqli_real_escape_string($conn, $v) . "'", array_keys($_POST["rowData"]), $_POST["rowData"]));
+						mysqli_query($conn, "DELETE FROM `" . $_POST["selectTable"] . "` WHERE $where");
+				}
+
+				if (isset($_POST["updateRow"])) {
+						mysqli_select_db($conn, $_POST["selectDB"]);
+						$set = implode(", ", array_map(fn($k, $v) => "`$k` = '" . mysqli_real_escape_string($conn, $v) . "'", array_keys($_POST["rowData"]), $_POST["rowData"]));
+						mysqli_query($conn, "UPDATE `" . $_POST["selectTable"] . "` SET $set");
+				}
+
 				$DBs = mysqli_query($conn, "SHOW DATABASES ");
 				$ignoreDBs = ["information_schema", "mysql", "performance_schema", "phpmyadmin"];
 				$found = false;
@@ -156,16 +175,44 @@
 						class='center'
 					>";
 						if ($columns && mysqli_num_rows($columns) > 0) {
-							echo "<table border='1' cellpadding='4' style='border-collapse:collapse'><tr>";
+							$rows = mysqli_query($conn, "SELECT * FROM `" . $_POST["selectTable"] . "`");
+							echo "<table border='1' cellpadding='4' style='border-collapse:collapse'>";
+
+							echo "<tr>";
 							while ($col = mysqli_fetch_array($columns)) {
-								echo "<th>
-									{$col['Field']}
-									[ {$col['Type']} - 
-									" . ($col['Null'] === 'YES' ? 'NULL' : 'NOT NULL') . "
-									" . ($col['Key'] === 'PRI' ? ' - PRIMARY KEY' : '') . "]
-								</th>";
+									echo "<th>{$col['Field']} [{$col['Type']} - " . ($col['Null'] === 'YES' ? 'NULL' : 'NOT NULL') . ($col['Key'] === 'PRI' ? ' - PRIMARY KEY' : '') . "]</th>";
 							}
-							echo "</tr></table>";
+							echo "<th>actions</th>";
+							echo "</tr>";
+
+							while ($row = mysqli_fetch_assoc($rows)) {
+									echo "<form method='post'>";
+									echo "<input type='hidden' name='selectDB' value='" . $_POST["selectDB"] . "' />";
+									echo "<input type='hidden' name='selectTable' value='" . $_POST["selectTable"] . "' />";
+									echo "<tr>";
+									foreach ($row as $key => $val) {
+											echo "<td><input type='text' name='rowData[$key]' value='$val' /></td>";
+									}
+									echo "<td>
+											<button type='submit' name='updateRow'>update</button>
+											<button type='submit' name='deleteRow'>delete</button>
+									</td>";
+									echo "</tr>";
+									echo "</form>";
+							}
+
+							echo "<form method='post'>";
+							echo "<input type='hidden' name='selectDB' value='" . $_POST["selectDB"] . "' />";
+							echo "<input type='hidden' name='selectTable' value='" . $_POST["selectTable"] . "' />";
+							echo "<tr>";
+							while ($col = mysqli_fetch_array($columns)) {
+									echo "<td><input type='text' name='newRow[{$col['Field']}]' placeholder='{$col['Field']}' /></td>";
+							}
+							echo "<td><button type='submit' name='addRow'>add</button></td>";
+							echo "</tr>";
+							echo "</form>";
+
+							echo "</table>";
 						}
 					echo "</div>";
 				echo "</div>";
