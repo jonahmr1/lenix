@@ -56,6 +56,12 @@
 					mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `" . $_POST["tableName"] . "` (" . implode(", ", $cols) . ")");
 				}
 
+				if (isset($_POST["deleteTable"])) {
+					mysqli_select_db($conn, $_POST["selectDB"]);
+					mysqli_query($conn, "DROP TABLE `" . $_POST["deleteTable"] . "`");
+					unset($_POST["selectTable"]);
+				}
+
 				$tables = null;
 				if (isset($_POST["selectDB"])) {
 					$tables = mysqli_query($conn, "SHOW TABLES FROM " . $_POST["selectDB"]);
@@ -63,7 +69,7 @@
 
 				$columns = null;
 				if (isset($_POST["selectTable"])) {
-						$columns = mysqli_query($conn, "SHOW COLUMNS FROM `" . $_POST["selectTable"] . "` IN `" . $_POST["selectDB"] . "`");
+					$columns = mysqli_query($conn, "SHOW COLUMNS FROM `" . $_POST["selectTable"] . "` IN `" . $_POST["selectDB"] . "`");
 				}
 
 				$DBs = mysqli_query($conn, "SHOW DATABASES ");
@@ -111,6 +117,7 @@
 										<input type='hidden' name='selectDB' value='" . $_POST["selectDB"] . "' />
 										<input type='hidden' name='selectTable' value='$row[0]' />
 										<button type='submit'>$row[0]</button>
+										<button type='submit' name='deleteTable' value='$row[0]'>delete</button>
 									</form>
 								";
 							}
