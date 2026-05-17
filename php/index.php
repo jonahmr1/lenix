@@ -24,6 +24,9 @@
 		.center {
 			flex: 4;
 		}
+		.right {
+			flex: 4;
+		}
 	</style>
 </head>
 <body
@@ -58,6 +61,11 @@
 					$tables = mysqli_query($conn, "SHOW TABLES FROM " . $_POST["selectDB"]);
 				}
 
+				$columns = null;
+				if (isset($_POST["selectTable"])) {
+						$columns = mysqli_query($conn, "SHOW COLUMNS FROM `" . $_POST["selectTable"] . "` IN `" . $_POST["selectDB"] . "`");
+				}
+
 				$DBs = mysqli_query($conn, "SHOW DATABASES ");
 				$ignoreDBs = ["information_schema", "mysql", "performance_schema", "phpmyadmin"];
 				$found = false;
@@ -88,46 +96,64 @@
 		</div>
 		<?php
 			if ($tables) {
-				echo "<div
-					style='
-						display:flex;
-						flex-direction:column;
-					'
-					class='center'
-				>";
-				if (mysqli_num_rows($tables) > 0) {
-					while ($row = mysqli_fetch_array($tables)) {
-						echo "<div class='center'>" . $row[0] . "</div>";
-					}
-				} else {
-					echo "<div class='center'>no tables found</div>";
-				}
-				echo "
-					<form method='post' style='display:flex; flex-direction:column'>
-						<input type='hidden' name='selectDB' value='" . $_POST["selectDB"] . "' />
-						<input type='text' name='tableName' placeholder='table name' />
-						<div id='cols'>
-							<div style='display:flex; gap:4px'>
-								<input type='text' name='colName[]' placeholder='column name' />
-								<select name='colType[]'>
-									<option>INT</option>
-									<option>VARCHAR(255)</option>
-									<option>TEXT</option>
-									<option>DATE</option>
-									<option>BOOLEAN</option>
-									<option>FLOAT</option>
-								</select>
-								<label><input type='checkbox' name='pk[]' /> PK</label>
-								<label><input type='checkbox' name='nn[]' /> NN</label>
-							</div>
-						</div>
-						<button
-							type='button'
-							onclick='document.getElementById(&quot;cols&quot;).insertAdjacentHTML(&quot;beforeend&quot;, document.getElementById(&quot;cols&quot;).innerHTML)'
-						>add column</button>
-						<button type='submit'>create table</button>
-					</form>
-				";
+				echo "<div class='center'>";
+					echo "<div
+						style='
+							display:flex;
+							flex-direction:column;
+						'
+						class='center'
+					>";
+						if (mysqli_num_rows($tables) > 0) {
+							while ($row = mysqli_fetch_array($tables)) {
+								echo "
+									<form method='post'>
+										<input type='hidden' name='selectDB' value='" . $_POST["selectDB"] . "' />
+										<input type='hidden' name='selectTable' value='$row[0]' />
+										<button type='submit'>$row[0]</button>
+									</form>
+								";
+							}
+						} else {
+							echo "<div class='center'>no tables found</div>";
+						}
+						echo "
+							<form method='post' style='display:flex; flex-direction:column'>
+								<input type='hidden' name='selectDB' value='" . $_POST["selectDB"] . "' />
+
+								<input type='text' name='tableName' placeholder='table name' />
+								<div id='cols'>
+									<div style='display:flex; gap:4px'>
+										<input type='text' name='colName[]' placeholder='column name' />
+										<select name='colType[]'>
+											<option>INT</option>
+											<option>VARCHAR(255)</option>
+											<option>TEXT</option>
+											<option>DATE</option>
+											<option>BOOLEAN</option>
+											<option>FLOAT</option>
+										</select>
+										<label><input type='checkbox' name='pk[]' /> PK</label>
+										<label><input type='checkbox' name='nn[]' /> NN</label>
+									</div>
+								</div>
+								<button
+									type='button'
+									onclick='document.getElementById(&quot;cols&quot;).insertAdjacentHTML(&quot;beforeend&quot;, document.getElementById(&quot;cols&quot;).innerHTML)'
+								>add column</button>
+								<button type='submit'>create table</button>
+							</form>
+						";
+					echo "</div>";
+					echo "<div
+						class='center'
+					>";
+						if ($columns && mysqli_num_rows($columns) > 0) {
+							while ($col = mysqli_fetch_array($columns)) {
+								echo "<div>" . $col["Field"] . " — " . $col["Type"] . "</div>";
+							}
+						}
+					echo "</div>";
 				echo "</div>";
 			} else {
 				echo "<div class='center'>no DBs selected</div>";
