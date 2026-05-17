@@ -1,3 +1,5 @@
+<?php ini_set('display_errors', 1); error_reporting(E_ALL); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +40,18 @@
 				if (isset($_POST["dbName"]) && $_POST["dbName"] !== "") {
 					mysqli_query(mysqli_connect("localhost", "root", ""), "CREATE DATABASE " . $_POST["dbName"]);
 				}
+				
+				if (isset($_POST["tableName"]) && $_POST["tableName"] !== "") {
+					mysqli_select_db($conn, $_POST["selectDB"]);  
+					$cols = [];
+					foreach ($_POST["colName"] as $i => $name) {
+						$col = "`$name` " . $_POST["colType"][$i];
+						if (isset($_POST["nn"][$i])) $col .= " NOT NULL";
+						if (isset($_POST["pk"][$i])) $col .= " PRIMARY KEY";
+						$cols[] = $col;
+					}
+					mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `" . $_POST["tableName"] . "` (" . implode(", ", $cols) . ")");
+				}
 
 				$tables = null;
 				if (isset($_POST["selectDB"])) {
@@ -57,7 +71,7 @@
 								<input type="hidden" name="selectDB" value="<?= $db[0] ?>">
 								<button type="submit"><?= $db[0] ?></button>
 							</form>
-								<form method="post">
+							<form method="post">
 								<input type="hidden" name="deleteDB" value="<?= $db[0] ?>">
 								<button type="submit">delete</button>
 							</form>
@@ -89,7 +103,8 @@
 					echo "<div class='center'>no tables found</div>";
 				}
 				echo "
-					<div style='display:flex; flex-direction:column'>
+					<form method='post' style='display:flex; flex-direction:column'>
+						<input type='hidden' name='selectDB' value='" . $_POST["selectDB"] . "' />
 						<input type='text' name='tableName' placeholder='table name' />
 						<div id='cols'>
 							<div style='display:flex; gap:4px'>
@@ -110,8 +125,8 @@
 							type='button'
 							onclick='document.getElementById(&quot;cols&quot;).insertAdjacentHTML(&quot;beforeend&quot;, document.getElementById(&quot;cols&quot;).innerHTML)'
 						>add column</button>
-						<button type='submit' name='createTable'>create table</button>
-					</div>
+						<button type='submit'>create table</button>
+					</form>
 				";
 				echo "</div>";
 			} else {
