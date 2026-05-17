@@ -149,9 +149,19 @@
 						class='center'
 					>";
 						if ($columns && mysqli_num_rows($columns) > 0) {
+							echo "<table border='1' cellpadding='4' style='border-collapse:collapse'>";
+							echo "<tr><th>Column</th><th>Type</th><th>Null</th><th>Key</th><th>Default</th><th>Extra</th></tr>";
 							while ($col = mysqli_fetch_array($columns)) {
-								echo "<div>" . $col["Field"] . " — " . $col["Type"] . "</div>";
+									echo "<tr>
+											<td>{$col['Field']}</td>
+											<td>{$col['Type']}</td>
+											<td>{$col['Null']}</td>
+											<td>{$col['Key']}</td>
+											<td>{$col['Default']}</td>
+											<td>{$col['Extra']}</td>
+									</tr>";
 							}
+							echo "</table>";
 						}
 					echo "</div>";
 				echo "</div>";
