@@ -32,31 +32,33 @@
 				$conn = mysqli_connect("localhost", "root", "");
 
 				if (isset($_POST["deleteDB"])) {
-					$safe = mysqli_real_escape_string($conn, $_POST["deleteDB"]);
-					mysqli_query($conn, "DROP DATABASE `$safe`");
+					mysqli_query($conn, "DROP DATABASE " . $_POST["deleteDB"]);
 				}
 
-				if (isset($_POST["createDB"])) {
-					$dbName = trim($_POST["dbName"]);
-					if ($dbName !== "") {
-						$conn = mysqli_connect("localhost", "root", "");
-						$safe = mysqli_real_escape_string($conn, $dbName);
-						mysqli_query($conn, "CREATE DATABASE `$safe`");
-					}
+				if (isset($_POST["dbName"]) && $_POST["dbName"] !== "") {
+					mysqli_query(mysqli_connect("localhost", "root", ""), "CREATE DATABASE " . $_POST["dbName"]);
 				}
 
-				$result = mysqli_query($conn, "SHOW DATABASES");
+				$tables = null;
+				if (isset($_POST["selectDB"])) {
+					$tables = mysqli_query($conn, "SHOW TABLES FROM " . $_POST["selectDB"]);
+				}
+
+				$DBs = mysqli_query($conn, "SHOW DATABASES ");
 				$ignoreDBs = ["information_schema", "mysql", "performance_schema", "phpmyadmin"];
 				$found = false;
 
-				while ($row = mysqli_fetch_array($result)) {
-					if (in_array($row[0], $ignoreDBs)) continue;
+				while ($db = mysqli_fetch_array($DBs)) {
+					if (in_array($db[0], $ignoreDBs)) continue;
 					$found = true;
 					?>
 						<div style='display: flex'>
-							<button><?= $row[0] ?></button>
 							<form method="post">
-								<input type="hidden" name="deleteDB" value="<?= $row[0] ?>">
+								<input type="hidden" name="selectDB" value="<?= $db[0] ?>">
+								<button type="submit"><?= $db[0] ?></button>
+							</form>
+								<form method="post">
+								<input type="hidden" name="deleteDB" value="<?= $db[0] ?>">
 								<button type="submit">delete</button>
 							</form>
 						</div>
@@ -66,11 +68,56 @@
 				if (!$found) echo "<div>no DBs found</div>";
 			?>
 			<form method="post">
-				<input type="text" name="dbName"  placeholder="db name" />
-				<button type="submit" name="createDB">create new db</button>
+				<input type="text" name="dbName" placeholder="db name" />
+				<button type="submit">create new DB</button>
 			</form>
 		</div>
-		<div class="center">no DBs selected</div>
+		<?php
+			if ($tables) {
+				echo "<div
+					style='
+						display:flex;
+						flex-direction:column;
+					'
+					class='center'
+				>";
+				if (mysqli_num_rows($tables) > 0) {
+					while ($row = mysqli_fetch_array($tables)) {
+						echo "<div class='center'>" . $row[0] . "</div>";
+					}
+				} else {
+					echo "<div class='center'>no tables found</div>";
+				}
+				echo "
+					<div style='display:flex; flex-direction:column'>
+						<input type='text' name='tableName' placeholder='table name' />
+						<div id='cols'>
+							<div style='display:flex; gap:4px'>
+								<input type='text' name='colName[]' placeholder='column name' />
+								<select name='colType[]'>
+									<option>INT</option>
+									<option>VARCHAR(255)</option>
+									<option>TEXT</option>
+									<option>DATE</option>
+									<option>BOOLEAN</option>
+									<option>FLOAT</option>
+								</select>
+								<label><input type='checkbox' name='pk[]' /> PK</label>
+								<label><input type='checkbox' name='nn[]' /> NN</label>
+							</div>
+						</div>
+						<button
+							type='button'
+							onclick='document.getElementById(&quot;cols&quot;).insertAdjacentHTML(&quot;beforeend&quot;, document.getElementById(&quot;cols&quot;).innerHTML)'
+						>add column</button>
+						<button type='submit' name='createTable'>create table</button>
+					</div>
+				";
+				echo "</div>";
+			} else {
+				echo "<div class='center'>no DBs selected</div>";
+			}
+		?>
 	</div>
 </body>
 </html>
