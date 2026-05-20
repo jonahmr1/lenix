@@ -32,16 +32,26 @@ import lenix from '@lenix/lenix'
 ## Examples
 
 ```ts
-import { wait, entries, raise, oneOf } from 'jsr:@lenix/lenix'
+import { wait } from 'jsr:@lenix/lenix'
 
 // Delay 1 second
 await wait(1000)
+```
+```ts
+import { entries } from 'jsr:@lenix/lenix'
 
 // Typed Object.entries
 const e = entries({ name: 'lenix', version: 1 })
+```
+```ts
+import { oneOf } from 'jsr:@lenix/lenix'
 
 // Type-safe array check
 if (oneOf(status, ['active', 'idle'] as const)) { ... }
+
+```
+```ts
+import { raise } from 'jsr:@lenix/lenix'
 
 // Throw from expression context
 const value = maybeNull ?? raise('value was null')
