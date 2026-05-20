@@ -1,3 +1,5 @@
 export { wait } from './wait'
 export { entries } from './entries'
 export { raise } from './raise'
+export type { S } from './types'
+export { oneOf } from './oneOf'
