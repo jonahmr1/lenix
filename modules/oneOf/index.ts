@@ -7,5 +7,5 @@
  * guard(1, [1, 2, 3]): true
  * guard(4, [1, 2, 3]): false
  */
-export const guard = <T>(value: unknown, from: readonly T[]): value is T =>
+export const oneOf = <T>(value: unknown, from: readonly T[]): value is T =>
 	(from as readonly unknown[]).includes(value)
