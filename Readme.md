@@ -1,6 +1,6 @@
 # lenix
 
-The All-in-one Package
+The All-in-one Repository
 
 ![](https://img.shields.io/crates/l/lenix)
 ![](https://img.shields.io/npm/d18m/lenix)
@@ -18,7 +18,7 @@ deno add jsr:@lenix/lenix
 ## Usage
 ### Modules
 ```ts
-import { module... } from '@lenix/lenix'
+import lenix from '@lenix/lenix'
 ```
 
 ### TypeScript
@@ -27,4 +27,22 @@ import { module... } from '@lenix/lenix'
 {
   "extends": ["@lenix/lenix/beta"]
 }
+```
+
+## Examples
+
+```ts
+import { wait, entries, raise, oneOf } from 'jsr:@lenix/lenix'
+
+// Delay 1 second
+await wait(1000)
+
+// Typed Object.entries
+const e = entries({ name: 'lenix', version: 1 })
+
+// Type-safe array check
+if (oneOf(status, ['active', 'idle'] as const)) { ... }
+
+// Throw from expression context
+const value = maybeNull ?? raise('value was null')
 ```
