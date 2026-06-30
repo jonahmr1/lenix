@@ -1,15 +1,17 @@
 {
-  "name": "lenix_commands",
+  "name": "lenix_charselect",
   "module": "index.ts",
   "type": "module",
   "private": true,
   "scripts": {
     "server": "bun build src/server/index.ts --outfile dist/server.js",
-    "client": "bun build src/client/index.ts --outfile dist/client.js",
-		"build": "bun run server && bun run client"
+    "client": "esbuild src/client/index.ts --bundle --platform=browser --target=es2023 --format=iife --outfile=dist/client.js",
+    "build": "bun run server && bun run client",
+    "watch": "bun run client --watch && bun run server --watch"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "esbuild": "^0.28.1"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -17,6 +19,7 @@
   "dependencies": {
     "@citizenfx/client": "^2.0.31725-1",
     "@citizenfx/server": "^2.0.31689-1",
+    "@overextended/ox_core": "^1.5.14",
     "@overextended/ox_lib": "^3.38.0"
   }
 }
