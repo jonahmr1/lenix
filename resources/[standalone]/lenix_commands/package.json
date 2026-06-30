@@ -1,0 +1,22 @@
+{
+  "name": "lenix_commands",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "server": "bun build src/server/index.ts --outfile dist/server.js",
+    "client": "bun build src/client/index.ts --outfile dist/client.js",
+		"build": "bun run server && bun run client"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@citizenfx/client": "^2.0.31725-1",
+    "@citizenfx/server": "^2.0.31689-1",
+    "@overextended/ox_lib": "^3.38.0"
+  }
+}
