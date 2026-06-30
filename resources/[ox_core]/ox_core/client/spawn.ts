@@ -1,8 +1,8 @@
 import { sleep, waitFor } from '@overextended/ox_lib';
-import { cache, inputDialog } from '@overextended/ox_lib/client';
+import { cache, inputDialog, registerContext, showContext } from '@overextended/ox_lib/client';
 import { OxPlayer } from './player';
 import { netEvent } from 'utils';
-import { CHARACTER_SELECT, SPAWN_LOCATION } from 'config';
+import { CHARACTER_SELECT, CHARACTER_SLOTS, SPAWN_LOCATION } from 'config';
 import locale from '../common/locales';
 import type { Character, NewCharacter } from 'types';
 
@@ -42,8 +42,35 @@ async function StartSession() {
   SetPlayerHealthRechargeMultiplier(cache.playerId, 0.0);
 }
 
+async function promptCharacterMenu(characters: Character[]): Promise<Character | undefined> {
+	return new Promise((resolve) => {
+		registerContext({
+			id: 'char_selection',
+			title: 'Character Selection',
+			canClose: false,
+			options: [
+				...characters.map(character => ({
+					title: `${character.firstName} ${character.lastName}`,
+					metadata: [
+						{ label: locale('gender'), value: locale(character.gender as any) },
+						{ label: locale('last_played'), value: character.lastPlayed },
+					],
+					onSelect: () => resolve(character)
+				})),
+				{
+					title: locale('create_character'),
+					disabled: characters.length >= CHARACTER_SLOTS,
+					onSelect: () => resolve(undefined)
+				},
+			]
+		})
+
+		showContext('char_selection')
+	})
+}
+
 netEvent('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
-	if (OxPlayer.isLoaded) {
+  if (OxPlayer.isLoaded) {
     OxPlayer.isLoaded = false;
 
     emit('ox:playerLogout');
@@ -53,7 +80,7 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 
   if (!CHARACTER_SELECT) return;
 
-  const character = characters[0];
+  const character = await promptCharacterMenu(characters);
   const [x, y, z] = [
     character?.x || SPAWN_LOCATION[0],
     character?.y || SPAWN_LOCATION[1],
