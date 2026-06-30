@@ -43,7 +43,7 @@ async function StartSession() {
 }
 
 netEvent('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
-  if (OxPlayer.isLoaded) {
+	if (OxPlayer.isLoaded) {
     OxPlayer.isLoaded = false;
 
     emit('ox:playerLogout');
