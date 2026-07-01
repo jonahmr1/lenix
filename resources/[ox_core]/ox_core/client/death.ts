@@ -1,4 +1,4 @@
-import { cache, requestAnimDict, sleep } from '@overextended/ox_lib/client';
+import { cache, hideTextUI, requestAnimDict, showTextUI, sleep } from '@overextended/ox_lib/client';
 import { Vector3, Vector4 } from '@nativewrappers/fivem';
 import { OxPlayer } from 'player';
 import { DEATH_SYSTEM, DEBUG, HOSPITAL_BLIPS } from 'config';
@@ -75,7 +75,7 @@ async function ClearDeath(tickId: number, bleedOut: boolean) {
   emit('ox:playerRevived');
 }
 
-const bleedOutTime = DEBUG ? 100 : 1000;
+const bleedOutTime = DEBUG ? 100 : 30 * 1000;
 
 async function OnPlayerDeath() {
   emitNet('ox:playerDeath');
@@ -89,18 +89,31 @@ async function OnPlayerDeath() {
 
   ShakeGameplayCam('DEATH_FAIL_IN_EFFECT_SHAKE', 1.0);
 
-  let bleedOut = 0;
+	const timer = GetGameTimer();
+
   const tickId = setTick(() => {
     const anim = cache.vehicle ? anims[1] : anims[0];
+		const bleedOut = GetGameTimer() - timer;
 
     if (!IsEntityPlayingAnim(cache.ped, anim[0], anim[1], 3))
       TaskPlayAnim(cache.ped, anim[0], anim[1], 50.0, 8.0, -1, 1, 1.0, false, false, false);
 
     DisableFirstPersonCamThisFrame();
 
-    bleedOut++;
-
-    if (bleedOut > bleedOutTime) ClearDeath(tickId, true);
+    if (bleedOut > bleedOutTime) {
+			showTextUI("E - Respawn", {
+				position: "bottom-center"
+			})
+			if (IsControlJustReleased(0, 38)) {
+				hideTextUI()
+				ClearDeath(tickId, true);
+			}
+		} else {
+			const timeLeft = Math.ceil((bleedOutTime - bleedOut) / 1000);
+			showTextUI(`You can respawn after ${timeLeft.toFixed(0)}s`, {
+				position: "bottom-center"
+			})
+		}
   });
 
   const coords = GetEntityCoords(cache.ped, true);
