@@ -2,7 +2,7 @@ Config = {}
 
 Config.Debug = false
 
-Config.ClothingCost = 100
+Config.ClothingCost = 10
 Config.BarberCost = 100
 Config.TattooCost = 100
 Config.SurgeonCost = 100

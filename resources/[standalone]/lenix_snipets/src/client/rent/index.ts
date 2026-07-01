@@ -1,5 +1,6 @@
 import { cache } from "@overextended/ox_lib"
 import { requestModel, notify, createVehicle } from "@overextended/ox_lib/client"
+import type { Vector4 } from ".."
 
 interface Ped {
 	model: string
@@ -7,9 +8,6 @@ interface Ped {
 	spawn: Vector4
 	scenario?: string
 }
-
-type Vector3 = [number, number, number]
-type Vector4 = [number, number, number, number]
 
 const PEDS: Ped[] = [
 	{
@@ -25,37 +23,6 @@ const PEDS: Ped[] = [
 		scenario: "WORLD_HUMAN_CLIPBOARD"
 	},
 ]
-
-const getClosestObject = (
-	coords: Vector3,
-	maxDistance = 2.0
-): [number | undefined, Vector3 | undefined] => {
-	const objects = GetGamePool('CObject')
-
-	let closestObject: number | undefined
-	let closestCoords: Vector3 | undefined
-
-	for (const object of objects) {
-		const objectCoords = GetEntityCoords(object, true) as Vector3
-		const distance = GetDistanceBetweenCoords(
-			coords[0],
-			coords[1],
-			coords[2],
-			objectCoords[0],
-			objectCoords[1],
-			objectCoords[2],
-			true
-		)
-
-		if (distance < maxDistance) {
-			maxDistance = distance
-			closestObject = object
-			closestCoords = objectCoords
-		}
-	}
-
-	return [closestObject, closestCoords]
-}
 
 setImmediate(() => {
 	PEDS.map(async ({ model, coords, spawn, scenario }) => {

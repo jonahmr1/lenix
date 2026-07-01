@@ -66,9 +66,11 @@ return {
 			{ name = 'lockpick', price = 10 }
 		}, locations = {
 			vec3(2748.0, 3473.0, 55.67),
-			vec3(342.99, -1298.26, 32.51)
+			vec3(342.99, -1298.26, 32.51),
+			vec3(46.9020, -1749.5176, 29.6323),
 		}, targets = {
-			{ loc = vec3(2746.8, 3473.13, 55.67), length = 0.6, width = 3.0, heading = 65.0, minZ = 55.0, maxZ = 56.8, distance = 3.0 }
+			{ loc = vec3(2746.8, 3473.13, 55.67), length = 0.6, width = 3.0, heading = 65.0, minZ = 55.0, maxZ = 56.8, distance = 3.0 },
+			{ loc = vec3(46.9020, -1749.5176, 29.6323), length = 3.0, width = 3.0, heading = 51.5492, minZ = 28.0, maxZ = 30.8, distance = 3.0 }
 		}
 	},
 
