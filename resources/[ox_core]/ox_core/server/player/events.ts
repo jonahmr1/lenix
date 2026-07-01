@@ -131,6 +131,7 @@ onClientCallback('ox:getLicense', (playerId, licenseName: string, target?: numbe
 });
 
 on('txAdmin:events:playerHealed', ({ target, author }: { target: number; author: string }) => {
+	emitNet('ox:healPlayer', target)
   if (target === -1) {
     const players = OxPlayer.getAll();
 

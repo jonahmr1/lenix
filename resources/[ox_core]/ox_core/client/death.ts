@@ -27,6 +27,7 @@ const anims = [
 ];
 
 let playerIsDead = false;
+let lastTickId: number
 
 async function ClearDeath(tickId: number, bleedOut: boolean) {
   const anim = cache.vehicle ? anims[1] : anims[0];
@@ -73,6 +74,7 @@ async function ClearDeath(tickId: number, bleedOut: boolean) {
   for (let index = 0; index < anims.length; index++) RemoveAnimDict(anims[index][0]);
 
   emit('ox:playerRevived');
+	hideTextUI();
 }
 
 const bleedOutTime = DEBUG ? 100 : 30 * 1000;
@@ -105,7 +107,6 @@ async function OnPlayerDeath() {
 				position: "bottom-center"
 			})
 			if (IsControlJustReleased(0, 38)) {
-				hideTextUI()
 				ClearDeath(tickId, true);
 			}
 		} else {
@@ -114,7 +115,9 @@ async function OnPlayerDeath() {
 				position: "bottom-center"
 			})
 		}
-  });
+
+		lastTickId = tickId
+	});
 
   const coords = GetEntityCoords(cache.ped, true);
   const health = GetEntityMaxHealth(cache.ped) || Math.floor(Math.max(100, GetEntityMaxHealth(cache.ped) * 0.8));
@@ -146,3 +149,5 @@ on('ox:playerLoaded', () => {
     if (!playerIsDead && IsPedDeadOrDying(PlayerPedId(), true)) OnPlayerDeath();
   }, 200);
 });
+
+onNet('ox:healPlayer', () => ClearDeath(lastTickId, false))

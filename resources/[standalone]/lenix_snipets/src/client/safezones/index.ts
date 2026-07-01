@@ -36,9 +36,9 @@ const SAFE_ZONES: {
 ]
 
 SAFE_ZONES.map(({ coords, distance }) => {
-	const blip = AddBlipForRadius(...coords, distance);
-	SetBlipColour(blip, 1)
-	SetBlipAlpha(blip, 128)
+	// const blip = AddBlipForRadius(...coords, distance);
+	// SetBlipColour(blip, 1)
+	// SetBlipAlpha(blip, 128)
 
 	const point = new Point({
 		coords,
