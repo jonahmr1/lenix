@@ -117,7 +117,7 @@ async function OnPlayerDeath() {
   });
 
   const coords = GetEntityCoords(cache.ped, true);
-  const health = Math.floor(Math.max(100, GetEntityMaxHealth(cache.ped) * 0.8));
+  const health = GetEntityMaxHealth(cache.ped) || Math.floor(Math.max(100, GetEntityMaxHealth(cache.ped) * 0.8));
 
   NetworkResurrectLocalPlayer(coords[0], coords[1], coords[2], GetEntityHeading(cache.ped), 0, false);
 
