@@ -1,4 +1,11 @@
 return {
+	['cuffs'] = {
+		label = 'Handcuffs',
+		client = {
+			event = 'ox:client:cuffPlayer'
+		}
+	},
+	
 	['medkit'] = {
 		label = 'Medkit',
 	},
