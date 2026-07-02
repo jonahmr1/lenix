@@ -91,8 +91,9 @@ async function OnPlayerDeath() {
 
   ShakeGameplayCam('DEATH_FAIL_IN_EFFECT_SHAKE', 1.0);
 
-	const timer = GetGameTimer();
+	await sleep(2000)
 
+	const timer = GetGameTimer();
   const tickId = setTick(() => {
     const anim = cache.vehicle ? anims[1] : anims[0];
 		const bleedOut = GetGameTimer() - timer;
