@@ -90,7 +90,7 @@ return {
 		blip = {
 			id = 403, colour = 69, scale = 0.8
 		}, inventory = {
-			{ name = 'medikit', price = 26 },
+			{ name = 'medkit', price = 26 },
 			{ name = 'bandage', price = 5 }
 		}, locations = {
 			vec3(-308.4312, -588.7435, 32.7768),

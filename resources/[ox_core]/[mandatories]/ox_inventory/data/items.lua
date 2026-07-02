@@ -1,4 +1,8 @@
 return {
+	['medkit'] = {
+		label = 'Medkit',
+	},
+
 	['bandage'] = {
 		label = 'Bandage',
 		weight = 115,

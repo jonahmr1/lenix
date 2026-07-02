@@ -1,4 +1,4 @@
-import { cache, progressBar } from "@overextended/ox_lib/client"
+import { cache, progressBar, skillCheck } from "@overextended/ox_lib/client"
 
 exports.ox_target.addSphereZone({
 	coords: [-324.9671, -588.6762, 32.7755, 46.6720],
@@ -15,5 +15,23 @@ exports.ox_target.addSphereZone({
 			SetEntityHeading(cache.ped, 208.3235)
 			SetEntityHealth(cache.ped, GetEntityMaxHealth(cache.ped));
 		}
+	}
+})
+
+exports.ox_target.addGlobalPlayer({
+	label: 'Revive',
+	canInteract: (entity: number) => {
+		const source = GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity))
+		const player = Player(source)
+		const isDead = player.state["isDead"]
+		const count = exports.ox_inventory.Search('count', 'medkit')
+		return isDead && count > 0
+	},
+	onSelect: async ({ entity }: { entity: number }) => {
+		const res = await skillCheck(['easy', 'easy', 'medium', 'medium'], ['1', '2', '3', '4']);
+		if (!res) return
+		
+		const source = GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity))
+		emitNet('ox:revivePlayer', source)
 	}
 })
