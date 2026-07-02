@@ -1,4 +1,4 @@
-import { cache, inputDialog, onServerCallback, Point } from "@overextended/ox_lib/client";
+import { inputDialog, onServerCallback, Point } from "@overextended/ox_lib/client";
 
 onServerCallback('ox:imprisonPlayer', async () => {
 	const input = await inputDialog('Imprison a person', [
