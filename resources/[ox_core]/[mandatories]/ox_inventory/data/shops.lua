@@ -30,7 +30,9 @@ return {
 		blip = {
 			id = 402, colour = 69, scale = 0.8
 		}, inventory = {
-			{ name = 'lockpick', price = 10 }
+			{ name = 'phone', price = 500 },
+			{ name = 'radio', price = 250 },
+			{ name = 'cuffs', price = 650 },
 		}, locations = {
 			vec3(46.9020, -1749.5176, 29.6323),
 		}, targets = {
@@ -46,6 +48,7 @@ return {
 		}, inventory = {
 			{ name = 'ammo-9', price = 5, },
 			{ name = 'ammo-45', price = 6, },
+			{ name = 'armour', price = 200, },
 			{ name = 'WEAPON_PISTOL50', price = 20000 },
 			{ name = 'WEAPON_PISTOL_MK2', price = 2500 },
 			{ name = 'WEAPON_HEAVYPISTOL', price = 3000 },
@@ -62,17 +65,23 @@ return {
 		blip = {
 			id = 110, colour = 84, scale = 0.8
 		}, inventory = {
-			{ name = 'ammo-9', price = 5, },
-			{ name = 'ammo-rifle', price = 5, },
-			{ name = 'WEAPON_FLASHLIGHT', price = 200 },
-			{ name = 'WEAPON_NIGHTSTICK', price = 100 },
-			{ name = 'WEAPON_PISTOL', price = 500, metadata = { registered = true, serial = 'POL' }, license = 'weapon' },
-			{ name = 'WEAPON_CARBINERIFLE', price = 1000, metadata = { registered = true, serial = 'POL' }, license = 'weapon', grade = 3 },
-			{ name = 'WEAPON_STUNGUN', price = 500, metadata = { registered = true, serial = 'POL'} }
+			{ name = 'ammo-9', price = 1, metadata = { registered = true, serial = 'POL' }, },
+			{ name = 'ammo-rifle', price = 1, metadata = { registered = true, serial = 'POL' }, },
+			{ name = 'WEAPON_FLASHLIGHT', price = 1, metadata = { registered = true, serial = 'POL' }, },
+			{ name = 'WEAPON_NIGHTSTICK', price = 1, metadata = { registered = true, serial = 'POL' }, },
+			{ name = 'cuffs', price = 1, metadata = { registered = true, serial = 'POL' }, },
+			{ name = 'radio', price = 1, metadata = { registered = true, serial = 'POL' }, },
+			{ name = 'WEAPON_HEAVYSNIPER', price = 1, metadata = { registered = true, serial = 'POL' } },
+			{ name = 'WEAPON_HEAVYRIFLE', price = 1, metadata = { registered = true, serial = 'POL' } },
+			{ name = 'WEAPON_PISTOL', price = 1, metadata = { registered = true, serial = 'POL' } },
+			{ name = 'WEAPON_CARBINERIFLE', price = 1, metadata = { registered = true, serial = 'POL' } },
+			{ name = 'WEAPON_STUNGUN', price = 1, metadata = { registered = true, serial = 'POL'} },
 		}, locations = {
-			vec3(451.51, -979.44, 30.68)
+			vec3(451.51, -979.44, 30.68),
+			vec3(468.2743, -1008.7762, 30.7109),
 		}, targets = {
-			{ loc = vec3(453.21, -980.03, 30.68), length = 0.5, width = 3.0, heading = 270.0, minZ = 30.5, maxZ = 32.0, distance = 6 }
+			{ loc = vec3(453.21, -980.03, 30.68), length = 0.5, width = 3.0, heading = 270.0, minZ = 30.5, maxZ = 32.0, distance = 6 },
+			{ loc = vec3(468.2743, -1008.7762, 30.7109), length = 0.5, width = 3.0, heading = 246.4373, minZ = 29.5, maxZ = 31.0, distance = 6 },
 		}
 	},
 

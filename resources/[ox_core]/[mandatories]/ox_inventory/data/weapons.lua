@@ -493,7 +493,7 @@ return {
 		['WEAPON_PISTOL_MK2'] = {
 			label = 'Pistol MK2',
 			weight = 1000,
-			durability = 0.5,
+			durability = 0.1,
 			ammoname = 'ammo-9'
 		},
 
