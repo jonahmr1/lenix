@@ -33,12 +33,16 @@ const SAFE_ZONES: {
 		coords: [-316.6209, -1023.0312, 30.3850],
 		distance: 50.0
 	},
+	{
+		coords: [1697.5388, 2579.3191, 52.9961],
+		distance: 200.0
+	},
 ]
 
 SAFE_ZONES.map(({ coords, distance }) => {
-	// const blip = AddBlipForRadius(...coords, distance);
-	// SetBlipColour(blip, 1)
-	// SetBlipAlpha(blip, 128)
+	const blip = AddBlipForRadius(...coords, distance);
+	SetBlipColour(blip, 2)
+	SetBlipAlpha(blip, 32)
 
 	const point = new Point({
 		coords,
