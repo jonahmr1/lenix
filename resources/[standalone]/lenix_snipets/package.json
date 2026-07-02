@@ -4,21 +4,26 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "server": "bun build src/server/index.ts --outfile dist/server.js",
+    "server": "esbuild src/server/index.ts --bundle --platform=node --target=es2023 --format=cjs --outfile=dist/server.js",
     "client": "esbuild src/client/index.ts --bundle --platform=browser --target=es2023 --format=iife --outfile=dist/client.js",
+    "watch:server": "esbuild src/server/index.ts --bundle --platform=node --target=es2023 --format=cjs --outfile=dist/server.js --watch",
+    "watch:client": "esbuild src/client/index.ts --bundle --platform=browser --target=es2023 --format=iife --outfile=dist/client.js --watch",
     "build": "bun run server && bun run client",
-    "watch": "bun run client --watch && bun run server --watch"
+    "watch": "concurrently \"bun run watch:client\" \"bun run watch:server\""
   },
   "dependencies": {
     "@citizenfx/client": "^2.0.31725-1",
     "@citizenfx/server": "^2.0.31689-1",
+    "@overextended/ox_core": "^1.5.14",
     "@overextended/ox_lib": "^3.38.0",
+    "@overextended/oxmysql": "^2.14.1",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "devDependencies": {
+    "concurrently": "^10.0.3",
     "esbuild": "^0.28.1"
   }
 }
