@@ -1,64 +1,38 @@
-import { cache, sleep } from '@overextended/ox_lib'
+import { addKeybind, cache, requestAnimSet } from '@overextended/ox_lib/client'
 
-let isCrouching = false
-let walkSet = 'default'
+AddStateBagChangeHandler(
+	'crouch',
+	`player:${cache.serverId}`,
+	async (_bagName, _key, value: boolean, _reserved, replicated) => {
+		if (replicated) return
 
-const loadAnimSet = async (anim: string) => {
-	if (HasAnimSetLoaded(anim)) return
+		await requestAnimSet('move_Ped_crouched')
 
-	RequestAnimSet(anim)
-
-	while (!HasAnimSetLoaded(anim))
-		await sleep(10)
-}
-
-const resetAnimSet = async () => {
-	ResetPedMovementClipset(cache.ped, 1.0)
-	ResetPedWeaponMovementClipset(cache.ped)
-	ResetPedStrafeClipset(cache.ped)
-
-	if (walkSet !== 'default') {
-		await loadAnimSet(walkSet)
-		SetPedMovementClipset(cache.ped, walkSet, 1.0)
-		RemoveAnimSet(walkSet)
-	}
-}
-
-RegisterCommand(
-	'togglecrouch',
-	async () => {
-		if (
-			IsPedSittingInAnyVehicle(cache.ped) ||
-			IsPedFalling(cache.ped) ||
-			IsPedSwimming(cache.ped) ||
-			IsPedSwimmingUnderWater(cache.ped) ||
-			IsPauseMenuActive()
-		) {
-			return
-		}
-
-		ClearPedTasks(cache.ped)
-
-		if (isCrouching) {
-			await resetAnimSet()
+		if (!value) {
+			ResetPedMovementClipset(cache.ped, 1.0)
+			ResetPedWeaponMovementClipset(cache.ped)
+			ResetPedStrafeClipset(cache.ped)
 			SetPedStealthMovement(cache.ped, false, 'DEFAULT_ACTION')
-			isCrouching = false
-			return
+		} else {
+			SetPedMovementClipset(cache.ped, 'move_Ped_crouched', 1.0)
+			SetPedStrafeClipset(cache.ped, 'move_Ped_crouched_strafing')
 		}
 
-		await loadAnimSet('move_ped_crouched')
-
-		SetPedMovementClipset(cache.ped, 'move_ped_crouched', 1.0)
-		SetPedStrafeClipset(cache.ped, 'move_ped_crouched_strafing')
-
-		isCrouching = true
-	},
-	false
+		RemoveAnimSet('move_ped_crouched')
+	}
 )
 
-RegisterKeyMapping(
-	'togglecrouch',
-	'Toggle Crouch',
-	'keyboard',
-	'LCONTROL'
-)
+addKeybind({
+	name: 'crouch',
+	description: 'Crouch',
+	defaultKey: 'LCONTROL',
+	onReleased: () => {
+		if (cache.vehicle) return
+
+		LocalPlayer.state.set(
+			'crouch',
+			!LocalPlayer.state.crouch,
+			false
+		)
+	}
+})
