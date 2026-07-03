@@ -2,19 +2,19 @@ import { addCommand, triggerClientCallback } from "@overextended/ox_lib/server";
 
 addCommand(
   'creategroup',
-  async (source) => {
+  async (source, args) => {
 		const input = await triggerClientCallback<{
 			name: string
 			label: string
 			hasAccount: string
-			grade: string
-		}>('ox:createGroup', source)
+			grades: string
+		}>('ox:createGroup', source, args.gradesCount)
 		if (!input) return
 
 		console.debug(input)
 
 		const {
-			name, label, hasAccount, grade
+			name, label, hasAccount, grades
 		} = input
 
 		//@ts-ignore
@@ -22,16 +22,16 @@ addCommand(
 			name,
 			label,
 			hasAccount,
-			grades: [
-				{
-					label: grade,
-					accountRole: 'viewer'
-				}
-			]
+			grades
 		})
   },
   {
     help: 'Create new group to the db.',
+		params: [{
+			name: 'gradesCount',
+			type: 'number',
+			optional: false
+		}],
     restricted: 'group.admin',
   },
 );

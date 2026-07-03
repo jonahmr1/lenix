@@ -1,7 +1,8 @@
 import { inputDialog, onServerCallback } from "@overextended/ox_lib/client";
 
-onServerCallback('ox:createGroup', async () => {
-	const input = await inputDialog('Create new group', [
+onServerCallback('ox:createGroup', async (count: number) => {
+	console.debug(count)
+	const input = await inputDialog('Create new grade', [
 		{
 			type: 'input',
 			label: 'Name'
@@ -10,21 +11,36 @@ onServerCallback('ox:createGroup', async () => {
 			type: 'input',
 			label: 'Label'
 		},
-		{
-			type: 'input',
-			label: 'Label of the highest role'
-		},
+		...Array.from({ length: count }, (_, i) => [
+			{
+				type: 'input' as const,
+				label: `Grade ${i + 1} Name`,
+			},
+			{
+				type: 'select' as const,
+				label: `Grade ${i + 1} Account Role`,
+				options: [
+					{ value: 'viewer', label: 'Viewer' },
+					{ value: 'contributor', label: 'Contributor' },
+					{ value: 'manager', label: 'Manager' },
+					{ value: 'owner', label: 'Owner' },
+				],
+			},
+		]).flat(),
 		{
 			type: 'checkbox',
 			label: 'Create an account?'
 		},
 	], {})
 	if (!input) return
-	console.debug(input)
+
 	return {
 		name: input[0],
 		label: input[1],
-		grade: input[2],
-		hasAccount: input[3],
+		grades: [{
+			label: input[2],
+			accountRole: input[3]
+		}],
+		hasAccount: input[4],
 	}
 })
