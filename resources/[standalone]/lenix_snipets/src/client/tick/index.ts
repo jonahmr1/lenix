@@ -1,5 +1,6 @@
 import { cache } from "@overextended/ox_lib"
 import { startIdentities } from "../identities"
+import { startCuffs } from "../cuffs"
 
 setTick(() => {
 	SetPedStealthMovement(cache.ped, false, "nil")
@@ -11,4 +12,6 @@ setTick(() => {
 	SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
 
 	startIdentities()
+
+	startCuffs()
 })

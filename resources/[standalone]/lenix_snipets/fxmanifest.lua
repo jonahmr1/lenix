@@ -5,5 +5,12 @@ dependencies {
 	'ox_lib'
 } 
 
-client_script 'dist/client.js'
-server_script 'dist/server.js'
+shared_script '@ox_lib/init.lua'
+client_scripts {
+	'dist/client.js',
+	'src/client/**/*.lua'
+}
+server_scripts {
+	'dist/server.js',
+	'src/server/**/*.lua'
+}

@@ -1,4 +1,4 @@
-import { addRadialItem, notify, removeRadialItem } from "@overextended/ox_lib/client"
+import { addRadialItem, disableRadial, notify, removeRadialItem } from "@overextended/ox_lib/client"
 
 const police = [
   {
@@ -25,9 +25,7 @@ addRadialItem([
     label: 'Escort',
     icon: 'user-group',
     onSelect: () => {
-			notify({
-				title: 'Not available yet!'
-			})
+			emit('ox:useEscort')
     }
   },
   {
