@@ -33,7 +33,7 @@ addRadialItem([
     label: 'Put in vehicle',
     icon: 'arrow-right-to-bracket',
     onSelect: () => {
-			emit('ox:interactions:put')
+			emit('ox:interactions:in')
     }
   },
   {
