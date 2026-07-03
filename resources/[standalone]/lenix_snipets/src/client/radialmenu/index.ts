@@ -25,7 +25,7 @@ addRadialItem([
     label: 'Escort',
     icon: 'user-group',
     onSelect: () => {
-			emit('ox:useEscort')
+			emit('ox:escort')
     }
   },
   {

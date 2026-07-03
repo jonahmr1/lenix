@@ -1,20 +1,17 @@
-import { GetPlayer } from "@overextended/ox_core/server";
+const escorts: Record<number, boolean> = {}
 
-export const toggleEscort = (source: number, targetId: number) => {
-	const escorter = GetPlayer(source)
-	const target = GetPlayer(targetId)
-	if (!escorter || !target) return
-	if (!Player(targetId).state.isCuffed) return // only escort cuffed players
-
-	const isEscorted = Player(targetId).state.isEscorted
-	Player(targetId).state.set('isEscorted', isEscorted ? false : source, true)
+const updateState = (targetId: number, source: number, newState: boolean) => {
+	emitNet('ox:toggleEscort', targetId, source, newState)
+	Player(targetId).state.isEscorted = newState
+	escorts[targetId] = newState
 }
 
-onNet('ox:toggleEscort', (targetId: number) => {
-	toggleEscort(source, targetId)
+onNet('ox:server:escort', (targetId: number) => {
+	updateState(targetId, source, !escorts[targetId])
 })
 
-onNet('ox:breakFree', () => {
-	if (!Player(source).state.isEscorted) return
-	Player(source).state.set('isEscorted', false, true)
+AddStateBagChangeHandler('isCuffed', '', (name: string, _key: string, value: boolean) => {
+	if (value) return
+	const playerId = Number(name.replace('player:', ''));
+	updateState(playerId, 0, value)
 })

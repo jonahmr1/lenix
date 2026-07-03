@@ -9,6 +9,36 @@ const anims = [
   { dict: 'mp_arrest_paired', anim: 'crook_p2_back_right' },
 ];
 
+const ALLOWED_CONTROLS = new Set([
+  0,  // INPUT_NEXT_CAMERA
+  1,  // INPUT_LOOK_LR
+  2,  // INPUT_LOOK_UD
+  3,  // INPUT_LOOK_UP_ONLY
+  4,  // INPUT_LOOK_DOWN_ONLY
+  5,  // INPUT_LOOK_LEFT_ONLY
+  6,  // INPUT_LOOK_RIGHT_ONLY
+  21, // INPUT_SPRINT
+  30, // INPUT_MOVE_LR
+  31, // INPUT_MOVE_UD
+  32, // INPUT_MOVE_UP_ONLY
+  33, // INPUT_MOVE_DOWN_ONLY
+  34, // INPUT_MOVE_LEFT_ONLY
+  35, // INPUT_MOVE_RIGHT_ONLY
+  218, // INPUT_SCRIPT_LEFT_AXIS_X
+  219, // INPUT_SCRIPT_LEFT_AXIS_Y
+  220, // INPUT_SCRIPT_RIGHT_AXIS_X
+  221, // INPUT_SCRIPT_RIGHT_AXIS_Y
+  245, // INPUT_MP_TEXT_CHAT_ALL
+  266, // INPUT_MOVE_LEFT
+  267, // INPUT_MOVE_RIGHT
+  268, // INPUT_MOVE_UP
+  269, // INPUT_MOVE_DOWN
+  270, // INPUT_LOOK_LEFT
+  271, // INPUT_LOOK_RIGHT
+  272, // INPUT_LOOK_UP
+  273, // INPUT_LOOK_DOWN
+]);
+
 const handCuffAnimation = async () => {
   requestAnimDict('mp_arrest_paired');
   await sleep(100);
@@ -40,47 +70,6 @@ const getCuffedAnimation = async (playerId: number) => {
   RemoveAnimDict('mp_arrest_paired');
 }
 
-onNet('ox:client:cuffPlayer', () => {
-	const nearest = getClosestPlayer(GetEntityCoords(cache.ped, false) as Vector3)
-	if (!nearest.playerId) {
-		notify({
-			title: 'No one nearby!'
-		})
-		return
-	}
-	emitNet('ox:server:cuffPlayer', GetPlayerServerId(nearest.playerId))
-	handCuffAnimation()
-})
-
-const ALLOWED_CONTROLS = new Set([
-  0,  // INPUT_NEXT_CAMERA
-  1,  // INPUT_LOOK_LR
-  2,  // INPUT_LOOK_UD
-  3,  // INPUT_LOOK_UP_ONLY
-  4,  // INPUT_LOOK_DOWN_ONLY
-  5,  // INPUT_LOOK_LEFT_ONLY
-  6,  // INPUT_LOOK_RIGHT_ONLY
-  21,  // INPUT_SPRINT
-  30, // INPUT_MOVE_LR
-  31, // INPUT_MOVE_UD
-  32, // INPUT_MOVE_UP_ONLY
-  33, // INPUT_MOVE_DOWN_ONLY
-  34, // INPUT_MOVE_LEFT_ONLY
-  35, // INPUT_MOVE_RIGHT_ONLY
-  218, // INPUT_SCRIPT_LEFT_AXIS_X
-  219, // INPUT_SCRIPT_LEFT_AXIS_Y
-  220, // INPUT_SCRIPT_RIGHT_AXIS_X
-  221, // INPUT_SCRIPT_RIGHT_AXIS_Y
-  266, // INPUT_MOVE_LEFT
-  267, // INPUT_MOVE_RIGHT
-  268, // INPUT_MOVE_UP
-  269, // INPUT_MOVE_DOWN
-  270, // INPUT_LOOK_LEFT
-  271, // INPUT_LOOK_RIGHT
-  272, // INPUT_LOOK_UP
-  273, // INPUT_LOOK_DOWN
-]);
-
 export const startCuffs = () => {
   if (!isCuffed) return;
 
@@ -97,17 +86,26 @@ export const startCuffs = () => {
   TaskPlayAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8.0, -1, 48, 0, false, false, false);
 };
 
-onNet('ox:getCuffed', async (cuffer: number) => {
-	isCuffed = true
-  await getCuffedAnimation(cuffer);
-	disableRadial(isCuffed)
-	exports.ox_target.disableTargeting(isCuffed)
-});
+onNet('ox:client:cuffPlayer', () => {
+	const nearest = getClosestPlayer(GetEntityCoords(cache.ped, false) as Vector3)
+	if (!nearest.playerId) {
+		notify({
+			title: 'No one nearby!'
+		})
+		return
+	}
+	emitNet('ox:server:toggleCuffs', GetPlayerServerId(nearest.playerId))
+	handCuffAnimation()
+})
 
-onNet('ox:releaseCuff', () => {
-	isCuffed = false
-  ClearPedTasks(cache.ped);
-  RemoveAnimDict('mp_arresting');
-	disableRadial(isCuffed)
-	exports.ox_target.disableTargeting(isCuffed)
+onNet('ox:client:toggleCuffs', async (cuffer: number, state: boolean) => {
+	isCuffed = state
+	disableRadial(state)
+	exports.ox_target.disableTargeting(state)
+
+	if (state) await getCuffedAnimation(cuffer);
+	else {
+		ClearPedTasks(cache.ped);
+		RemoveAnimDict('mp_arresting');
+	}
 });
