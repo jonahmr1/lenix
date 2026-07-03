@@ -1,5 +1,5 @@
 onNet('ox:interactions:put', (targetId: number, vehicleNetId: number, seat: number) => {
-	emitNet('ox:toggleEscort', targetId, false)
+	emitNet('ox:toggleEscort', targetId, 0, false)
 	SetPedIntoVehicle(GetPlayerPed(targetId.toString()), NetworkGetEntityFromNetworkId(vehicleNetId), seat)
 })
 

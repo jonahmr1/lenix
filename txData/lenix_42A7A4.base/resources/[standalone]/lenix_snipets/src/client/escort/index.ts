@@ -19,7 +19,6 @@ onNet('ox:escort', () => {
 })
 
 onNet('ox:toggleEscort', (serverId: number, state: boolean) => {
-	console.debug(state, serverId)
 	if (state) {
 		AttachEntityToEntity(cache.ped, GetPlayerPed(GetPlayerFromServerId(serverId)), 11816, 0.45, 0.45, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 	} else {
