@@ -67,6 +67,7 @@ return {
 		}, inventory = {
 			{ name = 'ammo-9', price = 1, metadata = { registered = true, serial = 'POL' }, },
 			{ name = 'ammo-rifle', price = 1, metadata = { registered = true, serial = 'POL' }, },
+			{ name = 'ammo-heavysniper', price = 1, metadata = { registered = true, serial = 'POL' }, },
 			{ name = 'WEAPON_FLASHLIGHT', price = 1, metadata = { registered = true, serial = 'POL' }, },
 			{ name = 'WEAPON_NIGHTSTICK', price = 1, metadata = { registered = true, serial = 'POL' }, },
 			{ name = 'cuffs', price = 1, metadata = { registered = true, serial = 'POL' }, },

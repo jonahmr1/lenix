@@ -1,3 +1,4 @@
+import type { OxAccountRole } from "@overextended/ox_core";
 import { addCommand, triggerClientCallback } from "@overextended/ox_lib/server";
 
 addCommand(
@@ -7,23 +8,15 @@ addCommand(
 			name: string
 			label: string
 			hasAccount: string
-			grades: string
+			grades: {
+				label: string
+				accountRole: OxAccountRole
+			}[]
 		}>('ox:createGroup', source, args.gradesCount)
 		if (!input) return
 
-		console.debug(input)
-
-		const {
-			name, label, hasAccount, grades
-		} = input
-
 		//@ts-ignore
-		exports.ox_core.CreateGroup({
-			name,
-			label,
-			hasAccount,
-			grades
-		})
+		exports.ox_core.CreateGroup(input)
   },
   {
     help: 'Create new group to the db.',

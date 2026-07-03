@@ -49,8 +49,7 @@
     "$schema": 1,
     "name": "luka",
     "master": false,
-    "password_hash": "$2a$11$g3YS83/GcXvjt2j5KMNa2u2qhNWqyjvj.tsjejhDsEXrm7gm.4Iy.",
-    "password_temporary": true,
+    "password_hash": "$2a$11$BCa6WsUmeuGC0Dn6/YmtfuEwToGFihBgCqycYcEj3cR5aEFixD2Hi",
     "providers": {
       "citizenfx": {
         "id": "naif1977",
