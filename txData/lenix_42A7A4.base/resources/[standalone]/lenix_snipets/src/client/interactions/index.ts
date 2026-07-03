@@ -26,13 +26,18 @@ const getNearestCoords = (
 	return closest
 }
 
-onNet('ox:interactions:put', () => {
-	const coords = GetPlayer().getCoords() as Vec3
+const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined]  => {
 	const vehicles = getNearbyVehicles(new Vector3(...coords), 3.0)
 	const zoneCoords: Vec3[] = vehicles.map(({ coords: { x, y, z } }) => [x, y, z])
 
 	const closestCoords = getNearestCoords(coords, zoneCoords)
 	const closestVehicle = vehicles.find(vehicle => vehicle.coords.toArray().every((vehicle, i) => vehicle === closestCoords?.[i]))?.vehicle
+	return [closestCoords, closestVehicle]
+}
+
+onNet('ox:interactions:in', () => {
+	const coords = GetPlayer().getCoords() as Vec3
+	const [closestCoords, closestVehicle] = getNearestVehicle(coords)
 	if (!closestCoords || !closestVehicle) {
 		notify({ title: 'No nearby vehicle found!' })
 		return
@@ -51,9 +56,26 @@ onNet('ox:interactions:put', () => {
 		return
 	}
 
-	for (let seat = -1; seat <= GetVehicleMaxNumberOfPassengers(closestVehicle); seat++) {
+	for (let seat = 0; seat <= GetVehicleMaxNumberOfPassengers(closestVehicle); seat++) {
 		if (!IsVehicleSeatFree(closestVehicle, seat)) continue
-		emitNet('ox:server:interactions:put', targetId, closestVehicle, seat)
+		emitNet('ox:interactions:put', targetId, NetworkGetNetworkIdFromEntity(closestVehicle), seat)
 		break
 	}
+})
+
+onNet('ox:interactions:out', () => {
+	const coords = GetPlayer().getCoords() as Vec3
+	const [closestCoords, closestVehicle] = getNearestVehicle(coords)
+	if (!closestCoords || !closestVehicle) {
+		notify({ title: 'No nearby vehicle found!' })
+		return
+	}
+	for (let seat = -1; seat <= GetVehicleMaxNumberOfPassengers(closestVehicle); seat++) {
+		const ped = GetPedInVehicleSeat(closestVehicle, seat)
+		if (!ped) continue
+		
+		emitNet('ox:interactions:take', GetPlayerServerId(NetworkGetPlayerIndexFromPed(ped)), NetworkGetNetworkIdFromEntity(closestVehicle), seat)
+		return
+	}
+	notify({ title: 'The vehicle has no one in' })
 })

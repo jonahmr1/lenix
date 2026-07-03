@@ -14,4 +14,6 @@ setTick(() => {
 	startIdentities()
 
 	startCuffs()
+	
+	SetPedConfigFlag(cache.ped, 184, true)
 })

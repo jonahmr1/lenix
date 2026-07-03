@@ -41,9 +41,7 @@ addRadialItem([
     label: 'Take out of vehicle',
     icon: 'arrow-right-from-bracket',
     onSelect: () => {
-			notify({
-				title: 'Not available yet!'
-			})
+			emit('ox:interactions:out')
     }
   },
   {
