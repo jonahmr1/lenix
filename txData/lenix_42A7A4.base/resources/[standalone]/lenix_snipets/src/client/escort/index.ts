@@ -12,7 +12,7 @@ onNet('ox:escort', () => {
 	const targetId = GetPlayerServerId(nearest.playerId)
 	const isCuffed = Player(targetId).state.isCuffed
 	if (!isCuffed) {
-		notify({ title: 'The person is too strong to be cuffed' })
+		notify({ title: 'The person is not weak enough to get cuffed' })
 		return
 	}
 	emitNet('ox:server:escort', targetId)

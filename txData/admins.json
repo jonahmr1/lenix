@@ -31,18 +31,13 @@
   },
   {
     "$schema": 1,
-    "name": "luka",
+    "name": "utfty",
     "master": false,
-    "password_hash": "$2a$11$rWCIeL2KHFTCpaQfusLcw.fPn0vdhkQyt7CkUZQwWGh1X2x.O9SRW",
+    "password_hash": "$2a$11$4BTZ5EH2euYfCr9yBOJ4DO6fqXIcNls97OufGYVJ3qrAtxtaroPaa",
     "providers": {
-      "citizenfx": {
-        "id": "naif1977",
-        "identifier": "fivem:15674299",
-        "data": {}
-      },
       "discord": {
-        "id": "1310220667370606622",
-        "identifier": "discord:1310220667370606622",
+        "id": "1378362903358341171",
+        "identifier": "discord:1378362903358341171",
         "data": {}
       }
     },
@@ -52,14 +47,19 @@
   },
   {
     "$schema": 1,
-    "name": "utfty",
+    "name": "luka",
     "master": false,
-    "password_hash": "$2a$11$O3bkJ0YzUJhVSI9IYm2bQ.GXron8pBfwtNhQyd65mhNj.nHh1aPpG",
+    "password_hash": "$2a$11$g3YS83/GcXvjt2j5KMNa2u2qhNWqyjvj.tsjejhDsEXrm7gm.4Iy.",
     "password_temporary": true,
     "providers": {
+      "citizenfx": {
+        "id": "naif1977",
+        "identifier": "fivem:15674299",
+        "data": {}
+      },
       "discord": {
-        "id": "1378362903358341171",
-        "identifier": "discord:1378362903358341171",
+        "id": "1310220667370606622",
+        "identifier": "discord:1310220667370606622",
         "data": {}
       }
     },

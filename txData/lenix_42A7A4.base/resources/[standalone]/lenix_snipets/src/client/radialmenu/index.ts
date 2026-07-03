@@ -33,9 +33,7 @@ addRadialItem([
     label: 'Put in vehicle',
     icon: 'arrow-right-to-bracket',
     onSelect: () => {
-			notify({
-				title: 'Not available yet!'
-			})
+			emit('ox:interactions:put')
     }
   },
   {

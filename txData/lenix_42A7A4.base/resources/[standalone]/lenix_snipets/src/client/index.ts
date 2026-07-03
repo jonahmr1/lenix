@@ -10,6 +10,7 @@ import('./prison')
 import('./identities')
 import('./cuffs')
 import('./escort')
+import('./interactions')
 
 export type Vector3 = [number, number, number]
 export type Vector4 = [number, number, number, number]
