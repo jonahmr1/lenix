@@ -14,3 +14,7 @@ server_scripts {
 	'dist/server.js',
 	'src/server/**/*.lua'
 }
+files {
+	'src/web/dist/**'
+}
+ui_page	'src/web/dist/index.html'
