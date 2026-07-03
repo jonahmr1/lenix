@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "general": {
+    "serverName": "Atlast Fiight"
+  },
+  "server": {
+    "dataPath": "C:/Users/Administrator/Desktop/fightm/txData/lenix_42A7A4.base/"
+  }
+}
