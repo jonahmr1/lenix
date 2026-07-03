@@ -53,6 +53,7 @@ onNet('ox:interactions:put', () => {
 
 	for (let seat = -1; seat <= GetVehicleMaxNumberOfPassengers(closestVehicle); seat++) {
 		if (!IsVehicleSeatFree(closestVehicle, seat)) continue
-		TaskWarpPedIntoVehicle(nearest.playerPed, closestVehicle, seat)
+		emitNet('ox:server:interactions:put', targetId, closestVehicle, seat)
+		break
 	}
 })
