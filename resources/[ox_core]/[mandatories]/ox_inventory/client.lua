@@ -773,7 +773,7 @@ local function registerCommands()
 	end
 
 	local primary = lib.addKeybind({
-		name = 'inv',
+		name = 'inv.',
 		description = locale('open_player_inventory'),
 		defaultKey = client.keys[1],
 		onPressed = function()
@@ -800,7 +800,7 @@ local function registerCommands()
 	})
 
 	lib.addKeybind({
-		name = 'inv2',
+		name = 'inv2.',
 		description = locale('open_secondary_inventory'),
 		defaultKey = client.keys[2],
 		onPressed = function(self)
@@ -864,7 +864,7 @@ local function registerCommands()
 	})
 
 	lib.addKeybind({
-		name = 'hotbar',
+		name = 'hotbar.',
 		description = locale('disable_hotbar'),
 		defaultKey = client.keys[3],
 		onPressed = function()
