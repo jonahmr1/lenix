@@ -7,6 +7,16 @@ type OxWeapon = {
 
 let turnedOff: boolean
 
+const updateHud = ({ clip, reserve }: { clip?: string, reserve: string } | { clip: string, reserve?: string }) => {
+	SendNuiMessage(JSON.stringify({
+		key: `update:${clip ? 'clip' : 'reserve'}`,
+		value: { clip, reserve }
+	}))
+}
+
+const toggleHud = (value: boolean) => SendNuiMessage(JSON.stringify({ key: 'display', value }))
+
+
 const getReserve = (ammoName: string): number => exports.ox_inventory.Search('count', ammoName)
 
 const updateClip = (weapon: number) => {
@@ -18,7 +28,7 @@ const updateReserve = (reserve: string) => {
 	updateHud({ reserve })
 }
 
-export const updateHudState = () => {
+export const setHudState = () => {
 	const weapon = GetSelectedPedWeapon(cache.ped);
 	const hasWeapon = GetMaxAmmo(cache.ped, weapon)[1] > 0;
 
@@ -28,6 +38,7 @@ export const updateHudState = () => {
 	}
 	updateClip(weapon)
 }
+
 
 on('ox_inventory:currentWeapon', (weapon: OxWeapon) => {
 	if (!weapon) return
@@ -43,17 +54,6 @@ on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
 
 	updateReserve(totalCount.toString())
 })
-
-const updateHud = ({ clip, reserve }: { clip?: string, reserve: string } | { clip: string, reserve?: string }) => {
-	SendNuiMessage(JSON.stringify({
-		key: `update:${clip ? 'clip' : 'reserve'}`,
-		value: { clip, reserve }
-	}))
-}
-
-const toggleHud = (value: boolean) => {
-	SendNuiMessage(JSON.stringify({ key: 'display', value }))
-}
 
 on('ox:playerLoaded', () => toggleHud(true))
 onNet('ox:startCharacterSelect', () => toggleHud(false))

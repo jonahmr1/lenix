@@ -14,7 +14,7 @@ export default () => {
 		clip: '-',
 		reserve: '-'
 	})
-	const [display, setDisplay] = useState<boolean>(true)
+	const [display, setDisplay] = useState<boolean>()
 
 	useEffect(() => {
 		const handler = (event: MessageEvent) => {
