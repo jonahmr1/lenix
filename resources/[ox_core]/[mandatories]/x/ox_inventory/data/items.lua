@@ -1,4 +1,15 @@
 return {
+	['cuffs'] = {
+		label = 'Handcuffs',
+		client = {
+			event = 'ox:client:cuffPlayer'
+		}
+	},
+	
+	['medkit'] = {
+		label = 'Medkit',
+	},
+	
 	['testburger'] = {
 		label = 'Test Burger',
 		weight = 220,
