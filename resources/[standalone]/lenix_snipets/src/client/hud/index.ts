@@ -5,7 +5,7 @@ type OxWeapon = {
 	metadata: { ammo: number }
 } | undefined
 
-let turnedOff: boolean
+let turnedOff = false
 
 const updateHud = ({ clip, reserve }: { clip?: string, reserve: string } | { clip: string, reserve?: string }) => {
 	SendNuiMessage(JSON.stringify({
@@ -55,5 +55,4 @@ on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
 	updateReserve(totalCount.toString())
 })
 
-on('ox:playerLoaded', () => toggleHud(true))
 onNet('ox:startCharacterSelect', () => toggleHud(false))
