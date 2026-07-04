@@ -1,7 +1,7 @@
 import { cache } from "@overextended/ox_lib"
 import { displayIdentities } from "../identities"
 import { setCuffs } from "../cuffs"
-import { updateClip } from "../hud"
+import { updateHudState } from "../hud"
 
 setTick(() => {
 	SetPedStealthMovement(cache.ped, false, "nil")
@@ -20,5 +20,5 @@ setTick(() => {
 
 	DisplayAmmoThisFrame(false)
 
-	updateClip()
+	updateHudState()
 })
