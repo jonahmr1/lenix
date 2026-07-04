@@ -16,4 +16,6 @@ setTick(() => {
 	startCuffs()
 	
 	SetPedConfigFlag(cache.ped, 184, true)
+
+	DisplayAmmoThisFrame(false)
 })

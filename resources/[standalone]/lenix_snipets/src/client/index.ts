@@ -12,6 +12,7 @@ import('./cuffs')
 import('./escort')
 import('./interactions')
 import('./weather')
+import('./weapon')
 
 export type Vector3 = [number, number, number]
 export type Vector4 = [number, number, number, number]
