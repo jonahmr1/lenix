@@ -1,7 +1,7 @@
 import { cache } from "@overextended/ox_lib"
-import { startIdentities } from "../identities"
-import { startCuffs } from "../cuffs"
-import { startWeapon } from "../weapon"
+import { displayIdentities } from "../identities"
+import { setCuffs } from "../cuffs"
+import { updateClip } from "../hud"
 
 setTick(() => {
 	SetPedStealthMovement(cache.ped, false, "nil")
@@ -12,13 +12,13 @@ setTick(() => {
 	SetPedDensityMultiplierThisFrame(0.0)
 	SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
 
-	startIdentities()
+	displayIdentities()
 
-	startCuffs()
-	
+	setCuffs()
+
 	SetPedConfigFlag(cache.ped, 184, true)
 
 	DisplayAmmoThisFrame(false)
 
-	startWeapon()
+	updateClip()
 })

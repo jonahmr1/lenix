@@ -56,7 +56,7 @@ export const drawText3D = ({
 	ClearDrawOrigin()
 }
 
-export const startIdentities = () => {
+export const displayIdentities = () => {
 	if (!shown) return
 	const players = GetActivePlayers()
 

@@ -1,5 +1,5 @@
 Config.Theme = {
-    currentTheme = "qb-core",
+    currentTheme = "default",
     themes = {
         {
             id = "default",
@@ -8,12 +8,12 @@ Config.Theme = {
             fontColorHover = "255, 255, 255",
             fontColorSelected = "0, 0, 0",
             fontFamily = "Inter",
-            primaryBackground = "0, 0, 0",
+            primaryBackground = "129, 23, 255",
             primaryBackgroundSelected = "255, 255, 255",
             secondaryBackground = "0, 0, 0",
-            scaleOnHover = false,
+            scaleOnHover = true,
             sectionFontWeight = "normal",
-            smoothBackgroundTransition = false
+            smoothBackgroundTransition = true
         },
         {
             id = "qb-core",
