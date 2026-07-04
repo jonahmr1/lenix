@@ -8,6 +8,19 @@ end)
 ---@type table<string, CZone[]>
 local zones = {}
 
+---@param player OxPlayer
+---@param groups table<string, number>
+---@return boolean
+local function hasPlayerGroup(player, groups)
+    for group, requiredGrade in pairs(groups) do
+        local grade = player.getGroup(group)
+        if grade and grade >= requiredGrade then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param player integer | OxPlayer
 ---@param propertyName string
 ---@param componentId integer
@@ -44,7 +57,7 @@ function IsPermitted(player, propertyName, componentId, componentType)
             local level = property.permissions[i]
             local access = i == 1 and 1 or level.components[component.componentId]
 
-            if access and (level.everyone or (level.players and level.players[player.charId]) or player.hasGroup(level.groups)) then
+            if access and (level.everyone or (level.players and level.players[player.charId]) or hasPlayerGroup(player, level.groups)) then
                 return access
             end
         end

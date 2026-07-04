@@ -11,6 +11,8 @@ local vehicleNames = setmetatable({}, {
 
 ---@param data { component: OxPropertyComponent, vehicle: { id: integer, plate: string, owner: integer, group: string, stored: string, model: string, name: string, action: string, location: string, label: string } }
 local function manageVehicle(data)
+    if not player.charId then return end
+
     local options = {
         {
             title = ('%s - %s'):format(data.vehicle.name, data.vehicle.plate),
@@ -24,7 +26,7 @@ local function manageVehicle(data)
             title = 'Update Values',
             disabled = data.vehicle.owner ~= player.charId,
             onSelect = function(args)
-                local groupTable = player.groups
+                local groupTable = player.groups or {}
                 local groups = {{value = 'none', label = 'None'}}
 
                 for group in pairs(groupTable) do

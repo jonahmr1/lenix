@@ -8,6 +8,40 @@ CurrentZone = nil
 ---@type table<string, function>
 local componentActions = {}
 
+local oxPlayer = exports.ox_core:GetPlayer()
+
+---@type table
+player = setmetatable({}, {
+    __index = function(_, key)
+        if not oxPlayer then return nil end
+
+        if key == 'groups' then
+            return oxPlayer.getGroups()
+        elseif key == 'charId' then
+            return oxPlayer.charId
+        elseif key == 'hasGroup' then
+            return function(groups)
+                if type(groups) == 'string' then
+                    return oxPlayer.getGroup(groups) ~= nil
+                end
+                for group, grade in pairs(groups) do
+                    local pg = oxPlayer.getGroup(group)
+                    if pg and pg >= grade then
+                        return true
+                    end
+                end
+                return false
+            end
+        elseif type(oxPlayer[key]) == 'function' then
+            return function(...)
+                return oxPlayer[key](oxPlayer, ...)
+            end
+        else
+            return oxPlayer[key]
+        end
+    end
+})
+
 ---@param componentType string
 ---@param action function
 ---@param actionPermissions string[]
@@ -47,11 +81,14 @@ exports('registerMenu', RegisterMenu)
 ---@param blip integer
 ---@param property string
 local function setBlipVariables(blip, property)
+    if not player.charId then return end
+
     local variables = PropertyVariables[property]
     SetBlipColour(blip, variables.colour)
     SetBlipShrink(blip, true)
 
-    if variables.owner ~= player.charId and not (variables.group and player.groups[variables.group]) then
+    local groups = player.groups
+    if groups and variables.owner ~= player.charId and not (variables.group and groups[variables.group]) then
         SetBlipAsShortRange(blip, true)
     end
 end
@@ -72,6 +109,7 @@ AddStateBagChangeHandler("", 'global', function(bagName, key, value, reserved, r
 end)
 
 local function refreshGroups()
+    if not player.charId then return end
     for name, blip in pairs(blipRegistry) do
         setBlipVariables(blip, name)
     end
@@ -134,7 +172,7 @@ local function loadProperty(resource, file)
 
         SetBlipSprite(blip, data.sprite)
 
-        if player then
+        if player.charId then
             setBlipVariables(blip, name)
         end
 
@@ -278,6 +316,8 @@ end)
 ---@param componentId? integer
 ---@return false | integer response
 local function isPermitted(property, componentId)
+    if not player.charId then return false end
+
     if not property or not componentId then
         local component = getCurrentComponent()
         if not component then return false end
