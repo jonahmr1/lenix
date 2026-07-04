@@ -1,6 +1,7 @@
 import { cache } from "@overextended/ox_lib"
 import { startIdentities } from "../identities"
 import { startCuffs } from "../cuffs"
+import { startWeapon } from "../weapon"
 
 setTick(() => {
 	SetPedStealthMovement(cache.ped, false, "nil")
@@ -18,4 +19,6 @@ setTick(() => {
 	SetPedConfigFlag(cache.ped, 184, true)
 
 	DisplayAmmoThisFrame(false)
+
+	startWeapon()
 })

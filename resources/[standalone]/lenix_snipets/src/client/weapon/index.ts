@@ -1,9 +1,10 @@
-on('ox_inventory:currentWeapon', (weapon: {
-	ammo: string
-	metadata: {
-		ammo: number
-	}
-} | undefined) => {
+export const startWeapon = () => {
+	const weapon: {
+		ammo: string
+		metadata: {
+			ammo: number
+		}
+	} | undefined = exports.ox_inventory.getCurrentWeapon()
 	if (!weapon) return
 	
 	const clip = weapon.metadata.ammo
@@ -12,7 +13,7 @@ on('ox_inventory:currentWeapon', (weapon: {
 		key: 'update',
 		value: { clip, reserve }
 	}))
-})
+}
 
 on('ox:playerLoaded', () => {
   SendNuiMessage(JSON.stringify({
