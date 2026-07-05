@@ -1,7 +1,7 @@
 import Radio from "./apps/radio"
 import Weapon from "./apps/hud"
 
-export const DEV: boolean = true
+export const DEV: boolean = false
 
 export default () => {
 	return (

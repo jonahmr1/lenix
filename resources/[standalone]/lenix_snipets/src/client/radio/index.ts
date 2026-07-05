@@ -1,25 +1,25 @@
+let state = false
 on('ox:radio', () => {
+	state = true
+	SetNuiFocus(true, true)
 	SendNuiMessage(JSON.stringify({
 		key: 'radio:display',
 		value: true
 	}))
-	SetNuiFocus(true, true)
-	SetNuiFocusKeepInput(true)
 })
 
-RegisterNuiCallback('radio:frequency', (data: { frequency: string }) => {
+RegisterNuiCallback('radio:frequency', (data: { frequency: string }, cb: Function) => {
 	exports['pma-voice'].setRadioChannel(Number(data.frequency))
-	exports['pma-voice'].setVoiceProperty('radioEnabled', true)
-	exports['pma-voice'].setVoiceProperty('micClicks', true)
+	cb(true)
 })
 
-RegisterNuiCallback('radio:leave', () => {
+RegisterNuiCallback('radio:leave', (_: unknown, cb: Function) => {
 	exports['pma-voice'].setRadioChannel(0)
-	exports['pma-voice'].setVoiceProperty('radioEnabled', false)
-	exports['pma-voice'].setVoiceProperty('micClicks', false)
+	cb(true)
 })
 
-RegisterNuiCallback('radio:close', () => {
+RegisterNuiCallback('radio:close', (_: unknown, cb: Function) => {
+	state = false
 	SetNuiFocus(false, false)
-	SetNuiFocusKeepInput(false)
+	cb(true)
 })

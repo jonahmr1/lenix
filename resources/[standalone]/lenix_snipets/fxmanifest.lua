@@ -3,7 +3,7 @@ game 'gta5'
 
 dependencies {
 	'ox_lib'
-} 
+}
 
 shared_script '@ox_lib/init.lua'
 client_scripts {
@@ -15,7 +15,6 @@ server_scripts {
 	'src/server/**/*.lua'
 }
 files {
-	'src/web/dist/**',
-	'src/web/dist/radio.png',
+	'src/web/dist/**'
 }
 ui_page	'src/web/dist/index.html'
