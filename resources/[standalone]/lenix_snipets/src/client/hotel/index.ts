@@ -5,8 +5,9 @@ interface Safe {
 	rotation: number
 }
 
-const FIRST_FLOOR_INDEX = 4
-const FLOORS_AMOUNT = 24
+export const FLOOR_HEIGHT = 4
+export const FIRST_FLOOR_INDEX = 4
+export const FLOORS_AMOUNT = 25
 const ROOMS_PER_FLOOR = 18
 const FIRST_FLOOR_SAFES: Safe[] = [
 	{
@@ -22,11 +23,11 @@ const FIRST_FLOOR_SAFES: Safe[] = [
 		rotation: 70.0
 	},
 	{
-		coords: [-341.0572, -1054.2097, 45.2272, 261.5746],
+		coords: [-333.2138, -1032.5966, 45.2899, 255.0691],
 		rotation: 70.0
 	},
 	{
-		coords: [-341.0572, -1054.2097, 45.2272, 261.5746],
+		coords: [-332.8487, -1048.2506, 45.2337, 10.2903],
 		rotation: 70.0
 	},
 	{
@@ -91,7 +92,7 @@ const HOTEL_SAFES: Record<string, Safe> = Object.fromEntries(
     Array.from({ length: ROOMS_PER_FLOOR }, (_, roomIndex) => [
       `${floorIndex + FIRST_FLOOR_INDEX}${String(roomIndex + 1).padStart(2, '0')}`,
       {
-				coords: FIRST_FLOOR_SAFES[roomIndex]?.coords.map((coord, i) => i === 2 ? coord + 4 * floorIndex : coord),
+				coords: FIRST_FLOOR_SAFES[roomIndex]?.coords.map(coord => coord + FLOOR_HEIGHT * floorIndex),
 				rotation: FIRST_FLOOR_SAFES[roomIndex]?.rotation
 			}
     ])
