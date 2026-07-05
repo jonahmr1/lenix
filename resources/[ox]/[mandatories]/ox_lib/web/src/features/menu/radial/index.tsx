@@ -17,11 +17,12 @@ const useStyles = createStyles((theme) => ({
     transform: 'translate(-50%, -50%)',
   },
   sector: {
-    fill: theme.colors.dark[6],
+    fill: theme.fn.rgba(theme.colors.dark[6], 0.7),
     color: theme.colors.dark[0],
 
     '&:hover': {
       fill: theme.fn.primaryColor(),
+			filter: `drop-shadow(0px 1px 5px ${theme.fn.rgba(theme.fn.primaryColor(), 1.0)})`,
       cursor: 'pointer',
       '> g > text, > g > svg > path': {
         fill: '#fff',
@@ -237,7 +238,7 @@ const RadialMenu: React.FC = () => {
                 }
               }}
             >
-              <circle r={28} className={classes.centerCircle} />
+              <circle r={28 * 1.2} className={classes.centerCircle} />
             </g>
           </svg>
           <div className={classes.centerIconContainer}>
