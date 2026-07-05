@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
+import { DEV } from ".."
 
 interface Clip {
 	clip: string
 }
+
 interface Reserve {
 	reserve: string
 }
@@ -14,7 +16,7 @@ export default () => {
 		clip: '-',
 		reserve: '-'
 	})
-	const [display, setDisplay] = useState<boolean>()
+	const [display, setDisplay] = useState<boolean>(DEV)
 
 	useEffect(() => {
 		const handler = (event: MessageEvent) => {
@@ -38,7 +40,7 @@ export default () => {
 	}, [])
 
 	return (
-		<div className={`w-full flex justify-end p-5 ${display ? 'opacity-100' : 'opacity-0'}`}>
+		<div className={`absolute w-full flex justify-end p-5 ${display ? 'opacity-100' : 'opacity-0'}`}>
 			<div className="flex gap-1 items-end">
 				<div className="text-white font-[Saira] text-3xl font-bold">{state.clip}</div>
 				<div className="text-white/50 text-xl font-[Saira]">{state.reserve}</div>
