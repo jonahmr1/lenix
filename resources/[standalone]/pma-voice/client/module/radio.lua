@@ -217,7 +217,7 @@ RegisterCommand('+radiotalk', function()
 					end
 					if shouldPlayAnimation and HasAnimDictLoaded(dict) then
 						if not IsEntityPlayingAnim(ped, dict, anim, 3) then
-							TaskPlayAnim(ped, dict, anim, 8.0, 2.0, -1, 50, 2.0, false,
+							TaskPlayAnim(ped, dict, anim, 2.0, 2.0, -1, 50, 2.0, false,
 								false,
 							false)
 						end
