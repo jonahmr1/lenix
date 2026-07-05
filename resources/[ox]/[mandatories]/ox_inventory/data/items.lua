@@ -5,7 +5,7 @@ return {
 			event = 'ox:client:cuffPlayer'
 		}
 	},
-	
+
 	['medkit'] = {
 		label = 'Medkit',
 	},
@@ -29,7 +29,10 @@ return {
 		label = 'Radio',
 		weight = 1000,
 		stack = false,
-		allowArmed = true
+		allowArmed = true,
+		client = {
+			event = 'ox:radio'
+		}
 	},
 
 	['armour'] = {

@@ -21,18 +21,18 @@ export default () => {
 	useEffect(() => {
 		const handler = (event: MessageEvent) => {
 			const { key, value }: {
-				key: 'update:reserve'
+				key: 'hud:update:reserve'
 				value: Reserve
 			} | {
-				key: 'update:clip'
+				key: 'hud:update:clip'
 				value: Clip
 			} | {
-				key: 'display'
+				key: 'hud:display'
 				value: boolean
 			} = event.data
-			key === 'display' && setDisplay(value)
-			key === 'update:clip' && setState(prev => ({ clip: value.clip, reserve: prev.reserve }))
-			key === 'update:reserve' && setState(prev => ({ reserve: value.reserve, clip: prev.clip }))
+			key === 'hud:display' && setDisplay(value)
+			key === 'hud:update:clip' && setState(prev => ({ clip: value.clip, reserve: prev.reserve }))
+			key === 'hud:update:reserve' && setState(prev => ({ reserve: value.reserve, clip: prev.clip }))
 		}
 		
 		window.addEventListener('message', handler)

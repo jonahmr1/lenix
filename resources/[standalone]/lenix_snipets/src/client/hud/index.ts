@@ -9,12 +9,12 @@ let turnedOff = false
 
 const updateHud = ({ clip, reserve }: { clip?: string, reserve: string } | { clip: string, reserve?: string }) => {
 	SendNuiMessage(JSON.stringify({
-		key: `update:${clip ? 'clip' : 'reserve'}`,
+		key: `hud:update:${clip ? 'clip' : 'reserve'}`,
 		value: { clip, reserve }
 	}))
 }
 
-const toggleHud = (value: boolean) => SendNuiMessage(JSON.stringify({ key: 'display', value }))
+const toggleHud = (value: boolean) => SendNuiMessage(JSON.stringify({ key: 'hud:display', value }))
 
 
 const getReserve = (ammoName: string): number => exports.ox_inventory.Search('count', ammoName)

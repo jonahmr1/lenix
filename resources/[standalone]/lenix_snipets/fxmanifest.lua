@@ -15,6 +15,7 @@ server_scripts {
 	'src/server/**/*.lua'
 }
 files {
-	'src/web/dist/**'
+	'src/web/dist/**',
+	'src/web/dist/radio.png',
 }
 ui_page	'src/web/dist/index.html'

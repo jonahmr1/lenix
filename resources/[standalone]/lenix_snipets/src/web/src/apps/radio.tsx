@@ -1,9 +1,63 @@
+import { useEffect, useState } from "react"
+import { DEV } from ".."
+
+const triggerCallback = (callback: string, data: Record<string, any>) => fetch(`https://${(window as any).GetParentResourceName()}/${callback}`, {
+	method: 'post',
+	headers: {
+		'Content-Type': 'application/json; charset=UTF-8',
+	},
+	body: JSON.stringify(data)
+})
+
 export default () => {
+	const [display, setDisplay] = useState(DEV)
+	const [frequency, setFreq] = useState<string>('')
+
+	useEffect(() => {
+		const handler = (event: MessageEvent) => {
+			const { key, value }: {
+				key: 'radio:display'
+				value: boolean
+			} = event.data
+			key === 'radio:display' && setDisplay(value)
+		}
+		
+		window.addEventListener('message', handler)
+		return () => window.removeEventListener('message', handler)
+	}, [])
+
+	window.addEventListener('keydown', (event: KeyboardEvent) => {
+		if (event.key !== 'Escape') return
+		
+		setDisplay(false)
+		triggerCallback('radio:close', {})
+	})
+
 	return (
-		<div className="w-full flex items-end h-full justify-end py-10">
-			<input className="absolute top-3/7 left-1/2 -translate-x-1/2 bg-green-500 max-w-1/3 h-10" type="number" name="freq" id="freq" title="Channel Frequency" />
-			<button className="absolute top-58/100 left-1/2 -translate-x-1/2 cursor-pointer hover:bg-gray-800 w-5 h-3" title="Turn On/Off The Radio"></button>
-			<img className="max-h-100 border border-white" src="/radio.png" />
+		<div className={`w-full flex items-end h-full justify-end py-10 opacity-${display ? '100' : '0'}`}>
+			<div className="relative inline-block">
+			<input 
+				className="absolute top-45/100 left-1/2 -translate-x-1/2 max-w-3/11 h-10 outline-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+				type="number" 
+				name="freq" 
+				id="freq"
+				title="Channel Frequency" 
+				placeholder="0"
+				value={frequency}
+				onChange={event => setFreq(event.currentTarget.value)}
+				onKeyDown={event => {
+					if (event.key !== 'Enter') return
+
+					triggerCallback('radio:frequency', { frequency })
+				}}
+			/>
+				<button
+					className="absolute top-80/100 left-38/100 -translate-x-1/2 cursor-pointer hover:bg-black/20 w-5 h-3"
+					title="Leave the frequency"
+					onClick={() => triggerCallback('radio:leave', {})}
+				/>
+				<img className={`max-h-100 ${DEV && 'border border-white'}`} src="/radio.png" />
+			</div>
 		</div>
 	)
 }

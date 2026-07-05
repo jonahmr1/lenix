@@ -1,5 +1,5 @@
 import Radio from "./apps/radio"
-import Weapon from "./apps/weapon"
+import Weapon from "./apps/hud"
 
 export const DEV: boolean = true
 
