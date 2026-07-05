@@ -1,10 +1,10 @@
 Locale                          = Locale or {}
 
 Locale['en'] = { -- 'en' is the reference that will be used for 'Config.Language'
-    ParkourStarted             = "",
-    ParkourInterrupted         = "",
-    ParkourStopped             = "",
-    ParkourEnabled             = "",
-    ParkourDisabled            = ""
+    ParkourStarted             = "Parkour intialized!",
+    ParkourInterrupted         = "Parkour interrupted!",
+    ParkourStopped             = "Parkour stopped!",
+    ParkourEnabled             = "Parkour enabled!",
+    ParkourDisabled            = "Parkour disabled!"
 }
 

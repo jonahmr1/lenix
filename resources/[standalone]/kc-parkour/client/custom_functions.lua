@@ -56,5 +56,5 @@ function ParkourNotification(message, type)
         [3] = false
     }
 
-    DrawText2D(message, ShouldBeep[type])
+    -- DrawText2D(message, ShouldBeep[type])
 end
