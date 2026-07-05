@@ -1,17 +1,4 @@
-import { addRadialItem, disableRadial, notify, removeRadialItem } from "@overextended/ox_lib/client"
-
-const police = [
-  {
-    id: 'plist',
-    label: 'Police List',
-    icon: 'list-ul',
-    onSelect: () => {
-			notify({
-				title: 'Not available yet!'
-			})
-    }
-  },
-]
+import { addRadialItem, cache, disableRadial, notify, onCache, removeRadialItem } from "@overextended/ox_lib/client"
 
 addRadialItem([
   {
@@ -56,7 +43,26 @@ addRadialItem([
   },
 ])
 
+onCache('vehicle', (vehicle) => {
+	if (vehicle) addRadialItem({
+			id: 'vehicle-menu',
+			label: 'Vehicle',
+			icon: 'car',
+			onSelect: () => emit('vehiclecontrol:toggle')
+		})
+	else removeRadialItem('vehicle-menu')
+})
+
 onNet('ox:setGroup', (groupName: string, _grade: number) => {
-  if (groupName === 'police') addRadialItem(police)
+  if (groupName === 'police') addRadialItem({
+		id: 'plist',
+		label: 'Police List',
+		icon: 'list-ul',
+		onSelect: () => {
+			notify({
+				title: 'Not available yet!'
+			})
+		}
+	})
 	else removeRadialItem('plist')
 });
