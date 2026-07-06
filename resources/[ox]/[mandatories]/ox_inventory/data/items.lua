@@ -1,4 +1,10 @@
 return {
+	['hotel_keycard'] = {
+    label = 'Hotel Keycard',
+    weight = 10,
+    stack = false,
+	},
+
 	['cuffs'] = {
 		label = 'Handcuffs',
 		client = {
