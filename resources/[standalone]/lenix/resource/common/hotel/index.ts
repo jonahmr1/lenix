@@ -5,10 +5,15 @@ interface Safe {
 	rotation: number
 }
 
+const FLOORS_AMOUNT: number = 26
+const ROOM_FLOORS_AMOUNT: number = 25
 export const FLOOR_HEIGHT: number = 4
-export const FIRST_FLOOR_INDEX: number = 4
-export const FLOORS_AMOUNT: number = 25
+export const FIRST_ROOMS_FLOOR_INDEX: number = 4
 export const ROOMS_PER_FLOOR: number = 18
+export const FIRST_FLOOR_INDEX: number = 0
+
+export const HOTEL_FLOORS: number[] = Array.from({ length: FLOORS_AMOUNT }, (_, i) => i === 0 ? 0 : FIRST_ROOMS_FLOOR_INDEX + i - (FLOORS_AMOUNT - ROOM_FLOORS_AMOUNT))
+export const HOTEL_ROOM_FLOORS: number[] = Array.from({ length: ROOM_FLOORS_AMOUNT }, (_, i) => i + FIRST_ROOMS_FLOOR_INDEX)
 
 const FIRST_FLOOR_SAFES: readonly Safe[] = [
 	{ coords: [-348.0733, -1049.4086, 45.2300, 160.1787], rotation: 70.0 },
@@ -33,9 +38,10 @@ const FIRST_FLOOR_SAFES: readonly Safe[] = [
 ]
 
 export const HOTEL_ROOMS: number[] = Array.from(
-	{ length: FLOORS_AMOUNT * ROOMS_PER_FLOOR },
+	{ length: ROOM_FLOORS_AMOUNT * ROOMS_PER_FLOOR },
 	(_, i) => {
-		const floor = Math.floor(i / ROOMS_PER_FLOOR) + FIRST_FLOOR_INDEX;
+		const floor = HOTEL_ROOM_FLOORS[Math.floor(i / ROOMS_PER_FLOOR)];
+
 		const room = (i % ROOMS_PER_FLOOR) + 1;
 		return Number(`${floor}${String(room).padStart(2, '0')}`);
 	}

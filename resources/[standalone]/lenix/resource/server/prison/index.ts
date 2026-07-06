@@ -31,10 +31,10 @@ const releasePrisoner = async (player: OxPlayer) => {
 	SetEntityCoords(player.ped, 1845.8193, 2585.8560, 45.6720, false, false, false, false)
 	SetEntityHeading(player.ped, 269.8568)
 	await oxmysql.update(
-		`INSERT INTO lenix (charId, jailPeriod)
+		`INSERT INTO lenix (charId, jail_period)
 			VALUES (?, ?)
 			ON DUPLICATE KEY UPDATE
-				jailPeriod = VALUES(jailPeriod)`,
+			jail_period = VALUES(jail_period)`,
 		[player.charId, 0]
 	)
 	clearTimeout(singleHandles.timeout)
@@ -88,19 +88,6 @@ addCommand(
 	}
 )
 
-setImmediate(async () => {
-	const res = await oxmysql.query(`
-		CREATE TABLE IF NOT EXISTS lenix (
-			charId INT UNSIGNED NOT NULL PRIMARY KEY,
-			jailPeriod INT NOT NULL DEFAULT 0,
-			FOREIGN KEY (charId)
-				REFERENCES characters(charId)
-				ON DELETE CASCADE
-		)
-	`)
-	if (!res) throw new Error("Failed to query 'lenix'")
-})
-
 onNet('ox:sendToPrison', () => {
 	const player = GetPlayer(source)
 	if (!player?.charId) return
@@ -111,12 +98,12 @@ onNet('ox:sendToPrison', () => {
 on('ox:playerLoaded', async (playerId: number) => {
 	const player = GetPlayer(playerId)
 	if (!player?.charId) return
-	const row = await oxmysql.single<{ jailPeriod: number }>(
-		'SELECT jailPeriod FROM lenix WHERE charId = ?',
+	const row = await oxmysql.single<{ jail_period: number }>(
+		'SELECT jail_period FROM lenix WHERE charId = ?',
 		[player.charId]
 	)
-	if (!row || row.jailPeriod <= 0) return
-	handles[player.charId] = imprisonPlayer(player, row.jailPeriod)
+	if (!row || row.jail_period <= 0) return
+	handles[player.charId] = imprisonPlayer(player, row.jail_period)
 });
 
 on('ox:playerLogout', async (playerId: number) => {
@@ -124,10 +111,10 @@ on('ox:playerLogout', async (playerId: number) => {
 	if (!player?.charId) return
 	if (!timeLeft[player.charId]) return
 	await oxmysql.update(
-		`INSERT INTO lenix (charId, jailPeriod)
+		`INSERT INTO lenix (charId, jail_period)
 			VALUES (?, ?)
 			ON DUPLICATE KEY UPDATE
-				jailPeriod = VALUES(jailPeriod)`,
+				jail_period = VALUES(jail_period)`,
 		[player.charId, timeLeft[player.charId]]
 	)
 	const singleHandles = handles[player.charId]
