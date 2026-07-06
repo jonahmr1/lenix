@@ -1,6 +1,6 @@
 import { cache } from "@overextended/ox_lib"
 import { requestModel, notify, createVehicle, registerContext, showContext } from "@overextended/ox_lib/client"
-import type { Vector4 } from ".."
+import type { Vector4 } from "types/public"
 
 let lastVehicle: number
 let vehicleInterval: ReturnType<typeof setInterval>

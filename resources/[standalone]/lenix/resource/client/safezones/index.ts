@@ -1,5 +1,5 @@
 import { Point, cache, notify } from "@overextended/ox_lib/client";
-import type { Vector3 } from "..";
+import type { Vector3 } from "types/public";
 
 const nearby = () => {
 	DisablePlayerFiring(cache.ped, true)

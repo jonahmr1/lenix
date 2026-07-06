@@ -1,4 +1,4 @@
-import type { Vector4 } from "..";
+import type { Vector4 } from "types/public"
 
 interface Safe {
 	coords: Vector4

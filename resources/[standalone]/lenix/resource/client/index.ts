@@ -15,6 +15,3 @@ import "./weather"
 import "./hud"
 import "./hotel"
 import "./radio"
-
-export type Vector3 = [number, number, number]
-export type Vector4 = [number, number, number, number]

@@ -1,3 +1,7 @@
+import type { Vector4 } from "types/public"
+
+
+
 on('ox:createdCharacter', (playerId, userId, charId) => {
 	const { id, label, slots, weight, owner }: {
 		id: string
@@ -5,15 +9,16 @@ on('ox:createdCharacter', (playerId, userId, charId) => {
 		slots: number
 		weight: number
 		owner: `charId:${number}`
-		coords: Vector
+		coords: Vector4
 	} = {
-		id: '42wallabyway',
-		label: '42 Wallaby Way',
+		id: ,
+		label: ,
 		slots: 100,
 		weight: 100000,
 		owner: `charId:${charId}`,
-		coords: 
+		coords: []
 	}
+	
 	exports.ox_inventory.RegisterStash(id, label, slots, weight, owner)
 
 	console.debug(playerId, userId, charId)

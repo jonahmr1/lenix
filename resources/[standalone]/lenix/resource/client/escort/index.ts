@@ -1,7 +1,7 @@
 import { cache } from "@overextended/ox_lib"
 import { getClosestPlayer } from "../closest"
-import type { Vector3 } from ".."
 import { notify } from "@overextended/ox_lib/client"
+import type { Vector3 } from "types/public"
 
 onNet('ox:escort', () => {
 	const nearest = getClosestPlayer(GetEntityCoords(cache.ped, false) as Vector3, 2.0, false)

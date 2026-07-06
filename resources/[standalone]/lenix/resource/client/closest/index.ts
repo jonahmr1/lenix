@@ -1,5 +1,5 @@
 import { cache } from "@overextended/ox_lib";
-import type { Vector3 } from "..";
+import type { Vector3 } from "types/public";
 
 export const getClosestPlayer = (
   coords: Vector3,

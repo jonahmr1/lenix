@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@overextended/core": "^0.3.1",
+    "@overextended/ox_core": "^1.5.14",
     "@overextended/ox_lib": "^3.35.0",
     "@overextended/oxmysql": "^2.14.1"
   },
@@ -38,8 +39,5 @@
     "oxlint": "^1.66.0",
     "tsdown": "^0.22.0",
     "typescript": "^6.0.3"
-  },
-  "engines": {
-    "node": ">=22.22.0"
   }
 }

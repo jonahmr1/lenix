@@ -1,7 +1,7 @@
 import { GetPlayer } from "@overextended/ox_core/client"
 import { getNearbyVehicles, notify } from "@overextended/ox_lib/client"
 import { Vector3 } from '@overextended/core/vector';
-import type { Vector3 as Vec3 } from '..'
+import type { Vector3 as Vec3 } from 'types/public'
 import { getClosestPlayer } from "../closest";
 
 const getNearestCoords = (
