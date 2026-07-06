@@ -1,0 +1,45 @@
+{
+  "name": "lenix",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "keywords": [
+    "fivem",
+    "lenix"
+  ],
+  "author": {
+    "name": "Lenix",
+    "url": "https://lenix.dev"
+  },
+  "type": "module",
+  "scripts": {
+    "init": "bun run scripts/init.ts",
+    "lint": "oxlint",
+    "format": "oxfmt",
+    "tsd": "bun tsdown --",
+    "dev": "bun-tasks tsd --watch ::: webbuild --watch",
+    "webdev": "bun --cwd web vite dev --outDir ../dist/web --emptyOutDir",
+    "webbuild": "bun --cwd web vite build --outDir ../dist/web --emptyOutDir",
+    "build": "bun-tasks tsd ::: bun webbuild"
+  },
+  "dependencies": {
+    "@overextended/core": "^0.3.1",
+    "@overextended/ox_lib": "^3.35.0",
+    "@overextended/oxmysql": "^2.14.1"
+  },
+  "devDependencies": {
+    "@citizenfx/client": "latest",
+    "@citizenfx/server": "latest",
+    "@types/bun": "latest",
+    "@types/node": "^22",
+    "bun-tasks": "^0.1.2",
+    "fast-glob": "^3.3.3",
+    "oxfmt": "^0.51.0",
+    "oxlint": "^1.66.0",
+    "tsdown": "^0.22.0",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  }
+}

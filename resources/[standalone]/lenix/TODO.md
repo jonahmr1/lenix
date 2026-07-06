@@ -1,0 +1,2 @@
+- [] use another method instead of html import
+- [] serverize the most of the logic
