@@ -2,5 +2,6 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"types": ["@citizenfx/server"]
-	}
+	},
+	"include": ["../common/index.ts"]
 }

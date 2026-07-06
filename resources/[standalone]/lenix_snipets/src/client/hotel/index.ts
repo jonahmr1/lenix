@@ -27,7 +27,7 @@ const FIRST_FLOOR_SAFES: Safe[] = [
 	{ coords: [-297.1705, -1045.6885, 45.2954, 86.5840], rotation: 70.0 },
 	{ coords: [-305.5876, -1051.6250, 45.2376, 198.3554], rotation: 70.0 },
 	{ coords: [-296.7383, -1068.0686, 45.2264, 86.3660], rotation: 70.0 },
-	{ coords:[-290.2336, -1050.5920, 45.2229, 51.4837] , rotation: 70.0 },
+	{ coords: [-290.2336, -1050.5920, 45.2229, 51.4837] , rotation: 70.0 },
 	{ coords: [-288.3881, -1068.9478, 45.2250, 76.9939], rotation: 70.0 },
 	{ coords: [-283.3085, -1054.8480, 45.2238, 91.0830], rotation: 70.0 }
 ] as const
@@ -43,7 +43,7 @@ const HOTEL_SAFES: Record<string, Safe> = Object.fromEntries(
   ).flat()
 );
 
-for (const [key, { coords, rotation }] of Object.entries(HOTEL_SAFES)) {
+for (const [, { coords, rotation }] of Object.entries(HOTEL_SAFES)) {
   exports.ox_target.addBoxZone({
     coords: coords,
 		size: SAFE_SIZE,
