@@ -7,7 +7,8 @@
       "common/*": ["../common/*"],
       "client/*": ["./client/*"],
       "public/*": ["../public/*"],
-      "types/*": ["../../types/*"]
+      "types/*": ["../../types/*"],
+      "types": ["../../types"],
     }
   },
   "include": ["./", "../common/"]

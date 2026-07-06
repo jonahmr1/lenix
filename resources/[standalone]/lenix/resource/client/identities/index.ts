@@ -1,5 +1,5 @@
 import { addKeybind, cache } from "@overextended/ox_lib/client";
-import type { Vector3 } from "types/public";
+import type { Vector3 } from "types";
 
 let shown = false
 

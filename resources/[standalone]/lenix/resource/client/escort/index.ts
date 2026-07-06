@@ -1,14 +1,14 @@
 import { cache } from "@overextended/ox_lib"
 import { getClosestPlayer } from "../closest"
 import { notify } from "@overextended/ox_lib/client"
-import type { Vector3 } from "types/public"
+import type { Vector3 } from "types"
 
 onNet('ox:escort', () => {
 	const nearest = getClosestPlayer(GetEntityCoords(cache.ped, false) as Vector3, 2.0, false)
 	if (!nearest.playerId) {
-    notify({ title: 'No one nearby!' })
-    return
-  }
+		notify({ title: 'No one nearby!' })
+		return
+	}
 	const targetId = GetPlayerServerId(nearest.playerId)
 	const isCuffed = Player(targetId).state.isCuffed
 	if (!isCuffed) {

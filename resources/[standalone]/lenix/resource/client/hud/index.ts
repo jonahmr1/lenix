@@ -17,7 +17,7 @@ const updateHud = ({ clip, reserve }: { clip?: string, reserve: string } | { cli
 const toggleHud = (value: boolean) => SendNuiMessage(JSON.stringify({ key: 'hud:display', value }))
 
 
-const getReserve = (ammoName: string): number => exports.ox_inventory.Search('count', ammoName)
+const getReserve = (ammoName: string): number => globalThis.exports.ox_inventory.Search('count', ammoName)
 
 const updateClip = (weapon: number) => {
 	const clip = GetAmmoInClip(cache.ped, weapon)[1].toString()
@@ -48,7 +48,7 @@ on('ox_inventory:currentWeapon', (weapon: OxWeapon) => {
 })
 
 on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
-	const weapon: OxWeapon = exports.ox_inventory.getCurrentWeapon()
+	const weapon: OxWeapon = globalThis.exports.ox_inventory.getCurrentWeapon()
 	if (!weapon) return
 	if (weapon.ammo !== itemName) return
 

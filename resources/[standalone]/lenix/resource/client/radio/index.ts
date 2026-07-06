@@ -5,7 +5,7 @@ const anim = 'cellphone_text_read_base'
 let state = false
 let radioProp = 0;
 
-const leaveChannel = () => exports['pma-voice'].setRadioChannel(0)
+const leaveChannel = () => globalThis.exports['pma-voice'].setRadioChannel(0)
 
 const toggleRadioAnimation = async () => {
 	await requestAnimDict(dict);
@@ -76,7 +76,7 @@ on('ox:radio', () => {
 
 RegisterNuiCallback('radio:frequency', (data: { frequency: string }, cb: Function) => {
 	notify({ title: `Set to #${data.frequency}` })
-	exports['pma-voice'].setRadioChannel(Number(data.frequency))
+	globalThis.exports['pma-voice'].setRadioChannel(Number(data.frequency))
 	cb(true)
 })
 

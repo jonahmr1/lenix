@@ -6,7 +6,8 @@
       "common": ["./common"],
       "common/*": ["./common/*"],
       "public/*": ["../public/*"],
-      "types/*": ["../types/*"]
+      "types/*": ["../types/*"],
+      "types": ["../types"],
     }
   }
 }

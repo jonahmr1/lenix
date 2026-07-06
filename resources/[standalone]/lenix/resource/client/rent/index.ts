@@ -1,6 +1,6 @@
 import { cache } from "@overextended/ox_lib"
 import { requestModel, notify, createVehicle, registerContext, showContext } from "@overextended/ox_lib/client"
-import type { Vector4 } from "types/public"
+import type { Vector4 } from "types"
 
 let lastVehicle: number
 let vehicleInterval: ReturnType<typeof setInterval>
@@ -14,28 +14,28 @@ const PEDS: {
 	spawn: Vector4
 	menu?: string[]
 }[] = [
-	{
-		coords: [-252.2817, -297.2987, 21.6264, 69.0925],
-		spawn: [-256.1688, -333.2883, 29.1064, 9.2070],
-	},
-	{
-		coords: [-295.1785, -622.0973, 32.7741, 175.3196],
-		spawn: [-301.8000, -626.5660, 32.1928, 271.8865],
-	},
-	{
-		coords: [1851.5194, 2583.6697, 45.6639, 357.8237],
-		spawn: [1855.4651, 2578.8855, 45.4116, 271.0542],
-	},
-	{
-		coords: [-292.8378, -985.7634, 31.0969, 41.8034],
-		spawn: [ -301.6614, -990.4818, 31.0812, 343.2394],
-	},
-	{
-		coords: [418.6655, -991.6953, 21.3117, 90.1289],
-		spawn: [429.1385, -986.8941, 21.3117, 91.0006],
-		menu: MENUS.police
-	},
-]
+		{
+			coords: [-252.2817, -297.2987, 21.6264, 69.0925],
+			spawn: [-256.1688, -333.2883, 29.1064, 9.2070],
+		},
+		{
+			coords: [-295.1785, -622.0973, 32.7741, 175.3196],
+			spawn: [-301.8000, -626.5660, 32.1928, 271.8865],
+		},
+		{
+			coords: [1851.5194, 2583.6697, 45.6639, 357.8237],
+			spawn: [1855.4651, 2578.8855, 45.4116, 271.0542],
+		},
+		{
+			coords: [-292.8378, -985.7634, 31.0969, 41.8034],
+			spawn: [-301.6614, -990.4818, 31.0812, 343.2394],
+		},
+		{
+			coords: [418.6655, -991.6953, 21.3117, 90.1289],
+			spawn: [429.1385, -986.8941, 21.3117, 91.0006],
+			menu: MENUS.police
+		},
+	]
 
 const handleVehicleDeletion = (vehicle: number) => {
 	clearInterval(vehicleInterval)
@@ -88,17 +88,16 @@ setImmediate(() => {
 	PEDS.map(async ({ coords, spawn, menu }) => {
 		const requestedModel = await requestModel("a_m_m_prolhost_01")
 		if (!requestedModel) return
-	
+
 		const entity = CreatePed(0, requestedModel, coords[0], coords[1], coords[2] - 1.0, coords[3], false, true)
 		TaskStartScenarioInPlace(entity, "WORLD_HUMAN_CLIPBOARD", 0, true)
-		
+
 		SetModelAsNoLongerNeeded(requestedModel)
 		FreezeEntityPosition(entity, true)
 		SetEntityInvincible(entity, true)
 		SetBlockingOfNonTemporaryEvents(entity, true)
 
-		//@ts-ignore
-		exports.ox_target.addLocalEntity(entity, [
+		globalThis.exports.ox_target.addLocalEntity(entity, [
 			{
 				icon: 'fas fa-car',
 				label: 'Take a car',
@@ -116,7 +115,7 @@ setImmediate(() => {
 						0,
 						false
 					)
-					
+
 					if (occupied) {
 						notify({
 							title: 'Spawn point is occupied.'

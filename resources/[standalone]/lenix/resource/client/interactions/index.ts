@@ -1,7 +1,7 @@
 import { GetPlayer } from "@overextended/ox_core/client"
 import { getNearbyVehicles, notify } from "@overextended/ox_lib/client"
 import { Vector3 } from '@overextended/core/vector';
-import type { Vector3 as Vec3 } from 'types/public'
+import type { Vector3 as Vec3 } from 'types'
 import { getClosestPlayer } from "../closest";
 
 const getNearestCoords = (
@@ -26,7 +26,7 @@ const getNearestCoords = (
 	return closest
 }
 
-const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined]  => {
+const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined] => {
 	const vehicles = getNearbyVehicles(new Vector3(...coords), 3.0)
 	const zoneCoords: Vec3[] = vehicles.map(({ coords: { x, y, z } }) => [x, y, z])
 
@@ -48,7 +48,7 @@ onNet('ox:interactions:in', () => {
 		notify({ title: 'No one nearby!' })
 		return
 	}
-	
+
 	const targetId = GetPlayerServerId(nearest.playerId)
 	const isCuffed = Player(targetId).state.isCuffed
 	if (!isCuffed) {
@@ -73,7 +73,7 @@ onNet('ox:interactions:out', () => {
 	for (let seat = -1; seat <= GetVehicleMaxNumberOfPassengers(closestVehicle); seat++) {
 		const ped = GetPedInVehicleSeat(closestVehicle, seat)
 		if (!ped) continue
-		
+
 		emitNet('ox:interactions:take', GetPlayerServerId(NetworkGetPlayerIndexFromPed(ped)), NetworkGetNetworkIdFromEntity(closestVehicle), seat)
 		return
 	}

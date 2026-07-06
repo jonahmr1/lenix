@@ -1,6 +1,6 @@
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from "@overextended/ox_lib/client"
 import { getClosestPlayer } from "../closest";
-import type { Vector3 } from "types/public";
+import type { Vector3 } from "types";
 
 let isCuffed = false;
 
@@ -101,7 +101,7 @@ onNet('ox:client:cuffPlayer', () => {
 onNet('ox:client:toggleCuffs', async (cuffer: number, state: boolean) => {
 	isCuffed = state
 	disableRadial(state)
-	exports.ox_target.disableTargeting(state)
+	globalThis.exports.ox_target.disableTargeting(state)
 	if (state) {
 		getCuffedAnimation(cuffer);
 		const res = await skillCheck('easy');
