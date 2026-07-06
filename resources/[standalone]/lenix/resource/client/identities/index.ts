@@ -9,11 +9,9 @@ addKeybind({
 	defaultKey: 'HOME',
 	onPressed: () => {
 		shown = true
-		console.debug(true)
 	},
 	onReleased: () => {
 		shown = false
-		console.debug(false)
 	}
 })
 

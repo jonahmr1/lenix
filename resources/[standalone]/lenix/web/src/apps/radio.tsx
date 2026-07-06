@@ -8,7 +8,6 @@ const triggerCallback = (callback: string, data: Record<string, any>) => fetch(`
 	},
 	body: JSON.stringify(data)
 })
-console.debug('lenix')
 
 export default () => {
 	const [display, setDisplay] = useState(DEV)
