@@ -1,5 +1,6 @@
+import { Badge } from "@/components/ui/badge";
 import { Separator } from "@base-ui/react/separator";
-import { Badge, AudioLines } from "lucide-react";
+import { AudioLines } from "lucide-react";
 import type { DutyState, Officer as IOfficer, TalkState } from "types";
 
 const TalkStates: Record<TalkState, string> = {

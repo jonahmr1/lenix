@@ -1,6 +1,6 @@
 import Radio from "./apps/radio"
 import Weapon from "./apps/hud"
-import { Roster } from "./apps/roster/officer"
+import { Roster } from "./apps/roster"
 
 export const DEV: boolean = true
 
