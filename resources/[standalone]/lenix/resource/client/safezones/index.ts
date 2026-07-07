@@ -1,10 +1,6 @@
 import { Point, cache, notify } from "@overextended/ox_lib/client";
 import type { Vector3 } from "types";
 
-const nearby = () => {
-	DisablePlayerFiring(cache.ped, true)
-}
-
 const SAFE_ZONES: {
 	coords: Vector3
 	distance: number
@@ -47,7 +43,7 @@ SAFE_ZONES.map(({ coords, distance }) => {
 	const point = new Point({
 		coords,
 		distance,
-		nearby,
+		nearby: () => DisablePlayerFiring(cache.ped, true),
 	});
 
 	point.onEnter = () => {

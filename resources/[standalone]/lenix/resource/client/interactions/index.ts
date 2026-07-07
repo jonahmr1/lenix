@@ -2,29 +2,7 @@ import { GetPlayer } from "@overextended/ox_core/client"
 import { getNearbyVehicles, notify } from "@overextended/ox_lib/client"
 import { Vector3 } from '@overextended/core/vector';
 import type { Vector3 as Vec3 } from 'types'
-import { getClosestPlayer } from "../closest";
-
-const getNearestCoords = (
-	coords: Vec3,
-	zones: Vec3[]
-): Vec3 | undefined => {
-	let closest: Vec3 | undefined
-	let closestDistance = Infinity
-
-	for (const zone of zones) {
-		const dx = zone[0] - coords[0]
-		const dy = zone[1] - coords[1]
-		const dz = zone[2] - coords[2]
-		const distance = dx * dx + dy * dy + dz * dz
-
-		if (distance < closestDistance) {
-			closestDistance = distance
-			closest = zone
-		}
-	}
-
-	return closest
-}
+import { getClosestPlayer, getNearestCoords } from "..";
 
 const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined] => {
 	const vehicles = getNearbyVehicles(new Vector3(...coords), 3.0)

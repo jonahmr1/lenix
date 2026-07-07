@@ -1,6 +1,6 @@
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from "@overextended/ox_lib/client"
-import { getClosestPlayer } from "../closest";
 import type { Vector3 } from "types";
+import { getClosestPlayer } from "..";
 
 let isCuffed = false;
 

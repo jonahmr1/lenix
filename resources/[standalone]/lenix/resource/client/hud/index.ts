@@ -1,5 +1,6 @@
 import { cache } from "@overextended/ox_lib"
 import type { Callbacks } from "types/index"
+import { emitCb } from ".."
 
 type OxWeapon = {
 	ammo: string
@@ -7,13 +8,6 @@ type OxWeapon = {
 } | undefined
 
 let turnedOff = false
-
-const emitCb = <T extends [string, any[]]>(id: T[0], ...params: T[1]) => {
-	if (!SendNuiMessage(JSON.stringify({
-		id,
-		...params
-	}))) throw new Error('SendNuiMessage returned falsy')
-}
 
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
 	if (type === 'clip') return emitCb<Callbacks['updateHudClip']>('hud:update:clip', value)

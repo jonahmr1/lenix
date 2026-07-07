@@ -1,4 +1,6 @@
 import { addKeybind } from "@overextended/ox_lib/client";
+import { emitCb } from "..";
+import type { Callbacks } from "types/index";
 
 let visible: boolean = false
 
@@ -7,10 +9,7 @@ addKeybind({
 	description: 'Toggle The Police Roster',
 	defaultKey: 'K',
 	onPressed: () => {
-		SendNuiMessage(JSON.stringify({
-			key: 'roster:display',
-			value: !visible
-		}))
+		emitCb<Callbacks['displayRoster']>('roster:display', !visible)
 		visible = !visible
 	}
 })
