@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { DEV } from ".."
+import { onCb } from "@/lib"
 
 interface Clip {
 	clip: string
@@ -18,26 +19,9 @@ export default () => {
 	})
 	const [display, setDisplay] = useState<boolean>(DEV)
 
-	useEffect(() => {
-		const handler = (event: MessageEvent) => {
-			const { key, value }: {
-				key: 'hud:update:reserve'
-				value: Reserve
-			} | {
-				key: 'hud:update:clip'
-				value: Clip
-			} | {
-				key: 'hud:display'
-				value: boolean
-			} = event.data
-			key === 'hud:display' && setDisplay(value)
-			key === 'hud:update:clip' && setState(prev => ({ clip: value.clip, reserve: prev.reserve }))
-			key === 'hud:update:reserve' && setState(prev => ({ reserve: value.reserve, clip: prev.clip }))
-		}
-		
-		window.addEventListener('message', handler)
-		return () => window.removeEventListener('message', handler)
-	}, [])
+	onCb('hud:display', setDisplay)
+	onCb('hud:update:clip', (value) => setState(prev => ({ clip: value.clip, reserve: prev.reserve })))
+	onCb('hud:update:reserve', (value) => setState(prev => ({ reserve: value.reserve, clip: prev.clip })))
 
 	return (
 		<div className={`absolute w-full flex justify-end p-5 ${display ? 'opacity-100' : 'opacity-0'}`}>

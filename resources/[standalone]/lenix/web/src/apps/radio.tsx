@@ -1,41 +1,24 @@
 import { useEffect, useState } from "react"
 import { DEV } from ".."
-
-const triggerCallback = (callback: string, data: Record<string, any>) => fetch(`https://${(window as any).GetParentResourceName()}/${callback}`, {
-	method: 'post',
-	headers: {
-		'Content-Type': 'application/json; charset=UTF-8',
-	},
-	body: JSON.stringify(data)
-})
+import { emitCb, onCb, type Callback } from "@/lib"
 
 export default () => {
 	const [display, setDisplay] = useState<boolean>()
 	const [frequency, setFreq] = useState<string>('')
 
 	useEffect(() => {
-		const handler = (event: MessageEvent) => {
-			const { key, value }: {
-				key: 'radio:display'
-				value: boolean
-			} = event.data
-			key === 'radio:display' && setDisplay(value)
-		}
-
 		const escHandler = (event: KeyboardEvent) => {
 			if (event.key !== 'Escape') return
 		
 			setDisplay(false)
-			triggerCallback('radio:close', {})
+			emitCb('radio:close')
 		}
-		
-		window.addEventListener('message', handler)
+
 		window.addEventListener('keydown', escHandler)
-		return () => {
-			window.removeEventListener('message', handler)
-			window.removeEventListener('keydown', escHandler)
-		}
+		return () => window.removeEventListener('keydown', escHandler)
 	}, [])
+
+	onCb<Callback<'radio:display', [boolean]>>('radio:display', setDisplay)
 
 	return (
 		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 opacity-${display ? '100' : '0'}`}>
@@ -52,14 +35,14 @@ export default () => {
 				onKeyDown={event => {
 					if (event.key !== 'Enter') return
 
-					triggerCallback('radio:frequency', { frequency })
+					emitCb('radio:frequency', { frequency })
 				}}
 			/>
 				<button
 					className="absolute top-80/100 left-38/100 -translate-x-1/2 cursor-pointer hover:bg-black/20 w-8 h-5"
 					title="Leave the frequency"
 					onClick={() => {
-						triggerCallback('radio:leave', {})
+						emitCb('radio:leave')
 						setFreq('')
 					}}
 				/>
