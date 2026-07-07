@@ -14,18 +14,11 @@ export interface Officer {
 	talk_state: TalkState
 }
 
-export interface Clip {
-	clip: string
-}
-
-export interface Reserve {
-	reserve: string
-}
 
 export interface Callbacks {
   displayRadio: ['radio:display', [boolean]]
   displayRoster: ['roster:display', [boolean]]
   displayHud: ['hud:display', [boolean]]
-  updateHudClip: ['hud:update:clip', [Clip]]
-  updateHudReserve: ['hud:update:reserve', [Reserve]]
+  updateHudClip: ['hud:update:clip', [string]]
+  updateHudReserve: ['hud:update:reserve', [string]]
 };

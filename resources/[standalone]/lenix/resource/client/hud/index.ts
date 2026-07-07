@@ -1,4 +1,5 @@
 import { cache } from "@overextended/ox_lib"
+import type { Callbacks } from "types/index"
 
 type OxWeapon = {
 	ammo: string
@@ -7,26 +8,26 @@ type OxWeapon = {
 
 let turnedOff = false
 
-const updateHud = ({ clip, reserve }: { clip?: string, reserve: string } | { clip: string, reserve?: string }) => {
-	SendNuiMessage(JSON.stringify({
-		key: `hud:update:${clip ? 'clip' : 'reserve'}`,
-		value: { clip, reserve }
-	}))
+const emitCb = <T extends [string, any[]]>(id: T[0], ...params: T[1]) => {
+	if (!SendNuiMessage(JSON.stringify({
+		id,
+		...params
+	}))) throw new Error('SendNuiMessage returned falsy')
+}
+
+const updateHud = (type: 'clip' | 'reserve', value: string) => {
+	if (type === 'clip') return emitCb<Callbacks['updateHudClip']>('hud:update:clip', value)
+
+	emitCb<Callbacks['updateHudReserve']>('hud:update:reserve', value)
 }
 
 const toggleHud = (value: boolean) => SendNuiMessage(JSON.stringify({ key: 'hud:display', value }))
 
-
 const getReserve = (ammoName: string): number => globalThis.exports.ox_inventory.Search('count', ammoName)
 
-const updateClip = (weapon: number) => {
-	const clip = GetAmmoInClip(cache.ped, weapon)[1].toString()
-	updateHud({ clip })
-}
+const updateClip = (weapon: number) => updateHud('clip', GetAmmoInClip(cache.ped, weapon)[1].toString())
 
-const updateReserve = (reserve: string) => {
-	updateHud({ reserve })
-}
+const updateReserve = (reserve: string) => updateHud('reserve', reserve)
 
 export const setHudState = () => {
 	const weapon = GetSelectedPedWeapon(cache.ped);
