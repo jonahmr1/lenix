@@ -10,7 +10,7 @@ const triggerCallback = (callback: string, data: Record<string, any>) => fetch(`
 })
 
 export default () => {
-	const [display, setDisplay] = useState(DEV)
+	const [display, setDisplay] = useState<boolean>()
 	const [frequency, setFreq] = useState<string>('')
 
 	useEffect(() => {
@@ -21,20 +21,24 @@ export default () => {
 			} = event.data
 			key === 'radio:display' && setDisplay(value)
 		}
+
+		const escHandler = (event: KeyboardEvent) => {
+			if (event.key !== 'Escape') return
+		
+			setDisplay(false)
+			triggerCallback('radio:close', {})
+		}
 		
 		window.addEventListener('message', handler)
-		return () => window.removeEventListener('message', handler)
+		window.addEventListener('keydown', escHandler)
+		return () => {
+			window.removeEventListener('message', handler)
+			window.removeEventListener('keydown', escHandler)
+		}
 	}, [])
 
-	window.addEventListener('keydown', (event: KeyboardEvent) => {
-		if (event.key !== 'Escape') return
-		
-		setDisplay(false)
-		triggerCallback('radio:close', {})
-	})
-
 	return (
-		<div className={`w-full flex items-end h-full justify-end py-10 opacity-${display ? '100' : '0'}`}>
+		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 opacity-${display ? '100' : '0'}`}>
 			<div className="relative inline-block">
 			<input 
 				className="absolute top-45/100 left-1/2 -translate-x-1/2 max-w-31/100 h-15 text-2xl outline-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
