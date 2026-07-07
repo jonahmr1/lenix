@@ -11,21 +11,7 @@ export const Roster = () => {
 			charId: 1,
 			unit: 'A-35',
 			name: 'Marwan Jonah',
-			duty_state: 'on',
-			talk_state: 'on'
-		},
-		{
-			charId: 2,
-			unit: 'U-0',
-			name: 'Marwan Jonah',
-			duty_state: 'break',
-			talk_state: 'off'
-		},
-		{
-			charId: 3,
-			unit: 'U-00',
-			name: 'Marwan Jonah',
-			duty_state: 'break',
+			duty_state: 'off',
 			talk_state: 'off'
 		},
 	])
@@ -44,6 +30,39 @@ export const Roster = () => {
 			window.removeEventListener('message', handler)
 		}
 	}, [])
+
+	const updateOfficer = (
+		charId: number,
+		updates: Partial<IOfficer>
+	) => {
+		setOfficers(prev =>
+			prev.map(officer =>
+				officer.charId === charId
+					? { ...officer, ...updates }
+					: officer
+			)
+		);
+	};
+
+	const getOfficer = (charId: number): IOfficer =>
+		officers.find(officer => officer.charId === charId)!;
+
+	const handleSignin = () => {
+		const state = getOfficer(1).duty_state
+		if (state === 'off') return updateOfficer(1, { duty_state: 'on' })
+		if (state === 'on') return updateOfficer(1, { duty_state: 'off' })
+
+		updateOfficer(1, { duty_state: 'off' })
+	}
+
+	const handleBreak = () => {
+		const state = getOfficer(1).duty_state
+		if (state === 'off') return
+		if (state === 'break') return updateOfficer(1, { duty_state: 'on' })
+		updateOfficer(1, { duty_state: 'break' })
+	}
+
+	const handleCallsign = () => {}
 
 	return (
 		<div inert={!display} className={`absolute gap-3 top-1/5 right-1/10 w-5/10 h-3/4 flex flex-col bg-zinc-900 rounded-lg opacity-${display ? '100' : '0'}`}>
@@ -70,18 +89,21 @@ export const Roster = () => {
 				<Button
 					variant="outline"
 					className="flex-1 rounded-none rounded-bl-lg bg-transparent text-white border-white/10"
+					onClick={handleSignin}
 				>
-					Sign-in
+					{getOfficer(1).duty_state === 'off' ? 'Sign-in' : 'Sign-off'}
 				</Button>
 				<Button
 					variant="outline"
 					className="flex-1 rounded-none bg-transparent border-x-0 text-white border-white/10"
+					onClick={handleBreak}
 				>
-					Take a Break
+					{getOfficer(1).duty_state === 'on' ? 'Take Break' : getOfficer(1).duty_state === 'off' ? 'Take Break' : 'Sign-in'}
 				</Button>
 				<Button
 					variant="outline"
 					className="flex-1 rounded-none rounded-br-lg bg-transparent text-white border-white/10"
+					onClick={handleCallsign}
 				>
 					Callsign
 				</Button>
