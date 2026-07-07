@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"
 import { useState } from "react";
-import type { Officer as IOfficer } from "types";
+import type { Callbacks, Officer as IOfficer } from "types";
 import { Officer } from "./officer";
 import { onCb } from "@/lib";
 
@@ -18,7 +18,7 @@ export const Roster = () => {
 	])
 	let myCharId: number = 1
 
-	onCb('roster:display', setDisplay)
+	onCb<Callbacks['displayRoster']>('roster:display', setDisplay)
 
 	const updateOfficer = (
 		charId: number,

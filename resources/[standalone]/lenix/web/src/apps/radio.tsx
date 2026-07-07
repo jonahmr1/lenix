@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { DEV } from ".."
-import { emitCb, onCb, type Callback } from "@/lib"
+import { emitCb, onCb } from "@/lib"
+import type { Callbacks } from "types"
 
 export default () => {
 	const [display, setDisplay] = useState<boolean>()
@@ -18,7 +19,7 @@ export default () => {
 		return () => window.removeEventListener('keydown', escHandler)
 	}, [])
 
-	onCb<Callback<'radio:display', [boolean]>>('radio:display', setDisplay)
+	onCb<Callbacks['displayRadio']>('radio:display', setDisplay)
 
 	return (
 		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 opacity-${display ? '100' : '0'}`}>

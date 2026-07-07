@@ -13,8 +13,6 @@ const handler = window.addEventListener('message', (event: MessageEvent) => {
 	}
 })
 
-export type Callback<Id extends string, Params = unknown[]> = [Id, Params];
-
 export const onCb = <T extends [string, any[]]>(id: T[0], cb: (...params: T[1]) => void) => cbs.set(id, cb)
 
 export const emitCb = async <T = unknown>(id: string, data?: object): Promise<T> => {

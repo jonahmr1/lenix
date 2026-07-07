@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { DEV } from ".."
 import { onCb } from "@/lib"
+import type { Callbacks } from "types"
 
 interface Clip {
 	clip: string
@@ -19,9 +20,9 @@ export default () => {
 	})
 	const [display, setDisplay] = useState<boolean>(DEV)
 
-	onCb('hud:display', setDisplay)
-	onCb('hud:update:clip', (value) => setState(prev => ({ clip: value.clip, reserve: prev.reserve })))
-	onCb('hud:update:reserve', (value) => setState(prev => ({ reserve: value.reserve, clip: prev.clip })))
+	onCb<Callbacks['displayHud']>('hud:display', setDisplay)
+	onCb<Callbacks['updateHudClip']>('hud:update:clip', (value) => setState(prev => ({ clip: value.clip, reserve: prev.reserve })))
+	onCb<Callbacks['updateHudReserve']>('hud:update:reserve', (value) => setState(prev => ({ reserve: value.reserve, clip: prev.clip })))
 
 	return (
 		<div className={`absolute w-full flex justify-end p-5 ${display ? 'opacity-100' : 'opacity-0'}`}>
