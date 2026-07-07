@@ -1,61 +1,28 @@
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"
-import { AudioLines } from 'lucide-react';
 import { useEffect, useState } from "react";
-
-interface Officer {
-	unit: string
-	name: string
-	duty_state: keyof typeof DutyStates
-	talk_state:  keyof typeof TalkStates
-}
-
-const TalkStates = {
-	on: 'text-blue-400',
-	off: 'text-gray-500'
-}
-
-const DutyStates = {
-	on: 'bg-green-500',
-	off: 'bg-red-500',
-	break: 'bg-orange-500',
-}
-
-const Officer = ({ unit, name, duty_state, talk_state }: Officer) => (
-	<div className="w-full min-h-1/10 flex justify-around items-center">
-		<div className="flex-3 flex gap-3">
-			<Badge className={`${DutyStates[duty_state]}`} />
-			<div className="text-white/70 whitespace-nowrap font-extralight">{unit}</div>
-		</div>
-		<div className='py-1 flex-1 flex justify-center'>
-			<Separator orientation="vertical" className='h-4 bg-gray-600' />
-		</div>
-		<div className="flex-8 flex justify-between">
-			<div className="text-white text-left">{name}</div>
-			<Badge>
-				<AudioLines className={`${TalkStates[talk_state]}`} />
-			</Badge>
-		</div>
-	</div>
-)
+import type { Officer as IOfficer } from "types";
+import { Officer } from "./officer";
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(true)
-	const [officers, setOfficers] = useState<Officer[]>([
+	const [officers, setOfficers] = useState<IOfficer[]>([
 		{
+			charId: 1,
 			unit: 'A-35',
 			name: 'Marwan Jonah',
 			duty_state: 'on',
 			talk_state: 'on'
 		},
 		{
+			charId: 2,
 			unit: 'U-0',
 			name: 'Marwan Jonah',
 			duty_state: 'break',
 			talk_state: 'off'
 		},
 		{
+			charId: 3,
 			unit: 'U-00',
 			name: 'Marwan Jonah',
 			duty_state: 'break',
@@ -106,14 +73,12 @@ export const Roster = () => {
 				>
 					Sign-in
 				</Button>
-
 				<Button
 					variant="outline"
 					className="flex-1 rounded-none bg-transparent border-x-0 text-white border-white/10"
 				>
 					Take a Break
 				</Button>
-
 				<Button
 					variant="outline"
 					className="flex-1 rounded-none rounded-br-lg bg-transparent text-white border-white/10"

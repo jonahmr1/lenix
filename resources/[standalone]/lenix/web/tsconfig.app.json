@@ -10,7 +10,8 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+			"types": ["../types"],
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -26,5 +27,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "../types"]
 }
