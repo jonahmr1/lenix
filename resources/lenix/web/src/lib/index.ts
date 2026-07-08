@@ -9,7 +9,7 @@ const handler = window.addEventListener('message', (event: MessageEvent) => {
 	if (!cb) throw new Error(`Callback<${id}> does not exist yet`)
 
 	try {
-		cb(...Object.values(params))
+		cb(...(params ?? []))
 	} catch (e) {
 		throw new Error(`Error occured while receiving callback<${id}>. \n${e}`)
 	}

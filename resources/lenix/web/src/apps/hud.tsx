@@ -20,11 +20,9 @@ export default () => {
 	})
 	const [display, setDisplay] = useState<boolean>(DEV)
 
-	onEvent<Events['displayHud']>('hud:display', ({ value }) => {
-		setDisplay(value)
-	})
-	onEvent<Events['updateHudClip']>('hud:update:clip', ({ value }) => setState(prev => ({ clip: value, reserve: prev.reserve })))
-	onEvent<Events['updateHudReserve']>('hud:update:reserve', ({ value }) => setState(prev => ({ reserve: value, clip: prev.clip })))
+	onEvent<Events['displayHud']>('hud:display', setDisplay)
+	onEvent<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve })))
+	onEvent<Events['updateHudReserve']>('hud:update:reserve', reserve => setState(prev => ({ reserve, clip: prev.clip })))
 
 	return (
 		<div className={`absolute w-full flex justify-end p-5 ${display ? 'opacity-100' : 'opacity-0'}`}>

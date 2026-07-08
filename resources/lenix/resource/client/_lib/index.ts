@@ -1,12 +1,12 @@
 import { cache } from "@overextended/ox_lib"
 import type { Request, Vector3 } from "types/index"
 
-export const emitEvent = <T extends [string, Record<string, unknown>[]]>(id: T[0], ...params: T[1]) => {
+export const emitEvent = <T extends [string, unknown[]]>(id: T[0], ...params: T[1]) => {
 	if (
 		!SendNuiMessage(
 			JSON.stringify({
 				id,
-				...params,
+				params: [...params],
 			}),
 		)
 	)
