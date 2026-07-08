@@ -1,41 +1,43 @@
-import "common";
-import "./radialmenu"
-import "./rent"
-import "./medical"
-import "./safezones"
-import "./crouch"
-import "./tick"
-import "./groups"
-import "./prison"
-import "./identities"
-import "./cuffs"
-import "./escort"
-import "./interactions"
-import "./weather"
-import "./hud"
-import "./hotel"
-import "./radio"
-import "./elevators"
-import "./roster"
-import { cache } from "@overextended/ox_lib";
-import type { Request, Vector3 } from "types";
+import 'common'
+import './radialmenu'
+import './rent'
+import './medical'
+import './safezones'
+import './crouch'
+import './tick'
+import './groups'
+import './prison'
+import './identities'
+import './cuffs'
+import './escort'
+import './interactions'
+import './weather'
+import './hud'
+import './hotel'
+import './radio'
+import './elevators'
+import './roster'
+import { cache } from '@overextended/ox_lib'
+import type { Request, Vector3 } from 'types'
 
 export const emitEvent = <T extends [string, any[]]>(id: T[0], ...params: T[1]) => {
-	if (!SendNuiMessage(JSON.stringify({
-		id,
-		...params
-	}))) throw new Error('SendNuiMessage returned falsy')
+	if (
+		!SendNuiMessage(
+			JSON.stringify({
+				id,
+				...params,
+			}),
+		)
+	)
+		throw new Error('SendNuiMessage returned falsy')
 }
 
-export const onNui = <
-	T extends Request<string, Record<string, unknown>>
->(id: T[0], cb: (data: T[1]) => string | number | boolean) => RegisterNuiCallback(id, (data: T[1], reply: Function) => reply(cb(data)))
+export const onNui = <T extends Request<string, Record<string, unknown>>>(
+	id: T[0],
+	cb: (data: T[1]) => string | number | boolean,
+) => RegisterNuiCallback(id, (data: T[1], reply: Function) => reply(cb(data)))
 
-
-export const getNearestCoords = (
-	coords: Vector3,
-	zones: Vector3[]
-): Vector3 | undefined => {
+export const getNearestCoords = (coords: Vector3, zones: Vector3[]): Vector3 | undefined => {
 	let closest: Vector3 | undefined
 	let closestDistance = Infinity
 
@@ -57,49 +59,41 @@ export const getNearestCoords = (
 export const getClosestPlayer = (
 	coords: Vector3,
 	maxDistance = 2.0,
-	includePlayer = false
+	includePlayer = false,
 ): {
-	playerId?: number;
-	playerPed?: number;
-	playerCoords?: Vector3;
-	playerVehicle?: number;
+	playerId?: number
+	playerPed?: number
+	playerCoords?: Vector3
+	playerVehicle?: number
 } => {
-	const players = GetActivePlayers();
+	const players = GetActivePlayers()
 
-	let closestId: number | undefined;
-	let closestPed: number | undefined;
-	let closestCoords: Vector3 | undefined;
-	let closestVehicle: number | undefined;
+	let closestId: number | undefined
+	let closestPed: number | undefined
+	let closestCoords: Vector3 | undefined
+	let closestVehicle: number | undefined
 
 	for (let i = 0; i < players.length; i++) {
-		const playerId = players[i];
+		const playerId = players[i]
 
 		if (playerId !== cache.playerId || includePlayer) {
-			const playerPed = GetPlayerPed(playerId);
-			const vehicle = GetVehiclePedIsIn(playerPed, false);
-			const playerCoords =
-				(vehicle === 0
-					? GetEntityCoords(playerPed, false)
-					: GetWorldPositionOfEntityBone(playerPed, 0)) as Vector3
+			const playerPed = GetPlayerPed(playerId)
+			const vehicle = GetVehiclePedIsIn(playerPed, false)
+			const playerCoords = (
+				vehicle === 0 ? GetEntityCoords(playerPed, false) : GetWorldPositionOfEntityBone(playerPed, 0)
+			) as Vector3
 
-			const distance = Vdist(
-				coords[0],
-				coords[1],
-				coords[2],
-				playerCoords[0],
-				playerCoords[1],
-				playerCoords[2]
-			);
+			const distance = Vdist(coords[0], coords[1], coords[2], playerCoords[0], playerCoords[1], playerCoords[2])
 
 			if (distance < maxDistance) {
-				maxDistance = distance;
-				closestId = playerId;
-				closestPed = playerPed;
-				closestCoords = playerCoords;
-				closestVehicle = vehicle;
+				maxDistance = distance
+				closestId = playerId
+				closestPed = playerPed
+				closestCoords = playerCoords
+				closestVehicle = vehicle
 			}
 		}
 	}
 
-	return { playerId: closestId, playerPed: closestPed, playerCoords: closestCoords, playerVehicle: closestVehicle };
+	return { playerId: closestId, playerPed: closestPed, playerCoords: closestCoords, playerVehicle: closestVehicle }
 }

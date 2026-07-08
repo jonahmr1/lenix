@@ -1,12 +1,12 @@
-import "common";
-import "./groups";
-import "./prison";
-import "./medical";
-import "./cuffs";
-import "./escort"
-import "./interactions"
-import "./hotel"
-import { oxmysql } from "@overextended/oxmysql";
+import 'common'
+import './groups'
+import './prison'
+import './medical'
+import './cuffs'
+import './escort'
+import './interactions'
+import './hotel'
+import { oxmysql } from '@overextended/oxmysql'
 
 setImmediate(async () => {
 	const res = await oxmysql.query(`

@@ -1,11 +1,13 @@
-import { cache } from "@overextended/ox_lib"
-import type { Events } from "types/index"
-import { emitEvent } from ".."
+import { cache } from '@overextended/ox_lib'
+import type { Events } from 'types/index'
+import { emitEvent } from '..'
 
-type OxWeapon = {
-	ammo: string
-	metadata: { ammo: number }
-} | undefined
+type OxWeapon =
+	| {
+			ammo: string
+			metadata: { ammo: number }
+	  }
+	| undefined
 
 let turnedOff = false
 
@@ -24,16 +26,15 @@ const updateClip = (weapon: number) => updateHud('clip', GetAmmoInClip(cache.ped
 const updateReserve = (reserve: string) => updateHud('reserve', reserve)
 
 export const setHudState = () => {
-	const weapon = GetSelectedPedWeapon(cache.ped);
-	const hasWeapon = GetMaxAmmo(cache.ped, weapon)[1] > 0;
+	const weapon = GetSelectedPedWeapon(cache.ped)
+	const hasWeapon = GetMaxAmmo(cache.ped, weapon)[1] > 0
 
 	if (hasWeapon === turnedOff) {
-		toggleHud(hasWeapon);
-		turnedOff = !hasWeapon;
+		toggleHud(hasWeapon)
+		turnedOff = !hasWeapon
 	}
 	updateClip(weapon)
 }
-
 
 on('ox_inventory:currentWeapon', (weapon: OxWeapon) => {
 	if (!weapon) return

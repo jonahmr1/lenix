@@ -12,6 +12,6 @@ onNet('ox:server:escort', (targetId: number) => {
 
 AddStateBagChangeHandler('isCuffed', '', (name: string, _key: string, value: boolean) => {
 	if (value) return
-	const playerId = Number(name.replace('player:', ''));
+	const playerId = Number(name.replace('player:', ''))
 	updateState(playerId, 0, value)
 })

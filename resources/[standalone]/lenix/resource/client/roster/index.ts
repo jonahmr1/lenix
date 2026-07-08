@@ -1,6 +1,6 @@
-import { addKeybind } from "@overextended/ox_lib/client";
-import { emitEvent } from "..";
-import type { Events } from "types/index";
+import { addKeybind } from '@overextended/ox_lib/client'
+import { emitEvent } from '..'
+import type { Events } from 'types/index'
 
 let visible: boolean = false
 
@@ -11,5 +11,5 @@ addKeybind({
 	onPressed: () => {
 		emitEvent<Events['displayRoster']>('roster:display', !visible)
 		visible = !visible
-	}
+	},
 })

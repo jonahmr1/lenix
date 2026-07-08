@@ -1,10 +1,10 @@
-import { cache } from "@overextended/ox_lib"
-import { displayIdentities } from "../identities"
-import { setCuffs } from "../cuffs"
-import { setHudState } from "../hud"
+import { cache } from '@overextended/ox_lib'
+import { displayIdentities } from '../identities'
+import { setCuffs } from '../cuffs'
+import { setHudState } from '../hud'
 
 setTick(() => {
-	SetPedStealthMovement(cache.ped, false, "nil")
+	SetPedStealthMovement(cache.ped, false, 'nil')
 
 	SetParkedVehicleDensityMultiplierThisFrame(0.0)
 	SetVehicleDensityMultiplierThisFrame(0.0)

@@ -1,4 +1,4 @@
-import type { Event } from "types"
+import type { Event } from 'types'
 
 const cbs = new Map<string, (...params: unknown[]) => void>()
 
@@ -24,7 +24,7 @@ export const triggetNui = async <T = unknown>(id: string, data?: object): Promis
 			headers: {
 				'Content-Type': 'application/json; charset=UTF-8',
 			},
-			body: JSON.stringify(data ?? {})
+			body: JSON.stringify(data ?? {}),
 		})
 		return await response.json()
 	} catch (e) {

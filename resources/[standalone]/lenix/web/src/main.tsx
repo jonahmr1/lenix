@@ -6,7 +6,7 @@ import App from './index.tsx'
 console.debug('lenix')
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+	<StrictMode>
+		<App />
+	</StrictMode>,
 )

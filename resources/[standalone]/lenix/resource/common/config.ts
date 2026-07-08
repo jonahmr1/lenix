@@ -1,5 +1,5 @@
-import { LoadFile } from "./utils";
+import { LoadFile } from './utils'
 
-const Config = LoadFile("public/config.json");
+const Config = LoadFile('public/config.json')
 
-export default Config;
+export default Config

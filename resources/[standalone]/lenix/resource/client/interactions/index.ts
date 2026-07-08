@@ -1,15 +1,17 @@
-import { GetPlayer } from "@overextended/ox_core/client"
-import { getNearbyVehicles, notify } from "@overextended/ox_lib/client"
-import { Vector3 } from '@overextended/core/vector';
+import { GetPlayer } from '@overextended/ox_core/client'
+import { getNearbyVehicles, notify } from '@overextended/ox_lib/client'
+import { Vector3 } from '@overextended/core/vector'
 import type { Vector3 as Vec3 } from 'types'
-import { getClosestPlayer, getNearestCoords } from "..";
+import { getClosestPlayer, getNearestCoords } from '..'
 
 const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined] => {
 	const vehicles = getNearbyVehicles(new Vector3(...coords), 3.0)
 	const zoneCoords: Vec3[] = vehicles.map(({ coords: { x, y, z } }) => [x, y, z])
 
 	const closestCoords = getNearestCoords(coords, zoneCoords)
-	const closestVehicle = vehicles.find(vehicle => vehicle.coords.toArray().every((vehicle, i) => vehicle === closestCoords?.[i]))?.vehicle
+	const closestVehicle = vehicles.find(vehicle =>
+		vehicle.coords.toArray().every((vehicle, i) => vehicle === closestCoords?.[i]),
+	)?.vehicle
 	return [closestCoords, closestVehicle]
 }
 
@@ -52,7 +54,12 @@ onNet('ox:interactions:out', () => {
 		const ped = GetPedInVehicleSeat(closestVehicle, seat)
 		if (!ped) continue
 
-		emitNet('ox:interactions:take', GetPlayerServerId(NetworkGetPlayerIndexFromPed(ped)), NetworkGetNetworkIdFromEntity(closestVehicle), seat)
+		emitNet(
+			'ox:interactions:take',
+			GetPlayerServerId(NetworkGetPlayerIndexFromPed(ped)),
+			NetworkGetNetworkIdFromEntity(closestVehicle),
+			seat,
+		)
 		return
 	}
 	notify({ title: 'The vehicle has no one in' })

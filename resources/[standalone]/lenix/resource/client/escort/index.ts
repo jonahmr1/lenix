@@ -1,7 +1,7 @@
-import { cache } from "@overextended/ox_lib"
-import { notify } from "@overextended/ox_lib/client"
-import type { Vector3 } from "types"
-import { getClosestPlayer } from ".."
+import { cache } from '@overextended/ox_lib'
+import { notify } from '@overextended/ox_lib/client'
+import type { Vector3 } from 'types'
+import { getClosestPlayer } from '..'
 
 onNet('ox:escort', () => {
 	const nearest = getClosestPlayer(GetEntityCoords(cache.ped, false) as Vector3, 2.0, false)
@@ -20,7 +20,23 @@ onNet('ox:escort', () => {
 
 onNet('ox:toggleEscort', (serverId: number, state: boolean) => {
 	if (state) {
-		AttachEntityToEntity(cache.ped, GetPlayerPed(GetPlayerFromServerId(serverId)), 11816, 0.45, 0.45, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+		AttachEntityToEntity(
+			cache.ped,
+			GetPlayerPed(GetPlayerFromServerId(serverId)),
+			11816,
+			0.45,
+			0.45,
+			0.0,
+			0.0,
+			0.0,
+			0.0,
+			false,
+			false,
+			false,
+			false,
+			2,
+			true,
+		)
 	} else {
 		DetachEntity(cache.ped, true, false)
 	}

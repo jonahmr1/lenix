@@ -1,15 +1,15 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "types": ["node", "@citizenfx/server"],
-    "paths": {
-      "common": ["../common"],
-      "common/*": ["../common/*"],
-      "server/*": ["./server/*"],
-      "public/*": ["../public/*"],
-      "types/*": ["../../types/*"],
-      "types": ["../../types"],
-    }
-  },
-  "include": ["./", "../common/"]
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"types": ["node", "@citizenfx/server"],
+		"paths": {
+			"common": ["../common"],
+			"common/*": ["../common/*"],
+			"server/*": ["./server/*"],
+			"public/*": ["../public/*"],
+			"types/*": ["../../types/*"],
+			"types": ["../../types"]
+		}
+	},
+	"include": ["./", "../common/"]
 }

@@ -1,15 +1,15 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "types": ["@citizenfx/client"],
-    "paths": {
-      "common": ["../common"],
-      "common/*": ["../common/*"],
-      "client/*": ["./client/*"],
-      "public/*": ["../public/*"],
-      "types/*": ["../../types/*"],
-      "types": ["../../types"],
-    }
-  },
-  "include": ["./", "../common/"]
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"types": ["@citizenfx/client"],
+		"paths": {
+			"common": ["../common"],
+			"common/*": ["../common/*"],
+			"client/*": ["./client/*"],
+			"public/*": ["../public/*"],
+			"types/*": ["../../types/*"],
+			"types": ["../../types"]
+		}
+	},
+	"include": ["./", "../common/"]
 }

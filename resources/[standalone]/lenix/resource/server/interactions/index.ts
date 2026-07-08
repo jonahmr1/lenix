@@ -4,5 +4,5 @@ onNet('ox:interactions:put', (targetId: number, vehicleNetId: number, seat: numb
 })
 
 onNet('ox:interactions:take', (targetId: number, vehicleNetId: number) => {
-	TaskLeaveVehicle(GetPlayerPed(targetId.toString()), NetworkGetEntityFromNetworkId(vehicleNetId), 16);
+	TaskLeaveVehicle(GetPlayerPed(targetId.toString()), NetworkGetEntityFromNetworkId(vehicleNetId), 16)
 })

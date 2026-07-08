@@ -1,5 +1,5 @@
-import type { OxAccountRole } from "@overextended/ox_core";
-import { addCommand, triggerClientCallback } from "@overextended/ox_lib/server";
+import type { OxAccountRole } from '@overextended/ox_core'
+import { addCommand, triggerClientCallback } from '@overextended/ox_lib/server'
 
 addCommand(
 	'creategroup',
@@ -20,11 +20,13 @@ addCommand(
 	},
 	{
 		help: 'Create new group to the db.',
-		params: [{
-			name: 'gradesCount',
-			type: 'number',
-			optional: false
-		}],
+		params: [
+			{
+				name: 'gradesCount',
+				type: 'number',
+				optional: false,
+			},
+		],
 		restricted: 'group.admin',
 	},
-);
+)

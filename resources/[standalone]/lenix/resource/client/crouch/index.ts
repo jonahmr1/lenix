@@ -19,7 +19,7 @@ AddStateBagChangeHandler(
 		}
 
 		RemoveAnimSet('move_ped_crouched')
-	}
+	},
 )
 
 addKeybind({
@@ -29,10 +29,6 @@ addKeybind({
 	onReleased: () => {
 		if (cache.vehicle) return
 
-		LocalPlayer.state.set(
-			'crouch',
-			!LocalPlayer.state.crouch,
-			false
-		)
-	}
+		LocalPlayer.state.set('crouch', !LocalPlayer.state.crouch, false)
+	},
 })

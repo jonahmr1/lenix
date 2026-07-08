@@ -1,5 +1,5 @@
-import { addKeybind, cache } from "@overextended/ox_lib/client";
-import type { Vector3 } from "types";
+import { addKeybind, cache } from '@overextended/ox_lib/client'
+import type { Vector3 } from 'types'
 
 let shown = false
 
@@ -12,7 +12,7 @@ addKeybind({
 	},
 	onReleased: () => {
 		shown = false
-	}
+	},
 })
 
 interface DrawText3DOptions {
@@ -65,9 +65,13 @@ export const displayIdentities = () => {
 		const myCoords = GetEntityCoords(cache.ped, false) as Vector3
 
 		const distance = GetDistanceBetweenCoords(
-			myCoords[0], myCoords[1], myCoords[2],
-			coords[0], coords[1], coords[2],
-			true
+			myCoords[0],
+			myCoords[1],
+			myCoords[2],
+			coords[0],
+			coords[1],
+			coords[2],
+			true,
 		)
 
 		if (distance > 10.0) continue
