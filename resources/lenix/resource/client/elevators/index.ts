@@ -45,6 +45,7 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 					await progressBar({
 						label: 'Calling the elevator...',
 						duration: WAIT_DURATION * 1000,
+						canCancel: true
 					})
 					const entityCoords = GetEntityCoords(cache.ped, true) as Vector3
 					const heading = GetEntityHeading(cache.ped)

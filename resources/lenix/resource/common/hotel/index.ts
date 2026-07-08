@@ -26,7 +26,6 @@ const FIRST_FLOOR_SAFES: readonly Safe[] = [
 	{ coords: [-341.0572, -1054.2097, 45.2272, 261.5746], rotation: 70.0 },
 	{ coords: [-333.2138, -1032.5966, 45.2899, 255.0691], rotation: 70.0 },
 	{ coords: [-332.8487, -1048.2506, 45.2337, 10.2903], rotation: 70.0 },
-	{ coords: [-332.8487, -1048.2506, 45.2337, 10.2903], rotation: 70.0 },
 	{ coords: [-334.1627, -1058.9235, 45.2948, 256.104], rotation: 70.0 },
 	{ coords: [-325.0476, -1033.5397, 45.2264, 271.6854], rotation: 70.0 },
 	{ coords: [-325.8711, -1059.1672, 45.2342, 263.1199], rotation: 70.0 },
@@ -42,6 +41,8 @@ const FIRST_FLOOR_SAFES: readonly Safe[] = [
 	{ coords: [-283.3085, -1054.848, 45.2238, 91.083], rotation: 70.0 },
 ]
 
+if (FIRST_FLOOR_SAFES.length !== ROOMS_PER_FLOOR) throw new Error(`Safes count mismatch, expected ${ROOMS_PER_FLOOR}, got ${FIRST_FLOOR_SAFES.length}`)
+
 export const HOTEL_ROOMS: number[] = Array.from({ length: ROOM_FLOORS_AMOUNT * ROOMS_PER_FLOOR }, (_, i) => {
 	const floor = HOTEL_ROOM_FLOORS[Math.floor(i / ROOMS_PER_FLOOR)]
 
@@ -53,11 +54,15 @@ export const HOTEL_SAFES: Record<number, Safe> = Object.fromEntries(
 	HOTEL_ROOMS.map((room, i) => {
 		const floorIndex = Math.floor(i / ROOMS_PER_FLOOR)
 		const roomIndex = i % ROOMS_PER_FLOOR
-
 		return [
 			room,
 			{
-				coords: FIRST_FLOOR_SAFES[roomIndex]!.coords.map(coord => coord + FLOOR_HEIGHT * floorIndex) as Vector4,
+				coords: [
+					FIRST_FLOOR_SAFES[roomIndex]!.coords[0],
+					FIRST_FLOOR_SAFES[roomIndex]!.coords[1],
+					FIRST_FLOOR_SAFES[roomIndex]!.coords[2] + FLOOR_HEIGHT * floorIndex,
+					FIRST_FLOOR_SAFES[roomIndex]!.coords[3],
+				],
 				rotation: FIRST_FLOOR_SAFES[roomIndex]!.rotation,
 			},
 		]

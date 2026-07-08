@@ -7,7 +7,6 @@ for (const [, { coords, rotation }] of Object.entries(HOTEL_SAFES)) {
 		coords: coords,
 		size: SAFE_SIZE,
 		rotation: rotation,
-		debug: true,
 		options: {
 			label: 'Open Safe',
 		},
