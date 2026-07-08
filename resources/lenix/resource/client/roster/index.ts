@@ -1,7 +1,7 @@
 import { addKeybind } from '@overextended/ox_lib/client'
-import { emitEvent, onNui } from '..'
 import type { Events, Officers, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
+import { emitEvent, onNui } from '../_lib'
 
 let visible: boolean = false
 let group: string
@@ -11,7 +11,7 @@ addKeybind({
 	description: 'Toggle The Police Roster',
 	defaultKey: 'K',
 	onPressed: () => {
-		if (!group || group !== 'police') return 
+		if (!group || group !== 'police') return
 		emitEvent<Events['displayRoster']>('roster:display', !visible)
 		visible = !visible
 	},
@@ -31,6 +31,6 @@ onNet('ox:setGroup', (groupName: string) => {
 });
 
 on('ox:playerLoaded', () => {
-  const grade = GetPlayer().getGroup('police')
+	const grade = GetPlayer().getGroup('police')
 	console.debug(grade)
 });
