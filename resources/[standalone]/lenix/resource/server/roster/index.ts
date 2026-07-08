@@ -27,9 +27,7 @@ abstract class Officers {
 	}
 }
 
-onNet('lenix:server:roster:updateOfficer', (officer: PartialOfficer) => {
-	Officers.updateOfficer(officer)
-})
+onNet('lenix:server:roster:updateOfficer', Officers.updateOfficer)
 
 on('ox:playerLoaded', async (playerId: number, _userId: number, charId: number) => {
 	const player = GetPlayer(playerId)
