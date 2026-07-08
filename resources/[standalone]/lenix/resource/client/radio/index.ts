@@ -1,5 +1,5 @@
 import { cache, notify, requestAnimDict } from '@overextended/ox_lib/client'
-import type { ChangeFrequency, Event, Events, Request, Requests } from 'types/index'
+import type { Events, Requests } from 'types/index'
 import { emitEvent, onNui } from '..'
 
 const dict = 'cellphone@'

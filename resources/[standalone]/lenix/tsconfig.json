@@ -19,6 +19,7 @@
 		"noPropertyAccessFromIndexSignature": false,
 		"rewriteRelativeImportExtensions": true,
 		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"noUnusedLocals": true
 	}
 }

@@ -1,4 +1,4 @@
-import { addRadialItem, cache, disableRadial, notify, onCache, removeRadialItem } from '@overextended/ox_lib/client'
+import { addRadialItem, notify, onCache, removeRadialItem } from '@overextended/ox_lib/client'
 
 addRadialItem([
 	{

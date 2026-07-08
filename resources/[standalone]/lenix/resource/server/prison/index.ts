@@ -26,8 +26,10 @@ const imprisonPlayer = (player: OxPlayer, period: number): JailHandles => {
 
 const releasePrisoner = async (player: OxPlayer) => {
 	if (!player.charId) throw new Error('charId was not truthy')
+
 	const singleHandles = handles[player.charId]
 	if (!singleHandles) throw new Error('timeout was not truthy')
+		
 	SetEntityCoords(player.ped, 1845.8193, 2585.856, 45.672, false, false, false, false)
 	SetEntityHeading(player.ped, 269.8568)
 	await oxmysql.update(

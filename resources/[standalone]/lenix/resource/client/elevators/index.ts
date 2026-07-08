@@ -1,5 +1,4 @@
 import { cache, progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
-import { FIRST_FLOOR_INDEX, FIRST_ROOMS_FLOOR_INDEX, HOTEL_FLOORS } from 'common/hotel'
 import type { Vector3, Vector4 } from 'types/index'
 
 const COMMANDER_ROTATION = 70
