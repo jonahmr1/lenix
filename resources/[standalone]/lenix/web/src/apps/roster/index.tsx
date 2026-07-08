@@ -1,35 +1,38 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useState } from 'react'
-import type { Events, Officer as IOfficer } from 'types'
+import type { Events, Officer as IOfficer, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
-import { onEvent } from '@/lib'
+import { onEvent, triggetNui } from '@/lib'
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(true)
-	const [officers, setOfficers] = useState<IOfficer[]>([
-		{
+	const [officers, setOfficers] = useState<Officers>({
+		1: {
 			playerId: 1,
 			callsign: 'A-35',
 			name: 'Marwan Jonah',
 			duty_state: 'off',
 			talk_state: 'off',
-		},
-	])
+		}}
+	)
 	let myCharId: number = 1
 
 	onEvent<Events['displayRoster']>('roster:display', setDisplay)
-	onEvent<Events['addOfficer']>('roster:addOfficer', (officer) => setOfficers(prev => [...prev, officer]))
+	onEvent<Events['addOfficer']>('roster:addOfficer', (officer) => setOfficers(prev => ({ ...prev, officer })))
 	onEvent<Events['updateOfficers']>('roster:updateOfficers', (officers) => setOfficers(officers))
 
-	const updateOfficer = (playerId: number, updates: Partial<IOfficer>) => {
-		setOfficers(prev => prev.map(officer => (officer.playerId === playerId ? { ...officer, ...updates } : officer)))
+	const updateOfficer = (playerId: number, updates: OfficerUpdates) => {
+		triggetNui<Requests['updateOfficer']>('roster:updateOfficer', {
+			playerId,
+			...updates
+		})
 	}
 
-	const getOfficer = (playerId: number): IOfficer => officers.find(officer => officer.playerId === playerId)!
+	const getOfficer = (playerId: number): IOfficer => officers[playerId]
 
 	const handleSignin = () => {
-		const state = getOfficer(1).duty_state
+		const state = getOfficer(myCharId).duty_state
 		if (state === 'off') return updateOfficer(myCharId, { duty_state: 'on' })
 		if (state === 'on') return updateOfficer(myCharId, { duty_state: 'off' })
 
@@ -44,7 +47,7 @@ export const Roster = () => {
 		updateOfficer(myCharId, { duty_state: 'break' })
 	}
 
-	const handleCallsign = () => {}
+	const handleCallsign = () => { }
 
 	return (
 		<div
@@ -59,13 +62,13 @@ export const Roster = () => {
 							<div>
 								<Separator orientation='vertical' className='h-4 bg-gray-600' />
 							</div>
-							<div className='text-white cursor-default'>{officers.length}</div>
+							<div className='text-white cursor-default'>{Object.entries(officers).length}</div>
 						</div>
 					</div>
 				</div>
 				<Separator className='bg-gray-600' />
 				<div className='flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col'>
-					{officers.map(officer => (
+					{Object.entries(officers).map(([, officer]) => (
 						<Officer {...officer} />
 					))}
 				</div>

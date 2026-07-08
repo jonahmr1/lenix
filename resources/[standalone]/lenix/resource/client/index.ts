@@ -32,10 +32,10 @@ export const emitEvent = <T extends [string, any[]]>(id: T[0], ...params: T[1]) 
 		throw new Error('SendNuiMessage returned falsy')
 }
 
-export const onNui = <T extends Request<string, Record<string, unknown>>>(
-	id: T[0],
-	cb: (data: T[1]) => string | number | boolean,
-) => RegisterNuiCallback(id, (data: T[1], reply: Function) => reply(cb(data)))
+export const onNui = <T extends Request<unknown, string, object>>(
+	id: T[1],
+	cb: (data: T[2]) => T[0],
+) => RegisterNuiCallback(id, (data: T[2], reply: Function) => reply(cb(data)))
 
 export const getNearestCoords = (coords: Vector3, zones: Vector3[]): Vector3 | undefined => {
 	let closest: Vector3 | undefined

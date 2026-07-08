@@ -1,6 +1,6 @@
 import { addKeybind } from '@overextended/ox_lib/client'
-import { emitEvent } from '..'
-import type { Events, Officer } from 'types/index'
+import { emitEvent, onNui } from '..'
+import type { Events, Officers, Requests } from 'types/index'
 
 let visible: boolean = false
 
@@ -14,6 +14,11 @@ addKeybind({
 	},
 })
 
-onNet('lenix:client:roster:receiveOfficers', (officers: Officer[]) => {
+onNet('lenix:client:roster:receiveOfficers', (officers: Officers) => {
 	emitEvent<Events['updateOfficers']>('roster:updateOfficers', officers)
+})
+
+onNui<Requests['updateOfficer']>('roster:updateOfficer', (officer) => {
+	emitNet('lenix:server:roster:updateOfficer', officer)
+	return true
 })
