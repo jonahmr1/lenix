@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { DEV } from '..'
 import { triggetNui, onEvent } from '@/lib'
-import type { Events } from 'types'
+import type { Events, Requests } from 'types'
 
 export default () => {
-	const [display, setDisplay] = useState<boolean>()
+	const [display, setDisplay] = useState<boolean>(false)
 	const [frequency, setFreq] = useState<string>('')
 
 	useEffect(() => {
@@ -12,17 +12,19 @@ export default () => {
 			if (event.key !== 'Escape') return
 
 			setDisplay(false)
-			triggetNui('radio:close')
+			triggetNui<Requests['closeRadio']>('radio:close')
 		}
 
 		window.addEventListener('keydown', escHandler)
 		return () => window.removeEventListener('keydown', escHandler)
 	}, [])
 
-	onEvent<Events['displayRadio']>('radio:display', setDisplay)
+	onEvent<Events['displayRadio']>('radio:display', ({ state }) => {
+		setDisplay(state)
+	})
 
 	return (
-		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 opacity-${display ? '100' : '0'}`}>
+		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 ${display ? 'opacity-100' : 'opacity-0'}`}>
 			<div className='relative inline-block'>
 				<input
 					className='absolute top-45/100 left-1/2 -translate-x-1/2 max-w-31/100 h-15 text-2xl outline-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
@@ -36,14 +38,14 @@ export default () => {
 					onKeyDown={event => {
 						if (event.key !== 'Enter') return
 
-						triggetNui('radio:frequency', { frequency })
+						triggetNui<Requests['changeFrequency']>('radio:frequency', { frequency })
 					}}
 				/>
 				<button
 					className='absolute top-80/100 left-38/100 -translate-x-1/2 cursor-pointer hover:bg-black/20 w-8 h-5'
 					title='Leave the frequency'
 					onClick={() => {
-						triggetNui('radio:leave')
+						triggetNui<Requests['leaveRadio']>('radio:leave')
 						setFreq('')
 					}}
 				/>

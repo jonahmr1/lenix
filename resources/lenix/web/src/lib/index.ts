@@ -4,12 +4,12 @@ const cbs = new Map<string, (...params: unknown[]) => void>()
 
 // TODO: remove the event
 const handler = window.addEventListener('message', (event: MessageEvent) => {
-	const { id, params } = event.data
+	const { id, ...params } = event.data
 	const cb = cbs.get(id)
-	if (!cb) throw new Error(`Callback<${id}> was does not exist yet`)
+	if (!cb) throw new Error(`Callback<${id}> does not exist yet`)
 
 	try {
-		cb(...(params ?? []))
+		cb(...Object.values(params))
 	} catch (e) {
 		throw new Error(`Error occured while receiving callback<${id}>. \n${e}`)
 	}

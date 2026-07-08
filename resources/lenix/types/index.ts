@@ -37,7 +37,7 @@ export type PartialOfficer = {
 } & OfficerUpdates;
 
 export interface Events {
-	displayRadio: Event<'radio:display', [boolean]>
+	displayRadio: Event<'radio:display', [{ state: boolean }]>
 	displayRoster: Event<'roster:display', [boolean]>
 	displayHud: Event<'hud:display', [boolean]>
 	updateHudClip: Event<'hud:update:clip', [string]>
