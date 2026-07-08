@@ -1,6 +1,7 @@
 import { GetPlayer, type OxPlayer } from '@overextended/ox_core/server'
 import { addCommand, triggerClientCallback } from '@overextended/ox_lib/server'
 import { oxmysql } from '@overextended/oxmysql'
+import { INSIDE, OUTSIDE } from 'common/prison';
 
 type JailHandles = { timeout: CitizenTimer; interval: CitizenTimer }
 
@@ -10,8 +11,8 @@ const handles: Record<string, JailHandles> = {}
 const imprisonPlayer = (player: OxPlayer, period: number): JailHandles => {
 	const charId = player.charId
 	if (!charId) throw new Error('charId was not truthy')
-	SetEntityCoords(player.ped, 1680.1442, 2512.8276, 45.5648, false, false, false, false)
-	SetEntityHeading(player.ped, 335.5214)
+		
+	SetEntityCoords(player.ped, ...INSIDE, false, false, false, false)
 
 	timeLeft[charId] = period
 	const interval = setInterval(() => {
@@ -30,8 +31,8 @@ const releasePrisoner = async (player: OxPlayer) => {
 	const singleHandles = handles[player.charId]
 	if (!singleHandles) throw new Error('timeout was not truthy')
 
-	SetEntityCoords(player.ped, 1845.8193, 2585.856, 45.672, false, false, false, false)
-	SetEntityHeading(player.ped, 269.8568)
+	SetEntityCoords(player.ped, OUTSIDE[0], OUTSIDE[1], OUTSIDE[2], false, false, false, false)
+	SetEntityHeading(player.ped, OUTSIDE[3])
 	await oxmysql.update(
 		`INSERT INTO lenix (charId, jail_period)
 			VALUES (?, ?)
@@ -93,8 +94,9 @@ addCommand(
 onNet('lenix:server:prison:teleport', () => {
 	const player = GetPlayer(source)
 	if (!player?.charId) return
-	if (timeLeft[player.charId] == 0) return
-	SetEntityCoords(player.ped, 1680.1442, 2512.8276, 45.5648, false, false, false, false)
+	if (!timeLeft[player.charId] || timeLeft[player.charId] !== 0) return
+	
+	SetEntityCoords(player.ped, ...INSIDE, false, false, false, false)
 })
 
 on('ox:playerLoaded', async (playerId: number) => {
