@@ -6,7 +6,7 @@ import { Officer } from './officer'
 import { onEvent, triggetNui } from '@/lib'
 
 export const Roster = () => {
-	const [display, setDisplay] = useState<boolean>(true)
+	const [display, setDisplay] = useState<boolean>(false)
 	const [officers, setOfficers] = useState<Officers>({
 		1: {
 			playerId: 1,
