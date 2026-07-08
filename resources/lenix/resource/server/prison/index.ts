@@ -94,7 +94,7 @@ addCommand(
 onNet('lenix:server:prison:teleport', () => {
 	const player = GetPlayer(source)
 	if (!player?.charId) return
-	if (!timeLeft[player.charId] || timeLeft[player.charId] !== 0) return
+	if (!timeLeft[player.charId] || timeLeft[player.charId] === 0) return
 	
 	SetEntityCoords(player.ped, ...INSIDE, false, false, false, false)
 })
