@@ -18,14 +18,19 @@ import "./radio"
 import "./elevators"
 import "./roster"
 import { cache } from "@overextended/ox_lib";
-import type { Vector3 } from "types";
+import type { Request, Vector3 } from "types";
 
-export const emitCb = <T extends [string, any[]]>(id: T[0], ...params: T[1]) => {
+export const emitEvent = <T extends [string, any[]]>(id: T[0], ...params: T[1]) => {
 	if (!SendNuiMessage(JSON.stringify({
 		id,
 		...params
 	}))) throw new Error('SendNuiMessage returned falsy')
 }
+
+export const onNui = <
+	T extends Request<string, Record<string, unknown>>
+>(id: T[0], cb: (data: T[1]) => string | number | boolean) => RegisterNuiCallback(id, (data: T[1], reply: Function) => reply(cb(data)))
+
 
 export const getNearestCoords = (
 	coords: Vector3,

@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator"
 import { useState } from "react";
-import type { Callbacks, Officer as IOfficer } from "types";
+import type { Events, Officer as IOfficer } from "types";
 import { Officer } from "./officer";
-import { onCb } from "@/lib";
+import { onEvent } from "@/lib";
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(true)
@@ -18,7 +18,7 @@ export const Roster = () => {
 	])
 	let myCharId: number = 1
 
-	onCb<Callbacks['displayRoster']>('roster:display', setDisplay)
+	onEvent<Events['displayRoster']>('roster:display', setDisplay)
 
 	const updateOfficer = (
 		charId: number,
@@ -48,19 +48,19 @@ export const Roster = () => {
 		const state = getOfficer(myCharId).duty_state
 		if (state === 'off') return
 		if (state === 'break') return updateOfficer(myCharId, { duty_state: 'on' })
-		
+
 		updateOfficer(myCharId, { duty_state: 'break' })
 	}
 
-	const handleCallsign = () => {}
+	const handleCallsign = () => { }
 
 	return (
 		<div inert={!display} className={`absolute top-1/5 right-1/10 w-5/10 h-3/4 flex flex-col bg-zinc-900 rounded-lg opacity-${display ? '100' : '0'}`}>
 			<div className="flex-1 min-h-0 px-5 pt-5 flex flex-col gap-3">
 				<div className="flex flex-col gap-2">
-					<div className="w-full flex justify-between items-center">	
+					<div className="w-full flex justify-between items-center">
 						<div className="text-white cursor-default">
-							Active Officers	
+							Active Officers
 						</div>
 						<div className="flex items-center gap-4">
 							<div>

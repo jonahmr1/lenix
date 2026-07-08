@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { DEV } from ".."
-import { emitCb, onCb } from "@/lib"
-import type { Callbacks } from "types"
+import { triggetNui, onEvent } from "@/lib"
+import type { Events } from "types"
 
 export default () => {
 	const [display, setDisplay] = useState<boolean>()
@@ -10,40 +10,40 @@ export default () => {
 	useEffect(() => {
 		const escHandler = (event: KeyboardEvent) => {
 			if (event.key !== 'Escape') return
-		
+
 			setDisplay(false)
-			emitCb('radio:close')
+			triggetNui('radio:close')
 		}
 
 		window.addEventListener('keydown', escHandler)
 		return () => window.removeEventListener('keydown', escHandler)
 	}, [])
 
-	onCb<Callbacks['displayRadio']>('radio:display', setDisplay)
+	onEvent<Events['displayRadio']>('radio:display', setDisplay)
 
 	return (
 		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 opacity-${display ? '100' : '0'}`}>
 			<div className="relative inline-block">
-			<input 
-				className="absolute top-45/100 left-1/2 -translate-x-1/2 max-w-31/100 h-15 text-2xl outline-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
-				type="number" 
-				name="freq" 
-				id="freq"
-				title="Channel Frequency" 
-				placeholder="0"
-				value={frequency}
-				onChange={event => setFreq(event.currentTarget.value)}
-				onKeyDown={event => {
-					if (event.key !== 'Enter') return
+				<input
+					className="absolute top-45/100 left-1/2 -translate-x-1/2 max-w-31/100 h-15 text-2xl outline-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+					type="number"
+					name="freq"
+					id="freq"
+					title="Channel Frequency"
+					placeholder="0"
+					value={frequency}
+					onChange={event => setFreq(event.currentTarget.value)}
+					onKeyDown={event => {
+						if (event.key !== 'Enter') return
 
-					emitCb('radio:frequency', { frequency })
-				}}
-			/>
+						triggetNui('radio:frequency', { frequency })
+					}}
+				/>
 				<button
 					className="absolute top-80/100 left-38/100 -translate-x-1/2 cursor-pointer hover:bg-black/20 w-8 h-5"
 					title="Leave the frequency"
 					onClick={() => {
-						emitCb('radio:leave')
+						triggetNui('radio:leave')
 						setFreq('')
 					}}
 				/>

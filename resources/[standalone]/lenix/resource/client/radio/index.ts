@@ -1,4 +1,6 @@
 import { cache, notify, requestAnimDict } from "@overextended/ox_lib/client"
+import type { ChangeFrequency, Event, Events, Request, Requests } from "types/index";
+import { emitEvent, onNui } from "..";
 
 const dict = 'cellphone@'
 const anim = 'cellphone_text_read_base'
@@ -67,27 +69,24 @@ const toggleRadioAnimation = async () => {
 on('ox:radio', () => {
 	state = true
 	SetNuiFocus(true, true)
-	SendNuiMessage(JSON.stringify({
-		key: 'radio:display',
-		value: true
-	}))
+	emitEvent<Events['displayRadio']>('radio:display', true)
 	toggleRadioAnimation()
 })
 
-RegisterNuiCallback('radio:frequency', (data: { frequency: string }, cb: Function) => {
-	notify({ title: `Set to #${data.frequency}` })
-	globalThis.exports['pma-voice'].setRadioChannel(Number(data.frequency))
-	cb(true)
+onNui<Requests['changeFrequency']>('radio:frequency', ({ frequency }) => {
+	notify({ title: `Set to #${frequency}` })
+	globalThis.exports['pma-voice'].setRadioChannel(Number(frequency))
+	return true
 })
 
-RegisterNuiCallback('radio:leave', (_: unknown, cb: Function) => {
+onNui<Requests['leaveRadio']>('radio:leave', () => {
 	leaveChannel()
-	cb(true)
+	return true
 })
 
-RegisterNuiCallback('radio:close', (_: unknown, cb: Function) => {
+onNui<Requests['closeRadio']>('radio:close', () => {
 	state = false
 	SetNuiFocus(false, false)
 	toggleRadioAnimation()
-	cb(true)
+	return true
 })

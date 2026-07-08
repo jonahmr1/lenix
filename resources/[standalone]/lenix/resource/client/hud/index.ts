@@ -1,6 +1,6 @@
 import { cache } from "@overextended/ox_lib"
-import type { Callbacks } from "types/index"
-import { emitCb } from ".."
+import type { Events } from "types/index"
+import { emitEvent } from ".."
 
 type OxWeapon = {
 	ammo: string
@@ -10,12 +10,12 @@ type OxWeapon = {
 let turnedOff = false
 
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
-	if (type === 'clip') return emitCb<Callbacks['updateHudClip']>('hud:update:clip', value)
+	if (type === 'clip') return emitEvent<Events['updateHudClip']>('hud:update:clip', value)
 
-	emitCb<Callbacks['updateHudReserve']>('hud:update:reserve', value)
+	emitEvent<Events['updateHudReserve']>('hud:update:reserve', value)
 }
 
-const toggleHud = (value: boolean) => SendNuiMessage(JSON.stringify({ key: 'hud:display', value }))
+const toggleHud = (value: boolean) => emitEvent<Events['displayHud']>('hud:display', value)
 
 const getReserve = (ammoName: string): number => globalThis.exports.ox_inventory.Search('count', ammoName)
 
