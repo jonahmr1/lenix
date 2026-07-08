@@ -29,7 +29,7 @@ const releasePrisoner = async (player: OxPlayer) => {
 
 	const singleHandles = handles[player.charId]
 	if (!singleHandles) throw new Error('timeout was not truthy')
-		
+
 	SetEntityCoords(player.ped, 1845.8193, 2585.856, 45.672, false, false, false, false)
 	SetEntityHeading(player.ped, 269.8568)
 	await oxmysql.update(
@@ -51,7 +51,7 @@ addCommand(
 		const res = await triggerClientCallback<{
 			id: string
 			period: string
-		}>('ox:imprisonPlayer', source)
+		}>('lenix:imprisonPlayer', source)
 		if (!res) return
 		const { id, period } = res
 
@@ -90,7 +90,7 @@ addCommand(
 	},
 )
 
-onNet('ox:sendToPrison', () => {
+onNet('lenix:server:prison:teleport', () => {
 	const player = GetPlayer(source)
 	if (!player?.charId) return
 	if (timeLeft[player.charId] == 0) return

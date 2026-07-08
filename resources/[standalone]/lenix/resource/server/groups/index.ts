@@ -12,7 +12,7 @@ addCommand(
 				label: string
 				accountRole: OxAccountRole
 			}[]
-		}>('ox:createGroup', source, args.gradesCount)
+		}>('lenix:createGroup', source, args.gradesCount)
 		if (!input) return
 
 		//@ts-ignore
@@ -23,7 +23,7 @@ addCommand(
 		params: [
 			{
 				name: 'gradesCount',
-				type: 'number',
+				paramType: 'number',
 				optional: false,
 			},
 		],

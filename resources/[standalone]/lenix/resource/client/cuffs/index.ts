@@ -86,7 +86,7 @@ export const setCuffs = () => {
 	TaskPlayAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8.0, -1, 48, 0, false, false, false)
 }
 
-onNet('ox:client:cuffPlayer', () => {
+on('lenix:client:cuff', () => {
 	const nearest = getClosestPlayer(GetEntityCoords(cache.ped, false) as Vector3)
 	if (!nearest.playerId) {
 		notify({
@@ -94,11 +94,11 @@ onNet('ox:client:cuffPlayer', () => {
 		})
 		return
 	}
-	emitNet('ox:server:toggleCuffs', GetPlayerServerId(nearest.playerId))
+	emitNet('lenix:server:cuffs:toggle', GetPlayerServerId(nearest.playerId))
 	handCuffAnimation()
 })
 
-onNet('ox:client:toggleCuffs', async (cuffer: number, state: boolean) => {
+onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 	isCuffed = state
 	disableRadial(state)
 	globalThis.exports.ox_target.disableTargeting(state)
@@ -110,7 +110,7 @@ onNet('ox:client:toggleCuffs', async (cuffer: number, state: boolean) => {
 			return
 		}
 
-		emitNet('ox:server:toggleCuffs', cache.serverId)
+		emitNet('lenix:server:cuffs:toggle', cache.serverId)
 	} else {
 		ClearPedTasks(cache.ped)
 		RemoveAnimDict('mp_arresting')

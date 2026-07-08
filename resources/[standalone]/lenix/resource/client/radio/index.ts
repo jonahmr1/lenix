@@ -46,7 +46,7 @@ const toggleRadioAnimation = async () => {
 	}
 }
 
-on('ox:radio', () => {
+on('lenix:client:radio', () => {
 	state = true
 	SetNuiFocus(true, true)
 	emitEvent<Events['displayRadio']>('radio:display', true)

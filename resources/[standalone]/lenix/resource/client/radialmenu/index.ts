@@ -12,7 +12,7 @@ addRadialItem([
 		label: 'Escort',
 		icon: 'user-group',
 		onSelect: () => {
-			emit('ox:escort')
+			emit('lenix:client:escort')
 		},
 	},
 	{
@@ -20,7 +20,7 @@ addRadialItem([
 		label: 'Put in vehicle',
 		icon: 'arrow-right-to-bracket',
 		onSelect: () => {
-			emit('ox:interactions:in')
+			emit('lenix:client:interactions:in')
 		},
 	},
 	{
@@ -28,7 +28,7 @@ addRadialItem([
 		label: 'Take out of vehicle',
 		icon: 'arrow-right-from-bracket',
 		onSelect: () => {
-			emit('ox:interactions:out')
+			emit('lenix:client:interactions:out')
 		},
 	},
 	{

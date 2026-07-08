@@ -3,7 +3,7 @@ import { notify } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
 import { getClosestPlayer } from '..'
 
-onNet('ox:escort', () => {
+on('lenix:client:escort', () => {
 	const nearest = getClosestPlayer(GetEntityCoords(cache.ped, false) as Vector3, 2.0, false)
 	if (!nearest.playerId) {
 		notify({ title: 'No one nearby!' })
@@ -15,10 +15,10 @@ onNet('ox:escort', () => {
 		notify({ title: 'The person is not weak enough to get cuffed' })
 		return
 	}
-	emitNet('ox:server:escort', targetId)
+	emitNet('lenix:server:escort', targetId)
 })
 
-onNet('ox:toggleEscort', (serverId: number, state: boolean) => {
+onNet('lenix:client:escort:toggle', (serverId: number, state: boolean) => {
 	if (state) {
 		AttachEntityToEntity(
 			cache.ped,

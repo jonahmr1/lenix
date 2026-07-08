@@ -1,14 +1,14 @@
 return {
 	['hotel_keycard'] = {
-    label = 'Hotel Keycard',
-    weight = 10,
-    stack = false,
+		label = 'Hotel Keycard',
+		weight = 10,
+		stack = false,
 	},
 
 	['cuffs'] = {
 		label = 'Handcuffs',
 		client = {
-			event = 'ox:client:cuffPlayer'
+			event = 'lenix:client:cuff'
 		}
 	},
 
@@ -37,7 +37,7 @@ return {
 		stack = false,
 		allowArmed = true,
 		client = {
-			event = 'ox:radio'
+			event = 'lenix:client:radio'
 		}
 	},
 
@@ -70,7 +70,7 @@ return {
 			end
 		}
 	},
-	
+
 	-- ['testburger'] = {
 	-- 	label = 'Test Burger',
 	-- 	weight = 220,

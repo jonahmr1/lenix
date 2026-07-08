@@ -1,6 +1,6 @@
 import { inputDialog, onServerCallback, Point } from '@overextended/ox_lib/client'
 
-onServerCallback('ox:imprisonPlayer', async () => {
+onServerCallback('lenix:imprisonPlayer', async () => {
 	const input = await inputDialog(
 		'Imprison a person',
 		[
@@ -28,5 +28,5 @@ setImmediate(() => {
 		distance: 150,
 	})
 
-	point.onExit = () => emitNet('ox:sendToPrison')
+	point.onExit = () => emitNet('lenix:server:prison:teleport')
 })

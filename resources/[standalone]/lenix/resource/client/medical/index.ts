@@ -33,7 +33,7 @@ setImmediate(() => {
 			if (!res) return
 
 			const source = GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity))
-			emitNet('ox:revivePlayer', source)
+			emitNet('lenix:server:medical:revive', source)
 		},
 	})
 })

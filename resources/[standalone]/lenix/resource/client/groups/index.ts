@@ -1,6 +1,6 @@
 import { inputDialog, onServerCallback } from '@overextended/ox_lib/client'
 
-onServerCallback('ox:createGroup', async (count: number) => {
+onServerCallback('lenix:createGroup', async (count: number) => {
 	const input = await inputDialog(
 		'Create new grade',
 		[
