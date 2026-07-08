@@ -15,7 +15,7 @@ const handler = window.addEventListener('message', (event: MessageEvent) => {
 	}
 })
 
-export const onEvent = <T extends Event<string, any[]>>(id: T[0], cb: (...params: T[1]) => void) => cbs.set(id, cb)
+export const onEvent = <T extends Event<string, unknown[]>>(id: T[0], cb: (...params: T[1]) => void) => cbs.set(id, cb)
 
 export const triggetNui = async <T = unknown>(id: string, data?: object): Promise<T> => {
 	try {

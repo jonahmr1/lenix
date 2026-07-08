@@ -9,8 +9,8 @@ export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(true)
 	const [officers, setOfficers] = useState<IOfficer[]>([
 		{
-			charId: 1,
-			unit: 'A-35',
+			playerId: 1,
+			callsign: 'A-35',
 			name: 'Marwan Jonah',
 			duty_state: 'off',
 			talk_state: 'off',
@@ -19,12 +19,14 @@ export const Roster = () => {
 	let myCharId: number = 1
 
 	onEvent<Events['displayRoster']>('roster:display', setDisplay)
+	onEvent<Events['addOfficer']>('roster:addOfficer', (officer) => setOfficers(prev => [...prev, officer]))
+	onEvent<Events['updateOfficers']>('roster:updateOfficers', (officers) => setOfficers(officers))
 
-	const updateOfficer = (charId: number, updates: Partial<IOfficer>) => {
-		setOfficers(prev => prev.map(officer => (officer.charId === charId ? { ...officer, ...updates } : officer)))
+	const updateOfficer = (playerId: number, updates: Partial<IOfficer>) => {
+		setOfficers(prev => prev.map(officer => (officer.playerId === playerId ? { ...officer, ...updates } : officer)))
 	}
 
-	const getOfficer = (charId: number): IOfficer => officers.find(officer => officer.charId === charId)!
+	const getOfficer = (playerId: number): IOfficer => officers.find(officer => officer.playerId === playerId)!
 
 	const handleSignin = () => {
 		const state = getOfficer(1).duty_state

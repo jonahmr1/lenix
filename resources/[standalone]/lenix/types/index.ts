@@ -8,8 +8,8 @@ export type DutyState = 'on' | 'off' | 'break'
 export type TalkState = 'on' | 'off'
 
 export interface Officer {
-	charId: number
-	unit: string
+	playerId: number
+	callsign: string
 	name: string
 	duty_state: DutyState
 	talk_state: TalkState
@@ -21,6 +21,8 @@ export interface Events {
 	displayHud: Event<'hud:display', [boolean]>
 	updateHudClip: Event<'hud:update:clip', [string]>
 	updateHudReserve: Event<'hud:update:reserve', [string]>
+	addOfficer: Event<'roster:addOfficer', [Officer]>
+	updateOfficers: Event<'roster:updateOfficers', [Officer[]]>
 }
 
 export interface Requests {

@@ -6,6 +6,7 @@ import './cuffs'
 import './escort'
 import './interactions'
 import './hotel'
+import './roster'
 import { oxmysql } from '@overextended/oxmysql'
 
 setImmediate(async () => {
@@ -14,6 +15,7 @@ setImmediate(async () => {
 			charId INT UNSIGNED NOT NULL PRIMARY KEY,
 			jail_period INT NOT NULL DEFAULT 0,
 			hotel_room INT NOT NULL DEFAULT 0,
+			callsign VARCHAR(6) NOT NULL DEFAULT 'unset',
 			FOREIGN KEY (charId)
 				REFERENCES characters(charId)
 				ON DELETE CASCADE
