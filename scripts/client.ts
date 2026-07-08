@@ -14,5 +14,6 @@ export const VALID_NAMES = [
 	'lenix',
 	'TripplerScripts',
 	'LenixStudio',
-	'lehnihx'
+	'lehnihx',
+	'jonahmr1'
 ]
