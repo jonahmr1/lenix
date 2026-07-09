@@ -54,8 +54,17 @@ on('lenix:client:radio', () => {
 })
 
 onNui<Requests['changeFrequency']>('radio:frequency', ({ frequency }) => {
+	const channel = Number(frequency)
+	if (channel > 500) {
+		notify({
+			type: 'error',
+			title: 'Failed',
+			description: 'The frequency cannot exceed 500'
+		})
+		return
+	}
 	notify({ title: `Set to #${frequency}` })
-	globalThis.exports['pma-voice'].setRadioChannel(Number(frequency))
+	globalThis.exports['pma-voice'].setRadioChannel()
 	return true
 })
 
