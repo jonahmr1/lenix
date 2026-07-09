@@ -10,9 +10,7 @@ import {
 	RouterProvider,
 	ScrollRestoration,
 } from 'react-router'
-import { Products } from './pages/products'
 import { Toaster } from 'sonner'
-import { Legal } from './pages/legal'
 
 const Root = () => (
 	<TooltipProvider>
@@ -28,8 +26,6 @@ const router = createBrowserRouter([
 		children: [
 			{ path: '/', element: <Main /> },
 			{ path: '/contact', element: <Contact /> },
-			{ path: '/products', element: <Products /> },
-			{ path: '/products/legal', element: <Legal /> },
 			{ path: '*', element: <Main /> },
 		],
 	},
