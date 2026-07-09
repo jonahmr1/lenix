@@ -15,7 +15,7 @@ export type Request<Response, Id extends string, Params extends object = {}> =
 	Params extends readonly unknown[]
 	? never
 	: [Response, Id, Params];
-	
+
 
 export type DutyState = 'on' | 'off' | 'break'
 export type TalkState = 'on' | 'off'
@@ -33,7 +33,7 @@ export type Officers = Record<number, Officer>
 export type OfficerUpdates = AtLeastOne<Omit<Officer, 'playerId'>>
 
 export type PartialOfficer = {
-  playerId: Officer['playerId'];
+	playerId: Officer['playerId'];
 } & OfficerUpdates;
 
 export interface Events {
@@ -43,7 +43,7 @@ export interface Events {
 	updateHudClip: Event<'hud:update:clip', [string]>
 	updateHudReserve: Event<'hud:update:reserve', [string]>
 	addOfficer: Event<'roster:addOfficer', [Officer]>
-	updateOfficers: Event<'roster:updateOfficers', [Officers]>
+	refreshOfficers: Event<'roster:refreshOfficers', [Officers]>
 }
 
 export interface Requests {

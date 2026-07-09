@@ -28,8 +28,8 @@ addKeybind({
 	}
 })
 
-onNet('lenix:client:roster:updateOfficers', (officers: Officers) => {
-	emitEvent<Events['updateOfficers']>('roster:updateOfficers', officers)
+onNet('lenix:client:roster:refreshOfficers', (officers: Officers) => {
+	emitEvent<Events['refreshOfficers']>('roster:refreshOfficers', officers)
 })
 
 onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
@@ -47,26 +47,22 @@ onNui<Requests['getPlayerId']>('roster:getPlayerId', () => cache.serverId)
 
 const addOfficer = (groupName: string) => {
 	const player = GetPlayer()
-	if (!player.charId) return
+	if (!player) return
+
+	const grade = player.getGroup('police')
+	if (!grade) return
 
 	group = groupName
 	emitNet('lenix:server:roster:addOfficer', player.charId)
 }
 
 onNet('ox:setGroup', (groupName: string) => {
+	//TODO: check when firing
 	addOfficer(groupName)
-});
-
-on('ox:playerLoaded', () => {
-	const grade = GetPlayer().getGroup('police')
-	if (!grade) return
-
-	group = 'police'
 });
 
 on('onResourceStart', (resource: string) => {
 	if (GetCurrentResourceName() !== resource) return
 
 	addOfficer('police')
-	group = 'police'
 })

@@ -27,7 +27,7 @@ export const Roster = () => {
 	})
 
 	onEvent<Events['displayRoster']>('roster:display', setDisplay)
-	onEvent<Events['updateOfficers']>('roster:updateOfficers', setOfficers)
+	onEvent<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers)
 
 	if (!playerId || !officers[playerId]) return
 
