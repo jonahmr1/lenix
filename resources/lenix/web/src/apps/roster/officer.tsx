@@ -27,7 +27,7 @@ export const Officer = ({ callsign, name, duty_state, talk_state }: IOfficer) =>
 		</div>
 		<div className='flex-8 flex justify-between'>
 			<div className='text-white text-left'>{name}</div>
-			<Badge>
+			<Badge className='hidden'>{/* TODO */}
 				<AudioLines className={`${TalkStates[talk_state]}`} />
 			</Badge>
 		</div>
