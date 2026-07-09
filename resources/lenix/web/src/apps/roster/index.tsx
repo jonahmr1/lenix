@@ -8,24 +8,27 @@ import { DEV } from '@/index'
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)
-	const [officers, setOfficers] = useState<Officers>({
-		1: {
-			playerId: 1,
-			callsign: 'A-35',
-			name: 'Marwan Jonah',
-			duty_state: 'off',
-			talk_state: 'off',
-		}}
-	)
-	let myCharId: number = 1
+	const [officers, setOfficers] = useState<Officers>({})
+	let playerId: number = 0
+
+	const updatePlayerId = async () => {
+		playerId = await triggetNui<Requests['getPlayerId']>('roster:getPlayerId')
+	}
 
 	useEffect(() => {
-		window.addEventListener('keydown', (event: KeyboardEvent) => {
+		updatePlayerId()
+
+		const handler = (event: KeyboardEvent) => {
 			if (event.key !== 'Escape') return
 
 			triggetNui<Requests['loseFocus']>('roster:lostFocus')
-		})
+		}
+		window.addEventListener('keydown', handler)
+
+		return () => window.removeEventListener('keydown', handler)
 	})
+
+	if (!playerId) return 
 
 	onEvent<Events['displayRoster']>('roster:display', setDisplay)
 	onEvent<Events['updateOfficers']>('roster:updateOfficers', setOfficers)
@@ -40,19 +43,19 @@ export const Roster = () => {
 	const getOfficer = (playerId: number): IOfficer => officers[playerId]
 
 	const handleSignin = () => {
-		const state = getOfficer(myCharId).duty_state
-		if (state === 'off') return updateOfficer(myCharId, { duty_state: 'on' })
-		if (state === 'on') return updateOfficer(myCharId, { duty_state: 'off' })
+		const state = getOfficer(playerId).duty_state
+		if (state === 'off') return updateOfficer(playerId, { duty_state: 'on' })
+		if (state === 'on') return updateOfficer(playerId, { duty_state: 'off' })
 
-		updateOfficer(myCharId, { duty_state: 'off' })
+		updateOfficer(playerId, { duty_state: 'off' })
 	}
 
 	const handleBreak = () => {
-		const state = getOfficer(myCharId).duty_state
+		const state = getOfficer(playerId).duty_state
 		if (state === 'off') return
-		if (state === 'break') return updateOfficer(myCharId, { duty_state: 'on' })
+		if (state === 'break') return updateOfficer(playerId, { duty_state: 'on' })
 
-		updateOfficer(myCharId, { duty_state: 'break' })
+		updateOfficer(playerId, { duty_state: 'break' })
 	}
 
 	const handleCallsign = () => { }
@@ -87,16 +90,16 @@ export const Roster = () => {
 					className='flex-1 rounded-none rounded-bl-lg bg-transparent text-white border-white/10'
 					onClick={handleSignin}
 				>
-					{getOfficer(myCharId).duty_state === 'off' ? 'Sign-in' : 'Sign-off'}
+					{getOfficer(playerId).duty_state === 'off' ? 'Sign-in' : 'Sign-off'}
 				</Button>
 				<Button
 					variant='outline'
 					className='flex-1 rounded-none bg-transparent border-x-0 text-white border-white/10'
 					onClick={handleBreak}
 				>
-					{getOfficer(myCharId).duty_state === 'on'
+					{getOfficer(playerId).duty_state === 'on'
 						? 'Take Break'
-						: getOfficer(myCharId).duty_state === 'off'
+						: getOfficer(playerId).duty_state === 'off'
 							? 'Take Break'
 							: 'Sign-in'}
 				</Button>

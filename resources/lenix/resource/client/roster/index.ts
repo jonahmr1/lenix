@@ -1,4 +1,4 @@
-import { addKeybind } from '@overextended/ox_lib/client'
+import { addKeybind, cache } from '@overextended/ox_lib/client'
 import type { Events, Officers, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
 import { emitEvent, onNui } from '../_lib'
@@ -33,6 +33,7 @@ onNet('lenix:client:roster:updateOfficers', (officers: Officers) => {
 })
 
 onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
+	console.debug(partialData)
 	emitNet('lenix:server:roster:updateOfficer', partialData)
 	return true
 })
@@ -42,12 +43,18 @@ onNui<Requests['loseFocus']>('roster:lostFocus', () => {
 	return true
 })
 
-onNet('ox:setGroup', (groupName: string) => {
+onNui<Requests['getPlayerId']>('roster:getPlayerId', () => cache.serverId)
+
+const addOfficer = (groupName: string) => {
 	const player = GetPlayer()
 	if (!player.charId) return
 
 	group = groupName
 	emitNet('lenix:server:roster:addOfficer', player.charId)
+}
+
+onNet('ox:setGroup', (groupName: string) => {
+	addOfficer(groupName)
 });
 
 on('ox:playerLoaded', () => {
@@ -56,3 +63,9 @@ on('ox:playerLoaded', () => {
 
 	group = 'police'
 });
+
+on('onResourceStart', (resource: string) => {
+	if (GetCurrentResourceName() !== resource) return
+
+	addOfficer('police')
+})

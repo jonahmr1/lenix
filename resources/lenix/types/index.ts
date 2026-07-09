@@ -52,4 +52,5 @@ export interface Requests {
 	leaveRadio: Request<true, 'radio:leave'>
 	updateOfficer: Request<true, 'roster:updateOfficer', PartialOfficer>
 	loseFocus: Request<true, 'roster:lostFocus'>
+	getPlayerId: Request<number, 'roster:getPlayerId'>
 }
