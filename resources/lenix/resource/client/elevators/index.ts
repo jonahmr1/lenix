@@ -61,7 +61,7 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 		rotation: COMMANDER_ROTATION,
 		options: [
 			{
-				label: `Use Elevator ${floor}`,
+				label: 'Use Elevator',
 				onSelect: () => {
 					showContext(`elevator-${floor}`)
 				},

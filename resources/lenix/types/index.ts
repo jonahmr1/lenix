@@ -2,9 +2,9 @@ type AtLeastOne<T> = {
 	[K in keyof T]-?: { [P in K]: T[P] } & Partial<Omit<T, K>>
 }[keyof T];
 
-type PartialExcept<T, K extends keyof T> = {
-	[P in K]: T[P];
-} & AtLeastOne<Omit<T, K>>;
+// type PartialExcept<T, K extends keyof T> = {
+// 	[P in K]: T[P];
+// } & AtLeastOne<Omit<T, K>>;
 
 export type Vector3 = [number, number, number]
 export type Vector4 = [number, number, number, number]

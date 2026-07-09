@@ -2,7 +2,7 @@ import Radio from './apps/radio'
 import Hud from './apps/hud'
 import { Roster } from './apps/roster'
 
-export const DEV: boolean = true
+export const DEV: boolean = false
 
 export default () => {
 	return (
