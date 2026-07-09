@@ -62,7 +62,9 @@ export const Roster = () => {
 		updateOfficer(playerId, { duty_state: 'break' })
 	}
 
-	const handleCallsign = () => { }
+	const handleCallsign = () => {
+		triggetNui<Requests['triggerCallsign']>('roster:callsign')
+	}
 
 	return (
 		<div

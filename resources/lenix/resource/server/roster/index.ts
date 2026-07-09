@@ -23,9 +23,26 @@ abstract class Officers {
 		})
 	}
 
-	public static updateOfficer = ({ playerId, ...props }: PartialOfficer) => {
+	public static updateOfficer = async ({ playerId, ...props }: PartialOfficer) => {
 		const officer = this.officers[playerId]
 		if (!officer) throw new Error(`Could not find the officer<${playerId}>`)
+
+		if (props.name) throw new Error(`You can not change officer<${playerId}> name`)
+
+		if (props.callsign) {
+			const player = GetPlayer(playerId)
+			if (!player) throw new Error(`Could not get player<${playerId}>`)
+
+			const charId = player.charId
+			if (!charId) throw new Error(`Could not find charId the player<${playerId}>`)
+
+			const affectedRows = await oxmysql.update('UPDATE lenix SET callsign = ? WHERE charId = ?', [
+				props.callsign, charId
+			])
+			
+			console.log(affectedRows)
+			if (!affectedRows) throw new Error(`Failed to update the callsign<${props.callsign} for player<${playerId}>`)
+		}
 		console.debug(officer)
 
 		Object.assign(officer, Object.fromEntries(

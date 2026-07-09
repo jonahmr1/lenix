@@ -1,10 +1,39 @@
-import { addKeybind, cache } from '@overextended/ox_lib/client'
-import type { Events, Officers, Requests } from 'types/index'
+import { addKeybind, cache, inputDialog } from '@overextended/ox_lib/client'
+import type { Events, Officers, PartialOfficer, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
 import { emitEvent, onNui } from '../_lib'
 
 let visible: boolean = false
 let group: string
+
+const addOfficer = (groupName: string) => {
+	const player = GetPlayer()
+	if (!player) return
+
+	const grade = player.getGroup('police')
+	if (!grade) return
+
+	group = groupName
+	emitNet('lenix:server:roster:addOfficer', cache.serverId, player.charId)
+}
+
+const changeCallsign = async () => {
+	const input = await inputDialog('Update Callsgin', [
+		{
+			type: 'input',
+			label: 'Callsign',
+		}
+	], {})
+	if (!input) return
+	
+	const callsign = input[0]?.toString()
+	if (!callsign) return
+
+	emitNet('lenix:server:roster:updateOfficer', {
+		playerId: cache.serverId,
+		callsign
+	} satisfies PartialOfficer)
+}
 
 addKeybind({
 	name: 'roster',
@@ -28,10 +57,6 @@ addKeybind({
 	}
 })
 
-onNet('lenix:client:roster:refreshOfficers', (officers: Officers) => {
-	emitEvent<Events['refreshOfficers']>('roster:refreshOfficers', officers)
-})
-
 onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
 	console.debug(partialData)
 	emitNet('lenix:server:roster:updateOfficer', partialData)
@@ -43,16 +68,15 @@ onNui<Requests['loseFocus']>('roster:lostFocus', () => {
 	return true
 })
 
-const addOfficer = (groupName: string) => {
-	const player = GetPlayer()
-	if (!player) return
+onNui<Requests['triggerCallsign']>('roster:callsign', () => {
+	SetNuiFocus(false, false)
+	changeCallsign()
+	return true
+})
 
-	const grade = player.getGroup('police')
-	if (!grade) return
-
-	group = groupName
-	emitNet('lenix:server:roster:addOfficer', cache.serverId, player.charId)
-}
+onNet('lenix:client:roster:refreshOfficers', (officers: Officers) => {
+	emitEvent<Events['refreshOfficers']>('roster:refreshOfficers', officers)
+})
 
 onNet('ox:setGroup', (groupName: string) => {
 	//TODO: check when firing
