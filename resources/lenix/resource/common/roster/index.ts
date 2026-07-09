@@ -1,0 +1,1 @@
+export const MAX_CALLSIGN_LENGTH = 6

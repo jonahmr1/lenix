@@ -1,7 +1,8 @@
-import { addKeybind, cache, inputDialog } from '@overextended/ox_lib/client'
+import { addKeybind, cache, inputDialog, notify } from '@overextended/ox_lib/client'
 import type { Events, Officers, PartialOfficer, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
 import { emitEvent, onNui } from '../_lib'
+import { MAX_CALLSIGN_LENGTH } from 'common/roster'
 
 let visible: boolean = false
 let group: string
@@ -28,7 +29,16 @@ const changeCallsign = async () => {
 	if (!input) return
 	
 	const callsign = input[0]?.toString()
-	if (!callsign) return
+	if (!callsign || callsign.length === 0) return
+
+	if (callsign.length > MAX_CALLSIGN_LENGTH) {
+		notify({
+			title: 'Failed!',
+			description: `Callsign can not be longer than ${MAX_CALLSIGN_LENGTH} characters`,
+			type: 'error'
+		})
+		return
+	}
 
 	emitNet('lenix:server:roster:updateOfficer', {
 		playerId: cache.serverId,

@@ -8,6 +8,7 @@ import './interactions'
 import './hotel'
 import './roster'
 import { oxmysql } from '@overextended/oxmysql'
+import { MAX_CALLSIGN_LENGTH } from 'common/roster'
 
 setImmediate(async () => {
 	const table = await oxmysql.query(`
@@ -15,7 +16,7 @@ setImmediate(async () => {
 			charId INT UNSIGNED NOT NULL PRIMARY KEY,
 			jail_period INT NOT NULL DEFAULT 0,
 			hotel_room INT NOT NULL DEFAULT 0,
-			callsign VARCHAR(6) NOT NULL DEFAULT 'unset',
+			callsign VARCHAR(${MAX_CALLSIGN_LENGTH}) NOT NULL DEFAULT 'unset',
 			FOREIGN KEY (charId)
 				REFERENCES characters(charId)
 				ON DELETE CASCADE
