@@ -12,9 +12,7 @@ export function Faq() {
 				FAQ
 			</h3>
 			<Accordion
-				type="single"
-				collapsible
-				defaultValue="1"
+				defaultValue={["1"]}
 			>
 				<AccordionItem value="1">
 					<AccordionTrigger>Is this a one-time purchase?</AccordionTrigger>

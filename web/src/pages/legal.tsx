@@ -18,9 +18,7 @@ export const Legal = () => {
 							Terms of Service (ToS)
 						</h2>
 						<Accordion
-							type="single"
-							collapsible
-							defaultValue="1"
+							defaultValue={["1"]}
 						>
 							<AccordionItem value="1">
 								<AccordionTrigger>Acceptance of Terms</AccordionTrigger>
@@ -77,9 +75,7 @@ export const Legal = () => {
 							Privacy Policy
 						</h2>
 						<Accordion
-							type="single"
-							collapsible
-							defaultValue="1"
+							defaultValue={["1"]}
 						>
 							<AccordionItem value="1">
 								<AccordionTrigger>Information We Collect</AccordionTrigger>
@@ -130,9 +126,7 @@ export const Legal = () => {
 							Refund Policy
 						</h2>
 						<Accordion
-							type="single"
-							collapsible
-							defaultValue="1"
+							defaultValue={["1"]}
 						>
 							<AccordionItem value="1">
 								<AccordionTrigger>Eligibility</AccordionTrigger>
