@@ -12,7 +12,11 @@ type OxWeapon =
 let turnedOff = false
 
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
-	if (type === 'clip' && IsPedShooting(cache.ped)) return emitEvent<Events['updateHudClip']>('hud:update:clip', value)
+	if (type === 'clip') {
+		if (!IsPedShooting(cache.ped)) return
+		emitEvent<Events['updateHudClip']>('hud:update:clip', value)
+		return
+	}
 
 	emitEvent<Events['updateHudReserve']>('hud:update:reserve', value)
 }

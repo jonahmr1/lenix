@@ -1,6 +1,6 @@
 import { addKeybind, cache, requestAnimSet } from '@overextended/ox_lib/client'
 
-let crouched: false = false
+let crouched: boolean = false
 
 const updateCrouchAnimation = async () => {
 	await requestAnimSet('move_Ped_crouched')
@@ -14,6 +14,7 @@ const updateCrouchAnimation = async () => {
 		SetPedStrafeClipset(cache.ped, 'move_Ped_crouched_strafing')
 	}
 	RemoveAnimSet('move_ped_crouched')
+	crouched = !crouched
 }
 
 addKeybind({
