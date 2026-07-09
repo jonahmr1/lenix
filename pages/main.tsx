@@ -6,8 +6,6 @@ import { Footer } from '@/components/articles/footer'
 import { Quotes } from '@/components/articles/quote'
 import { DataProvider } from '@/lib/context'
 import { Timeline } from '@/components/articles/timeline'
-import { Button } from '@/components/ui/button'
-import { Link } from 'react-router'
 
 export const Main = () => (
 	<DataProvider>
@@ -16,11 +14,6 @@ export const Main = () => (
 				<div className='h-screen flex flex-col justify-between'>
 					<div className='min-h-5/10 flex items-end'>
 						<Introduc />
-					</div>
-					<div className='min-h-5/10 flex flex-col justify-center items-center'>
-						<Button asChild>
-							<Link to="/products">Visit Products</Link>
-					</Button>
 					</div>
 				</div>
 				<div className='min-h-screen flex flex-col justify-evenly'>
