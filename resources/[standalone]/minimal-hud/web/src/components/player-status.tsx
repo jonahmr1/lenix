@@ -65,8 +65,8 @@ const PlayerStatus = () => {
                 <div className="w-2/4 flex gap-3">
                   {typeof playerState.mic === "boolean" && playerState.mic === true ? <StatBar Icon={FaMicrophone} value={playerState.mic ? 100 : 0} color="#FFFF00" vertical /> : typeof playerState.voice === "number" ? <StatBar Icon={FaMicrophone} value={playerState.voice} color="#ffffff" vertical /> : null}
 
-                  <StatBar Icon={FaBurger} value={playerState.hunger} color="#FB8607" vertical />
-                  <StatBar Icon={FaGlassWater} value={playerState.thirst} color="#2B78FC" vertical />
+                  {/* <StatBar Icon={FaBurger} value={playerState.hunger} color="#FB8607" vertical />
+                  <StatBar Icon={FaGlassWater} value={playerState.thirst} color="#2B78FC" vertical /> */}
                   {playerState.oxygen < 100 && (
                   <StatBar
                     Icon={FaPersonSwimming}
