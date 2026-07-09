@@ -11,10 +11,21 @@ addKeybind({
 	description: 'Toggle The Police Roster',
 	defaultKey: 'K',
 	onPressed: () => {
-		if (!group || group !== 'police') return
-		emitEvent<Events['displayRoster']>('roster:display', !visible)
-		visible = !visible
+		const newState = !visible
+		// if (!group || group !== 'police') return
+		emitEvent<Events['displayRoster']>('roster:display', newState)
+		visible = newState
 	},
+})
+
+addKeybind({
+	name: 'roster_focus',
+	description: 'Turn On The Police Roster Cursor Focus',
+	defaultKey: 'k',
+	onPressed: () => {
+		if (!visible) return
+		SetNuiFocus(true, true)
+	}
 })
 
 onNet('lenix:client:roster:updateOfficers', (officers: Officers) => {
