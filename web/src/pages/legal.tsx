@@ -40,31 +40,31 @@ export const Legal = () => {
 	const privacy: Faq[] = [
 		{
 			question: 'Information We Collect',
-			answer: ''
+			answer: 'We collect information you provide directly (name, email, project details) and automatically (IP address, browser type, pages visited). This helps us understand your needs and improve our services.'
 		},
 		{
 			question: 'How We Use Information',
-			answer: ''
+			answer: 'We use your information to provide services, communicate project updates, process payments, and improve our offerings. We do not sell or share your data with third parties without consent.'
 		},
 		{
 			question: 'Cookies',
-			answer: ''
+			answer: 'We use cookies to enhance your browsing experience and analyze site usage. You can control cookie settings in your browser preferences.'
 		},
 		{
 			question: 'Third-Party Services',
-			answer: ''
+			answer: 'We may use third-party services (payment processors, analytics) that have their own privacy policies. We are not responsible for their data practices.'
 		},
 		{
 			question: 'Data Security',
-			answer: ''
+			answer: 'We implement industry-standard security measures to protect your information. However, no method is 100% secure. We are not liable for unauthorized access beyond our control.'
 		},
 		{
 			question: 'Your Rights',
-			answer: ''
+			answer: 'You have the right to access, update, or request deletion of your personal information. Contact us to exercise these rights.'
 		},
 		{
 			question: 'Contact',
-			answer: ''
+			answer: 'For privacy concerns or data requests, please contact us using the information provided on our website.'
 		},
 	]
 	const refund: Faq[] = [
@@ -127,7 +127,7 @@ export const Legal = () => {
 						</Accordion>
 					</div>
 					<div>
-						<p className="text-sm text-muted-foreground">Last updated: June 2026.</p>
+						<p className="text-sm text-muted-foreground">Last updated: Jul 9th 2026.</p>
 					</div>
 				</div>
 			</div>
