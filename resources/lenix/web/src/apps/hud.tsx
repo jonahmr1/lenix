@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { DEV } from '..'
 import { onEvent } from '@/lib'
 import type { Events } from 'types'
 
@@ -18,7 +17,7 @@ export default () => {
 		clip: '-',
 		reserve: '-',
 	})
-	const [display, setDisplay] = useState<boolean>(DEV)
+	const [display, setDisplay] = useState<boolean>()
 
 	onEvent<Events['displayHud']>('hud:display', setDisplay)
 	onEvent<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve })))

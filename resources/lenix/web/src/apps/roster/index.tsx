@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Events, Officer as IOfficer, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
 import { onEvent, triggetNui } from '@/lib'
@@ -18,6 +18,14 @@ export const Roster = () => {
 		}}
 	)
 	let myCharId: number = 1
+
+	useEffect(() => {
+		window.addEventListener('keydown', (event: KeyboardEvent) => {
+			if (event.key !== 'Escape') return
+
+			triggetNui<Requests['loseFocus']>('roster:lostFocus')
+		})
+	})
 
 	onEvent<Events['displayRoster']>('roster:display', setDisplay)
 	onEvent<Events['updateOfficers']>('roster:updateOfficers', setOfficers)

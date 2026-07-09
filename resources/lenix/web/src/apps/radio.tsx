@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { DEV } from '..'
 import { triggetNui, onEvent } from '@/lib'
 import type { Events, Requests } from 'types'
 
 export default () => {
-	const [display, setDisplay] = useState<boolean>(DEV)
+	const [display, setDisplay] = useState<boolean>()
 	const [frequency, setFreq] = useState<string>('')
 
 	useEffect(() => {
@@ -47,7 +46,7 @@ export default () => {
 						setFreq('')
 					}}
 				/>
-				<img className={`max-h-150 ${DEV && 'border border-white'}`} src='radio.png' />
+				<img className='max-h-150' src='radio.png' />
 			</div>
 		</div>
 	)

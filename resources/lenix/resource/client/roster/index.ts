@@ -9,7 +9,7 @@ let group: string
 addKeybind({
 	name: 'roster',
 	description: 'Toggle The Police Roster',
-	defaultKey: 'K',
+	defaultKey: 'j',
 	onPressed: () => {
 		const newState = !visible
 		// if (!group || group !== 'police') return
@@ -34,6 +34,11 @@ onNet('lenix:client:roster:updateOfficers', (officers: Officers) => {
 
 onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
 	emitNet('lenix:server:roster:updateOfficer', partialData)
+	return true
+})
+
+onNui<Requests['loseFocus']>('roster:lostFocus', () => {
+	SetNuiFocus(false, false)
 	return true
 })
 

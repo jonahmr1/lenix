@@ -51,4 +51,5 @@ export interface Requests {
 	closeRadio: Request<true, 'radio:close'>
 	leaveRadio: Request<true, 'radio:leave'>
 	updateOfficer: Request<true, 'roster:updateOfficer', PartialOfficer>
+	loseFocus: Request<true, 'roster:lostFocus'>
 }
