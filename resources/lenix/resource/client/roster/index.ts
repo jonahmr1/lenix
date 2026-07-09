@@ -53,7 +53,7 @@ const addOfficer = (groupName: string) => {
 	if (!grade) return
 
 	group = groupName
-	emitNet('lenix:server:roster:addOfficer', player.charId)
+	emitNet('lenix:server:roster:addOfficer', cache.serverId, player.charId)
 }
 
 onNet('ox:setGroup', (groupName: string) => {

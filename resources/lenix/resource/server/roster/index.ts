@@ -57,6 +57,7 @@ abstract class Officers {
 
 	public static removeOfficer = (playerId: number) => {
 		delete this.officers[playerId]
+		this.refreshOfficers()
 	}
 }
 
@@ -64,12 +65,8 @@ on('ox:playerLoaded', (playerId: number, _userId: number, charId: number) => {
 	Officers.addOfficer(playerId, charId)
 })
 
-on('ox:playerLogout', (playerId: number, userId: number, charId: number) => {
-	Officers.removeOfficer(playerId)
-});
+on('ox:playerLogout', Officers.removeOfficer)
 
 onNet('lenix:server:roster:updateOfficer', Officers.updateOfficer)
 
-onNet('lenix:server:roster:addOfficer', (charId: number) => {
-	Officers.addOfficer(source, charId)
-})
+onNet('lenix:server:roster:addOfficer', Officers.addOfficer)
