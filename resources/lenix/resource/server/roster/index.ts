@@ -43,12 +43,14 @@ abstract class Officers {
 			console.log(affectedRows)
 			if (!affectedRows) throw new Error(`Failed to update the callsign<${props.callsign} for player<${playerId}>`)
 		}
-		console.debug(officer)
+		console.debug(this.officers[playerId])
 
-		Object.assign(officer, Object.fromEntries(
-			Object.entries(props).filter(([_, v]) => v)
-		))
-		console.debug(officer)
+		this.officers[playerId] = {
+			...officer,
+			...props
+		}
+
+		console.debug(this.officers[playerId])
 		this.refreshOfficers()
 	}
 
