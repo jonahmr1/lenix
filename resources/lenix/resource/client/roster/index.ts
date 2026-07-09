@@ -13,7 +13,7 @@ addKeybind({
 	onPressed: () => {
 		const newState = !visible
 		if (!group || group !== 'police') return
-		emitEvent<Events['displayRoster']>('roster:display', newState)
+		emitEvent<Events['displayRoster']>('roster:display', newState, cache.serverId)
 		visible = newState
 	},
 })
@@ -42,8 +42,6 @@ onNui<Requests['loseFocus']>('roster:lostFocus', () => {
 	SetNuiFocus(false, false)
 	return true
 })
-
-onNui<Requests['getPlayerId']>('roster:getPlayerId', () => cache.serverId)
 
 const addOfficer = (groupName: string) => {
 	const player = GetPlayer()

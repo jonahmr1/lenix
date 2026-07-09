@@ -61,12 +61,12 @@ abstract class Officers {
 	}
 }
 
+onNet('lenix:server:roster:updateOfficer', Officers.updateOfficer)
+
+onNet('lenix:server:roster:addOfficer', Officers.addOfficer)
+
 on('ox:playerLoaded', (playerId: number, _userId: number, charId: number) => {
 	Officers.addOfficer(playerId, charId)
 })
 
 on('ox:playerLogout', Officers.removeOfficer)
-
-onNet('lenix:server:roster:updateOfficer', Officers.updateOfficer)
-
-onNet('lenix:server:roster:addOfficer', Officers.addOfficer)
