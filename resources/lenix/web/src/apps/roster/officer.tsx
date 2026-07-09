@@ -17,7 +17,9 @@ const DutyStates: Record<DutyState, string> = {
 export const Officer = ({ callsign, name, duty_state, talk_state }: IOfficer) => (
 	<div className='w-full min-h-1/10 flex justify-around items-center'>
 		<div className='flex-3 flex gap-3'>
-			<Badge className={`${DutyStates[duty_state]}`} />
+			<div>
+				<Badge className={`size-3 rounded-full p-0 ${DutyStates[duty_state]}`} />
+			</div>
 			<div className='text-white/70 whitespace-nowrap font-extralight'>{callsign}</div>
 		</div>
 		<div className='py-1 flex-1 flex justify-center'>
