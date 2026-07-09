@@ -49,4 +49,9 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 		type: `Room ${roomId}`,
 	})
 	if (!success) throw new Error(`Failed to give hotel room key to charId<${charId}>, reason: ${response}`)
+
+	const [success1, response1] = globalThis.exports.ox_inventory.AddItem(playerId, 'money', 5000)
+	if (!success1) throw new Error(`Failed to give money to charId<${charId}>, reason: ${response1}`)
+	
 })
+

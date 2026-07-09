@@ -12,12 +12,12 @@ type OxWeapon =
 let turnedOff = false
 
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
-	if (type === 'clip') return emitEvent<Events['updateHudClip']>('hud:update:clip', { value })
+	if (type === 'clip' && IsPedShooting(cache.ped)) return emitEvent<Events['updateHudClip']>('hud:update:clip', value)
 
-	emitEvent<Events['updateHudReserve']>('hud:update:reserve', { value })
+	emitEvent<Events['updateHudReserve']>('hud:update:reserve', value)
 }
 
-const toggleHud = (value: boolean) => emitEvent<Events['displayHud']>('hud:display', { value })
+const toggleHud = (value: boolean) => emitEvent<Events['displayHud']>('hud:display', value)
 
 const getReserve = (ammoName: string): number => globalThis.exports.ox_inventory.Search('count', ammoName)
 
