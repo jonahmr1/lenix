@@ -10,15 +10,15 @@ import { Frown } from 'lucide-react'
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)
 	const [officers, setOfficers] = useState<Officers>({
-		1: {
-			playerId: 1,
-			name: 'Marwan Jonah',
-			callsign: 'D-35',
-			duty_state: 'off',
-			talk_state: 'off'
-		}
+		// 1: {
+		// 	playerId: 1,
+		// 	name: 'Marwan Jonah',
+		// 	callsign: 'D-35',
+		// 	duty_state: 'off',
+		// 	talk_state: 'off'
+		// }
 	})
-	const [playerId, setPlayerId] = useState<number>(1)
+	const [playerId, setPlayerId] = useState<number>()
 
 	useEffect(() => {
 		const handler = (event: KeyboardEvent) => {
@@ -69,7 +69,7 @@ export const Roster = () => {
 	return (
 		<div
 			inert={!display}
-			className={`absolute top-1/5 right-1/10 w-5/10 h-2/4 flex flex-col bg-black rounded-lg ${display ? 'opacity-100' : 'opacity-0'}`}
+			className={`absolute top-1/5 right-1/10 w-3/10 h-2/4 flex flex-col bg-black rounded-lg ${display ? 'opacity-100' : 'opacity-0'}`}
 		>
 			<div className='flex-1 min-h-0 px-5 pt-5 flex flex-col gap-3'>
 				<div className='flex flex-col gap-2'>

@@ -11,6 +11,7 @@ const addOfficer = (groupName: string) => {
 	if (!player) return
 
 	const grade = player.getGroup('police')
+	console.debug(grade)
 	if (!grade) return
 
 	group = groupName
@@ -35,26 +36,31 @@ const changeCallsign = async () => {
 	} satisfies PartialOfficer)
 }
 
+const toggleDisplay = () => {
+	const newState = !visible
+	if (!group || group !== 'police') return
+
+	emitEvent<Events['displayRoster']>('roster:display', newState, cache.serverId)
+	visible = newState
+}
+
+const nuiFocus = () => {
+	if (!visible) return
+	SetNuiFocus(true, true)
+}
+
 addKeybind({
 	name: 'roster',
 	description: 'Toggle The Police Roster',
 	defaultKey: 'j',
-	onPressed: () => {
-		const newState = !visible
-		if (!group || group !== 'police') return
-		emitEvent<Events['displayRoster']>('roster:display', newState, cache.serverId)
-		visible = newState
-	},
+	onPressed: toggleDisplay
 })
 
 addKeybind({
 	name: 'roster_focus',
 	description: 'Turn On The Police Roster Cursor Focus',
-	defaultKey: 'k',
-	onPressed: () => {
-		if (!visible) return
-		SetNuiFocus(true, true)
-	}
+	defaultKey: 'i',
+	onPressed: nuiFocus
 })
 
 onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
