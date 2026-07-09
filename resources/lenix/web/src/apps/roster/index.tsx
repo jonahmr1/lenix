@@ -4,9 +4,10 @@ import { useState } from 'react'
 import type { Events, Officer as IOfficer, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
 import { onEvent, triggetNui } from '@/lib'
+import { DEV } from '@/index'
 
 export const Roster = () => {
-	const [display, setDisplay] = useState<boolean>(false)
+	const [display, setDisplay] = useState<boolean>(DEV)
 	const [officers, setOfficers] = useState<Officers>({
 		1: {
 			playerId: 1,
@@ -19,8 +20,7 @@ export const Roster = () => {
 	let myCharId: number = 1
 
 	onEvent<Events['displayRoster']>('roster:display', setDisplay)
-	onEvent<Events['addOfficer']>('roster:addOfficer', (officer) => setOfficers(prev => ({ ...prev, officer })))
-	onEvent<Events['updateOfficers']>('roster:updateOfficers', (officers) => setOfficers(officers))
+	onEvent<Events['updateOfficers']>('roster:updateOfficers', setOfficers)
 
 	const updateOfficer = (playerId: number, updates: OfficerUpdates) => {
 		triggetNui<Requests['updateOfficer']>('roster:updateOfficer', {
@@ -52,7 +52,7 @@ export const Roster = () => {
 	return (
 		<div
 			inert={!display}
-			className={`absolute top-1/5 right-1/10 w-5/10 h-3/4 flex flex-col bg-zinc-900 rounded-lg opacity-${display ? '100' : '0'}`}
+			className={`absolute top-1/5 right-1/10 w-2/10 h-2/4 flex flex-col bg-zinc-900 rounded-lg opacity-${display ? '100' : '0'}`}
 		>
 			<div className='flex-1 min-h-0 px-5 pt-5 flex flex-col gap-3'>
 				<div className='flex flex-col gap-2'>

@@ -4,7 +4,7 @@ import { triggetNui, onEvent } from '@/lib'
 import type { Events, Requests } from 'types'
 
 export default () => {
-	const [display, setDisplay] = useState<boolean>(false)
+	const [display, setDisplay] = useState<boolean>(DEV)
 	const [frequency, setFreq] = useState<string>('')
 
 	useEffect(() => {
@@ -19,9 +19,7 @@ export default () => {
 		return () => window.removeEventListener('keydown', escHandler)
 	}, [])
 
-	onEvent<Events['displayRadio']>('radio:display', ({ state }) => {
-		setDisplay(state)
-	})
+	onEvent<Events['displayRadio']>('radio:display', setDisplay)
 
 	return (
 		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 ${display ? 'opacity-100' : 'opacity-0'}`}>

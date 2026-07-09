@@ -17,20 +17,26 @@ addKeybind({
 	},
 })
 
-onNet('lenix:client:roster:receiveOfficers', (officers: Officers) => {
+onNet('lenix:client:roster:updateOfficers', (officers: Officers) => {
 	emitEvent<Events['updateOfficers']>('roster:updateOfficers', officers)
 })
 
-onNui<Requests['updateOfficer']>('roster:updateOfficer', (officer) => {
-	emitNet('lenix:server:roster:updateOfficer', officer)
+onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
+	emitNet('lenix:server:roster:updateOfficer', partialData)
 	return true
 })
 
 onNet('ox:setGroup', (groupName: string) => {
+	const player = GetPlayer()
+	if (!player.charId) return
+
 	group = groupName
+	emitNet('lenix:server:roster:addOfficer', player.charId)
 });
 
 on('ox:playerLoaded', () => {
 	const grade = GetPlayer().getGroup('police')
-	console.debug(grade)
+	if (!grade) return
+
+	group = 'police'
 });

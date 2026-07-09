@@ -4,14 +4,14 @@ const cbs = new Map<string, (...params: unknown[]) => void>()
 
 // TODO: remove the event
 const handler = window.addEventListener('message', (event: MessageEvent) => {
-	const { id, ...params } = event.data
+	const { id, params } = event.data
 	const cb = cbs.get(id)
 	if (!cb) throw new Error(`Callback<${id}> does not exist yet`)
 
 	try {
 		cb(...(params ?? []))
 	} catch (e) {
-		throw new Error(`Error occured while receiving callback<${id}>. \n${e}`)
+		throw new Error(`Error occured while receiving event<${id}>. \n${e}`)
 	}
 })
 
@@ -28,6 +28,6 @@ export const triggetNui = async <T extends Request<unknown, string, object>>(id:
 		})
 		return await response.json()
 	} catch (e) {
-		throw new Error(`Error occured while emiting a callback<${id}>. \n${e}`)
+		throw new Error(`Error occured while emiting an nui<${id}>. \n${e}`)
 	}
 }
