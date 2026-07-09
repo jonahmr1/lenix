@@ -12,7 +12,7 @@ addKeybind({
 	defaultKey: 'j',
 	onPressed: () => {
 		const newState = !visible
-		// if (!group || group !== 'police') return
+		if (!group || group !== 'police') return
 		emitEvent<Events['displayRoster']>('roster:display', newState)
 		visible = newState
 	},
@@ -68,4 +68,5 @@ on('onResourceStart', (resource: string) => {
 	if (GetCurrentResourceName() !== resource) return
 
 	addOfficer('police')
+	group = 'police'
 })

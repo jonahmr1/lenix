@@ -9,11 +9,9 @@ import { DEV } from '@/index'
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)
 	const [officers, setOfficers] = useState<Officers>({})
-	let playerId: number = 0
+	const [playerId, setPlayerId] = useState<number>()
 
-	const updatePlayerId = async () => {
-		playerId = await triggetNui<Requests['getPlayerId']>('roster:getPlayerId')
-	}
+	const updatePlayerId = async () => setPlayerId(await triggetNui<Requests['getPlayerId']>('roster:getPlayerId'))
 
 	useEffect(() => {
 		updatePlayerId()
@@ -28,10 +26,10 @@ export const Roster = () => {
 		return () => window.removeEventListener('keydown', handler)
 	})
 
-	if (!playerId) return 
-
 	onEvent<Events['displayRoster']>('roster:display', setDisplay)
 	onEvent<Events['updateOfficers']>('roster:updateOfficers', setOfficers)
+
+	if (!playerId || !officers[playerId]) return
 
 	const updateOfficer = (playerId: number, updates: OfficerUpdates) => {
 		triggetNui<Requests['updateOfficer']>('roster:updateOfficer', {
@@ -40,10 +38,8 @@ export const Roster = () => {
 		})
 	}
 
-	const getOfficer = (playerId: number): IOfficer => officers[playerId]
-
 	const handleSignin = () => {
-		const state = getOfficer(playerId).duty_state
+		const state = officers[playerId].duty_state
 		if (state === 'off') return updateOfficer(playerId, { duty_state: 'on' })
 		if (state === 'on') return updateOfficer(playerId, { duty_state: 'off' })
 
@@ -51,7 +47,7 @@ export const Roster = () => {
 	}
 
 	const handleBreak = () => {
-		const state = getOfficer(playerId).duty_state
+		const state = officers[playerId].duty_state
 		if (state === 'off') return
 		if (state === 'break') return updateOfficer(playerId, { duty_state: 'on' })
 
@@ -63,7 +59,7 @@ export const Roster = () => {
 	return (
 		<div
 			inert={!display}
-			className={`absolute top-1/5 right-1/10 w-2/10 h-2/4 flex flex-col bg-black rounded-lg opacity-${display ? '100' : '0'}`}
+			className={`absolute top-1/5 right-1/10 w-2/10 h-2/4 flex flex-col bg-black rounded-lg ${display ? 'opacity-100' : 'opacity-0'}`}
 		>
 			<div className='flex-1 min-h-0 px-5 pt-5 flex flex-col gap-3'>
 				<div className='flex flex-col gap-2'>
@@ -90,16 +86,16 @@ export const Roster = () => {
 					className='flex-1 rounded-none rounded-bl-lg bg-transparent text-white border-white/10'
 					onClick={handleSignin}
 				>
-					{getOfficer(playerId).duty_state === 'off' ? 'Sign-in' : 'Sign-off'}
+					{officers[playerId].duty_state === 'off' ? 'Sign-in' : 'Sign-off'}
 				</Button>
 				<Button
 					variant='outline'
 					className='flex-1 rounded-none bg-transparent border-x-0 text-white border-white/10'
 					onClick={handleBreak}
 				>
-					{getOfficer(playerId).duty_state === 'on'
+					{officers[playerId].duty_state === 'on'
 						? 'Take Break'
-						: getOfficer(playerId).duty_state === 'off'
+						: officers[playerId].duty_state === 'off'
 							? 'Take Break'
 							: 'Sign-in'}
 				</Button>

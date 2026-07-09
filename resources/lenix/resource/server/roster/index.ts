@@ -7,6 +7,7 @@ abstract class Officers {
 
 	public static set add(officer: Officer) {
 		this.officers[officer.playerId] = officer;
+		console.debug(this.officers)
 	}
 
 	public static get all(): Officers {
@@ -34,14 +35,14 @@ const addOfficer = async (playerId: number, charId: number) => {
 	if (!player) throw new Error(`Player<${playerId}> was not found`)
 
 	const grade = player.getGroup('police')
-	if (!grade) return 
+	if (!grade) return
 	
 	const callsign = await oxmysql.scalar<string | null>('SELECT `callsign` FROM `lenix` WHERE `charId` = ? LIMIT 1', [charId])
 
 	Officers.add = {
 		playerId,
 		callsign: callsign ?? 'unset',
-		name: `${player.get('lastname')} ${player.get('firstName')}`,
+		name: `${player.get('lastName')} ${player.get('firstName')}`,
 		duty_state: 'off',
 		talk_state: 'off'
 	}
