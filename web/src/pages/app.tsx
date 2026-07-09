@@ -2,7 +2,7 @@ import { Faq } from "@/components/articles/faq"
 import { Hero } from "@/components/articles/hero"
 import { Pricing } from "@/components/articles/products"
 
-export const Products = () => {
+export const App = () => {
 	return (
 		<div className="w-full bg-background flex justify-center">
 			<div className="flex justify-between flex-col h-full w-2/3">
