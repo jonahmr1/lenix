@@ -39,14 +39,17 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 		id: `elevator-${floor}`,
 		title: 'Elevator',
 		options: [
-			...Object.entries(ELEVATORS).map(([floor, coords]) => ({
-				title: `Floor ${floor}`,
+			...Object.entries(ELEVATORS)
+			.filter(([floor_]) => floor_ !== floor)
+			.map(([floor_, coords]) => ({
+				title: `Floor ${floor_}`,
 				onSelect: async () => {
-					await progressBar({
+					const canceled = await progressBar({
 						label: 'Calling the elevator...',
 						duration: WAIT_DURATION * 1000,
 						canCancel: true
 					})
+					if (!canceled) return
 					const entityCoords = GetEntityCoords(cache.ped, true) as Vector3
 					const heading = GetEntityHeading(cache.ped)
 					SetEntityCoords(cache.ped, entityCoords[0], entityCoords[1], coords[2], false, false, false, false)
