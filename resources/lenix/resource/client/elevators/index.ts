@@ -44,12 +44,12 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 			.map(([floor_, coords]) => ({
 				title: `Floor ${floor_}`,
 				onSelect: async () => {
-					const canceled = await progressBar({
+					const didntCanceled = await progressBar({
 						label: 'Calling the elevator...',
 						duration: WAIT_DURATION * 1000,
 						canCancel: true
 					})
-					if (!canceled) return
+					if (!didntCanceled) return
 					const entityCoords = GetEntityCoords(cache.ped, true) as Vector3
 					const heading = GetEntityHeading(cache.ped)
 					SetEntityCoords(cache.ped, entityCoords[0], entityCoords[1], coords[2], false, false, false, false)
