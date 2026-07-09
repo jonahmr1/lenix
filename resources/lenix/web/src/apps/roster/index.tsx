@@ -85,7 +85,7 @@ export const Roster = () => {
 				<div className='flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col items-center'>
 					{Object.entries(officers).length ? (
 						Object.entries(officers).map(([playerId, officer]) => (
-							<Officer key={player} {...officer} />
+							<Officer key={playerId} {...officer} />
 						))
 					) : (
 						<div className='h-full flex flex-col justify-center items-center gap-5'>
