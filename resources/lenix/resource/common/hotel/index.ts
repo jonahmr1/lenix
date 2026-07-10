@@ -68,3 +68,5 @@ export const HOTEL_SAFES: Record<number, Safe> = Object.fromEntries(
 		]
 	}),
 )
+
+export const getSafeById = (id: number) => `room:${id}`
