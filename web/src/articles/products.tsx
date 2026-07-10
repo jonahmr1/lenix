@@ -44,7 +44,7 @@ const products = [
 
 export function Products() {
 	return (
-		<div className="flex flex-col gap-2 min-h-[60vh]">
+		<div className="flex flex-col gap-2">
 			<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
 				Featured Products
 			</h3>

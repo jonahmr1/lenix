@@ -53,44 +53,42 @@ export const App = () => {
 	const navigate = useNavigate()
 
 	return (
-		<div className="w-full bg-background flex justify-center">
-			<div className="w-2/3">
-				<div className="flex flex-col items-center justify-center gap-5 min-h-[80vh]">
-					<h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
-						Software built for developers.
-					</h1>
-					<p className="leading-7 not-first:mt-6">
-						Code Hub develops digital tools, extensions, and utilities that help developers work faster. Every product is delivered digitally and includes documentation and support.
-					</p>
-					<div className="flex portrait:flex-col gap-3">
-						<Button onClick={() => {
-							navigate('/products')
-						}}>View Products</Button>
-						<Button onClick={() => {
-							navigate('/docs')
-						}}>Documentation</Button>
-					</div>
+		<div className="mx-[15vw] py-[25vh] space-y-[15vh]">
+			<div className="flex flex-col items-center justify-center gap-5">
+				<h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+					Software built for developers.
+				</h1>
+				<p className="leading-7 not-first:mt-6">
+					Code Hub develops digital tools, extensions, and utilities that help developers work faster. Every product is delivered digitally and includes documentation and support.
+				</p>
+				<div className="flex portrait:flex-col gap-3">
+					<Button onClick={() => {
+						navigate('/products')
+					}}>View Products</Button>
+					<Button onClick={() => {
+						navigate('/docs')
+					}}>Documentation</Button>
 				</div>
-				<Products />
-				<div className="min-h-[60vh] flex flex-col justify-center">
-					<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-						Why Code Hub?
-					</h2>
-					<br />
-					<div className="flex gap-5 portrait:flex-col">
-						<FeatureCard title="Digital Delivery" description="Products are delivered electronically after purchase." icon={Package} />
-						<FeatureCard title="Documentation" description="Every product includes installation and usage guides." icon={Book} />
-						<FeatureCard title="Support" description="Email support is available for all customers." icon={MessageCircle} />
-					</div>
+			</div>
+			<Products />
+			<div className="flex flex-col justify-center">
+				<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+					Why Code Hub?
+				</h2>
+				<br />
+				<div className="flex gap-5 portrait:flex-col">
+					<FeatureCard title="Digital Delivery" description="Products are delivered electronically after purchase." icon={Package} />
+					<FeatureCard title="Documentation" description="Every product includes installation and usage guides." icon={Book} />
+					<FeatureCard title="Support" description="Email support is available for all customers." icon={MessageCircle} />
 				</div>
-				<div className="flex flex-col gap-2 min-h-[50vh] justify-center">
-					<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-						FAQ
-					</h3>
-					<Accordion>
-						<AccordionItems {...{ data }} />
-					</Accordion>
-				</div>
+			</div>
+			<div className="flex flex-col gap-2 justify-center">
+				<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+					FAQ
+				</h3>
+				<Accordion>
+					<AccordionItems {...{ data }} />
+				</Accordion>
 			</div>
 		</div>
 	)
