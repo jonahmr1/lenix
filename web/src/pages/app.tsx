@@ -4,7 +4,7 @@ import { H1 } from "@/components/h1"
 import { Layout } from "@/components/layout"
 import { P } from "@/components/p"
 import { Button } from "@/components/ui/button"
-import type { Faq, FooterLink } from "@/types"
+import type { Faq } from "@/types"
 import { Book, MessageCircle, Package } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
@@ -28,25 +28,6 @@ const data: Faq[] = [
 	{
 		question: 'What is your refund policy?',
 		answer: "Refund requests are handled according to our Refund Policy. If you experience a technical issue that cannot be resolved or the product doesn't match its description, please contact us and we'll review your request."
-	},
-]
-
-const links: FooterLink[] = [
-	{
-		link: '/products',
-		label: 'Products'
-	},
-	{
-		link: '/about',
-		label: 'About'
-	},
-	{
-		link: '/contact',
-		label: 'Contact'
-	},
-	{
-		link: '/legal',
-		label: 'Legal'
 	},
 ]
 
