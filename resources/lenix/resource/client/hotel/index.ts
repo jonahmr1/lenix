@@ -1,3 +1,4 @@
+import { GetPlayer } from '@overextended/ox_core/client'
 import { getSafeById, HOTEL_SAFES } from 'common/hotel'
 
 const SAFE_SIZE = [1.66, 1.66, 1.66] as const
@@ -13,3 +14,16 @@ for (const [room, { coords, rotation }] of Object.entries(HOTEL_SAFES)) {
 		},
 	})
 }
+
+
+on('ox:playerLoaded', async (playerId: number, isNew: boolean) => {
+	if (isNew) return
+
+	const player = GetPlayer()
+	if (!player) return
+
+	const charId = player.charId
+	if (!charId) return
+	
+	emitNet('lenix:server:hotel:loadStashes', charId)
+})

@@ -33,7 +33,4 @@ setImmediate(async () => {
     END
 	`)
 	if (!trigger) throw new Error("Failed to create trigger 'lenix_new_char'")
-
-	const drop = await oxmysql.query(`DROP TRIGGER IF EXISTS lenix_new_char`)
-	if (!drop) throw new Error("Failed to drop trigger 'lenix_new_char'")
 })

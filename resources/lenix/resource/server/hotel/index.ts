@@ -55,31 +55,32 @@ const loadStash = async (charId: number) => {
 }
 
 on('ox:createdCharacter', async (playerId: number, _userId: number, charId: number) => {
-	const roomId = await generateRoomId()
-	if (!roomId) throw new Error(`Failed to create a room for charId<${charId}>`)
+	try {
+		const roomId = await generateRoomId()
+		if (!roomId) throw new Error(`Failed to create a room for charId<${charId}>`)
 
-	const stashCoords = HOTEL_SAFES[roomId]?.coords
-	if (!stashCoords) throw new Error(`Failed to create a room, expected 'vector4', got ${stashCoords}}`)
+		const stashCoords = HOTEL_SAFES[roomId]?.coords
+		if (!stashCoords) throw new Error(`Failed to create a room, expected 'vector4', got ${stashCoords}}`)
 
-	await sleep(2000)
-	
-	setupStash(roomId, stashCoords)
-	
-	const res = await oxmysql.insert('UPDATE lenix SET hotel_room = ? WHERE charId = ?', [
-		roomId, charId
-	])
-	
-	if (!res) throw new Error(`Failed to insert new room<${roomId}> for charId<${charId}>`)
+		setupStash(roomId, stashCoords)
 
-	const [success, response] = globalThis.exports.ox_inventory.AddItem(playerId, 'hotel_keycard', 1, {
-		type: `Room ${roomId}`,
-	})
-	if (!success) throw new Error(`Failed to give hotel room key to charId<${charId}>, reason: ${response}`)
+		const res = await oxmysql.update('UPDATE lenix SET hotel_room = ? WHERE charId = ?', [
+			roomId, charId
+		])
+		
+		if (!res) throw new Error(`Failed to update new room<${roomId}> for charId<${charId}>`)
 
-	const [success1, response1] = globalThis.exports.ox_inventory.AddItem(playerId, 'money', 5000)
-	if (!success1) throw new Error(`Failed to give money to charId<${charId}>, reason: ${response1}`)
+		await sleep(1000)
+		const [success, response] = globalThis.exports.ox_inventory.AddItem(playerId, 'hotel_keycard', 1, {
+			type: `Room ${roomId}`,
+		})
+		if (!success) throw new Error(`Failed to give hotel room key to charId<${charId}>, reason: ${response}`)
+
+		const [success1, response1] = globalThis.exports.ox_inventory.AddItem(playerId, 'money', 5000)
+		if (!success1) throw new Error(`Failed to give money to charId<${charId}>, reason: ${response1}`)
+	} catch(e) {
+		console.error(e)
+	}
 })
 
-on('ox:playerLoaded', async (_playerId: number, _userId: number, charId: number) => {
-	loadStash(charId)
-})
+onNet('lenix:server:hotel:loadStashes', loadStash)
