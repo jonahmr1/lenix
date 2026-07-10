@@ -85,9 +85,7 @@ export const App = () => {
 				<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
 					FAQ
 				</h3>
-				<Accordion>
-					<AccordionItems {...{ data }} />
-				</Accordion>
+				<AccordionItems {...{ data }} />
 			</div>
 		</Layout>
 	)
