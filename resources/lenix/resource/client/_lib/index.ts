@@ -1,5 +1,6 @@
 import { cache } from "@overextended/ox_lib"
-import type { Request, Vector3 } from "types/index"
+import { requestModel } from "@overextended/ox_lib/client"
+import type { Request, Vector3, Vector4 } from "types/index"
 
 export const emitEvent = <T extends [string, unknown[]]>(id: T[0], ...params: T[1]) => {
 	if (
@@ -79,4 +80,18 @@ export const getClosestPlayer = (
 	}
 
 	return { playerId: closestId, playerPed: closestPed, playerCoords: closestCoords, playerVehicle: closestVehicle }
+}
+
+export const spawnPed = async (coords: Vector4, model = 'a_m_m_prolhost_01') => {
+	const requestedModel = await requestModel(model)
+	if (!requestedModel) return
+
+	const entity = CreatePed(0, requestedModel, coords[0], coords[1], coords[2] - 1.0, coords[3], false, true)
+	TaskStartScenarioInPlace(entity, 'WORLD_HUMAN_CLIPBOARD', 0, true)
+
+	SetModelAsNoLongerNeeded(requestedModel)
+	FreezeEntityPosition(entity, true)
+	SetEntityInvincible(entity, true)
+	SetBlockingOfNonTemporaryEvents(entity, true)
+	return entity
 }

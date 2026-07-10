@@ -25,7 +25,7 @@ setImmediate(() => {
 			const source = GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity))
 			const player = Player(source)
 			const isDead = player.state['isDead']
-			const count = globalThis.exports.ox_inventory.Search('count', 'medkit')
+			const count = globalThis.exports.ox_inventory.GetItemCount('medkit')
 			return isDead && count > 0
 		},
 		onSelect: async ({ entity }: { entity: number }) => {

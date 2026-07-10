@@ -1,6 +1,7 @@
 import { cache } from '@overextended/ox_lib'
-import { requestModel, notify, createVehicle, registerContext, showContext } from '@overextended/ox_lib/client'
+import { notify, createVehicle, registerContext, showContext } from '@overextended/ox_lib/client'
 import type { Vector4 } from 'types'
+import { spawnPed } from '../_lib'
 
 let lastVehicle: number
 let vehicleInterval: ReturnType<typeof setInterval>
@@ -87,22 +88,10 @@ const spawnVehicle = async (model: string, spawn: Vector4) => {
 	handleVehicleDeletion(vehicle.handle)
 }
 
-const spawnPed = async () => {
-	const requestedModel = await requestModel('a_m_m_prolhost_01')
-	if (!requestedModel) return
-
-	const entity = CreatePed(0, requestedModel, coords[0], coords[1], coords[2] - 1.0, coords[3], false, true)
-	TaskStartScenarioInPlace(entity, 'WORLD_HUMAN_CLIPBOARD', 0, true)
-
-	SetModelAsNoLongerNeeded(requestedModel)
-	FreezeEntityPosition(entity, true)
-	SetEntityInvincible(entity, true)
-	SetBlockingOfNonTemporaryEvents(entity, true)
-}
-
 setImmediate(() => {
 	PEDS.map(async ({ coords, spawn, menu }) => {
-		const entity = await spawnPed()
+		const entity = await spawnPed(coords)
+		if (!entity) return
 
 		globalThis.exports.ox_target.addLocalEntity(entity, [
 			{

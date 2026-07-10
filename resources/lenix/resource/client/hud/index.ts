@@ -34,7 +34,7 @@ const updateHud = (type: 'clip' | 'reserve', value: string) => {
 
 const toggleHud = (value: boolean) => emitEvent<Events['displayHud']>('hud:display', value)
 
-const getReserve = (ammoName: string): number => globalThis.exports.ox_inventory.Search('count', ammoName)
+const getReserve = (ammoName: string): number => globalThis.exports.ox_inventory.GetItemCount(ammoName)
 
 const updateClip = (weapon: number) => updateHud('clip', GetAmmoInClip(cache.ped, weapon)[1].toString())
 
