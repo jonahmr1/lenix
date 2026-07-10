@@ -86,7 +86,7 @@ export const Products = () => {
 					Browse our collection of digital software products designed to improve developer productivity. Every purchase includes documentation and support.
 				</P>
 			</div>
-			<div className="grid grid-cols-3 gap-5">
+			<div className="grid grid-cols-3 gap-5 portrait:flex portrait:items-center portrait:flex-col justify-center">
 				{products.map(product => <Product {...{ ...product }} />)}
 			</div>
 		</Layout>

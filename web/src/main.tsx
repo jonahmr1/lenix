@@ -12,8 +12,8 @@ import { Products } from "./pages/products.tsx"
 
 const routes: IRoute[] = [
   { path: "/", label: "Home", element: <App /> },
-  { path: "/legal", label: "Legal", element: <Legal /> },
   { path: "/products", label: "Products", element: <Products /> },
+  { path: "/legal", label: "Legal", element: <Legal /> },
 ]
 
 createRoot(document.getElementById("root")!).render(
