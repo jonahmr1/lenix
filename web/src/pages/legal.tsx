@@ -1,4 +1,4 @@
-import { AccordionItems } from "@/components/faqs"
+import { AccordionItems } from "@/articles/faqs"
 import { H1 } from "@/components/h1"
 import { Layout } from "@/components/layout"
 import { P } from "@/components/p"
