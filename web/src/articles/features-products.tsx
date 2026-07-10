@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/tabs"
 import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
+import { P } from "@/components/p"
 
 const products = [
 	{
@@ -42,7 +43,7 @@ const products = [
 	},
 ]
 
-export function Products() {
+export function FeaturedProducts() {
 	return (
 		<div className="flex flex-col gap-2">
 			<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
@@ -61,9 +62,7 @@ export function Products() {
 								<CardTitle>{subTitle}</CardTitle>
 							</CardHeader>
 							<CardContent className="text-sm text-muted-foreground">
-								<p className="leading-7 not-first:mt-6">
-									{describtion}
-								</p>
+								<P>{describtion}</P>
 								<ul className="ml-6 list-disc [&>li]:mt-2">
 									{badges.map(badge => (
 										<li key={badge}>{badge}</li>

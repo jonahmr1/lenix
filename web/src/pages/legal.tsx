@@ -1,4 +1,7 @@
 import { AccordionItems } from "@/components/faqs"
+import { H1 } from "@/components/h1"
+import { Layout } from "@/components/layout"
+import { P } from "@/components/p"
 import { Accordion } from "@/components/ui/accordion"
 import type { Faq } from "@/types"
 
@@ -107,14 +110,12 @@ export const Legal = () => {
 	]
 
 	return (
-		<div className="mx-[15vw] py-[25vh] space-y-[15vh]">
+		<Layout>
 			<div>
-				<h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
-					Legal Information
-				</h1>
-				<p className="leading-7 not-first:mt-6">
+				<H1>Legal Information</H1>
+				<P>
 					Everything you need to know about our terms, privacy practices, and refund policy.
-				</p>
+				</P>
 			</div>
 			<div>
 				<h2 id="tos" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
@@ -143,6 +144,6 @@ export const Legal = () => {
 			<div>
 				<p className="text-sm text-muted-foreground">Last updated: Jul 9th 2026.</p>
 			</div>
-		</div>
+		</Layout>
 	)
 }
