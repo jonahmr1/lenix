@@ -9,3 +9,8 @@ export interface Route {
 	element: ReactNode
 	label: string
 }
+
+export interface FooterLink {
+	link: string
+	label: string
+}
