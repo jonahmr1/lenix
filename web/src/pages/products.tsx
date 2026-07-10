@@ -34,30 +34,50 @@ const products = [
 	},
 ]
 
-const Product = () => (
+const Product = ({
+	img, title, badges, feature, description, price
+}: Product) => (
 	<Card className="max-w-sm ring-transparent hover:ring-foreground/10 transition group pt-0 cursor-pointer hover:bg-ring/20">
 		<div className="overflow-hidden">
 			<img
-				src="/logo.png"
-				className="aspect-video object-cover group-hover:scale-105 transition"
+				src={img}
+				className="aspect-5/4 object-cover group-hover:scale-105 transition"
 			/>
 		</div>
 		<CardHeader>
-			<CardTitle className="text-xl">Discord Bot</CardTitle>
+			<CardTitle className="text-xl">{title}</CardTitle>
 			<CardDescription className="flex gap-2">
-				<Badge variant='outline'>Rust</Badge>
-				<Badge variant='outline'>AI</Badge>
+				{badges.map(badge => <Badge variant='outline'>{badge}</Badge>)}
 			</CardDescription>
 			<CardAction>
-				<Badge variant='destructive'>Sold out</Badge>
+				<Badge variant='destructive'>{feature}</Badge>
 			</CardAction>
 		</CardHeader>
-		<CardContent>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi nesciunt </CardContent>
-		<CardFooter className="text-xl">19.99€</CardFooter>
+		<CardContent>{description}</CardContent>
+		<CardFooter className="text-xl">{price}€</CardFooter>
 	</Card>
 )
 
+export interface Product {
+	img: string
+	title: string
+	badges: string[]
+	feature: string
+	description: string
+	price: number
+}
+
 export const Products = () => {
+	const products: Product[] = [
+		{
+			img: '/logo.png',
+			title: 'Discord Bot',
+			badges: ['Rust', 'AI'],
+			feature: 'Sold out',
+			description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi nesciunt',
+			price: 19.99
+		},
+	]
 	return (
 		<Layout>
 			<div>
@@ -67,7 +87,7 @@ export const Products = () => {
 				</P>
 			</div>
 			<div className="grid grid-cols-3 gap-5">
-				<Product />
+				{products.map(product => <Product {...{ ...product }} />)}
 			</div>
 		</Layout>
 	)
