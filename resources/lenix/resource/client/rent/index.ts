@@ -87,18 +87,22 @@ const spawnVehicle = async (model: string, spawn: Vector4) => {
 	handleVehicleDeletion(vehicle.handle)
 }
 
+const spawnPed = async () => {
+	const requestedModel = await requestModel('a_m_m_prolhost_01')
+	if (!requestedModel) return
+
+	const entity = CreatePed(0, requestedModel, coords[0], coords[1], coords[2] - 1.0, coords[3], false, true)
+	TaskStartScenarioInPlace(entity, 'WORLD_HUMAN_CLIPBOARD', 0, true)
+
+	SetModelAsNoLongerNeeded(requestedModel)
+	FreezeEntityPosition(entity, true)
+	SetEntityInvincible(entity, true)
+	SetBlockingOfNonTemporaryEvents(entity, true)
+}
+
 setImmediate(() => {
 	PEDS.map(async ({ coords, spawn, menu }) => {
-		const requestedModel = await requestModel('a_m_m_prolhost_01')
-		if (!requestedModel) return
-
-		const entity = CreatePed(0, requestedModel, coords[0], coords[1], coords[2] - 1.0, coords[3], false, true)
-		TaskStartScenarioInPlace(entity, 'WORLD_HUMAN_CLIPBOARD', 0, true)
-
-		SetModelAsNoLongerNeeded(requestedModel)
-		FreezeEntityPosition(entity, true)
-		SetEntityInvincible(entity, true)
-		SetBlockingOfNonTemporaryEvents(entity, true)
+		const entity = await spawnPed()
 
 		globalThis.exports.ox_target.addLocalEntity(entity, [
 			{
