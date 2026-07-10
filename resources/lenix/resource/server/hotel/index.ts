@@ -61,15 +61,16 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 	const stashCoords = HOTEL_SAFES[roomId]?.coords
 	if (!stashCoords) throw new Error(`Failed to create a room, expected 'vector4', got ${stashCoords}}`)
 
+	await sleep(2000)
+	
 	setupStash(roomId, stashCoords)
-
+	
 	const res = await oxmysql.insert('UPDATE lenix SET hotel_room = ? WHERE charId = ?', [
 		roomId, charId
 	])
 	
 	if (!res) throw new Error(`Failed to insert new room<${roomId}> for charId<${charId}>`)
 
-	await sleep(2000)
 	const [success, response] = globalThis.exports.ox_inventory.AddItem(playerId, 'hotel_keycard', 1, {
 		type: `Room ${roomId}`,
 	})
