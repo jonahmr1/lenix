@@ -12,7 +12,6 @@ type OxWeapon =
 let turnedOff = false
 let lastReloadState = false
 
-
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
 	const isReloading = IsPedReloading(cache.ped)
 	
