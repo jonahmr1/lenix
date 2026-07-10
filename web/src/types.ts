@@ -15,11 +15,6 @@ export type Route = {
 	hidden: true
 }
 
-export interface FooterLink {
-	link: string
-	label: string
-}
-
 export interface Product {
 	img: string
 	title: string
