@@ -10,8 +10,20 @@ type OxWeapon =
 	| undefined
 
 let turnedOff = false
+let lastReloadState = false
+
 
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
+	const isReloading = IsPedReloading(cache.ped)
+	
+	if (isReloading && !lastReloadState) {
+		emit('ox_inventory:suppressItemNotifications', true)
+	} else if (!isReloading && lastReloadState) {
+		emit('ox_inventory:suppressItemNotifications', false)
+	}
+
+	lastReloadState = isReloading
+
 	if (type === 'clip') {
 		if (!IsPedShooting(cache.ped)) return
 		emitEvent<Events['updateHudClip']>('hud:update:clip', value)
