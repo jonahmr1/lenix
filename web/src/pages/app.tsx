@@ -1,6 +1,5 @@
-import { FeaturedProducts } from "@/articles/features-products"
 import { FeatureCard } from "@/components/card"
-import { AccordionItems } from "@/components/faqs"
+import { AccordionItems } from "@/articles/faqs"
 import { H1 } from "@/components/h1"
 import { Layout } from "@/components/layout"
 import { P } from "@/components/p"
@@ -60,7 +59,6 @@ export const App = () => {
 			<div className="flex flex-col items-center justify-center gap-5">
 				<H1>Software built for developers.</H1>
 				<P>Code Hub develops digital tools, extensions, and utilities that help developers work faster. Every product is delivered digitally and includes documentation and support.</P>
-
 				<div className="flex portrait:flex-col gap-3">
 					<Button onClick={() => {
 						navigate('/products')
@@ -70,7 +68,7 @@ export const App = () => {
 					}}>Documentation</Button>
 				</div>
 			</div>
-			<FeaturedProducts />
+
 			<div className="flex flex-col justify-center">
 				<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
 					Why Code Hub?
@@ -82,6 +80,7 @@ export const App = () => {
 					<FeatureCard title="Support" description="Email support is available for all customers." icon={MessageCircle} />
 				</div>
 			</div>
+
 			<div className="flex flex-col gap-2 justify-center">
 				<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
 					FAQ
