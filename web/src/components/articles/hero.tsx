@@ -6,10 +6,10 @@ export const Hero = () => {
 	return (
 		<div className="flex flex-col items-center gap-5">
 			<h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
-				Developer tools built to save time.
+				Software built for developers.
 			</h1>
 			<p className="leading-7 not-first:mt-6">
-				Code Hub develops software for developers, including productivity tools, VSCode extensions, and FiveM resources. Every product is delivered digitally and includes documentation and support.
+				Code Hub develops digital tools, extensions, and utilities that help developers work faster. Every product is delivered digitally and includes documentation and support.
 			</p>
 			<div className="flex">
 				<Button onClick={() => {

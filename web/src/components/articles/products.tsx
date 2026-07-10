@@ -13,10 +13,9 @@ import {
 	TabsTrigger,
 } from "@/components/ui/tabs"
 import { Button } from "../ui/button"
-import { toast } from "sonner"
 import { Badge } from "../ui/badge"
 
-export function Pricing() {
+export function Products() {
 	const products = [
 		{
 			title: 'FiveM Receipt',
@@ -28,7 +27,7 @@ export function Pricing() {
 				'Documentation',
 			],
 			price: 199.99,
-			onClick: () => {}
+			onClick: () => { }
 		},
 		{
 			title: 'VSCode Extension',
@@ -40,13 +39,13 @@ export function Pricing() {
 				'Commercial license',
 			],
 			price: 99.99,
-			onClick: () => {}
+			onClick: () => { }
 		},
 	]
 	return (
 		<div className="flex flex-col gap-2">
 			<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-				Products
+				Featured Products
 			</h3>
 			<Tabs defaultValue="1" className="w-full">
 				<TabsList>
@@ -71,9 +70,12 @@ export function Pricing() {
 								</ul>
 							</CardContent>
 							<CardFooter className="flex flex-col items-start gap-4">
-								<CardDescription>One-time purchase <b>{price}€</b></CardDescription>
-								<Badge variant='outline'>Digital Download</Badge>
-								<Button onClick={onClick}>Buy Now</Button>
+								<CardDescription><b>{price}€</b></CardDescription>
+								<div className="flex gap-1">
+									<Badge variant='outline'>Digital Download</Badge>
+									<Badge variant='outline'>One-time purchase</Badge>
+								</div>
+								<Button onClick={onClick}>Learn More</Button>
 							</CardFooter>
 						</Card>
 					</TabsContent>
