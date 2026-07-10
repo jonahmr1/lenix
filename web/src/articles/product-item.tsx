@@ -3,9 +3,12 @@ import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, 
 import type { Product } from "@/types";
 
 export const ProductItem = ({
-	img, title, badges, feature, description, price
+	img, title, badges, feature, description, price, onClick
 }: Product) => (
-	<Card className="max-w-sm ring-transparent hover:ring-foreground/10 transition group pt-0 cursor-pointer hover:bg-ring/20">
+	<Card
+		className="max-w-sm ring-transparent hover:ring-foreground/10 transition group pt-0 cursor-pointer hover:bg-ring/20"
+		onClick={onClick}
+	>
 		<div className="overflow-hidden">
 			<img
 				src={img}

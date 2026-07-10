@@ -121,25 +121,19 @@ export const Legal = () => {
 				<h2 id="tos" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
 					Terms of Service (ToS)
 				</h2>
-				<Accordion>
-					<AccordionItems data={tos} />
-				</Accordion>
+				<AccordionItems data={tos} />
 			</div>
 			<div>
 				<h2 id="privacy" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
 					Privacy Policy
 				</h2>
-				<Accordion>
-					<AccordionItems data={privacy} />
-				</Accordion>
+				<AccordionItems data={privacy} />
 			</div>
 			<div>
 				<h2 id="refunds" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
 					Refund Policy
 				</h2>
-				<Accordion>
-					<AccordionItems data={refund} />
-				</Accordion>
+				<AccordionItems data={refund} />
 			</div>
 			<div>
 				<p className="text-sm text-muted-foreground">Last updated: Jul 9th 2026.</p>
