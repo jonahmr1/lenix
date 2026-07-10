@@ -17,3 +17,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fixed
 
 - Readme file
+
+## [0.0.13] - 2026-07-10
+
+- Added new model to the list: **qwen/qwen3.6-27b**

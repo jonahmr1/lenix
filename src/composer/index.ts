@@ -22,6 +22,7 @@ const models: readonly string[] = [
 	'openai/gpt-oss-120b',
 	'openai/gpt-oss-20b',
 	'openai/gpt-oss-safeguard-20b',
+	'qwen/qwen3.6-27b',
 	'qwen/qwen3-32b',
 	'whisper-large-v3',
 	'whisper-large-v3-turbo',
