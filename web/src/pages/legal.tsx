@@ -34,8 +34,20 @@ export const Legal = () => {
 		},
 		{
 			question: 'Contact',
-			answer: 'If you have questions regarding these Terms, please contact us using the information provided on our website.'
+			answer: 'If you have questions regarding these Terms, please contact us on support@lenix.dev.'
 		},
+		{
+			question: 'License',
+			answer: 'Unless otherwise stated, purchasing a product grants you a non-exclusive, non-transferable license to use the software. You may not redistribute, resell, or claim ownership of the product.'
+		},
+		{
+			question: 'Acceptable Use',
+			answer: 'You may not use our products for unlawful purposes, redistribute them without permission, or attempt to bypass licensing or security mechanisms.'
+		},
+		{
+			question: 'Governing Law',
+			answer: 'These Terms are governed by the laws of Algeria unless otherwise required by applicable consumer protection laws.'
+		}
 	]
 	const privacy: Faq[] = [
 		{
@@ -52,7 +64,7 @@ export const Legal = () => {
 		},
 		{
 			question: 'Third-Party Services',
-			answer: 'We may use third-party services (payment processors, analytics) that have their own privacy policies. We are not responsible for their data practices.'
+			answer: 'We may use third-party services (payment processors, analytics) that have their own privacy policies. Third-party services process data according to their own privacy policies.'
 		},
 		{
 			question: 'Data Security',
@@ -66,6 +78,10 @@ export const Legal = () => {
 			question: 'Contact',
 			answer: 'For privacy concerns or data requests, please contact us using the information provided on our website.'
 		},
+		{
+			question: 'Data Retention',
+			answer: 'We retain personal information only for as long as necessary to provide our services, comply with legal obligations, resolve disputes, and enforce our agreements.'
+		}
 	]
 	const refund: Faq[] = [
 		{
@@ -78,7 +94,7 @@ export const Legal = () => {
 		},
 		{
 			question: 'Digital Products',
-			answer: 'Digital products, licenses, and downloadable content are typically non-refundable once delivered, unless required by applicable law.'
+			answer: 'Digital products are generally non-refundable once the download or license has been delivered, except where required by applicable law or where the product is defective or materially differs from its description.'
 		},
 		{
 			question: 'Requesting a Refund',
