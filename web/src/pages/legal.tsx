@@ -107,45 +107,41 @@ export const Legal = () => {
 	]
 
 	return (
-		<div className="w-full bg-background flex justify-center">
-			<div className="flex justify-between flex-col h-full w-2/3">
-				<div className="flex justify-evenly flex-col min-h-screen w-full gap-10 py-50">
-					<div>
-						<h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
-							Legal Information
-						</h1>
-						<p className="leading-7 not-first:mt-6">
-							Everything you need to know about our terms, privacy practices, and refund policy.
-						</p>
-					</div>
-					<div>
-						<h2 id="tos" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-							Terms of Service (ToS)
-						</h2>
-						<Accordion>
-							<AccordionItems data={tos} />
-						</Accordion>
-					</div>
-					<div>
-						<h2 id="privacy" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-							Privacy Policy
-						</h2>
-						<Accordion>
-							<AccordionItems data={privacy} />
-						</Accordion>
-					</div>
-					<div>
-						<h2 id="refunds" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-							Refund Policy
-						</h2>
-						<Accordion>
-							<AccordionItems data={refund} />
-						</Accordion>
-					</div>
-					<div>
-						<p className="text-sm text-muted-foreground">Last updated: Jul 9th 2026.</p>
-					</div>
-				</div>
+		<div className="mx-[15vw] py-[25vh] space-y-[15vh]">
+			<div>
+				<h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+					Legal Information
+				</h1>
+				<p className="leading-7 not-first:mt-6">
+					Everything you need to know about our terms, privacy practices, and refund policy.
+				</p>
+			</div>
+			<div>
+				<h2 id="tos" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+					Terms of Service (ToS)
+				</h2>
+				<Accordion>
+					<AccordionItems data={tos} />
+				</Accordion>
+			</div>
+			<div>
+				<h2 id="privacy" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+					Privacy Policy
+				</h2>
+				<Accordion>
+					<AccordionItems data={privacy} />
+				</Accordion>
+			</div>
+			<div>
+				<h2 id="refunds" className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+					Refund Policy
+				</h2>
+				<Accordion>
+					<AccordionItems data={refund} />
+				</Accordion>
+			</div>
+			<div>
+				<p className="text-sm text-muted-foreground">Last updated: Jul 9th 2026.</p>
 			</div>
 		</div>
 	)
