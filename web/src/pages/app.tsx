@@ -1,15 +1,17 @@
-import { Products } from "@/components/articles/products"
+import { Footer } from "@/components/articles/footer"
+import { Products } from "@/articles/products"
 import { FeatureCard } from "@/components/card"
 import { AccordionItems } from "@/components/faqs"
 import { Accordion } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import type { Faq } from "@/types"
+import type { Faq, FooterLink } from "@/types"
 import { Book, MessageCircle, Package } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
+
 export const App = () => {
 	const navigate = useNavigate()
+
 	const data: Faq[] = [
 		{
 			question: 'Is this a one-time purchase?',
@@ -32,28 +34,26 @@ export const App = () => {
 			answer: "Refund requests are handled according to our Refund Policy. If you experience a technical issue that cannot be resolved or the product doesn't match its description, please contact us and we'll review your request."
 		},
 	]
-	const links = [
+
+	const links: FooterLink[] = [
 		{
-			link: '',
+			link: '/products',
 			label: 'Products'
 		},
 		{
-			link: '',
+			link: '/about',
 			label: 'About'
 		},
 		{
-			link: '',
+			link: '/contact',
 			label: 'Contact'
 		},
 		{
-			link: '',
+			link: '/legal',
 			label: 'Legal'
 		},
-		{
-			link: '',
-			label: 'Github'
-		},
 	]
+
 	return (
 		<div className="w-full bg-background flex justify-center">
 			<div className="flex justify-between flex-col h-full w-2/3">
@@ -94,13 +94,7 @@ export const App = () => {
 							<AccordionItems {...{ data }} />
 						</Accordion>
 					</div>
-					<div className="flex w-full items-center">
-						<p className="flex-1 text-sm text-muted-foreground">All rights reserved</p>
-						<ButtonGroup className="flex flex-1 justify-around portrait:flex-col">
-							{links.map(({ label }) => <Button variant='link'>{label}</Button>)}
-						</ButtonGroup>
-						<div className="flex-1"></div>
-					</div>
+					<Footer links={links} />
 				</div>
 			</div>
 		</div>
