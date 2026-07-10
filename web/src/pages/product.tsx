@@ -1,6 +1,5 @@
 import { AccordionItems } from "@/articles/faqs"
 import { H2 } from "@/components/h2"
-import { H3 } from "@/components/h3"
 import { Large } from "@/components/large"
 import { Layout } from "@/components/layout"
 import { Lead } from "@/components/lead"
