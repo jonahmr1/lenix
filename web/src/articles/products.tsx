@@ -15,35 +15,36 @@ import {
 import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
 
+const products = [
+	{
+		title: 'FiveM Receipt',
+		subTitle: 'FiveM Receipt Generator',
+		describtion: 'Professional FiveM receipt system with configurable templates and framework selection.',
+		badges: [
+			'Lifetime license',
+			'Free updates',
+			'Documentation',
+		],
+		price: 199.99,
+		onClick: () => { }
+	},
+	{
+		title: 'VSCode Extension',
+		subTitle: 'VSCode AI Extension',
+		describtion: 'AI-powered VSCode extension that speeds up development with reusable snippets, commands, and productivity tools.',
+		badges: [
+			'Early access',
+			'Automatic updates',
+			'Commercial license',
+		],
+		price: 99.99,
+		onClick: () => { }
+	},
+]
+
 export function Products() {
-	const products = [
-		{
-			title: 'FiveM Receipt',
-			subTitle: 'FiveM Receipt Generator',
-			describtion: 'Professional FiveM receipt system with configurable templates and framework selection.',
-			badges: [
-				'Lifetime license',
-				'Free updates',
-				'Documentation',
-			],
-			price: 199.99,
-			onClick: () => { }
-		},
-		{
-			title: 'VSCode Extension',
-			subTitle: 'VSCode AI Extension',
-			describtion: 'AI-powered VSCode extension that speeds up development with reusable snippets, commands, and productivity tools.',
-			badges: [
-				'Early access',
-				'Automatic updates',
-				'Commercial license',
-			],
-			price: 99.99,
-			onClick: () => { }
-		},
-	]
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col gap-2 min-h-[60vh]">
 			<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
 				Featured Products
 			</h3>
