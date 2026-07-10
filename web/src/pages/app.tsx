@@ -65,7 +65,7 @@ export const App = () => {
 						<p className="leading-7 not-first:mt-6">
 							Code Hub develops digital tools, extensions, and utilities that help developers work faster. Every product is delivered digitally and includes documentation and support.
 						</p>
-						<div className="flex">
+						<div className="flex portrait:flex-col gap-3">
 							<Button onClick={() => {
 								navigate('/products')
 							}}>View Products</Button>
@@ -80,7 +80,7 @@ export const App = () => {
 							Why Code Hub?
 						</h2>
 						<br />
-						<div className="flex gap-5">
+						<div className="flex gap-5 portrait:flex-col">
 							<FeatureCard title="Digital Delivery" description="Products are delivered electronically after purchase." icon={Package} />
 							<FeatureCard title="Documentation" description="Every product includes installation and usage guides." icon={Book} />
 							<FeatureCard title="Support" description="Email support is available for all customers." icon={MessageCircle} />
@@ -96,7 +96,7 @@ export const App = () => {
 					</div>
 					<div className="flex w-full items-center">
 						<p className="flex-1 text-sm text-muted-foreground">All rights reserved</p>
-						<ButtonGroup className="flex flex-1 justify-around">
+						<ButtonGroup className="flex flex-1 justify-around portrait:flex-col">
 							{links.map(({ label }) => <Button variant='link'>{label}</Button>)}
 						</ButtonGroup>
 						<div className="flex-1"></div>
