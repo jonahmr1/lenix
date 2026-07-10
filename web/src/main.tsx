@@ -11,9 +11,10 @@ import type { Route as IRoute } from "./types.ts"
 import { Products } from "./pages/products.tsx"
 
 const routes: IRoute[] = [
-  { path: "/", label: "Home", element: <App /> },
-  { path: "/products", label: "Products", element: <Products /> },
-  { path: "/legal", label: "Legal", element: <Legal /> },
+  { path: "/", element: <App />, label: "Home" },
+  { path: "/products", element: <Products />, label: "Products" },
+  { path: "/legal", element: <Legal />, label: "Legal" },
+  { path: "/product", element: <Products />, hidden: true },
 ]
 
 createRoot(document.getElementById("root")!).render(

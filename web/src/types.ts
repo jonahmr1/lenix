@@ -4,13 +4,28 @@ export interface Faq {
 	question: string
 	answer: string
 }
-export interface Route {
+
+export type Route = {
 	path: string
 	element: ReactNode
 	label: string
+} | {
+	path: string
+	element: ReactNode
+	hidden: true
 }
 
 export interface FooterLink {
 	link: string
 	label: string
+}
+
+export interface Product {
+	img: string
+	title: string
+	badges: string[]
+	feature: string
+	description: string
+	price: number
+	onClick: () => void
 }
