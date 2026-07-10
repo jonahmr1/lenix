@@ -2,24 +2,9 @@ import { ProductItem } from "@/articles/product-item"
 import { H1 } from "@/components/h1"
 import { Layout } from "@/components/layout"
 import { P } from "@/components/p"
-import type { Product } from "@/types"
-import { useNavigate } from "react-router-dom"
+import { products } from "@/constants"
 
 export const Products = () => {
-	const navigate = useNavigate()
-	const products: Product[] = [
-		{
-			img: '/logo.png',
-			title: 'Discord Bot',
-			badges: ['Rust', 'AI'],
-			feature: 'Sold out',
-			description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi nesciunt',
-			price: 19.99,
-			onClick: () => {
-				navigate('/product')
-			}
-		},
-	]
 	return (
 		<Layout>
 			<div>

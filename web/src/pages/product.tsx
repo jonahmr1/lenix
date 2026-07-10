@@ -1,4 +1,5 @@
 import { AccordionItems } from "@/articles/faqs"
+import { H1 } from "@/components/h1"
 import { H2 } from "@/components/h2"
 import { Large } from "@/components/large"
 import { Layout } from "@/components/layout"
@@ -8,27 +9,34 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Ul } from "@/components/ul"
 import type { Faq } from "@/types"
+import { ArrowRight } from "lucide-react"
 
-const faqs: Faq[] = [
+const data: Faq[] = [
 	{
-		question: '',
-		answer: ''
+		question: 'Overview',
+		answer: 'Code Hub Discord Bot helps automate and manage Discord communities with configurable features and regular updates.'
 	},
 	{
-		question: '',
-		answer: ''
+		question: 'Features',
+		answer: <Ul>
+			<li>Slash commands</li>
+			<li>Moderation</li>
+			<li>Logging</li>
+			<li>Auto roles</li>
+			<li>Custom configuration</li>
+		</Ul>
 	},
 	{
-		question: '',
-		answer: ''
+		question: 'License',
+		answer: 'Purchasing this product grants a lifetime license for one Discord server unless otherwise specified. Redistribution or resale is prohibited.'
 	},
 	{
-		question: '',
-		answer: ''
+		question: 'Updates',
+		answer: 'The purchase includes free bug fixes and feature updates for the current major version.'
 	},
 	{
-		question: '',
-		answer: ''
+		question: 'Support',
+		answer: 'Technical support is available through the contact page. Please include your order number and a detailed description of the issue.'
 	},
 ]
 
@@ -40,7 +48,7 @@ export const Product = () => {
 					<div className="flex justify-center">
 						<img src="/logo.png" className="aspect-video object-cover" />
 					</div>
-					<AccordionItems data={faqs} />
+					<AccordionItems data={data} />
 				</div>
 				<div className="flex-4">
 					<div className="flex flex-col gap-10">
@@ -50,40 +58,34 @@ export const Product = () => {
 								<Badge>AI</Badge>
 							</div>
 							<div className="flex justify-between w-full">
-								<H2>Discord Bot</H2>
+								<span className="flex items-center gap-2"><H2>Discord Bot </H2><Badge>v1.0.0</Badge></span>
 								<Large>19.99€</Large>
 							</div>
-							<Button>Buy Now</Button>
-						</div>
-						<div>
-							<Lead>Description</Lead>
 							<Muted>
-								Generate customizable receipts for ESX, QBCore and QBox
-								<br />
-								servers. Built for production use with configurable
-								<br />
-								templates and framework support.
+								A production-ready Discord bot designed for community management, moderation, automation, and developer workflows.
+								The bot is easy to configure, actively maintained, and includes documentation for installation and customization.
 							</Muted>
+							<div className="flex gap-2">
+								<Badge variant='outline'>Digital Download</Badge>
+								<Badge variant='outline'>Lifetime License</Badge>
+								<Badge variant='outline'>Documentation Included</Badge>
+							</div>
+							<Button>Buy Now</Button>
+							<Button variant='secondary'>Documentation <ArrowRight /></Button>
 						</div>
 						<div>
 							<Lead>Requirements</Lead>
 							<Ul>
 								<li>
-									<Muted>FiveM Server</Muted>
+									<Muted>Discord Server</Muted>
 								</li>
 								<li>
-									<Muted>ESX / QBCore / QBox</Muted>
+									<Muted>Discord Bot Token</Muted>
 								</li>
 								<li>
-									<Muted>ox_lib</Muted>
+									<Muted>Internet connection</Muted>
 								</li>
 							</Ul>
-						</div>
-						<div className="flex flex-col items-start">
-							<Lead>Documentation</Lead>
-							<Button variant='link'>Installation →</Button>
-							<Button variant='link'>Configuration →</Button>
-							<Button variant='link'>Examples →</Button>
 						</div>
 					</div>
 				</div>
