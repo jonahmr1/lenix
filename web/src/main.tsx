@@ -10,12 +10,13 @@ import { Nav } from "./components/nav.tsx"
 import type { Route as IRoute } from "./types.ts"
 import { Products } from "./pages/products.tsx"
 import { Product } from "./pages/product.tsx"
+import { products } from "./constants.tsx"
 
 const routes: IRoute[] = [
   { path: "/", element: <App />, label: "Home" },
   { path: "/products", element: <Products />, label: "Products" },
   { path: "/legal", element: <Legal />, label: "Legal" },
-  { path: "/product", element: <Product />, hidden: true },
+  { path: "/products/:slug", element: <Product />, hidden: true },
 ]
 
 createRoot(document.getElementById("root")!).render(

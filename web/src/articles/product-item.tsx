@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 export const ProductItem = ({
 	id, img, title, badges, feature, description, price
-}: Product) => {
+}: Product & { id: string }) => {
 	const navigate = useNavigate()
 	return (
 		<Card
 			className="max-w-sm ring-transparent hover:ring-foreground/10 transition group pt-0 cursor-pointer hover:bg-ring/20"
 			onClick={() => {
-				navigate(`/${id}`)
+				navigate(`/products/${id}`)
 			}}
 		>
 			<div className="overflow-hidden">

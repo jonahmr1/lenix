@@ -14,7 +14,7 @@ export const Products = () => {
 				</P>
 			</div>
 			<div className="grid grid-cols-3 gap-5 portrait:flex portrait:items-center portrait:flex-col justify-center">
-				{products.map(product => <ProductItem {...{ ...product }} />)}
+				{Object.entries(products).map(([id, product]) => <ProductItem {...{ id, ...product }} />)}
 			</div>
 		</Layout>
 	)

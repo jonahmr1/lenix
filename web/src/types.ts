@@ -21,11 +21,15 @@ export interface FooterLink {
 }
 
 export interface Product {
-	id: string
 	img: string
-	title: string
+	title: string | ReactNode
 	badges: string[]
 	feature: string
 	description: string
 	price: number
+	docs: string
+	requirements: string[]
+	accordion: Faq[]
 }
+
+export type Products = Record<string, Product>
