@@ -1,12 +1,13 @@
 import type { Team, Vector4 } from "types/index";
 import { spawnPed, useTimer } from "../_lib";
-import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback, waitFor } from "@overextended/ox_lib/client";
 import { MISSION_PRICE } from "common/robbery";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
 let team: Team | undefined
 let inviteTick: number
+let blip: number
 
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
@@ -134,9 +135,11 @@ onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
   })
 })
 
-onNet('lenix:client:robbery:showvehicle', (vehicleNetId: number) => {
-	const vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
-	blip = AddBlipForEntity(vehicle)
+onNet('lenix:client:robbery:showvehicle', async (vehicleNetId: number) => {
+  await waitFor(() => NetworkDoesEntityExistWithNetworkId(vehicleNetId), 'Vehicle not found', 5000)
+  const vehicle = NetToVeh(vehicleNetId)
+  console.debug(vehicle, vehicleNetId)
+  blip = AddBlipForEntity(vehicle)
 })
 
 onNet('lenix:client:robbery:removefromrobbery', () => {

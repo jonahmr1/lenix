@@ -14,10 +14,6 @@ const startNewRobbery = async () => {
 	teams.forEach(team => {
 		team.teammates.forEach(teammate => {
 			addPlayerToRobbery(teammate)
-			emitNet('ox_lib:notify', teammate, {
-				type: 'success',
-				title: 'A new truck to rob can be found in the map'
-			})
 		})
 	})
 }
