@@ -1,16 +1,33 @@
-import type { Team, Vector4 } from "types/index";
+import type { Team, Vector3, Vector4 } from "types/index";
 import { spawnPed, useTimer } from "../_lib";
 import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback, waitFor } from "@overextended/ox_lib/client";
-import { MISSION_PRICE } from "common/robbery";
+import { MISSION_PRICE, PEDS_MODEL, VEHICLE_MODEL } from "common/robbery";
+import type { Vec3 } from "@overextended/core/vector";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
 let team: Team | undefined
 let inviteTick: number
-let blip: number
 
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
+
+const createTeam = async () => {
+	const moneyAmount = globalThis.exports.ox_inventory.GetItemCount('money')
+	if (moneyAmount < MISSION_PRICE) {
+		notify({
+			type: 'error',
+			title: 'Not enough money!',
+			description: `You need ${MISSION_PRICE - moneyAmount} more`
+		})
+		return
+	}
+	const teamCreated = await triggerServerCallback<Team | undefined>('lenix:server:robbery:createteam', null)
+	if (!teamCreated) return
+
+	team = teamCreated
+	refreshContext()
+}
 
 const refreshContext = () => {
 	registerContext({
@@ -21,20 +38,7 @@ const refreshContext = () => {
 				title: `Create team ($${MISSION_PRICE})`,
 				disabled: isLeader() || isInTeam(),
 				onSelect: async () => {
-					const moneyAmount = globalThis.exports.ox_inventory.GetItemCount('money')
-					if (moneyAmount < MISSION_PRICE) {
-						notify({
-							type: 'error',
-							title: 'Not enough money!',
-							description: `You need ${MISSION_PRICE - moneyAmount} more`
-						})
-						return
-					}
-					const teamCreated = await triggerServerCallback<Team | undefined>('lenix:server:robbery:createteam', null)
-					if (!teamCreated) return
-	
-					team = teamCreated
-					refreshContext()
+					createTeam()
 				}
 			},
 			{
@@ -60,14 +64,6 @@ const refreshContext = () => {
 				}
 			},
 			{
-				title: 'Destroy team',
-				disabled: !isLeader(),
-				onSelect: () => {
-					emitNet('lenix:server:robbery:destroyteam')
-					refreshContext()
-				}
-			},
-			{
 				title: 'Leave team',
 				disabled: !isInTeam() || isLeader(),
 				onSelect: () => {
@@ -75,7 +71,15 @@ const refreshContext = () => {
 					team = undefined
 					refreshContext()
 				}
-			}
+			},
+			{
+				title: 'Delete team',
+				disabled: !isLeader(),
+				onSelect: () => {
+					emitNet('lenix:server:robbery:destroyteam')
+					refreshContext()
+				}
+			},
 		]
 	})
 
@@ -130,21 +134,9 @@ onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
 				cancel: true
       })
       if (res === 'cancel') return
-      emitNet('lenix:server:robbery:addteammate', inviter)
+      emitNet('lenix:server:robbery:jointeam', inviter)
     }
   })
-})
-
-onNet('lenix:client:robbery:showvehicle', async (vehicleNetId: number) => {
-  await waitFor(() => NetworkDoesEntityExistWithNetworkId(vehicleNetId), 'Vehicle not found', 5000)
-  const vehicle = NetToVeh(vehicleNetId)
-  console.debug(vehicle, vehicleNetId)
-  blip = AddBlipForEntity(vehicle)
-})
-
-onNet('lenix:client:robbery:removefromrobbery', () => {
-	RemoveBlip(blip)
-	blip = -1
 })
 
 onNet('lenix:client:robbery:removefromteam', () => {
@@ -162,4 +154,45 @@ setImmediate(async () => {
 			showContext('robbery-mission')
 		}
 	})
+
+	setTimeout(() => {
+		if (cache.serverId === 8) createTeam()
+	}, 1000)
+})
+
+
+let blip: number
+
+AddStateBagChangeHandler('robberyVehicleCoords', null, (bag: string, _key: string, value: Vec3) => {
+  if (!value | bag !== 'robberyVehicleCoords') {
+    RemoveBlip(blip)
+    blip = -1
+    return
+  }
+	const coords: Vector3 = [value.x, value.y, value.z]
+  if (DoesBlipExist(blip)) {
+    SetBlipCoords(blip, ...coords)
+    return
+  }
+  blip = AddBlipForCoord(...coords)
+  SetBlipSprite(blip, 66)
+  SetBlipColour(blip, 1)
+  SetBlipAsShortRange(blip, false)
+})
+
+AddStateBagChangeHandler('robberyVehicle', null, (bag: string, _key: string, value: boolean) => {
+  if (!value || bag !== 'robberyVehicle') return
+
+  const netId = GetEntityFromStateBagName(bag)
+	console.debug(NetworkGetEntityOwner(netId), cache)  
+	if (NetworkGetEntityOwner(netId) !== cache.playerId) return
+
+	const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
+	
+	for (let seat = -1; seat < seats - 1; seat++) {
+		const ped = CreatePedInsideVehicle(netId, 26, GetHashKey(PEDS_MODEL), seat, true, false)
+		if (seat === -1) {
+			TaskVehicleDriveWander(ped, netId, 20.0, 786468)
+		}
+	}
 })

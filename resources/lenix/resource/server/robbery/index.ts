@@ -1,22 +1,9 @@
 import { createVehicle, onClientCallback } from "@overextended/ox_lib/server"
-import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
+import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
 import type { Team } from "types/index"
 
 const teams = new Map<number, Team>()
 let isRobberyRunning: boolean = false
-let vehicle: number
-
-const startNewRobbery = async () => {
-	isRobberyRunning = true
-	const Vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
-	vehicle = Vehicle.netId
-
-	teams.forEach(team => {
-		team.teammates.forEach(teammate => {
-			addPlayerToRobbery(teammate)
-		})
-	})
-}
 
 const refreshTeam = (team: Team) => {
 	team.teammates.forEach(teammate => {
@@ -25,16 +12,10 @@ const refreshTeam = (team: Team) => {
 }
 
 const addPlayerToRobbery = (playerId: number) => {
-	emitNet('lenix:client:robbery:showvehicle', playerId, vehicle)
-	
 	emitNet('ox_lib:notify', playerId, {
 		type: 'success',
 		title: 'A new truck to rob can be found in the map'
 	})
-}
-
-const removePlayerFromRobbery = (playerId: number) => {
-	if (isRobberyRunning) emitNet('lenix:client:robbery:removefromrobbery', playerId)
 }
 
 onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
@@ -45,7 +26,24 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 	teams.set(leader, { leader, teammates: [leader] })
 	
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
-		startNewRobbery()
+		isRobberyRunning = true
+		const vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
+
+		Entity(vehicle.handle).state.set('robberyVehicle', true, true)
+
+		teams.forEach(team => {
+			team.teammates.forEach(teammate => {
+				addPlayerToRobbery(teammate)
+			})
+		})
+
+		setInterval(() => {
+			GlobalState.robberyVehicleCoords = vehicle.getCoords()
+		}, VEHICLE_BLIP_UPDATE_INTERVAL)
+
+		on('onResourceStop', () => {
+			DeleteEntity(vehicle.handle)
+		})
 	}
 	return teams.get(leader)
 })
@@ -55,7 +53,6 @@ onNet('lenix:server:robbery:leaveteam', () => {
   if (!team) return
 
   team.teammates = team.teammates.filter(teammate => teammate !== source)
-	removePlayerFromRobbery(source)
 	refreshTeam(team)
 })
 
@@ -65,7 +62,6 @@ onNet('lenix:server:robbery:destroyteam', () => {
 
 	team.teammates.forEach(teammate => {
 		emitNet('lenix:client:robbery:removefromteam', teammate)
-		if (isRobberyRunning) emitNet('lenix:client:robbery:removefromrobbery', teammate)
 	})
   teams.delete(source)
 })
@@ -78,11 +74,7 @@ onNet('lenix:server:robbery:kickteammate', (target: number) => {
 	refreshTeam(team)
 })
 
-onNet('lenix:server:robbery:invite', (playerId: number) => {
-	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
-})
-
-onNet('lenix:server:robbery:addteammate', (leader: number) => {
+onNet('lenix:server:robbery:jointeam', (leader: number) => {
 	const team = teams.get(leader)
 	if (!team) return
 
@@ -91,6 +83,7 @@ onNet('lenix:server:robbery:addteammate', (leader: number) => {
 	emitNet('ox_lib:notify', source, {
 		title: 'New player joined the team'
 	})
+	if (isRobberyRunning) addPlayerToRobbery(source)
 })
 
 onNet('lenix:server:robbery:invite', (playerId: number) => {
@@ -101,7 +94,14 @@ onNet('lenix:server:robbery:invite', (playerId: number) => {
 		})
 		return
 	}
-	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
+	const targetTeam = [...teams.values()].find(team => team.teammates.includes(playerId))
+  if (targetTeam) {
+		emitNet('ox_lib:notify', source, {
+			type: 'error',
+			title: 'Player is already in another team'
+		})
+		return
+	}
 
-	if (isRobberyRunning) addPlayerToRobbery(source)
+	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
 })
