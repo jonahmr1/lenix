@@ -1,6 +1,6 @@
 import type { Team, Vector4 } from "types/index";
 import { spawnPed } from "../_lib";
-import { cache, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 const MISSION_PRICE = 2000
@@ -104,8 +104,14 @@ onNet('lenix:client:robbery:receiveinvite', (inviterId: number) => {
 	})
 	
 	const tick = setTick(() => {
-		if (IsControlJustPressed(0, 162)) emitNet('lenix:server:robbery:addteammate', inviterId)
-		else if (IsControlJustPressed(0, 163)) clearTick(tick)
+		if (IsControlJustPressed(0, 162)) {
+			hideTextUI()
+			emitNet('lenix:server:robbery:addteammate', inviterId)
+		}
+		else if (IsControlJustPressed(0, 163)) {
+			hideTextUI()
+			clearTick(tick)
+		}
 	})
 })
 
