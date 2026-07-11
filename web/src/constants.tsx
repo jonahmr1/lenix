@@ -8,23 +8,20 @@ export const products: Products = {
 		badges: ['Discord', 'Automation'],
 		feature: 'Sold out',
 		description: 'A production-ready Discord bot designed for community management, moderation, automation, and developer workflows. The bot is easy to configure, actively maintained, and includes documentation for installation and customization.',
-		price: 19.99,
+		price: 0,
 		docs: '',
-		requirements: ['Discord Server', 'Discord Bot Token', 'Internet connection'],
+		requirements: ['Discord Server', 'Discord Bot Token'],
 		accordion: [
-			{
-				question: 'Overview',
-				answer: 'Code Hub Discord Bot helps automate and manage Discord communities with configurable features and regular updates.'
-			},
 			{
 				question: 'Features',
 				answer: <Ul>
 					<li>Slash commands</li>
-					<li>Moderation</li>
-					<li>Logging</li>
-					<li>Auto roles</li>
 					<li>Custom configuration</li>
 				</Ul>
+			},
+			{
+				question: 'Deliver',
+				answer: 'After the payment, a download link will be sent to your email address followed with your license.'
 			},
 			{
 				question: 'License',

@@ -48,7 +48,7 @@ export const Product = () => {
 							</div>
 							<div className="flex justify-between w-full">
 								<H2>{title}</H2>
-								<Large>{price}€</Large>
+								<Large>{price > 0 ? `${price}€` : 'Free'}</Large>
 							</div>
 							<Muted>{description}</Muted>
 							<Button>Buy Now</Button>
