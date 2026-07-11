@@ -1,11 +1,12 @@
 import { createVehicle, onClientCallback } from "@overextended/ox_lib/server"
-import { MIN_TEAMS_TO_START_ROBBERY, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
+import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
 import type { Team } from "types/index"
 
 const teams = new Map<number, Team>()
 let isRobberyRunning: boolean = false
 
 const startNewRobbery = async () => {
+	console.debug('new robbery created')
 	isRobberyRunning = true
 	await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
 
@@ -26,6 +27,11 @@ const refreshTeam = (team: Team) => {
 }
 
 onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
+	console.debug('creating new team by', leader)
+	const result = globalThis.exports.ox_inventory.RemoveItem(leader, 'money', MISSION_PRICE)
+	const [success, response] = Array.isArray(result) ? result : [result, undefined]
+	if (!success) throw new Error(`Could not create team for player<${leader}>, reason: ${response}`)
+
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		startNewRobbery()
 	}

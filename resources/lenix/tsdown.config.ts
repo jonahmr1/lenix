@@ -26,7 +26,7 @@ const config: Record<string, UserConfig> = {
 
 	server: {
 		platform: 'node',
-		format: 'cjs',
+		format: 'iife',
 	},
 }
 

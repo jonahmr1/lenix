@@ -1,9 +1,9 @@
 import type { Team, Vector4 } from "types/index";
 import { spawnPed } from "../_lib";
 import { cache, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { MISSION_PRICE } from "common/robbery";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
-const MISSION_PRICE = 2000
 
 let team: Team | undefined
 
@@ -58,7 +58,7 @@ const refreshContext = () => {
 				}
 			},
 			{
-				title: 'Destroy Team',
+				title: 'Destroy team',
 				disabled: !isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:destroyteam')
@@ -67,7 +67,7 @@ const refreshContext = () => {
 				}
 			},
 			{
-				title: 'Leave Team',
+				title: 'Leave team',
 				disabled: !isInTeam() || isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:leaveteam')
@@ -81,15 +81,15 @@ const refreshContext = () => {
 	registerContext({
 		id: 'robbery-mission-kick',
 		title: 'Kick a teammate',
-		options: team?.teammates.map(teammate => ({
-			title: `${teammate}`,
-			onSelect: () => {
-				emitNet('lenix:server:robbery:kickteammate', teammate)
-			}
-		})) ?? [{
-			title: 'No teammate was found',
-			readOnly: true
-		}]
+		options: (() => {
+			const teammates = team?.teammates.filter(t => t !== team?.leader) ?? []
+			return teammates.length > 0
+				? teammates.map(teammate => ({
+						title: `${teammate}`,
+						onSelect: () => emitNet('lenix:server:robbery:kickteammate', teammate)
+					}))
+				: [{ title: 'No teammates found', readOnly: true }]
+		})()
 	})
 }
 
@@ -116,9 +116,11 @@ setImmediate(async () => {
 	const entity = await spawnPed(PED_COORDS)
 	if (!entity) return
 
-
 	globalThis.exports.ox_target.addLocalEntity(entity, {
 		label: 'Robbery Mission',
-		onSelect: () => showContext('robbery-mission')
+		onSelect: () => {
+			refreshContext()
+			showContext('robbery-mission')
+		}
 	})
 })
