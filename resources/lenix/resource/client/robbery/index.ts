@@ -157,8 +157,8 @@ AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: strin
     return
   }
   blip = AddBlipForCoord(...coords)
-  SetBlipSprite(blip, 66)
-  SetBlipColour(blip, 1)
+  SetBlipSprite(blip, 67)
+  SetBlipColour(blip, 27)
   SetBlipAsShortRange(blip, false)
 })
 
@@ -178,11 +178,9 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 
   const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
 	const hash = await requestModel(PEDS_MODEL)
-	
+
   for (let seat = -1; seat < seats - 1; seat++) {
-		console.debug(entity)
     const ped = CreatePedInsideVehicle(entity, 26, hash, seat, true, false)
-		console.debug(ped)
     if (seat === -1) TaskVehicleDriveWander(ped, entity, 20.0, 786468)
   }
 })
