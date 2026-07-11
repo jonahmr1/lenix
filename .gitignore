@@ -3,5 +3,4 @@ resources/[[]streams[]]
 txData
 db
 /server
-
-_
+.DS_Store
