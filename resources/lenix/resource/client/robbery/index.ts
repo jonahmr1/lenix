@@ -1,12 +1,12 @@
 import type { Team, Vector4 } from "types/index";
-import { spawnPed } from "../_lib";
-import { cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { spawnPed, useTimer } from "../_lib";
+import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { MISSION_PRICE } from "common/robbery";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
-const MISSION_PRICE = 2000
 
 let team: Team | undefined
-let blip: number
+let inviteTick: number
 
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
@@ -59,7 +59,7 @@ const refreshContext = () => {
 				}
 			},
 			{
-				title: 'Destroy Team',
+				title: 'Destroy team',
 				disabled: !isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:destroyteam')
@@ -67,7 +67,7 @@ const refreshContext = () => {
 				}
 			},
 			{
-				title: 'Leave Team',
+				title: 'Leave team',
 				disabled: !isInTeam() || isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:leaveteam')
@@ -81,15 +81,15 @@ const refreshContext = () => {
 	registerContext({
 		id: 'robbery-mission-kick',
 		title: 'Kick a teammate',
-		options: team?.teammates.map(teammate => ({
-			title: `${teammate}`,
-			onSelect: () => {
-				emitNet('lenix:server:robbery:kickteammate', teammate)
-			}
-		})) ?? [{
-			title: 'No teammate was found',
-			readOnly: true
-		}]
+		options: (() => {
+			const teammates = team?.teammates.filter(t => t !== team?.leader) ?? []
+			return teammates.length > 0
+				? teammates.map(teammate => ({
+						title: `${teammate}`,
+						onSelect: () => emitNet('lenix:server:robbery:kickteammate', teammate)
+					}))
+				: [{ title: 'No teammates found', readOnly: true }]
+		})()
 	})
 }
 
@@ -98,21 +98,40 @@ onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
 	refreshContext()
 })
 
-onNet('lenix:client:robbery:receiveinvite', (inviterId: number) => {
-	showTextUI(`Robbery invite received from player(${inviterId})\n8 - Accept\n9 - Reject`, {
-		position: 'bottom-center'
-	})
-	
-	const tick = setTick(() => {
-		if (IsControlJustPressed(0, 162)) {
-			hideTextUI()
-			emitNet('lenix:server:robbery:addteammate', inviterId)
-		}
-		else if (IsControlJustPressed(0, 163)) {
-			hideTextUI()
-			clearTick(tick)
-		}
-	})
+onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
+	if (inviteTick) return
+
+  const stop = useTimer(
+    10000,
+    1000,
+    (timeLeft) => {
+      showTextUI(`E - Show robbery invite - ${Math.ceil(timeLeft / 1000)}s`, {
+        position: 'bottom-center'
+      })
+    },
+    () => {
+      hideTextUI()
+      clearTick(inviteTick)
+			inviteTick = 0
+    }
+  )
+
+  inviteTick = setTick(async () => {
+    if (IsControlJustPressed(0, 38)) {
+      stop()
+      hideTextUI()
+      clearTick(inviteTick)
+			inviteTick = 0
+      const res = await alertDialog({
+        header: 'Robbery Invite',
+        content: `The player #${inviter} is inviting you to join the robbery mission`,
+				centered: true,
+				cancel: true
+      })
+      if (res === 'cancel') return
+      emitNet('lenix:server:robbery:addteammate', inviter)
+    }
+  })
 })
 
 onNet('lenix:client:robbery:showvehicle', (vehicleNetId: number) => {
@@ -133,9 +152,11 @@ setImmediate(async () => {
 	const entity = await spawnPed(PED_COORDS)
 	if (!entity) return
 
-
 	globalThis.exports.ox_target.addLocalEntity(entity, {
 		label: 'Robbery Mission',
-		onSelect: () => showContext('robbery-mission')
+		onSelect: () => {
+			refreshContext()
+			showContext('robbery-mission')
+		}
 	})
 })

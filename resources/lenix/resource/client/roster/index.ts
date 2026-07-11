@@ -12,7 +12,6 @@ const addOfficer = (groupName: string) => {
 	if (!player) return
 
 	const grade = player.getGroup('police')
-	console.debug({grade})
 	if (!grade) return
 
 	group = groupName
@@ -74,7 +73,6 @@ addKeybind({
 })
 
 onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
-	console.debug({partialData})
 	emitNet('lenix:server:roster:updateOfficer', partialData)
 	return true
 })
