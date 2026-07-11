@@ -6,9 +6,9 @@ import type { Route } from "@/types";
 import type { ReactNode } from "react";
 
 export const Nav = ({ routes }: { routes: Route[] }) => {
-	const { pathname } = useLocation()
 	const navigate = useNavigate()
-  const filteredRoutes = routes.filter(route => route.path !== pathname || 'hidden' in route) as { path: string, label: string, element: ReactNode }[] satisfies Route[]
+	const { pathname } = useLocation()
+	const filteredRoutes = routes.filter(route => route.path !== pathname && !('hidden' in route)) as { path: string, label: string, element: ReactNode }[] satisfies Route[]
 
 	return (
 		<nav className="sticky top-0">
