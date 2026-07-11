@@ -1,5 +1,5 @@
 import { createVehicle, onClientCallback } from "@overextended/ox_lib/server"
-import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
+import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
 import type { Team } from "types/index"
 
 const teams = new Map<number, Team>()
@@ -27,7 +27,11 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 	
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		isRobberyRunning = true
-		const vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
+		const randomIndex = random(VEHICLE_COORDS.length)
+		const coords = VEHICLE_COORDS[randomIndex]
+		if (!coords) throw new Error(`Failed to get the coords at #${randomIndex} from VEHICLE_COORDS`)
+
+		const vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...coords)
 		teams.forEach(team => {
 			team.teammates.forEach(teammate => {
 				addPlayerToRobbery(teammate)
