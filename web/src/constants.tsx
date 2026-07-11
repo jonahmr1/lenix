@@ -1,3 +1,4 @@
+import { Code } from "./components/code"
 import { Ul } from "./components/ul"
 import type { Products } from "./types"
 
@@ -7,16 +8,27 @@ export const products: Products = {
 		title: 'Discord Bot',
 		badges: ['Discord', 'Automation'],
 		feature: 'Sold out',
-		description: 'A production-ready Discord bot designed for community management, moderation, automation, and developer workflows. The bot is easy to configure, actively maintained, and includes documentation for installation and customization.',
+		description: 'A customer-gated Discord AI bot built with Rust, Serenity, and Poise. It registers slash commands, creates private AI forum spaces for eligible servers, and replies inside AI threads using a Groq-compatible OpenAI chat completion API.',
 		price: 0,
 		docs: '',
-		requirements: ['Discord Server', 'Discord Bot Token'],
+		requirements: [
+			'Discord application and bot token',
+			'Rust 2024 runtime/build environment',
+			'Groq API key for AI replies',
+			'Configured eligible customer server IDs',
+			'Message Content intent enabled for AI thread replies',
+			'Bot permissions to create forum channels, manage threads, and send thread messages',
+		],
 		accordion: [
 			{
 				question: 'Features',
 				answer: <Ul>
-					<li>Slash commands</li>
-					<li>Custom configuration</li>
+					<li><Code>/ping</Code> replies with a private Pong confirmation.</li>
+					<li><Code>/lenix</Code> replies with a private Lenix greeting.</li>
+					<li><Code>/ai-space</Code> posts a button for creating or opening a private AI forum space.</li>
+					<li>AI spaces are created as Discord forum channels named per user.</li>
+					<li>AI thread replies keep in-memory conversation history per thread.</li>
+					<li>Commands are restricted to configured customer servers.</li>
 				</Ul>
 			},
 			{
