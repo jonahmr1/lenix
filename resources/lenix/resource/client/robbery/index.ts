@@ -6,6 +6,7 @@ const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 const MISSION_PRICE = 2000
 
 let team: Team | undefined
+let blip: number
 
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
@@ -62,7 +63,6 @@ const refreshContext = () => {
 				disabled: !isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:destroyteam')
-					team = undefined
 					refreshContext()
 				}
 			},
@@ -98,18 +98,29 @@ onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
 	refreshContext()
 })
 
-onNet('lenix:server:robbery:receiveinvite', (inviter: number) => {
-	showTextUI(`Robbery invite received from player(${inviter})\n8 - Accept\n9 - Reject`, {
+onNet('lenix:client:robbery:receiveinvite', (inviterId: number) => {
+	showTextUI(`Robbery invite received from player(${inviterId})\n8 - Accept\n9 - Reject`, {
 		position: 'bottom-center'
 	})
 	
 	const tick = setTick(() => {
-		if (IsControlJustPressed(0, 162)) {
-			emitNet('lenix:server:robbery:addteammate', inviter)
-		} else if (IsControlJustPressed(0, 163)) {
-			clearTick(tick)
-		}
+		if (IsControlJustPressed(0, 162)) emitNet('lenix:server:robbery:addteammate', inviterId)
+		else if (IsControlJustPressed(0, 163)) clearTick(tick)
 	})
+})
+
+onNet('lenix:client:robbery:showvehicle', (vehicleNetId: number) => {
+	const vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
+	blip = AddBlipForEntity(vehicle)
+})
+
+onNet('lenix:client:robbery:removefromrobbery', () => {
+	RemoveBlip(blip)
+	blip = -1
+})
+
+onNet('lenix:client:robbery:removefromteam', () => {
+	team = undefined
 })
 
 setImmediate(async () => {

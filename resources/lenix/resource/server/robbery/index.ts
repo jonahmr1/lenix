@@ -4,10 +4,12 @@ import type { Team } from "types/index"
 
 const teams = new Map<number, Team>()
 let isRobberyRunning: boolean = false
+let vehicle: number
 
 const startNewRobbery = async () => {
 	isRobberyRunning = true
-	await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
+	const Vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
+	vehicle = Vehicle.netId
 
 	// teams.forEach(team => {
 	// 	team.teammates.forEach(teammate => {
@@ -25,10 +27,22 @@ const refreshTeam = (team: Team) => {
   })
 }
 
+const addPlayerToRobbery = (playerId: number) => {
+	if (!isRobberyRunning) return
+	emitNet('lenix:client:robbery:showvehicle', playerId, vehicle)
+}
+
+const removePlayerFromRobbery = (playerId: number) => {
+	if (!isRobberyRunning) return
+	emitNet('lenix:client:robbery:removefromrobbery', playerId)
+}
+
 onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
-	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
-		startNewRobbery()
+	if (teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
+		if (!isRobberyRunning) await startNewRobbery()
+		addPlayerToRobbery(leader)
 	}
+	
 	teams.set(leader, { leader, teammates: [leader] })
 	return teams.get(leader)
 })
@@ -36,12 +50,21 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 onNet('lenix:server:robbery:leaveteam', () => {
   const team = [...teams.values()].find(team => team.teammates.includes(source))
   if (!team) return
-	
+
   team.teammates = team.teammates.filter(teammate => teammate !== source)
+	removePlayerFromRobbery(source)
 	refreshTeam(team)
 })
 
 onNet('lenix:server:robbery:destroyteam', () => {
+	const team = teams.get(source)
+	if (!team) return
+
+	team.teammates.forEach(teammate => {
+		emitNet('lenix:client:robbery:removefromteam', teammate)
+		if (!isRobberyRunning) return
+		emitNet('lenix:client:robbery:removefromrobbery', teammate)
+	})
   teams.delete(source)
 })
 
@@ -54,7 +77,7 @@ onNet('lenix:server:robbery:kickteammate', (target: number) => {
 })
 
 onNet('lenix:server:robbery:invite', (playerId: number) => {
-	emitNet('lenix:server:robbery:receiveinvite', playerId, source)
+	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
 })
 
 onNet('lenix:server:robbery:addteammate', (leader: number) => {
