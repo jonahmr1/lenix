@@ -1,6 +1,6 @@
 import type { Team, Vector4 } from "types/index";
 import { spawnPed } from "../_lib";
-import { cache, notify, registerContext, showContext, triggerServerCallback } from "@overextended/ox_lib/client";
+import { cache, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 const MISSION_PRICE = 2000
@@ -38,8 +38,16 @@ const refreshContext = () => {
 			{
 				title: 'Invite teammate',
 				disabled: !isLeader(),
-				onSelect: () => {
-					
+				onSelect: async () => {
+					const input = await inputDialog('Invite a teammate', [
+						{
+							type: 'number',
+							label: 'Player Id'
+						}
+					], {})
+					if (!input) return
+
+					emitNet('lenix:server:robbery:invite', input[0])
 				}
 			},
 			{
@@ -88,6 +96,20 @@ const refreshContext = () => {
 onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
 	team = updatedTeam
 	refreshContext()
+})
+
+onNet('lenix:server:robbery:receiveinvite', (inviter: number) => {
+	showTextUI(`Robbery invite received from player(${inviter})\n8 - Accept\n9 - Reject`, {
+		position: 'bottom-center'
+	})
+	
+	const tick = setTick(() => {
+		if (IsControlJustPressed(0, 162)) {
+			emitNet('lenix:server:robbery:addteammate', inviter)
+		} else if (IsControlJustPressed(0, 163)) {
+			clearTick(tick)
+		}
+	})
 })
 
 setImmediate(async () => {

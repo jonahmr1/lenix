@@ -19,26 +19,26 @@ const startNewRobbery = async () => {
 	// })
 }
 
-const addPlayerToRobbery = (leader: number, playerId: number) => {
-	teams.set(leader, { leader, teammates: [playerId] })
-
+const refreshTeam = (team: Team) => {
+	team.teammates.forEach(teammate => {
+    emitNet('lenix:client:robbery:updateteam', teammate, team)
+  })
 }
 
-onClientCallback('lenix:server:robbery:createteam', async (playerId): Promise<Team | undefined> => {
+onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		startNewRobbery()
 	}
-	addPlayerToRobbery(playerId, playerId)
-	return teams.get(playerId)
+	teams.set(leader, { leader, teammates: [leader] })
+	return teams.get(leader)
 })
 
 onNet('lenix:server:robbery:leaveteam', () => {
   const team = [...teams.values()].find(team => team.teammates.includes(source))
   if (!team) return
+	
   team.teammates = team.teammates.filter(teammate => teammate !== source)
-	team.teammates.forEach(teammate => {
-		emitNet('lenix:client:robbery:updateteam', teammate, team)
-	})
+	refreshTeam(team)
 })
 
 onNet('lenix:server:robbery:destroyteam', () => {
@@ -50,7 +50,17 @@ onNet('lenix:server:robbery:kickteammate', (target: number) => {
 	if (!team) return
 
   team.teammates = team.teammates.filter(teammate => teammate !== target)
-	team.teammates.forEach(teammate => {
-		emitNet('lenix:client:robbery:updateteam', teammate, team)
-	})
+	refreshTeam(team)
+})
+
+onNet('lenix:server:robbery:invite', (playerId: number) => {
+	emitNet('lenix:server:robbery:receiveinvite', playerId, source)
+})
+
+onNet('lenix:server:robbery:addteammate', (leader: number) => {
+	const team = teams.get(leader)
+	if (!team) return
+
+	team?.teammates.push(source)
+	refreshTeam(team)
 })
