@@ -28,14 +28,13 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		isRobberyRunning = true
 		const vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
-
-		Entity(vehicle.handle).state.set('robberyVehicle', true, true)
-
 		teams.forEach(team => {
 			team.teammates.forEach(teammate => {
 				addPlayerToRobbery(teammate)
 			})
 		})
+
+		emitNet('lenix:client:robbery:spawnPeds', -1, vehicle.netId)
 
 		setInterval(() => {
 			GlobalState.robberyVehicleCoords = vehicle.getCoords()
@@ -94,6 +93,7 @@ onNet('lenix:server:robbery:invite', (playerId: number) => {
 		})
 		return
 	}
+	
 	const targetTeam = [...teams.values()].find(team => team.teammates.includes(playerId))
   if (targetTeam) {
 		emitNet('ox_lib:notify', source, {
