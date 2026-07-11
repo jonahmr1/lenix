@@ -54,3 +54,8 @@ export interface Requests {
 	loseFocus: Request<true, 'roster:lostFocus'>
 	triggerCallsign: Request<true, 'roster:callsign'>
 }
+
+export interface Team {
+	leader: number
+	teammates: number[]
+}
