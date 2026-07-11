@@ -229,6 +229,34 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 			})
 		}
 	})
+	SetVehicleDoorShut(entity, 4, false)
+	SetVehicleDoorShut(entity, 5, false)
+
+	globalThis.exports.ox_target.addLocalEntity(entity, [
+		{
+			label: 'Break Door (Left)',
+			onSelect: async () => {
+				const success = globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
+				if (!success) return
+				emitNet('lenix:server:robbery:breakdoor', vehicleNetId, 4)
+			}
+		},
+		{
+			label: 'Break Door (Right)',
+			onSelect: async () => {
+				const success = globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
+				if (!success) return
+				emitNet('lenix:server:robbery:breakdoor', vehicleNetId, 5)
+			}
+		}
+	])
+})
+
+onNet('lenix:client:robbery:opendoors', (vehicleNetId: number) => {
+  const entity = NetworkGetEntityFromNetworkId(vehicleNetId)
+  if (!DoesEntityExist(entity)) return
+  SetVehicleDoorOpen(entity, 4, false, false)
+  SetVehicleDoorOpen(entity, 5, false, false)
 })
 
 setImmediate(async () => {

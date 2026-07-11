@@ -3,6 +3,8 @@ import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, random, VEHICLE_BLIP_UPDATE_
 import type { Team } from "types/index"
 
 const teams = new Map<number, Team>()
+const doorProgress = new Map<number, Set<number>>()
+
 let isRobberyRunning: boolean = false
 
 const refreshTeam = (team: Team) => {
@@ -27,7 +29,7 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 	
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		isRobberyRunning = true
-		const randomIndex = random(VEHICLE_COORDS.length)
+		const randomIndex = random(VEHICLE_COORDS.length - 1)
 		const coords = VEHICLE_COORDS[randomIndex]
 		if (!coords) throw new Error(`Failed to get the coords at #${randomIndex} from VEHICLE_COORDS`)
 
@@ -108,4 +110,14 @@ onNet('lenix:server:robbery:invite', (playerId: number) => {
 	}
 
 	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
+})
+
+onNet('lenix:server:robbery:breakdoor', (vehicleNetId: number, door: number) => {
+  if (!doorProgress.has(vehicleNetId)) doorProgress.set(vehicleNetId, new Set())
+  doorProgress.get(vehicleNetId)!.add(door)
+
+  if (doorProgress.get(vehicleNetId)!.size >= 2) {
+    emitNet('lenix:client:robbery:opendoors', -1, vehicleNetId)
+    doorProgress.delete(vehicleNetId)
+  }
 })

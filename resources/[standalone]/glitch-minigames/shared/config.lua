@@ -16,9 +16,9 @@
 
 config = {}
 
-config.DebugCommands = true -- This is for testing purposes only. Set to true to enable debug commands.
+config.DebugCommands = false -- This is for testing purposes only. Set to true to enable debug commands.
 config.DebugPrints = false -- Set to true to show minigame console.log output in the UI (F8/devtools). Off keeps the console quiet.
-config.usingGlitchNotifications = true -- Set to true to enable glitch notifications.
+config.usingGlitchNotifications = false -- Set to true to enable glitch notifications.
 
 -- Keys that close/cancel any active minigame (returns a fail result to the calling script).
 -- Supported names: 'BACKSPACE', 'ESCAPE', 'ENTER'. Defaults to both BACKSPACE and ESCAPE.
