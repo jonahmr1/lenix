@@ -27,7 +27,7 @@ const getStatsFallback = async (owner: string, repo: string) => {
 
 	for await (const { data } of pages) {
 		for (const { sha: ref, author } of data) {
-			if (author?.login !== 'lehnihx') continue
+			if (author?.login !== 'jonahmr1') continue
 			if (seenRefs.has(ref)) continue
 			seenRefs.add(ref)
 
@@ -51,7 +51,7 @@ export const totalLinesAdded = async () => {
 			const stats = await getStats(owner.login, name)
 			if (stats) {
 				for (const contributor of stats) {
-					if (contributor.author?.login !== 'lehnihx') continue
+					if (contributor.author?.login !== 'jonahmr1') continue
 					for (const week of contributor.weeks) {
 						total.added += week.a ?? 0
 						total.deleted += week.d ?? 0

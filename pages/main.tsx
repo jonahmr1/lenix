@@ -27,7 +27,7 @@ export const Main = () => (
 				</div>
 				<div className='mt-12'>
 					<Footer items={[
-						{ label: 'GitHub', url: 'https://github.com/lehnihx' },
+						{ label: 'GitHub', url: 'https://github.com/jonahmr1' },
 						{
 							label: 'Contact',
 							url: '/contact',

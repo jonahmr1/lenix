@@ -221,7 +221,7 @@ export const Contact = () => {
 				<div className='w-full'>
 					<Footer items={
 						[
-							{ label: 'GitHub', url: 'https://github.com/lehnihx' },
+							{ label: 'GitHub', url: 'https://github.com/jonahmr1' },
 							{
 								label: 'Home',
 								url: '/',

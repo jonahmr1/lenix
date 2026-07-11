@@ -7,8 +7,8 @@ export const ownerRepos = await octokit.paginate(
 )
 export const VALID_NAMES = [
 	'Lenix',
-	'lehnihx',
-	'lehnihx',
+	'lenixdev',
+	'LenixDev',
 	'Lenixx',
 	'tripplerscripts',
 	'lenix',
