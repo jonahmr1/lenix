@@ -10,56 +10,84 @@ let team: Team | undefined
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
 
-const refreshContext = () => registerContext({
-	id: 'robbery-mission',
-	title: 'Robbery Mission',
-	options: [
-		{
-			title: `Create team ($${MISSION_PRICE})`,
-			disabled: isLeader() || isInTeam(),
-			onSelect: async () => {
-				const moneyAmount = globalThis.exports.ox_inventory.GetItemCount('money')
-				if (moneyAmount < MISSION_PRICE) {
-					notify({
-						type: 'error',
-						title: 'Not enough money!',
-						description: `You need ${MISSION_PRICE - moneyAmount} more`
-					})
-					return
+const refreshContext = () => {
+	registerContext({
+		id: 'robbery-mission',
+		title: 'Robbery Mission',
+		options: [
+			{
+				title: `Create team ($${MISSION_PRICE})`,
+				disabled: isLeader() || isInTeam(),
+				onSelect: async () => {
+					const moneyAmount = globalThis.exports.ox_inventory.GetItemCount('money')
+					if (moneyAmount < MISSION_PRICE) {
+						notify({
+							type: 'error',
+							title: 'Not enough money!',
+							description: `You need ${MISSION_PRICE - moneyAmount} more`
+						})
+						return
+					}
+					const teamCreated = await triggerServerCallback<Team | undefined>('lenix:server:robbery:createteam', null)
+					if (!teamCreated) return
+	
+					team = teamCreated
+					refreshContext()
 				}
-				const teamCreated = await triggerServerCallback<Team | undefined>('lenix:server:robbery:createteam', null)
-				if (!teamCreated) return
-
-				team = teamCreated
-			}
-		},
-		{
-			title: 'Invite teammate',
-			disabled: !isLeader(),
-			onSelect: () => {
-				
-			}
-		},
-		...(!isInTeam() ? [] : isLeader()
-			? [{
+			},
+			{
+				title: 'Invite teammate',
+				disabled: !isLeader(),
+				onSelect: () => {
+					
+				}
+			},
+			{
+				title: 'Kick teammate',
+				disabled: !isLeader(),
+				onSelect: () => {
+					showContext('robbery-mission-kick')
+				}
+			},
+			{
 				title: 'Destroy Team',
+				disabled: !isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:destroyteam')
 					team = undefined
+					refreshContext()
 				}
-			}] : [{
+			},
+			{
 				title: 'Leave Team',
+				disabled: !isInTeam() || isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:leaveteam')
 					team = undefined
+					refreshContext()
 				}
-			}]
-		)
-	]
-})
+			}
+		]
+	})
+
+	registerContext({
+		id: 'robbery-mission-kick',
+		title: 'Kick a teammate',
+		options: team?.teammates.map(teammate => ({
+			title: `${teammate}`,
+			onSelect: () => {
+				emitNet('lenix:server:robbery:kickteammate', teammate)
+			}
+		})) ?? [{
+			title: 'No teammate was found',
+			readOnly: true
+		}]
+	})
+}
 
 onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
 	team = updatedTeam
+	refreshContext()
 })
 
 setImmediate(async () => {

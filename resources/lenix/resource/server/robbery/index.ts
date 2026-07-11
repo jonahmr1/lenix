@@ -44,3 +44,13 @@ onNet('lenix:server:robbery:leaveteam', () => {
 onNet('lenix:server:robbery:destroyteam', () => {
   teams.delete(source)
 })
+
+onNet('lenix:server:robbery:kickteammate', (target: number) => {
+	const team = teams.get(source)
+	if (!team) return
+
+  team.teammates = team.teammates.filter(teammate => teammate !== target)
+	team.teammates.forEach(teammate => {
+		emitNet('lenix:client:robbery:updateteam', teammate, team)
+	})
+})
