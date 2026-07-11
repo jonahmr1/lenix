@@ -11,14 +11,11 @@ const startNewRobbery = async () => {
 	const Vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
 	vehicle = Vehicle.netId
 
-	// teams.forEach(team => {
-	// 	team.teammates.forEach(teammate => {
-	// 		emitNet('ox_lib:notify', teammate, {
-	// 			type: 'success',
-	// 			title: 'A new truck to rob can be found in the map'
-	// 		})
-	// 	})
-	// })
+	teams.forEach(team => {
+		team.teammates.forEach(teammate => {
+			addPlayerToRobbery(teammate)
+		})
+	})
 }
 
 const refreshTeam = (team: Team) => {
@@ -28,19 +25,21 @@ const refreshTeam = (team: Team) => {
 }
 
 const addPlayerToRobbery = (playerId: number) => {
-	if (!isRobberyRunning) return
 	emitNet('lenix:client:robbery:showvehicle', playerId, vehicle)
+	
+	emitNet('ox_lib:notify', playerId, {
+		type: 'success',
+		title: 'A new truck to rob can be found in the map'
+	})
 }
 
 const removePlayerFromRobbery = (playerId: number) => {
-	if (!isRobberyRunning) return
-	emitNet('lenix:client:robbery:removefromrobbery', playerId)
+	if (isRobberyRunning) emitNet('lenix:client:robbery:removefromrobbery', playerId)
 }
 
 onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
-	if (teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
-		if (!isRobberyRunning) await startNewRobbery()
-		addPlayerToRobbery(leader)
+	if (teams.size >= MIN_TEAMS_TO_START_ROBBERY && !isRobberyRunning) {
+		startNewRobbery()
 	}
 	
 	teams.set(leader, { leader, teammates: [leader] })
@@ -62,8 +61,7 @@ onNet('lenix:server:robbery:destroyteam', () => {
 
 	team.teammates.forEach(teammate => {
 		emitNet('lenix:client:robbery:removefromteam', teammate)
-		if (!isRobberyRunning) return
-		emitNet('lenix:client:robbery:removefromrobbery', teammate)
+		if (isRobberyRunning) emitNet('lenix:client:robbery:removefromrobbery', teammate)
 	})
   teams.delete(source)
 })
@@ -86,4 +84,6 @@ onNet('lenix:server:robbery:addteammate', (leader: number) => {
 
 	team?.teammates.push(source)
 	refreshTeam(team)
+
+	if (isRobberyRunning) addPlayerToRobbery(source)
 })
