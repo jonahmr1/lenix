@@ -1,14 +1,10 @@
-import { H2 } from "./components/h2"
-import { Badge } from "./components/ui/badge"
 import { Ul } from "./components/ul"
 import type { Products } from "./types"
 
 export const products: Products = {
 	'discord-bot': {
 		img: '/logo.png',
-		title: <>
-			<H2>Discord Bot </H2><Badge>v1.0.0</Badge>
-		</>,
+		title: 'Discord Bot',
 		badges: ['Discord', 'Automation'],
 		feature: 'Sold out',
 		description: 'A production-ready Discord bot designed for community management, moderation, automation, and developer workflows. The bot is easy to configure, actively maintained, and includes documentation for installation and customization.',

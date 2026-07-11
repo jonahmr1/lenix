@@ -1,4 +1,5 @@
 import { AccordionItems } from "@/articles/faqs"
+import { H2 } from "@/components/h2"
 import { Large } from "@/components/large"
 import { Layout } from "@/components/layout"
 import { Lead } from "@/components/lead"
@@ -13,7 +14,7 @@ import { useNavigate, useParams } from "react-router-dom"
 export const Product = () => {
 	const navigate = useNavigate()
 	const { slug } = useParams()
-	if (!slug || !products[slug]) return <></> 
+	if (!slug || !products[slug]) return <></>
 	
 	const {
 		img,
@@ -39,11 +40,14 @@ export const Product = () => {
 				<div className="flex-4">
 					<div className="flex flex-col gap-10">
 						<div className="flex flex-col gap-5">
-							<div className="flex gap-2">
-								{badges.map(badge => <Badge key={badge}>{badge}</Badge>)}
+							<div className="flex justify-between">
+								<div className="flex gap-2">
+									{badges.map(badge => <Badge variant='secondary' key={badge}>{badge}</Badge>)}
+								</div>
+								<Badge variant='destructive'>{feature}</Badge>
 							</div>
 							<div className="flex justify-between w-full">
-								<span className="flex items-center gap-2">{title}</span>
+								<H2>{title}</H2>
 								<Large>{price}€</Large>
 							</div>
 							<Muted>{description}</Muted>
