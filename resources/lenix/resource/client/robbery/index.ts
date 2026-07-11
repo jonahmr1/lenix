@@ -1,5 +1,5 @@
 import type { Team, Vector3, Vector4 } from "types/index";
-import { spawnPed, useTimer } from "../_lib";
+import { getClosestPlayer, spawnPed, useTimer } from "../_lib";
 import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, requestModel, showContext, showTextUI, triggerServerCallback, waitFor } from "@overextended/ox_lib/client";
 import { MISSION_PRICE, PEDS_MODEL, VEHICLE_MODEL } from "common/robbery";
 import type { Vec3 } from "@overextended/core/vector";
@@ -178,11 +178,57 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 
   const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
 	const hash = await requestModel(PEDS_MODEL)
+	const peds: number[] = []
+	let guardsAlerted = false
 
-  for (let seat = -1; seat < seats - 1; seat++) {
-    const ped = CreatePedInsideVehicle(entity, 26, hash, seat, true, false)
-    if (seat === -1) TaskVehicleDriveWander(ped, entity, 20.0, 786468)
-  }
+	for (let seat = -1; seat < seats - 1; seat++) {
+		const ped = CreatePedInsideVehicle(entity, 26, hash, seat, true, false)
+		SetBlockingOfNonTemporaryEvents(ped, true)
+		SetPedFleeAttributes(ped, 0, false)
+		GiveWeaponToPed(ped, GetHashKey('weapon_pistol'), 9999, false, true)
+		SetPedInfiniteAmmo(ped, true, GetHashKey('weapon_pistol'))
+		SetCurrentPedWeapon(ped, GetHashKey('weapon_pistol'), true)
+		SetPedCombatAttributes(ped, 0, true)
+		SetPedCombatAttributes(ped, 46, true)
+		SetPedCombatAttributes(ped, 5, true)
+		SetPedCombatRange(ped, 2)
+		SetPedCombatAbility(ped, 2)
+		SetPedCombatMovement(ped, 3)
+		SetPedConfigFlag(ped, 183, true)
+		SetPedConfigFlag(ped, 4, true)
+		SetPedShootRate(ped, 50)
+		if (seat === -1) TaskVehicleDriveWander(ped, entity, 20.0, 786468)
+		peds.push(ped)
+	}
+	
+	setTick(() => {
+		if (NetworkGetEntityOwner(entity) !== PlayerId()) return
+	
+		if (!guardsAlerted) {
+			for (let door = 0; door < 6; door++) {
+				if (GetVehicleDoorAngleRatio(entity, door) > 0.1) {
+					guardsAlerted = true
+					peds.forEach(ped => {
+						SetBlockingOfNonTemporaryEvents(ped, false)
+						SetPedFleeAttributes(ped, 0, false)
+						TaskLeaveVehicle(ped, entity, 0)
+					})
+					break
+				}
+			}
+		}
+	
+		if (guardsAlerted) {
+			peds.forEach(ped => {
+				if (IsEntityDead(ped)) return
+				if (IsPedInAnyVehicle(ped, false)) return
+				if (IsPedInCombat(ped, 0)) return
+				const pedCoords = GetEntityCoords(ped, true) as Vector3
+				const { playerPed } = getClosestPlayer(pedCoords, 100.0, true)
+				if (playerPed) TaskCombatPed(ped, playerPed, 0, 16)
+			})
+		}
+	})
 })
 
 setImmediate(async () => {
@@ -196,6 +242,4 @@ setImmediate(async () => {
 			showContext('robbery-mission')
 		}
 	})
-
-	if (cache.serverId === 8) createTeam()
 })
