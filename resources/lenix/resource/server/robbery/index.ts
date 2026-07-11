@@ -10,14 +10,14 @@ const startNewRobbery = async () => {
 	isRobberyRunning = true
 	await createVehicle(VEHICLE_MODEL, 'automobile', ...VEHICLE_COORDS)
 
-	// teams.forEach(team => {
-	// 	team.teammates.forEach(teammate => {
-	// 		emitNet('ox_lib:notify', teammate, {
-	// 			type: 'success',
-	// 			title: 'A new truck to rob can be found in the map'
-	// 		})
-	// 	})
-	// })
+	teams.forEach(team => {
+		team.teammates.forEach(teammate => {
+			emitNet('ox_lib:notify', teammate, {
+				type: 'success',
+				title: 'A new truck to rob can be found in the map'
+			})
+		})
+	})
 }
 
 const refreshTeam = (team: Team) => {
@@ -31,10 +31,10 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 	const [success, response] = Array.isArray(result) ? result : [result, undefined]
 	if (!success) throw new Error(`Could not create team for player<${leader}>, reason: ${response}`)
 
+	teams.set(leader, { leader, teammates: [leader] })
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		startNewRobbery()
 	}
-	teams.set(leader, { leader, teammates: [leader] })
 	return teams.get(leader)
 })
 
@@ -58,17 +58,6 @@ onNet('lenix:server:robbery:kickteammate', (target: number) => {
 	refreshTeam(team)
 })
 
-onNet('lenix:server:robbery:invite', (playerId: number) => {
-	if (!GetPlayerPed(playerId.toString()) || playerId === source) {
-		emitNet('ox_lib:notify', source, {
-			type: 'error',
-			title: 'Unvalid Id'
-		})
-		return
-	}
-	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
-})
-
 onNet('lenix:server:robbery:addteammate', (leader: number) => {
 	const team = teams.get(leader)
 	if (!team) return
@@ -78,4 +67,15 @@ onNet('lenix:server:robbery:addteammate', (leader: number) => {
 	emitNet('ox_lib:notify', source, {
 		title: 'New player joined the team'
 	})
+})
+
+onNet('lenix:server:robbery:invite', (playerId: number) => {
+	if (!GetPlayerPed(playerId.toString()) || playerId === source) {
+		emitNet('ox_lib:notify', source, {
+			type: 'error',
+			title: 'Unvalid Id'
+		})
+		return
+	}
+	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
 })
