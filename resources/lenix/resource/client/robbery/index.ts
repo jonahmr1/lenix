@@ -1,11 +1,12 @@
 import type { Team, Vector4 } from "types/index";
-import { spawnPed } from "../_lib";
-import { cache, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { spawnPed, useTimer } from "../_lib";
+import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
 import { MISSION_PRICE } from "common/robbery";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
 let team: Team | undefined
+let inviteTick: number
 
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
@@ -98,18 +99,40 @@ onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
 	refreshContext()
 })
 
-onNet('lenix:server:robbery:receiveinvite', (inviter: number) => {
-	showTextUI(`Robbery invite received from player(${inviter})\n8 - Accept\n9 - Reject`, {
-		position: 'bottom-center'
-	})
-	
-	const tick = setTick(() => {
-		if (IsControlJustPressed(0, 162)) {
-			emitNet('lenix:server:robbery:addteammate', inviter)
-		} else if (IsControlJustPressed(0, 163)) {
-			clearTick(tick)
-		}
-	})
+onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
+	if (inviteTick) return
+
+  const stop = useTimer(
+    10000,
+    1000,
+    (timeLeft) => {
+      showTextUI(`E - Show robbery invite - ${Math.ceil(timeLeft / 1000)}s`, {
+        position: 'bottom-center'
+      })
+    },
+    () => {
+      hideTextUI()
+      clearTick(inviteTick)
+			inviteTick = 0
+    }
+  )
+
+  inviteTick = setTick(async () => {
+    if (IsControlJustPressed(0, 38)) {
+      stop()
+      hideTextUI()
+      clearTick(inviteTick)
+			inviteTick = 0
+      const res = await alertDialog({
+        header: 'Robbery Invite',
+        content: `The player #${inviter} is inviting you to join the robbery mission`,
+				centered: true,
+				cancel: true
+      })
+      if (res === 'cancel') return
+      emitNet('lenix:server:robbery:addteammate', inviter)
+    }
+  })
 })
 
 setImmediate(async () => {

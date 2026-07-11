@@ -27,7 +27,6 @@ const refreshTeam = (team: Team) => {
 }
 
 onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
-	console.debug('creating new team by', leader)
 	const result = globalThis.exports.ox_inventory.RemoveItem(leader, 'money', MISSION_PRICE)
 	const [success, response] = Array.isArray(result) ? result : [result, undefined]
 	if (!success) throw new Error(`Could not create team for player<${leader}>, reason: ${response}`)
@@ -60,7 +59,14 @@ onNet('lenix:server:robbery:kickteammate', (target: number) => {
 })
 
 onNet('lenix:server:robbery:invite', (playerId: number) => {
-	emitNet('lenix:server:robbery:receiveinvite', playerId, source)
+	if (!GetPlayerPed(playerId.toString()) || playerId === source) {
+		emitNet('ox_lib:notify', source, {
+			type: 'error',
+			title: 'Unvalid Id'
+		})
+		return
+	}
+	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
 })
 
 onNet('lenix:server:robbery:addteammate', (leader: number) => {
@@ -69,4 +75,7 @@ onNet('lenix:server:robbery:addteammate', (leader: number) => {
 
 	team?.teammates.push(source)
 	refreshTeam(team)
+	emitNet('ox_lib:notify', source, {
+		title: 'New player joined the team'
+	})
 })

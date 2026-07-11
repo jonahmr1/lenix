@@ -95,3 +95,22 @@ export const spawnPed = async (coords: Vector4, model = 'a_m_m_prolhost_01') => 
 	SetBlockingOfNonTemporaryEvents(entity, true)
 	return entity
 }
+
+export const useTimer = (duration: number, updateInterval: number, onTick: (timeLeft: number) => void, onEnd: () => void) => {
+  const start = GetGameTimer()
+
+  const interval = setInterval(() => {
+    const elapsed = GetGameTimer() - start
+    const timeLeft = duration - elapsed
+
+    if (elapsed >= duration) {
+      clearInterval(interval)
+      onEnd()
+      return
+    }
+
+    onTick(timeLeft)
+  }, updateInterval)
+
+  return () => clearInterval(interval)
+}
