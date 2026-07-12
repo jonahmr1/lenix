@@ -6,7 +6,6 @@ import { Lead } from "@/components/lead"
 import { Muted } from "@/components/muted"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Ul } from "@/components/ul"
 import { products } from "@/constants"
 import type { ProductSlug } from "@/types"
 import { ArrowRight } from "lucide-react"
@@ -18,14 +17,14 @@ export const Product = () => {
 	if (!slug || !products[slug]) return <></>
 
 	const {
-		img,
+		media,
 		title,
 		badges,
 		feature,
 		description,
 		price,
 		docs,
-		requirements,
+		features,
 		accordion
 	} = products[slug]
 
@@ -34,7 +33,7 @@ export const Product = () => {
 			<div className="flex *:flex-col gap-10">
 				<div className="flex flex-5 gap-10">
 					<div className="flex justify-center">
-						<img src={img} className="aspect-video object-cover rounded-md" />
+						<img src={media[0]} className="aspect-video object-cover rounded-md" />
 					</div>
 					<AccordionItems data={accordion} />
 				</div>
@@ -58,14 +57,8 @@ export const Product = () => {
 							}}>View Documentation <ArrowRight /></Button>
 						</div>
 						<div>
-							<Lead>Requirements</Lead>
-							<Ul>
-								{requirements.map((requirement, i) => (
-									<li key={i}>
-										<Muted>{requirement}</Muted>
-									</li>
-								))}
-							</Ul>
+							<Lead>Features</Lead>
+							{features}
 						</div>
 					</div>
 				</div>
