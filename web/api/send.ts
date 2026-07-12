@@ -3,20 +3,19 @@ import { Resend } from 'resend'
 import formidable from 'formidable'
 import { readFileSync } from 'fs'
 
-const resendKey = process.env.RESEND_API_KEY
-if (typeof resendKey !== 'string')
-	throw new Error('Missing environment variable: RESEND_API_KEY')
-
-const resend = new Resend(resendKey)
 export const config = { api: { bodyParser: false } }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-	const audienceId = process.env.RESEND_AUDIENCE_ID
-	if (typeof audienceId !== 'string')
-		throw new Error('Missing environment variable: RESEND_AUDIENCE_ID')
+const getErrorMessage = (error: unknown) =>
+	error instanceof Error ? error.message : String(error)
 
+export default async function handler(req: VercelRequest, res: VercelResponse) {
 	if (req.method !== 'POST') return res.status(405).end()
 
+	const resendKey = process.env.RESEND_API_KEY
+	if (typeof resendKey !== 'string')
+		return res.status(500).json({ error: 'Missing environment variable: RESEND_API_KEY' })
+
+	const resend = new Resend(resendKey)
 	const form = formidable({
 		multiples: true,
 		allowEmptyFiles: true,
@@ -30,7 +29,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 		;[fields, files] = await form.parse(req)
 	} catch (err) {
 		if ((err as { code?: string }).code !== '1016')
-			return res.status(500).json({ error: err })
+			return res
+				.status(500)
+				.json({ error: `Failed to parse form data: ${getErrorMessage(err)}` })
 	}
 
 	const name = fields.name?.[0]
@@ -48,6 +49,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 	if (subscribe === 'on')
 		try {
+			const audienceId = process.env.RESEND_AUDIENCE_ID
+			if (typeof audienceId !== 'string')
+				return res
+					.status(500)
+					.json({ error: 'Missing environment variable: RESEND_AUDIENCE_ID' })
+
 			const { error } = await resend.contacts.create({
 				audienceId,
 				email,
@@ -55,8 +62,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 				unsubscribed: false,
 			})
 			if (error) return res.status(500).json({ error })
-		} catch {
-			return res.status(500).json({ error: 'Failed to subscribe' })
+		} catch (error) {
+			return res
+				.status(500)
+				.json({ error: `Failed to subscribe: ${getErrorMessage(error)}` })
 		}
 
 	const attachments = Object.values(files)
@@ -70,16 +79,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 			content: readFileSync(file.filepath),
 		}))
 
-	const { error } = await resend.emails.send({
-		from: 'contact@codehub.lenix.dev',
-		replyTo: email,
-		to: 'jonahmr1@icloud.com',
-		subject,
-		text: `${message}\n\nReply to: ${email}`,
-		attachments,
-	})
+	try {
+		const { error } = await resend.emails.send({
+			from: 'contact@codehub.lenix.dev',
+			replyTo: email,
+			to: 'jonahmr1@icloud.com',
+			subject,
+			text: `${message}\n\nReply to: ${email}`,
+			attachments,
+		})
 
-	if (error) return res.status(500).json({ error })
+		if (error) return res.status(500).json({ error })
+	} catch (error) {
+		return res
+			.status(500)
+			.json({ error: `Failed to send email: ${getErrorMessage(error)}` })
+	}
 
 	res.status(200).json({ ok: true })
 }
