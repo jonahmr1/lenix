@@ -6,6 +6,8 @@ import { Lead } from "@/components/lead"
 import { Muted } from "@/components/muted"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { products } from "@/constants"
 import type { ProductSlug } from "@/types"
 import { ArrowRight } from "lucide-react"
@@ -31,10 +33,18 @@ export const Product = () => {
 	return (
 		<Layout className="mx-[5vw] py-[20vh]">
 			<div className="flex *:flex-col gap-10">
-				<div className="flex flex-5 gap-10">
-					<div className="flex justify-center">
-						<img src={media[0]} className="aspect-video object-cover rounded-md" />
-					</div>
+				<div className="flex flex-5 gap-10 items-center">
+					<Carousel className="w-9/10">
+						<CarouselContent>
+							{media.map(item => (
+								<CarouselItem key={item}>
+									<img src={item} className="aspect-video object-cover rounded-md" />
+								</CarouselItem>
+							))}
+						</CarouselContent>
+						<CarouselPrevious />
+						<CarouselNext />
+					</Carousel>
 					<AccordionItems data={accordion} />
 				</div>
 				<div className="flex-4">
