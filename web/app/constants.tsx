@@ -5,7 +5,7 @@ import type { Faq } from "./types"
 
 export const products = {
 	'discord-bot': {
-		media: ['/logo.png', '/logo.png'],
+		media: ['/logo.png', '/favicon.ico'],
 		title: 'Discord Bot',
 		badges: ['Discord', 'Automation'],
 		feature: 'Sold out',
