@@ -27,9 +27,7 @@ export const Contact = () => {
 	const [value, setValue] = useState('')
 	const abortRef = useRef<AbortController | null>(null)
 	
-	const handleCancel = () => {
-		abortRef.current?.abort()
-	}
+	const handleCancel = () => abortRef.current?.abort()
 
 	const handleSubmit = async (
 		event: Readonly<SyntheticEvent<HTMLFormElement>>,
@@ -65,7 +63,7 @@ export const Contact = () => {
 					Get in touch
 				</p>
 				<h1 className='text-5xl font-semibold tracking-tight text-foreground'>
-					Contact
+					Contact us
 				</h1>
 			</div>
 			<form
@@ -83,7 +81,7 @@ export const Contact = () => {
 									id='name'
 									name='name'
 									autoComplete='off'
-									placeholder='Lenix Dev'
+									placeholder='Lenix'
 									defaultValue='An Anonymous'
 								/>
 							</Field>
@@ -96,7 +94,7 @@ export const Contact = () => {
 									name='email'
 									type='email'
 									id='email'
-									placeholder='contact@lenix.dev'
+									placeholder='contact@codehub.lenix.dev'
 								/>
 							</Field>
 						</FieldGroup>
@@ -123,10 +121,8 @@ export const Contact = () => {
 									required
 									id='message'
 									name='message'
-									placeholder='Write a message...'
-									onChange={event => {
-										setValue(event.target.value)
-									}}
+									placeholder='Write us a message...'
+									onChange={event => setValue(event.target.value)}
 								/>
 								<InputGroupAddon
 									align='block-end'
@@ -134,7 +130,6 @@ export const Contact = () => {
 								>
 									<InputGroupText>{value.length}/1000</InputGroupText>
 									{
-										// eslint-disable-next-line no-nested-ternary
 										status === 'idle' ?
 											<InputGroupButton
 												aria-invalid={value.length > 1000}
@@ -145,7 +140,6 @@ export const Contact = () => {
 											>
 												Send <ArrowRight />
 											</InputGroupButton>
-											// eslint-disable-next-line no-nested-ternary
 										: status === 'loading' ?
 											<InputGroupButton
 												type='button'
