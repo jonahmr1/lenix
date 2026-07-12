@@ -1,7 +1,7 @@
 import type { FooterLink } from "@/types"
 import { useNavigate } from "react-router-dom"
-import { ButtonGroup } from "./ui/button-group"
-import { Button } from "./ui/button"
+import { ButtonGroup } from "../components/ui/button-group"
+import { Button } from "../components/ui/button"
 
 
 export const Footer = ({ links }: { links: FooterLink[] }) => {

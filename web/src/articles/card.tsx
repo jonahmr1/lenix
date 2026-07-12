@@ -1,5 +1,5 @@
 import { type LucideIcon } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "./ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "../components/ui/card";
 
 export const FeatureCard = ({ title, description, icon: Icon }: { title: string, description: string, icon: LucideIcon }) => (
 	<Card>

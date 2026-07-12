@@ -1,4 +1,4 @@
-import { FeatureCard } from "@/components/card"
+import { FeatureCard } from "@/articles/card"
 import { AccordionItems } from "@/articles/faqs"
 import { H1 } from "@/components/h1"
 import { Layout } from "@/components/layout"
