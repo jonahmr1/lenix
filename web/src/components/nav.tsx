@@ -1,13 +1,21 @@
 import { Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent } from "./ui/dropdown-menu";
-import { useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import type { Route } from "@/types";
 
 export const Nav = ({ routes }: { routes: Route[] }) => {
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
-	
+
+	const isKnownRoute =
+		routes.some(route => matchPath({ path: route.path, end: true }, pathname)) ||
+		matchPath("/products/:slug", pathname);
+
+	if (!isKnownRoute) {
+		return null; // 404, hide nav
+	}
+
 	return (
 		<nav className='sticky top-0'>
 			<DropdownMenu>
@@ -21,7 +29,7 @@ export const Nav = ({ routes }: { routes: Route[] }) => {
 								{label}
 							</DropdownMenuItem>
 						) : (
-							<DropdownMenuSub>
+							<DropdownMenuSub key={path}>
 								<DropdownMenuSubTrigger onClick={() => navigate(path)}>
 									<Icon />
 									{label}
@@ -39,7 +47,7 @@ export const Nav = ({ routes }: { routes: Route[] }) => {
 									</DropdownMenuSubContent>
 								</DropdownMenuPortal>
 							</DropdownMenuSub>
-						) : (<></>))}
+						) : (<div key={path}></div>))}
 					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
