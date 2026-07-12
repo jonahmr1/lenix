@@ -4,4 +4,4 @@
  * @example
  * S<number | string>
  */
-export type S<T> = Dispatch<SetStateAction<T>>
+export type S<T> = (value: T | ((previous: T) => T)) => void
