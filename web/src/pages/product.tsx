@@ -8,14 +8,15 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Ul } from "@/components/ul"
 import { products } from "@/constants"
+import type { ProductSlug } from "@/types"
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 
 export const Product = () => {
 	const navigate = useNavigate()
-	const { slug } = useParams()
+	const slug = useParams().slug as ProductSlug | undefined
 	if (!slug || !products[slug]) return <></>
-	
+
 	const {
 		img,
 		title,
@@ -33,7 +34,7 @@ export const Product = () => {
 			<div className="flex *:flex-col gap-10">
 				<div className="flex flex-5 gap-10">
 					<div className="flex justify-center">
-						<img src={img} className="aspect-video object-cover" />
+						<img src={img} className="aspect-video object-cover rounded-md" />
 					</div>
 					<AccordionItems data={accordion} />
 				</div>

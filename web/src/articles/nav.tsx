@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
-import { Button } from "./ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent } from "./ui/dropdown-menu";
+import { Button } from "../components/ui/button";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent } from "../components/ui/dropdown-menu";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import type { Route } from "@/types";
 

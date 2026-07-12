@@ -24,6 +24,7 @@ export interface FooterLink {
 	label: string
 }
 
-export type Products = Record<keyof typeof products, typeof products[keyof typeof products]>
+export type ProductSlug = keyof typeof products
 export type Product = typeof products[keyof typeof products]
+export type Products = Record<ProductSlug, Product>
 

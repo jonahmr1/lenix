@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
-import { Layout } from "./components/layout"
-import { H1 } from "./components/h1"
-import { Lead } from "./components/lead"
-import { Button } from "./components/ui/button"
+import { H1 } from "@/components/h1"
+import { Lead } from "@/components/lead"
+import { Button } from "@/components/ui/button"
 import { Frown } from "lucide-react"
+import { Layout } from "@/components/layout"
 
 export const NotFound = () => {
 	const navigate = useNavigate()

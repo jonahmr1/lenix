@@ -1,4 +1,4 @@
-import { FeatureCard } from "@/components/card";
+import { FeatureCard } from "@/articles/card";
 import { H1 } from "@/components/h1";
 import { H2 } from "@/components/h2";
 import { H3 } from "@/components/h3";
@@ -69,7 +69,7 @@ export const About = () => {
 				</P>
 				<Button onClick={() => {
 					navigate('/contact')
-				} }>Contact Us</Button>
+				}}>Contact Us</Button>
 			</Card>
 		</Layout>
 	);
