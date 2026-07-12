@@ -4,7 +4,7 @@ import type { Product } from "@/types";
 import { useNavigate } from "react-router-dom";
 
 export const ProductItem = ({
-	id, img, title, badges, feature, description, price
+	id, media, title, badges, feature, description, price
 }: Product & { id: string }) => {
 	const navigate = useNavigate()
 	return (
@@ -16,7 +16,7 @@ export const ProductItem = ({
 		>
 			<div className="overflow-hidden">
 				<img
-					src={img}
+					src={media[0]}
 					className="aspect-5/4 object-cover group-hover:scale-105 transition" />
 			</div>
 			<CardHeader>
