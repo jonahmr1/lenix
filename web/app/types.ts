@@ -9,7 +9,6 @@ export interface Faq {
 
 export type Route = {
 	path: string
-	element: ReactNode
 	icon: LucideIcon
 	label?: string
 	sub?: {

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Frown } from "lucide-react"
 import { Layout } from "@/components/layout"
 
-export const NotFound = () => {
+export function NotFound() {
 	const navigate = useNavigate()
 
 	return (
@@ -21,3 +21,5 @@ export const NotFound = () => {
 		</Layout>
 	)
 }
+
+export default NotFound
