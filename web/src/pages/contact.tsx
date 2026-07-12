@@ -43,12 +43,13 @@ export const Contact = () => {
 				signal: abortRef.current.signal,
 			})
 			setStatus(res.ok ? 'done' : 'error')
-		} catch (err) {
+		} catch (e) {
 			setStatus(
-				err instanceof DOMException && err.name === 'AbortError' ?
+				e instanceof DOMException && e.name === 'AbortError' ?
 					'idle'
 				:	'error',
 			)
+			console.error(e)
 		} finally {
 			setTimeout(() => {
 				setStatus('idle')
