@@ -9,7 +9,7 @@ export const NotFound = () => {
 	const navigate = useNavigate()
 
 	return (
-		<Layout className="flex items-start flex-col mx-[30vw] space-y-4">
+		<Layout className="flex items-start flex-col mx-[30vw] space-y-4 justify-center">
 			<H1>404</H1>
 			<div className="flex gap-2 items-center">
 				<Lead>The page you're looking for doesn't exist.</Lead>
