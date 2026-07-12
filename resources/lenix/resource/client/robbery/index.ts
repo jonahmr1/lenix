@@ -6,6 +6,7 @@ import type { Vec3 } from "@overextended/core/vector";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
+const vehicleDoorsBroken = new Map<number, Set<number>>()
 let team: Team | undefined
 let inviteTick: number
 let blip: number
@@ -163,6 +164,8 @@ AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: strin
 })
 
 onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
+	vehicleDoorsBroken.set(vehicleNetId, new Set())
+
 	const entity = await new Promise<number>((resolve) => {
 		const interval = setInterval(() => {
 			const ent = NetworkGetEntityFromNetworkId(vehicleNetId)
@@ -175,6 +178,7 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 
   if (!entity) return
   if (NetworkGetEntityOwner(entity) !== PlayerId()) return
+	SetVehicleDoorsLocked(entity, 2)
 
   const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
 	const hash = await requestModel(PEDS_MODEL)
@@ -235,6 +239,7 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 	globalThis.exports.ox_target.addLocalEntity(entity, [
 		{
 			label: 'Break Door (Left)',
+			canInteract: () => vehicleDoorsBroken.get(vehicleNetId)!.has(4),
 			onSelect: async () => {
 				const success = globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
 				if (!success) return
@@ -243,6 +248,7 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 		},
 		{
 			label: 'Break Door (Right)',
+			canInteract: () => vehicleDoorsBroken.get(vehicleNetId)!.has(5),
 			onSelect: async () => {
 				const success = globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
 				if (!success) return
@@ -255,6 +261,8 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 onNet('lenix:client:robbery:opendoors', (vehicleNetId: number) => {
   const entity = NetworkGetEntityFromNetworkId(vehicleNetId)
   if (!DoesEntityExist(entity)) return
+  vehicleDoorsBroken.get(vehicleNetId)?.add(4)
+  vehicleDoorsBroken.get(vehicleNetId)?.add(5)
   SetVehicleDoorOpen(entity, 4, false, false)
   SetVehicleDoorOpen(entity, 5, false, false)
 })
