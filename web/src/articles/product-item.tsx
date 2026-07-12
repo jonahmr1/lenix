@@ -22,14 +22,14 @@ export const ProductItem = ({
 			<CardHeader>
 				<CardTitle className="text-xl">{title}</CardTitle>
 				<CardDescription className="flex gap-2">
-					{badges.map(badge => <Badge variant='outline'>{badge}</Badge>)}
+					{badges.map(badge => <Badge key={badge} variant='outline'>{badge}</Badge>)}
 				</CardDescription>
 				<CardAction>
 					<Badge variant='destructive'>{feature}</Badge>
 				</CardAction>
 			</CardHeader>
 			<CardContent>{description}</CardContent>
-			<CardFooter className="text-xl">{price}€</CardFooter>
+			<CardFooter className="text-xl">{price > 0 ? `${price}€` : 'Free'}</CardFooter>
 		</Card>
 	);
 }

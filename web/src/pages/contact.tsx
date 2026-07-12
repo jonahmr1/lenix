@@ -95,7 +95,7 @@ export const Contact = () => {
 									name='email'
 									type='email'
 									id='email'
-									placeholder='contact@codehub.lenix.dev'
+									placeholder='support@lenix.dev'
 								/>
 							</Field>
 						</FieldGroup>

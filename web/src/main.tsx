@@ -12,14 +12,32 @@ import { Products } from "./pages/products.tsx"
 import { Product } from "./pages/product.tsx"
 import { Contact } from "./pages/contact.tsx"
 import { About } from "./pages/about.tsx"
+import { NotFound } from "./404.tsx"
+import { Box, Headset, House, Package, Scale, ScrollText } from "lucide-react"
+import { products } from "./constants.tsx"
+import { entries } from "lenix"
 
 const routes: IRoute[] = [
-  { path: "/", element: <App />, label: "Home" },
-  { path: "/products", element: <Products />, label: "Products" },
-  { path: "/contact", element: <Contact />, label: "Contact" },
-  { path: "/legal", element: <Legal />, label: "Legal" },
-  { path: "/about", element: <About />, label: "About" },
-  { path: "/products/:slug", element: <Product />, hidden: true },
+  {
+		path: "/", element: <App />, label: "Home", icon: House
+	},
+  {
+		path: "/products", element: <Products />, label: "Products", icon: Package,
+		sub: entries(products).map(([id, { title }]) => ({
+			id,
+			title,
+			icon: Box
+		}))
+	},
+  {
+		path: "/contact", element: <Contact />, label: "Contact", icon: Headset
+	},
+  {
+		path: "/legal", element: <Legal />, label: "Legal", icon: Scale
+	},
+  {
+		path: "/about", element: <About />, label: "About", icon: ScrollText
+	},
 ]
 
 createRoot(document.getElementById("root")!).render(
@@ -29,7 +47,8 @@ createRoot(document.getElementById("root")!).render(
 				<Nav routes={routes} />
 				<Routes>
 					{routes.map(({ path, element }) => <Route key={path} path={path} element={element} />)}
-					<Route path="*" element={<App/>} />
+					<Route path={"/products/:slug"} element={<Product />} />
+					<Route path={"*"} element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>
     </ThemeProvider>

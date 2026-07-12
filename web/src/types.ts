@@ -1,4 +1,6 @@
+import type { LucideIcon } from "lucide-react"
 import type { ReactNode } from "react"
+import type { products } from "./constants"
 
 export interface Faq {
 	question: string
@@ -8,11 +10,13 @@ export interface Faq {
 export type Route = {
 	path: string
 	element: ReactNode
-	label: string
-} | {
-	path: string
-	element: ReactNode
-	hidden: true
+	icon: LucideIcon
+	label?: string
+	sub?: {
+		id: keyof typeof products
+		title: typeof products[keyof typeof products]['title']
+		icon: LucideIcon
+	}[]
 }
 
 export interface FooterLink {
@@ -20,16 +24,6 @@ export interface FooterLink {
 	label: string
 }
 
-export interface Product {
-	img: string
-	title: string | ReactNode
-	badges: string[]
-	feature: string
-	description: string
-	price: number
-	docs: string
-	requirements: string[]
-	accordion: Faq[]
-}
+export type Products = Record<keyof typeof products, typeof products[keyof typeof products]>
+export type Product = typeof products[keyof typeof products]
 
-export type Products = Record<string, Product>
