@@ -11,12 +11,14 @@ import type { Route as IRoute } from "./types.ts"
 import { Products } from "./pages/products.tsx"
 import { Product } from "./pages/product.tsx"
 import { Contact } from "./pages/contact.tsx"
+import { About } from "./pages/about.tsx"
 
 const routes: IRoute[] = [
   { path: "/", element: <App />, label: "Home" },
   { path: "/products", element: <Products />, label: "Products" },
   { path: "/contact", element: <Contact />, label: "Contact" },
   { path: "/legal", element: <Legal />, label: "Legal" },
+  { path: "/about", element: <About />, label: "About" },
   { path: "/products/:slug", element: <Product />, hidden: true },
 ]
 
