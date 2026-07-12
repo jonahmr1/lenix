@@ -1,8 +1,8 @@
 import { Code } from "./components/code"
 import { Ul } from "./components/ul"
-import type { Products } from "./types"
+import type { Faq } from "./types"
 
-export const products: Products = {
+export const products = {
 	'discord-bot': {
 		img: '/logo.png',
 		title: 'Discord Bot',
@@ -32,7 +32,7 @@ export const products: Products = {
 				</Ul>
 			},
 			{
-				question: 'Deliver',
+				question: 'Delivery',
 				answer: 'After the payment, a download link will be sent to your email address followed with your license.'
 			},
 			{
@@ -49,4 +49,14 @@ export const products: Products = {
 			},
 		]
 	},
-}
+} as const satisfies Record<string, {
+	img: string
+	title: string
+	badges: string[]
+	feature: string
+	description: string
+	price: number
+	docs: string
+	requirements: string[]
+	accordion: Faq[]
+}>
