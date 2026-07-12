@@ -31,9 +31,10 @@ export const Nav = () => {
 		return null;
 	}
 
+	const productMatch = matchPath("/products/:slug", pathname);
 	const isKnownRoute =
 		routes.some(route => matchPath({ path: route.path, end: true }, pathname)) ||
-		matchPath("/products/:slug", pathname);
+		productMatch;
 
 	if (!isKnownRoute) {
 		return null;
@@ -46,31 +47,41 @@ export const Nav = () => {
 				<DropdownMenuContent className="w-40" align="start">
 					<DropdownMenuGroup>
 						<DropdownMenuLabel>{routes.find(route => route.path === pathname)?.label}</DropdownMenuLabel>
-						{routes.map(({ path, icon: Icon, label, sub }) => path !== pathname ? !sub ? (
-							<DropdownMenuItem key={path} onClick={() => navigate(path)}>
-								<Icon />
-								{label}
-							</DropdownMenuItem>
-						) : (
-							<DropdownMenuSub key={path}>
-								<DropdownMenuSubTrigger onClick={() => navigate(path)}>
-									<Icon />
-									{label}
-								</DropdownMenuSubTrigger>
-								<DropdownMenuPortal>
-									<DropdownMenuSubContent>
-										<DropdownMenuGroup>
-											{sub.map(({ id, title, icon: Icon }) => (
-												<DropdownMenuItem key={path} onClick={() => navigate(`${path}/${id}`)}>
-													<Icon />
-													{title}
-												</DropdownMenuItem>
-											))}
-										</DropdownMenuGroup>
-									</DropdownMenuSubContent>
-								</DropdownMenuPortal>
-							</DropdownMenuSub>
-						) : (<div key={path}></div>))}
+						{routes.map(({ path, icon: Icon, label, sub }) => {
+							if (path === pathname) return <div key={path}></div>;
+
+							const visibleSub = sub?.filter(({ id }) => id !== productMatch?.params.slug);
+
+							if (!visibleSub?.length) {
+								return (
+									<DropdownMenuItem key={path} onClick={() => navigate(path)}>
+										<Icon />
+										{label}
+									</DropdownMenuItem>
+								)
+							}
+
+							return (
+								<DropdownMenuSub key={path}>
+									<DropdownMenuSubTrigger onClick={() => navigate(path)}>
+										<Icon />
+										{label}
+									</DropdownMenuSubTrigger>
+									<DropdownMenuPortal>
+										<DropdownMenuSubContent>
+											<DropdownMenuGroup>
+												{visibleSub.map(({ id, title, icon: Icon }) => (
+													<DropdownMenuItem key={`${path}/${id}`} onClick={() => navigate(`${path}/${id}`)}>
+														<Icon />
+														{title}
+													</DropdownMenuItem>
+												))}
+											</DropdownMenuGroup>
+										</DropdownMenuSubContent>
+									</DropdownMenuPortal>
+								</DropdownMenuSub>
+							)
+						})}
 					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
