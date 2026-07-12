@@ -6,8 +6,9 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from "react-router"
-import { RootProvider } from 'fumadocs-ui/provider/react-router';
+import { RootProvider } from "fumadocs-ui/provider/react-router"
 
+import { Nav } from "./components/articles/nav"
 import type { Route } from "./+types/root"
 import "./app.css"
 
@@ -21,7 +22,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <RootProvider theme={{ enabled: false }}>{children}</RootProvider>
+        <RootProvider theme={{ enabled: false }}>
+          <Nav />
+          {children}
+        </RootProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

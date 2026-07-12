@@ -1,19 +1,39 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
-import type { Route } from "@/types";
-import { Menu } from "lucide-react";
+import { products } from "@/constants";
+import { Book, Box, Headset, House, Menu, Package, Scale, ScrollText, type LucideIcon } from "lucide-react";
 import { matchPath, useLocation, useNavigate } from "react-router";
+import type { Route } from "~/types";
 
-export const Nav = ({ routes }: { routes: Route[] }) => {
+const routes: Route[] = [
+	{ path: "/", label: "Home", icon: House },
+	{
+		path: "/products",
+		label: "Products",
+		icon: Package,
+		sub: Object.entries(products).map(([id, { title }]) => ({
+			id: id as keyof typeof products,
+			title,
+			icon: Box,
+		})),
+	},
+	{ path: "/docs", label: "Docs", icon: Book },
+	{ path: "/contact", label: "Contact", icon: Headset },
+	{ path: "/legal", label: "Legal", icon: Scale },
+	{ path: "/about", label: "About", icon: ScrollText },
+]
+
+export const Nav = () => {
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
 
 	const isKnownRoute =
 		routes.some(route => matchPath({ path: route.path, end: true }, pathname)) ||
-		matchPath("/products/:slug", pathname);
+		matchPath("/products/:slug", pathname) ||
+		matchPath("/docs/*", pathname);
 
 	if (!isKnownRoute) {
-		return null; // 404, hide nav
+		return null;
 	}
 
 	return (
