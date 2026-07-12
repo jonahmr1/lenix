@@ -27,10 +27,13 @@ export const Nav = () => {
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
 
+	if (matchPath("/docs/*", pathname) || matchPath("/docs", pathname)) {
+		return null;
+	}
+
 	const isKnownRoute =
 		routes.some(route => matchPath({ path: route.path, end: true }, pathname)) ||
-		matchPath("/products/:slug", pathname) ||
-		matchPath("/docs/*", pathname);
+		matchPath("/products/:slug", pathname);
 
 	if (!isKnownRoute) {
 		return null;
@@ -42,7 +45,7 @@ export const Nav = () => {
 				<DropdownMenuTrigger className='m-4' render={<Button variant='ghost'><Menu /></Button>} />
 				<DropdownMenuContent className="w-40" align="start">
 					<DropdownMenuGroup>
-						<DropdownMenuLabel>Navigator</DropdownMenuLabel>
+						<DropdownMenuLabel>{routes.find(route => route.path === pathname)?.label}</DropdownMenuLabel>
 						{routes.map(({ path, icon: Icon, label, sub }) => path !== pathname ? !sub ? (
 							<DropdownMenuItem key={path} onClick={() => navigate(path)}>
 								<Icon />
