@@ -101,10 +101,10 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 	const peds: number[] = []
 
-	for (const coords of pedsCoords) {
+	for (const [index, coords] of pedsCoords.entries()) {
 		const hash = await requestModel('mp_m_freemode_01')
 		const ped = CreatePed(0, hash, ...coords, false, false)
-		SetEntityAlpha(ped, 200, false)
+		if (!characters[index]) SetEntityAlpha(ped, 200, false)
 		FreezeEntityPosition(ped, true)
 		SetEntityInvincible(ped, true)
 		SetBlockingOfNonTemporaryEvents(ped, true)
