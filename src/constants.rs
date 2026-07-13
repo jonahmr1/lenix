@@ -1,5 +1,5 @@
 pub const CUSTOMERS: &[u64] = &[1244750233582440488];
-pub const AI_SPACES_CATEGORY_ID: u64 = 1520135895381053701;
+pub const AI_SPACES_CATEGORY_ID: u64 = 1524485834902863972;
 pub const AI_MODEL: &str = "openai/gpt-oss-20b";
 pub const AI_TEMPERATURE: f32 = 0.7;
 pub const AI_COUNTRY: &str = "SA";
