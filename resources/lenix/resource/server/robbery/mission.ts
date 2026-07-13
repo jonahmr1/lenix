@@ -1,5 +1,5 @@
 import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
-import { teams } from "."
+import { isRobberyRunning, teams } from "."
 import { CreateVehicle, type OxVehicle } from "@overextended/ox_core/server"
 
 const vehicleDoorsBroken = {
@@ -30,8 +30,6 @@ export const startRobbery = async () => {
 	interval = setInterval(() => {
 		GlobalState.robberyVehicleCoords = vehicle?.getCoords()
 	}, VEHICLE_BLIP_UPDATE_INTERVAL)
-
-	on('onResourceStop', () => vehicle?.despawn())
 }
 
 export const addPlayerToRobbery = (playerId: number) => {
@@ -43,7 +41,7 @@ export const addPlayerToRobbery = (playerId: number) => {
 
 onNet('lenix:server:robbery:breakdoor', (side: 'left' | 'right') => {
 	vehicleDoorsBroken[side] = true
-	emitNet('lenix:client:robbery:opendoors', -1, side)
+	emitNet('lenix:client:robbery:updatedoors', -1, side, true)
 })
 
 onNet('lenix:server:robbery:takemoney', (netId: number) => {
@@ -57,11 +55,14 @@ onNet('lenix:server:robbery:takemoney', (netId: number) => {
 		clearTick(tick)
 	})
 
+	isRobberyRunning = false
 	teams.forEach(team => {
 		team.teammates.forEach(teammate => {
 			emitNet('lenix:client:robbery:removefromteam', teammate)
 		})
 	})
+	emitNet('lenix:client:robbery:updatedoors', -1, 'right', false)
+	emitNet('lenix:client:robbery:updatedoors', -1, 'left', false)
 	teams.clear()
 	clearInterval(interval)
 })

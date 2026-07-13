@@ -5,7 +5,7 @@ import "./mission"
 import { addPlayerToRobbery, startRobbery } from "./mission"
 
 export const teams = new Map<number, Team>()
-let isRobberyRunning: boolean = false
+export let isRobberyRunning: boolean = false
 
 const refreshTeam = (team: Team) => {
 	team.teammates.forEach(teammate => {

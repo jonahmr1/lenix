@@ -10,7 +10,7 @@ const vehicleDoorsBroken = {
 	right: false
 }
 let blip: number
-let vehNetId: number
+let vehNetId: number | undefined
 
 AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: string, coords: Vector3) => {
   if (!coords || key !== 'robberyVehicleCoords') {
@@ -39,11 +39,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		}, 100)
 	})
 
-  if (!vehicle || NetworkGetEntityOwner(vehicle) !== PlayerId()) return
-	vehNetId = vehicleNetId
-	notify({
-		title: 'The guards have been notified'
-	})
+  if (!vehicle) return
 
   const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
 	const hash = await requestModel(PEDS_MODEL)
@@ -69,6 +65,13 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		if (seat === -1) TaskVehicleDriveWander(ped, vehicle, 20.0, 786468)
 		peds.push(ped)
 	}
+
+	if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
+
+	vehNetId = vehicleNetId
+	notify({
+		title: 'The guards have been notified'
+	})
 
 	const tick = setTick(() => {
 		if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
@@ -168,7 +171,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				const res = await progressBar({
 					label: 'Taking money',
 					duration: 10000,
-					canCancel: true,
+					canCancel: false,
 					disable: {
 						combat: true,
 						move: true,
@@ -201,12 +204,13 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 	])
 })
 
-onNet('lenix:client:robbery:opendoors', (side: 'left' | 'right') => {
-	vehicleDoorsBroken[side] = true
+onNet('lenix:client:robbery:updatedoors', (side: 'left' | 'right', value: boolean) => {
+	vehicleDoorsBroken[side] = value
 
-	if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
+	if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right'] || !vehNetId) return
 
 	const entity = NetToVeh(vehNetId)
 	SetVehicleDoorOpen(entity, 2, false, false)
 	SetVehicleDoorOpen(entity, 3, false, false)
+	vehNetId = undefined
 })
