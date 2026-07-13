@@ -1,4 +1,5 @@
 /**
+ * @module
  * The `useState` setter hook type.
  * @template T - The type of the state.
  * @example
