@@ -1,5 +1,8 @@
 import type { JSX, ReactNode } from 'react'
 
+/**
+ * Props for {@link Large}.
+ */
 export type LargeProps = {
 	/**
 	 * Content rendered inside the text block.

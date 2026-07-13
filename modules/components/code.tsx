@@ -1,5 +1,8 @@
 import type { JSX, ReactNode } from 'react'
 
+/**
+ * Props for {@link Code}.
+ */
 export type CodeProps = {
 	/**
 	 * Content rendered inside the code element.

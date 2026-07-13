@@ -1,5 +1,8 @@
 import type { JSX, ReactNode } from 'react'
 
+/**
+ * Props for {@link P}.
+ */
 export type PProps = {
 	/**
 	 * Content rendered inside the paragraph.

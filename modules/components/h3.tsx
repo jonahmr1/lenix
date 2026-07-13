@@ -1,5 +1,8 @@
 import type { JSX, ReactNode } from 'react'
 
+/**
+ * Props for {@link H3}.
+ */
 export type H3Props = {
 	/**
 	 * Content rendered inside the heading.
