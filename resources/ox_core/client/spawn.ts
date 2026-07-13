@@ -128,15 +128,15 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 	DoScreenFadeIn(1000)
 	return await new Promise(result => {
+		let hoveredIndex = -1
+
 		const tick = setTick(() => {
 			SetMouseCursorActiveThisFrame()
 			SetMouseCursorSprite(1)
 			DisableAllControlActions(0)
 			EnableControlAction(0, 24, true)
 			EnableControlAction(0, 25, true)
-	
-			if (!IsDisabledControlJustPressed(0, 24)) return
-	
+
 			const [camPos, farPoint] = getCursorRay(cam)
 			const ray = StartShapeTestRay(
 				camPos[0], camPos[1], camPos[2],
@@ -144,10 +144,22 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 				12, cache.ped, 0
 			)
 			const [, hit, , , entity] = GetShapeTestResult(ray)
-	
-			if (!hit) return
-	
-			const index = peds.indexOf(entity)
+
+			const index = hit ? peds.indexOf(entity) : -1
+
+			if (index !== hoveredIndex) {
+				if (hoveredIndex !== -1) {
+					console.debug('out hover', hoveredIndex)
+				}
+
+				hoveredIndex = index
+
+				if (hoveredIndex !== -1) {
+					console.debug('hover', hoveredIndex)
+				}
+			}
+
+			if (!IsDisabledControlJustPressed(0, 24)) return
 			if (index === -1) return
 	
 			RenderScriptCams(false, false, 0, true, false)
