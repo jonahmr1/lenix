@@ -7,6 +7,7 @@ const vehicleDoorsBroken = {
 	right: false
 }
 let veh: OxVehicle
+let interval: CitizenTimer
 
 export const startRobbery = async () => {
 	const randomIndex = random(VEHICLE_COORDS.length - 1)
@@ -26,7 +27,7 @@ export const startRobbery = async () => {
 
 	emitNet('lenix:client:robbery:startrobbery', -1, vehicle?.netId)
 
-	setInterval(() => {
+	interval = setInterval(() => {
 		GlobalState.robberyVehicleCoords = vehicle?.getCoords()
 	}, VEHICLE_BLIP_UPDATE_INTERVAL)
 
@@ -55,11 +56,12 @@ onNet('lenix:server:robbery:takemoney', (netId: number) => {
 		setTimeout(veh.despawn, 60_000)
 		clearTick(tick)
 	})
-	
+
 	teams.forEach(team => {
 		team.teammates.forEach(teammate => {
 			emitNet('lenix:client:robbery:removefromteam', teammate)
 		})
 	})
 	teams.clear()
+	clearInterval(interval)
 })
