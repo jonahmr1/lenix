@@ -10,12 +10,12 @@
  * ```
  */
 
-export { wait } from './wait'
-export { entries } from './entries'
-export { raise } from './raise'
-export type { S } from './types'
-export { oneOf } from './oneOf'
-export { Code } from './components/code'
+export { wait } from './wait/index.ts'
+export { entries } from './entries/index.ts'
+export { raise } from './raise/index.ts'
+export type { S } from './types/index.ts'
+export { oneOf } from './oneOf/index.ts'
+export { Code } from './components/code.tsx'
 export { H1 } from './components/h1.tsx'
 export { H2 } from './components/h2.tsx'
 export { H3 } from './components/h3.tsx'
