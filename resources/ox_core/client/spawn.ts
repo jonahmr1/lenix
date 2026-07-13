@@ -90,7 +90,7 @@ const getCursorRay = (cam: number): [[number, number, number], [number, number, 
 	];
 }
 
-const charSelect = async (characters: Character[]) => {
+const charSelect = async (characters: Character[]): Promise<Character> => {
 	const pedsCoords: [number, number, number, number][] = [
 		[-2167.1487, 1134.3087, -25.3712, 272.6151],
 		[-2167.1431, 1137.5076, -25.3712, 269.0276]
@@ -98,9 +98,9 @@ const charSelect = async (characters: Character[]) => {
 
 	const peds: number[] = []
 
-	for (const coords of pedsCoords) {
+	for (const [index] of characters.entries()) {
 		const hash = await requestModel('mp_m_freemode_01')
-		const ped = CreatePed(0, hash, ...coords, false, false)
+		const ped = CreatePed(0, hash, ...pedsCoords[index], false, false)
 		SetEntityAlpha(ped, 200, false)
 		FreezeEntityPosition(ped, true)
 		SetEntityInvincible(ped, true)
@@ -156,7 +156,7 @@ const charSelect = async (characters: Character[]) => {
 			SetNuiFocus(false, false)
 			SetNuiFocusKeepInput(false)
 			DoScreenFadeOut(100);
-			result(index)
+			result(characters[index])
 		})
 	})
 }
@@ -173,8 +173,7 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 	if (!CHARACTER_SELECT) return;
 
 	const character = await charSelect(characters);
-	console.debug(character, 'ped')
-	return
+
 	const [x, y, z] = [
 		character?.x || SPAWN_LOCATION[0],
 		character?.y || SPAWN_LOCATION[1],
