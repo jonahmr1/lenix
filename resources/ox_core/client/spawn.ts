@@ -1,5 +1,5 @@
 import { sleep, waitFor } from '@overextended/ox_lib';
-import { cache, inputDialog, registerContext, showContext } from '@overextended/ox_lib/client';
+import { cache, inputDialog, registerContext, requestModel, showContext } from '@overextended/ox_lib/client';
 import { OxPlayer } from './player';
 import { netEvent } from 'utils';
 import { CHARACTER_SELECT, CHARACTER_SLOTS, SPAWN_LOCATION } from 'config';
@@ -69,6 +69,75 @@ async function promptCharacterMenu(characters: Character[]): Promise<Character |
 	})
 }
 
+const charSelect = async (characters: Character[]) => {
+  DoScreenFadeIn(0);
+
+	const pedsCoords = [
+		[-2163.87, 1134.51, -24.37, 310.05],
+		[-2163.87, 1134.51, -24.37, 310.05]
+	 ] as const
+
+	const peds: number[] = []
+
+	for (const coords of pedsCoords) {
+		const hash = await requestModel('mp_m_freemode_01')
+		const ped = CreatePed(0, hash, ...coords, false, false)
+		SetEntityAlpha(ped, 200, false)
+		FreezeEntityPosition(ped, true)
+		SetEntityInvincible(ped, true)
+		SetBlockingOfNonTemporaryEvents(ped, true)
+		peds.push(ped)
+	}
+
+	const camCoords = [-2161.7, 1136.4, -23.77, 131.52]
+	const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+	SetCamCoord(cam, camCoords[0], camCoords[1], camCoords[2])
+	SetCamRot(cam, 0.0, 0.0, 0.0, 2)
+	SetCamActive(cam, true)
+	RenderScriptCams(true, false, 0, true, false)
+
+	const tick = setTick(() => {
+		if (!IsControlJustPressed(0, 24)) return // left mouse click
+	
+		const camPos = GetCamCoord(cam) as unknown as [number, number, number]
+		const camRot = GetCamRot(cam, 2) as unknown as [number, number, number]
+	
+		// convert rotation to forward direction vector
+		const rotX = camRot[0] * (Math.PI / 180)
+		const rotZ = camRot[2] * (Math.PI / 180)
+		const forward = [
+			-Math.sin(rotZ) * Math.cos(rotX),
+			Math.cos(rotZ) * Math.cos(rotX),
+			Math.sin(rotX),
+		] as [number, number, number]
+	
+		const farPoint: [number, number, number] = [
+			camPos[0] + forward[0] * 50,
+			camPos[1] + forward[1] * 50,
+			camPos[2] + forward[2] * 50,
+		]
+	
+		const ray = StartShapeTestRay(
+			camPos[0], camPos[1], camPos[2],
+			farPoint[0], farPoint[1], farPoint[2],
+			-1, 0, 0
+		)
+		const [, hit, , , entity] = GetShapeTestResult(ray)
+	
+		if (!hit) return
+	
+		const index = peds.indexOf(entity)
+		if (index === -1) return
+	
+		console.debug('clicked ped at slot', index)
+	})
+	
+	// RenderScriptCams(false, false, 0, true, false)
+	// DestroyCam(cam, false)
+
+  DoScreenFadeOut(100);
+}
+
 netEvent('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
   if (OxPlayer.isLoaded) {
     OxPlayer.isLoaded = false;
@@ -80,7 +149,7 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 
   if (!CHARACTER_SELECT) return;
 
-  const character = await promptCharacterMenu(characters);
+  const character = await charSelect(characters);
   const [x, y, z] = [
     character?.x || SPAWN_LOCATION[0],
     character?.y || SPAWN_LOCATION[1],
