@@ -6,14 +6,10 @@
  *
  * @example
  * ```ts
- * import { Code, entries, wait } from '@lenix/lenix'
+ * import { entries, wait } from '@lenix/lenix'
  *
  * const e = entries({ a: 1, b: 2 })
  * await wait(1000)
- * ```
- *
- * ```tsx
- * <Code>const name = 'lenix'</Code>
  * ```
  */
 
