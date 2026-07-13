@@ -96,8 +96,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		[-2167.1487, 1134.3087, -25.3712, 272.6151],
 		[-2167.1431, 1137.5076, -25.3712, 269.0276],
 	]
-	const hiddenCoords = [-2168.7705, 1135.5433, -24.3712] as const
-	const camCoords = [-2167.1467, 1135.9039, -24.3712, 92.52]
+	const hiddenCoords = [-2154.4670, 1136.8749, -24.3713] as const
+	const camCoords = [-2156.2529, 1136.0225, -23.3712, 89.9823]
 
 	const peds: number[] = []
 
@@ -113,8 +113,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 	const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 	SetCamCoord(cam, camCoords[0], camCoords[1], camCoords[2])
-	SetCamRot(cam, 0.0, 0.0, camCoords[3], 2)
-	SetCamFov(cam, 30.0)
+	SetCamRot(cam, -5.0, 0.0, camCoords[3], 2)
+	SetCamFov(cam, 17.5)
 	SetCamActive(cam, true)
 	RenderScriptCams(true, false, 0, true, false)
 
