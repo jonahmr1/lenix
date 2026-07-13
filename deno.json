@@ -29,7 +29,7 @@
     "include": ["modules"]
   },
   "lint": {
-		"include": ["extension/src"],
+		"include": ["modules"],
     "rules": {
       "tags": ["recommended", "fresh", "workspace", "jsr"],
 			"exclude": ["no-sloppy-imports"],

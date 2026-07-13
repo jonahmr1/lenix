@@ -1,6 +1,6 @@
 /**
  * @module
- * Lenix — a JSR utility package for TypeScript/Deno.
+ * Lenix: a JSR utility package for TypeScript/Deno.
  *
  * @example
  * ```ts

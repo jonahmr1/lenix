@@ -1,5 +1,5 @@
-import React from 'react'
+import type React from 'react'
 
-export const Lead = ({ children }: { children: React.ReactNode }) => (
+export const Lead = ({ children }: { children: React.ReactNode }): React.JSX.Element => (
 	<p className='text-xl text-foreground'>{children}</p>
 )
