@@ -1,14 +1,10 @@
-import { CreateVehicle } from "@overextended/ox_core/server"
-import { createVehicle, onClientCallback } from "@overextended/ox_lib/server"
-import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
+import { onClientCallback } from "@overextended/ox_lib/server"
+import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE } from "common/robbery"
 import type { Team } from "types/index"
-import { startRobbery } from "./mission"
+import "./mission"
+import { addPlayerToRobbery, startRobbery } from "./mission"
 
-const teams = new Map<number, Team>()
-const vehicleDoorsBroken = {
-	left: false,
-	right: false
-}
+export const teams = new Map<number, Team>()
 let isRobberyRunning: boolean = false
 
 const refreshTeam = (team: Team) => {
@@ -17,23 +13,16 @@ const refreshTeam = (team: Team) => {
   })
 }
 
-const addPlayerToRobbery = (playerId: number) => {
-	emitNet('ox_lib:notify', playerId, {
-		type: 'success',
-		title: 'A new truck to rob can be found in the map'
-	})
-}
-
 onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
 	const result = globalThis.exports.ox_inventory.RemoveItem(leader, 'money', MISSION_PRICE)
 	const [success, response] = Array.isArray(result) ? result : [result, undefined]
 	if (!success) throw new Error(`Could not create team for player<${leader}>, reason: ${response}`)
 
 	teams.set(leader, { leader, teammates: [leader] })
-	
+
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		isRobberyRunning = true
-		startRobbery
+		startRobbery()
 	}
 	return teams.get(leader)
 })

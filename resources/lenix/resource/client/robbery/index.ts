@@ -6,7 +6,7 @@ import './mission'
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
-let team: Team | undefined
+export let team: Team | undefined
 let inviteTick: number
 
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)

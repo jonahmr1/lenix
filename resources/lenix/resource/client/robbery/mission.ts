@@ -1,8 +1,9 @@
 import type { Vec3 } from "@overextended/core/vector"
-import { progressBar, requestModel } from "@overextended/ox_lib/client"
+import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
 import { PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
 import type { Vector3 } from "types/index"
 import { getClosestPlayer } from "../_lib"
+import { team } from "."
 
 const vehicleDoorsBroken = {
 	left: false,
@@ -28,13 +29,13 @@ AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: strin
   SetBlipAsShortRange(blip, false)
 })
 
-onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
+onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 	const vehicle = await new Promise<number>((resolve) => {
 		const interval = setInterval(() => {
-			const ent = NetworkGetEntityFromNetworkId(vehicleNetId)
-			if (ent > 0 && DoesEntityExist(ent)) {
+			const entity = NetworkGetEntityFromNetworkId(vehicleNetId)
+			if (entity > 0 && DoesEntityExist(entity)) {
 				clearInterval(interval)
-				resolve(ent)
+				resolve(entity)
 			}
 		}, 100)
 	})
@@ -101,41 +102,55 @@ onNet('lenix:client:robbery:spawnPeds', async (vehicleNetId: number) => {
 	//TODO check bones
 	globalThis.exports.ox_target.addEntity(vehicleNetId, [
 		{
+			name: 'left-door',
 			label: 'Break Left Door',
-			canInteract: () => !vehicleDoorsBroken.left,
+			canInteract: () => {
+				if (!team) return
+
+				return true
+			},
 			onSelect: async () => {
 				const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
 				if (!success) return
 
-				emitNet('lenix:server:robbery:breakdoor', 'left', vehicleNetId)
+				emitNet('lenix:server:robbery:breakdoor', 'left')
+				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'left-door')
 			}
 		},
 		{
+			name: 'right-door',
 			label: 'Break Right Door',
-			canInteract: () => !vehicleDoorsBroken.right,
+			canInteract: () => {
+				if (!team) return
+
+				return true
+			},
 			onSelect: async () => {
 				const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
 				if (!success) return
 
-				emitNet('lenix:server:robbery:breakdoor', 'right', vehicleNetId)
+				emitNet('lenix:server:robbery:breakdoor', 'right')
+				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'right-door')
 			}
-		}
-	])
-})
-
-onNet('lenix:client:robbery:opendoors', (side: 'left' | 'right', vehicleNetId: number) => {
-	vehicleDoorsBroken[side] = true
-
-	if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
-
-	SetVehicleDoorsLocked(veh, 0)
-	SetVehicleDoorOpen(veh, 3, true, false)
-	SetVehicleDoorOpen(veh, 4, true, false)
-	SetVehicleDoorOpen(veh, 5, true, false)
-	globalThis.exports.ox_target.addEntity(vehicleNetId, [
+		},
 		{
+			name: 'take-money',
 			label: 'Take Money',
+			canInteract: () => {
+				if (!team) return
+
+				return vehicleDoorsBroken['left'] && vehicleDoorsBroken['right']
+			},
 			onSelect: async () => {
+				for (const ped of peds) {
+					if (!IsEntityDead(ped)) {
+						notify({
+							title: 'Take the guards first'
+						})
+						return
+					}
+				}
+
 				const res = await progressBar({
 					label: 'Taking money',
 					duration: 10000,
@@ -148,25 +163,23 @@ onNet('lenix:client:robbery:opendoors', (side: 'left' | 'right', vehicleNetId: n
 						dict: 'anim@heists@ornate_bank@grab_gold',
 						clip: 'grab'
 					},
-					prop: {
-						model: 'hei_p_m_bag_var22_arm_s',
-						bone: 24818, // SKEL_SPINE2
-						pos: {
-								x: 0.12,
-								y: -0.24,
-								z: 0.0,
-						},
-						rot: {
-								x: 0.0,
-								y: 90.0,
-								z: 180.0,
-						},
-				},
 				})
 				if (!res) return
 
 				emitNet('lenix:server:robbery:takemoney', vehicleNetId)
+				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'take-money')
 			}
 		},
 	])
+})
+
+onNet('lenix:client:robbery:opendoors', (side: 'left' | 'right') => {
+	vehicleDoorsBroken[side] = true
+
+	if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
+
+	SetVehicleDoorsLocked(veh, 0)
+	SetVehicleDoorOpen(veh, 3, true, false)
+	SetVehicleDoorOpen(veh, 4, true, false)
+	SetVehicleDoorOpen(veh, 5, true, false)
 })
