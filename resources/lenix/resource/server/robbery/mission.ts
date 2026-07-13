@@ -1,11 +1,12 @@
 import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
 import { teams } from "."
-import { CreateVehicle } from "@overextended/ox_core/server"
+import { CreateVehicle, type OxVehicle } from "@overextended/ox_core/server"
 
 const vehicleDoorsBroken = {
 	left: false,
 	right: false
 }
+let veh: OxVehicle
 
 export const startRobbery = async () => {
 	const randomIndex = random(VEHICLE_COORDS.length - 1)
@@ -13,6 +14,9 @@ export const startRobbery = async () => {
 	if (!coords) throw new Error(`Failed to get the coords at #${randomIndex} from VEHICLE_COORDS`)
 
 	const vehicle = await CreateVehicle(VEHICLE_MODEL, [coords[0], coords[1], coords[2]], coords[3])
+	if (!vehicle) throw new Error(`Failed to create the vehicle`)
+
+	veh = vehicle
 
 	teams.forEach(team => {
 		team.teammates.forEach(teammate => {
@@ -48,7 +52,7 @@ onNet('lenix:server:robbery:takemoney', (netId: number) => {
 		const entity = NetworkGetEntityFromNetworkId(netId)
 		if (!DoesEntityExist(entity)) return
 
-		DeleteEntity(entity)
+		setTimeout(veh.despawn, 60_000)
 		clearTick(tick)
 	})
 })

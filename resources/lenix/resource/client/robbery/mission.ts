@@ -1,4 +1,5 @@
-import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
+
+import { cache, notify, progressBar, requestModel } from "@overextended/ox_lib/client"
 import { PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
 import type { Vector3 } from "types/index"
 import { getClosestPlayer } from "../_lib"
@@ -38,10 +39,11 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		}, 100)
 	})
 
-	console.debug(vehicle)
-
   if (!vehicle || NetworkGetEntityOwner(vehicle) !== PlayerId()) return
 	veh = vehicle
+	notify({
+		title: 'The guards have been notified'
+	})
 
   const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
 	const hash = await requestModel(PEDS_MODEL)
@@ -69,10 +71,9 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 	}
 
 	SetVehicleDoorsLocked(vehicle, 10)
-	
-	setTick(() => {
+
+	const tick = setTick(() => {
 		if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
-	
 		if (!guardsAlerted) {
 			for (let door = 0; door < GetNumberOfVehicleDoors(vehicle); door++) {
 				if (GetVehicleDoorAngleRatio(vehicle, door) > 0.1) {
@@ -104,7 +105,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		{
 			name: 'left-door',
 			label: 'Break Left Door',
-			bones: ['door_dside_r', 'door_pside_r', 'boot'],
+			bones: 'door_dside_r',
 			canInteract: () => {
 				if (!team) return
 
@@ -121,7 +122,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		{
 			name: 'right-door',
 			label: 'Break Right Door',
-			bones: ['door_dside_r', 'door_pside_r', 'boot'],
+			bones: 'door_pside_r',
 			canInteract: () => {
 				if (!team) return
 
@@ -138,7 +139,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		{
 			name: 'take-money',
 			label: 'Take Money',
-			bones: ['door_dside_r', 'door_pside_r', 'boot'],
+			bones: ['door_pside_r', 'door_dside_r'],
 			canInteract: () => {
 				if (!team) return
 
@@ -153,6 +154,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 						return
 					}
 				}
+				clearTick(tick)
 
 				const res = await progressBar({
 					label: 'Taking money',
@@ -163,8 +165,22 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 						move: true,
 					},
 					anim: {
-						dict: 'anim@heists@ornate_bank@grab_gold',
+						dict: 'anim@scripted@heist@ig1_table_grab@gold@male@',
 						clip: 'grab'
+					},
+					prop: {
+						model: 'hei_p_m_bag_var22_arm_s',
+						bone: 24818,
+						pos: {
+							x: -0.31,
+							y: 0.0,
+							z: 0.0,
+						},
+						rot: {
+							x: 160.0,
+							y: -85.0,
+							z: 10.0,
+						},
 					},
 				})
 				if (!res) return
@@ -182,7 +198,12 @@ onNet('lenix:client:robbery:opendoors', (side: 'left' | 'right') => {
 	if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
 
 	SetVehicleDoorsLocked(veh, 0)
-	SetVehicleDoorOpen(veh, 3, true, false)
-	SetVehicleDoorOpen(veh, 4, true, false)
-	SetVehicleDoorOpen(veh, 5, true, false)
+	SetVehicleDoorOpen(veh, 2, false, false)
+	SetVehicleDoorControl(veh, 2, 1, 1.0)
+	SetVehicleDoorOpen(veh, 3, false, false)
+	SetVehicleDoorControl(veh, 3, 1, 1.0)
+	SetVehicleDoorOpen(veh, 4, false, false)
+	SetVehicleDoorControl(veh, 4, 1, 1.0)
+	SetVehicleDoorOpen(veh, 5, false, false)
+	SetVehicleDoorControl(veh, 5, 1, 1.0)
 })
