@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
-import { H1 } from "@/components/h1"
-import { Lead } from "@/components/lead"
+import { H1 } from "../../../modules/components/h1.tsx"
+import { Lead } from "../../../modules/components/lead.tsx"
 import { Button } from "@/components/ui/button"
 import { Frown } from "lucide-react"
 import { Layout } from "@/components/layout"

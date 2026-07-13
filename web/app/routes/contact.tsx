@@ -15,7 +15,7 @@ import {
 	InputGroupText,
 	InputGroupButton,
 } from '@/components/ui/input-group'
-import { Required } from '@/components/required'
+import { Required } from '../../../modules/components/required.tsx'
 import { Spinner } from '@/components/ui/spinner'
 import { ArrowRight, Check } from 'lucide-react'
 import { Layout } from '@/components/layout'
