@@ -96,8 +96,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		[-2167.1487, 1134.3087, -25.3712, 272.6151],
 		[-2167.1431, 1137.5076, -25.3712, 269.0276],
 	]
-	const hiddenCoords = [-2157.2832, 1136.1865, -24.3712] as const
-	const camCoords = [-2161.7, 1136.4, -23.77, 92.52]
+	const hiddenCoords = [-2168.7705, 1135.5433, -24.3712] as const
+	const camCoords = [-2167.1467, 1135.9039, -24.3712, 92.52]
 
 	const peds: number[] = []
 
