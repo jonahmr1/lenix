@@ -117,11 +117,10 @@ const charSelect = async (characters: Character[]) => {
 
 	SetEntityCoords(cache.ped, camCoords[0], camCoords[1], camCoords[2], false, false, false, false)
 
-	SetNuiFocus(true, true)
-	SetNuiFocusKeepInput(true)
-	DoScreenFadeIn(1000)
 
 	const tick = setTick(() => {
+		SetMouseCursorActiveThisFrame()
+		SetMouseCursorSprite(1)
 		DisableAllControlActions(0)
 		EnableControlAction(0, 24, true)
 		EnableControlAction(0, 25, true)
@@ -144,14 +143,15 @@ const charSelect = async (characters: Character[]) => {
 		console.debug('clicked ped at slot', index)
 	})
 
-	DoScreenFadeIn(1000)
-
 	on('onResourceStop', () => {
 		peds.forEach(ped => {
 			DeletePed(ped)
 		});
 	})
 
+	DoScreenFadeIn(1000)
+	SetNuiFocus(true, true)
+	SetNuiFocusKeepInput(true)
 
 
 	// RenderScriptCams(false, false, 0, true, false)
