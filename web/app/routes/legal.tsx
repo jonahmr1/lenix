@@ -1,7 +1,7 @@
 import { AccordionItems } from "@/components/articles/faqs"
-import { H1 } from "@/components/h1"
+import { H1 } from "../../../modules/components/h1.tsx"
 import { Layout } from "@/components/layout"
-import { P } from "@/components/p"
+import { P } from "../../../modules/components/p.tsx"
 import type { Faq } from "@/types"
 
 export default () => {

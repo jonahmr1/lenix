@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { Code } from "@/components/code"
-import { Ul } from "@/components/ul"
+import { Ul } from "../../modules/components/ul.tsx"
 import type { Faq } from "./types"
 
 export const products = {

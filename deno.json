@@ -6,11 +6,16 @@
     ".": "./modules/index.ts",
     "./beta": "./tsconfig.beta.json"
   },
+  "publish": {
+    "include": ["modules/**", "tsconfig.beta.json", "LICENSE", "README.md"]
+  },
   "tasks": {
     "check": "deno check modules/index.ts"
   },
-  "publish": {
-    "include": ["modules/**", "tsconfig.beta.json", "LICENSE", "README.md"]
+  "imports": {
+    "@types/react": "npm:@types/react@^19.2.17",
+    "react": "npm:react@^19.2.7",
+    "tailwind-merge": "npm:tailwind-merge@^3.6.0"
   },
   "fmt": {
     "useTabs": true,

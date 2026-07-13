@@ -1,13 +1,13 @@
 import { FeatureCard } from "@/components/articles/card";
-import { H1 } from "@/components/h1";
-import { H2 } from "@/components/h2";
-import { H3 } from "@/components/h3";
+import { H1 } from "../../../modules/components/h1.tsx";
+import { H2 } from "../../../modules/components/h2.tsx";
+import { H3 } from "../../../modules/components/h3.tsx";
 import { Layout } from "@/components/layout";
-import { Lead } from "@/components/lead";
-import { P } from "@/components/p";
+import { Lead } from "../../../modules/components/lead.tsx";
+import { P } from "../../../modules/components/p.tsx";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Ul } from "@/components/ul";
+import { Ul } from "../../../modules/components/ul.tsx";
 import { Check, Package, Settings, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
 
