@@ -17,6 +17,10 @@
     "react": "npm:react@^19.2.7",
     "tailwind-merge": "npm:tailwind-merge@^3.6.0"
   },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
   "fmt": {
     "useTabs": true,
     "indentWidth": 2,
