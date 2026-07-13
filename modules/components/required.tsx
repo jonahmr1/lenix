@@ -1,8 +1,11 @@
-import type React from 'react'
+import type { JSX } from 'react'
+
 /**
- * @module
- * Custom html element
+ * Renders a required-field marker.
+ *
  * @example
+ * ```tsx
  * <span>Email address <Required /></span>
+ * ```
  */
-export const Required = (): React.JSX.Element => <span className='text-destructive'>*</span>
+export const Required = (): JSX.Element => <span className='text-destructive'>*</span>

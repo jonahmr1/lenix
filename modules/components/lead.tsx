@@ -1,11 +1,20 @@
-import type React from 'react'
+import type { JSX, ReactNode } from 'react'
+
+export type LeadProps = {
+	/**
+	 * Content rendered inside the lead paragraph.
+	 */
+	children: ReactNode
+}
+
 /**
- * @module
- * Custom html element
- * @param children - other elements that goes inside
+ * Renders lead paragraph text.
+ *
  * @example
+ * ```tsx
  * <Lead>this is an example</Lead>
+ * ```
  */
-export const Lead = ({ children }: { children: React.ReactNode }): React.JSX.Element => (
+export const Lead = ({ children }: LeadProps): JSX.Element => (
 	<p className='text-xl text-foreground'>{children}</p>
 )
