@@ -104,6 +104,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		{
 			name: 'left-door',
 			label: 'Break Left Door',
+			bones: ['door_dside_r', 'door_pside_r', 'boot'],
 			canInteract: () => {
 				if (!team) return
 
@@ -120,6 +121,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		{
 			name: 'right-door',
 			label: 'Break Right Door',
+			bones: ['door_dside_r', 'door_pside_r', 'boot'],
 			canInteract: () => {
 				if (!team) return
 
@@ -136,6 +138,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		{
 			name: 'take-money',
 			label: 'Take Money',
+			bones: ['door_dside_r', 'door_pside_r', 'boot'],
 			canInteract: () => {
 				if (!team) return
 
