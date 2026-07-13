@@ -1,5 +1,5 @@
 import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
-import { isRobberyRunning, teams } from "."
+import { states, teams } from "."
 import { CreateVehicle, type OxVehicle } from "@overextended/ox_core/server"
 
 const vehicleDoorsBroken = {
@@ -55,7 +55,7 @@ onNet('lenix:server:robbery:takemoney', (netId: number) => {
 		clearTick(tick)
 	})
 
-	isRobberyRunning = false
+	states.isRunning = false
 	teams.forEach(team => {
 		team.teammates.forEach(teammate => {
 			emitNet('lenix:client:robbery:removefromteam', teammate)

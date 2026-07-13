@@ -5,7 +5,9 @@ import "./mission"
 import { addPlayerToRobbery, startRobbery } from "./mission"
 
 export const teams = new Map<number, Team>()
-export let isRobberyRunning: boolean = false
+export let states = {
+	isRunning: false
+}
 
 const refreshTeam = (team: Team) => {
 	team.teammates.forEach(teammate => {
@@ -20,8 +22,8 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 
 	teams.set(leader, { leader, teammates: [leader] })
 
-	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
-		isRobberyRunning = true
+	if (!states.isRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
+		states.isRunning = true
 		startRobbery()
 	}
 	return teams.get(leader)
@@ -62,7 +64,7 @@ onNet('lenix:server:robbery:jointeam', (leader: number) => {
 	emitNet('ox_lib:notify', source, {
 		title: 'New player joined the team'
 	})
-	if (isRobberyRunning) addPlayerToRobbery(source)
+	if (states.isRunning) addPlayerToRobbery(source)
 })
 
 onNet('lenix:server:robbery:invite', (playerId: number) => {
