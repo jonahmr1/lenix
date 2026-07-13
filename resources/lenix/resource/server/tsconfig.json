@@ -11,5 +11,5 @@
 			"types": ["../../types"]
 		}
 	},
-	"include": ["./", "../common/"]
+	"include": ["./", "../common/", "../client/robbery/mission.ts"]
 }

@@ -216,7 +216,7 @@ function beginnDrilling(callback)
   AttachEntityToEntity(attachedDrill, ped, boneIndex, 0.0, 0, 0.0, 0.0, 0.0, 0.0, true, true, false, false, 2, true)
   SetEntityAsMissionEntity(attachedDrill, true, true)
 
-  setupDrillingCamera()
+  -- setupDrillingCamera()
 
   if config.usingGlitchNotifications then
     PlasmaDrilling.ControlsNotificationId = exports['glitch-notifications']:ShowNotification(
