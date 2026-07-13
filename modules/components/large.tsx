@@ -1,11 +1,20 @@
-import type React from 'react'
+import type { JSX, ReactNode } from 'react'
+
+export type LargeProps = {
+	/**
+	 * Content rendered inside the text block.
+	 */
+	children: ReactNode
+}
+
 /**
- * @module
- * Custom html element
- * @param children - other elements that goes inside
+ * Renders emphasized large text.
+ *
  * @example
+ * ```tsx
  * <Large>this is an example</Large>
+ * ```
  */
-export const Large = ({ children }: { children: React.ReactNode }): React.JSX.Element => (
+export const Large = ({ children }: LargeProps): JSX.Element => (
 	<div className='text-lg font-semibold'>{children}</div>
 )

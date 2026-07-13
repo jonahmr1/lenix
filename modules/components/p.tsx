@@ -1,11 +1,20 @@
-import type React from 'react'
+import type { JSX, ReactNode } from 'react'
+
+export type PProps = {
+	/**
+	 * Content rendered inside the paragraph.
+	 */
+	children: ReactNode
+}
+
 /**
- * @module
- * Custom html element
- * @param children - other elements that goes inside
+ * Renders paragraph text with default spacing.
+ *
  * @example
+ * ```tsx
  * <P>this is an example</P>
+ * ```
  */
-export const P = ({ children }: { children: React.ReactNode }): React.JSX.Element => (
+export const P = ({ children }: PProps): JSX.Element => (
 	<p className='leading-7 not-first:mt-6'>{children}</p>
 )

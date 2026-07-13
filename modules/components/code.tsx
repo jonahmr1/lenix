@@ -1,12 +1,21 @@
-import type React from 'react'
+import type { JSX, ReactNode } from 'react'
+
+export type CodeProps = {
+	/**
+	 * Content rendered inside the code element.
+	 */
+	children: ReactNode
+}
+
 /**
- * @module
- * Custom html element
- * @param children - other elements that goes inside
+ * Renders inline code text with the default Lenix documentation styling.
+ *
  * @example
+ * ```tsx
  * <Code>this is an example</Code>
+ * ```
  */
-export const Code = ({ children }: { children: React.ReactNode }): React.JSX.Element => (
+export const Code = ({ children }: CodeProps): JSX.Element => (
 	<code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold'>
 		{children}
 	</code>
