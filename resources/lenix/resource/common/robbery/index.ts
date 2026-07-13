@@ -1,12 +1,11 @@
 import type { Vector4 } from "types/index"
 
 export const VEHICLE_COORDS: Vector4[] = [
-	[16.7808, -571.8483, 31.6286, 245.5145]
-	// [-1209.2249, -1162.8300, 7.6913, 13.5316],
-	// [1070.0637, -233.9568, 69.6071, 253.4912],
-	// [691.7452, -1726.9247, 29.2780, 83.3026],
+	[-1209.2249, -1162.8300, 7.6913, 13.5316],
+	[1070.0637, -233.9568, 69.6071, 253.4912],
+	[691.7452, -1726.9247, 29.2780, 83.3026],
 ]
-export const VEHICLE_MODEL: string = 'Stockade'
+export const VEHICLE_MODEL: string = 'stockade'
 export const MIN_TEAMS_TO_START_ROBBERY: number = 1
 export const MISSION_PRICE = 2000
 export const VEHICLE_BLIP_UPDATE_INTERVAL = 1000

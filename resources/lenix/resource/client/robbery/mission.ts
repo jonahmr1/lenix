@@ -1,4 +1,3 @@
-import type { Vec3 } from "@overextended/core/vector"
 import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
 import { PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
 import type { Vector3 } from "types/index"
@@ -12,13 +11,12 @@ const vehicleDoorsBroken = {
 let blip: number
 let veh: number
 
-AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: string, value: Vec3) => {
-  if (!value || key !== 'robberyVehicleCoords') {
+AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: string, coords: Vector3) => {
+  if (!coords || key !== 'robberyVehicleCoords') {
     RemoveBlip(blip)
     blip = -1
     return
   }
-	const coords: Vector3 = [value.x, value.y, value.z]
   if (DoesBlipExist(blip)) {
     SetBlipCoords(blip, ...coords)
     return
@@ -39,6 +37,8 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 			}
 		}, 100)
 	})
+
+	console.debug(vehicle)
 
   if (!vehicle || NetworkGetEntityOwner(vehicle) !== PlayerId()) return
 	veh = vehicle
