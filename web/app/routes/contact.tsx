@@ -15,10 +15,10 @@ import {
 	InputGroupText,
 	InputGroupButton,
 } from '@/components/ui/input-group'
-import { Required } from '../../../modules/components/required.tsx'
 import { Spinner } from '@/components/ui/spinner'
 import { ArrowRight, Check } from 'lucide-react'
 import { Layout } from '@/components/layout'
+import { Required } from '@lenix/lenix'
 
 export default () => {
 	const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>(

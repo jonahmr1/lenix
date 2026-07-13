@@ -1,10 +1,9 @@
 import { FeatureCard } from "@/components/articles/card"
 import { AccordionItems } from "@/components/articles/faqs"
-import { H1 } from "../../../modules/components/h1.tsx"
 import { Layout } from "@/components/layout"
-import { P } from "../../../modules/components/p.tsx"
 import { Button } from "@/components/ui/button"
 import type { Faq } from "@/types"
+import { H1, P } from "@lenix/lenix"
 import { Book, MessageCircle, Package } from "lucide-react"
 import { useNavigate } from "react-router"
 

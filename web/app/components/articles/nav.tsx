@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { products } from "@/constants";
-import { Book, Box, Headset, House, Menu, Package, Scale, ScrollText, type LucideIcon } from "lucide-react";
+import { Book, Box, Headset, House, Menu, Package, Scale, ScrollText } from "lucide-react";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import type { Route } from "~/types";
 
