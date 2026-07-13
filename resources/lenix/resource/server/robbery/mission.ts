@@ -39,9 +39,9 @@ export const addPlayerToRobbery = (playerId: number) => {
 	})
 }
 
-onNet('lenix:server:robbery:breakdoor', (side: 'left' | 'right') => {
+onNet('lenix:server:robbery:breakdoor', (side: 'left' | 'right', netId: number) => {
 	vehicleDoorsBroken[side] = true
-	emitNet('lenix:client:robbery:updatedoors', -1, side, true)
+	emitNet('lenix:client:robbery:updatedoors', -1, side, true, netId)
 })
 
 onNet('lenix:server:robbery:takemoney', (netId: number) => {
@@ -55,14 +55,14 @@ onNet('lenix:server:robbery:takemoney', (netId: number) => {
 		clearTick(tick)
 	})
 
-	states.isRunning = false
 	teams.forEach(team => {
 		team.teammates.forEach(teammate => {
 			emitNet('lenix:client:robbery:removefromteam', teammate)
 		})
 	})
-	emitNet('lenix:client:robbery:updatedoors', -1, 'right', false)
-	emitNet('lenix:client:robbery:updatedoors', -1, 'left', false)
+	emitNet('lenix:client:robbery:updatedoors', -1, 'right', false, netId)
+	emitNet('lenix:client:robbery:updatedoors', -1, 'left', false, netId)
 	teams.clear()
+	states.isRunning = false
 	clearInterval(interval)
 })

@@ -3,6 +3,7 @@ import { spawnPed, useTimer } from "../_lib";
 import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
 import { MISSION_PRICE } from "common/robbery";
 import './mission'
+import { tick } from "./mission";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
@@ -105,6 +106,7 @@ onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
 
 onNet('lenix:client:robbery:removefromteam', () => {
 	team = undefined
+	clearTick(tick)
 	refreshContext()
 })
 
