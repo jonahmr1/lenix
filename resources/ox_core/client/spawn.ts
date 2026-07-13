@@ -116,33 +116,7 @@ const charSelect = async (characters: Character[]) => {
 	RenderScriptCams(true, false, 0, true, false)
 
 	SetEntityCoords(cache.ped, camCoords[0], camCoords[1], camCoords[2], false, false, false, false)
-
-
-	const tick = setTick(() => {
-		SetMouseCursorActiveThisFrame()
-		SetMouseCursorSprite(1)
-		DisableAllControlActions(0)
-		EnableControlAction(0, 24, true)
-		EnableControlAction(0, 25, true)
-
-		if (!IsDisabledControlJustPressed(0, 24)) return // left mouse click
-
-		const [camPos, farPoint] = getCursorRay(cam)
-		const ray = StartShapeTestRay(
-			camPos[0], camPos[1], camPos[2],
-			farPoint[0], farPoint[1], farPoint[2],
-			12, cache.ped, 0
-		)
-		const [, hit, , , entity] = GetShapeTestResult(ray)
-
-		if (!hit) return
-
-		const index = peds.indexOf(entity)
-		if (index === -1) return
-
-		console.debug('clicked ped at slot', index)
-	})
-
+	
 	on('onResourceStop', () => {
 		peds.forEach(ped => {
 			DeletePed(ped)
@@ -153,14 +127,38 @@ const charSelect = async (characters: Character[]) => {
 	SetNuiFocus(true, true)
 	SetNuiFocusKeepInput(true)
 
-
-	// RenderScriptCams(false, false, 0, true, false)
-	// DestroyCam(cam, false)
-	// clearTick(tick)
-	// SetNuiFocus(false, false)
-	// SetNuiFocusKeepInput(false)
-
-	// DoScreenFadeOut(100);
+	return await new Promise(result => {
+		const tick = setTick(() => {
+			SetMouseCursorActiveThisFrame()
+			SetMouseCursorSprite(1)
+			DisableAllControlActions(0)
+			EnableControlAction(0, 24, true)
+			EnableControlAction(0, 25, true)
+	
+			if (!IsDisabledControlJustPressed(0, 24)) return
+	
+			const [camPos, farPoint] = getCursorRay(cam)
+			const ray = StartShapeTestRay(
+				camPos[0], camPos[1], camPos[2],
+				farPoint[0], farPoint[1], farPoint[2],
+				12, cache.ped, 0
+			)
+			const [, hit, , , entity] = GetShapeTestResult(ray)
+	
+			if (!hit) return
+	
+			const index = peds.indexOf(entity)
+			if (index === -1) return
+	
+			RenderScriptCams(false, false, 0, true, false)
+			DestroyCam(cam, false)
+			clearTick(tick)
+			SetNuiFocus(false, false)
+			SetNuiFocusKeepInput(false)
+			DoScreenFadeOut(100);
+			result(index)
+		})
+	})
 }
 
 netEvent('ox:startCharacterSelect', async (_userId: number, characters: Character[]) => {
@@ -175,6 +173,7 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 	if (!CHARACTER_SELECT) return;
 
 	const character = await charSelect(characters);
+	console.debug(character, 'ped')
 	return
 	const [x, y, z] = [
 		character?.x || SPAWN_LOCATION[0],
