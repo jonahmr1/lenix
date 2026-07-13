@@ -1,6 +1,6 @@
 
-import { cache, notify, progressBar, requestModel } from "@overextended/ox_lib/client"
-import { PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
+import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
+import { DRILL_ITEM, PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
 import type { Vector3 } from "types/index"
 import { getClosestPlayer } from "../_lib"
 import { team } from "."
@@ -10,7 +10,7 @@ const vehicleDoorsBroken = {
 	right: false
 }
 let blip: number
-let veh: number
+let vehNetId: number
 
 AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: string, coords: Vector3) => {
   if (!coords || key !== 'robberyVehicleCoords') {
@@ -40,7 +40,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 	})
 
   if (!vehicle || NetworkGetEntityOwner(vehicle) !== PlayerId()) return
-	veh = vehicle
+	vehNetId = vehicleNetId
 	notify({
 		title: 'The guards have been notified'
 	})
@@ -70,21 +70,16 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		peds.push(ped)
 	}
 
-	SetVehicleDoorsLocked(vehicle, 10)
-
 	const tick = setTick(() => {
 		if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
 		if (!guardsAlerted) {
-			for (let door = 0; door < GetNumberOfVehicleDoors(vehicle); door++) {
-				if (GetVehicleDoorAngleRatio(vehicle, door) > 0.1) {
-					guardsAlerted = true
-					peds.forEach(ped => {
-						SetBlockingOfNonTemporaryEvents(ped, false)
-						SetPedFleeAttributes(ped, 0, false)
-						TaskLeaveVehicle(ped, vehicle, 0)
-					})
-					break
-				}
+			if (GetVehicleDoorAngleRatio(vehicle, 1) > 0.1 || GetVehicleDoorAngleRatio(vehicle, 3) > 0.1) {
+				guardsAlerted = true
+				peds.forEach(ped => {
+					SetBlockingOfNonTemporaryEvents(ped, false)
+					SetPedFleeAttributes(ped, 0, false)
+					TaskLeaveVehicle(ped, vehicle, 0)
+				})
 			}
 		}
 	
@@ -129,6 +124,13 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				return true
 			},
 			onSelect: async () => {
+				const drillAmount = globalThis.exports.ox_inventory.GetItemCount(DRILL_ITEM)
+				if (drillAmount < 1) {
+					notify({
+						title: 'You\'re missing a drill'
+					})
+					return
+				}
 				const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
 				if (!success) return
 
@@ -146,6 +148,13 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				return vehicleDoorsBroken['left'] && vehicleDoorsBroken['right']
 			},
 			onSelect: async () => {
+				const drillAmount = globalThis.exports.ox_inventory.GetItemCount(DRILL_ITEM)
+				if (drillAmount < 1) {
+					notify({
+						title: 'You\'re missing a drill'
+					})
+					return
+				}
 				for (const ped of peds) {
 					if (!IsEntityDead(ped)) {
 						notify({
@@ -197,13 +206,7 @@ onNet('lenix:client:robbery:opendoors', (side: 'left' | 'right') => {
 
 	if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
 
-	SetVehicleDoorsLocked(veh, 0)
-	SetVehicleDoorOpen(veh, 2, false, false)
-	SetVehicleDoorControl(veh, 2, 1, 1.0)
-	SetVehicleDoorOpen(veh, 3, false, false)
-	SetVehicleDoorControl(veh, 3, 1, 1.0)
-	SetVehicleDoorOpen(veh, 4, false, false)
-	SetVehicleDoorControl(veh, 4, 1, 1.0)
-	SetVehicleDoorOpen(veh, 5, false, false)
-	SetVehicleDoorControl(veh, 5, 1, 1.0)
+	const entity = NetToVeh(vehNetId)
+	SetVehicleDoorOpen(entity, 2, false, false)
+	SetVehicleDoorOpen(entity, 3, false, false)
 })

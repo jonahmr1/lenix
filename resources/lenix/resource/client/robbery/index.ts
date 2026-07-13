@@ -155,5 +155,4 @@ setImmediate(async () => {
 			showContext('robbery-mission')
 		}
 	})
-	createTeam()
 })

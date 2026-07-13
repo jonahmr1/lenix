@@ -1,4 +1,9 @@
 return {
+	['drill'] = {
+		label = 'Drill',
+		weight = 10000,
+	},
+
 	['hotel_keycard'] = {
 		label = 'Hotel Keycard',
 		weight = 10,

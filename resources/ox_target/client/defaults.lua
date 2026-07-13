@@ -15,6 +15,8 @@ local bones = {
 ---@param vehicle number
 ---@param door number
 local function toggleDoor(vehicle, door)
+		if GetEntityModel(vehicle) == joaat('stockade') and (door == 2 or door == 3) then return end
+
     if GetVehicleDoorLockStatus(vehicle) ~= 2 then
         if GetVehicleDoorAngleRatio(vehicle, door) > 0.0 then
             SetVehicleDoorShut(vehicle, door, false)

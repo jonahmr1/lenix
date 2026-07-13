@@ -11,6 +11,7 @@ export const MISSION_PRICE = 2000
 export const VEHICLE_BLIP_UPDATE_INTERVAL = 1000
 export const PEDS_MODEL = 'mp_s_m_armoured_01'
 export const VEHICLE_PEDS_AMOUNT = 6
+export const DRILL_ITEM = 'drill'
 
 export const random = (from: number, to?: number) => {
   if (to === undefined) return Math.floor(Math.random() * (from + 1))
