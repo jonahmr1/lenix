@@ -1,4 +1,5 @@
 /**
+ * @module
  * Throws an error.
  * @param error - The error to throw, can be a source of the error.
  * @param cause - The cause of the error.

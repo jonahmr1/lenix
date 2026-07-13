@@ -1,4 +1,5 @@
 /**
+ * @module
  * Get typed entries from an object (Typed Object.entries)
  * @param object - Object to get entries from
  * @returns Array of the passed entries

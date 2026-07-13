@@ -1,7 +1,4 @@
 /**
- * @module
- * Lenix: a JSR utility package for TypeScript/Deno.
- *
  * @example
  * ```ts
  * import { entries } from '@lenix/lenix'

@@ -1,4 +1,5 @@
 /**
+ * @module
  * Checks if the value is one of the values in the array
  * @param value - The value to check
  * @param from - The array of values to check from
