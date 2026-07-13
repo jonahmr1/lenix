@@ -1,7 +1,6 @@
 import type { ReactNode } from "react"
-import { Code } from "@/components/code"
-import { Ul } from "../../modules/components/ul.tsx"
 import type { Faq } from "./types"
+import { Ul, Code } from "@lenix/lenix"
 
 export const products = {
 	'discord-bot': {

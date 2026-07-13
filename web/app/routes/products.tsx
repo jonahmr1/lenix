@@ -1,8 +1,7 @@
 import { ProductItem } from "@/components/articles/product-item"
-import { H1 } from "../../../modules/components/h1.tsx"
 import { Layout } from "@/components/layout"
-import { P } from "../../../modules/components/p.tsx"
 import { products } from "@/constants"
+import { H1, P } from "@lenix/lenix"
 
 export default () => {
 	return (
