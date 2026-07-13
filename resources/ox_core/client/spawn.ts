@@ -69,6 +69,27 @@ async function promptCharacterMenu(characters: Character[]): Promise<Character |
 	})
 }
 
+const getCursorRay = (cam: number): [[number, number, number], [number, number, number]] => {
+	const [cursorX, cursorY] = GetNuiCursorPosition();
+	const [resX, resY] = GetActiveScreenResolution();
+	const screenX = cursorX / resX;
+	const screenY = cursorY / resY;
+	const [worldPos, normal] = GetWorldCoordFromScreenCoord(screenX, screenY) as unknown as [
+		[number, number, number],
+		[number, number, number],
+	];
+	const camPos = GetCamCoord(cam) as unknown as [number, number, number];
+
+	return [
+		camPos,
+		[
+			worldPos[0] + normal[0] * 50,
+			worldPos[1] + normal[1] * 50,
+			worldPos[2] + normal[2] * 50,
+		],
+	];
+}
+
 const charSelect = async (characters: Character[]) => {
 	const pedsCoords: [number, number, number, number][] = [
 		[-2167.1487, 1134.3087, -25.3712, 272.6151],
@@ -96,31 +117,22 @@ const charSelect = async (characters: Character[]) => {
 
 	SetEntityCoords(cache.ped, camCoords[0], camCoords[1], camCoords[2], false, false, false, false)
 
+	SetNuiFocus(true, true)
+	SetNuiFocusKeepInput(true)
+	DoScreenFadeIn(1000)
+
 	const tick = setTick(() => {
-		if (!IsControlJustPressed(0, 24)) return // left mouse click
+		DisableAllControlActions(0)
+		EnableControlAction(0, 24, true)
+		EnableControlAction(0, 25, true)
 
-		const camPos = GetCamCoord(cam) as unknown as [number, number, number]
-		const camRot = GetCamRot(cam, 2) as unknown as [number, number, number]
+		if (!IsDisabledControlJustPressed(0, 24)) return // left mouse click
 
-		// convert rotation to forward direction vector
-		const rotX = camRot[0] * (Math.PI / 180)
-		const rotZ = camRot[2] * (Math.PI / 180)
-		const forward = [
-			-Math.sin(rotZ) * Math.cos(rotX),
-			Math.cos(rotZ) * Math.cos(rotX),
-			Math.sin(rotX),
-		] as [number, number, number]
-
-		const farPoint: [number, number, number] = [
-			camPos[0] + forward[0] * 50,
-			camPos[1] + forward[1] * 50,
-			camPos[2] + forward[2] * 50,
-		]
-
+		const [camPos, farPoint] = getCursorRay(cam)
 		const ray = StartShapeTestRay(
 			camPos[0], camPos[1], camPos[2],
 			farPoint[0], farPoint[1], farPoint[2],
-			-1, 0, 0
+			12, cache.ped, 0
 		)
 		const [, hit, , , entity] = GetShapeTestResult(ray)
 
@@ -144,6 +156,9 @@ const charSelect = async (characters: Character[]) => {
 
 	// RenderScriptCams(false, false, 0, true, false)
 	// DestroyCam(cam, false)
+	// clearTick(tick)
+	// SetNuiFocus(false, false)
+	// SetNuiFocusKeepInput(false)
 
 	// DoScreenFadeOut(100);
 }
