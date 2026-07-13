@@ -194,8 +194,8 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				})
 				if (!res) return
 
-				emitNet('lenix:server:robbery:takemoney', vehicleNetId)
 				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'take-money')
+				emitNet('lenix:server:robbery:takemoney', vehicleNetId)
 			}
 		},
 	])

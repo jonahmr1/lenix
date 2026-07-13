@@ -55,4 +55,11 @@ onNet('lenix:server:robbery:takemoney', (netId: number) => {
 		setTimeout(veh.despawn, 60_000)
 		clearTick(tick)
 	})
+	
+	teams.forEach(team => {
+		team.teammates.forEach(teammate => {
+			emitNet('lenix:client:robbery:removefromteam', teammate)
+		})
+	})
+	teams.clear()
 })
