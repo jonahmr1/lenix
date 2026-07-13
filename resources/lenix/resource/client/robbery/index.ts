@@ -105,6 +105,7 @@ onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
 
 onNet('lenix:client:robbery:removefromteam', () => {
 	team = undefined
+	refreshContext()
 })
 
 onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {

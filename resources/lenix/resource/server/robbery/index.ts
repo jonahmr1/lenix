@@ -2,6 +2,7 @@ import { CreateVehicle } from "@overextended/ox_core/server"
 import { createVehicle, onClientCallback } from "@overextended/ox_lib/server"
 import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE, random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
 import type { Team } from "types/index"
+import { startRobbery } from "./mission"
 
 const teams = new Map<number, Team>()
 const vehicleDoorsBroken = {
@@ -32,27 +33,7 @@ onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team
 	
 	if (!isRobberyRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		isRobberyRunning = true
-		const randomIndex = random(VEHICLE_COORDS.length - 1)
-		const coords = VEHICLE_COORDS[randomIndex]
-		if (!coords) throw new Error(`Failed to get the coords at #${randomIndex} from VEHICLE_COORDS`)
-
-		const vehicle = await createVehicle(VEHICLE_MODEL, 'automobile', ...coords)
-
-		teams.forEach(team => {
-			team.teammates.forEach(teammate => {
-				addPlayerToRobbery(teammate)
-			})
-		})
-
-		emitNet('lenix:client:robbery:spawnPeds', -1, vehicle.netId)
-
-		setInterval(() => {
-			GlobalState.robberyVehicleCoords = vehicle.getCoords()
-		}, VEHICLE_BLIP_UPDATE_INTERVAL)
-
-		on('onResourceStop', () => {
-			DeleteEntity(vehicle.handle)
-		})
+		startRobbery
 	}
 	return teams.get(leader)
 })
@@ -114,21 +95,4 @@ onNet('lenix:server:robbery:invite', (playerId: number) => {
 	}
 
 	emitNet('lenix:client:robbery:receiveinvite', playerId, source)
-})
-
-onNet('lenix:server:robbery:breakdoor', (side: 'left' | 'right', netId: number) => {
-	vehicleDoorsBroken[side] = true
-	emitNet('lenix:client:robbery:opendoors', -1, side, netId)
-})
-
-onNet('lenix:server:robbery:takemoney', (netId: number) => {
-	globalThis.exports.ox_inventory.AddItem(source, 'money', 10000)
-
-	const tick = setTick(() => {
-		const entity = NetworkGetEntityFromNetworkId(netId)
-		if (!DoesEntityExist(entity)) return
-
-		DeleteEntity(entity)
-		clearTick(tick)
-	})
 })
