@@ -90,17 +90,20 @@ const getCursorRay = (cam: number): [[number, number, number], [number, number, 
 	];
 }
 
-const charSelect = async (characters: Character[]): Promise<Character> => {
+const charSelect = async (characters: Character[]): Promise<Character | undefined> => {
+	if (!characters.length) return
 	const pedsCoords: [number, number, number, number][] = [
 		[-2167.1487, 1134.3087, -25.3712, 272.6151],
-		[-2167.1431, 1137.5076, -25.3712, 269.0276]
+		[-2167.1431, 1137.5076, -25.3712, 269.0276],
 	]
+	const hiddenCoords = [-2157.2832, 1136.1865, -24.3712] as const
+	const camCoords = [-2161.7, 1136.4, -23.77, 92.52]
 
 	const peds: number[] = []
 
-	for (const [index] of characters.entries()) {
+	for (const coords of pedsCoords) {
 		const hash = await requestModel('mp_m_freemode_01')
-		const ped = CreatePed(0, hash, ...pedsCoords[index], false, false)
+		const ped = CreatePed(0, hash, ...coords, false, false)
 		SetEntityAlpha(ped, 200, false)
 		FreezeEntityPosition(ped, true)
 		SetEntityInvincible(ped, true)
@@ -108,14 +111,14 @@ const charSelect = async (characters: Character[]): Promise<Character> => {
 		peds.push(ped)
 	}
 
-	const camCoords = [-2161.7, 1136.4, -23.77, 92.52]
 	const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 	SetCamCoord(cam, camCoords[0], camCoords[1], camCoords[2])
 	SetCamRot(cam, 0.0, 0.0, camCoords[3], 2)
+	SetCamFov(cam, 30.0)
 	SetCamActive(cam, true)
 	RenderScriptCams(true, false, 0, true, false)
 
-	SetEntityCoords(cache.ped, camCoords[0], camCoords[1], camCoords[2], false, false, false, false)
+	SetEntityCoords(cache.ped, ...hiddenCoords, false, false, false, false)
 	
 	on('onResourceStop', () => {
 		peds.forEach(ped => {
@@ -124,9 +127,6 @@ const charSelect = async (characters: Character[]): Promise<Character> => {
 	})
 
 	DoScreenFadeIn(1000)
-	SetNuiFocus(true, true)
-	SetNuiFocusKeepInput(true)
-
 	return await new Promise(result => {
 		const tick = setTick(() => {
 			SetMouseCursorActiveThisFrame()
@@ -156,6 +156,9 @@ const charSelect = async (characters: Character[]): Promise<Character> => {
 			SetNuiFocus(false, false)
 			SetNuiFocusKeepInput(false)
 			DoScreenFadeOut(100);
+			peds.forEach(ped => {
+				DeletePed(ped)
+			})
 			result(characters[index])
 		})
 	})
