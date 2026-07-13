@@ -1,8 +1,21 @@
 /**
  * @module
- * Get typed entries from an object (Typed Object.entries)
- * @param object - Object to get entries from
- * @returns Array of the passed entries
+ *
+ * Object utilities.
+ */
+
+/**
+ * Gets typed entries from an object.
+ *
+ * @param object - Object to get entries from.
+ * @returns Typed object entries.
+ *
+ * @example
+ * ```ts
+ * import { entries } from '@lenix/lenix'
+ *
+ * const value = entries({ name: 'lenix', version: 1 })
+ * ```
  */
 export const entries = <T extends Record<string, unknown>>(
 	object: T

@@ -1,5 +1,8 @@
 import type { JSX, ReactNode } from 'react'
 
+/**
+ * Props for {@link Lead}.
+ */
 export type LeadProps = {
 	/**
 	 * Content rendered inside the lead paragraph.

@@ -1,6 +1,9 @@
 import type { ComponentProps, JSX, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 
+/**
+ * Props for {@link Ul}.
+ */
 export type UlProps = {
 	/**
 	 * List items rendered inside the unordered list.

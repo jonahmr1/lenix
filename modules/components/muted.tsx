@@ -1,5 +1,8 @@
 import type { JSX, ReactNode } from 'react'
 
+/**
+ * Props for {@link Muted}.
+ */
 export type MutedProps = {
 	/**
 	 * Content rendered inside the muted paragraph.
