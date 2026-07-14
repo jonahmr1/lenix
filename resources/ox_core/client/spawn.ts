@@ -97,7 +97,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		[-2167.1431, 1137.5076, -25.3712, 269.0276],
 	]
 	const hiddenCoords = [-2168.7705, 1135.5433, -24.3712] as const
-	const camCoords = [-2167.1467, 1135.9039, -24.3712, 92.52]
+	const camCoords = [-2156.2529, 1136.0225, -23.3712, 89.9823]
 	const charactersFocusOffset = [
 		95,
 		85
