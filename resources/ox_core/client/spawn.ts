@@ -98,7 +98,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	]
 	if (pedsCoords.length !== CHARACTER_SLOTS) throw new Error('Please match the CHARACTER_SLOTS with you pedCoords length')
 		
-	const hiddenCoords = [-2168.7705, 1135.5433, -24.3712] as const
+	const hiddenCoords = [-2154.6487, 1135.6996, -24.3712] as const
 	const camCoords = [-2156.2529, 1136.0225, -23.3712, 89.9823]
 	const charactersFocusOffset = [
 		99,
@@ -132,12 +132,14 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	for (const [index, coords] of pedsCoords.entries()) {
 		const character = characters[index]
 		const hash = await requestModel('mp_m_freemode_01')
-		const appearance = await triggerServerCallback('lenix:server:appearance:getappearance', character.charId)
-		if (!appearance) throw new Error(`Failed to get character<${character.charId}> appearance`)
-
-		exports["illenium-appearance"].setPedAppearance(cache.ped, appearance)
-
 		const ped = CreatePed(4, hash, coords[0], coords[1], coords[2], coords[3], false, false)
+
+		if (character) {
+			const appearance = await triggerServerCallback('lenix:server:appearance:getappearance', null, character.charId)
+			if (!appearance) throw new Error(`Failed to get character<${character.charId}> appearance`)
+			exports["illenium-appearance"].setPedAppearance(ped, appearance)
+		}
+
 		if (!character) SetEntityAlpha(ped, 51 * 4, false)
 		SetModelAsNoLongerNeeded(hash)
 		FreezeEntityPosition(ped, true)
@@ -198,13 +200,12 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 				} else if (index === hoveredIndex) {
 					hoverOutArmed = true
 				} else if (index === -1) {
-					if (isZoomingIn && !hoverOutArmed) return
-					console.debug('out hover', hoveredIndex)
-					hoveredIndex = -1
-					hoverOutArmed = false
-					rotateCamSmooth(camCoords[3], 17.5)
+					if (!isZoomingIn && hoverOutArmed) {
+						hoveredIndex = -1
+						hoverOutArmed = false
+						rotateCamSmooth(camCoords[3], 17.5)
+					}
 				} else {
-					console.debug('out hover', hoveredIndex)
 					hoveredIndex = index
 					hoverOutArmed = false
 					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10, true)
