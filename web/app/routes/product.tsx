@@ -27,10 +27,10 @@ export default () => {
 	} = products[slug]
 
 	return (
-		<Layout className="mx-[5vw] py-[20vh]">
-			<div className="flex *:flex-col gap-10">
-				<div className="flex flex-5 gap-10 items-center">
-					<Carousel className="w-9/10">
+		<Layout className="mx-[10vw]">
+			<div className="flex *:flex-col gap-10 portrait:flex-col">
+				<div className="flex flex-5 gap-10 items-center *:w-9/10 *:portrait:w-full">
+					<Carousel>
 						<CarouselContent>
 							{media.map(item => (
 								<CarouselItem key={item}>
@@ -38,10 +38,12 @@ export default () => {
 								</CarouselItem>
 							))}
 						</CarouselContent>
-						<CarouselPrevious />
-						<CarouselNext />
+						<CarouselPrevious className='portrait:hidden' />
+						<CarouselNext className='portrait:hidden' />
 					</Carousel>
-					<AccordionItems data={accordion} />
+					<div className="portrait:hidden">
+						<AccordionItems data={accordion} />
+					</div>
 				</div>
 				<div className="flex-4">
 					<div className="flex flex-col gap-10">
@@ -67,6 +69,9 @@ export default () => {
 							{features}
 						</div>
 					</div>
+				</div>
+				<div className="hidden portrait:flex">
+					<AccordionItems data={accordion} />
 				</div>
 			</div>
 		</Layout>
