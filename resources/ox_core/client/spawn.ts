@@ -42,32 +42,32 @@ async function StartSession() {
 	SetPlayerHealthRechargeMultiplier(cache.playerId, 0.0);
 }
 
-async function promptCharacterMenu(characters: Character[]): Promise<Character | undefined> {
-	return new Promise((resolve) => {
-		registerContext({
-			id: 'char_selection',
-			title: 'Character Selection',
-			canClose: false,
-			options: [
-				...characters.map(character => ({
-					title: `${character.firstName} ${character.lastName}`,
-					metadata: [
-						{ label: locale('gender'), value: locale(character.gender as any) },
-						{ label: locale('last_played'), value: character.lastPlayed },
-					],
-					onSelect: () => resolve(character)
-				})),
-				{
-					title: locale('create_character'),
-					disabled: characters.length >= CHARACTER_SLOTS,
-					onSelect: () => resolve(undefined)
-				},
-			]
-		})
+// async function promptCharacterMenu(characters: Character[]): Promise<Character | undefined> {
+// 	return new Promise((resolve) => {
+// 		registerContext({
+// 			id: 'char_selection',
+// 			title: 'Character Selection',
+// 			canClose: false,
+// 			options: [
+// 				...characters.map(character => ({
+// 					title: `${character.firstName} ${character.lastName}`,
+// 					metadata: [
+// 						{ label: locale('gender'), value: locale(character.gender as any) },
+// 						{ label: locale('last_played'), value: character.lastPlayed },
+// 					],
+// 					onSelect: () => resolve(character)
+// 				})),
+// 				{
+// 					title: locale('create_character'),
+// 					disabled: characters.length >= CHARACTER_SLOTS,
+// 					onSelect: () => resolve(undefined)
+// 				},
+// 			]
+// 		})
 
-		showContext('char_selection')
-	})
-}
+// 		showContext('char_selection')
+// 	})
+// }
 
 const getCursorRay = (cam: number): [[number, number, number], [number, number, number]] => {
 	const [cursorX, cursorY] = GetNuiCursorPosition();
