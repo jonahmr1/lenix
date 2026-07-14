@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Weapons>
+	<Infos>
+		<Item type="CWeaponInfo">
+			<Name>WEAPON_PISTOL</Name>
+			<Model>W_PI_PISTOL</Model>
+			<Audio>AUDIO_ITEM_PISTOL</Audio>
+			<Slot>SLOT_PISTOL</Slot>
+			<HumanNameHash>AMMO_PISTOL</HumanNameHash>
+			<DamageType>BULLET</DamageType>
+			<FireType>INSTANT_HIT</FireType>
+			<WeaponStats>
+				<Damage value="26"/>
+				<Speed value="9"/>
+				<Accuracy value="75"/>
+				<Range value="50"/>
+			</WeaponStats>
+			<ClipSize value="16"/>
+			<TimeBetweenShots value="100"/>
+			<AccuracySpread value="0.0"/>
+			<RecoilShakeAmplitude value="0.0"/>
+			<RecoilAccuracyMax value="1.0"/>
+			<RecoilRecoveryRate value="100.0"/>
+			<RecoilMagX value="0.0"/>
+			<RecoilMagY value="0.0"/>
+			<RecoilTimeToMaxTurn value="0.0"/>
+			<HeadshotDamageModifier value="2.5"/>
+			<Body_Lower_Damage_Modifier value="1.0"/>
+			<Body_Upper_Damage_Modifier value="1.0"/>
+			<Arm_Damage_Modifier value="1.0"/>
+			<Leg_Damage_Modifier value="0.9"/>
+			<Head_Damage_Modifier value="2.5"/>
+			<Explosion>
+				<Default>DONTCARE</Default>
+			</Explosion>
+		</Item>
+		<Item type="CWeaponInfo">
+			<Name>WEAPON_PISTOL50</Name>
+			<Model>W_PI_PISTOL50</Model>
+			<Audio>AUDIO_ITEM_PISTOL</Audio>
+			<Slot>SLOT_PISTOL</Slot>
+			<HumanNameHash>AMMO_PISTOL</HumanNameHash>
+			<DamageType>BULLET</DamageType>
+			<FireType>INSTANT_HIT</FireType>
+			<WeaponStats>
+				<Damage value="26"/>
+				<Speed value="9"/>
+				<Accuracy value="75"/>
+				<Range value="50"/>
+			</WeaponStats>
+			<ClipSize value="16"/>
+			<TimeBetweenShots value="100"/>
+			<AccuracySpread value="0.0"/>
+			<RecoilShakeAmplitude value="0.0"/>
+			<RecoilAccuracyMax value="1.0"/>
+			<RecoilRecoveryRate value="100.0"/>
+			<RecoilMagX value="0.0"/>
+			<RecoilMagY value="0.0"/>
+			<RecoilTimeToMaxTurn value="0.0"/>
+			<HeadshotDamageModifier value="2.5"/>
+			<Body_Lower_Damage_Modifier value="1.0"/>
+			<Body_Upper_Damage_Modifier value="1.0"/>
+			<Arm_Damage_Modifier value="1.0"/>
+			<Leg_Damage_Modifier value="0.9"/>
+			<Head_Damage_Modifier value="2.5"/>
+			<Explosion>
+				<Default>DONTCARE</Default>
+			</Explosion>
+		</Item>
+		<Item type="CWeaponInfo">
+			<Name>WEAPON_PISTOL_MK2</Name>
+			<Model>w_pi_pistolmk2</Model>
+			<Audio>AUDIO_ITEM_PISTOL</Audio>
+			<Slot>SLOT_PISTOL</Slot>
+			<HumanNameHash>AMMO_PISTOL</HumanNameHash>
+			<DamageType>BULLET</DamageType>
+			<FireType>INSTANT_HIT</FireType>
+			<WeaponStats>
+				<Damage value="26"/>
+				<Speed value="9"/>
+				<Accuracy value="75"/>
+				<Range value="50"/>
+			</WeaponStats>
+			<ClipSize value="16"/>
+			<TimeBetweenShots value="100"/>
+			<AccuracySpread value="0.0"/>
+			<RecoilShakeAmplitude value="0.0"/>
+			<RecoilAccuracyMax value="1.0"/>
+			<RecoilRecoveryRate value="100.0"/>
+			<RecoilMagX value="0.0"/>
+			<RecoilMagY value="0.0"/>
+			<RecoilTimeToMaxTurn value="0.0"/>
+			<HeadshotDamageModifier value="2.5"/>
+			<Body_Lower_Damage_Modifier value="1.0"/>
+			<Body_Upper_Damage_Modifier value="1.0"/>
+			<Arm_Damage_Modifier value="1.0"/>
+			<Leg_Damage_Modifier value="0.9"/>
+			<Head_Damage_Modifier value="2.5"/>
+			<Explosion>
+				<Default>DONTCARE</Default>
+			</Explosion>
+		</Item>
+		<Item type="CWeaponInfo">
+			<Name>WEAPON_HEAVYPISTOL</Name>
+			<Model>w_pi_heavypistol</Model>
+			<Audio>AUDIO_ITEM_PISTOL</Audio>
+			<Slot>SLOT_PISTOL</Slot>
+			<HumanNameHash>AMMO_PISTOL</HumanNameHash>
+			<DamageType>BULLET</DamageType>
+			<FireType>INSTANT_HIT</FireType>
+			<WeaponStats>
+				<Damage value="26"/>
+				<Speed value="9"/>
+				<Accuracy value="75"/>
+				<Range value="50"/>
+			</WeaponStats>
+			<ClipSize value="16"/>
+			<TimeBetweenShots value="100"/>
+			<AccuracySpread value="0.0"/>
+			<RecoilShakeAmplitude value="0.0"/>
+			<RecoilAccuracyMax value="1.0"/>
+			<RecoilRecoveryRate value="100.0"/>
+			<RecoilMagX value="0.0"/>
+			<RecoilMagY value="0.0"/>
+			<RecoilTimeToMaxTurn value="0.0"/>
+			<HeadshotDamageModifier value="2.5"/>
+			<Body_Lower_Damage_Modifier value="1.0"/>
+			<Body_Upper_Damage_Modifier value="1.0"/>
+			<Arm_Damage_Modifier value="1.0"/>
+			<Leg_Damage_Modifier value="0.9"/>
+			<Head_Damage_Modifier value="2.5"/>
+			<Explosion>
+				<Default>DONTCARE</Default>
+			</Explosion>
+		</Item>
+	</Infos>
+</Weapons>
