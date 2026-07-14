@@ -4,7 +4,8 @@
   "license": "MIT",
   "exports": "./dist/index.js",
   "publish": {
-    "include": ["dist/**", "LICENSE", "README.md"]
+    "include": ["dist/**", "LICENSE", "README.md"],
+		"exclude": ["!dist/**"]
   },
   "tasks": {
     "check": "deno check modules/index.ts",
