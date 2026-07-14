@@ -12,5 +12,5 @@
 			"~/*": ["./*"]
 		}
 	},
-	"include": ["*.ts", "modules/**/*", "format/*.ts"]
+	"include": ["*.ts", "modules/**/*"]
 }
