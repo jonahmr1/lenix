@@ -1,5 +1,5 @@
 import { sleep, waitFor } from '@overextended/ox_lib';
-import { cache, inputDialog, requestModel } from '@overextended/ox_lib/client';
+import { cache, inputDialog, requestModel, triggerServerCallback } from '@overextended/ox_lib/client';
 import { OxPlayer } from './player';
 import { netEvent } from 'utils';
 import { CHARACTER_SELECT, CHARACTER_SLOTS, SPAWN_LOCATION } from 'config';
@@ -130,13 +130,16 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	}
 
 	for (const [index, coords] of pedsCoords.entries()) {
+		const character = characters[index]
 		const hash = await requestModel('mp_m_freemode_01')
-		// exports["illenium-appearance"].setPedAppearance(cache.ped, appearance)
-		if (!IsModelAPed(hash)) continue
+		const appearance = await triggerServerCallback('lenix:server:appearance:getappearance', character.charId)
+		if (!appearance) throw new Error(`Failed to get character<${character.charId}> appearance`)
+
+		exports["illenium-appearance"].setPedAppearance(cache.ped, appearance)
 
 		const ped = CreatePed(4, hash, coords[0], coords[1], coords[2], coords[3], false, false)
+		if (!character) SetEntityAlpha(ped, 51 * 4, false)
 		SetModelAsNoLongerNeeded(hash)
-		if (!characters[index]) SetEntityAlpha(ped, 51 * 4, false)
 		FreezeEntityPosition(ped, true)
 		SetEntityInvincible(ped, true)
 		SetBlockingOfNonTemporaryEvents(ped, true)

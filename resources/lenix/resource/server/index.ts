@@ -8,6 +8,7 @@ import './interactions'
 import './hotel'
 import './roster'
 import './robbery'
+import './appearance'
 import { oxmysql } from '@overextended/oxmysql'
 import { MAX_CALLSIGN_LENGTH } from 'common/roster'
 
