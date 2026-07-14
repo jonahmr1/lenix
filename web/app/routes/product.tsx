@@ -52,14 +52,16 @@ export default () => {
 								<div className="flex gap-2">
 									{badges.map(badge => <Badge variant='secondary' key={badge}>{badge}</Badge>)}
 								</div>
-								<Badge variant='destructive'>{feature}</Badge>
+								<Badge>{feature}</Badge>
 							</div>
 							<div className="flex justify-between w-full">
 								<H2>{title}</H2>
 								<Large>{price > 0 ? `${price}€` : 'Free'}</Large>
 							</div>
 							<Muted>{description}</Muted>
-							<Button>Buy Now</Button>
+							<Button onClick={() => {
+								
+							}}>Buy Now</Button>
 							<Button variant='secondary' onClick={() => {
 								navigate(`/docs/${slug}`)
 							}}>View Documentation <ArrowRight /></Button>

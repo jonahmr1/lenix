@@ -7,9 +7,9 @@ export const products = {
 		media: ['/logo.png', '/favicon.ico'],
 		title: 'Discord Bot',
 		badges: ['Discord', 'Automation'],
-		feature: 'Sold out',
+		feature: 'v1.0.8',
 		description: 'A customer-gated Discord AI bot built with Rust, Serenity, and Poise. It registers slash commands, creates private AI forum spaces for eligible servers, and replies inside AI threads using a Groq-compatible OpenAI chat completion API.',
-		price: 0,
+		price: 14.99,
 		features: <Ul className="*:text-foreground/66 *:text-sm">
 			<li><Code>/ping</Code> replies with a private Pong confirmation.</li>
 			<li><Code>/lenix</Code> replies with a private Lenix greeting.</li>
@@ -32,11 +32,11 @@ export const products = {
 			},
 			{
 				question: 'Delivery',
-				answer: 'After the payment, a download link will be sent to your email address followed with your license.'
+				answer: 'After the payment, a download link will be instantly sent to your email address followed with your license, after that you will be able to install and use the bot'
 			},
 			{
 				question: 'License',
-				answer: 'Purchasing this product grants a lifetime license for one Discord server unless otherwise specified. Redistribution or resale is prohibited.'
+				answer: 'Purchasing this product grants a lifetime license. Redistribution or resale is prohibited.'
 			},
 			{
 				question: 'Updates',
