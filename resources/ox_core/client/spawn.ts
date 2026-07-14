@@ -136,7 +136,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 		if (character) {
 			const appearance = await triggerServerCallback('lenix:server:appearance:getappearance', null, character.charId)
-			if (!appearance) throw new Error(`Failed to get character<${character.charId}> appearance`)
+			if (!appearance) console.error(`Failed to get character<${character.charId}> appearance`)
 			exports["illenium-appearance"].setPedAppearance(ped, appearance)
 		}
 
