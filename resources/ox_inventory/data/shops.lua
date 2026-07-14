@@ -72,7 +72,7 @@ return {
 			vec3(46.9020, -1749.5176, 29.6323),
 		}, targets = {
 			-- { loc = vec3(2746.8, 3473.13, 55.67), length = 0.6, width = 3.0, heading = 65.0, minZ = 55.0, maxZ = 56.8, distance = 3.0 },
-			{ loc = vec3(46.9020, -1749.5176, 29.6323), length = 3.0, width = 3.0, heading = 51.5492, minZ = 28.0, maxZ = 30.8, distance = 3.0 }
+			{ loc = vec3(46.9020, -1749.5176, 28.6323), ped = `a_m_m_prolhost_01`, length = 3.0, width = 3.0, heading = 51.5492, minZ = 28.0, maxZ = 30.8, distance = 3.0 }
 		}
 	},
 
@@ -103,7 +103,7 @@ return {
 			-- { loc = vec3(1693.57, 3761.60, 34.82), length = 0.6, width = 0.5, heading = 227.39, minZ = 34.7, maxZ = 35.1, distance = 2.0 },
 			-- { loc = vec3(-330.29, 6085.54, 31.57), length = 0.6, width = 0.5, heading = 225.0, minZ = 31.4, maxZ = 31.8, distance = 2.0 },
 			-- { loc = vec3(252.85, -51.62, 70.0), length = 0.6, width = 0.5, heading = 70.0, minZ = 69.9, maxZ = 70.3, distance = 2.0 },
-			{ loc = vec3(23.68, -1106.46, 29.91), length = 0.6, width = 0.5, heading = 160.0, minZ = 29.8, maxZ = 30.2, distance = 2.0 },
+			{ loc = vec3(23.68, -1106.16, 28.91), ped = `mp_m_weapexp_01`, length = 0.6, width = 0.5, heading = 160.0, minZ = 29.8, maxZ = 30.2, distance = 2.0 },
 			-- { loc = vec3(2566.59, 293.13, 108.85), length = 0.6, width = 0.5, heading = 360.0, minZ = 108.7, maxZ = 109.1, distance = 2.0 },
 			-- { loc = vec3(-1117.61, 2700.26, 18.67), length = 0.6, width = 0.5, heading = 221.82, minZ = 18.5, maxZ = 18.9, distance = 2.0 },
 			-- { loc = vec3(841.05, -1034.76, 28.31), length = 0.6, width = 0.5, heading = 360.0, minZ = 28.2, maxZ = 28.6, distance = 2.0 }
