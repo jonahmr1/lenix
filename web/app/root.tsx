@@ -12,6 +12,21 @@ import { Nav } from "./components/articles/nav"
 import type { Route } from "./+types/root"
 import "./app.css"
 
+export function meta({}: Route.MetaArgs) {
+	return [
+		{ title: "Code Hub" },
+		{
+			name: "description",
+			content: "Developer tools, extensions, and utilities built by Code Hub.",
+		},
+		{ property: "og:title", content: "Code Hub" },
+		{
+			property: "og:description",
+			content: "Digital products and documentation for developers.",
+		},
+	]
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
