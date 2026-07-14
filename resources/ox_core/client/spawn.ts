@@ -105,30 +105,11 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		79
 	]
 
-	const peds: number[] = []
-
-	for (const [index, coords] of pedsCoords.entries()) {
-		const hash = await requestModel('mp_m_freemode_01')
-		// exports["illenium-appearance"].setPedAppearance(cache.ped, appearance)
-		const ped = CreatePed(4, hash, ...coords, false, false)
-		SetModelAsNoLongerNeeded(hash)
-		if (!characters[index]) SetEntityAlpha(ped, 51 * 4, false)
-		FreezeEntityPosition(ped, true)
-		SetEntityInvincible(ped, true)
-		SetBlockingOfNonTemporaryEvents(ped, true)
-		peds.push(ped)
-	}
-
+	const peds: number[] = []	
 	const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-	SetCamCoord(cam, camCoords[0], camCoords[1], camCoords[2])
-	SetCamRot(cam, -5.0, 0.0, camCoords[3], 2)
-	SetCamFov(cam, 17.5)
-	SetCamActive(cam, true)
-	RenderScriptCams(true, false, 0, true, false)
 	let activeCam = cam
 	let camTransition = 0
 	let isZoomingIn = false
-
 	const rotateCamSmooth = (heading: number, fov: number, zoomingIn = false) => {
 		const nextCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 		const transition = ++camTransition
@@ -147,6 +128,26 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 			if (transition === camTransition && zoomingIn) isZoomingIn = false
 		}, 500)
 	}
+
+	for (const [index, coords] of pedsCoords.entries()) {
+		const hash = await requestModel('mp_m_freemode_01')
+		// exports["illenium-appearance"].setPedAppearance(cache.ped, appearance)
+		if (!IsModelAPed(hash)) continue
+
+		const ped = CreatePed(4, hash, coords[0], coords[1], coords[2], coords[3], false, false)
+		SetModelAsNoLongerNeeded(hash)
+		if (!characters[index]) SetEntityAlpha(ped, 51 * 4, false)
+		FreezeEntityPosition(ped, true)
+		SetEntityInvincible(ped, true)
+		SetBlockingOfNonTemporaryEvents(ped, true)
+		peds.push(ped)
+	}
+
+	SetCamCoord(cam, camCoords[0], camCoords[1], camCoords[2])
+	SetCamRot(cam, -5.0, 0.0, camCoords[3], 2)
+	SetCamFov(cam, 17.5)
+	SetCamActive(cam, true)
+	RenderScriptCams(true, false, 0, true, false)
 
 	SetEntityCoords(cache.ped, ...hiddenCoords, false, false, false, false)
 	
