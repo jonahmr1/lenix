@@ -99,8 +99,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	const hiddenCoords = [-2168.7705, 1135.5433, -24.3712] as const
 	const camCoords = [-2156.2529, 1136.0225, -23.3712, 89.9823]
 	const charactersFocusOffset = [
-		95,
-		85
+		99,
+		79
 	]
 
 	const peds: number[] = []
@@ -182,7 +182,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 					if (index !== -1) {
 						hoveredIndex = index
 						hoverOutArmed = false
-						rotateCamSmooth(charactersFocusOffset[hoveredIndex], 15)
+						rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10)
 					}
 				} else if (index === hoveredIndex) {
 					hoverOutArmed = true
@@ -197,7 +197,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 					console.debug('out hover', hoveredIndex)
 					hoveredIndex = index
 					hoverOutArmed = false
-					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 15)
+					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10)
 				}
 			}
 
