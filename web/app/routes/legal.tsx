@@ -109,7 +109,7 @@ export default () => {
 
 	return (
 		<Layout>
-			<div>
+			<div className="flex flex-col items-center">
 				<H1>Legal Information</H1>
 				<P>
 					Everything you need to know about our terms, privacy practices, and refund policy.

@@ -10,13 +10,11 @@ export default () => {
 	const navigate = useNavigate()
 	return (
 		<Layout>
-			<div className="flex flex-col items-center">
+			<div className="space-y-5">
 				<H1>About Code Hub</H1>
-				<Lead>
+				<P>
 					Code Hub develops software for developers,
 					communities, and businesses.
-				</Lead>
-				<P>
 					We build digital products that automate
 					repetitive tasks, improve workflows, and
 					save development time.
@@ -24,7 +22,7 @@ export default () => {
 			</div>
 			<div className="space-y-5">
 				<H2>Our Focus</H2>
-				<div className="flex gap-5">
+				<div className="flex gap-5 portrait:flex-col">
 					<FeatureCard title="Developer Tools" description="Software built to improve everyday development." icon={Settings} />
 					<FeatureCard title="Digital Products" description="Lifetime licenses with documentation and updates." icon={Package} />
 					<FeatureCard title="Long-Term Support" description="Maintained products with ongoing improvements." icon={Wrench} />
