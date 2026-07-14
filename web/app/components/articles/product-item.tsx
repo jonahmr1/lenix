@@ -25,7 +25,7 @@ export const ProductItem = ({
 					{badges.map(badge => <Badge key={badge} variant='outline'>{badge}</Badge>)}
 				</CardDescription>
 				<CardAction>
-					<Badge variant='destructive'>{feature}</Badge>
+					<Badge>{feature}</Badge>
 				</CardAction>
 			</CardHeader>
 			<CardContent>{description}</CardContent>
