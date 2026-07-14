@@ -52,6 +52,8 @@ local Vehicles = lib.load('data.vehicles')
 local backDoorIds = { 2, 3 }
 
 function Inventory.CanAccessTrunk(entity)
+		if GetEntityModel(entity) == joaat('stockade') then return end
+
     if cache.vehicle or not NetworkGetEntityIsNetworked(entity) then return end
 
     if IsEntityDead(entity) then return end
