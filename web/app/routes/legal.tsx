@@ -6,20 +6,24 @@ import { H1, P } from "@lenix/lenix"
 export default () => {
 	const tos: Faq[] = [
 		{
+			question: 'About These Terms',
+			answer: 'These Terms of Service govern purchases from Code Hub, operated by Siagh Marouane Younes. By purchasing or using our products, you agree to these Terms.'
+		},
+		{
 			question: 'Acceptance of Terms',
 			answer: 'By accessing or using our services, you agree to be bound by these Terms of Service and all applicable laws and regulations.'
 		},
 		{
 			question: 'Services',
-			answer: 'We provide custom software development and related technical services. The scope, timeline, and deliverables are defined individually for each project.'
+			answer: 'We sell digital software products and developer tools. Each product page describes the included features, supported platforms, licensing terms, and any applicable updates or documentation.'
 		},
 		{
 			question: 'Payments',
-			answer: 'Payment terms, pricing, and milestones are agreed upon before work begins. Services may require partial or full payment in advance depending on the project.'
+			answer: 'Prices are displayed on each product page. Payment is processed securely through our payment provider. Access to digital products is provided after successful payment.'
 		},
 		{
 			question: 'Intellectual Property',
-			answer: 'Unless otherwise agreed, ownership of the completed work is transferred to the client upon full payment. We may retain ownership of reusable tools, libraries, and internal frameworks.'
+			answer: 'All software, source code, trademarks, documentation, and related materials remain the intellectual property of Code Hub unless explicitly stated otherwise. Purchasing a product grants only the license described for that product.'
 		},
 		{
 			question: 'Limitation of Liability',
@@ -27,7 +31,7 @@ export default () => {
 		},
 		{
 			question: 'Termination',
-			answer: 'Either party may terminate a project according to the agreed terms. Any completed work and outstanding payments remain due upon termination.'
+			answer: 'We reserve the right to suspend or terminate access if these Terms are violated, including misuse, unauthorized redistribution, or fraudulent activity.'
 		},
 		{
 			question: 'Changes to these Terms',
@@ -35,7 +39,7 @@ export default () => {
 		},
 		{
 			question: 'Contact',
-			answer: 'If you have questions regarding these Terms, please contact us on support@lenix.dev.'
+			answer: 'For questions regarding these Terms, contact Code Hub at support@lenix.dev.'
 		},
 		{
 			question: 'License',
@@ -65,7 +69,7 @@ export default () => {
 		},
 		{
 			question: 'Third-Party Services',
-			answer: 'We may use third-party services (payment processors, analytics) that have their own privacy policies. Third-party services process data according to their own privacy policies.'
+			answer: 'We use trusted third-party providers such as payment processors and analytics services to operate our business. These providers process data according to their own privacy policies.'
 		},
 		{
 			question: 'Data Security',
@@ -88,10 +92,6 @@ export default () => {
 		{
 			question: 'Eligibility',
 			answer: 'Refund eligibility depends on the nature of the service and the stage of the project at the time of the request.'
-		},
-		{
-			question: 'Development Services',
-			answer: 'Because software development involves custom work, completed milestones and delivered work are generally non-refundable.'
 		},
 		{
 			question: 'Digital Products',
