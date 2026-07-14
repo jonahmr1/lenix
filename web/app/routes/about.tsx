@@ -31,7 +31,7 @@ export default () => {
 				</div>
 			</div>
 			<div className="space-y-5">
-				<H2>Our Principales</H2>
+				<H2>Our Principles</H2>
 				<Card>
 					<Ul className='list-none *:flex *:gap-2 *:text-base *:items-center my-1'>
 						<li><Check size={15} /> Clear documentation</li>
