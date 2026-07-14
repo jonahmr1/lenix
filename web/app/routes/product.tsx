@@ -61,7 +61,7 @@ export default () => {
 							<Muted>{description}</Muted>
 							<Button>Buy Now</Button>
 							<Button variant='secondary' onClick={() => {
-								navigate(`docs/${slug}`)
+								navigate(`/docs/${slug}`)
 							}}>View Documentation <ArrowRight /></Button>
 						</div>
 						<div>
