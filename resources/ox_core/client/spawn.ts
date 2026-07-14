@@ -105,7 +105,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		79
 	]
 
-	const peds: number[] = []	
+	const peds: number[] = []
 	const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 	let activeCam = cam
 	let camTransition = 0
@@ -155,7 +155,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	RenderScriptCams(true, false, 0, true, false)
 
 	SetEntityCoords(cache.ped, ...hiddenCoords, false, false, false, false)
-	
+
 	on('onResourceStop', () => {
 		peds.forEach(ped => {
 			DeletePed(ped)

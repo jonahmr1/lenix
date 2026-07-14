@@ -1,4 +1,4 @@
-import { onClientCallback } from '@overextended/ox_lib/server';
+import { addCommand, onClientCallback } from '@overextended/ox_lib/server';
 import { oxmysql } from '@overextended/oxmysql';
 
 export async function getOfflineAppearance(charId: number) {
@@ -23,3 +23,20 @@ export async function getOfflineAppearance(charId: number) {
 onClientCallback('lenix:server:appearance:getappearance', (_playerId, charId: number) => {
 	return getOfflineAppearance(charId)
 })
+
+addCommand(
+	'giveclothes',
+	async (playerId, args) => {
+		emitNet('illenium-appearance:client:openClothingShop', args?.id || playerId, true)
+	},
+	{
+		params: [
+			{
+				name: 'id',
+				paramType: 'playerId',
+				optional: true
+			}
+		],
+		restricted: 'group.admin'
+	}
+)
