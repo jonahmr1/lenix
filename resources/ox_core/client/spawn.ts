@@ -122,6 +122,23 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	SetCamFov(cam, 17.5)
 	SetCamActive(cam, true)
 	RenderScriptCams(true, false, 0, true, false)
+	let activeCam = cam
+
+	const rotateCamSmooth = (heading: number) => {
+		const nextCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+
+		SetCamCoord(nextCam, camCoords[0], camCoords[1], camCoords[2])
+		SetCamRot(nextCam, 0.0, 0.0, heading, 2)
+		SetCamFov(nextCam, 30.0)
+		SetCamActiveWithInterp(nextCam, activeCam, 500, 1, 1)
+
+		const oldCam = activeCam
+		activeCam = nextCam
+
+		setTimeout(() => {
+			DestroyCam(oldCam, false)
+		}, 500)
+	}
 
 	SetEntityCoords(cache.ped, ...hiddenCoords, false, false, false, false)
 	
@@ -142,7 +159,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 			EnableControlAction(0, 24, true)
 			EnableControlAction(0, 25, true)
 
-			const [camPos, farPoint] = getCursorRay(cam)
+			const [camPos, farPoint] = getCursorRay(activeCam)
 			const ray = StartShapeTestRay(
 				camPos[0], camPos[1], camPos[2],
 				farPoint[0], farPoint[1], farPoint[2],
@@ -155,14 +172,14 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 			if (index !== hoveredIndex) {
 				if (hoveredIndex !== -1) {
 					console.debug('out hover', hoveredIndex)
-					SetCamRot(cam, 0.0, 0.0, camCoords[3], 2)
+					rotateCamSmooth(camCoords[3])
 				}
 
 				hoveredIndex = index
 
 				if (hoveredIndex !== -1) {
 					console.debug('hover', hoveredIndex)
-					SetCamRot(cam, 0.0, 0.0, charactersFocusOffset[hoveredIndex], 2)
+					rotateCamSmooth(charactersFocusOffset[hoveredIndex])
 				}
 			}
 
@@ -170,7 +187,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 			if (index === -1) return
 	
 			RenderScriptCams(false, false, 0, true, false)
-			DestroyCam(cam, false)
+			DestroyCam(activeCam, false)
 			clearTick(tick)
 			SetNuiFocus(false, false)
 			SetNuiFocusKeepInput(false)
