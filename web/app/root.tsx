@@ -22,7 +22,7 @@ export function meta({}: Route.MetaArgs) {
 		{ property: "og:title", content: "Code Hub" },
 		{
 			property: "og:description",
-			content: "Digital products and documentation for developers.",
+			content: "Software products for developers.",
 		},
 	]
 }
@@ -37,7 +37,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <RootProvider theme={{ enabled: false }}>
+        <RootProvider
+					theme={{ enabled: false }}
+				>
           <Nav />
           {children}
         </RootProvider>
