@@ -21,7 +21,6 @@ export default () => {
 		feature,
 		description,
 		price,
-		docs,
 		features,
 		accordion
 	} = products[slug]
@@ -59,7 +58,7 @@ export default () => {
 							<Muted>{description}</Muted>
 							<Button>Buy Now</Button>
 							<Button variant='secondary' onClick={() => {
-								navigate(docs)
+								navigate(`docs/${slug}`)
 							}}>View Documentation <ArrowRight /></Button>
 						</div>
 						<div>

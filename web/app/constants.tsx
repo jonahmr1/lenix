@@ -10,7 +10,6 @@ export const products = {
 		feature: 'Sold out',
 		description: 'A customer-gated Discord AI bot built with Rust, Serenity, and Poise. It registers slash commands, creates private AI forum spaces for eligible servers, and replies inside AI threads using a Groq-compatible OpenAI chat completion API.',
 		price: 0,
-		docs: '',
 		features: <Ul className="*:text-foreground/66 *:text-sm">
 			<li><Code>/ping</Code> replies with a private Pong confirmation.</li>
 			<li><Code>/lenix</Code> replies with a private Lenix greeting.</li>
@@ -56,7 +55,6 @@ export const products = {
 	feature: string
 	description: string
 	price: number
-	docs: string
 	features: ReactNode
 	accordion: Faq[]
 }>
