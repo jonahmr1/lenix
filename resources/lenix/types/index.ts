@@ -47,7 +47,7 @@ export interface Events {
 }
 
 export interface Requests {
-	changeFrequency: Request<true, 'radio:frequency', { frequency: string }>
+	changeFrequency: Request<boolean, 'radio:frequency', { frequency: string }>
 	closeRadio: Request<true, 'radio:close'>
 	leaveRadio: Request<true, 'radio:leave'>
 	updateOfficer: Request<true, 'roster:updateOfficer', PartialOfficer>

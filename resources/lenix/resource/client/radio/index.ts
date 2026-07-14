@@ -61,10 +61,10 @@ onNui<Requests['changeFrequency']>('radio:frequency', ({ frequency }) => {
 			title: 'Failed',
 			description: 'The frequency cannot exceed 500'
 		})
-		return
+		return false
 	}
 	notify({ title: `Set to #${frequency}` })
-	globalThis.exports['pma-voice'].setRadioChannel()
+	globalThis.exports['pma-voice'].setRadioChannel(channel)
 	return true
 })
 
