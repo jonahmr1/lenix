@@ -151,6 +151,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	DoScreenFadeIn(1000)
 	return await new Promise(result => {
 		let hoveredIndex = -1
+		let hoverOutArmed = false
 		let lastCursorX = -1
 		let lastCursorY = -1
 
@@ -176,16 +177,26 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 			const index = hit ? peds.indexOf(entity) : -1
 
-			if (cursorMoved && index !== hoveredIndex) {
-				if (hoveredIndex !== -1) {
+			if (cursorMoved) {
+				if (hoveredIndex === -1) {
+					if (index !== -1) {
+						hoveredIndex = index
+						hoverOutArmed = false
+						rotateCamSmooth(charactersFocusOffset[hoveredIndex], 15)
+					}
+				} else if (index === hoveredIndex) {
+					hoverOutArmed = true
+				} else if (index === -1) {
+					if (hoverOutArmed) {
+						console.debug('out hover', hoveredIndex)
+						hoveredIndex = -1
+						hoverOutArmed = false
+						rotateCamSmooth(camCoords[3], 17.5)
+					}
+				} else {
 					console.debug('out hover', hoveredIndex)
-					rotateCamSmooth(camCoords[3], 17.5)
-				}
-
-				hoveredIndex = index
-
-				if (hoveredIndex !== -1) {
-					console.debug('hover', hoveredIndex)
+					hoveredIndex = index
+					hoverOutArmed = false
 					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 15)
 				}
 			}
