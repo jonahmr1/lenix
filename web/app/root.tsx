@@ -11,6 +11,7 @@ import { RootProvider } from "fumadocs-ui/provider/react-router"
 import { Nav } from "./components/articles/nav"
 import type { Route } from "./+types/root"
 import "./app.css"
+import { Toaster } from "sonner"
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -42,6 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				>
           <Nav />
           {children}
+					<Toaster />
         </RootProvider>
         <ScrollRestoration />
         <Scripts />

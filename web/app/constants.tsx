@@ -7,7 +7,7 @@ export const products = {
 		media: ['/logo.png', '/favicon.ico'],
 		title: 'Discord Bot',
 		badges: ['Discord', 'Automation'],
-		feature: 'v1.0.8',
+		feature: 'v1.3',
 		description: 'A customer-gated Discord AI bot built with Rust, Serenity, and Poise. It registers slash commands, creates private AI forum spaces for eligible servers, and replies inside AI threads using a Groq-compatible OpenAI chat completion API.',
 		price: 14.99,
 		features: <Ul className="*:text-foreground/66 *:text-sm">
