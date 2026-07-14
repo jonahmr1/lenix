@@ -12,7 +12,7 @@
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@fontsource-variable/oxanium": "^5.2.8",
-    "@lenix/lenix": "npm:@jsr/lenix__lenix",
+    "@lenix/lenix": "^1.8.5",
     "@react-router/node": "7.15.1",
     "@react-router/serve": "7.15.1",
     "@types/mdx": "^2.0.14",
