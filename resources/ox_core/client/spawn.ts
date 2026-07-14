@@ -184,20 +184,18 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 			if (cursorMoved && !isZoomingIn) {
 				if (hoveredIndex === -1) {
-					if (index !== -1) {
-						hoveredIndex = index
-						hoverOutArmed = false
-						rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10, true)
-					}
+					if (index === -1) return
+					hoveredIndex = index
+					hoverOutArmed = false
+					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10, true)
 				} else if (index === hoveredIndex) {
 					hoverOutArmed = true
 				} else if (index === -1) {
-					if (!isZoomingIn && hoverOutArmed) {
-						console.debug('out hover', hoveredIndex)
-						hoveredIndex = -1
-						hoverOutArmed = false
-						rotateCamSmooth(camCoords[3], 17.5)
-					}
+					if (isZoomingIn && !hoverOutArmed) return
+					console.debug('out hover', hoveredIndex)
+					hoveredIndex = -1
+					hoverOutArmed = false
+					rotateCamSmooth(camCoords[3], 17.5)
 				} else {
 					console.debug('out hover', hoveredIndex)
 					hoveredIndex = index
