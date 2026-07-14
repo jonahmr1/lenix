@@ -128,8 +128,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		const nextCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 
 		SetCamCoord(nextCam, camCoords[0], camCoords[1], camCoords[2])
-		SetCamRot(nextCam, 0.0, 0.0, heading, 2)
-		SetCamFov(nextCam, 30.0)
+		SetCamRot(nextCam, -5.0, 0.0, heading, 2)
+		SetCamFov(nextCam, 17.5)
 		SetCamActiveWithInterp(nextCam, activeCam, 500, 1, 1)
 
 		const oldCam = activeCam
