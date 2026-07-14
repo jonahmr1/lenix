@@ -96,13 +96,18 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		[-2167.1487, 1134.3087, -25.3712, 272.6151],
 		[-2167.1431, 1137.5076, -25.3712, 269.0276],
 	]
-	const hiddenCoords = [-2154.4670, 1136.8749, -24.3713] as const
-	const camCoords = [-2156.2529, 1136.0225, -23.3712, 89.9823]
+	const hiddenCoords = [-2168.7705, 1135.5433, -24.3712] as const
+	const camCoords = [-2167.1467, 1135.9039, -24.3712, 92.52]
+	const charactersFocusOffset = [
+		95,
+		85
+	]
 
 	const peds: number[] = []
 
 	for (const [index, coords] of pedsCoords.entries()) {
 		const hash = await requestModel('mp_m_freemode_01')
+		// exports["illenium-appearance"].setPedAppearance(cache.ped, appearance)
 		const ped = CreatePed(0, hash, ...coords, false, false)
 		if (!characters[index]) SetEntityAlpha(ped, 200, false)
 		FreezeEntityPosition(ped, true)
@@ -150,12 +155,14 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 			if (index !== hoveredIndex) {
 				if (hoveredIndex !== -1) {
 					console.debug('out hover', hoveredIndex)
+					SetCamRot(cam, 0.0, 0.0, camCoords[3], 2)
 				}
 
 				hoveredIndex = index
 
 				if (hoveredIndex !== -1) {
 					console.debug('hover', hoveredIndex)
+					SetCamRot(cam, 0.0, 0.0, charactersFocusOffset[hoveredIndex], 2)
 				}
 			}
 
