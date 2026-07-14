@@ -1,5 +1,5 @@
 import { sleep, waitFor } from '@overextended/ox_lib';
-import { cache, inputDialog, registerContext, requestModel, showContext } from '@overextended/ox_lib/client';
+import { cache, inputDialog, requestModel } from '@overextended/ox_lib/client';
 import { OxPlayer } from './player';
 import { netEvent } from 'utils';
 import { CHARACTER_SELECT, CHARACTER_SLOTS, SPAWN_LOCATION } from 'config';
@@ -96,6 +96,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		[-2167.1487, 1134.3087, -25.3712, 272.6151],
 		[-2167.1431, 1137.5076, -25.3712, 269.0276],
 	]
+	if (pedsCoords.length !== CHARACTER_SLOTS) throw new Error('Please match the CHARACTER_SLOTS with you pedCoords length')
+		
 	const hiddenCoords = [-2168.7705, 1135.5433, -24.3712] as const
 	const camCoords = [-2156.2529, 1136.0225, -23.3712, 89.9823]
 	const charactersFocusOffset = [
