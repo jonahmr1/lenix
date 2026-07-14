@@ -167,36 +167,36 @@ print(Person.name, Person.age)
 
 
 __index = function(_, variableKey)
-      assert(defined[variableKey], ("property `%s` not found"):format(variableKey))
-      -- isPropertyExist
-      if getter[variableKey] ~= nil then
-        -- returnPropertyValue
-        return getProperties[variableKey]
-      elseif accessor[variableKey] ~= nil then
-        return getProperties[variableKey]
-      elseif private[variableKey] ~= nil then
-        print(("cannot read the private property `%s`"):format(variableKey))
-      elseif setter[variableKey] ~= nil then
-        print(("the setter only property `%s` are forbidden to be accessed"):format(variableKey))
-      else print(("something went wrong when trying to access `%s`"):format(variableKey)) end
-    end,
-    __newindex = function (_, variableKey, variableValue)
-      assert(defined[variableKey], ("property `%s` not found"):format(variableKey))
-      if setter[variableKey] ~= nil then
-        local valueType = setter[variableKey][2] or "any"
-        if type(variableValue) ~= valueType and valueType ~= "any" then
-          print(("cannot assign `%s` to `%s` on `%s`"):format(type(variableValue), valueType, variableKey))
-          return
-        end
-        getProperties[variableKey] = variableValue
-      elseif accessor[variableKey] ~= nil then
-        local valueType = accessor[variableKey][2] or "any"
-        if type(variableValue) ~= valueType and valueType ~= "any" then
-          print(("cannot assign `%s` to `%s` on `%s`"):format(type(variableValue), valueType, variableKey))
-          return
-        end
-        getProperties[variableKey] = variableValue
-      elseif getter[variableKey] ~= nil then
-        print(("the getter only property `%s `can not be set"):format(variableKey))
-      else print(("something went wrong when trying to access `%s`"):format(variableKey)) end
-    end
+	assert(defined[variableKey], ("property `%s` not found"):format(variableKey))
+	-- isPropertyExist
+	if getter[variableKey] ~= nil then
+		-- returnPropertyValue
+		return getProperties[variableKey]
+	elseif accessor[variableKey] ~= nil then
+		return getProperties[variableKey]
+	elseif private[variableKey] ~= nil then
+		print(("cannot read the private property `%s`"):format(variableKey))
+	elseif setter[variableKey] ~= nil then
+		print(("the setter only property `%s` are forbidden to be accessed"):format(variableKey))
+	else print(("something went wrong when trying to access `%s`"):format(variableKey)) end
+	__newindex = function (_, variableKey, variableValue)
+		assert(defined[variableKey], ("property `%s` not found"):format(variableKey))
+		if setter[variableKey] ~= nil then
+			local valueType = setter[variableKey][2] or "any"
+			if type(variableValue) ~= valueType and valueType ~= "any" then
+				print(("cannot assign `%s` to `%s` on `%s`"):format(type(variableValue), valueType, variableKey))
+				return
+			end
+			getProperties[variableKey] = variableValue
+		elseif accessor[variableKey] ~= nil then
+			local valueType = accessor[variableKey][2] or "any"
+			if type(variableValue) ~= valueType and valueType ~= "any" then
+				print(("cannot assign `%s` to `%s` on `%s`"):format(type(variableValue), valueType, variableKey))
+				return
+			end
+			getProperties[variableKey] = variableValue
+		elseif getter[variableKey] ~= nil then
+			print(("the getter only property `%s `can not be set"):format(variableKey))
+		else print(("something went wrong when trying to access `%s`"):format(variableKey)) end
+	end
+end
