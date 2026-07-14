@@ -1,22 +1,22 @@
 {
   "name": "@lenix/lenix",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "license": "MIT",
-  "exports": "./modules/index.ts",
+  "exports": "./dist/index.js",
   "publish": {
-    "include": ["modules/**", "LICENSE", "README.md"]
+    "include": ["dist/**", "LICENSE", "README.md"]
   },
   "tasks": {
-    "check": "deno check modules/index.ts"
+    "check": "deno check modules/index.ts",
+    "build": "deno bundle --packages external --declaration modules/index.ts -o dist/index.js"
   },
   "imports": {
-    "@types/react": "npm:@types/react@^19.2.17",
+		"@types/react": "npm:@types/react@^19.2.17",
     "react": "npm:react@^19.2.7",
     "tailwind-merge": "npm:tailwind-merge@^3.6.0"
   },
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsx": "react-jsx"
   },
   "fmt": {
     "useTabs": true,
