@@ -109,7 +109,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		const hash = await requestModel('mp_m_freemode_01')
 		// exports["illenium-appearance"].setPedAppearance(cache.ped, appearance)
 		const ped = CreatePed(0, hash, ...coords, false, false)
-		if (!characters[index]) SetEntityAlpha(ped, 200, false)
+		if (!characters[index]) SetEntityAlpha(ped, 51 * 4, false)
 		FreezeEntityPosition(ped, true)
 		SetEntityInvincible(ped, true)
 		SetBlockingOfNonTemporaryEvents(ped, true)
