@@ -124,12 +124,12 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	RenderScriptCams(true, false, 0, true, false)
 	let activeCam = cam
 
-	const rotateCamSmooth = (heading: number) => {
+	const rotateCamSmooth = (heading: number, fov: number) => {
 		const nextCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 
 		SetCamCoord(nextCam, camCoords[0], camCoords[1], camCoords[2])
 		SetCamRot(nextCam, -5.0, 0.0, heading, 2)
-		SetCamFov(nextCam, 17.5)
+		SetCamFov(nextCam, fov)
 		SetCamActiveWithInterp(nextCam, activeCam, 500, 1, 1)
 
 		const oldCam = activeCam
@@ -151,6 +151,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	DoScreenFadeIn(1000)
 	return await new Promise(result => {
 		let hoveredIndex = -1
+		let lastCursorX = -1
+		let lastCursorY = -1
 
 		const tick = setTick(() => {
 			SetMouseCursorActiveThisFrame()
@@ -158,6 +160,11 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 			DisableAllControlActions(0)
 			EnableControlAction(0, 24, true)
 			EnableControlAction(0, 25, true)
+
+			const [cursorX, cursorY] = GetNuiCursorPosition()
+			const cursorMoved = cursorX !== lastCursorX || cursorY !== lastCursorY
+			lastCursorX = cursorX
+			lastCursorY = cursorY
 
 			const [camPos, farPoint] = getCursorRay(activeCam)
 			const ray = StartShapeTestRay(
@@ -169,17 +176,17 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 			const index = hit ? peds.indexOf(entity) : -1
 
-			if (index !== hoveredIndex) {
+			if (cursorMoved && index !== hoveredIndex) {
 				if (hoveredIndex !== -1) {
 					console.debug('out hover', hoveredIndex)
-					rotateCamSmooth(camCoords[3])
+					rotateCamSmooth(camCoords[3], 17.5)
 				}
 
 				hoveredIndex = index
 
 				if (hoveredIndex !== -1) {
 					console.debug('hover', hoveredIndex)
-					rotateCamSmooth(charactersFocusOffset[hoveredIndex])
+					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 15)
 				}
 			}
 
