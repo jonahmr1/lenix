@@ -123,9 +123,13 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	SetCamActive(cam, true)
 	RenderScriptCams(true, false, 0, true, false)
 	let activeCam = cam
+	let camTransition = 0
+	let isZoomingIn = false
 
-	const rotateCamSmooth = (heading: number, fov: number) => {
+	const rotateCamSmooth = (heading: number, fov: number, zoomingIn = false) => {
 		const nextCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+		const transition = ++camTransition
+		isZoomingIn = zoomingIn
 
 		SetCamCoord(nextCam, camCoords[0], camCoords[1], camCoords[2])
 		SetCamRot(nextCam, -5.0, 0.0, heading, 2)
@@ -137,6 +141,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 		setTimeout(() => {
 			DestroyCam(oldCam, false)
+			if (transition === camTransition && zoomingIn) isZoomingIn = false
 		}, 500)
 	}
 
@@ -182,22 +187,23 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 					if (index !== -1) {
 						hoveredIndex = index
 						hoverOutArmed = false
-						rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10)
+						rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10, true)
 					}
 				} else if (index === hoveredIndex) {
 					hoverOutArmed = true
 				} else if (index === -1) {
-					if (hoverOutArmed) {
+					if (!isZoomingIn && hoverOutArmed) {
 						console.debug('out hover', hoveredIndex)
 						hoveredIndex = -1
 						hoverOutArmed = false
 						rotateCamSmooth(camCoords[3], 17.5)
 					}
 				} else {
+					if (isZoomingIn) return
 					console.debug('out hover', hoveredIndex)
 					hoveredIndex = index
 					hoverOutArmed = false
-					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10)
+					rotateCamSmooth(charactersFocusOffset[hoveredIndex], 10, true)
 				}
 			}
 
