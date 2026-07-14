@@ -8,11 +8,12 @@ import type { ProductSlug } from "@/types"
 import { H2, Large, Lead, Muted } from "@lenix/lenix"
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router"
+import NotFound from "./404"
 
 export default () => {
 	const navigate = useNavigate()
 	const slug = useParams().slug as ProductSlug | undefined
-	if (!slug || !products[slug]) return <></>
+	if (!slug || !products[slug]) return <NotFound />
 
 	const {
 		media,
