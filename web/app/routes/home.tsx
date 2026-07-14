@@ -6,6 +6,7 @@ import type { Faq } from "@/types"
 import { H1, P } from "@lenix/lenix"
 import { Book, MessageCircle, Package } from "lucide-react"
 import { useNavigate } from "react-router"
+import { Footer } from "~/components/articles/footer"
 
 const data: Faq[] = [
 	{
@@ -65,6 +66,12 @@ export default () => {
 				</h3>
 				<AccordionItems {...{ data }} />
 			</div>
+			<Footer links={[
+				{
+					link: 'https://discord.gg/RRWYz5gzwx',
+					label: 'Discord Community'
+				}
+			]} />
 		</Layout>
 	)
 }

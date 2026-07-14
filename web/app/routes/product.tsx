@@ -9,6 +9,7 @@ import { H2, Large, Lead, Muted } from "@lenix/lenix"
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router"
 import NotFound from "./404"
+import { toast } from "sonner"
 
 export default () => {
 	const navigate = useNavigate()
@@ -60,7 +61,7 @@ export default () => {
 							</div>
 							<Muted>{description}</Muted>
 							<Button onClick={() => {
-								
+								toast('Sales are not yet available.')
 							}}>Buy Now</Button>
 							<Button variant='secondary' onClick={() => {
 								navigate(`/docs/${slug}`)
