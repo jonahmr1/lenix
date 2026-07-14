@@ -83,7 +83,6 @@ export default () => {
 									name='name'
 									autoComplete='off'
 									placeholder='Lenix'
-									defaultValue='An Anonymous'
 								/>
 							</Field>
 							<Field>
@@ -109,7 +108,6 @@ export default () => {
 								type='text'
 								id='subject'
 								placeholder='Interest'
-								defaultValue='Unsubjected message'
 							/>
 						</Field>
 						<Field>
