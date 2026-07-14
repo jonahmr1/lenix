@@ -2,9 +2,7 @@
   "name": "@lenix/lenix",
   "version": "1.8.4",
   "license": "MIT",
-  "exports": {
-    ".": "./modules/index.ts"
-  },
+  "exports": "./modules/index.ts",
   "publish": {
     "include": ["modules/**", "LICENSE", "README.md"]
   },
