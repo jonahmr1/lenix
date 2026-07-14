@@ -10,7 +10,7 @@ export default () => {
 	const navigate = useNavigate()
 	return (
 		<Layout>
-			<div className="space-y-5">
+			<div className="flex flex-col items-center">
 				<H1>About Code Hub</H1>
 				<Lead>
 					Code Hub develops software for developers,
