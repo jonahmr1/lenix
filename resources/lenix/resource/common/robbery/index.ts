@@ -13,7 +13,7 @@ export const PEDS_MODEL = 'mp_s_m_armoured_01'
 export const VEHICLE_PEDS_AMOUNT = 6
 export const DRILL_ITEM = 'drill'
 
-export const random = (from: number, to?: number) => {
-  if (to === undefined) return Math.floor(Math.random() * (from + 1))
-  return Math.floor(Math.random() * (to - from + 1)) + from
-}
+export const random = (from: number, to?: number) =>
+	to === undefined
+	? Math.floor(Math.random() * (from + 1))
+	: Math.floor(Math.random() * (to - from + 1)) + from
