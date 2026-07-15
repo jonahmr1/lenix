@@ -13,19 +13,16 @@ import type { Route } from "./+types/root"
 import "./app.css"
 import { Toaster } from "sonner"
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: "Code Hub" },
-		{
-			name: "description",
-			content: "Developer tools, extensions, and utilities built by Code Hub.",
-		},
-		{ property: "og:title", content: "Code Hub" },
-		{
-			property: "og:description",
-			content: "Software products for developers.",
-		},
-	]
+export function meta() {
+  return [
+    { title: "Code Hub" },
+    { name: "description", content: "Software products for developers." },
+    { property: "og:title", content: "Code Hub" },
+    { property: "og:description", content: "Software products for businesses, developers and rockies." },
+    { property: "og:image", content: "https://codehub.lenix.dev/logo.png" },
+    { property: "og:url", content: "https://codehub.lenix.dev/" },
+    { property: "og:type", content: "website" },
+  ]
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
