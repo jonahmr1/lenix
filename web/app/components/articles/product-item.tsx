@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from "@/components/ui/card";
 import type { Product } from "@/types";
 import { useNavigate } from "react-router";
+import { getImage } from "~/constants";
 
 export const ProductItem = ({
 	id, media, title, badges, feature, description, price
@@ -16,7 +17,7 @@ export const ProductItem = ({
 		>
 			<div className="overflow-hidden">
 				<img
-					src={media[0]}
+					src={getImage(media[0])}
 					className="aspect-5/4 object-cover group-hover:scale-105 transition" />
 			</div>
 			<CardHeader>
