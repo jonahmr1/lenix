@@ -2,7 +2,7 @@
 
 import type { Vec4 } from '../index.ts'
 
-interface BaseCamDetails {
+export interface BaseCamDetails {
 	fadeOut?: number,
 	fadeIn?: number,
 	delay?: number
@@ -47,7 +47,7 @@ const toggleCam = ({
   DoScreenFadeOut(fadeOut)
 }
 
-export const createCam = ({
+const create = ({
 	coords,
 	rotation: {
 		vertical,
@@ -87,7 +87,7 @@ export const createCam = ({
   return cam
 }
 
-export const destroyCam = ({
+const destroy = ({
 	cam,
 	details
 }: DestroyCamSettings): void => {
@@ -102,4 +102,11 @@ export const destroyCam = ({
 		fadeIn,
 		fadeOut
 	})
+}
+
+// TODO: delete cams on resource stop
+
+export const cam = {
+	create,
+	destroy
 }

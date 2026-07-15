@@ -7,21 +7,31 @@ export interface Blip {
 	icon: number
 }
 
-const blips: number[] = []
+const blips = new Set<number>()
 
-export const createBlip = ({
+const create = ({
 	coords,
 	icon
 }: Blip): number => {
 	const blip = AddBlipForCoord(coords[0], coords[1], coords[2])
 	SetBlipSprite(blip, icon)
 	
-	blips.push(blip)
+	blips.add(blip)
 	return blip
+}
+
+const destroy = (blip: number) => {
+	RemoveBlip(blip)
+	blips.delete(blip)
+}
+
+export const blip = {
+	create,
+	destroy
 }
 
 on('onResourceStop', (resourceName: string) => {
 	if (resourceName !== GetCurrentResourceName()) return 
 
-	blips.forEach(blip => RemoveBlip(blip))
+	blips.forEach(destroy)
 })
