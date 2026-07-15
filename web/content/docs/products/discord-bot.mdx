@@ -1,0 +1,25 @@
+---
+title: Discord Bot
+---
+
+## Installation
+Download the latest release after purchase.
+
+## Requirements
+- Discord Bot Token
+- Rust 1.8+
+- Administrator permission on a discord server to invite the bot to
+- Assigning the following permissions to the bot: VIEW_CHANNEL, SEND_MESSAGES, READ_MESSAGE_HISTORY, MANAGE_THREADS, CREATE_PUBLIC_THREADS, SEND_MESSAGES_IN_THREADS,
+- Groq Api Key
+
+## Configuration
+1. Create a new `.env` file and add TOKEN and API_KEY keys
+2. Fill in your credentials.
+3. Adjust you src/constants.rs file, such as AI_SPACES_CATEGORY_ID which where your members AI spaces will be created as explain in the product showcase
+4. You might wanna change your bot's responses languages, visit locales.rs
+5. Change the commands names inside commands.rs
+
+## Commands
+- /ping
+- /lenix
+- /ai-space
