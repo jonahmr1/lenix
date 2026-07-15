@@ -33,10 +33,7 @@
 	},
 	"compilerOptions": {
 		"jsx": "react-jsx",
-		"types": [
-			"@citizenfx/client",
-			"@citizenfx/server"
-		]
+		"types": ["@citizenfx/server", "@citizenfx/client"]
 	},
 	"fmt": {
 		"useTabs": true,
