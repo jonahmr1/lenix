@@ -1,6 +1,6 @@
 {
   "name": "@lenix/lenix",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "license": "MIT",
   "exports": "./dist/index.js",
   "publish": {
