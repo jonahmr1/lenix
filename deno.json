@@ -7,7 +7,8 @@
 		"./components": "./dist/components.js",
 		"./client": "./modules/client/index.ts",
 		"./server": "./modules/server/index.ts",
-		"./shared": "./modules/shared/index.ts"
+		"./shared": "./modules/shared/index.ts",
+		"./nui": "./modules/nui/index.ts"
 	},
 	"publish": {
 		"include": [
