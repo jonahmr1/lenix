@@ -17,3 +17,5 @@
  * ```
  */
 export type S<T> = (value: T | ((previous: T) => T)) => void
+export type Vec4 = [number, number, number, number]
+export type Vec3 = [number, number, number]
