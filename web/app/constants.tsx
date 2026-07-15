@@ -23,17 +23,6 @@ export const products = {
 		</Ul>,
 		accordion: [
 			{
-				question: 'Requirements',
-				answer: <Ul className="mb-0">
-					<li>Discord application and bot token</li>
-					<li>Rust 2024 runtime/build environment</li>
-					<li>Groq API key for AI replies</li>
-					<li>Configured eligible customer server IDs</li>
-					<li>Message Content intent enabled for AI thread replies</li>
-					<li>Bot permissions to create forum channels, manage threads, and send thread messages</li>
-				</Ul>,
-			},
-			{
 				question: 'Delivery',
 				answer: 'After the payment, a download link will be instantly sent to your email address followed with your license, after that you will be able to install and use the bot'
 			},
