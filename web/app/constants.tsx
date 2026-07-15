@@ -19,6 +19,7 @@ export const products = {
 			<li>AI spaces are created as Discord forum channels named per user.</li>
 			<li>AI thread replies keep in-memory conversation history per thread.</li>
 			<li>Commands are restricted to configured customer servers.</li>
+			<li>The bot token is provided by you so you can customize the logo, banner, username, about, ... and have access to all the other standard bot's built-in features</li>
 		</Ul>,
 		accordion: [
 			{

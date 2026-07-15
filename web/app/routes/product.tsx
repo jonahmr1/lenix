@@ -72,7 +72,7 @@ export default () => {
 								toast('Sales are not yet available.')
 							}}>Buy Now</Button>
 							<Button variant='secondary' onClick={() => {
-								navigate(`/docs/${slug}`)
+								navigate(`/docs/products/${slug}`)
 							}}>View Documentation <ArrowRight /></Button>
 						</div>
 						<div>
