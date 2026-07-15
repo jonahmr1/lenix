@@ -12,12 +12,15 @@
     "build": "deno bundle --packages external --declaration modules/index.ts -o dist/index.js"
   },
   "imports": {
+    "@citizenfx/client": "npm:@citizenfx/client@2.0.32698-1",
+    "@citizenfx/server": "npm:@citizenfx/server@2.0.32561-1",
 		"@types/react": "npm:@types/react@^19.2.17",
     "react": "npm:react@^19.2.7",
     "tailwind-merge": "npm:tailwind-merge@^3.6.0"
   },
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+		"types": ["@citizenfx/client", "@citizenfx/server"]
   },
   "fmt": {
     "useTabs": true,

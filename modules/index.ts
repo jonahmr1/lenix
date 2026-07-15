@@ -14,6 +14,8 @@
  */
 
 export * from './wait/index.ts'
+export * from './blip/index.client.ts'
+export * from './cam/index.client.ts'
 export * from './entries/index.ts'
 export * from './raise/index.ts'
 export * from './storage/index.ts'

@@ -1,11 +1,19 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@citizenfx/client@2.0.32698-1": "2.0.32698-1",
+    "npm:@citizenfx/server@2.0.32561-1": "2.0.32561-1",
     "npm:@types/react@^19.2.17": "19.2.17",
     "npm:react@^19.2.7": "19.2.7",
     "npm:tailwind-merge@^3.6.0": "3.6.0"
   },
   "npm": {
+    "@citizenfx/client@2.0.32698-1": {
+      "integrity": "sha512-GgeHFlQuJ+w7YDI0romOCpOzib50TjU/2EuHZlQw+R5dPTw14vOr3dpD1HbSldysyU98OFtz43WpoGWklC9k6Q=="
+    },
+    "@citizenfx/server@2.0.32561-1": {
+      "integrity": "sha512-2V76aX67pvB00mCbkMIPsTLWsXRJUHhTCVXuEYKm5jSaVh21ZnNN7t2AzRhNOEovBnllXDDHKcVaNzvzwN1fMA=="
+    },
     "@types/react@19.2.17": {
       "integrity": "sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==",
       "dependencies": [
@@ -24,6 +32,8 @@
   },
   "workspace": {
     "dependencies": [
+      "npm:@citizenfx/client@2.0.32698-1",
+      "npm:@citizenfx/server@2.0.32561-1",
       "npm:@types/react@^19.2.17",
       "npm:react@^19.2.7",
       "npm:tailwind-merge@^3.6.0"
