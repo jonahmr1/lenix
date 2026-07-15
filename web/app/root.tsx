@@ -23,7 +23,9 @@ export function meta(): Route.MetaDescriptors {
     { property: "og:url", content: "https://codehub.lenix.dev/" },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "Code Hub" },
-    { property: "twitter:creator", content: "@jonahmr1" },
+		
+		{ name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:creator", content: "@jonahmr1" },
   ]
 }
 
