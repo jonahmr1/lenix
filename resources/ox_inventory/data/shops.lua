@@ -66,6 +66,7 @@ return {
 			{ name = 'phone', price = 500 },
 			{ name = 'radio', price = 250 },
 			{ name = 'cuffs', price = 650 },
+			{ name = 'drill', price = 650 },
 		}, locations = {
 			-- vec3(2748.0, 3473.0, 55.67),
 			-- vec3(342.99, -1298.26, 32.51)

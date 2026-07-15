@@ -6,7 +6,7 @@ export const VEHICLE_COORDS: Vector4[] = [
 	[691.7452, -1726.9247, 29.2780, 83.3026],
 ]
 export const VEHICLE_MODEL: string = 'stockade'
-export const MIN_TEAMS_TO_START_ROBBERY: number = 1
+export const MIN_TEAMS_TO_START_ROBBERY: number = 2
 export const MISSION_PRICE = 2000
 export const VEHICLE_BLIP_UPDATE_INTERVAL = 1000
 export const PEDS_MODEL = 'mp_s_m_armoured_01'
