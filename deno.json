@@ -1,69 +1,96 @@
 {
-  "name": "@lenix/lenix",
-  "version": "1.8.6",
-  "license": "MIT",
-  "exports": "./dist/index.js",
-  "publish": {
-    "include": ["dist/**", "LICENSE", "README.md"],
-		"exclude": ["!dist/**"]
-  },
-  "tasks": {
-    "check": "deno check modules/index.ts",
-    "build": "deno bundle --packages external --declaration modules/index.ts -o dist/index.js"
-  },
-  "imports": {
-    "@citizenfx/client": "npm:@citizenfx/client@2.0.32698-1",
-    "@citizenfx/server": "npm:@citizenfx/server@2.0.32561-1",
+	"name": "@lenix/lenix",
+	"version": "1.8.6",
+	"license": "MIT",
+	"exports": {
+		".": "./modules/index.ts",
+		"./components": "./dist/components.js",
+		"./client": "./modules/client/index.ts",
+		"./server": "./modules/server/index.ts",
+		"./shared": "./modules/shared/index.ts"
+	},
+	"publish": {
+		"include": [
+			"dist/**",
+			"modules/**",
+			"LICENSE",
+			"README.md"
+		],
+		"exclude": [
+			"!dist/**"
+		]
+	},
+	"tasks": {
+		"check": "deno check modules/index.ts && deno check modules/components/index.ts && deno check modules/client/index.ts && deno check modules/server/index.ts && deno check modules/shared/index.ts",
+		"build": "deno bundle --packages external --declaration modules/components/index.ts -o dist/components.js"
+	},
+	"imports": {
+		"@citizenfx/client": "npm:@citizenfx/client@2.0.32698-1",
+		"@citizenfx/server": "npm:@citizenfx/server@2.0.32561-1",
 		"@types/react": "npm:@types/react@^19.2.17",
-    "react": "npm:react@^19.2.7",
-    "tailwind-merge": "npm:tailwind-merge@^3.6.0"
-  },
-  "compilerOptions": {
-    "jsx": "react-jsx",
-		"types": ["@citizenfx/client", "@citizenfx/server"]
-  },
-  "fmt": {
-    "useTabs": true,
-    "indentWidth": 2,
-    "semiColons": false,
-    "singleQuote": true,
-    "operatorPosition": "nextLine",
-    "lineWidth": 100,
+		"react": "npm:react@^19.2.7",
+		"tailwind-merge": "npm:tailwind-merge@^3.6.0"
+	},
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"types": [
+			"@citizenfx/client",
+			"@citizenfx/server"
+		]
+	},
+	"fmt": {
+		"useTabs": true,
+		"indentWidth": 2,
+		"semiColons": false,
+		"singleQuote": true,
+		"operatorPosition": "nextLine",
+		"lineWidth": 100,
 		"typeLiteral.separatorKind": "comma",
 		"trailingCommas": "never",
-    "include": ["modules"]
-  },
-  "lint": {
-		"include": ["modules"],
-    "rules": {
-      "tags": ["recommended", "fresh", "workspace", "jsr"],
-			"exclude": ["no-sloppy-imports"],
-      "include": [
-        "camelcase",
-        "default-param-last",
-        "eqeqeq",
-        "explicit-function-return-type",
-        "explicit-module-boundary-types",
-        "no-await-in-loop",
-        "no-boolean-literal-for-arguments",
-        "no-console",
-        "no-eval",
-        "no-external-import",
-        "no-implicit-declare-namespace-export",
-        "no-inferrable-types",
-        "no-non-null-asserted-optional-chain",
-        "no-non-null-assertion",
-        "no-self-compare",
-        "no-sparse-arrays",
-        "no-sync-fn-in-async-fn",
-        "no-throw-literal",
-        "no-top-level-await",
-        "no-undef",
-        "no-useless-rename",
-        "prefer-ascii",
-        "single-var-declarator",
-        "triple-slash-reference"
-      ]
-    }
-  }
+		"include": [
+			"modules"
+		]
+	},
+	"lint": {
+		"include": [
+			"modules"
+		],
+		"rules": {
+			"tags": [
+				"recommended",
+				"fresh",
+				"workspace",
+				"jsr"
+			],
+			"exclude": [
+				"no-sloppy-imports"
+			],
+			"include": [
+				"camelcase",
+				"default-param-last",
+				"eqeqeq",
+				"explicit-function-return-type",
+				"explicit-module-boundary-types",
+				"no-await-in-loop",
+				"no-boolean-literal-for-arguments",
+				"no-console",
+				"no-eval",
+				"no-external-import",
+				"no-implicit-declare-namespace-export",
+				"no-inferrable-types",
+				"no-non-null-asserted-optional-chain",
+				"no-non-null-assertion",
+				"no-self-compare",
+				"no-sparse-arrays",
+				"no-sync-fn-in-async-fn",
+				"no-throw-literal",
+				"no-top-level-await",
+				"no-undef",
+				"no-useless-rename",
+				"prefer-ascii",
+				"single-var-declarator",
+				"triple-slash-reference"
+			]
+		}
+	}
 }
