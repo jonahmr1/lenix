@@ -16,6 +16,7 @@
 export * from './wait/index.ts'
 export * from './entries/index.ts'
 export * from './raise/index.ts'
+export * from './storage/index.ts'
 export * from './types/index.ts'
 export * from './oneOf/index.ts'
 export * from './components/code.tsx'
