@@ -3,13 +3,15 @@ import { Layout } from "@/components/layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { products } from "@/constants"
+import { getImage, products } from "@/constants"
 import type { ProductSlug } from "@/types"
 import { H2, Large, Lead, Muted } from "@lenix/lenix"
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router"
 import NotFound from "./404"
 import { toast } from "sonner"
+import Zoom from "react-medium-image-zoom"
+import "react-medium-image-zoom/dist/styles.css"
 
 export default () => {
 	const navigate = useNavigate()
@@ -35,7 +37,13 @@ export default () => {
 						<CarouselContent>
 							{media.map(item => (
 								<CarouselItem key={item}>
-									<img src={item} className="aspect-video object-cover rounded-md" />
+									<Zoom>
+										<img
+											src={getImage(item)}
+											className="aspect-video w-full rounded-md object-cover"
+											alt=""
+										/>
+									</Zoom>
 								</CarouselItem>
 							))}
 						</CarouselContent>

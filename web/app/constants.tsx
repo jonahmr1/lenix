@@ -2,9 +2,11 @@ import type { ReactNode } from "react"
 import type { Faq } from "./types"
 import { Ul, Code } from "@lenix/lenix"
 
+export const getImage = (id: string) => `https://mezvgmfypkdvbnzvyxfz.supabase.co/storage/v1/object/public/images/${id}.png` as const
+
 export const products = {
 	'discord-bot': {
-		media: ['/logo.png', '/favicon.ico'],
+		media: ['discord-bot-showcase-0', 'discord-bot-showcase-1', 'discord-bot-showcase-2', 'discord-bot-showcase-3', 'discord-bot-showcase-4'],
 		title: 'Discord Bot',
 		badges: ['Discord', 'Automation'],
 		feature: 'v1.3',
