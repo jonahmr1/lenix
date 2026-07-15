@@ -16,14 +16,16 @@ import { Toaster } from "sonner"
 export function meta(): Route.MetaDescriptors {
   return [
     { title: "Code Hub" },
+
     { name: "description", content: "Software products for developers." },
+
     { property: "og:title", content: "Code Hub" },
+    { property: "og:site_name", content: "Code Hub" },
     { property: "og:description", content: "Software products for businesses, developers and rockies." },
     { property: "og:image", content: "https://codehub.lenix.dev/logo.png" },
     { property: "og:url", content: "https://codehub.lenix.dev/" },
     { property: "og:type", content: "website" },
-    { property: "og:site_name", content: "Code Hub" },
-		
+
 		{ name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:creator", content: "@jonahmr1" },
   ]
