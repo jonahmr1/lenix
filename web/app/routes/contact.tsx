@@ -18,7 +18,7 @@ import {
 import { Spinner } from '@/components/ui/spinner'
 import { ArrowRight, Check } from 'lucide-react'
 import { Layout } from '@/components/layout'
-import { Required } from '../components/typography/required.tsx';
+import { Required } from '../components/typography/required';
 
 export default () => {
 	const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>(
@@ -26,7 +26,7 @@ export default () => {
 	)
 	const [value, setValue] = useState('')
 	const abortRef = useRef<AbortController | null>(null)
-	
+
 	const handleCancel = () => abortRef.current?.abort()
 
 	const handleSubmit = async (
@@ -47,7 +47,7 @@ export default () => {
 			setStatus(
 				e instanceof DOMException && e.name === 'AbortError' ?
 					'idle'
-				:	'error',
+					: 'error',
 			)
 			console.error(e)
 		} finally {
@@ -139,38 +139,38 @@ export default () => {
 											>
 												Send <ArrowRight />
 											</InputGroupButton>
-										: status === 'loading' ?
-											<InputGroupButton
-												type='button'
-												variant='default'
-												size='sm'
-												onClick={handleCancel}
-												className='group'
-											>
-												<span className='group-hover:hidden flex items-center gap-1'>
-													Sending... <Spinner />
-												</span>
-												<span className='hidden group-hover:inline'>
-													Cancel
-												</span>
-											</InputGroupButton>
-										: status === 'done' ?
-											<InputGroupButton
-												disabled
-												type='button'
-												variant='default'
-												size='sm'
-											>
-												Sent <Check />
-											</InputGroupButton>
-										:	<InputGroupButton
-												disabled
-												type='button'
-												variant='default'
-												size='sm'
-											>
-												Failed
-											</InputGroupButton>
+											: status === 'loading' ?
+												<InputGroupButton
+													type='button'
+													variant='default'
+													size='sm'
+													onClick={handleCancel}
+													className='group'
+												>
+													<span className='group-hover:hidden flex items-center gap-1'>
+														Sending... <Spinner />
+													</span>
+													<span className='hidden group-hover:inline'>
+														Cancel
+													</span>
+												</InputGroupButton>
+												: status === 'done' ?
+													<InputGroupButton
+														disabled
+														type='button'
+														variant='default'
+														size='sm'
+													>
+														Sent <Check />
+													</InputGroupButton>
+													: <InputGroupButton
+														disabled
+														type='button'
+														variant='default'
+														size='sm'
+													>
+														Failed
+													</InputGroupButton>
 
 									}
 								</InputGroupAddon>

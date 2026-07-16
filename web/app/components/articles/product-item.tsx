@@ -30,7 +30,7 @@ export const ProductItem = ({
 				</CardAction>
 			</CardHeader>
 			<CardContent>{description}</CardContent>
-			<CardFooter className="text-xl">{price > 0 ? `${price}€` : 'Free'}</CardFooter>
+			<CardFooter className="text-xl">{price > 0 ? `${price}€` : 'Free'} / Lifetime</CardFooter>
 		</Card>
 	);
 }

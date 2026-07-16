@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check, Package, Settings, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
-import { H1 } from "../components/typography/h1.tsx";
-import { P } from "../components/typography/p.tsx";
-import { H2 } from "../components/typography/h2.tsx";
-import { Ul } from "../components/typography/ul.tsx";
-import { H3 } from "../components/typography/h3.tsx";
+import { H1 } from "../components/typography/h1";
+import { P } from "../components/typography/p";
+import { H2 } from "../components/typography/h2";
+import { Ul } from "../components/typography/ul";
+import { H3 } from "../components/typography/h3";
 
 export default () => {
 	const navigate = useNavigate()

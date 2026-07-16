@@ -11,10 +11,10 @@ import NotFound from "./404"
 import { toast } from "sonner"
 import Zoom from "react-medium-image-zoom"
 import "react-medium-image-zoom/dist/styles.css"
-import { Large } from "../components/typography/large.tsx";
-import { H2 } from "../components/typography/h2.tsx";
-import { Muted } from "../components/typography/muted.tsx";
-import { Lead } from "../components/typography/lead.tsx";
+import { Large } from "../components/typography/large";
+import { H2 } from "../components/typography/h2";
+import { Muted } from "../components/typography/muted";
+import { Lead } from "../components/typography/lead";
 
 export default () => {
 	const navigate = useNavigate()
@@ -28,7 +28,7 @@ export default () => {
 		feature,
 		description,
 		price,
-		features,
+		include,
 		accordion
 	} = products[slug]
 
@@ -68,7 +68,7 @@ export default () => {
 							</div>
 							<div className="flex justify-between w-full">
 								<H2>{title}</H2>
-								<Large>{price > 0 ? `${price}€` : 'Free'}</Large>
+								<Large>{price > 0 ? `${price}€` : 'Free'} / Lifetime</Large>
 							</div>
 							<Muted>{description}</Muted>
 							<Button onClick={() => {
@@ -79,8 +79,8 @@ export default () => {
 							}}>View Documentation <ArrowRight /></Button>
 						</div>
 						<div>
-							<Lead>Features</Lead>
-							{features}
+							<Lead>What's included</Lead>
+							{include}
 						</div>
 					</div>
 				</div>
