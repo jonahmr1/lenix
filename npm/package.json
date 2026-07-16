@@ -1,0 +1,47 @@
+{
+  "name": "lenix",
+  "version": "1.6.4",
+  "description": "",
+  "author": "Lenix",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "lenix",
+    "modules",
+    "typescript",
+    "lua",
+    "luarocks",
+    "oop",
+    "fivem",
+    "fxmanifest",
+    "api",
+    "class",
+    "eslint",
+    "linter"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonahmr1/lenix.git"
+  },
+  "exports": {
+    ".": "./shared/index.ts",
+    "./client": "./client/index.ts",
+    "./server": "./server/index.ts",
+    "./nui": "./nui/index.ts"
+  },
+  "files": [
+    "client",
+    "server",
+    "shared",
+    "nui"
+  ],
+  "scripts": {
+		"prepack": "rm -rf ./client ./server ./shared ./nui && cp -R ../modules/client ./client && cp -R ../modules/server ./server && cp -R ../modules/shared ./shared && cp -R ../modules/nui ./nui"
+	},
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
