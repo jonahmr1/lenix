@@ -38,6 +38,12 @@
 		"include": [
 			"modules/**"
 		],
+		"exclude": [
+			"modules/client",
+			"modules/server",
+			"modules/shared",
+			"modules/nui"
+		],
 		"rules": {
 			"tags": [
 				"recommended",
