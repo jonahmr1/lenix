@@ -51,5 +51,5 @@ export interface Requests {
 
 export interface Team {
 	leader: number
-	teammates: number[]
+	members: number[]
 }
