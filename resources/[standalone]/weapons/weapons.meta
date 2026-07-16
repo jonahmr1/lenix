@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CWeaponInfoBlob>
+  <Infos>
+    <Item>
+      <Infos>
+        <Item type="CWeaponInfo">
+          <Name>WEAPON_PISTOL_MK2</Name>
+          <Damage value="10.000000" />
+          <NetworkHeadShotPlayerDamageModifier value="25.000000" />
+        </Item>
+        <Item type="CWeaponInfo">
+          <Name>WEAPON_PISTOL</Name>
+          <Damage value="12.000000" />
+          <NetworkHeadShotPlayerDamageModifier value="20.000000" />
+        </Item>
+        <Item type="CWeaponInfo">
+          <Name>WEAPON_HEAVYPISTOL</Name>
+          <Damage value="12.000000" />
+          <NetworkHeadShotPlayerDamageModifier value="20.000000" />
+        </Item>
+        <Item type="CWeaponInfo">
+          <Name>WEAPON_PISTOL50</Name>
+          <Damage value="12.000000" />
+          <NetworkHeadShotPlayerDamageModifier value="20.000000" />
+        </Item>
+      </Infos>
+    </Item>
+  </Infos>
+</CWeaponInfoBlob>
