@@ -18,7 +18,7 @@ import {
 import { Spinner } from '@/components/ui/spinner'
 import { ArrowRight, Check } from 'lucide-react'
 import { Layout } from '@/components/layout'
-import { Required } from '@lenix/lenix'
+import { Required } from '../components/typography/required.tsx';
 
 export default () => {
 	const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>(

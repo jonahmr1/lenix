@@ -4,7 +4,6 @@
 @import "@fontsource-variable/oxanium";
 @import 'fumadocs-ui/css/shadcn.css';
 @import 'fumadocs-ui/css/preset.css';
-@source "../node_modules/@lenix/lenix/dist/index.js";
 
 @custom-variant dark (&:is(.dark *));
 

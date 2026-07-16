@@ -2,7 +2,8 @@ import { useNavigate } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Frown } from "lucide-react"
 import { Layout } from "@/components/layout"
-import { H1, Lead } from "@lenix/lenix"
+import { H1 } from "../components/typography/h1.tsx";
+import { Lead } from "../components/typography/lead.tsx";
 
 export function NotFound() {
 	const navigate = useNavigate()
