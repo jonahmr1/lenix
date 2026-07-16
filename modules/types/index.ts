@@ -23,16 +23,15 @@ export type Vec3 = [number, number, number]
 
 export type Event<Id extends string, Params extends unknown[] = never> = [Id, Params]
 
-export type Request<Response, Id extends string, Params extends object = {}> =
-	Params extends readonly unknown[]
-	? never
-	: [Response, Id, Params];
+export type Request<Response, Id extends string, Params extends object = {}> = Params extends
+	readonly unknown[] ? never
+	: [Response, Id, Params]
 
 declare function GetParentResourceName(): string
 
 export interface _InternalRequests {
 	focus: Request<true, '__nuiFocus', {
-		keyboard: boolean
+		keyboard: boolean,
 		cursor: boolean
 	}>
 }

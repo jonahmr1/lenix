@@ -3,9 +3,9 @@ const tasks = new Set<() => void>()
 let running = false
 
 export const pool = (func: () => void): void => {
-  tasks.add(func)
+	tasks.add(func)
 
-  if (running) return
+	if (running) return
 	running = true
 
 	const tick = setTick(() => {
@@ -17,7 +17,7 @@ export const pool = (func: () => void): void => {
 		for (const task of tasks) {
 			try {
 				task()
-			} catch(e) {
+			} catch (e) {
 				tasks.delete(task)
 				// deno-lint-ignore no-console
 				console.warn(e)

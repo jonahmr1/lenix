@@ -3,7 +3,7 @@
 import type { Vec4 } from '../index.ts'
 
 export interface Blip {
-	coords: Vec4,
+	coords: Vec4
 	icon: number
 }
 
@@ -14,9 +14,10 @@ const create = ({
 	icon
 }: Blip): number => {
 	const blip = AddBlipForCoord(coords[0], coords[1], coords[2])
+
 	SetBlipSprite(blip, icon)
-	
 	blips.add(blip)
+
 	return blip
 }
 
@@ -31,7 +32,7 @@ export const blip = {
 }
 
 on('onResourceStop', (resourceName: string) => {
-	if (resourceName !== GetCurrentResourceName()) return 
+	if (resourceName !== GetCurrentResourceName()) return
 
 	blips.forEach(destroy)
 })
