@@ -5,3 +5,4 @@
  */
 
 export * from './assert.ts'
+export * from './types.ts'

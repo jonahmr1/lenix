@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-undef
-import type { Request } from '../types/index.ts'
+import type { Request } from '../shared/types.ts'
 
 /**
  * Sends an event from the game client to the NUI browser.

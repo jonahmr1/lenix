@@ -1,4 +1,4 @@
-import type { Event } from '../types/index.ts'
+import type { Event } from '../shared/types.ts'
 
 const cbs = new Map<string, (...params: unknown[]) => void>()
 

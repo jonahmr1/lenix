@@ -1,4 +1,4 @@
-import type { _InternalRequests } from '../types/index.ts'
+import type { _InternalRequests } from '../shared/types.ts'
 import { triggerNui } from './trigger.ts'
 
 /**

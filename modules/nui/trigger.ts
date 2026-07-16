@@ -1,4 +1,4 @@
-import type { Request } from '../types/index.ts'
+import type { Request } from '../shared/types.ts'
 
 declare function GetParentResourceName(): string
 

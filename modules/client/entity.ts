@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-undef
-import type { Vec3, Vec4 } from '../types/index.ts'
+import type { Vec3, Vec4 } from '../shared/types.ts'
 
 /**
  * Gets entity coordinates and heading.
