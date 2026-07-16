@@ -2,6 +2,9 @@
 const tasks = new Set<() => void>()
 let running = false
 
+/**
+ * Adds a task to a shared FiveM tick pool.
+ */
 export const pool = (func: () => void): void => {
 	tasks.add(func)
 

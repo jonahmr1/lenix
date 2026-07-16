@@ -16,6 +16,9 @@ const handler = window.addEventListener('message', (event: MessageEvent) => {
 	}
 })
 
+/**
+ * Registers a typed browser-side handler for events sent from the game client.
+ */
 export const onEvent = <
 	T extends Event<string, unknown[]>
 >(

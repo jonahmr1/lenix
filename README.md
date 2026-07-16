@@ -21,14 +21,6 @@ deno add jsr:@lenix/lenix
 import lenix from '@lenix/lenix'
 ```
 
-### TypeScript
-
-```json
-{
-  "extends": ["@lenix/lenix/beta"]
-}
-```
-
 ```ts
 import { entries } from 'jsr:@lenix/lenix'
 
