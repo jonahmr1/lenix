@@ -1,4 +1,5 @@
 import type { Vector4 } from "types/index"
+export { random } from "@lenix/lenix"
 
 export const VEHICLE_COORDS: Vector4[] = [
 	[-1209.2249, -1162.8300, 7.6913, 13.5316],
@@ -12,8 +13,3 @@ export const VEHICLE_BLIP_UPDATE_INTERVAL = 1000
 export const PEDS_MODEL = 'mp_s_m_armoured_01'
 export const VEHICLE_PEDS_AMOUNT = 6
 export const DRILL_ITEM = 'drill'
-
-export const random = (from: number, to?: number) =>
-	to === undefined
-	? Math.floor(Math.random() * (from + 1))
-	: Math.floor(Math.random() * (to - from + 1)) + from

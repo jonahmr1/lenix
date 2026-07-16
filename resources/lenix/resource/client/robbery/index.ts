@@ -3,7 +3,7 @@ import { alertDialog, cache, createPed, hideTextUI, inputDialog, notify, registe
 import { MISSION_PRICE } from "common/robbery";
 import './mission'
 import { tick } from "./mission";
-import { useTimer } from "@lenix/lenix/client";
+import { useTimer } from "lenix/client";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
@@ -91,9 +91,9 @@ const refreshContext = () => {
 			const teammates = team?.teammates.filter(t => t !== team?.leader) ?? []
 			return teammates.length > 0
 				? teammates.map(teammate => ({
-						title: `${teammate}`,
-						onSelect: () => emitNet('lenix:server:robbery:kickteammate', teammate)
-					}))
+					title: `${teammate}`,
+					onSelect: () => emitNet('lenix:server:robbery:kickteammate', teammate)
+				}))
 				: [{ title: 'No teammates found', readOnly: true }]
 		})()
 	})
@@ -113,41 +113,41 @@ onNet('lenix:client:robbery:removefromteam', () => {
 onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
 	if (inviteTick) return
 
-  const stop = useTimer(
-    10000,
-    1000,
-    (timeLeft) => {
-      showTextUI(`E - Show robbery invite - ${Math.ceil(timeLeft / 1000)}s`, {
-        position: 'bottom-center'
-      })
-    },
-    () => {
-      hideTextUI()
-      clearTick(inviteTick)
+	const stop = useTimer(
+		10000,
+		1000,
+		(timeLeft) => {
+			showTextUI(`E - Show robbery invite - ${Math.ceil(timeLeft / 1000)}s`, {
+				position: 'bottom-center'
+			})
+		},
+		() => {
+			hideTextUI()
+			clearTick(inviteTick)
 			inviteTick = 0
-    }
-  )
+		}
+	)
 
-  inviteTick = setTick(async () => {
-    if (IsControlJustPressed(0, 38)) {
-      stop()
-      hideTextUI()
-      clearTick(inviteTick)
+	inviteTick = setTick(async () => {
+		if (IsControlJustPressed(0, 38)) {
+			stop()
+			hideTextUI()
+			clearTick(inviteTick)
 			inviteTick = 0
-      const res = await alertDialog({
-        header: 'Robbery Invite',
-        content: `The player #${inviter} is inviting you to join the robbery mission`,
+			const res = await alertDialog({
+				header: 'Robbery Invite',
+				content: `The player #${inviter} is inviting you to join the robbery mission`,
 				centered: true,
 				cancel: true
-      })
-      if (res === 'cancel') return
-      emitNet('lenix:server:robbery:jointeam', inviter)
-    }
-  })
+			})
+			if (res === 'cancel') return
+			emitNet('lenix:server:robbery:jointeam', inviter)
+		}
+	})
 })
 
 setImmediate(async () => {
-		const entity = await createPed('a_m_m_prolhost_01', ...PED_COORDS, true)
+	const entity = await createPed('a_m_m_prolhost_01', ...PED_COORDS, true)
 	if (!entity) return
 
 	globalThis.exports.ox_target.addLocalEntity(entity, {

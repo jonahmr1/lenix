@@ -1,4 +1,4 @@
-import { getNearest } from '@lenix/lenix/client'
+import { getNearest } from 'lenix/client'
 import { cache } from '@overextended/ox_lib'
 import { notify } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'

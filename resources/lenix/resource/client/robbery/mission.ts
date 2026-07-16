@@ -3,7 +3,7 @@ import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
 import { DRILL_ITEM, PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
 import type { Vector3 } from "types/index"
 import { team } from "."
-import { getNearest } from "@lenix/lenix/client"
+import { getNearest } from "lenix/client"
 
 export const vehicleDoorsBroken = {
 	left: false,
@@ -13,19 +13,19 @@ let blip: number
 export let tick: number
 
 AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: string, coords: Vector3) => {
-  if (!coords || key !== 'robberyVehicleCoords') {
-    RemoveBlip(blip)
-    blip = -1
-    return
-  }
-  if (DoesBlipExist(blip)) {
-    SetBlipCoords(blip, ...coords)
-    return
-  }
-  blip = AddBlipForCoord(...coords)
-  SetBlipSprite(blip, 67)
-  SetBlipColour(blip, 27)
-  SetBlipAsShortRange(blip, false)
+	if (!coords || key !== 'robberyVehicleCoords') {
+		RemoveBlip(blip)
+		blip = -1
+		return
+	}
+	if (DoesBlipExist(blip)) {
+		SetBlipCoords(blip, ...coords)
+		return
+	}
+	blip = AddBlipForCoord(...coords)
+	SetBlipSprite(blip, 67)
+	SetBlipColour(blip, 27)
+	SetBlipAsShortRange(blip, false)
 })
 
 onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
@@ -39,9 +39,9 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 		}, 100)
 	})
 
-  if (!vehicle) return
+	if (!vehicle) return
 
-  const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
+	const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
 	const hash = await requestModel(PEDS_MODEL)
 	const peds: number[] = []
 	let guardsAlerted = false
@@ -84,7 +84,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				})
 			}
 		}
-	
+
 		if (guardsAlerted) {
 			peds.forEach(ped => {
 				if (IsEntityDead(ped)) return

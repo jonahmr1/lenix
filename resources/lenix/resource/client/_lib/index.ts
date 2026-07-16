@@ -1,3 +1,4 @@
+import { getEntity } from "lenix/client"
 import { requestAnimDict } from "@overextended/ox_lib/client"
 
 export const playAnim = async (
@@ -20,4 +21,19 @@ export const playAnim = async (
 export const stopAnim = (dict: string, ped = PlayerPedId()) => {
 	RemoveAnimDict(dict)
 	ClearPedTasks(ped)
+}
+
+export const teleport = (
+	x: number,
+	y: number,
+	z: number,
+	h?: number,
+	entity = PlayerPedId(),
+	clearArea = false,
+	alive = false,
+	deadDisable = false,
+	ragdol = false
+) => {
+	SetEntityCoords(entity, x, y, z, alive, deadDisable, ragdol, clearArea)
+	SetEntityHeading(entity, h ?? getEntity.coords()[3])
 }

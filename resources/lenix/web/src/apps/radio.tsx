@@ -1,4 +1,4 @@
-import { onEvent, triggerNui } from '@lenix/lenix/nui'
+import { onEvent, triggerNui } from 'lenix/nui'
 import { useEffect, useState } from 'react'
 import type { Events, Requests } from 'types'
 

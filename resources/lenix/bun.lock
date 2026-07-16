@@ -5,11 +5,12 @@
     "": {
       "name": "fivem-ts",
       "dependencies": {
-        "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.9",
+        "@lenix/lenix": "npm:@jsr/lenix__lenix",
         "@overextended/core": "^0.3.1",
         "@overextended/ox_core": "^1.5.14",
         "@overextended/ox_lib": "^3.35.0",
         "@overextended/oxmysql": "^2.14.1",
+        "lenix": "^1.7.0",
       },
       "devDependencies": {
         "@citizenfx/client": "latest",
@@ -72,7 +73,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@lenix/lenix": ["@jsr/lenix__lenix@1.8.9", "https://npm.jsr.io/~/11/@jsr/lenix__lenix/1.8.9.tgz", {}, "sha512-Bw6oqN9YtY+nbAscYq74hEnPHfXd+vEQM7lohcOqBOqbkbMiXtT5Yb44L6PJMLHcnqAXdYyH+dEE3NyBHI9ksw=="],
+    "@lenix/lenix": ["@jsr/lenix__lenix@1.8.10", "https://npm.jsr.io/~/11/@jsr/lenix__lenix/1.8.10.tgz", {}, "sha512-3rlSW9DcX8L0RctITwNVy6UdurIcwXFp7qTnbRKE1bPG1dPy58DAjhtC8QJellYdi+q37L26JaFMU/BHujUKGg=="],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.1.4", "", { "dependencies": { "@tybys/wasm-util": "^0.10.1" }, "peerDependencies": { "@emnapi/core": "^1.7.1", "@emnapi/runtime": "^1.7.1" } }, "sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow=="],
 
@@ -273,6 +274,8 @@
     "is-number": ["is-number@7.0.0", "", {}, "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng=="],
 
     "jsesc": ["jsesc@3.1.0", "", { "bin": { "jsesc": "bin/jsesc" } }, "sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA=="],
+
+    "lenix": ["lenix@1.7.0", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-MitT68Wpuf80pL0ccx4VQ8X6u/GLzVDsToE0IkPVa3H6n6kcSpWRPmRkR8CzJUgPU9P+hZ+xBHnWUK1hLgqjUw=="],
 
     "lru-cache": ["lru-cache@11.5.1", "", {}, "sha512-RPimw/7aMdv2oqRrxKwvZXcPfwBrn/JZ2xYcY9Hus/6LaS3VOAKVWKWgNLCFSiOm1ESXinjsDlidVU7JlnCN2A=="],
 

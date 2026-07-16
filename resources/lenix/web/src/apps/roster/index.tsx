@@ -5,7 +5,7 @@ import type { Events, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
 import { DEV } from '@/index'
 import { Frown } from 'lucide-react'
-import { onEvent, triggerNui } from '@lenix/lenix/nui'
+import { onEvent, triggerNui } from 'lenix/nui'
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)

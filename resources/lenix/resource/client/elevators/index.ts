@@ -1,5 +1,7 @@
-import { cache, progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
-import type { Vector3, Vector4 } from 'types/index'
+import { progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
+import type { Vector4 } from 'types/index'
+import { teleport } from '../_lib'
+import { getEntity } from 'lenix/client'
 
 const COMMANDER_ROTATION = 70
 const WAIT_DURATION = 5
@@ -40,22 +42,21 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 		title: 'Elevator',
 		options: [
 			...Object.entries(ELEVATORS)
-			.filter(([floor_]) => floor_ !== floor)
-			.map(([floor_, coords]) => ({
-				title: `Floor ${floor_}`,
-				onSelect: async () => {
-					const didntCanceled = await progressBar({
-						label: 'Calling the elevator...',
-						duration: WAIT_DURATION * 1000,
-						canCancel: true
-					})
-					if (!didntCanceled) return
-					const entityCoords = GetEntityCoords(cache.ped, true) as Vector3
-					const heading = GetEntityHeading(cache.ped)
-					SetEntityCoords(cache.ped, entityCoords[0], entityCoords[1], coords[2], false, false, false, false)
-					SetEntityHeading(cache.ped, heading)
-				},
-			})),
+				.filter(([floor_]) => floor_ !== floor)
+				.map(([floor_, coords]) => ({
+					title: `Floor ${floor_}`,
+					onSelect: async () => {
+						const didntCanceled = await progressBar({
+							label: 'Calling the elevator...',
+							duration: WAIT_DURATION * 1000,
+							canCancel: true
+						})
+						if (!didntCanceled) return
+
+						const playerCoords = getEntity.coords()
+						teleport(playerCoords[0], playerCoords[1], coords[2], playerCoords[3])
+					},
+				})),
 		],
 	})
 	globalThis.exports.ox_target.addBoxZone({

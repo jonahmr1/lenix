@@ -1,4 +1,4 @@
-import type { Vec3, Vec4, Event, Request } from "@lenix/lenix";
+import type { Vec3, Vec4, Event, Request } from "lenix";
 
 type AtLeastOne<T> = {
 	[K in keyof T]-?: { [P in K]: T[P] } & Partial<Omit<T, K>>

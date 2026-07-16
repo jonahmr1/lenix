@@ -1,4 +1,4 @@
-import { onEvent } from '@lenix/lenix/nui'
+import { onEvent } from 'lenix/nui'
 import { useState } from 'react'
 import type { Events } from 'types'
 
@@ -10,7 +10,7 @@ interface Reserve {
 	reserve: string
 }
 
-interface UpdateValue extends Clip, Reserve {}
+interface UpdateValue extends Clip, Reserve { }
 
 export default () => {
 	const [state, setState] = useState<UpdateValue>({

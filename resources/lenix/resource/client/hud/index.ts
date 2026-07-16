@@ -1,12 +1,12 @@
 import { cache } from '@overextended/ox_lib'
 import type { Events } from 'types/index'
-import { emitEvent } from '@lenix/lenix/client'
+import { emitEvent } from 'lenix/client'
 
 type OxWeapon =
 	| {
-			ammo: string
-			metadata: { ammo: number }
-	  }
+		ammo: string
+		metadata: { ammo: number }
+	}
 	| undefined
 
 let turnedOff = false
@@ -14,7 +14,7 @@ let lastReloadState = false
 
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
 	const isReloading = IsPedReloading(cache.ped)
-	
+
 	if (isReloading && !lastReloadState) {
 		emit('ox_inventory:suppressItemNotifications', true)
 	} else if (!isReloading && lastReloadState) {

@@ -1,8 +1,8 @@
 import { GetPlayer } from '@overextended/ox_core/client'
 import { getNearbyVehicles, notify } from '@overextended/ox_lib/client'
 import { Vector3 } from '@overextended/core/vector'
-import { getNearest } from '@lenix/lenix/client'
-import type { Vec3 } from '@lenix/lenix'
+import { getNearest } from 'lenix/client'
+import type { Vec3 } from 'lenix'
 
 const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined] => {
 	const vehicles = getNearbyVehicles(new Vector3(...coords), 3.0)

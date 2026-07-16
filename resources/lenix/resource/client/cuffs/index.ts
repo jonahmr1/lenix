@@ -1,7 +1,7 @@
-import { getNearest } from '@lenix/lenix/client'
+import { getEntity, getNearest } from 'lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
-import { playAnim, stopAnim } from '../_lib'
+import { playAnim, stopAnim, teleport } from '../_lib'
 
 let isCuffed = false
 
@@ -39,7 +39,7 @@ const ALLOWED_CONTROLS = new Set([
 	273, // INPUT_LOOK_DOWN
 ])
 
-const handCuffAnimation = async () => {
+const cuffingAnimation = async () => {
 	await playAnim('mp_arrest_paired', 'cop_p2_back_right')
 
 	await sleep(3500)
@@ -48,20 +48,17 @@ const handCuffAnimation = async () => {
 	stopAnim('mp_arrest_paired')
 }
 
-const getCuffedAnimation = async (playerId: number) => {
+const gettingCuffedAnimation = async (playerId: number) => {
 	const cuffer = GetPlayerPed(GetPlayerFromServerId(playerId))
 	const heading = GetEntityHeading(cuffer)
 
-	requestAnimDict('mp_arrest_paired')
+	await requestAnimDict('mp_arrest_paired')
 
 	const offset = GetOffsetFromEntityInWorldCoords(cuffer, 0.0, 0.45, 0.0) as Vector3
-	SetEntityCoords(cache.ped, offset[0], offset[1], offset[2], true, false, false, false)
+	teleport(...offset, heading)
 
 	await sleep(100)
-
-	SetEntityHeading(cache.ped, heading)
 	await playAnim('mp_arrest_paired', 'crook_p2_back_right')
-
 	await sleep(2500)
 
 	stopAnim('mp_arrest_paired')
@@ -84,7 +81,7 @@ export const setCuffs = () => {
 }
 
 on('lenix:client:cuff', () => {
-	const nearest = getNearest.player(GetEntityCoords(cache.ped, false) as Vector3)
+	const nearest = getNearest.player(...getEntity.coords(true))
 	if (!nearest.playerId) {
 		notify({
 			title: 'No one nearby!',
@@ -92,7 +89,7 @@ on('lenix:client:cuff', () => {
 		return
 	}
 	emitNet('lenix:server:cuffs:toggle', GetPlayerServerId(nearest.playerId))
-	handCuffAnimation()
+	cuffingAnimation()
 })
 
 onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
@@ -100,7 +97,7 @@ onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 	disableRadial(state)
 	globalThis.exports.ox_target.disableTargeting(state)
 	if (state) {
-		getCuffedAnimation(cuffer)
+		gettingCuffedAnimation(cuffer)
 		const res = await skillCheck('easy')
 		if (!res) {
 			notify({ title: 'Failed' })
