@@ -3,7 +3,8 @@ import type { _InternalRequests } from '../types/index.ts'
 import { onNui } from './nui.ts'
 
 onNui<_InternalRequests['focus']>('__nuiFocus', ({
-	keyboard, cursor
+	keyboard,
+	cursor
 }) => {
 	SetNuiFocus(keyboard, cursor)
 	return true

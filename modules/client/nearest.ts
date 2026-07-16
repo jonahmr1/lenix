@@ -23,11 +23,11 @@ const coords = (coords: Vec3, zones: Vec3[]): Vec3 | undefined => {
 const player = (
 	coords: Vec3,
 	maxDistance = 2.0,
-	includePlayer = false,
+	includePlayer = false
 ): {
-	playerId?: number
-	playerPed?: number
-	playerCoords?: Vec3
+	playerId?: number,
+	playerPed?: number,
+	playerCoords?: Vec3,
 	playerVehicle?: number
 } => {
 	const players = GetActivePlayers()
@@ -44,10 +44,19 @@ const player = (
 			const playerPed = GetPlayerPed(playerId)
 			const vehicle = GetVehiclePedIsIn(playerPed, false)
 			const playerCoords = (
-				vehicle === 0 ? GetEntityCoords(playerPed, false) : GetWorldPositionOfEntityBone(playerPed, 0)
+				vehicle === 0
+					? GetEntityCoords(playerPed, false)
+					: GetWorldPositionOfEntityBone(playerPed, 0)
 			) as Vec3
 
-			const distance = Vdist(coords[0], coords[1], coords[2], playerCoords[0], playerCoords[1], playerCoords[2])
+			const distance = Vdist(
+				coords[0],
+				coords[1],
+				coords[2],
+				playerCoords[0],
+				playerCoords[1],
+				playerCoords[2]
+			)
 
 			if (distance < maxDistance) {
 				maxDistance = distance
@@ -59,34 +68,39 @@ const player = (
 		}
 	}
 
-	return { playerId: closestId, playerPed: closestPed, playerCoords: closestCoords, playerVehicle: closestVehicle }
+	return {
+		playerId: closestId,
+		playerPed: closestPed,
+		playerCoords: closestCoords,
+		playerVehicle: closestVehicle
+	}
 }
 
 const vehicle = (entity: number, radialSpace: number): number | undefined => {
-  const coords = GetEntityCoords(entity)
-  const vehicles = GetGamePool('CVehicle') as number[]
+	const coords = GetEntityCoords(entity)
+	const vehicles = GetGamePool('CVehicle') as number[]
 
-  let closest: number | undefined
-  let closestDistance = radialSpace
+	let closest: number | undefined
+	let closestDistance = radialSpace
 
-  for (const vehicle of vehicles) {
-    const vehCoords = GetEntityCoords(vehicle)
-    const x = coords[0] - vehCoords[0]
-    const y = coords[1] - vehCoords[1]
-    const z = coords[2] - vehCoords[2]
-    const distance = Math.sqrt(x * x + y * y + z * z)
+	for (const vehicle of vehicles) {
+		const vehCoords = GetEntityCoords(vehicle)
+		const x = coords[0] - vehCoords[0]
+		const y = coords[1] - vehCoords[1]
+		const z = coords[2] - vehCoords[2]
+		const distance = Math.sqrt(x * x + y * y + z * z)
 
-    if (distance < closestDistance) {
-      closestDistance = distance
-      closest = vehicle
-    }
-  }
+		if (distance < closestDistance) {
+			closestDistance = distance
+			closest = vehicle
+		}
+	}
 
-  return closest
+	return closest
 }
 
 export const getNearest = {
 	player,
 	vehicle,
-	coords,
+	coords
 }

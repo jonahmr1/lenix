@@ -5,20 +5,20 @@ export const useTimer = (
 	onTick: (timeLeft: number) => void,
 	onEnd: () => void
 ): () => void => {
-  const start = GetGameTimer()
+	const start = GetGameTimer()
 
-  const interval = setInterval(() => {
-    const elapsed = GetGameTimer() - start
-    const timeLeft = duration - elapsed
+	const interval = setInterval(() => {
+		const elapsed = GetGameTimer() - start
+		const timeLeft = duration - elapsed
 
-    if (elapsed >= duration) {
-      clearInterval(interval)
-      onEnd()
-      return
-    }
+		if (elapsed >= duration) {
+			clearInterval(interval)
+			onEnd()
+			return
+		}
 
-    onTick(timeLeft)
-  }, updateInterval)
+		onTick(timeLeft)
+	}, updateInterval)
 
-  return () => clearInterval(interval)
+	return () => clearInterval(interval)
 }
