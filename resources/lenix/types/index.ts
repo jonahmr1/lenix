@@ -1,4 +1,4 @@
-import type { Vec3, Vec4 } from "@lenix/lenix";
+import type { Vec3, Vec4, Event, Request } from "@lenix/lenix";
 
 type AtLeastOne<T> = {
 	[K in keyof T]-?: { [P in K]: T[P] } & Partial<Omit<T, K>>
@@ -10,14 +10,6 @@ type AtLeastOne<T> = {
 
 export type Vector3 = Vec3
 export type Vector4 = Vec4
-
-export type Event<Id extends string, Params extends unknown[] = never> = [Id, Params]
-
-export type Request<Response, Id extends string, Params extends object = {}> =
-	Params extends readonly unknown[]
-	? never
-	: [Response, Id, Params];
-
 
 export type DutyState = 'on' | 'off' | 'break'
 export type TalkState = 'on' | 'off'

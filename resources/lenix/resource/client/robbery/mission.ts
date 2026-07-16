@@ -2,8 +2,8 @@
 import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
 import { DRILL_ITEM, PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
 import type { Vector3 } from "types/index"
-import { getClosestPlayer } from "../_lib"
 import { team } from "."
+import { getNearest } from "@lenix/lenix/client"
 
 export const vehicleDoorsBroken = {
 	left: false,
@@ -91,7 +91,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				if (IsPedInAnyVehicle(ped, false)) return
 				if (IsPedInCombat(ped, 0)) return
 				const pedCoords = GetEntityCoords(ped, true) as Vector3
-				const { playerPed } = getClosestPlayer(pedCoords, 100.0, true)
+				const { playerPed } = getNearest.player(pedCoords, 100.0, true)
 				if (playerPed) TaskCombatPed(ped, playerPed, 0, 16)
 			})
 		}

@@ -1,14 +1,14 @@
 import { GetPlayer } from '@overextended/ox_core/client'
 import { getNearbyVehicles, notify } from '@overextended/ox_lib/client'
 import { Vector3 } from '@overextended/core/vector'
-import type { Vector3 as Vec3 } from 'types'
-import { getNearestCoords, getClosestPlayer } from '../_lib'
+import { getNearest } from '@lenix/lenix/client'
+import type { Vec3 } from '@lenix/lenix'
 
 const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined] => {
 	const vehicles = getNearbyVehicles(new Vector3(...coords), 3.0)
 	const zoneCoords: Vec3[] = vehicles.map(({ coords: { x, y, z } }) => [x, y, z])
 
-	const closestCoords = getNearestCoords(coords, zoneCoords)
+	const closestCoords = getNearest.coords(coords, zoneCoords)
 	const closestVehicle = vehicles.find(vehicle =>
 		vehicle.coords.toArray().every((vehicle, i) => vehicle === closestCoords?.[i]),
 	)?.vehicle
@@ -23,7 +23,7 @@ on('lenix:client:interactions:in', () => {
 		return
 	}
 
-	const nearest = getClosestPlayer(coords as Vec3, 2.0, false)
+	const nearest = getNearest.player(coords as Vec3, 2.0, false)
 	if (!nearest.playerId || !nearest.playerPed) {
 		notify({ title: 'No one nearby!' })
 		return

@@ -1,10 +1,6 @@
-import { getNearest } from "@lenix/lenix/client"
 import { requestModel } from "@overextended/ox_lib/client"
 import type { Vector4 } from "types/index"
 export { emitEvent, onNui, useTimer } from '@lenix/lenix/client'
-
-export const getNearestCoords = getNearest.coords
-export const getClosestPlayer = getNearest.player
 
 export const spawnPed = async (coords: Vector4, model = 'a_m_m_prolhost_01') => {
 	const requestedModel = await requestModel(model)
