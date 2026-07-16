@@ -23,7 +23,7 @@ export type Vec3 = [number, number, number]
 
 export type Event<Id extends string, Params extends unknown[] = never> = [Id, Params]
 
-export type Request<Response, Id extends string, Params extends object = {}> = Params extends
+export type Request<Response, Id extends string, Params extends object = { [key: string]: unknown }> = Params extends
 	readonly unknown[] ? never
 	: [Response, Id, Params]
 

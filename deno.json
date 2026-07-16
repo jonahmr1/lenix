@@ -51,8 +51,9 @@
 	},
 	"lint": {
 		"include": [
-			"modules"
+			"modules/**"
 		],
+		"exclude": ["dist/**"],
 		"rules": {
 			"tags": [
 				"recommended",

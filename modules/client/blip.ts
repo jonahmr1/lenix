@@ -21,7 +21,7 @@ const create = ({
 	return blip
 }
 
-const destroy = (blip: number) => {
+const destroy = (blip: number): void => {
 	RemoveBlip(blip)
 	blips.delete(blip)
 }

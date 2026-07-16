@@ -62,6 +62,7 @@ const create = ({
 		rotationOrder = details?.rotationOrder ?? 0
 
 	DoScreenFadeOut(fadeOut)
+	// deno-lint-ignore no-boolean-literal-for-arguments
 	const cam = CreateCamWithParams(
 		'DEFAULT_SCRIPTED_CAMERA',
 		coords[0],
