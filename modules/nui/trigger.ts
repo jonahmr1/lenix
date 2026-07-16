@@ -1,5 +1,6 @@
-// deno-lint-ignore-file no-undef
 import type { Request } from '../types/index.ts'
+
+declare function GetParentResourceName(): string
 
 export const triggerNui = async <T extends Request<unknown, string, object>>(
 	id: T[1],
