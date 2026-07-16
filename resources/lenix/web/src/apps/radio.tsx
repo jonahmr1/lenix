@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { triggetNui, onEvent } from '@/lib'
+import { triggerNui, onEvent } from '@/lib'
 import type { Events, Requests } from 'types'
 
 export default () => {
@@ -11,7 +11,7 @@ export default () => {
 			if (event.key !== 'Escape') return
 
 			setDisplay(false)
-			triggetNui<Requests['closeRadio']>('radio:close')
+			triggerNui<Requests['closeRadio']>('radio:close')
 		}
 
 		window.addEventListener('keydown', escHandler)
@@ -35,14 +35,14 @@ export default () => {
 					onKeyDown={event => {
 						if (event.key !== 'Enter') return
 
-						triggetNui<Requests['changeFrequency']>('radio:frequency', { frequency })
+						triggerNui<Requests['changeFrequency']>('radio:frequency', { frequency })
 					}}
 				/>
 				<button
 					className='absolute top-80/100 left-38/100 -translate-x-1/2 cursor-pointer hover:bg-black/20 w-8 h-5'
 					title='Leave the frequency'
 					onClick={() => {
-						triggetNui<Requests['leaveRadio']>('radio:leave')
+						triggerNui<Requests['leaveRadio']>('radio:leave')
 						setFreq('')
 					}}
 				/>

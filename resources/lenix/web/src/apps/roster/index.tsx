@@ -3,7 +3,7 @@ import { Separator } from '@/components/ui/separator'
 import { useEffect, useState } from 'react'
 import type { Events, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
-import { onEvent, triggetNui } from '@/lib'
+import { onEvent, triggerNui } from '@/lib'
 import { DEV } from '@/index'
 import { Frown } from 'lucide-react'
 
@@ -24,7 +24,7 @@ export const Roster = () => {
 		const handler = (event: KeyboardEvent) => {
 			if (event.key !== 'Escape') return
 
-			triggetNui<Requests['loseFocus']>('roster:lostFocus')
+			triggerNui<Requests['loseFocus']>('roster:lostFocus')
 		}
 		window.addEventListener('keydown', handler)
 
@@ -34,14 +34,14 @@ export const Roster = () => {
 	onEvent<Events['displayRoster']>('roster:display', (state, playerId) => {
 		setDisplay(state)
 		setPlayerId(playerId)
-		console.debug({state})
+		console.debug({ state })
 	})
 	onEvent<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers)
 
 	if (!playerId) return
 
 	const updateOfficer = (playerId: number, updates: OfficerUpdates) => {
-		triggetNui<Requests['updateOfficer']>('roster:updateOfficer', {
+		triggerNui<Requests['updateOfficer']>('roster:updateOfficer', {
 			playerId,
 			...updates
 		})
@@ -64,7 +64,7 @@ export const Roster = () => {
 	}
 
 	const handleCallsign = () => {
-		triggetNui<Requests['triggerCallsign']>('roster:callsign')
+		triggerNui<Requests['triggerCallsign']>('roster:callsign')
 	}
 
 	return (
@@ -128,7 +128,7 @@ export const Roster = () => {
 				</div>
 			) : (
 				<div>
-					
+
 				</div>
 			)}
 		</div>

@@ -1,3 +1,5 @@
+import type { Vec3, Vec4 } from "@lenix/lenix";
+
 type AtLeastOne<T> = {
 	[K in keyof T]-?: { [P in K]: T[P] } & Partial<Omit<T, K>>
 }[keyof T];
@@ -6,8 +8,8 @@ type AtLeastOne<T> = {
 // 	[P in K]: T[P];
 // } & AtLeastOne<Omit<T, K>>;
 
-export type Vector3 = [number, number, number]
-export type Vector4 = [number, number, number, number]
+export type Vector3 = Vec3
+export type Vector4 = Vec4
 
 export type Event<Id extends string, Params extends unknown[] = never> = [Id, Params]
 
