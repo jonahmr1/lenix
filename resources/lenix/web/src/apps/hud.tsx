@@ -1,5 +1,5 @@
+import { onEvent } from '@lenix/lenix/nui'
 import { useState } from 'react'
-import { onEvent } from '@/lib'
 import type { Events } from 'types'
 
 interface Clip {

@@ -3,9 +3,9 @@ import { Separator } from '@/components/ui/separator'
 import { useEffect, useState } from 'react'
 import type { Events, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
-import { onEvent, triggerNui } from '@/lib'
 import { DEV } from '@/index'
 import { Frown } from 'lucide-react'
+import { onEvent, triggerNui } from '@lenix/lenix/nui'
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)

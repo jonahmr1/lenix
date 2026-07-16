@@ -1,5 +1,5 @@
+import { onEvent, triggerNui } from '@lenix/lenix/nui'
 import { useEffect, useState } from 'react'
-import { triggerNui, onEvent } from '@/lib'
 import type { Events, Requests } from 'types'
 
 export default () => {
