@@ -1,4 +1,8 @@
 // deno-lint-ignore-file no-undef
+
+/**
+ * Starts a client timer using FiveM game time.
+ */
 export const useTimer = (
 	duration: number,
 	updateInterval: number,

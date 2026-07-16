@@ -18,6 +18,9 @@ export interface Blip {
 
 const blips = new Set<number>()
 
+/**
+ * Creates a tracked map blip.
+ */
 const create = ({
 	coords,
 	icon
@@ -30,6 +33,9 @@ const create = ({
 	return blip
 }
 
+/**
+ * Removes a tracked map blip.
+ */
 const destroy = (blip: number): void => {
 	RemoveBlip(blip)
 	blips.delete(blip)
