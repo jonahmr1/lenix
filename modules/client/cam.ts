@@ -2,9 +2,6 @@
 
 import type { Vec4 } from '../index.ts'
 
-/**
- * Screen fade settings used when toggling a scripted camera.
- */
 export interface BaseCamDetails {
 	/**
 	 * Fade-out duration in milliseconds.
@@ -20,9 +17,6 @@ export interface BaseCamDetails {
 	delay?: number
 }
 
-/**
- * Settings used to create and activate a scripted camera.
- */
 export interface CreateCamSettings {
 	/**
 	 * Camera coordinates and heading.
@@ -44,9 +38,6 @@ export interface CreateCamSettings {
 	} & BaseCamDetails
 }
 
-/**
- * Settings used to deactivate a scripted camera.
- */
 export interface DestroyCamSettings {
 	/**
 	 * Camera handle to deactivate.
