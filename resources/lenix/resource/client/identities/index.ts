@@ -15,7 +15,16 @@ addKeybind({
 	},
 })
 
-interface DrawText3DOptions {
+// From https://github.com/Qbox-project/qbx_core/blob/main/modules/lib.lua#L441
+const drawText3D = ({
+	text,
+	coords,
+	scale = 0.75,
+	font = 4,
+	color = [255, 255, 255, 255],
+	enableDropShadow = true,
+	enableOutline = true,
+}: {
 	text: string
 	coords: Vector3
 	scale?: number | [number, number]
@@ -24,17 +33,7 @@ interface DrawText3DOptions {
 	enableDropShadow?: boolean
 	enableOutline?: boolean
 	disableDrawRect?: boolean
-}
-
-export const drawText3D = ({
-	text,
-	coords,
-	scale = 0.75,
-	font = 4,
-	color = [255, 255, 255, 255],
-	enableDropShadow = true,
-	enableOutline = true,
-}: DrawText3DOptions) => {
+}) => {
 	const [sx, sy] = typeof scale === 'number' ? [scale, scale] : scale
 
 	SetTextScale(sx, sy)

@@ -13,3 +13,4 @@ export const VEHICLE_BLIP_UPDATE_INTERVAL = 1000
 export const PEDS_MODEL = 'mp_s_m_armoured_01'
 export const VEHICLE_PEDS_AMOUNT = 6
 export const DRILL_ITEM = 'drill'
+export const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]

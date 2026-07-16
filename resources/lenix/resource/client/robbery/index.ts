@@ -1,11 +1,9 @@
-import type { Team, Vector4 } from "types/index";
+import type { Team } from "types/index";
 import { alertDialog, cache, createPed, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
-import { MISSION_PRICE } from "common/robbery";
+import { MISSION_PRICE, PED_COORDS } from "common/robbery";
 import './mission'
 import { tick } from "./mission";
 import { useTimer } from "lenix/client";
-
-const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
 export let team: Team | undefined
 let inviteTick: number
@@ -13,24 +11,16 @@ let inviteTick: number
 const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
 
-const createTeam = async () => {
-	const moneyAmount = globalThis.exports.ox_inventory.GetItemCount('money')
-	if (moneyAmount < MISSION_PRICE) {
+const refreshContext = async () => {
+	const team = await triggerServerCallback<Team | undefined>('lenix:server:robbery:getTeam', 5000)
+	if (!team) {
 		notify({
-			type: 'error',
-			title: 'Not enough money!',
-			description: `You need ${MISSION_PRICE - moneyAmount} more`
+			title: 'Failed to open',
+			type: 'error'
 		})
 		return
 	}
-	const teamCreated = await triggerServerCallback<Team | undefined>('lenix:server:robbery:createteam', null)
-	if (!teamCreated) return
 
-	team = teamCreated
-	refreshContext()
-}
-
-const refreshContext = () => {
 	registerContext({
 		id: 'robbery-mission',
 		title: 'Robbery Mission',
@@ -39,7 +29,7 @@ const refreshContext = () => {
 				title: `Create team ($${MISSION_PRICE})`,
 				disabled: isLeader() || isInTeam(),
 				onSelect: async () => {
-					createTeam()
+					emitNet('lenix:server:robbery:createteam')
 				}
 			},
 			{

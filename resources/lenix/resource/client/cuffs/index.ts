@@ -64,7 +64,7 @@ const gettingCuffedAnimation = async (playerId: number) => {
 	stopAnim('mp_arrest_paired')
 }
 
-export const setCuffs = () => {
+export const setCuffs = async () => {
 	if (!isCuffed) return
 
 	DisableAllControlActions(0)
@@ -76,12 +76,12 @@ export const setCuffs = () => {
 		if (IsEntityPlayingAnim(cache.ped, anim.dict, anim.anim, 3)) return
 	}
 
-	requestAnimDict('mp_arresting')
+	await requestAnimDict('mp_arresting')
 	playAnim('mp_arresting', 'idle', 8.0, -8.0)
 }
 
 on('lenix:client:cuff', () => {
-	const nearest = getNearest.player(...getEntity.coords(true))
+	const nearest = getNearest.player(getEntity.coords(true))
 	if (!nearest.playerId) {
 		notify({
 			title: 'No one nearby!',

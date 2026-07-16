@@ -9,24 +9,55 @@ export let states = {
 	isRunning: false
 }
 
+const notify = (source: number, data: {
+	title: string
+	type?: 'error'
+	description?: string
+}) => emitNet('ox_lib:notify', source, data)
+
 const refreshTeam = (team: Team) => {
 	team.teammates.forEach(teammate => {
     emitNet('lenix:client:robbery:updateteam', teammate, team)
   })
 }
 
-onClientCallback('lenix:server:robbery:createteam', async (leader): Promise<Team | undefined> => {
-	const result = globalThis.exports.ox_inventory.RemoveItem(leader, 'money', MISSION_PRICE)
-	const [success, response] = Array.isArray(result) ? result : [result, undefined]
-	if (!success) throw new Error(`Could not create team for player<${leader}>, reason: ${response}`)
-
-	teams.set(leader, { leader, teammates: [leader] })
+const createTeam = () => {
+	teams.set(source, { leader: source, teammates: [source] })
 
 	if (!states.isRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 		states.isRunning = true
 		startRobbery()
 	}
-	return teams.get(leader)
+}
+
+const deleteTeam = (leader: number) => {
+	teams.delete(leader)
+}
+
+onClientCallback('lenix:server:robbery:getTeam', (source) => {
+	return teams.get(source)
+})
+
+onNet('lenix:server:robbery:createteam', async () => {
+	const moneyAmount = globalThis.exports.ox_inventory.GetItemCount(source, 'money')
+	if (moneyAmount < MISSION_PRICE) {
+		notify(source, {
+			type: 'error',
+			title: 'Not enough money!',
+			description: `You need ${MISSION_PRICE - moneyAmount} more`
+		})
+		return
+	}
+
+	const result = globalThis.exports.ox_inventory.RemoveItem(source, 'money', MISSION_PRICE)
+	const [success, response] = Array.isArray(result) ? result : [result, undefined]
+	if (!success) throw new Error(`Could not create team for player<${source}>, reason: ${response}`)
+
+	createTeam()
+})
+
+on('ox:playerLogout', (playerId: number) => {
+	deleteTeam(playerId)
 })
 
 onNet('lenix:server:robbery:leaveteam', () => {

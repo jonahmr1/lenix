@@ -15,8 +15,7 @@ for (const [room, { coords, rotation }] of Object.entries(HOTEL_SAFES)) {
 	})
 }
 
-
-on('ox:playerLoaded', async (playerId: number, isNew: boolean) => {
+on('ox:playerLoaded', async (_playerId: number, isNew: boolean) => {
 	if (isNew) return
 
 	const player = GetPlayer()
