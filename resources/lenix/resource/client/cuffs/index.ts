@@ -1,6 +1,7 @@
 import { getNearest } from '@lenix/lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
+import { playAnim, stopAnim } from '../_lib'
 
 let isCuffed = false
 
@@ -8,7 +9,6 @@ const anims = [
 	{ dict: 'mp_arresting', anim: 'idle' },
 	{ dict: 'mp_arrest_paired', anim: 'crook_p2_back_right' },
 ]
-
 const ALLOWED_CONTROLS = new Set([
 	0, // INPUT_NEXT_CAMERA
 	1, // INPUT_LOOK_LR
@@ -40,15 +40,12 @@ const ALLOWED_CONTROLS = new Set([
 ])
 
 const handCuffAnimation = async () => {
-	requestAnimDict('mp_arrest_paired')
-	await sleep(100)
-
-	TaskPlayAnim(cache.ped, 'mp_arrest_paired', 'cop_p2_back_right', 3.0, 3.0, -1, 48, 0, false, false, false)
+	await playAnim('mp_arrest_paired', 'cop_p2_back_right')
 
 	await sleep(3500)
 
-	TaskPlayAnim(cache.ped, 'mp_arrest_paired', 'exit', 3.0, 3.0, -1, 48, 0, false, false, false)
-	RemoveAnimDict('mp_arrest_paired')
+	await playAnim('mp_arrest_paired', 'exit')
+	stopAnim('mp_arrest_paired')
 }
 
 const getCuffedAnimation = async (playerId: number) => {
@@ -63,11 +60,11 @@ const getCuffedAnimation = async (playerId: number) => {
 	await sleep(100)
 
 	SetEntityHeading(cache.ped, heading)
-	TaskPlayAnim(cache.ped, 'mp_arrest_paired', 'crook_p2_back_right', 3.0, 3.0, -1, 32, 0, false, false, false)
+	await playAnim('mp_arrest_paired', 'crook_p2_back_right')
 
 	await sleep(2500)
 
-	RemoveAnimDict('mp_arrest_paired')
+	stopAnim('mp_arrest_paired')
 }
 
 export const setCuffs = () => {
@@ -83,7 +80,7 @@ export const setCuffs = () => {
 	}
 
 	requestAnimDict('mp_arresting')
-	TaskPlayAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8.0, -1, 48, 0, false, false, false)
+	playAnim('mp_arresting', 'idle', 8.0, -8.0)
 }
 
 on('lenix:client:cuff', () => {
@@ -113,6 +110,6 @@ onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 		emitNet('lenix:server:cuffs:toggle', cache.serverId)
 	} else {
 		ClearPedTasks(cache.ped)
-		RemoveAnimDict('mp_arresting')
+		stopAnim('mp_arresting')
 	}
 })

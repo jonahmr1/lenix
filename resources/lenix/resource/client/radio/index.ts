@@ -1,6 +1,7 @@
 import { cache, notify, requestAnimDict } from '@overextended/ox_lib/client'
 import type { Events, Requests } from 'types/index'
 import { emitEvent, onNui } from '@lenix/lenix/client'
+import { playAnim, stopAnim } from '../_lib'
 
 const dict = 'cellphone@'
 const anim = 'cellphone_text_read_base'
@@ -13,8 +14,8 @@ const toggleRadioAnimation = async () => {
 	await requestAnimDict(dict)
 
 	if (state) {
-		TaskPlayAnim(cache.ped, dict, anim, 2.0, 3.0, -1, 49, 0, false, false, false)
-		RemoveAnimDict(dict)
+		playAnim(dict, anim)
+		stopAnim(dict)
 
 		radioProp = CreateObject(GetHashKey('prop_cs_hand_radio'), 1.0, 1.0, 1.0, true, true, false)
 

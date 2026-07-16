@@ -1,4 +1,5 @@
 import { addKeybind, cache, requestAnimDict } from "@overextended/ox_lib/client"
+import { playAnim } from "../_lib"
 
 let handsUp: boolean = false
 
@@ -13,7 +14,7 @@ addKeybind({
 		if (handsUp) {
 			ClearPedTasks(cache.ped)
 		} else {
-			TaskPlayAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base', 2.0, 2.0, -1, 50, 0, false, false, false)
+			playAnim('missminuteman_1ig_2', 'handsup_base')
 		}
 		handsUp = !handsUp
 	}
