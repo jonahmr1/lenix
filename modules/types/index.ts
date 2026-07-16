@@ -33,7 +33,3 @@ export interface _InternalRequests {
 		cursor: boolean
 	}>
 }
-
-declare global {
-	function GetParentResourceName(): string
-}
