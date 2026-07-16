@@ -3,10 +3,11 @@ import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
 import type { Faq } from "@/types"
-import { H1, P } from "@lenix/lenix"
 import { Book, MessageCircle, Package } from "lucide-react"
 import { useNavigate } from "react-router"
 import { Footer } from "~/components/articles/footer"
+import { H1 } from "../components/typography/h1.tsx";
+import { P } from "../components/typography/p.tsx";
 
 const data: Faq[] = [
 	{

@@ -4,7 +4,6 @@
 	"license": "MIT",
 	"exports": {
 		".": "./modules/index.ts",
-		"./components": "./dist/components.js",
 		"./client": "./modules/client/index.ts",
 		"./server": "./modules/server/index.ts",
 		"./shared": "./modules/shared/index.ts",

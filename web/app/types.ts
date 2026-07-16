@@ -26,3 +26,5 @@ export interface FooterLink {
 export type ProductSlug = keyof typeof products
 export type Product = typeof products[keyof typeof products]
 export type Products = Record<ProductSlug, Product>
+
+export interface Children { children: ReactNode }

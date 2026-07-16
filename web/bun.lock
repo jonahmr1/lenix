@@ -7,7 +7,6 @@
       "dependencies": {
         "@base-ui/react": "^1.6.0",
         "@fontsource-variable/oxanium": "^5.2.8",
-        "@lenix/lenix": "^1.8.5",
         "@react-router/node": "7.15.1",
         "@react-router/serve": "7.15.1",
         "@remixicon/react": "^4.9.0",
@@ -219,8 +218,6 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
-
-    "@lenix/lenix": ["@jsr/lenix__lenix@1.8.5", "https://npm.jsr.io/~/11/@jsr/lenix__lenix/1.8.5.tgz", {}, "sha512-PRBoYUH/tnIhx2esFTw3Fruuo9y0cPQ0oaGo/K8KwaItnyTPdzmuL33u9ajML/EtOuJmSGtPYTIcRHYCtfFckg=="],
 
     "@mapbox/node-pre-gyp": ["@mapbox/node-pre-gyp@2.0.3", "", { "dependencies": { "consola": "^3.2.3", "detect-libc": "^2.0.0", "https-proxy-agent": "^7.0.5", "node-fetch": "^2.6.7", "nopt": "^8.0.0", "semver": "^7.5.3", "tar": "^7.4.0" }, "bin": { "node-pre-gyp": "bin/node-pre-gyp" } }, "sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg=="],
 

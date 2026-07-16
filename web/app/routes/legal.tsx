@@ -1,7 +1,8 @@
 import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import type { Faq } from "@/types"
-import { H1, P } from "@lenix/lenix"
+import { P } from "../components/typography/p.tsx";
+import { H1 } from "../components/typography/h1.tsx";
 
 export default () => {
 	const tos: Faq[] = [

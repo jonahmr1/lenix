@@ -2,9 +2,13 @@ import { FeatureCard } from "@/components/articles/card";
 import { Layout } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { H1, H2, H3, Lead, P, Ul } from "@lenix/lenix";
 import { Check, Package, Settings, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
+import { H1 } from "../components/typography/h1.tsx";
+import { P } from "../components/typography/p.tsx";
+import { H2 } from "../components/typography/h2.tsx";
+import { Ul } from "../components/typography/ul.tsx";
+import { H3 } from "../components/typography/h3.tsx";
 
 export default () => {
 	const navigate = useNavigate()
