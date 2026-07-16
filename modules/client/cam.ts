@@ -2,26 +2,59 @@
 
 import type { Vec4 } from '../index.ts'
 
+/**
+ * Screen fade settings used when toggling a scripted camera.
+ */
 export interface BaseCamDetails {
+	/**
+	 * Fade-out duration in milliseconds.
+	 */
 	fadeOut?: number
+	/**
+	 * Fade-in duration in milliseconds.
+	 */
 	fadeIn?: number
+	/**
+	 * Delay before the camera state changes.
+	 */
 	delay?: number
 }
 
+/**
+ * Settings used to create and activate a scripted camera.
+ */
 export interface CreateCamSettings {
+	/**
+	 * Camera coordinates and heading.
+	 */
 	coords: Vec4
+	/**
+	 * Camera vertical and horizontal rotation.
+	 */
 	rotation: {
 		vertical: number,
 		horizontal: number
 	}
+	/**
+	 * Optional camera field-of-view, rotation order, and fade settings.
+	 */
 	details?: {
 		fov?: number,
 		rotationOrder?: number
 	} & BaseCamDetails
 }
 
+/**
+ * Settings used to deactivate a scripted camera.
+ */
 export interface DestroyCamSettings {
+	/**
+	 * Camera handle to deactivate.
+	 */
 	cam: number
+	/**
+	 * Optional fade settings.
+	 */
 	details?: BaseCamDetails
 }
 

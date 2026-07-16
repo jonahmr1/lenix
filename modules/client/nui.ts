@@ -1,6 +1,9 @@
 // deno-lint-ignore-file no-undef
 import type { Request } from '../types/index.ts'
 
+/**
+ * Sends an event from the game client to the NUI browser.
+ */
 export const emitEvent = <T extends [string, unknown[]]>(id: T[0], ...params: T[1]): void => {
 	if (
 		!SendNuiMessage(
@@ -14,6 +17,9 @@ export const emitEvent = <T extends [string, unknown[]]>(id: T[0], ...params: T[
 	}
 }
 
+/**
+ * Registers a typed NUI callback on the game client.
+ */
 export const onNui = <T extends Request<unknown, string, object>>(
 	id: T[1],
 	cb: (data: T[2]) => T[0]

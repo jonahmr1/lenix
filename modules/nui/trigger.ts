@@ -2,6 +2,9 @@ import type { Request } from '../types/index.ts'
 
 declare function GetParentResourceName(): string
 
+/**
+ * Sends a typed request from the NUI browser to the game client.
+ */
 export const triggerNui = async <T extends Request<unknown, string, object>>(
 	id: T[1],
 	data?: T[2]
