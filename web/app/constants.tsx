@@ -1,7 +1,8 @@
 import type { ReactNode } from "react"
 import type { Faq } from "./types"
-import { Ul } from "./components/typography/ul.tsx";
-import { Code } from "./components/typography/code.tsx";
+import { Ul } from "./components/typography/ul";
+import { Code } from "./components/typography/code";
+import { P } from "./components/typography/p";
 
 export const getImage = (id: string) => `https://mezvgmfypkdvbnzvyxfz.supabase.co/storage/v1/object/public/images/${id}.png` as const
 
@@ -13,15 +14,17 @@ export const products = {
 		feature: 'v1.3',
 		description: 'A customer-gated Discord AI bot built with Rust, Serenity, and Poise. It registers slash commands, creates private AI forum spaces for eligible servers, and replies inside AI threads using a Groq-compatible OpenAI chat completion API.',
 		price: 14.99,
-		features: <Ul className="*:text-foreground/66 *:text-sm">
-			<li><Code>/ping</Code> replies with a private Pong confirmation.</li>
-			<li><Code>/lenix</Code> replies with a private Lenix greeting.</li>
-			<li><Code>/ai-space</Code> posts a button for creating or opening a private AI forum space.</li>
-			<li>AI spaces are created as Discord forum channels named per user.</li>
-			<li>AI thread replies keep in-memory conversation history per thread.</li>
-			<li>Commands are restricted to configured customer servers.</li>
-			<li>The bot token is provided by you so you can customize the logo, banner, username, about, ... and have access to all the other standard bot's built-in features</li>
-		</Ul>,
+		include: (
+			<>
+				<Ul className="*:text-foreground/66 *:text-sm">
+					<li>Lifetime license.</li>
+					<li>Documentation.</li>
+					<li>Free updates.</li>
+					<li>Community support via Discord.</li>
+				</Ul>
+				<P>Taxes may apply. Final price will be calculated at checkout.</P>
+			</>
+		),
 		accordion: [
 			{
 				question: 'Delivery',
@@ -48,6 +51,6 @@ export const products = {
 	feature: string
 	description: string
 	price: number
-	features: ReactNode
+	include: ReactNode
 	accordion: Faq[]
 }>

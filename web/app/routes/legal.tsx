@@ -1,15 +1,15 @@
 import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import type { Faq } from "@/types"
-import { P } from "../components/typography/p.tsx";
-import { H1 } from "../components/typography/h1.tsx";
+import { P } from "../components/typography/p";
+import { H1 } from "../components/typography/h1";
 
 export default () => {
 	const tos: Faq[] = [
 		{
-        	question: 'About These Terms',
-        	answer: 'These Terms of Service govern the purchase and use of products offered under the Code Hub brand, operated by Siagh Marouane Younes. By accessing, purchasing, or using our products, you agree to be bound by these Terms.'
-        },
+			question: 'About These Terms',
+			answer: 'These Terms of Service govern the purchase and use of products offered under the Code Hub brand, operated by Siagh Marouane Younes. By accessing, purchasing, or using our products, you agree to be bound by these Terms.'
+		},
 		{
 			question: 'Acceptance of Terms',
 			answer: 'By accessing or using our services, you agree to be bound by these Terms of Service and all applicable laws and regulations.'

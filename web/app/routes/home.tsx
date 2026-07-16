@@ -6,8 +6,8 @@ import type { Faq } from "@/types"
 import { Book, MessageCircle, Package } from "lucide-react"
 import { useNavigate } from "react-router"
 import { Footer } from "~/components/articles/footer"
-import { H1 } from "../components/typography/h1.tsx";
-import { P } from "../components/typography/p.tsx";
+import { H1 } from "../components/typography/h1";
+import { P } from "../components/typography/p";
 
 const data: Faq[] = [
 	{
