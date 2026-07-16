@@ -51,9 +51,9 @@ const player = (
 			const playerPed = GetPlayerPed(playerId)
 			// deno-lint-ignore no-boolean-literal-for-arguments
 			const vehicle = GetVehiclePedIsIn(playerPed, false)
-			const playerCoords: Vec3 = (
-				vehicle === 0 ? getEntity.coords(true, playerPed) : GetWorldPositionOfEntityBone(playerPed, 0) as Vec3
-			)
+			const playerCoords: Vec3 = vehicle === 0
+				? getEntity.coords(true, playerPed)
+				: GetWorldPositionOfEntityBone(playerPed, 0) as Vec3
 
 			const distance = Vdist(
 				coords[0],

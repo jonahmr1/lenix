@@ -23,7 +23,6 @@ export type Request<
 > = Params extends readonly unknown[] ? never
 	: [Response, Id, Params]
 
-	
 /**
  * Internal NUI requests used by Lenix helpers. DO NOT USE
  */
@@ -33,4 +32,3 @@ export interface _InternalRequests {
 		cursor: boolean
 	}>
 }
-	
