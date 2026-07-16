@@ -27,11 +27,13 @@ export type Request<Response, Id extends string, Params extends object = { [key:
 	readonly unknown[] ? never
 	: [Response, Id, Params]
 
-declare function GetParentResourceName(): string
-
 export interface _InternalRequests {
 	focus: Request<true, '__nuiFocus', {
 		keyboard: boolean,
 		cursor: boolean
 	}>
+}
+
+declare global {
+	function GetParentResourceName(): string
 }

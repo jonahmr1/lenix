@@ -22,7 +22,7 @@
 	},
 	"tasks": {
 		"check": "deno check modules/index.ts && deno check modules/components/index.ts && deno check modules/client/index.ts && deno check modules/server/index.ts && deno check modules/shared/index.ts",
-		"build": "deno bundle --packages external --declaration modules/components/index.ts -o dist/components.js"
+		"pre": "deno publish --dry-run"
 	},
 	"imports": {
 		"@citizenfx/client": "npm:@citizenfx/client@2.0.32698-1",

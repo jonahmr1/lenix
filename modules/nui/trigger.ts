@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-undef
 import type { Request } from '../types/index.ts'
 
 export const triggerNui = async <T extends Request<unknown, string, object>>(
@@ -5,8 +6,7 @@ export const triggerNui = async <T extends Request<unknown, string, object>>(
 	data?: T[2]
 ): Promise<T[0]> => {
 	try {
-		// deno-lint-ignore no-window
-		const response = await fetch(`https://${window.GetParentResourceName()}/${id}`, {
+		const response = await fetch(`https://${GetParentResourceName()}/${id}`, {
 			method: 'post',
 			headers: {
 				'Content-Type': 'application/json; charset=UTF-8'
