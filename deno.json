@@ -1,6 +1,6 @@
 {
 	"name": "@lenix/lenix",
-	"version": "1.8.8",
+	"version": "1.8.9",
 	"license": "MIT",
 	"exports": {
 		".": "./modules/index.ts",
