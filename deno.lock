@@ -2,10 +2,7 @@
   "version": "5",
   "specifiers": {
     "npm:@citizenfx/client@2.0.32698-1": "2.0.32698-1",
-    "npm:@citizenfx/server@2.0.32561-1": "2.0.32561-1",
-    "npm:@types/react@^19.2.17": "19.2.17",
-    "npm:react@^19.2.7": "19.2.7",
-    "npm:tailwind-merge@^3.6.0": "3.6.0"
+    "npm:@citizenfx/server@2.0.32561-1": "2.0.32561-1"
   },
   "npm": {
     "@citizenfx/client@2.0.32698-1": {
@@ -13,30 +10,12 @@
     },
     "@citizenfx/server@2.0.32561-1": {
       "integrity": "sha512-2V76aX67pvB00mCbkMIPsTLWsXRJUHhTCVXuEYKm5jSaVh21ZnNN7t2AzRhNOEovBnllXDDHKcVaNzvzwN1fMA=="
-    },
-    "@types/react@19.2.17": {
-      "integrity": "sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==",
-      "dependencies": [
-        "csstype"
-      ]
-    },
-    "csstype@3.2.3": {
-      "integrity": "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ=="
-    },
-    "react@19.2.7": {
-      "integrity": "sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ=="
-    },
-    "tailwind-merge@3.6.0": {
-      "integrity": "sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w=="
     }
   },
   "workspace": {
     "dependencies": [
       "npm:@citizenfx/client@2.0.32698-1",
-      "npm:@citizenfx/server@2.0.32561-1",
-      "npm:@types/react@^19.2.17",
-      "npm:react@^19.2.7",
-      "npm:tailwind-merge@^3.6.0"
+      "npm:@citizenfx/server@2.0.32561-1"
     ]
   }
 }
