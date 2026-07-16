@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-undef
-import type { Vec3 } from '../types/index.ts'
+import type { Vec3 } from '../shared/types.ts'
 import { getEntity } from './entity.ts'
 
 /**
