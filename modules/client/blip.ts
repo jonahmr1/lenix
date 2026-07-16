@@ -2,7 +2,6 @@
 
 import type { Vec4 } from '../shared/types.ts'
 
-
 export interface Blip {
 	/**
 	 * Blip world coordinates and heading.
