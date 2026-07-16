@@ -11,13 +11,9 @@
 	},
 	"publish": {
 		"include": [
-			"dist/**",
 			"modules/**",
 			"LICENSE",
 			"README.md"
-		],
-		"exclude": [
-			"!dist/**"
 		]
 	},
 	"tasks": {
