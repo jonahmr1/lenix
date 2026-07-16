@@ -1,6 +1,6 @@
 import { cache } from '@overextended/ox_lib'
 import type { Events } from 'types/index'
-import { emitEvent } from '../_lib'
+import { emitEvent } from '@lenix/lenix/client'
 
 type OxWeapon =
 	| {

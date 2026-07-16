@@ -1,7 +1,6 @@
 import { cache } from '@overextended/ox_lib'
-import { notify, createVehicle, registerContext, showContext } from '@overextended/ox_lib/client'
+import { notify, createVehicle, registerContext, showContext, createPed } from '@overextended/ox_lib/client'
 import type { Vector4 } from 'types'
-import { spawnPed } from '../_lib'
 
 let lastVehicle: number
 let vehicleInterval: ReturnType<typeof setInterval>
@@ -90,7 +89,7 @@ const spawnVehicle = async (model: string, spawn: Vector4) => {
 
 setImmediate(() => {
 	PEDS.map(async ({ coords, spawn, menu }) => {
-		const entity = await spawnPed(coords)
+		const entity = await createPed('a_m_m_prolhost_01', ...coords, true)
 		if (!entity) return
 
 		globalThis.exports.ox_target.addLocalEntity(entity, [

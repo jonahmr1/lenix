@@ -1,9 +1,9 @@
 import type { Team, Vector4 } from "types/index";
-import { spawnPed, useTimer } from "../_lib";
-import { alertDialog, cache, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { alertDialog, cache, createPed, hideTextUI, inputDialog, notify, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
 import { MISSION_PRICE } from "common/robbery";
 import './mission'
 import { tick } from "./mission";
+import { useTimer } from "@lenix/lenix/client";
 
 const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.8470]
 
@@ -147,7 +147,7 @@ onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
 })
 
 setImmediate(async () => {
-	const entity = await spawnPed(PED_COORDS)
+		const entity = await createPed('a_m_m_prolhost_01', ...PED_COORDS, true)
 	if (!entity) return
 
 	globalThis.exports.ox_target.addLocalEntity(entity, {
