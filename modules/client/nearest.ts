@@ -2,6 +2,9 @@
 import type { Vec3 } from '../types/index.ts'
 import { getEntity } from './entity.ts'
 
+/**
+ * Finds the nearest coordinates from a list.
+ */
 const coords = (coords: Vec3, zones: Vec3[]): Vec3 | undefined => {
 	let closest: Vec3 | undefined
 	let closestDistance = Infinity
@@ -21,6 +24,9 @@ const coords = (coords: Vec3, zones: Vec3[]): Vec3 | undefined => {
 	return closest
 }
 
+/**
+ * Finds the nearest player around the provided coordinates.
+ */
 const player = (
 	coords: Vec3,
 	maxDistance = 2.0,
@@ -76,6 +82,9 @@ const player = (
 	}
 }
 
+/**
+ * Finds the nearest vehicle around an entity.
+ */
 const vehicle = (entity: number, radialSpace: number): number | undefined => {
 	const coords = GetEntityCoords(entity)
 	const vehicles = GetGamePool('CVehicle') as number[]

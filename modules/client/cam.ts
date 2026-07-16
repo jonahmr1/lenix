@@ -80,6 +80,9 @@ const toggleCam = ({
 	DoScreenFadeOut(fadeOut)
 }
 
+/**
+ * Creates and activates a scripted camera.
+ */
 const create = ({
 	coords,
 	rotation: {
@@ -120,6 +123,9 @@ const create = ({
 	return cam
 }
 
+/**
+ * Deactivates a scripted camera.
+ */
 const destroy = ({
 	cam,
 	details
@@ -138,7 +144,6 @@ const destroy = ({
 }
 
 // TODO: delete cams on resource stop
-
 export const cam = {
 	create,
 	destroy
