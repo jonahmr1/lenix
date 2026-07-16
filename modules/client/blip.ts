@@ -2,9 +2,6 @@
 
 import type { Vec4 } from '../index.ts'
 
-/**
- * Options used to create a map blip.
- */
 export interface Blip {
 	/**
 	 * Blip world coordinates and heading.
