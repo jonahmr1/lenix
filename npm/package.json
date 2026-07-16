@@ -1,7 +1,7 @@
 {
   "name": "lenix",
   "version": "1.6.4",
-  "description": "",
+  "description": "Typed FiveM utilities for client, server, shared, and NUI scripts",
   "author": "Lenix",
   "license": "MIT",
   "type": "module",
@@ -36,8 +36,8 @@
     "nui"
   ],
   "scripts": {
-    "prepack": "rm -rf ./client ./server ./shared ./nui && cp -R ../modules/client ./client && cp -R ../modules/server ./server && cp -R ../modules/shared ./shared && cp -R ../modules/nui ./nui",
-    "preview-package": "rm -rf ./package-preview && mkdir -p ./package-preview && bun pm pack --destination ./package-preview && tar -xzf ./package-preview/*.tgz -C ./package-preview && find ./package-preview/package -type f | sort"
+    "prepare": "rm -rf ./client ./server ./shared ./nui && cp -R ../modules/client ./client && cp -R ../modules/server ./server && cp -R ../modules/shared ./shared && cp -R ../modules/nui ./nui && cp -R ../LICENSE ./",
+    "packpreview": "rm -rf ./package-preview && mkdir -p ./package-preview && bun pm pack --destination ./package-preview && tar -xzf ./package-preview/*.tgz -C ./package-preview && find ./package-preview/package -type f | sort"
   },
   "devDependencies": {
     "@types/bun": "latest"
