@@ -18,5 +18,5 @@ export const onNui = <T extends Request<unknown, string, object>>(
 	id: T[1],
 	cb: (data: T[2]) => T[0]
 ): void => {
-	RegisterNuiCallback(id, (data: T[2], reply: (_: any) => void) => reply(cb(data)))
+	RegisterNuiCallback(id, (data: T[2], reply: (_: unknown) => void) => reply(cb(data)))
 }

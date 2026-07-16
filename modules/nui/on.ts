@@ -3,6 +3,7 @@ import type { Event } from '../types/index.ts'
 const cbs = new Map<string, (...params: unknown[]) => void>()
 
 // TODO: remove the event
+// deno-lint-ignore no-window no-window-prefix no-unused-vars
 const handler = window.addEventListener('message', (event: MessageEvent) => {
 	const { id, params } = event.data
 	const cb = cbs.get(id)

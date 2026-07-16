@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-undef
 import type { Vec3 } from '../types/index.ts'
+import { getEntity } from './entity.ts'
 
 const coords = (coords: Vec3, zones: Vec3[]): Vec3 | undefined => {
 	let closest: Vec3 | undefined
@@ -42,10 +43,11 @@ const player = (
 
 		if (playerId !== PlayerPedId() || includePlayer) {
 			const playerPed = GetPlayerPed(playerId)
+			// deno-lint-ignore no-boolean-literal-for-arguments
 			const vehicle = GetVehiclePedIsIn(playerPed, false)
 			const playerCoords = (
 				vehicle === 0
-					? GetEntityCoords(playerPed, false)
+					? getEntity.coords(playerPed)
 					: GetWorldPositionOfEntityBone(playerPed, 0)
 			) as Vec3
 
