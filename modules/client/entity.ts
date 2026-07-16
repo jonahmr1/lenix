@@ -4,7 +4,7 @@ import type { Vec3, Vec4 } from '../types/index.ts'
 /**
  * Gets entity coordinates and heading.
  */
-const coords = (entity: number, isAlive = true): Vec4 => [
+const coords = (entity = PlayerPedId(), isAlive = true): Vec4 => [
 	...GetEntityCoords(entity, isAlive) as Vec3,
 	GetEntityHeading(entity)
 ]
