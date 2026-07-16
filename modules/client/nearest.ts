@@ -51,9 +51,9 @@ const player = (
 			const playerPed = GetPlayerPed(playerId)
 			// deno-lint-ignore no-boolean-literal-for-arguments
 			const vehicle = GetVehiclePedIsIn(playerPed, false)
-			const playerCoords = (
-				vehicle === 0 ? getEntity.coords(playerPed) : GetWorldPositionOfEntityBone(playerPed, 0)
-			) as Vec3
+			const playerCoords: Vec3 = (
+				vehicle === 0 ? getEntity.coords(true, playerPed) : GetWorldPositionOfEntityBone(playerPed, 0) as Vec3
+			)
 
 			const distance = Vdist(
 				coords[0],
@@ -86,7 +86,7 @@ const player = (
  * Finds the nearest vehicle around an entity.
  */
 const vehicle = (entity: number, radialSpace: number): number | undefined => {
-	const coords = GetEntityCoords(entity)
+	const coords: Vec3 = getEntity.coords(true, entity)
 	const vehicles = GetGamePool('CVehicle') as number[]
 
 	let closest: number | undefined
