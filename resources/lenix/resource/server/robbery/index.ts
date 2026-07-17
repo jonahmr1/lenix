@@ -44,13 +44,12 @@ abstract class Teams {
 		const team = this.teams.get(leader)
 		if (!team) throw new Error(`Failed to delete team with player<${leader}>`)
 
-
 		this.updatePlayer(team.members, undefined)
 		this.teams.delete(leader)
 	}
 
-	static get(leader: number) {
-		return this.teams.get(leader)
+	private static get(member: number) {
+		return [...this.teams.values()].find(team => team.members.includes(member))
 	}
 
 	static invite(inviter: number, invited: number) {
@@ -65,7 +64,7 @@ abstract class Teams {
 			return
 		}
 
-		const targetTeam = [...this.teams.values()].find(team => team.members.includes(invited))
+		const targetTeam = this.get(invited)
 		if (targetTeam) {
 			notify(inviter, {
 				type: 'error',
@@ -97,22 +96,22 @@ abstract class Teams {
 	}
 
 	static leave(playerId: number) {
-		const team = [...this.teams.values()].find(team => team.members.includes(playerId))
+		const team = this.team(playerId)
 		if (!team) throw new Error(`Failed to leave a team with player<${playerId}>`)
 
 		team.members = team.members.filter(teammate => teammate !== playerId)
 		this.updatePlayer(playerId, undefined)
 	}
 
-	static updatePlayer(playerId: number, team: Team | undefined): void
-	static updatePlayer(playerIds: number[], team: Team | undefined): void
-	static updatePlayer(target: number | number[], team: Team | undefined) {
+	private static updatePlayer(playerId: number, team: Team | undefined): void
+	private static updatePlayer(playerIds: number[], team: Team | undefined): void
+	private static updatePlayer(target: number | number[], team: Team | undefined) {
 		const ids = Array.isArray(target) ? target : [target]
 
 		for (const id of ids) emitNet('lenix:client:robbery:updatePlayer', id, team)
 	}
 
-	static join(inviter: number, invited: number) {
+	private static join(inviter: number, invited: number) {
 		const team = this.get(inviter)
 		if (!team) throw new Error(`Error occured happend while serving player<${invited}>`)
 
@@ -124,7 +123,7 @@ abstract class Teams {
 		this.attendRobbery(invited)
 	}
 
-	static attendRobbery(invited: number) {
+	private static attendRobbery(invited: number) {
 		if (!this.robberyActive) return
 
 		notify(invited, {
@@ -132,11 +131,11 @@ abstract class Teams {
 		})
 	}
 
-	static forEachMember(cb: (member: Team['members'][number]) => void) {
+	private static forEachMember(cb: (member: Team['members'][number]) => void) {
 		this.teams.forEach(team => team.members.forEach(member => cb(member)))
 	}
 
-	static async start() {
+	private static async start() {
 		const randomIndex = random(VEHICLE_COORDS.length - 1)
 		const coords = VEHICLE_COORDS[randomIndex]
 		if (!coords) throw new Error(`Failed to get the coords at #${randomIndex} from VEHICLE_COORDS`)
@@ -159,7 +158,7 @@ abstract class Teams {
 		onNet('lenix:server:robbery:takemoney', finishHandler)
 	}
 
-	static finish() {
+	private static finish() {
 		globalThis.exports.ox_inventory.AddItem(source, 'money', 10000)
 
 		setTimeout(this.robberyVeh.despawn, 60_000)
@@ -169,6 +168,19 @@ abstract class Teams {
 		this.teams.clear()
 		this.robberyActive = false
 		clearInterval(this.interval)
+	}
+
+	static logout(playerId: number) {
+		const team = this.teams.get(playerId)
+		if (team) {
+			this.delete(playerId)
+			return
+		}
+
+		const remover = this.get(playerId)?.leader
+		if (!remover) throw new Error(`Failed to remove player<${playerId}> when he logout`)
+
+		this.remove(remover, playerId)
 	}
 }
 
@@ -192,4 +204,4 @@ onNet('lenix:server:robbery:leaveTeam', () => {
 	Teams.leave(source)
 })
 
-on('ox:playerLogout', Teams.delete)
+on('ox:playerLogout', Teams.logout)
