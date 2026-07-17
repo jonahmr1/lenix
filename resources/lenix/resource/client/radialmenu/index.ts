@@ -11,36 +11,34 @@ addRadialItem([
 		id: 'escort',
 		label: 'Escort',
 		icon: 'user-group',
-		onSelect: () => {
-			emit('lenix:client:escort')
-		},
+		onSelect: () => emit('lenix:client:escort')
 	},
 	{
 		id: 'put-in-vehicle',
 		label: 'Put in vehicle',
 		icon: 'arrow-right-to-bracket',
-		onSelect: () => {
-			emit('lenix:client:interactions:in')
-		},
+		onSelect: () => emit('lenix:client:interactions:in')
 	},
 	{
 		id: 'take-out-vehicle',
 		label: 'Take out of vehicle',
 		icon: 'arrow-right-from-bracket',
-		onSelect: () => {
-			emit('lenix:client:interactions:out')
-		},
+		onSelect: () => emit('lenix:client:interactions:out')
 	},
 	{
 		id: 'emote',
 		label: 'Emotes',
 		icon: 'person-walking',
-		onSelect: () => {
-			notify({
-				title: 'Not available yet!',
-			})
-		},
+		onSelect: () => notify({
+			title: 'Not available yet!',
+		})
 	},
+	{
+		id: 'settings',
+		label: 'Settings',
+		icon: 'gear',
+		onSelect: () => emit('lenix:client:settings:open')
+	}
 ])
 
 onCache('vehicle', vehicle => {
