@@ -139,18 +139,12 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 		}, 100)
 	})
 
-	if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
-
-	notify({
-		title: 'The guards have been notified'
-	})
-
 	if (!vehicle) return
 
 	const seats = GetVehicleModelNumberOfSeats(GetHashKey(VEHICLE_MODEL))
 	const hash = await requestModel(PEDS_MODEL)
 	const peds: number[] = []
-	let guardsAlerted = false
+	let guardsFedUp = false
 
 	for (let seat = -1; seat < seats - 1; seat++) {
 		const ped = CreatePedInsideVehicle(vehicle, 26, hash, seat, true, false)
@@ -175,7 +169,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 	blipTick = setTick(() => {
 		if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
 		
-		if (guardsAlerted) {
+		if (guardsFedUp) {
 			peds.forEach(ped => {
 				if (IsEntityDead(ped)) return
 				if (IsPedInAnyVehicle(ped, false)) return
@@ -185,7 +179,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 				if (playerPed) TaskCombatPed(ped, playerPed, 0, 16)
 			})
 		} else if (GetVehicleDoorAngleRatio(vehicle, 1) > 0.1 || GetVehicleDoorAngleRatio(vehicle, 3) > 0.1) {
-			guardsAlerted = true
+			guardsFedUp = true
 			peds.forEach(ped => {
 				SetBlockingOfNonTemporaryEvents(ped, false)
 				SetPedFleeAttributes(ped, 0, false)

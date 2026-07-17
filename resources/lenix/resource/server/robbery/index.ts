@@ -158,7 +158,7 @@ abstract class Teams {
 			this.attendRobbery(member)
 			emitNet('lenix:client:robbery:startrobbery', member, vehicle?.netId)
 		})
-		
+
 		const finishHandler = () => {
 			this.finish()
 			removeEventListener('lenix:server:robbery:takemoney', finishHandler)
