@@ -1,14 +1,14 @@
-import type { ITeam } from "types/index";
+import type { Team } from "types/index";
 import { alertDialog, cache, createPed, hideTextUI, inputDialog, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
 import { MISSION_PRICE, PED_COORDS } from "common/robbery";
 import './mission'
 import { tick } from "./mission";
 import { useTimer } from "lenix/client";
 
-export let team: ITeam | undefined
+export let team: Team | undefined
 let inviteTick: number
 
-const isInTeam = () => !!team?.teammates.find(teammate => teammate === cache.serverId)
+const isInTeam = () => !!team?.members.find(member => member === cache.serverId)
 const isLeader = () => team?.leader === cache.serverId
 
 const refreshContext = async () => {
@@ -50,8 +50,6 @@ const refreshContext = async () => {
 				disabled: !isInTeam() || isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:leaveteam')
-					// updatedTeam = undefined
-					// refreshContext()
 				}
 			},
 			{
@@ -59,7 +57,6 @@ const refreshContext = async () => {
 				disabled: !isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:deleteteam')
-					// refreshContext()
 				}
 			},
 		]
@@ -69,7 +66,7 @@ const refreshContext = async () => {
 		id: 'robbery-mission-kick',
 		title: 'Kick a teammate',
 		options: (() => {
-			const teammates = updatedTeam?.teammates.filter(t => t !== updatedTeam?.leader) ?? []
+			const teammates = team?.members.filter(member => member !== team?.leader) ?? []
 			return teammates.length > 0
 				? teammates.map(teammate => ({
 					title: `${teammate}`,
@@ -115,16 +112,13 @@ onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
 	})
 })
 
-// onNet('lenix:client:robbery:updateteam', (updatedTeam: Team) => {
-// 	team = updatedTeam
-// 	refreshContext()
-// })
-
-// onNet('lenix:client:robbery:removefromteam', () => {
-// 	team = undefined
-// 	clearTick(tick)
-// 	refreshContext()
-// })
+onNet('lenix:client:robbery:updatePlayer', (updatedTeam: Team | undefined) => {
+	if (!team) {
+		clearTick(tick)
+	}
+	team = updatedTeam
+	refreshContext()
+})
 
 setImmediate(async () => {
 	const entity = await createPed('a_m_m_prolhost_01', ...PED_COORDS, true)
@@ -133,7 +127,6 @@ setImmediate(async () => {
 	globalThis.exports.ox_target.addLocalEntity(entity, {
 		label: 'Robbery Mission',
 		onSelect: () => {
-			refreshContext()
 			showContext('robbery-mission')
 		}
 	})
