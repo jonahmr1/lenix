@@ -70,7 +70,7 @@ const refreshContext = async () => {
 			return teammates.length > 0
 				? teammates.map(teammate => ({
 					title: `${teammate}`,
-					onSelect: () => emitNet('lenix:server:robbery:kickteammate', teammate)
+					onSelect: () => emitNet('lenix:server:robbery:kickMember', teammate)
 				}))
 				: [{ title: 'No teammates found', readOnly: true }]
 		})()
@@ -107,7 +107,7 @@ onNet('lenix:client:robbery:receiveInvite', (inviter: number) => {
 				centered: true,
 				cancel: true
 			})
-			emitNet('lenix:server:robbery:invitedone', inviter, res satisfies 'cancel' | 'confirm')
+			emitNet('lenix:server:robbery:inviteDone', inviter, res satisfies 'cancel' | 'confirm')
 		}
 	})
 })

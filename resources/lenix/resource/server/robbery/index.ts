@@ -82,10 +82,10 @@ abstract class Teams {
 				// maybe notify the inviter? whatever
 			}
 
-			removeEventListener('lenix:server:robbery:invitedone', handler)
+			removeEventListener('lenix:server:robbery:inviteDone', handler)
 			// if (states.isRunning) addPlayerToRobbery(source)
 		}
-		onNet('lenix:server:robbery:invitedone', handler)
+		onNet('lenix:server:robbery:inviteDone', handler)
 	}
 
 	static remove(remover: number, removed: number) {
@@ -133,7 +133,7 @@ onNet('lenix:server:robbery:invite', (playerId: number) => {
 	Teams.invite(source, playerId)
 })
 
-onNet('lenix:server:robbery:kickteammate', (target: number) => {
+onNet('lenix:server:robbery:kickMember', (target: number) => {
 	Teams.remove(source, target)
 })
 
