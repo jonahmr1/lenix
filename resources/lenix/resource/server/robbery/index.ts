@@ -1,12 +1,12 @@
-import { onClientCallback } from "@overextended/ox_lib/server"
 import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE } from "common/robbery"
 import type { Team } from "types/index"
 import "./mission"
-import { addPlayerToRobbery, startRobbery } from "./mission"
+import { startRobbery } from "./mission"
 import { server } from "lenix/server"
 
-abstract class Teams {
+export abstract class Teams {
 	private static readonly teams = new Map<number, Team>()
+	private static robberyActive = false
 
 	static create(leader: number) {
 		const moneyAmount = globalThis.exports.ox_inventory.GetItemCount(leader, 'money')
@@ -25,10 +25,10 @@ abstract class Teams {
 
 		this.teams.set(leader, { leader, members: [leader] })
 
-		// if (!states.isRunning && teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
-		// 	states.isRunning = true
-		// 	startRobbery()
-		// }
+		if (!this.robberyActive && this.teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
+			this.robberyActive = true
+			startRobbery()
+		}
 		this.updatePlayer(leader, this.teams.get(leader))
 	}
 
@@ -59,7 +59,7 @@ abstract class Teams {
 
 		const targetTeam = [...this.teams.values()].find(team => team.members.includes(invited))
 		if (targetTeam) {
-			emitNet('ox_lib:notify', inviter, {
+			notify(inviter, {
 				type: 'error',
 				title: 'Player is already in a/the team'
 			})
@@ -69,21 +69,11 @@ abstract class Teams {
 		emitNet('lenix:client:robbery:receiveInvite', invited, inviter)
 
 		const handler = (inviter: number, decision: 'cancel' | 'confirm') => {
-			const team = Teams.get(inviter)
-			if (!team) throw new Error(`Error occured happend while serving player<${invited}>`)
+			if (decision === 'confirm') this.join(inviter, invited)
 
-			if (decision === 'confirm') {
-				notify(inviter, {
-					title: `Player #${invited} joined the team`
-				})
-				team.members.push(invited)
-				this.updatePlayer([inviter, invited], team)
-			} else if (decision === 'cancel') {
-				// maybe notify the inviter? whatever
-			}
+			else if (decision === 'cancel') { /* maybe notify the inviter? whatever */ }
 
 			removeEventListener('lenix:server:robbery:inviteDone', handler)
-			// if (states.isRunning) addPlayerToRobbery(source)
 		}
 		onNet('lenix:server:robbery:inviteDone', handler)
 	}
@@ -113,10 +103,26 @@ abstract class Teams {
 
 		for (const id of ids) emitNet('lenix:client:robbery:updatePlayer', id, team)
 	}
-}
 
-export let states = {
-	isRunning: false
+	static join(inviter: number, invited: number) {
+		const team = Teams.get(inviter)
+		if (!team) throw new Error(`Error occured happend while serving player<${invited}>`)
+
+		notify(inviter, {
+			title: `Player #${invited} joined the team`
+		})
+		team.members.push(invited)
+		this.updatePlayer([inviter, invited], team)
+		this.attendRobbery(invited)
+	}
+
+	static attendRobbery(invited: number) {
+		if (!this.robberyActive) return
+
+		notify(invited, {
+			title: 'A new truck to rob can be found in the map'
+		})
+	}
 }
 
 const notify = (source: number, data: {

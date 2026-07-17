@@ -1,5 +1,5 @@
 import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
-import { states, teams } from "."
+import { states, Teams, teams } from "."
 import { CreateVehicle, type OxVehicle } from "@overextended/ox_core/server"
 
 const vehicleDoorsBroken = {
@@ -21,7 +21,7 @@ export const startRobbery = async () => {
 
 	teams.forEach(team => {
 		team.teammates.forEach(teammate => {
-			addPlayerToRobbery(teammate)
+			Teams.attendRobbery(teammate)
 		})
 	})
 
@@ -30,13 +30,6 @@ export const startRobbery = async () => {
 	interval = setInterval(() => {
 		GlobalState.robberyVehicleCoords = vehicle?.getCoords()
 	}, VEHICLE_BLIP_UPDATE_INTERVAL)
-}
-
-export const addPlayerToRobbery = (playerId: number) => {
-	emitNet('ox_lib:notify', playerId, {
-		type: 'success',
-		title: 'A new truck to rob can be found in the map'
-	})
 }
 
 onNet('lenix:server:robbery:breakdoor', (side: 'left' | 'right', netId: number) => {
