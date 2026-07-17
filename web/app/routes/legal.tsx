@@ -96,7 +96,7 @@ export default () => {
 		},
 		{
 			question: 'Digital Products',
-			answer: 'Customers may request a refund within 14 days of purchase. If you expressly request immediate access to the digital product before the 14-day withdrawal period ends and acknowledge that doing so waives your right to withdraw where permitted by applicable law, refunds may no longer be available after delivery. This does not affect any statutory rights you may have regarding defective or misrepresented products.'
+			answer: 'We offer a 14-day refund period for all purchases. If you are not satisfied with your purchase, you may request a full refund within 14 days of the original purchase date.'
 		},
 		{
 			question: 'Requesting a Refund',
