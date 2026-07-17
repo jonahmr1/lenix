@@ -1,12 +1,26 @@
 import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE } from "common/robbery"
 import type { Team } from "types/index"
-import "./mission"
-import { startRobbery } from "./mission"
 import { server } from "lenix/server"
+import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
+import { CreateVehicle, type OxVehicle } from "@overextended/ox_core/server"
 
-export abstract class Teams {
+const notify = (source: number, data: {
+	title: string
+	type?: 'error'
+	description?: string
+}) => emitNet('ox_lib:notify', source, data)
+
+abstract class Teams {
 	private static readonly teams = new Map<number, Team>()
 	private static robberyActive = false
+	private static robberyVeh: {
+		obj: OxVehicle
+		doors: {
+			left: boolean
+			right: boolean
+		}
+	}
+	private static interval: CitizenTimer
 
 	static create(leader: number) {
 		const moneyAmount = globalThis.exports.ox_inventory.GetItemCount(leader, 'money')
@@ -27,7 +41,7 @@ export abstract class Teams {
 
 		if (!this.robberyActive && this.teams.size >= MIN_TEAMS_TO_START_ROBBERY) {
 			this.robberyActive = true
-			startRobbery()
+			this.start()
 		}
 		this.updatePlayer(leader, this.teams.get(leader))
 	}
@@ -46,7 +60,7 @@ export abstract class Teams {
 	}
 
 	static invite(inviter: number, invited: number) {
-		if (Teams.get(inviter)?.leader !== inviter)
+		if (this.get(inviter)?.leader !== inviter)
 			throw new Error(`Exploit attempted by player<${inviter}>`)
 
 		if (!server.entity.handleFromSource(invited) || invited === inviter) {
@@ -105,7 +119,7 @@ export abstract class Teams {
 	}
 
 	static join(inviter: number, invited: number) {
-		const team = Teams.get(inviter)
+		const team = this.get(inviter)
 		if (!team) throw new Error(`Error occured happend while serving player<${invited}>`)
 
 		notify(inviter, {
@@ -123,13 +137,52 @@ export abstract class Teams {
 			title: 'A new truck to rob can be found in the map'
 		})
 	}
-}
 
-const notify = (source: number, data: {
-	title: string
-	type?: 'error'
-	description?: string
-}) => emitNet('ox_lib:notify', source, data)
+	static forEachMember(cb: (member: Team['members'][number]) => void) {
+		this.teams.forEach(team => team.members.forEach(member => cb(member)))
+	}
+
+	static async start() {
+		const randomIndex = random(VEHICLE_COORDS.length - 1)
+		const coords = VEHICLE_COORDS[randomIndex]
+		if (!coords) throw new Error(`Failed to get the coords at #${randomIndex} from VEHICLE_COORDS`)
+	
+		const vehicle = await CreateVehicle(VEHICLE_MODEL, [coords[0], coords[1], coords[2]], coords[3])
+		if (!vehicle) throw new Error(`Failed to create the vehicle`)
+	
+		this.robberyVeh.obj = vehicle
+		this.interval = setInterval(() => {
+			GlobalState.robberyVehicleCoords = vehicle?.getCoords()
+		}, VEHICLE_BLIP_UPDATE_INTERVAL)
+
+		this.forEachMember(this.attendRobbery)
+		emitNet('lenix:client:robbery:startrobbery', -1, vehicle?.netId)
+		
+		const finishHandler = (netId: number) => {
+			this.finish(netId)
+			removeEventListener('lenix:server:robbery:takemoney', finishHandler)
+		}
+		onNet('lenix:server:robbery:takemoney', finishHandler)
+	}
+
+	static finish(netId: number) {
+		globalThis.exports.ox_inventory.AddItem(source, 'money', 10000)
+
+		const tick = setTick(() => {
+			const entity = NetworkGetEntityFromNetworkId(netId)
+			if (!DoesEntityExist(entity)) return
+
+			setTimeout(this.robberyVeh.obj.despawn, 60_000)
+			clearTick(tick)
+		})
+
+		this.forEachMember(member => emitNet('lenix:client:robbery:removefromteam', member))
+
+		this.teams.clear()
+		this.robberyActive = false
+		clearInterval(this.interval)
+	}
+}
 
 onNet('lenix:server:robbery:createTeam', async () => {
 	Teams.create(source)
@@ -151,6 +204,4 @@ onNet('lenix:server:robbery:leaveTeam', () => {
 	Teams.leave(source)
 })
 
-on('ox:playerLogout', (playerId: number) => {
-	Teams.delete(playerId)
-})
+on('ox:playerLogout', Teams.delete)

@@ -118,7 +118,12 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
 				if (!success) return
 
-				emitNet('lenix:server:robbery:breakdoor', 'left', vehicleNetId)
+				vehicleDoorsBroken['left'] = true
+
+				if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
+				SetVehicleDoorOpen(vehicle, 2, false, false)
+				SetVehicleDoorOpen(vehicle, 3, false, false)
+
 				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'left-door')
 			}
 		},
@@ -141,8 +146,13 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				}
 				const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
 				if (!success) return
+				
+				vehicleDoorsBroken['right'] = true
 
-				emitNet('lenix:server:robbery:breakdoor', 'right', vehicleNetId)
+				if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
+				SetVehicleDoorOpen(vehicle, 2, false, false)
+				SetVehicleDoorOpen(vehicle, 3, false, false)
+
 				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'right-door')
 			}
 		},
@@ -194,20 +204,12 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				})
 				if (!res) return
 
+				vehicleDoorsBroken['left'] = false
+				vehicleDoorsBroken['right'] = false
+				clearTick(tick)
 				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'take-money')
 				emitNet('lenix:server:robbery:takemoney', vehicleNetId)
 			}
 		},
 	])
-})
-
-onNet('lenix:client:robbery:updatedoors', (side: 'left' | 'right', value: boolean, vehNetId: number) => {
-	vehicleDoorsBroken[side] = value
-	if (!value) clearTick(tick)
-
-	if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right'] || !vehNetId) return
-
-	const entity = NetToVeh(vehNetId)
-	SetVehicleDoorOpen(entity, 2, false, false)
-	SetVehicleDoorOpen(entity, 3, false, false)
 })
