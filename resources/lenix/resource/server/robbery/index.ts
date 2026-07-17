@@ -171,16 +171,16 @@ abstract class Teams {
 	}
 
 	static logout(playerId: number) {
-		const team = this.teams.get(playerId)
-		if (team) {
+		const team = this.get(playerId)
+		if (!team) return
+
+		const leader = team.leader
+		if (leader === playerId) {
 			this.delete(playerId)
 			return
 		}
 
-		const remover = this.get(playerId)?.leader
-		if (!remover) throw new Error(`Failed to remove player<${playerId}> when he logout`)
-
-		this.remove(remover, playerId)
+		this.remove(leader, playerId)
 	}
 }
 
