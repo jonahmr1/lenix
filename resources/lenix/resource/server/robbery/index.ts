@@ -13,13 +13,7 @@ const notify = (source: number, data: {
 abstract class Teams {
 	private static readonly teams = new Map<number, Team>()
 	private static robberyActive = false
-	private static robberyVeh: {
-		obj: OxVehicle
-		doors: {
-			left: boolean
-			right: boolean
-		}
-	}
+	private static robberyVeh: OxVehicle
 	private static interval: CitizenTimer
 
 	static create(leader: number) {
@@ -150,7 +144,7 @@ abstract class Teams {
 		const vehicle = await CreateVehicle(VEHICLE_MODEL, [coords[0], coords[1], coords[2]], coords[3])
 		if (!vehicle) throw new Error(`Failed to create the vehicle`)
 	
-		this.robberyVeh.obj = vehicle
+		this.robberyVeh = vehicle
 		this.interval = setInterval(() => {
 			GlobalState.robberyVehicleCoords = vehicle?.getCoords()
 		}, VEHICLE_BLIP_UPDATE_INTERVAL)
@@ -158,23 +152,17 @@ abstract class Teams {
 		this.forEachMember(this.attendRobbery)
 		emitNet('lenix:client:robbery:startrobbery', -1, vehicle?.netId)
 		
-		const finishHandler = (netId: number) => {
-			this.finish(netId)
+		const finishHandler = () => {
+			this.finish()
 			removeEventListener('lenix:server:robbery:takemoney', finishHandler)
 		}
 		onNet('lenix:server:robbery:takemoney', finishHandler)
 	}
 
-	static finish(netId: number) {
+	static finish() {
 		globalThis.exports.ox_inventory.AddItem(source, 'money', 10000)
 
-		const tick = setTick(() => {
-			const entity = NetworkGetEntityFromNetworkId(netId)
-			if (!DoesEntityExist(entity)) return
-
-			setTimeout(this.robberyVeh.obj.despawn, 60_000)
-			clearTick(tick)
-		})
+		setTimeout(this.robberyVeh.despawn, 60_000)
 
 		this.forEachMember(member => emitNet('lenix:client:robbery:removefromteam', member))
 

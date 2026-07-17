@@ -208,7 +208,7 @@ onNet('lenix:client:robbery:startrobbery', async (vehicleNetId: number) => {
 				vehicleDoorsBroken['right'] = false
 				clearTick(tick)
 				globalThis.exports.ox_target.removeEntity(vehicleNetId, 'take-money')
-				emitNet('lenix:server:robbery:takemoney', vehicleNetId)
+				emitNet('lenix:server:robbery:takemoney')
 			}
 		},
 	])
