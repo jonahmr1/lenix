@@ -135,7 +135,7 @@ export default () => {
 				<AccordionItems data={refund} />
 			</div>
 			<div>
-				<p className="text-sm text-muted-foreground">Last updated: Jul 15th 2026.</p>
+				<p className="text-sm text-muted-foreground">Last updated: Jul 17th 2026.</p>
 			</div>
 		</Layout>
 	)
