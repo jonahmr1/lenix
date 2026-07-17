@@ -1,5 +1,5 @@
-import { getEntity } from "lenix/client"
 import { requestAnimDict } from "@overextended/ox_lib/client"
+import { client } from "lenix/client"
 
 export const playAnim = async (
 	dict: string,
@@ -35,5 +35,5 @@ export const teleport = (
 	ragdol = false
 ) => {
 	SetEntityCoords(entity, x, y, z, alive, deadDisable, ragdol, clearArea)
-	SetEntityHeading(entity, h ?? getEntity.coords()[3])
+	SetEntityHeading(entity, h ?? client.entity.coords()[3])
 }
