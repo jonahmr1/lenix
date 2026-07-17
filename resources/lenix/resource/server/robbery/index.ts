@@ -35,11 +35,9 @@ abstract class Teams {
 	static delete(leader: number) {
 		const team = this.teams.get(leader)
 		if (!team) throw new Error(`Failed to delete team with player<${leader}>`)
-			
 
-		team.members.forEach(member => {
-			this.updatePlayer(member, undefined)
-		})
+
+		this.updatePlayer(team.members, undefined)
 		this.teams.delete(leader)
 	}
 
@@ -50,7 +48,7 @@ abstract class Teams {
 	static invite(inviter: number, invited: number) {
 		if (Teams.get(inviter)?.leader !== inviter)
 			throw new Error(`Exploit attempted by player<${inviter}>`)
-	
+
 		if (!server.entity.handleFromSource(invited) || invited === inviter) {
 			notify(inviter, {
 				type: 'error',
@@ -58,7 +56,7 @@ abstract class Teams {
 			})
 			return
 		}
-	
+
 		const targetTeam = [...this.teams.values()].find(team => team.members.includes(invited))
 		if (targetTeam) {
 			emitNet('ox_lib:notify', inviter, {
@@ -67,24 +65,23 @@ abstract class Teams {
 			})
 			return
 		}
-	
-		emitNet('lenix:client:robbery:receiveinvite', invited, inviter)
+
+		emitNet('lenix:client:robbery:receiveInvite', invited, inviter)
 
 		const handler = (inviter: number, decision: 'cancel' | 'confirm') => {
 			const team = Teams.get(inviter)
 			if (!team) throw new Error(`Error occured happend while serving player<${invited}>`)
-		
+
 			if (decision === 'confirm') {
 				notify(inviter, {
 					title: `Player #${invited} joined the team`
 				})
 				team.members.push(invited)
-				this.updatePlayer(inviter, team)
-				this.updatePlayer(invited, team)
+				this.updatePlayer([inviter, invited], team)
 			} else if (decision === 'cancel') {
 				// maybe notify the inviter? whatever
 			}
-			
+
 			removeEventListener('lenix:server:robbery:invitedone', handler)
 			// if (states.isRunning) addPlayerToRobbery(source)
 		}
@@ -98,20 +95,23 @@ abstract class Teams {
 		if (remover === removed) throw new Error(`Exploit attempt by player<${remover}>`)
 
 		team.members = team.members.filter(memb => memb !== removed)
-		this.updatePlayer(remover, team)
-		this.updatePlayer(removed, undefined)
+		this.updatePlayer([remover, removed], team)
 	}
 
 	static leave(playerId: number) {
 		const team = [...this.teams.values()].find(team => team.members.includes(playerId))
 		if (!team) throw new Error(`Failed to leave a team with player<${playerId}>`)
-	
+
 		team.members = team.members.filter(teammate => teammate !== playerId)
 		this.updatePlayer(playerId, undefined)
 	}
 
-	static updatePlayer(playerId: number, team: Team | undefined) {
-		emitNet('lenix:client:robbery:updatePlayer', playerId, team)
+	static updatePlayer(playerId: number, team: Team | undefined): void
+	static updatePlayer(playerIds: number[], team: Team | undefined): void
+	static updatePlayer(target: number | number[], team: Team | undefined) {
+		const ids = Array.isArray(target) ? target : [target]
+
+		for (const id of ids) emitNet('lenix:client:robbery:updatePlayer', id, team)
 	}
 }
 
@@ -125,7 +125,7 @@ const notify = (source: number, data: {
 	description?: string
 }) => emitNet('ox_lib:notify', source, data)
 
-onNet('lenix:server:robbery:createteam', async () => {
+onNet('lenix:server:robbery:createTeam', async () => {
 	Teams.create(source)
 })
 
@@ -137,11 +137,11 @@ onNet('lenix:server:robbery:kickteammate', (target: number) => {
 	Teams.remove(source, target)
 })
 
-onNet('lenix:server:robbery:deleteteam', () => {
+onNet('lenix:server:robbery:deleteTeam', () => {
 	Teams.delete(source)
 })
 
-onNet('lenix:server:robbery:leaveteam', () => {
+onNet('lenix:server:robbery:leaveTeam', () => {
 	Teams.leave(source)
 })
 

@@ -20,7 +20,7 @@ const refreshContext = async () => {
 				title: `Create team ($${MISSION_PRICE})`,
 				disabled: isLeader() || isInTeam(),
 				onSelect: async () => {
-					emitNet('lenix:server:robbery:createteam')
+					emitNet('lenix:server:robbery:createTeam')
 				}
 			},
 			{
@@ -49,14 +49,14 @@ const refreshContext = async () => {
 				title: 'Leave team',
 				disabled: !isInTeam() || isLeader(),
 				onSelect: () => {
-					emitNet('lenix:server:robbery:leaveteam')
+					emitNet('lenix:server:robbery:leaveTeam')
 				}
 			},
 			{
 				title: 'Delete team',
 				disabled: !isLeader(),
 				onSelect: () => {
-					emitNet('lenix:server:robbery:deleteteam')
+					emitNet('lenix:server:robbery:deleteTeam')
 				}
 			},
 		]
@@ -77,7 +77,7 @@ const refreshContext = async () => {
 	})
 }
 
-onNet('lenix:client:robbery:receiveinvite', (inviter: number) => {
+onNet('lenix:client:robbery:receiveInvite', (inviter: number) => {
 	if (inviteTick) return
 
 	const stop = useTimer(
