@@ -1,18 +1,35 @@
 import type { Vec3, Vec4 } from '../shared/types.ts'
 
+
 export const client: {
 	entity: {
-		handle: (entityNetId?: number) => number;
-		netId: (entity?: number) => number;
+		handle: (entityNetId?: number) => number
+		netId: (entity?: number) => number
 		coords: {
 			(excludeH: true, entity?: number, isAlive?: boolean): Vec3;
-			(excludeH?: false, entity?: number, isAlive?: boolean): Vec4;
-		};
-	};
+			(excludeH?: false, entity?: number, isAlive?: boolean): Vec4
+		}
+		teleport: (
+			x: number,
+			y: number,
+			z: number,
+			h?: number,
+			entity?: number,
+			clearArea?: boolean,
+			alive?: boolean,
+			deadDisable?: boolean,
+			ragdol?: boolean
+		) => void
+	}
 	player: {
-		serverId: (playerId?: number) => number;
-		id: (serverId?: number) => number;
-	};
+		serverId: (playerId?: number) => number
+		id: (serverId?: number) => number
+		storage: {
+			set: <T extends string>(key: T, value: string) => void
+			get: <T extends string>(key: T) => string
+			delete: <T extends string>(key: T) => void
+		}
+	}
 } = {
 	entity: {
 		/**
@@ -64,7 +81,22 @@ export const client: {
 			}
 
 			return coords
-		})()
+		})(),
+
+		teleport: (
+			x: number,
+			y: number,
+			z: number,
+			h?: number,
+			entity = client.entity.handle(),
+			clearArea = false,
+			alive = true,
+			deadDisable = false,
+			ragdol = false
+		) => {
+			SetEntityCoords(entity, x, y, z, alive, deadDisable, ragdol, clearArea)
+			SetEntityHeading(entity, h ?? client.entity.coords()[3])
+		}
 	},
 	player: {
 		/**
@@ -94,5 +126,12 @@ export const client: {
 		 * - serverId() -> your own server ID
 		 */
 		serverId: (playerId = client.player.id()) => GetPlayerServerId(playerId),
+
+		storage: {
+			set: <T extends string>(key: T, value: string) => SetResourceKvp(key, value),
+			get: <T extends string>(key: T) => GetResourceKvpString(key),
+			delete: <T extends string>(key: T) => DeleteResourceKvp(key)
+		}
 	}
 }
+
