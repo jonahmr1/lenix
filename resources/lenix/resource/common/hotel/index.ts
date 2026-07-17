@@ -11,6 +11,7 @@ export const FLOOR_HEIGHT: number = 4
 export const FIRST_ROOMS_FLOOR_INDEX: number = 4
 export const ROOMS_PER_FLOOR: number = 18
 export const FIRST_FLOOR_INDEX: number = 0
+export const STARTER_DEPOSIT = 5000
 
 export const HOTEL_FLOORS: number[] = Array.from({ length: FLOORS_AMOUNT }, (_, i) =>
 	i === 0 ? 0 : FIRST_ROOMS_FLOOR_INDEX + i - (FLOORS_AMOUNT - ROOM_FLOORS_AMOUNT),

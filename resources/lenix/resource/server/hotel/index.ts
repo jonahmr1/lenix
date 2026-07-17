@@ -1,6 +1,7 @@
 import { sleep } from '@overextended/core/utils'
+import { GetPlayer } from '@overextended/ox_core/server'
 import { oxmysql } from '@overextended/oxmysql'
-import { getSafeById, HOTEL_ROOMS, HOTEL_SAFES } from 'common/hotel'
+import { getSafeById, HOTEL_ROOMS, HOTEL_SAFES, STARTER_DEPOSIT } from 'common/hotel'
 import type { Vector4 } from 'types/index'
 
 const getTakenRooms = async () => {
@@ -76,8 +77,16 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 		})
 		if (!success) throw new Error(`Failed to give hotel room key to charId<${charId}>, reason: ${response}`)
 
-		const [success1, response1] = globalThis.exports.ox_inventory.AddItem(playerId, 'money', 5000)
-		if (!success1) throw new Error(`Failed to give money to charId<${charId}>, reason: ${response1}`)
+		const player = GetPlayer(playerId)
+		if (!player) throw new Error(`Failed to get player`)
+
+		const playerAccount = await player.getAccount()
+		if (!playerAccount) throw new Error(`Failed to get player account`)
+
+		playerAccount.addBalance({
+			amount: STARTER_DEPOSIT,
+			message: 'Character creation gift'
+		})
 	} catch(e) {
 		console.error(e)
 	}
