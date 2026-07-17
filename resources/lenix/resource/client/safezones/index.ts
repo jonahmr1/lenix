@@ -1,4 +1,4 @@
-import { Point, cache, notify } from '@overextended/ox_lib/client'
+import { Point, cache, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
 
 const SAFE_ZONES: {
@@ -47,14 +47,19 @@ SAFE_ZONES.map(({ coords, distance }) => {
 	})
 
 	point.onEnter = () => {
-		notify({
-			title: 'You are in the safe zone',
+		showTextUI('You are in the safe zone', {
+			position: 'top-center',
+			icon: 'circle-exclamation',
+			iconColor: '#FF5100',
+			iconAnimation: 'pulse',
+			style: {
+				borderRadius: '1rem',
+        backgroundColor: '#632E00',
+			}
 		})
 	}
 
 	point.onExit = () => {
-		notify({
-			title: 'You are no longer in the safe zone',
-		})
+		hideTextUI()
 	}
 })
