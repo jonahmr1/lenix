@@ -154,14 +154,19 @@ abstract class Teams {
 			GlobalState.robberyVehicleCoords = vehicle?.getCoords()
 		}, VEHICLE_BLIP_UPDATE_INTERVAL)
 
-		this.forEachMember(this.attendRobbery)
-		emitNet('lenix:client:robbery:startrobbery', -1, vehicle?.netId)
+		this.forEachMember(member => {
+			this.attendRobbery(member)
+			emitNet('lenix:client:robbery:startrobbery', member, vehicle?.netId)
+		})
 		
 		const finishHandler = () => {
 			this.finish()
 			removeEventListener('lenix:server:robbery:takemoney', finishHandler)
 		}
-		onNet('lenix:server:robbery:takemoney', finishHandler)
+		onNet('lenix:server:robbery:takemoney', () => {
+			if (!this.get(source)) throw new Error(`Exploit attempted by player<${source}>`)
+			finishHandler()
+		})
 	}
 
 	private static finish() {

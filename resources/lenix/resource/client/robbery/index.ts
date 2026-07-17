@@ -128,111 +128,7 @@ onNet('lenix:client:robbery:updatePlayer', (updatedTeam: Team | undefined) => {
 	refreshContext()
 })
 
-AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: string, coords: Vector3) => {
-	if (!coords || key !== 'robberyVehicleCoords') {
-		RemoveBlip(blip)
-		blip = -1
-		return
-	}
-	if (DoesBlipExist(blip)) {
-		SetBlipCoords(blip, ...coords)
-		return
-	}
-	blip = AddBlipForCoord(...coords)
-	SetBlipSprite(blip, 67)
-	SetBlipColour(blip, 27)
-	SetBlipAsShortRange(blip, false)
-})
-
-const setupTargets = (netId: number) => {
-	const breakDoor = async (side: 'left' | 'right') => {
-		const drillAmount = globalThis.exports.ox_inventory.GetItemCount(DRILL_ITEM)
-		if (drillAmount < 1) {
-			notify({
-				title: 'You\'re missing a drill'
-			})
-			return
-		}
-		const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
-		if (!success) return
-
-		vehicleDoorsBroken[side] = true
-
-		if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
-
-		const entity = client.entity.handle(netId)
-		SetVehicleDoorOpen(entity, 2, false, false)
-		SetVehicleDoorOpen(entity, 3, false, false)
-
-		globalThis.exports.ox_target.removeEntity(netId, `${side}-door`)
-	}
-
-	const takeMoney = async () => {
-		const res = await progressBar({
-			label: 'Taking money',
-			duration: 10000,
-			canCancel: false,
-			disable: {
-				combat: true,
-				move: true,
-			},
-			anim: {
-				dict: 'anim@scripted@heist@ig1_table_grab@gold@male@',
-				clip: 'grab'
-			},
-			prop: {
-				model: 'hei_p_m_bag_var22_arm_s',
-				bone: 24818,
-				pos: {
-					x: -0.31,
-					y: 0.0,
-					z: 0.0,
-				},
-				rot: {
-					x: 160.0,
-					y: -85.0,
-					z: 10.0,
-				},
-			},
-		})
-		if (!res) return
-
-		vehicleDoorsBroken['left'] = false
-		vehicleDoorsBroken['right'] = false
-		clearTick(blipTick)
-		globalThis.exports.ox_target.removeEntity(netId, 'take-money')
-
-		emitNet('lenix:server:robbery:takemoney')
-	}
-
-	globalThis.exports.ox_target.addEntity(netId, [
-		{
-			name: 'left-door',
-			label: 'Break Left Door',
-			bones: 'door_dside_r',
-			canInteract: () => team,
-			onSelect: async () => {
-				breakDoor('left')
-			}
-		},
-		{
-			name: 'right-door',
-			label: 'Break Right Door',
-			bones: 'door_pside_r',
-			canInteract: () => team,
-			onSelect: async () => breakDoor('right')
-		},
-		{
-			name: 'take-money',
-			label: 'Take Money',
-			bones: ['door_pside_r', 'door_dside_r'],
-			canInteract: () => team && vehicleDoorsBroken['left'] && vehicleDoorsBroken['right'],
-			onSelect: async () => takeMoney()
-		},
-	])
-}
-
-const setupVehAndPeds = async (netId: number) => {
+onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 	const vehicle = await new Promise<number>((resolve) => {
 		const interval = setInterval(() => {
 			const entity = NetworkGetEntityFromNetworkId(netId)
@@ -241,6 +137,12 @@ const setupVehAndPeds = async (netId: number) => {
 				resolve(entity)
 			}
 		}, 100)
+	})
+
+	if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
+
+	notify({
+		title: 'The guards have been notified'
 	})
 
 	if (!vehicle) return
@@ -270,25 +172,9 @@ const setupVehAndPeds = async (netId: number) => {
 		peds.push(ped)
 	}
 
-	if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
-
-	notify({
-		title: 'The guards have been notified'
-	})
-
 	blipTick = setTick(() => {
 		if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
-		if (!guardsAlerted) {
-			if (GetVehicleDoorAngleRatio(vehicle, 1) > 0.1 || GetVehicleDoorAngleRatio(vehicle, 3) > 0.1) {
-				guardsAlerted = true
-				peds.forEach(ped => {
-					SetBlockingOfNonTemporaryEvents(ped, false)
-					SetPedFleeAttributes(ped, 0, false)
-					TaskLeaveVehicle(ped, vehicle, 0)
-				})
-			}
-		}
-
+		
 		if (guardsAlerted) {
 			peds.forEach(ped => {
 				if (IsEntityDead(ped)) return
@@ -298,13 +184,115 @@ const setupVehAndPeds = async (netId: number) => {
 				const { playerPed } = getNearest.player(pedCoords, 100.0, true)
 				if (playerPed) TaskCombatPed(ped, playerPed, 0, 16)
 			})
+		} else if (GetVehicleDoorAngleRatio(vehicle, 1) > 0.1 || GetVehicleDoorAngleRatio(vehicle, 3) > 0.1) {
+			guardsAlerted = true
+			peds.forEach(ped => {
+				SetBlockingOfNonTemporaryEvents(ped, false)
+				SetPedFleeAttributes(ped, 0, false)
+				TaskLeaveVehicle(ped, vehicle, 0)
+			})
 		}
 	})
-}
+	
+	const breakDoor = async (side: 'left' | 'right') => {
+		const drillAmount = globalThis.exports.ox_inventory.GetItemCount(DRILL_ITEM)
+		if (drillAmount < 1) {
+			notify({
+				title: 'You\'re missing a drill'
+			})
+			return
+		}
+		const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
+		if (!success) return
 
-onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
-	setupVehAndPeds(netId)
-	setupTargets(netId)
+		vehicleDoorsBroken[side] = true
+
+		if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
+
+		const entity = client.entity.handle(netId)
+		SetVehicleDoorOpen(entity, 2, false, false)
+		SetVehicleDoorOpen(entity, 3, false, false)
+
+		globalThis.exports.ox_target.removeEntity(netId, `${side}-door`)
+	}
+
+	globalThis.exports.ox_target.addEntity(netId, [
+		{
+			name: 'left-door',
+			label: 'Break Left Door',
+			bones: 'door_dside_r',
+			canInteract: () => team,
+			onSelect: async () => {
+				breakDoor('left')
+			}
+		},
+		{
+			name: 'right-door',
+			label: 'Break Right Door',
+			bones: 'door_pside_r',
+			canInteract: () => team,
+			onSelect: async () => breakDoor('right')
+		},
+		{
+			name: 'take-money',
+			label: 'Take Money',
+			bones: ['door_pside_r', 'door_dside_r'],
+			canInteract: () => team && vehicleDoorsBroken['left'] && vehicleDoorsBroken['right'],
+			onSelect: async () => {
+				const res = await progressBar({
+					label: 'Taking money',
+					duration: 10000,
+					canCancel: false,
+					disable: {
+						combat: true,
+						move: true,
+					},
+					anim: {
+						dict: 'anim@scripted@heist@ig1_table_grab@gold@male@',
+						clip: 'grab'
+					},
+					prop: {
+						model: 'hei_p_m_bag_var22_arm_s',
+						bone: 24818,
+						pos: {
+							x: -0.31,
+							y: 0.0,
+							z: 0.0,
+						},
+						rot: {
+							x: 160.0,
+							y: -85.0,
+							z: 10.0,
+						},
+					},
+				})
+				if (!res) return
+		
+				vehicleDoorsBroken['left'] = false
+				vehicleDoorsBroken['right'] = false
+				clearTick(blipTick)
+				globalThis.exports.ox_target.removeEntity(netId, 'take-money')
+		
+				emitNet('lenix:server:robbery:takemoney')
+			}
+		},
+	])
+})
+
+AddStateBagChangeHandler('robberyVehicleCoords', null, (_bag: string, key: string, coords: Vector3) => {
+	if (!coords || key !== 'robberyVehicleCoords') {
+		RemoveBlip(blip)
+		blip = -1
+		return
+	}
+	if (DoesBlipExist(blip)) {
+		SetBlipCoords(blip, ...coords)
+		return
+	}
+	blip = AddBlipForCoord(...coords)
+	SetBlipSprite(blip, 67)
+	SetBlipColour(blip, 27)
+	SetBlipAsShortRange(blip, false)
 })
 
 setImmediate(async () => {
