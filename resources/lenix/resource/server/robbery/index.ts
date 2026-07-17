@@ -102,7 +102,7 @@ abstract class Teams {
 	}
 
 	static leave(playerId: number) {
-		const team = this.team(playerId)
+		const team = this.get(playerId)
 		if (!team) throw new Error(`Failed to leave a team with player<${playerId}>`)
 
 		team.members = team.members.filter(teammate => teammate !== playerId)
