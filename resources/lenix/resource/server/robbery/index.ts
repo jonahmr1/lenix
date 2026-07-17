@@ -93,6 +93,12 @@ abstract class Teams {
 
 		team.members = team.members.filter(memb => memb !== removed)
 		this.updatePlayer([remover, removed], team)
+		notify(remover, {
+			title: `Player #${removed} was removed from the team`
+		})
+		notify(removed, {
+			title: 'You have been kicked from the team'
+		})
 	}
 
 	static leave(playerId: number) {
