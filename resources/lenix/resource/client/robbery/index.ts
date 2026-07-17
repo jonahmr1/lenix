@@ -168,7 +168,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 
 	blipTick = setTick(() => {
 		if (NetworkGetEntityOwner(vehicle) !== PlayerId()) return
-		
+
 		if (guardsFedUp) {
 			peds.forEach(ped => {
 				if (IsEntityDead(ped)) return
@@ -187,7 +187,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 			})
 		}
 	})
-	
+
 	const breakDoor = async (side: 'left' | 'right') => {
 		const drillAmount = globalThis.exports.ox_inventory.GetItemCount(DRILL_ITEM)
 		if (drillAmount < 1) {
@@ -261,12 +261,12 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 					},
 				})
 				if (!res) return
-		
+
 				vehicleDoorsBroken['left'] = false
 				vehicleDoorsBroken['right'] = false
 				clearTick(blipTick)
 				globalThis.exports.ox_target.removeEntity(netId, 'take-money')
-		
+
 				emitNet('lenix:server:robbery:takemoney')
 			}
 		},

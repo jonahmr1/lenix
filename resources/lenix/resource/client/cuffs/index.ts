@@ -1,4 +1,4 @@
-import { getEntity, getNearest } from 'lenix/client'
+import { client, getNearest } from 'lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
 import { playAnim, stopAnim, teleport } from '../_lib'
@@ -81,7 +81,7 @@ export const setCuffs = async () => {
 }
 
 on('lenix:client:cuff', () => {
-	const nearest = getNearest.player(getEntity.coords(true))
+	const nearest = getNearest.player(client.entity.coords(true))
 	if (!nearest.playerId) {
 		notify({
 			title: 'No one nearby!',
