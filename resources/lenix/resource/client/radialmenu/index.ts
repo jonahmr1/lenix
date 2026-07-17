@@ -58,13 +58,9 @@ onNet('ox:setGroup', (groupName: string, _grade: number) => {
 	if (groupName === 'police')
 		addRadialItem({
 			id: 'plist',
-			label: 'Police List',
+			label: 'Roster',
 			icon: 'list-ul',
-			onSelect: () => {
-				notify({
-					title: 'Not available yet!',
-				})
-			},
+			onSelect: () => emit('lenix:server:roster:toggleDisplay'),
 		})
 	else removeRadialItem('plist')
 })

@@ -59,13 +59,6 @@ const nuiFocus = () => {
 }
 
 addKeybind({
-	name: 'roster',
-	description: 'Toggle The Police Roster',
-	defaultKey: 'j',
-	onPressed: toggleDisplay
-})
-
-addKeybind({
 	name: 'roster_focus',
 	description: 'Turn On The Police Roster Cursor Focus',
 	defaultKey: 'i',
@@ -96,6 +89,8 @@ onNet('ox:setGroup', (groupName: string) => {
 	//TODO: check when firing
 	addOfficer(groupName)
 });
+
+on('lenix:client:roster:toggleDisplay', toggleDisplay)
 
 on('onResourceStart', (resource: string) => {
 	if (GetCurrentResourceName() !== resource) return
