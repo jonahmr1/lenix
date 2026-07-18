@@ -1,4 +1,7 @@
 import { inputDialog } from "@overextended/ox_lib/client"
+import { client } from "lenix/client"
+import type { PlayerStorage } from "types/index"
+
 
 const weatherTypes = [
 	'CLEAR',
@@ -21,7 +24,17 @@ const weatherTypes = [
 ]
 
 const openMenu = async () => {
+	const currentWeather = weatherTypes.find(weatherType => GetHashKey(weatherType) === GetPrevWeatherTypeHashName())
+	if (!currentWeather) throw new Error('Failed to get current weather type')
+
+	const currentWeatherSyncType = Number(client.player.storage.get<PlayerStorage>('weatherSync'))
 	const input = await inputDialog('Weather & Time Settings', [
+		{
+			type: 'slider',
+			label: 'WeatherSync: 1. In real life | 2. Custom | 3. disable',
+			max: 3,
+			default: currentWeatherSyncType
+		},
 		{
 			type: 'time',
 			label: 'Time',
@@ -29,20 +42,25 @@ const openMenu = async () => {
 		{
 			type: 'select',
 			label: 'Weather',
+			default: currentWeather,
 			options: weatherTypes.map(weatherType => ({
 				value: weatherType
 			}))
-		}
+		},
 	], {})
 	if (!input) return
 
-	if (input[0]) {
-		const time = new Date(Number(input[0]))
+	const weatherSyncType = input[0]
+	const timeStamp = input[1]
+	const weatherType = input[2]
+
+	if (timeStamp) {
+		const time = new Date(Number(timeStamp))
 		NetworkOverrideClockTime(time.getHours(), time.getMinutes(), time.getSeconds())
 	}
 
-	if (input[1]) {
-		SetWeatherTypeOvertimePersist(input[1].toString(), 20.0)
+	if (weatherType && weatherType !== currentWeather && currentWeatherSyncType) {
+		SetWeatherTypeOvertimePersist(weatherType.toString(), 20.0)
 	}
 }
 

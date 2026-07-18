@@ -1,14 +1,13 @@
 import { inputDialog } from "@overextended/ox_lib/client";
 import { client } from "lenix/client";
-
-type Settings = 'lenix:invNotifications'
+import type { PlayerStorage } from "types/index";
 
 const openSettings = async () => {
 	const input = await inputDialog('Settings', [
 		{
 			type: 'checkbox',
 			label: 'Supress inventory notifications',
-			checked: client.player.storage.get<Settings>('lenix:invNotifications') === 'true' ? true : false
+			checked: client.player.storage.get<PlayerStorage>('invNotifications') === 'true' ? true : false
 		}
 	], {})
 
