@@ -48,18 +48,28 @@ SAFE_ZONES.map(({ coords, distance }) => {
 
 	point.onEnter = () => {
 		showTextUI('You are in the safe zone', {
-			position: 'top-center',
+			position: 'bottom-center',
 			icon: 'circle-exclamation',
 			iconColor: '#FF5100',
-			iconAnimation: 'pulse',
 			style: {
 				borderRadius: '1rem',
-        backgroundColor: '#632E00',
+        backgroundColor: '#422A00',
 			}
 		})
 	}
 
 	point.onExit = () => {
-		hideTextUI()
+		showTextUI('You are no longer in the safe zone', {
+			position: 'bottom-center',
+			icon: 'circle-check',
+			iconColor: '#48FF00',
+			style: {
+				borderRadius: '1rem',
+        backgroundColor: '#0A4200',
+			}
+		})
+		setTimeout(() => {
+			hideTextUI()
+		}, 3000)
 	}
 })
