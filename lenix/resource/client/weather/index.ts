@@ -2,12 +2,11 @@ import { inputDialog } from "@overextended/ox_lib/client"
 import { client } from "lenix/client"
 import type { PlayerStorage } from "types/index"
 
-export const WeatherConfig: readonly PlayerStorage['weatherSync'][] = [
+export const SyncConfig: readonly PlayerStorage['syncConfig'][] = [
 	"irl",
 	"custom",
 	"disabled",
 ]
-
 
 const weatherTypes = [
 	'CLEAR',
@@ -33,18 +32,15 @@ const openMenu = async () => {
 	const currentWeather = weatherTypes.find(weatherType => GetHashKey(weatherType) === GetPrevWeatherTypeHashName())
 	if (!currentWeather) throw new Error('Failed to get current weather type')
 		
-	const currentWeatherSyncType = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync', WeatherConfig[0])
+	const currentWeatherSyncType = client.player.storage.get<PlayerStorage, 'syncConfig'>('syncConfig', SyncConfig[0])
 
 	const input = await inputDialog('Weather & Time Settings', [
 		{
 			type: 'slider',
-			label: 'WeatherSync: 1. In real life | 2. Custom | 3. disable',
-			max: 3,
-			default: WeatherConfig.indexOf(currentWeatherSyncType) + 1
-		},
-		{
-			type: 'time',
-			label: 'Time',
+			label: 'WeatherSync: 1. Custom | 2. disabled',
+			min: 1,
+			max: 2,
+			default: SyncConfig.indexOf(currentWeatherSyncType) + 1
 		},
 		{
 			type: 'select',
@@ -53,6 +49,30 @@ const openMenu = async () => {
 			options: weatherTypes.map(weatherType => ({
 				value: weatherType
 			}))
+		},
+		{
+			type: 'checkbox',
+			label: 'Freeze Weather',
+			checked: false
+		},
+		{
+			type: 'slider',
+			label: 'TimeSync: 1. IRL | 2. Custom | 3. disabled',
+			min: 1,
+			max: 3,
+			default: SyncConfig.indexOf(currentWeatherSyncType) + 1
+		},
+		{
+			type: 'slider',
+			label: 'Time',
+			min: 0,
+			max: 23,
+			default: 5
+		},
+		{
+			type: 'checkbox',
+			label: 'Freeze Time',
+			checked: false
 		},
 	], {})
 	if (!input) return
