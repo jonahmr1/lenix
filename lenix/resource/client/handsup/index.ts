@@ -1,5 +1,5 @@
 import { addKeybind, cache, requestAnimDict } from "@overextended/ox_lib/client"
-import { playAnim } from "../_lib"
+import { client } from "lenix/client"
 
 let handsUp: boolean = false
 
@@ -14,7 +14,7 @@ addKeybind({
 		if (handsUp) {
 			ClearPedTasks(cache.ped)
 		} else {
-			playAnim('missminuteman_1ig_2', 'handsup_base')
+			client.entity.playAnim('missminuteman_1ig_2', 'handsup_base')
 		}
 		handsUp = !handsUp
 	}
