@@ -54,7 +54,12 @@ export interface Team {
 	members: number[]
 }
 
+export type SyncConfig = 'irl' | 'custom' | 'server'
+
 export interface PlayerStorage {
 	invNotifications: 'true' | 'false'
-	syncConfig: 'irl' | 'custom' | 'disabled'
+	weatherFreeze: 'true' | 'false'
+	timeFreeze: 'true' | 'false'
+	weatherSync: Exclude<SyncConfig, 'irl'>
+	timeSync: SyncConfig
 }
