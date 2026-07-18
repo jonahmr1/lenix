@@ -1,7 +1,6 @@
 import { client, getNearest } from 'lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
-import { playAnim, stopAnim } from '../_lib'
 
 let isCuffed = false
 
@@ -40,12 +39,12 @@ const ALLOWED_CONTROLS = new Set([
 ])
 
 const cuffingAnimation = async () => {
-	await playAnim('mp_arrest_paired', 'cop_p2_back_right')
+	await client.entity.playAnim('mp_arrest_paired', 'cop_p2_back_right')
 
 	await sleep(3500)
 
-	await playAnim('mp_arrest_paired', 'exit')
-	stopAnim('mp_arrest_paired')
+	await client.entity.playAnim('mp_arrest_paired', 'exit')
+	client.entity.stopAnim('mp_arrest_paired')
 }
 
 const gettingCuffedAnimation = async (playerId: number) => {
@@ -58,10 +57,10 @@ const gettingCuffedAnimation = async (playerId: number) => {
 	client.entity.teleport(...offset, heading)
 
 	await sleep(100)
-	await playAnim('mp_arrest_paired', 'crook_p2_back_right')
+	await client.entity.playAnim('mp_arrest_paired', 'crook_p2_back_right')
 	await sleep(2500)
 
-	stopAnim('mp_arrest_paired')
+	client.entity.stopAnim('mp_arrest_paired')
 }
 
 export const setCuffs = async () => {
@@ -77,7 +76,7 @@ export const setCuffs = async () => {
 	}
 
 	await requestAnimDict('mp_arresting')
-	playAnim('mp_arresting', 'idle', 8.0, -8.0)
+	client.entity.playAnim('mp_arresting', 'idle', 8.0, -8.0)
 }
 
 on('lenix:client:cuff', () => {
@@ -107,6 +106,6 @@ onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 		emitNet('lenix:server:cuffs:toggle', cache.serverId)
 	} else {
 		ClearPedTasks(cache.ped)
-		stopAnim('mp_arresting')
+		client.entity.stopAnim('mp_arresting')
 	}
 })
