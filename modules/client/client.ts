@@ -1,5 +1,5 @@
+import { repeat } from '../shared/repeat.ts'
 import type { Vec3, Vec4 } from '../shared/types.ts'
-
 
 export const client: {
 	entity: {
@@ -20,6 +20,20 @@ export const client: {
 			deadDisable?: boolean,
 			ragdol?: boolean
 		) => void
+		playAnim: (
+			dict: string,
+			name: string,
+			blendIn: number,
+			blendOut: number,
+			ped: number,
+			duration: number,
+			flag: number,
+			playbackFrom: number,
+			x: boolean,
+			y: boolean,
+			z: boolean
+		) => Promise<void>
+		stopAnim: (dict: string, ped?: number) => void
 	}
 	player: {
 		serverId: (playerId?: number) => number
@@ -83,6 +97,7 @@ export const client: {
 			return coords
 		})(),
 
+		/*  */
 		teleport: (
 			x: number,
 			y: number,
@@ -97,6 +112,31 @@ export const client: {
 			SetEntityCoords(entity, x, y, z, alive, deadDisable, ragdol, clearArea)
 			SetEntityHeading(entity, h ?? client.entity.coords()[3])
 		},
+
+		/*  */
+		playAnim: async (
+			dict: string,
+			name: string,
+			blendIn = 2.0,
+			blendOut = 2.0,
+			ped = client.entity.handle(),
+			duration = -1,
+			flag = 0,
+			playbackFrom = 0.0,
+			x = false,
+			y = false,
+			z = false
+		) => {
+			RequestAnimDict(dict)
+			await repeat(() => HasAnimDictLoaded(dict), true)
+			TaskPlayAnim(ped, dict, name, blendIn, blendOut, duration, flag, playbackFrom, x, y, z)
+		},
+
+		/*  */
+		stopAnim: (dict: string, ped = client.entity.handle()) => {
+			RemoveAnimDict(dict)
+			ClearPedTasks(ped)
+		}
 	},
 	player: {
 		/**

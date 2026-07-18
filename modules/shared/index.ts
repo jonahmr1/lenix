@@ -6,3 +6,4 @@
 
 export * from './assert.ts'
 export * from './types.ts'
+export * from './repeat.ts'
