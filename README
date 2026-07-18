@@ -1,0 +1,19 @@
+1. Clone GitHub:
+
+git clone https://github.com/jonahmr1/lenix_42A7A4.base.git
+cd lenix_42A7A4.base
+
+2. Restore the VPS backup into that cloned folder.
+3. Configure the restored local exclude file:
+
+git config --local core.excludesFile "%CD%\.local-git-exclude"
+
+4. Recreate the three links if the backup didn’t preserve them:
+
+mklink /D resources\lenix ..\lenix
+mklink /D resources\ox_core ..\ox_core
+mklink /D resources\ox_lib ..\ox_lib
+
+5. Verify:
+
+git status
