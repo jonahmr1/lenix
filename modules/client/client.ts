@@ -96,7 +96,7 @@ export const client: {
 		) => {
 			SetEntityCoords(entity, x, y, z, alive, deadDisable, ragdol, clearArea)
 			SetEntityHeading(entity, h ?? client.entity.coords()[3])
-		}
+		},
 	},
 	player: {
 		/**
