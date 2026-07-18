@@ -12,7 +12,7 @@ const openSettings = async () => {
 	if (!input) return
 
 	const supress = input[0]
-	TriggerClientEvent('ox_inventory:suppressItemNotifications', client.entity.handle(), supress)
+	emit('ox_inventory:suppressItemNotifications', client.entity.handle(), supress)
 }
 
 on('lenix:client:settings:open', openSettings)

@@ -2,12 +2,6 @@ import { addRadialItem, notify, onCache, removeRadialItem } from '@overextended/
 
 addRadialItem([
 	{
-		id: 'reload',
-		label: 'Reload',
-		icon: 'shirt',
-		onSelect: () => emit('illenium-appearance:client:reloadSkin'),
-	},
-	{
 		id: 'escort',
 		label: 'Escort',
 		icon: 'user-group',
@@ -26,14 +20,6 @@ addRadialItem([
 		onSelect: () => emit('lenix:client:interactions:out')
 	},
 	{
-		id: 'emote',
-		label: 'Emotes',
-		icon: 'person-walking',
-		onSelect: () => notify({
-			title: 'Not available yet!',
-		})
-	},
-	{
 		id: 'settings',
 		label: 'Settings',
 		icon: 'gear',
@@ -44,6 +30,20 @@ addRadialItem([
 		label: 'Weather & Time',
 		icon: 'cloud-moon',
 		onSelect: () => emit('lenix:client:weather:open')
+	},
+	{
+		id: 'reload',
+		label: 'Reload',
+		icon: 'shirt',
+		onSelect: () => emit('illenium-appearance:client:reloadSkin'),
+	},
+	{
+		id: 'emote',
+		label: 'Emotes',
+		icon: 'person-walking',
+		onSelect: () => notify({
+			title: 'Not available yet!',
+		})
 	},
 ])
 

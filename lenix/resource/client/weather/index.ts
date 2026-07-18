@@ -36,16 +36,14 @@ const openMenu = async () => {
 	], {})
 	if (!input) return
 
-	// SetWeatherTypeNow()
-	// NetworkOverrideClockTime()
-}
+	if (input[0]) {
+		const time = new Date(Number(input[0]))
+		NetworkOverrideClockTime(time.getHours(), time.getMinutes(), time.getSeconds())
+	}
 
-const syncTime = () => {
-	const now = new Date()
-	NetworkOverrideClockTime(now.getHours(), now.getMinutes(), now.getSeconds())
+	if (input[1]) {
+		SetWeatherTypeOvertimePersist(input[1].toString(), 20.0)
+	}
 }
-
-syncTime()
-setInterval(syncTime, 60_000)
 
 on('lenix:client:weather:open', openMenu)
