@@ -38,7 +38,13 @@ addRadialItem([
 		label: 'Settings',
 		icon: 'gear',
 		onSelect: () => emit('lenix:client:settings:open')
-	}
+	},
+	{
+		id: 'weather',
+		label: 'Weather & Time',
+		icon: 'cloud-moon',
+		onSelect: () => emit('lenix:client:weather:open')
+	},
 ])
 
 onCache('vehicle', vehicle => {

@@ -1,7 +1,6 @@
 import { progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
+import { client } from 'lenix/client'
 import type { Vector4 } from 'types/index'
-import { teleport } from '../_lib'
-import { getEntity } from 'lenix/client'
 
 const COMMANDER_ROTATION = 70
 const WAIT_DURATION = 5
@@ -53,8 +52,8 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 						})
 						if (!didntCanceled) return
 
-						const playerCoords = getEntity.coords()
-						teleport(playerCoords[0], playerCoords[1], coords[2], playerCoords[3])
+						const playerCoords = client.entity.coords()
+						client.entity.teleport(playerCoords[0], playerCoords[1], coords[2])
 					},
 				})),
 		],

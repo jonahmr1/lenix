@@ -1,7 +1,7 @@
 import { client, getNearest } from 'lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
-import { playAnim, stopAnim, teleport } from '../_lib'
+import { playAnim, stopAnim } from '../_lib'
 
 let isCuffed = false
 
@@ -55,7 +55,7 @@ const gettingCuffedAnimation = async (playerId: number) => {
 	await requestAnimDict('mp_arrest_paired')
 
 	const offset = GetOffsetFromEntityInWorldCoords(cuffer, 0.0, 0.45, 0.0) as Vector3
-	teleport(...offset, heading)
+	client.entity.teleport(...offset, heading)
 
 	await sleep(100)
 	await playAnim('mp_arrest_paired', 'crook_p2_back_right')
