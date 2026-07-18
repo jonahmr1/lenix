@@ -39,9 +39,13 @@ export const client: {
 		serverId: (playerId?: number) => number
 		id: (serverId?: number) => number
 		storage: {
-			set: <T extends string>(key: T, value: string) => void
-			get: <T extends string>(key: T) => string
-			delete: <T extends string>(key: T) => void
+			set: <Storage>(
+        ...args: {
+          [K in keyof Storage]: [key: K, value: Storage[K]];
+        }[keyof Storage]
+      ) => void;
+			get: <Storage, K extends keyof Storage>(key: K) => Storage[K];
+			delete: <Storage>(key: keyof Storage) => void
 		}
 	}
 } = {
@@ -164,8 +168,8 @@ export const client: {
 		storage: {
 			set: (key, value) => SetResourceKvp(key, value),
 			get: (key) => GetResourceKvpString(key),
-			delete: (key) => DeleteResourceKvp(key)
+			delete: (key) => DeleteResourceKvp(key),
+			/* TODO: add on event */
 		}
 	}
 }
-
