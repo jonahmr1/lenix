@@ -1,11 +1,10 @@
 import type { Team } from "types/index";
-import { alertDialog, cache, createPed, hideTextUI, inputDialog, registerContext, showContext, showTextUI, triggerServerCallback } from "@overextended/ox_lib/client";
+import { alertDialog, cache, createPed, hideTextUI, inputDialog, registerContext, showContext, showTextUI } from "@overextended/ox_lib/client";
 import { MISSION_PRICE, PED_COORDS } from "common/robbery";
-import { client, useTimer } from "lenix/client";
+import { client, useTimer, getNearest } from "lenix/client";
 import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
 import { DRILL_ITEM, PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
 import type { Vector3 } from "types/index"
-import { getNearest } from "lenix/client"
 
 let blip: number
 let inviteTick: number
