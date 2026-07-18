@@ -23,15 +23,15 @@ export const client: {
 		playAnim: (
 			dict: string,
 			name: string,
-			blendIn: number,
-			blendOut: number,
-			ped: number,
-			duration: number,
-			flag: number,
-			playbackFrom: number,
-			x: boolean,
-			y: boolean,
-			z: boolean
+			blendIn?: number,
+			blendOut?: number,
+			ped?: number,
+			duration?: number,
+			flag?: number,
+			playbackFrom?: number,
+			x?: boolean,
+			y?: boolean,
+			z?: boolean
 		) => Promise<void>
 		stopAnim: (dict: string, ped?: number) => void
 	}
@@ -98,11 +98,7 @@ export const client: {
 		})(),
 
 		/*  */
-		teleport: (
-			x: number,
-			y: number,
-			z: number,
-			h?: number,
+		teleport: (x, y, z, h,
 			entity = client.entity.handle(),
 			clearArea = false,
 			alive = true,
@@ -114,9 +110,7 @@ export const client: {
 		},
 
 		/*  */
-		playAnim: async (
-			dict: string,
-			name: string,
+		playAnim: async (dict, name,
 			blendIn = 2.0,
 			blendOut = 2.0,
 			ped = client.entity.handle(),
@@ -151,7 +145,7 @@ export const client: {
 		 * - id(targetServerId) -> target player's client player ID
 		 * - id() -> your own client player ID
 		 */
-		id: (serverId?: number) => serverId ? GetPlayerFromServerId(serverId) : PlayerId(),
+		id: (serverId) => serverId ? GetPlayerFromServerId(serverId) : PlayerId(),
 
 		/**
 		 * Gets a player's server ID from their client player ID.
@@ -168,9 +162,9 @@ export const client: {
 		serverId: (playerId = client.player.id()) => GetPlayerServerId(playerId),
 
 		storage: {
-			set: <T extends string>(key: T, value: string) => SetResourceKvp(key, value),
-			get: <T extends string>(key: T) => GetResourceKvpString(key),
-			delete: <T extends string>(key: T) => DeleteResourceKvp(key)
+			set: (key, value) => SetResourceKvp(key, value),
+			get: (key) => GetResourceKvpString(key),
+			delete: (key) => DeleteResourceKvp(key)
 		}
 	}
 }
