@@ -56,5 +56,5 @@ export interface Team {
 
 export interface PlayerStorage {
 	invNotifications: 'true' | 'false'
-	weatherSync: 'irl' | 'custom' | 'disable'
+	weatherSync: 'irl' | 'custom' | 'disabled'
 }

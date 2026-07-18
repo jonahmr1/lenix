@@ -2,6 +2,12 @@ import { inputDialog } from "@overextended/ox_lib/client"
 import { client } from "lenix/client"
 import type { PlayerStorage } from "types/index"
 
+export const WeatherConfig: readonly PlayerStorage['weatherSync'][] = [
+	"irl",
+	"custom",
+	"disabled",
+]
+
 
 const weatherTypes = [
 	'CLEAR',
@@ -26,14 +32,15 @@ const weatherTypes = [
 const openMenu = async () => {
 	const currentWeather = weatherTypes.find(weatherType => GetHashKey(weatherType) === GetPrevWeatherTypeHashName())
 	if (!currentWeather) throw new Error('Failed to get current weather type')
+		
+	const currentWeatherSyncType = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync', WeatherConfig[0])
 
-	const currentWeatherSyncType = Number(client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync'))
 	const input = await inputDialog('Weather & Time Settings', [
 		{
 			type: 'slider',
 			label: 'WeatherSync: 1. In real life | 2. Custom | 3. disable',
 			max: 3,
-			default: currentWeatherSyncType
+			default: WeatherConfig.indexOf(currentWeatherSyncType) + 1
 		},
 		{
 			type: 'time',
