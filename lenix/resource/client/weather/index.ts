@@ -27,7 +27,7 @@ const openMenu = async () => {
 	const currentWeather = weatherTypes.find(weatherType => GetHashKey(weatherType) === GetPrevWeatherTypeHashName())
 	if (!currentWeather) throw new Error('Failed to get current weather type')
 
-	const currentWeatherSyncType = Number(client.player.storage.get<PlayerStorage>('weatherSync'))
+	const currentWeatherSyncType = Number(client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync'))
 	const input = await inputDialog('Weather & Time Settings', [
 		{
 			type: 'slider',
@@ -65,3 +65,7 @@ const openMenu = async () => {
 }
 
 on('lenix:client:weather:open', openMenu)
+setImmediate(() => {
+	const weatherSyncType = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync')
+	client.player.storage.set<PlayerStorage>('weatherSync')
+})

@@ -54,4 +54,7 @@ export interface Team {
 	members: number[]
 }
 
-export type PlayerStorage = 'invNotifications' | 'weatherSync'
+export interface PlayerStorage {
+	invNotifications: 'true' | 'false'
+	weatherSync: 'irl' | 'custom' | 'disable'
+}
