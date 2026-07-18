@@ -1,54 +1,7 @@
 import { repeat } from '../shared/repeat.ts'
 import type { Vec3, Vec4 } from '../shared/types.ts'
 
-export const client: {
-	entity: {
-		handle: (entityNetId?: number) => number
-		netId: (entity?: number) => number
-		coords: {
-			(excludeH: true, entity?: number, isAlive?: boolean): Vec3;
-			(excludeH?: false, entity?: number, isAlive?: boolean): Vec4
-		}
-		teleport: (
-			x: number,
-			y: number,
-			z: number,
-			h?: number,
-			entity?: number,
-			clearArea?: boolean,
-			alive?: boolean,
-			deadDisable?: boolean,
-			ragdol?: boolean
-		) => void
-		playAnim: (
-			dict: string,
-			name: string,
-			blendIn?: number,
-			blendOut?: number,
-			ped?: number,
-			duration?: number,
-			flag?: number,
-			playbackFrom?: number,
-			x?: boolean,
-			y?: boolean,
-			z?: boolean
-		) => Promise<void>
-		stopAnim: (dict: string, ped?: number) => void
-	}
-	player: {
-		serverId: (playerId?: number) => number
-		id: (serverId?: number) => number
-		storage: {
-			set: <Storage>(
-        ...args: {
-          [K in keyof Storage]: [key: K, value: Storage[K]];
-        }[keyof Storage]
-      ) => void;
-			get: <Storage, K extends keyof Storage>(key: K) => Storage[K];
-			delete: <Storage>(key: keyof Storage) => void
-		}
-	}
-} = {
+export const client = {
 	entity: {
 		/**
 		 * Gets the local entity handle from a network ID.
@@ -64,7 +17,7 @@ export const client: {
 		 * - entity(pedNetId) -> local ped handle
 		 * - entity() -> your own player ped handle
 		 */
-		handle: (entityNetId = client.entity.netId()) => NetworkGetEntityFromNetworkId(entityNetId),
+		handle: (entityNetId: number) => NetworkGetEntityFromNetworkId(entityNetId),
 
 		/**
 		 * Gets the network ID for an entity.
@@ -79,15 +32,15 @@ export const client: {
 		 * - netId(targetPed) -> network ID of that ped
 		 * - netId() -> network ID of your own player ped
 		 */
-		netId: (entity = PlayerPedId()) => NetworkGetNetworkIdFromEntity(entity),
+		netId: (entity: number) => NetworkGetNetworkIdFromEntity(entity),
 
 		/**
 		 * Gets entity coordinates and heading.
 		 */
 		coords: (() => {
-			function coords(excludeH: true, entity?: number, isAlive?: boolean): Vec3
-			function coords(excludeH?: false, entity?: number, isAlive?: boolean): Vec4
-			function coords(excludeH = false, entity = client.entity.handle(), isAlive = true) {
+			function coords(entity: number, excludeH: boolean, isAlive?: boolean): Vec3
+			function coords(entity: number, excludeH?: false, isAlive?: boolean): Vec4
+			function coords(entity: number, excludeH = false, isAlive = true) {
 				const entityCoords = GetEntityCoords(entity, isAlive) as Vec3
 
 				if (excludeH) return entityCoords
@@ -102,22 +55,28 @@ export const client: {
 		})(),
 
 		/*  */
-		teleport: (x, y, z, h,
-			entity = client.entity.handle(),
+		teleport: (
+			entity: number,
+			x: number,
+			y: number,
+			z: number,
+			h?: number,
 			clearArea = false,
 			alive = true,
 			deadDisable = false,
 			ragdol = false
 		) => {
 			SetEntityCoords(entity, x, y, z, alive, deadDisable, ragdol, clearArea)
-			SetEntityHeading(entity, h ?? client.entity.coords()[3])
+			h && SetEntityHeading(entity, h)
 		},
 
 		/*  */
-		playAnim: async (dict, name,
+		playAnim: async (
+			ped: number,
+			dict: string,
+			name: string,
 			blendIn = 2.0,
 			blendOut = 2.0,
-			ped = client.entity.handle(),
 			duration = -1,
 			flag = 0,
 			playbackFrom = 0.0,
@@ -131,12 +90,33 @@ export const client: {
 		},
 
 		/*  */
-		stopAnim: (dict: string, ped = client.entity.handle()) => {
+		stopAnim: (ped: number, dict: string) => {
 			RemoveAnimDict(dict)
 			ClearPedTasks(ped)
 		}
 	},
 	player: {
+		/*  */
+		handle: () => PlayerPedId(),
+
+		/*  */
+		netId: () => client.entity.netId(client.player.handle()),
+
+		/*  */
+		coords: () => client.entity.coords(client.player.handle()),
+
+		/*  */
+		teleport: (
+			x: number,
+			y: number,
+			z: number,
+			h?: number,
+			clearArea?: boolean,
+			alive?: boolean,
+			deadDisable?: boolean,
+			ragdol?: boolean
+		) => client.entity.teleport(client.player.handle(), x, y, z, h, clearArea, alive, deadDisable, ragdol),
+
 		/**
 		 * Gets a client player ID.
 		 *
@@ -149,7 +129,7 @@ export const client: {
 		 * - id(targetServerId) -> target player's client player ID
 		 * - id() -> your own client player ID
 		 */
-		id: (serverId) => serverId ? GetPlayerFromServerId(serverId) : PlayerId(),
+		id: (serverId?: number) => serverId ? GetPlayerFromServerId(serverId) : PlayerId(),
 
 		/**
 		 * Gets a player's server ID from their client player ID.
@@ -163,12 +143,30 @@ export const client: {
 		 * - serverId(targetPlayerId) -> target player's server ID
 		 * - serverId() -> your own server ID
 		 */
-		serverId: (playerId = client.player.id()) => GetPlayerServerId(playerId),
+		serverId: (playerId?: number) => GetPlayerServerId(playerId ?? client.player.id()),
 
 		storage: {
-			set: (key, value) => SetResourceKvp(key, value),
-			get: (key) => GetResourceKvpString(key),
-			delete: (key) => DeleteResourceKvp(key),
+			set: <Storage>(
+				...[key, value]: {
+					[K in keyof Storage]: [key: Extract<K, string>, value: Extract<Storage[K], string>]
+				}[keyof Storage]
+			) => SetResourceKvp(key, value),
+
+			get: <Storage, K extends Extract<keyof Storage, string>>(
+				key: K,
+				init?: Extract<Storage[K], string>
+			): Storage[K] => {
+				const get = GetResourceKvpString
+				if (!get(key)) {
+					if (init === undefined || init === null) throw new Error(`Failed to get Storage<${key}> value, reason: The key was never assigned before and you did not provided an initiate value`)
+					client.player.storage.set<Storage>(key, init)
+				}
+				return get(key) as Storage[K]
+			},
+
+			delete: <Storage>(
+				key: Extract<keyof Storage, string>
+			) => DeleteResourceKvp(key),
 			/* TODO: add on event */
 		}
 	}
