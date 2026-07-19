@@ -1,4 +1,4 @@
-import { raise, wait } from 'lenix'
+import { raise, wait } from '@lenix/lenix'
 import { octokit, ownerRepos, VALID_NAMES } from './client'
 
 const getStats = async (owner: string, repo: string) => {

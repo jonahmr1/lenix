@@ -1,7 +1,6 @@
 import { totalLangsBytes } from './langs'
 import { totalCommits } from './commits'
 import { totalLinesAdded } from './loc'
-import { caughtFetch } from 'lenix'
 
 if (typeof process.env.GH_TOKEN !== 'string')
 	throw new Error('GH_TOKEN missing')
@@ -13,9 +12,8 @@ const langsBytes = await totalLangsBytes()
 
 const content = JSON.stringify({ loc, commits, langsBytes })
 
-const res = await caughtFetch(
-	'api.github.com',
-	`gists/${process.env.VITE_GIST_ID}`,
+const res = await fetch(
+	`https://api.github.com/gists/${process.env.VITE_GIST_ID}`,
 	{
 		method: 'PATCH',
 		headers: {
