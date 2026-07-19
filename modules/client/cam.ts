@@ -2,6 +2,8 @@
 
 import type { Vec4 } from '../shared/types.ts'
 
+const cams = new Set<number>()
+
 export interface BaseCamDetails {
 	/**
 	 * Fade-out duration in milliseconds.
@@ -102,6 +104,7 @@ const create = ({
 		false,
 		rotationOrder
 	)
+	cams.add(cam)
 
 	toggleCam({
 		cam,
@@ -132,10 +135,16 @@ const destroy = ({
 		fadeIn,
 		fadeOut
 	})
+	cams.delete(cam)
 }
 
-// TODO: delete cams on resource stop
 export const cam = {
 	create,
 	destroy
 }
+
+on('onResourceStop', (resource: string) => {
+	if (resource !== GetCurrentResourceName()) return
+
+	cams.forEach(cam => destroy({ cam }))
+})
