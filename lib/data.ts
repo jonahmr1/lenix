@@ -1,5 +1,3 @@
-import { caughtFetch } from 'lenix'
-
 export interface AppData {
 	loc: { added: number; deleted: number }
 	commits: string[]
@@ -7,9 +5,8 @@ export interface AppData {
 }
 
 export const fetchAppData = async (): Promise<AppData> => {
-	const res = await caughtFetch(
-		'api.github.com',
-		`gists/${import.meta.env.VITE_GIST_ID}`,
+	const res = await fetch(
+		`https://api.github.com/gists/${import.meta.env.VITE_GIST_ID}`,
 	)
 	if (!res.ok) throw new Error(`Gist fetch failed: ${res.status}`)
 

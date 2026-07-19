@@ -18,7 +18,6 @@ import {
 	InputGroupText,
 	InputGroupButton,
 } from '@/components/ui/input-group'
-import { raise } from 'lenix'
 import { Required } from '@/components/required'
 import { Spinner } from '@/components/ui/spinner'
 import {
@@ -83,7 +82,7 @@ export const Contact = () => {
 					</div>
 					<form
 						onSubmit={event => {
-							handleSubmit(event).catch(raise)
+							handleSubmit(event)
 						}}
 					>
 						<FieldSet>
