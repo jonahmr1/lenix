@@ -18,7 +18,7 @@ setImmediate(async () => {
 			charId INT UNSIGNED NOT NULL PRIMARY KEY,
 			jail_period INT NOT NULL DEFAULT 0,
 			hotel_room INT NOT NULL DEFAULT 0,
-			callsign VARCHAR(${MAX_CALLSIGN_LENGTH}) NOT NULL DEFAULT 'unset',
+			callsign VARCHAR(${MAX_CALLSIGN_LENGTH}) DEFAULT NULL UNIQUE,
 			FOREIGN KEY (charId)
 				REFERENCES characters(charId)
 				ON DELETE CASCADE

@@ -1,4 +1,5 @@
 import { GetPlayer } from "@overextended/ox_core/server";
+import { notify } from "@overextended/ox_lib/client";
 import { oxmysql } from "@overextended/oxmysql";
 import type { Officer, PartialOfficer, Officers as IOfficers } from "types/index";
 
@@ -36,6 +37,14 @@ abstract class Officers {
 			const charId = player.charId
 			if (!charId) throw new Error(`Could not find charId the player<${playerId}>`)
 
+			const callsignsRows = await oxmysql.query<{ callsign: string }[]>('SELECT `callsign` FROM `lenix`')
+			if (!callsignsRows) throw new Error(`Failed to get table callsigns`)
+
+			callsignsRows.forEach(callsignRows => callsignRows.callsign === props.callsign && emitNet('ox_lib:notify', playerId, {
+				title: 'Failed to update callsign',
+				type: 'error',
+				description: 'That callsign already belongs to an officer'
+			} satisfies Parameters<typeof notify>[0]))
 			const affectedRows = await oxmysql.update('UPDATE lenix SET callsign = ? WHERE charId = ?', [
 				props.callsign, charId
 			])
