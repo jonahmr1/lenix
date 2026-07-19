@@ -50,7 +50,7 @@ const setWeather = (syncType?: string) => {
 }
 
 const set = {
-	server: (type: 'weather' | 'time', weatherFreezed: boolean) => {
+	server: (type: 'weather' | 'time', syncFreezed: boolean) => {
 		notify({
 			title: 'This feature is not available yet!',
 			type: 'warning'
@@ -149,6 +149,16 @@ const openMenu = async () => {
 	const timeSyncType = input[3] as number
 	const hour = input[4] as number
 	const newTimeFreezed = input[5] as boolean
+
+	client.player.storage.set<PlayerStorage>(
+			'weatherFreeze',
+			newWeatherFreezed.toString() as 'true' | 'false'
+		)
+
+	client.player.storage.set<PlayerStorage>(
+			'timeFreeze',
+			newTimeFreezed.toString() as 'true' | 'false'
+	)
 
 	switch (weatherSyncType) {
 		case 1:
