@@ -62,4 +62,23 @@ export interface PlayerStorage {
 	timeFreeze: 'true' | 'false'
 	weatherSync: Exclude<SyncConfig, 'irl'>
 	timeSync: SyncConfig
+	timeValue: number
+	weatherType:
+	| 'CLEAR'
+	| 'EXTRASUNNY'
+	| 'CLOUDS'
+	| 'OVERCAST'
+	| 'RAIN'
+	| 'CLEARING'
+	| 'THUNDER'
+	| 'SMOG'
+	| 'FOGGY'
+	| 'XMAS'
+	| 'SNOW'
+	| 'SNOWLIGHT'
+	| 'BLIZZARD'
+	| 'HALLOWEEN'
+	| 'NEUTRAL'
+	| 'RAIN_HALLOWEEN'
+	| 'SNOW_HALLOWEEN'
 }

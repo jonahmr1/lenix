@@ -1,4 +1,4 @@
-import { inputDialog } from "@overextended/ox_lib/client"
+import { inputDialog, notify } from "@overextended/ox_lib/client"
 import { client } from "lenix/client"
 import type { PlayerStorage, SyncConfig as ISyncConfig } from "types/index"
 
@@ -8,7 +8,7 @@ export const SyncConfig: ISyncConfig[] = [
 	"irl",
 ] as const
 
-const weatherTypes = [
+const weatherTypes: PlayerStorage['weatherType'][] = [
 	'CLEAR',
 	'EXTRASUNNY',
 	'CLOUDS',
@@ -28,38 +28,65 @@ const weatherTypes = [
 	'SNOW_HALLOWEEN',
 ]
 
+let timeMode: ISyncConfig = client.player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
+
+const setTime = () => {
+	if (timeMode === 'custom') {
+		const time = client.player.storage.get<PlayerStorage, 'timeValue'>('timeValue')
+		NetworkOverrideClockTime(Number(time), 0, 0)
+		return
+	}
+	if (timeMode === 'irl') {
+		const now = new Date()
+		NetworkOverrideClockTime(now.getHours(), now.getMinutes(), 0)
+	}
+}
+
+const setWeather = (syncType?: string) => {
+	const weatherConfig = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync')
+	if (weatherConfig !== 'custom') return
+
+	SetWeatherTypeNowPersist(syncType ?? client.player.storage.get<PlayerStorage, 'weatherType'>('weatherType', 'CLEAR'))
+}
+
 const set = {
-	server: (() => {
-		function server(weatherType: string, weatherFreezed: boolean): void
-		function server(timeStamp: number, timeFreezed: boolean): void
-		function server(syncType: string | number, syncFreezed: boolean) {
-			if (typeof syncType === 'string') {
-				// get server weather then set follow
-				// freeze if needed
-				return
-			}
-			// get server time and set based on that
-			// freeze if needed
+	server: (type: 'weather' | 'time', weatherFreezed: boolean) => {
+		notify({
+			title: 'This feature is not available yet!',
+			type: 'warning'
+		})
+		if (type === 'time') {
+			timeMode = 'server'
+			client.player.storage.set<PlayerStorage>('timeSync', 'server')
+			client.player.storage.delete<PlayerStorage>('timeValue')
+			return
 		}
-		return server
-	})(),
+		client.player.storage.set<PlayerStorage>('weatherSync', 'server')
+		client.player.storage.delete<PlayerStorage>('weatherType')
+	},
 	custom: (() => {
-		function server(weatherType: string, weatherFreezed: boolean): void
-		function server(timeStamp: number, timeFreezed: boolean): void
-		function server(syncType: string | number, syncFreezed: boolean) {
-			if (typeof syncType === 'string') {
-				// set based on type
-				// freeze if needed
+		function custom(weatherType: PlayerStorage['weatherType'], weatherFreezed: boolean): void
+		function custom(hour: number, timeFreezed: boolean): void
+		function custom(syncValue: PlayerStorage['weatherType'] | number, syncFreezed: boolean) {
+			if (typeof syncValue === 'string') {
+				client.player.storage.set<PlayerStorage>('weatherSync', 'custom')
+				client.player.storage.set<PlayerStorage>('weatherType', syncValue)
+				setWeather(syncValue)
 				return
 			}
-			// set based on value
-			// freeze if needed
+
+			timeMode = 'custom'
+			NetworkOverrideClockTime(syncValue, 0, 0)
+			client.player.storage.set<PlayerStorage>('timeSync', 'custom')
+			client.player.storage.set<PlayerStorage>('timeValue', syncValue.toString())
 		}
-		return server
+		return custom
 	})(),
-	irl: (timeStamp: number, timeFreezed: boolean) => {
-		// set based on irl
-		// freeze if needed
+	irl: (timeFreezed: boolean) => {
+		timeMode = 'irl'
+
+		setTime()
+		client.player.storage.set<PlayerStorage>('timeSync', 'irl')
 	}
 }
 
@@ -116,16 +143,16 @@ const openMenu = async () => {
 	if (!input) return
 
 	const weatherSyncType = input[0] as number
-	const weatherType = input[1] as string
+	const weatherType = input[1] as PlayerStorage['weatherType']
 	const newWeatherFreezed = input[2] as boolean
 
 	const timeSyncType = input[3] as number
-	const timeStamp = input[4] as number
+	const hour = input[4] as number
 	const newTimeFreezed = input[5] as boolean
 
 	switch (weatherSyncType) {
 		case 1:
-			set.server(weatherType, newWeatherFreezed)
+			set.server('weather', newWeatherFreezed)
 		break
 		case 2:
 			set.custom(weatherType, newWeatherFreezed)
@@ -136,21 +163,26 @@ const openMenu = async () => {
 
 	switch (timeSyncType) {
 		case 1: 
-			set.server(timeStamp, newTimeFreezed)
+			set.server('time', newTimeFreezed)
 		break
 		case 2: 
-			set.custom(timeStamp, newTimeFreezed)
+			set.custom(hour, newTimeFreezed)
 		break
 		case 3: 
-			set.irl(timeStamp, newTimeFreezed)
+			set.irl(newTimeFreezed)
 		break
 	
 		default: throw new Error(`Invalid timeType: ${timeSyncType}`)
 	}
-
-	// 	const time = new Date(Number(timeStamp))
-	// 	NetworkOverrideClockTime(time.getHours(), time.getMinutes(), time.getSeconds())
-
 }
+
+setInterval(() => {
+	setTime()
+}, 60_000)
+
+setImmediate(() => {
+	setWeather()
+	setTime()
+})
 
 on('lenix:client:weather:open', openMenu)
