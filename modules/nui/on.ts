@@ -1,8 +1,8 @@
 import type { Event } from '../shared/types.ts'
 
-type Listener<T extends unknown[]> = {
+interface Listener<T extends unknown[]> {
 	callback: (...params: T) => void
-	log?: boolean
+	log?: true
 }
 const events = new Map<string, Set<Listener<unknown[]>>>()
 
@@ -30,7 +30,7 @@ export const onEvent = <
 >(
 	id: T[0],
 	cb: (...params: T[1]) => void,
-	listen?: boolean
+	listen?: true
 ): () => void => {
 	if (events.size === 0) {
 		window.addEventListener('message', handler)
