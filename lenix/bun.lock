@@ -10,7 +10,7 @@
         "@overextended/ox_core": "^1.5.14",
         "@overextended/ox_lib": "^3.35.0",
         "@overextended/oxmysql": "^2.14.1",
-        "lenix": "^1.7.9",
+        "lenix": "^1.7.11",
       },
       "devDependencies": {
         "@citizenfx/client": "latest",
@@ -275,7 +275,7 @@
 
     "jsesc": ["jsesc@3.1.0", "", { "bin": { "jsesc": "bin/jsesc" } }, "sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA=="],
 
-    "lenix": ["lenix@1.7.9", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-L2HqF0sTzmbeNzbl53b19pEy+7Ec0qcq80zSkaXkUFZev/i50G/3QnUunxhrLyuCRCdUWLgFjIAeyixWBRQI7A=="],
+    "lenix": ["lenix@1.7.11", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-1bLJiNcsqXhY1b1i4Vy9Y2RzL679KEWGqCh30b+pl6Bza+MJqUgi0LlcgAujG914od1kE+XBCVbdH+tYToomFw=="],
 
     "lru-cache": ["lru-cache@11.5.1", "", {}, "sha512-RPimw/7aMdv2oqRrxKwvZXcPfwBrn/JZ2xYcY9Hus/6LaS3VOAKVWKWgNLCFSiOm1ESXinjsDlidVU7JlnCN2A=="],
 

@@ -28,15 +28,22 @@ export const Roster = () => {
 		}
 		window.addEventListener('keydown', handler)
 
-		return () => window.removeEventListener('keydown', handler)
+		const disposes = [
+			onEvent<Events['displayRoster']>('roster:display', (state, playerId) => {
+				setDisplay(state)
+				setPlayerId(playerId)
+				console.debug({ state })
+			}),
+			onEvent<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers),
+		]
+
+		return () => {
+			window.removeEventListener('keydown', handler)
+			disposes.forEach(dispose => dispose())
+		}
 	})
 
-	onEvent<Events['displayRoster']>('roster:display', (state, playerId) => {
-		setDisplay(state)
-		setPlayerId(playerId)
-		console.debug({ state })
-	})
-	onEvent<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers)
+	
 
 	if (!playerId) return
 

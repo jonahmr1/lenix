@@ -1,5 +1,5 @@
 import { onEvent } from 'lenix/nui'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Events } from 'types'
 
 interface Clip {
@@ -19,9 +19,14 @@ export default () => {
 	})
 	const [display, setDisplay] = useState<boolean>()
 
-	onEvent<Events['displayHud']>('hud:display', setDisplay)
-	onEvent<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve })))
-	onEvent<Events['updateHudReserve']>('hud:update:reserve', reserve => setState(prev => ({ reserve, clip: prev.clip })))
+	useEffect(() => {
+		const disposes = [
+			onEvent<Events['displayHud']>('hud:display', setDisplay),
+			onEvent<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve }))),
+			onEvent<Events['updateHudReserve']>('hud:update:reserve', reserve => setState(prev => ({ reserve, clip: prev.clip }))),
+		]
+		return () => disposes.forEach(dispose => dispose())
+	}, [])
 
 	return (
 		<div className={`absolute w-full flex justify-end p-5 ${display ? 'opacity-100' : 'opacity-0'}`}>

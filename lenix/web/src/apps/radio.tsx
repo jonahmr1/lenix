@@ -14,12 +14,16 @@ export default () => {
 			triggerNui<Requests['closeRadio']>('radio:close')
 		}
 
+		const dispose = onEvent<Events['displayRadio']>('radio:display', setDisplay)
+
 		window.addEventListener('keydown', escHandler)
-		return () => window.removeEventListener('keydown', escHandler)
+		return () => {
+			window.removeEventListener('keydown', escHandler)
+			dispose()
+		}
 	}, [])
 
-	onEvent<Events['displayRadio']>('radio:display', setDisplay)
-
+	
 	return (
 		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 ${display ? 'opacity-100' : 'opacity-0'}`}>
 			<div className='relative inline-block'>
