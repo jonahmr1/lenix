@@ -150,15 +150,8 @@ const openMenu = async () => {
 	const hour = input[4] as number
 	const newTimeFreezed = input[5] as boolean
 
-	client.player.storage.set<PlayerStorage>(
-			'weatherFreeze',
-			newWeatherFreezed.toString() as 'true' | 'false'
-		)
-
-	client.player.storage.set<PlayerStorage>(
-			'timeFreeze',
-			newTimeFreezed.toString() as 'true' | 'false'
-	)
+	client.player.storage.set<PlayerStorage>('weatherFreeze', newWeatherFreezed.toString() as 'true' | 'false')
+	client.player.storage.set<PlayerStorage>('timeFreeze', newTimeFreezed.toString() as 'true' | 'false')
 
 	switch (weatherSyncType) {
 		case 1:
