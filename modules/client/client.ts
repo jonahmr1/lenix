@@ -1,6 +1,9 @@
 import { repeat } from '../shared/repeat.ts'
 import type { Vec3, Vec4 } from '../shared/types.ts'
 
+type JsonPrimitive = string | number | boolean | null
+type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue }
+
 export const client = {
 	entity: {
 		/**
@@ -154,24 +157,31 @@ export const client = {
 		},
 
 		/*  */
-		/* TODO: support booleans and numbers, and maybe even json */
 		storage: {
 			set: <Storage>(
 				...[key, value]: {
-					[K in keyof Storage]: [key: Extract<K, string>, value: Storage[K] extends string ? Storage[K] : string]
+					[K in keyof Storage]: Storage[K] extends JsonValue
+						? [key: Extract<K, string>, value: Storage[K]]
+						: never
 				}[keyof Storage]
-			) => SetResourceKvp(key, value),
+			) => SetResourceKvp(key, JSON.stringify(value)),
 
 			get: <Storage, K extends Extract<keyof Storage, string>>(
 				key: K,
-				init?: Extract<Storage[K], string>
-			): Storage[K] extends string ? Storage[K] : string => {
-				const get = GetResourceKvpString
-				if (get(key) === null) {
-					if (init === undefined || init === null) throw new Error(`Failed to get Storage<${key}> value, reason: The key was never assigned before and you did not provided an initiate value`)
-					client.player.storage.set<Storage>(key, init)
+				init?: Storage[K] extends JsonValue ? Storage[K] : never
+			): Storage[K] extends JsonValue ? Storage[K] : never => {
+				const value = GetResourceKvpString(key)
+
+				if (value === null) {
+					if (init === undefined) {
+						throw new Error(`Storage<${key}> was never assigned`)
+					}
+
+					SetResourceKvp(key, JSON.stringify(init))
+					return init as Storage[K] extends JsonValue ? Storage[K] : never
 				}
-				return get(key) as Storage[K] extends string ? Storage[K] : string
+
+				return JSON.parse(value) as Storage[K] extends JsonValue ? Storage[K] : never
 			},
 
 			delete: <Storage>(
