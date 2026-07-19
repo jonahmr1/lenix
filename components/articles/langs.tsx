@@ -17,7 +17,7 @@ export const Langs = () => {
 					Used Languages
 				</motion.p>
 				<motion.p {...fade(0.125)} className='text-[11px] text-foreground/20'>
-					by bytes
+					live
 				</motion.p>
 			</div>
 			<motion.div {...fade(0.125)} className='flex flex-col gap-3'>
