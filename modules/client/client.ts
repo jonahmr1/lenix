@@ -38,7 +38,7 @@ export const client = {
 		 * Gets entity coordinates and heading.
 		 */
 		coords: (() => {
-			function coords(entity: number, excludeH: boolean, isAlive?: boolean): Vec3
+			function coords(entity: number, excludeH?: true, isAlive?: boolean): Vec3
 			function coords(entity: number, excludeH?: false, isAlive?: boolean): Vec4
 			function coords(entity: number, excludeH = false, isAlive = true) {
 				const entityCoords = GetEntityCoords(entity, isAlive) as Vec3
@@ -96,27 +96,6 @@ export const client = {
 		}
 	},
 	player: {
-		/*  */
-		handle: () => PlayerPedId(),
-
-		/*  */
-		netId: () => client.entity.netId(client.player.handle()),
-
-		/*  */
-		coords: () => client.entity.coords(client.player.handle()),
-
-		/*  */
-		teleport: (
-			x: number,
-			y: number,
-			z: number,
-			h?: number,
-			clearArea?: boolean,
-			alive?: boolean,
-			deadDisable?: boolean,
-			ragdol?: boolean
-		) => client.entity.teleport(client.player.handle(), x, y, z, h, clearArea, alive, deadDisable, ragdol),
-
 		/**
 		 * Gets a client player ID.
 		 *
@@ -129,7 +108,7 @@ export const client = {
 		 * - id(targetServerId) -> target player's client player ID
 		 * - id() -> your own client player ID
 		 */
-		id: (serverId?: number) => serverId ? GetPlayerFromServerId(serverId) : PlayerId(),
+		id: (serverId?: number) => serverId !== undefined ? GetPlayerFromServerId(serverId) : PlayerId(),
 
 		/**
 		 * Gets a player's server ID from their client player ID.
@@ -143,25 +122,56 @@ export const client = {
 		 * - serverId(targetPlayerId) -> target player's server ID
 		 * - serverId() -> your own server ID
 		 */
-		serverId: (playerId?: number) => GetPlayerServerId(playerId ?? client.player.id()),
+		serverId(playerId?: number) {
+			return GetPlayerServerId(playerId ?? this.id())
+		},
 
+		/*  */
+		entity: (playerId?: number) => playerId !== undefined ? GetPlayerPed(playerId) : PlayerPedId(),
+
+		/*  */
+		netId(playerId?: number) {
+			return PedToNet(this.entity(playerId))
+		},
+
+		/*  */
+		coords(excludeH?: true, isAlive?: boolean) {
+			return client.entity.coords(this.entity(), excludeH, isAlive)
+		},
+
+		/*  */
+		teleport(
+			x: number,
+			y: number,
+			z: number,
+			h?: number,
+			clearArea?: boolean,
+			alive?: boolean,
+			deadDisable?: boolean,
+			ragdol?: boolean
+		) {
+			return client.entity.teleport(this.entity(), x, y, z, h, clearArea, alive, deadDisable, ragdol)
+		},
+
+		/*  */
+		/* TODO: support booleans and numbers, and maybe even json */
 		storage: {
 			set: <Storage>(
 				...[key, value]: {
-					[K in keyof Storage]: [key: Extract<K, string>, value: Extract<Storage[K], string>]
+					[K in keyof Storage]: [key: Extract<K, string>, value: Storage[K] extends string ? Storage[K] : string]
 				}[keyof Storage]
 			) => SetResourceKvp(key, value),
 
 			get: <Storage, K extends Extract<keyof Storage, string>>(
 				key: K,
 				init?: Extract<Storage[K], string>
-			): Storage[K] => {
+			): Storage[K] extends string ? Storage[K] : string => {
 				const get = GetResourceKvpString
-				if (!get(key)) {
+				if (get(key) === null) {
 					if (init === undefined || init === null) throw new Error(`Failed to get Storage<${key}> value, reason: The key was never assigned before and you did not provided an initiate value`)
 					client.player.storage.set<Storage>(key, init)
 				}
-				return get(key) as Storage[K]
+				return get(key) as Storage[K] extends string ? Storage[K] : string
 			},
 
 			delete: <Storage>(
