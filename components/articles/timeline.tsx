@@ -118,7 +118,7 @@ export const Timeline = () => (
 				techs: ['TypeScript', 'MySQL', 'Figma', 'Axios', 'Node.js', 'FiveM Native'],
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
-				iconHover: 'Parterships weren\'t professional',
+				iconHover: 'Very small projects',
 				url: 'https://github.com/tripplerscripts/tr_sponsor'
 			},
 			{
@@ -251,7 +251,7 @@ export const Timeline = () => (
 				description: 'Built a cross-platform music app that uses YouTube as a data source, integrating AI for various tasks.',
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'secondary',
-				iconHover: 'Canceled',
+				iconHover: 'Unscheduled',
 				url: 'https://github.com/jonahmr1/tonelix'
 			},
 			{
@@ -261,8 +261,8 @@ export const Timeline = () => (
 				description: 'Built a cross-platform assistant that rejects the "generalist" approach. Instead of knowing a little about everything, Intellenix is engineered to go deep into specific domains and tasks, providing high-level expertise where general AI usually fails.',
 				techs: ['React Native', 'TypeScript', 'Expo', 'React', 'Supabase', 'Groq', 'Node.js', 'Vercel', 'Tamagui', 'i18next', 'Eslint', 'Prettier', 'Stylistic'],
 				icon: <HugeiconsIcon icon={ExclamationMarkIcon} />,
-				color: 'secondary',
-				iconHover: 'Abandoned',
+				color: 'paused',
+				iconHover: 'Paused',
 				url: 'https://github.com/jonahmr1/intellenix'
 			},
 		]}
