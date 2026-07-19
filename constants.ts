@@ -9,7 +9,8 @@ export const EXCLUDED_LANGS = [
 	'YAML',
 	'TOML',
 	'SVG',
-	'Hack'
+	'Hack',
+	'Dockerfile',
 ]
 
 export const QUOTES = [
