@@ -46,7 +46,16 @@ const setWeather = (syncType?: string) => {
 	const weatherConfig = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync')
 	if (weatherConfig !== 'custom') return
 
-	SetWeatherTypeNowPersist(syncType ?? client.player.storage.get<PlayerStorage, 'weatherType'>('weatherType', 'CLEAR'))
+	const weatherType = syncType ?? client.player.storage.get<PlayerStorage, 'weatherType'>('weatherType', 'CLEAR')
+	const weatherFreezed = client.player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', 'false') === 'true'
+
+	if (weatherFreezed) {
+		SetWeatherTypeNowPersist(weatherType)
+		return
+	}
+
+	ClearWeatherTypePersist()
+	SetWeatherTypeNow(weatherType)
 }
 
 const set = {
@@ -57,10 +66,12 @@ const set = {
 		})
 		if (type === 'time') {
 			timeMode = 'server'
+			PauseClock(syncFreezed)
 			client.player.storage.set<PlayerStorage>('timeSync', 'server')
 			client.player.storage.delete<PlayerStorage>('timeValue')
 			return
 		}
+		ClearWeatherTypePersist()
 		client.player.storage.set<PlayerStorage>('weatherSync', 'server')
 		client.player.storage.delete<PlayerStorage>('weatherType')
 	},
@@ -76,6 +87,7 @@ const set = {
 			}
 
 			timeMode = 'custom'
+			PauseClock(syncFreezed)
 			NetworkOverrideClockTime(syncValue, 0, 0)
 			client.player.storage.set<PlayerStorage>('timeSync', 'custom')
 			client.player.storage.set<PlayerStorage>('timeValue', syncValue.toString())
@@ -84,6 +96,7 @@ const set = {
 	})(),
 	irl: (timeFreezed: boolean) => {
 		timeMode = 'irl'
+		PauseClock(timeFreezed)
 
 		setTime()
 		client.player.storage.set<PlayerStorage>('timeSync', 'irl')
@@ -180,11 +193,12 @@ const openMenu = async () => {
 }
 
 setInterval(() => {
-	setTime()
+	if (timeMode === 'irl') setTime()
 }, 60_000)
 
 setImmediate(() => {
 	setWeather()
+	PauseClock(client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', 'false') === 'true')
 	setTime()
 })
 
