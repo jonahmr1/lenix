@@ -13,11 +13,10 @@ const openSettings = async () => {
 
 	if (!input) return
 
-	const supress = input[0]
-	if (supress === undefined) throw new Error('Failed to update settings')
+	const supress = input[0] as boolean
 
 	emit('ox_inventory:suppressItemNotifications', supress)
-	client.player.storage.set('lenix:supressInvNotify', supress.toString())
+	client.player.storage.set<PlayerStorage>('invNotifications', supress)
 }
 
 on('lenix:client:settings:open', openSettings)
