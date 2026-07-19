@@ -1,20 +1,19 @@
 import type { Event } from '../shared/types.ts'
 
-const cbs = new Map<string, (...params: unknown[]) => void>()
+const events = new Map<string, Set<(...params: unknown[]) => void>>()
 
-// TODO: remove the event
 // deno-lint-ignore no-window no-window-prefix no-unused-vars
-const handler = window.addEventListener('message', (event: MessageEvent) => {
+const handler = (event: MessageEvent) => {
 	const { id, params } = event.data
-	const cb = cbs.get(id)
-	if (!cb) throw new Error(`Callback<${id}> does not exist yet`)
+	const callbacks = events.get(id)
+	if (!callbacks) return console.error(`Event<${id}> does not exist yet`)
 
 	try {
-		cb(...(params ?? []))
+		callbacks.forEach(callback => callback(...(params ?? [])))
 	} catch (e) {
 		throw new Error(`Error occured while receiving event<${id}>. \n${e}`)
 	}
-})
+}
 
 /**
  * Registers a typed browser-side handler for events sent from the game client.
@@ -24,6 +23,18 @@ export const onEvent = <
 >(
 	id: T[0],
 	cb: (...params: T[1]) => void
-): void => {
-	cbs.set(id, cb)
+): () => void => {
+	if (events.size === 0) window.addEventListener('message', handler)
+
+	const callbacks = events.get(id) ?? new Set<(...params: T[1]) => void>()
+	callbacks.add(cb)
+	events.set(id, callbacks)
+
+	return () => {
+		callbacks.delete(cb)
+		if (callbacks.size === 0) events.delete(id)
+		if (events.size === 0) {
+			window.removeEventListener('message', handler)
+		}
+	}
 }
