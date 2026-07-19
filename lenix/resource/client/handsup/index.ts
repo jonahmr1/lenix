@@ -14,7 +14,7 @@ addKeybind({
 		if (handsUp) {
 			ClearPedTasks(cache.ped)
 		} else {
-			client.entity.playAnim('missminuteman_1ig_2', 'handsup_base')
+			client.entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
 		}
 		handsUp = !handsUp
 	}

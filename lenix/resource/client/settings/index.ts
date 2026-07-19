@@ -7,7 +7,7 @@ const openSettings = async () => {
 		{
 			type: 'checkbox',
 			label: 'Supress inventory notifications',
-			checked: client.player.storage.get<PlayerStorage>('invNotifications') === 'true' ? true : false
+			checked: client.player.storage.get<PlayerStorage, 'invNotifications'>('invNotifications')
 		}
 	], {})
 
@@ -16,7 +16,7 @@ const openSettings = async () => {
 	const supress = input[0]
 	if (supress === undefined) throw new Error('Failed to update settings')
 
-	emit('ox_inventory:suppressItemNotifications', client.entity.handle(), supress)
+	emit('ox_inventory:suppressItemNotifications', supress)
 	client.player.storage.set('lenix:supressInvNotify', supress.toString())
 }
 

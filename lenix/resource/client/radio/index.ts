@@ -13,8 +13,8 @@ const toggleRadioAnimation = async () => {
 	await requestAnimDict(dict)
 
 	if (state) {
-		client.entity.playAnim(dict, anim)
-		client.entity.stopAnim(dict)
+		client.entity.playAnim(cache.ped, dict, anim)
+		client.entity.stopAnim(cache.ped, dict)
 
 		radioProp = CreateObject(GetHashKey('prop_cs_hand_radio'), 1.0, 1.0, 1.0, true, true, false)
 

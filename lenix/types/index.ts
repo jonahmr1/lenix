@@ -57,9 +57,9 @@ export interface Team {
 export type SyncConfig = 'irl' | 'custom' | 'server'
 
 export interface PlayerStorage {
-	invNotifications: 'true' | 'false'
-	weatherFreeze: 'true' | 'false'
-	timeFreeze: 'true' | 'false'
+	invNotifications: boolean
+	weatherFreeze: boolean
+	timeFreeze: boolean
 	weatherSync: Exclude<SyncConfig, 'irl'>
 	timeSync: SyncConfig
 	timeValue: number

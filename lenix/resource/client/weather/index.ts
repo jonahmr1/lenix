@@ -8,6 +8,7 @@ export const SyncConfig: ISyncConfig[] = [
 	"irl",
 ] as const
 
+// Weather names supported by GTA V natives.
 const weatherTypes: PlayerStorage['weatherType'][] = [
 	'CLEAR',
 	'EXTRASUNNY',
@@ -30,35 +31,42 @@ const weatherTypes: PlayerStorage['weatherType'][] = [
 
 let timeMode: ISyncConfig = client.player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
 
+// Applies the configured time mode to the local clock.
 const setTime = () => {
 	if (timeMode === 'custom') {
+		// Custom mode uses stored hour only; minutes/seconds are reset.
 		const time = client.player.storage.get<PlayerStorage, 'timeValue'>('timeValue')
 		NetworkOverrideClockTime(Number(time), 0, 0)
 		return
 	}
 	if (timeMode === 'irl') {
+		// Real-world mode continuously mirrors local system time.
 		const now = new Date()
 		NetworkOverrideClockTime(now.getHours(), now.getMinutes(), 0)
 	}
 }
 
+// Applies weather only when custom mode is active.
 const setWeather = (syncType?: string) => {
 	const weatherConfig = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync')
 	if (weatherConfig !== 'custom') return
 
 	const weatherType = syncType ?? client.player.storage.get<PlayerStorage, 'weatherType'>('weatherType', 'CLEAR')
-	const weatherFreezed = client.player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', 'false') === 'true'
+	const weatherFreezed = client.player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', false)
 
 	if (weatherFreezed) {
+		// Persist current weather if freeze is enabled.
 		SetWeatherTypeNowPersist(weatherType)
 		return
 	}
 
+	// Disable persistence for dynamic transitions.
 	ClearWeatherTypePersist()
 	SetWeatherTypeNow(weatherType)
 }
 
 const set = {
+	// Server sync is planned for later; custom/time values are saved locally for now.
 	server: (type: 'weather' | 'time', syncFreezed: boolean) => {
 		notify({
 			title: 'This feature is not available yet!',
@@ -90,10 +98,11 @@ const set = {
 			PauseClock(syncFreezed)
 			NetworkOverrideClockTime(syncValue, 0, 0)
 			client.player.storage.set<PlayerStorage>('timeSync', 'custom')
-			client.player.storage.set<PlayerStorage>('timeValue', syncValue.toString())
+			client.player.storage.set<PlayerStorage>('timeValue', syncValue)
 		}
 		return custom
 	})(),
+	// Manual time sync from the selected hour in menu.
 	irl: (timeFreezed: boolean) => {
 		timeMode = 'irl'
 		PauseClock(timeFreezed)
@@ -104,13 +113,14 @@ const set = {
 }
 
 const openMenu = async () => {
+	// Build menu defaults from current GTA and saved player preference.
 	const currentGameWeather = weatherTypes.find(weatherType => GetHashKey(weatherType) === GetPrevWeatherTypeHashName())
 	if (!currentGameWeather) throw new Error('Failed to get current weather type')
 
 	const weatherSyncConfig = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync', 'server')
-	const weatherFreezed = client.player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', 'false')
+	const weatherFreezed = client.player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', false)
 	const timeSyncConfig = client.player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
-	const timeFreezed = client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', 'false')
+	const timeFreezed = client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', false)
 
 	const input = await inputDialog('Weather & Time Settings', [
 		{
@@ -131,7 +141,7 @@ const openMenu = async () => {
 		{
 			type: 'checkbox',
 			label: 'Freeze Weather',
-			checked: weatherFreezed === 'true' ? true : false
+			checked: weatherFreezed
 		},
 		{
 			type: 'slider',
@@ -150,7 +160,7 @@ const openMenu = async () => {
 		{
 			type: 'checkbox',
 			label: 'Freeze Time',
-			checked: timeFreezed === 'true' ? true : false
+			checked: timeFreezed
 		},
 	], {})
 	if (!input) return
@@ -163,8 +173,9 @@ const openMenu = async () => {
 	const hour = input[4] as number
 	const newTimeFreezed = input[5] as boolean
 
-	client.player.storage.set<PlayerStorage>('weatherFreeze', newWeatherFreezed.toString() as 'true' | 'false')
-	client.player.storage.set<PlayerStorage>('timeFreeze', newTimeFreezed.toString() as 'true' | 'false')
+	// Persist checkbox states even when player switches modes.
+	client.player.storage.set<PlayerStorage>('weatherFreeze', newWeatherFreezed)
+	client.player.storage.set<PlayerStorage>('timeFreeze', newTimeFreezed)
 
 	switch (weatherSyncType) {
 		case 1:
@@ -192,13 +203,15 @@ const openMenu = async () => {
 	}
 }
 
+// Keep IRL syncing aligned every minute while in IRL mode.
 setInterval(() => {
 	if (timeMode === 'irl') setTime()
 }, 60_000)
 
+// Restore saved preferences when client resource starts.
 setImmediate(() => {
 	setWeather()
-	PauseClock(client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', 'false') === 'true')
+	PauseClock(client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', false))
 	setTime()
 })
 

@@ -52,8 +52,8 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 						})
 						if (!didntCanceled) return
 
-						const playerCoords = client.entity.coords()
-						client.entity.teleport(playerCoords[0], playerCoords[1], coords[2])
+						const playerCoords = client.player.coords()
+						client.player.teleport(playerCoords[0], playerCoords[1], coords[2])
 					},
 				})),
 		],

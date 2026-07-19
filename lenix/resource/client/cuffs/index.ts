@@ -39,12 +39,12 @@ const ALLOWED_CONTROLS = new Set([
 ])
 
 const cuffingAnimation = async () => {
-	await client.entity.playAnim('mp_arrest_paired', 'cop_p2_back_right')
+	await client.entity.playAnim(cache.ped, 'mp_arrest_paired', 'cop_p2_back_right')
 
 	await sleep(3500)
 
-	await client.entity.playAnim('mp_arrest_paired', 'exit')
-	client.entity.stopAnim('mp_arrest_paired')
+	await client.entity.playAnim(cache.ped, 'mp_arrest_paired', 'exit')
+	client.entity.stopAnim(cache.ped, 'mp_arrest_paired')
 }
 
 const gettingCuffedAnimation = async (playerId: number) => {
@@ -57,10 +57,10 @@ const gettingCuffedAnimation = async (playerId: number) => {
 	client.entity.teleport(...offset, heading)
 
 	await sleep(100)
-	await client.entity.playAnim('mp_arrest_paired', 'crook_p2_back_right')
+	await client.entity.playAnim(cache.ped, 'mp_arrest_paired', 'crook_p2_back_right')
 	await sleep(2500)
 
-	client.entity.stopAnim('mp_arrest_paired')
+	client.entity.stopAnim(cache.ped, 'mp_arrest_paired')
 }
 
 export const setCuffs = async () => {
@@ -76,11 +76,11 @@ export const setCuffs = async () => {
 	}
 
 	await requestAnimDict('mp_arresting')
-	client.entity.playAnim('mp_arresting', 'idle', 8.0, -8.0)
+	client.entity.playAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8.0)
 }
 
 on('lenix:client:cuff', () => {
-	const nearest = getNearest.player(client.entity.coords(true))
+	const nearest = getNearest.player(client.player.coords(true))
 	if (!nearest.playerId) {
 		notify({
 			title: 'No one nearby!',
@@ -106,6 +106,6 @@ onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 		emitNet('lenix:server:cuffs:toggle', cache.serverId)
 	} else {
 		ClearPedTasks(cache.ped)
-		client.entity.stopAnim('mp_arresting')
+		client.entity.stopAnim(cache.ped, 'mp_arresting')
 	}
 })
