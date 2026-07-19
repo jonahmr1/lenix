@@ -16,7 +16,7 @@ export const Langs = () => {
 				>
 					Used Languages
 				</motion.p>
-				<motion.p {...fade(0.125)} className='text-[11px] text-foreground/20'>
+				<motion.p {...fade(0.125)} className='text-[11px] tracking-[3px] text-foreground/40 uppercase'>
 					live
 				</motion.p>
 			</div>

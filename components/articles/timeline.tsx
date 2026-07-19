@@ -1,5 +1,5 @@
 import { HugeiconsIcon } from '@hugeicons/react'
-import { ExclamationMarkIcon, Tick02Icon, Time04Icon, X } from '@hugeicons/core-free-icons'
+import { ExclamationMarkIcon, Tick02Icon, Time04Icon, TimeHalfPassIcon, X } from '@hugeicons/core-free-icons'
 import { TimelineLayout } from '../timeline'
 
 export const Timeline = () => (
@@ -260,7 +260,7 @@ export const Timeline = () => (
 				title: 'Intellenix: AI Mobile App Assistant',
 				description: 'Built a cross-platform assistant that rejects the "generalist" approach. Instead of knowing a little about everything, Intellenix is engineered to go deep into specific domains and tasks, providing high-level expertise where general AI usually fails.',
 				techs: ['React Native', 'TypeScript', 'Expo', 'React', 'Supabase', 'Groq', 'Node.js', 'Vercel', 'Tamagui', 'i18next', 'Eslint', 'Prettier', 'Stylistic'],
-				icon: <HugeiconsIcon icon={ExclamationMarkIcon} />,
+				icon: <HugeiconsIcon icon={TimeHalfPassIcon} />,
 				color: 'paused',
 				iconHover: 'Paused',
 				url: 'https://github.com/jonahmr1/intellenix'
