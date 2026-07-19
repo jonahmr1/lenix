@@ -70,13 +70,7 @@ onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
 	return true
 })
 
-onNui<Requests['loseFocus']>('roster:lostFocus', () => {
-	SetNuiFocus(false, false)
-	return true
-})
-
 onNui<Requests['triggerCallsign']>('roster:callsign', () => {
-	SetNuiFocus(false, false)
 	changeCallsign()
 	return true
 })

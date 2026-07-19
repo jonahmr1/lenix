@@ -48,7 +48,6 @@ const toggleRadioAnimation = async () => {
 
 on('lenix:client:radio', () => {
 	state = true
-	SetNuiFocus(true, true)
 	emitEvent<Events['displayRadio']>('radio:display', state)
 	toggleRadioAnimation()
 })
@@ -75,7 +74,6 @@ onNui<Requests['leaveRadio']>('radio:leave', () => {
 
 onNui<Requests['closeRadio']>('radio:close', () => {
 	state = false
-	SetNuiFocus(false, false)
 	toggleRadioAnimation()
 	return true
 })

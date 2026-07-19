@@ -31,7 +31,7 @@ export type PartialOfficer = {
 } & OfficerUpdates;
 
 export interface Events {
-	displayRadio: Event<'radio:display', [boolean]>
+	displayRadio: Event<'radio:display', [true]>
 	displayRoster: Event<'roster:display', [boolean, number]>
 	displayHud: Event<'hud:display', [boolean]>
 	updateHudClip: Event<'hud:update:clip', [string]>
@@ -45,7 +45,6 @@ export interface Requests {
 	closeRadio: Request<true, 'radio:close'>
 	leaveRadio: Request<true, 'radio:leave'>
 	updateOfficer: Request<true, 'roster:updateOfficer', PartialOfficer>
-	loseFocus: Request<true, 'roster:lostFocus'>
 	triggerCallsign: Request<true, 'roster:callsign'>
 }
 

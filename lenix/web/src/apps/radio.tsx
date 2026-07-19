@@ -1,4 +1,4 @@
-import { onEvent, triggerNui } from 'lenix/nui'
+import { focus, onEvent, triggerNui } from 'lenix/nui'
 import { useEffect, useState } from 'react'
 import type { Events, Requests } from 'types'
 
@@ -11,10 +11,14 @@ export default () => {
 			if (event.key !== 'Escape') return
 
 			setDisplay(false)
+			focus()
 			triggerNui<Requests['closeRadio']>('radio:close')
 		}
 
-		const dispose = onEvent<Events['displayRadio']>('radio:display', setDisplay)
+		const dispose = onEvent<Events['displayRadio']>('radio:display', state => {
+			setDisplay(state)
+			focus(state, state)
+		})
 
 		window.addEventListener('keydown', escHandler)
 		return () => {

@@ -5,7 +5,7 @@ import type { Events, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
 import { DEV } from '@/index'
 import { Frown } from 'lucide-react'
-import { onEvent, triggerNui } from 'lenix/nui'
+import { focus, onEvent, triggerNui } from 'lenix/nui'
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)
@@ -24,7 +24,7 @@ export const Roster = () => {
 		const handler = (event: KeyboardEvent) => {
 			if (event.key !== 'Escape') return
 
-			triggerNui<Requests['loseFocus']>('roster:lostFocus')
+			focus()
 		}
 		window.addEventListener('keydown', handler)
 
@@ -71,6 +71,7 @@ export const Roster = () => {
 	}
 
 	const handleCallsign = () => {
+		focus()
 		triggerNui<Requests['triggerCallsign']>('roster:callsign')
 	}
 
