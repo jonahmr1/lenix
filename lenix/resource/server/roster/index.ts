@@ -40,11 +40,16 @@ abstract class Officers {
 			const callsignsRows = await oxmysql.query<{ callsign: string }[]>('SELECT `callsign` FROM `lenix`')
 			if (!callsignsRows) throw new Error(`Failed to get table callsigns`)
 
-			callsignsRows.forEach(callsignRows => callsignRows.callsign === props.callsign && emitNet('ox_lib:notify', playerId, {
-				title: 'Failed to update callsign',
-				type: 'error',
-				description: 'That callsign already belongs to an officer'
-			} satisfies Parameters<typeof notify>[0]))
+			const callsignTaken = callsignsRows.some(callsignRows => callsignRows.callsign === props.callsign?.toLowerCase().trim())
+			if (callsignTaken) {
+				emitNet('ox_lib:notify', playerId, {
+					title: 'Failed to update callsign',
+					type: 'error',
+					description: 'That callsign already belongs to an officer'
+				} satisfies Parameters<typeof notify>[0])
+				return
+			}
+
 			const affectedRows = await oxmysql.update('UPDATE lenix SET callsign = ? WHERE charId = ?', [
 				props.callsign, charId
 			])
