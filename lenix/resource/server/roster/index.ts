@@ -86,6 +86,7 @@ abstract class Officers {
 	}
 
 	public static removeOfficer = (playerId: number) => {
+		if (!this.officers[playerId]) return
 		delete this.officers[playerId]
 		this.refreshOfficers()
 	}
@@ -99,9 +100,12 @@ on('ox:playerLoaded', (playerId: number) => {
 	Officers.addOfficer(playerId)
 })
 
-on('ox:playerLogout', Officers.removeOfficer)
-
 on('ox:setGroup', (playerId: number, groupName: string) => {
-	if (groupName !== 'police') return
+	if (groupName !== 'police') {
+		Officers.removeOfficer(playerId)
+		return
+	}
 	Officers.addOfficer(playerId)
 });
+
+on('ox:playerLogout', Officers.removeOfficer)
