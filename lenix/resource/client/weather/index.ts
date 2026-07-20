@@ -2,9 +2,9 @@ import { inputDialog, notify } from '@overextended/ox_lib/client'
 import { client } from 'lenix/client'
 import type { PlayerStorage, SyncConfig as ISyncConfig } from 'types/index'
 
-export const SyncConfig: ISyncConfig[] = ['server', 'custom', 'irl'] as const
+export const SyncConfig: readonly ISyncConfig[] = ['server', 'custom', 'irl']
 
-const weatherTypes: PlayerStorage['weatherType'][] = [
+const weatherTypes: readonly PlayerStorage['weatherType'][] = [
 	'CLEAR',
 	'EXTRASUNNY',
 	'CLOUDS',

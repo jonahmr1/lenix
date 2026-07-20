@@ -129,7 +129,9 @@ setImmediate(() => {
 							],
 						})
 						showContext('rent_menu')
-					} else spawnVehicle('cypher', spawn)
+						return
+					}
+					spawnVehicle('cypher', spawn)
 				},
 			},
 		])

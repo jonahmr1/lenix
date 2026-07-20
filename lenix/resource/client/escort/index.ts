@@ -1,4 +1,4 @@
-import { getNearest } from 'lenix/client'
+import { client, getNearest } from 'lenix/client'
 import { cache } from '@overextended/ox_lib'
 import { notify } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
@@ -22,7 +22,7 @@ onNet('lenix:client:escort:toggle', (serverId: number, state: boolean) => {
 	if (state) {
 		AttachEntityToEntity(
 			cache.ped,
-			GetPlayerPed(GetPlayerFromServerId(serverId)),
+			client.player.entity(client.player.id(serverId)),
 			11816,
 			0.45,
 			0.45,

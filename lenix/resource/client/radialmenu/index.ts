@@ -41,31 +41,32 @@ addRadialItem([
 		id: 'emote',
 		label: 'Emotes',
 		icon: 'person-walking',
-		onSelect: () =>
-			notify({
-				title: 'Not available yet!',
-			}),
+		onSelect: () => notify({ title: 'Not available yet!', }),
 	},
 ])
 
 onCache('vehicle', vehicle => {
-	if (vehicle)
+	if (vehicle) {
 		addRadialItem({
 			id: 'vehicle-menu',
 			label: 'Vehicle',
 			icon: 'car',
 			onSelect: () => emit('vehiclecontrol:toggle'),
 		})
-	else removeRadialItem('vehicle-menu')
+		return
+	}
+	removeRadialItem('vehicle-menu')
 })
 
 onNet('ox:setGroup', (groupName: string, _grade: number) => {
-	if (groupName === 'police')
+	if (groupName === 'police') {
 		addRadialItem({
 			id: 'plist',
 			label: 'Roster',
 			icon: 'list-ul',
 			onSelect: () => emit('lenix:server:roster:toggleDisplay'),
 		})
-	else removeRadialItem('plist')
+		return
+	}
+	removeRadialItem('plist')
 })

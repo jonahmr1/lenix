@@ -7,12 +7,8 @@ addKeybind({
 	name: 'identities',
 	description: 'Show players identities',
 	defaultKey: 'HOME',
-	onPressed: () => {
-		shown = true
-	},
-	onReleased: () => {
-		shown = false
-	},
+	onPressed: () => !shown,
+	onReleased: () => !shown,
 })
 
 // From https://github.com/Qbox-project/qbx_core/blob/main/modules/lib.lua#L441
