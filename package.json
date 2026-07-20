@@ -9,8 +9,8 @@
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"fetchapi": "bun --env-file=.env scripts/fetch.ts",
-		"serve": "pnpm vercel dev",
-		"format": "pnpm exec prettier . --write"
+		"serve": "bun vercel dev",
+		"format": "bun exec prettier . --write"
 	},
 	"dependencies": {
 		"@fontsource-variable/oxanium": "^5.2.8",
