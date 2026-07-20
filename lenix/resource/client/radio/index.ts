@@ -58,7 +58,7 @@ onNui<Requests['changeFrequency']>('radio:frequency', ({ frequency }) => {
 		notify({
 			type: 'error',
 			title: 'Failed',
-			description: 'The frequency cannot exceed 500'
+			description: 'The frequency cannot exceed 500',
 		})
 		return false
 	}

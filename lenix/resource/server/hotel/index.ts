@@ -44,11 +44,9 @@ const setupStash = (roomId: number, stashCoords: Vector4) => {
 }
 
 const loadStash = async (charId: number) => {
-	const room = await oxmysql.scalar<number>('SELECT `hotel_room` FROM `lenix` WHERE `charId` = ? LIMIT 1', [
-		charId
-	])
+	const room = await oxmysql.scalar<number>('SELECT `hotel_room` FROM `lenix` WHERE `charId` = ? LIMIT 1', [charId])
 	if (!room) throw new Error(`Could not get the room for charId<${charId}>`)
-	
+
 	const coords = HOTEL_SAFES[room]?.coords
 	if (!coords) throw new Error(`Failed to get the safe<${room}> coords for charId<${charId}>`)
 
@@ -65,10 +63,8 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 
 		setupStash(roomId, stashCoords)
 
-		const res = await oxmysql.update('UPDATE lenix SET hotel_room = ? WHERE charId = ?', [
-			roomId, charId
-		])
-		
+		const res = await oxmysql.update('UPDATE lenix SET hotel_room = ? WHERE charId = ?', [roomId, charId])
+
 		if (!res) throw new Error(`Failed to update new room<${roomId}> for charId<${charId}>`)
 
 		await sleep(1000)
@@ -85,9 +81,9 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 
 		playerAccount.addBalance({
 			amount: STARTER_DEPOSIT,
-			message: 'Character creation gift'
+			message: 'Character creation gift',
 		})
-	} catch(e) {
+	} catch (e) {
 		console.error(e)
 	}
 })

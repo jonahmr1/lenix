@@ -1,14 +1,17 @@
-import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE } from "common/robbery"
-import type { Team } from "types/index"
-import { server } from "lenix/server"
-import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from "common/robbery"
-import { CreateVehicle, type OxVehicle } from "@overextended/ox_core/server"
+import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE } from 'common/robbery'
+import type { Team } from 'types/index'
+import { server } from 'lenix/server'
+import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from 'common/robbery'
+import { CreateVehicle, type OxVehicle } from '@overextended/ox_core/server'
 
-const notify = (source: number, data: {
-	title: string
-	type?: 'error'
-	description?: string
-}) => emitNet('ox_lib:notify', source, data)
+const notify = (
+	source: number,
+	data: {
+		title: string
+		type?: 'error'
+		description?: string
+	},
+) => emitNet('ox_lib:notify', source, data)
 
 abstract class Teams {
 	private static readonly teams = new Map<number, Team>()
@@ -22,7 +25,7 @@ abstract class Teams {
 			notify(leader, {
 				type: 'error',
 				title: 'Not enough money!',
-				description: `You need ${MISSION_PRICE - moneyAmount} more`
+				description: `You need ${MISSION_PRICE - moneyAmount} more`,
 			})
 			return
 		}
@@ -53,13 +56,12 @@ abstract class Teams {
 	}
 
 	static invite(inviter: number, invited: number) {
-		if (this.get(inviter)?.leader !== inviter)
-			throw new Error(`Exploit attempted by player<${inviter}>`)
+		if (this.get(inviter)?.leader !== inviter) throw new Error(`Exploit attempted by player<${inviter}>`)
 
 		if (!server.entity.handleFromSource(invited) || invited === inviter) {
 			notify(inviter, {
 				type: 'error',
-				title: 'Unvalid Id'
+				title: 'Unvalid Id',
 			})
 			return
 		}
@@ -68,7 +70,7 @@ abstract class Teams {
 		if (targetTeam) {
 			notify(inviter, {
 				type: 'error',
-				title: 'Player is already in a/the team'
+				title: 'Player is already in a/the team',
 			})
 			return
 		}
@@ -77,8 +79,9 @@ abstract class Teams {
 
 		const handler = (inviter: number, decision: 'cancel' | 'confirm') => {
 			if (decision === 'confirm') this.join(inviter, invited)
-
-			else if (decision === 'cancel') { /* maybe notify the inviter? whatever */ }
+			else if (decision === 'cancel') {
+				/* maybe notify the inviter? whatever */
+			}
 
 			removeEventListener('lenix:server:robbery:inviteDone', handler)
 		}
@@ -94,10 +97,10 @@ abstract class Teams {
 		team.members = team.members.filter(memb => memb !== removed)
 		this.updatePlayer([remover, removed], team)
 		notify(remover, {
-			title: `Player #${removed} was removed from the team`
+			title: `Player #${removed} was removed from the team`,
 		})
 		notify(removed, {
-			title: 'You have been kicked from the team'
+			title: 'You have been kicked from the team',
 		})
 	}
 
@@ -122,7 +125,7 @@ abstract class Teams {
 		if (!team) throw new Error(`Error occured happend while serving player<${invited}>`)
 
 		notify(inviter, {
-			title: `Player #${invited} joined the team`
+			title: `Player #${invited} joined the team`,
 		})
 		team.members.push(invited)
 		this.updatePlayer([inviter, invited], team)
@@ -133,7 +136,7 @@ abstract class Teams {
 		if (!this.robberyActive) return
 
 		notify(invited, {
-			title: 'A new truck to rob can be found in the map'
+			title: 'A new truck to rob can be found in the map',
 		})
 	}
 
@@ -145,10 +148,10 @@ abstract class Teams {
 		const randomIndex = random(VEHICLE_COORDS.length - 1)
 		const coords = VEHICLE_COORDS[randomIndex]
 		if (!coords) throw new Error(`Failed to get the coords at #${randomIndex} from VEHICLE_COORDS`)
-	
+
 		const vehicle = await CreateVehicle(VEHICLE_MODEL, [coords[0], coords[1], coords[2]], coords[3])
 		if (!vehicle) throw new Error(`Failed to create the vehicle`)
-	
+
 		this.robberyVeh = vehicle
 		this.interval = setInterval(() => {
 			GlobalState.robberyVehicleCoords = vehicle?.getCoords()

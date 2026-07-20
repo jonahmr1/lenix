@@ -1,8 +1,8 @@
-import type { Vec3, Vec4, Event, Request } from "lenix";
+import type { Vec3, Vec4, Event, Request } from 'lenix'
 
 type AtLeastOne<T> = {
 	[K in keyof T]-?: { [P in K]: T[P] } & Partial<Omit<T, K>>
-}[keyof T];
+}[keyof T]
 
 // type PartialExcept<T, K extends keyof T> = {
 // 	[P in K]: T[P];
@@ -27,8 +27,8 @@ export type Officers = Record<number, Officer>
 export type OfficerUpdates = AtLeastOne<Omit<Officer, 'playerId'>>
 
 export type PartialOfficer = {
-	playerId: Officer['playerId'];
-} & OfficerUpdates;
+	playerId: Officer['playerId']
+} & OfficerUpdates
 
 export interface Events {
 	displayRadio: Event<'radio:display', [true]>
@@ -63,21 +63,21 @@ export interface PlayerStorage {
 	timeSync: SyncConfig
 	timeValue: number
 	weatherType:
-	| 'CLEAR'
-	| 'EXTRASUNNY'
-	| 'CLOUDS'
-	| 'OVERCAST'
-	| 'RAIN'
-	| 'CLEARING'
-	| 'THUNDER'
-	| 'SMOG'
-	| 'FOGGY'
-	| 'XMAS'
-	| 'SNOW'
-	| 'SNOWLIGHT'
-	| 'BLIZZARD'
-	| 'HALLOWEEN'
-	| 'NEUTRAL'
-	| 'RAIN_HALLOWEEN'
-	| 'SNOW_HALLOWEEN'
+		| 'CLEAR'
+		| 'EXTRASUNNY'
+		| 'CLOUDS'
+		| 'OVERCAST'
+		| 'RAIN'
+		| 'CLEARING'
+		| 'THUNDER'
+		| 'SMOG'
+		| 'FOGGY'
+		| 'XMAS'
+		| 'SNOW'
+		| 'SNOWLIGHT'
+		| 'BLIZZARD'
+		| 'HALLOWEEN'
+		| 'NEUTRAL'
+		| 'RAIN_HALLOWEEN'
+		| 'SNOW_HALLOWEEN'
 }

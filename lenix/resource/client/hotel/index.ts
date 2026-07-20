@@ -10,7 +10,7 @@ for (const [room, { coords, rotation }] of Object.entries(HOTEL_SAFES)) {
 		rotation: rotation,
 		options: {
 			label: 'Open Safe',
-			onSelect: () => globalThis.exports.ox_inventory.openInventory('stash', getSafeById(Number(room)))
+			onSelect: () => globalThis.exports.ox_inventory.openInventory('stash', getSafeById(Number(room))),
 		},
 	})
 }
@@ -23,6 +23,6 @@ on('ox:playerLoaded', async (_playerId: number, isNew: boolean) => {
 
 	const charId = player.charId
 	if (!charId) return
-	
+
 	emitNet('lenix:server:hotel:loadStashes', charId)
 })

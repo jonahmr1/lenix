@@ -1,7 +1,7 @@
 export default {
-  plugins: {
-    'postcss-color-converter': {
-      outputColorFormat: 'rgb'
-    }
-  }
+	plugins: {
+		'postcss-color-converter': {
+			outputColorFormat: 'rgb',
+		},
+	},
 }

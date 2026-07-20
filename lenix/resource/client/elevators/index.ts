@@ -48,7 +48,7 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 						const didntCanceled = await progressBar({
 							label: 'Calling the elevator...',
 							duration: WAIT_DURATION * 1000,
-							canCancel: true
+							canCancel: true,
 						})
 						if (!didntCanceled) return
 

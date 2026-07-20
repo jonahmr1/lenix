@@ -43,14 +43,12 @@ export const Roster = () => {
 		}
 	})
 
-	
-
 	if (!playerId) return
 
 	const updateOfficer = (playerId: number, updates: OfficerUpdates) => {
 		triggerNui<Requests['updateOfficer']>('roster:updateOfficer', {
 			playerId,
-			...updates
+			...updates,
 		})
 	}
 
@@ -95,9 +93,7 @@ export const Roster = () => {
 				<Separator className='bg-gray-600' />
 				<div className='flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col items-center'>
 					{Object.entries(officers).length ? (
-						Object.entries(officers).map(([playerId, officer]) => (
-							<Officer key={playerId} {...officer} />
-						))
+						Object.entries(officers).map(([playerId, officer]) => <Officer key={playerId} {...officer} />)
 					) : (
 						<div className='h-full flex flex-col justify-center items-center gap-5'>
 							<Frown className='text-white' size={60} />
@@ -135,9 +131,7 @@ export const Roster = () => {
 					</Button>
 				</div>
 			) : (
-				<div>
-
-				</div>
+				<div></div>
 			)}
 		</div>
 	)

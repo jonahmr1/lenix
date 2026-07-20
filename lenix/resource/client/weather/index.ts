@@ -1,12 +1,8 @@
-import { inputDialog, notify } from "@overextended/ox_lib/client"
-import { client } from "lenix/client"
-import type { PlayerStorage, SyncConfig as ISyncConfig } from "types/index"
+import { inputDialog, notify } from '@overextended/ox_lib/client'
+import { client } from 'lenix/client'
+import type { PlayerStorage, SyncConfig as ISyncConfig } from 'types/index'
 
-export const SyncConfig: ISyncConfig[] = [
-	"server",
-	"custom",
-	"irl",
-] as const
+export const SyncConfig: ISyncConfig[] = ['server', 'custom', 'irl'] as const
 
 const weatherTypes: PlayerStorage['weatherType'][] = [
 	'CLEAR',
@@ -62,7 +58,7 @@ const set = {
 	server: (type: 'weather' | 'time', syncFreezed: boolean) => {
 		notify({
 			title: 'This feature is not available yet!',
-			type: 'warning'
+			type: 'warning',
 		})
 		if (type === 'time') {
 			timeMode = 'server'
@@ -100,7 +96,7 @@ const set = {
 
 		setTime()
 		client.player.storage.set<PlayerStorage>('timeSync', 'irl')
-	}
+	},
 }
 
 const openMenu = async () => {
@@ -112,47 +108,51 @@ const openMenu = async () => {
 	const timeSyncConfig = client.player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
 	const timeFreezed = client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', false)
 
-	const input = await inputDialog('Weather & Time Settings', [
-		{
-			type: 'slider',
-			label: 'WEATHER SYNC: 1. Server | 2. Custom',
-			min: 1,
-			max: 2,
-			default: SyncConfig.indexOf(weatherSyncConfig) + 1
-		},
-		{
-			type: 'select',
-			label: 'Weather',
-			default: currentGameWeather,
-			options: weatherTypes.map(weatherType => ({
-				value: weatherType
-			}))
-		},
-		{
-			type: 'checkbox',
-			label: 'Freeze Weather',
-			checked: weatherFreezed
-		},
-		{
-			type: 'slider',
-			label: 'TIME SYNC: 1. Server | 2. Custom | 3. IRL',
-			min: 1,
-			max: 3,
-			default: SyncConfig.indexOf(timeSyncConfig) + 1
-		},
-		{
-			type: 'slider',
-			label: 'Time',
-			min: 0,
-			max: 23,
-			default: GetClockHours()
-		},
-		{
-			type: 'checkbox',
-			label: 'Freeze Time',
-			checked: timeFreezed
-		},
-	], {})
+	const input = await inputDialog(
+		'Weather & Time Settings',
+		[
+			{
+				type: 'slider',
+				label: 'WEATHER SYNC: 1. Server | 2. Custom',
+				min: 1,
+				max: 2,
+				default: SyncConfig.indexOf(weatherSyncConfig) + 1,
+			},
+			{
+				type: 'select',
+				label: 'Weather',
+				default: currentGameWeather,
+				options: weatherTypes.map(weatherType => ({
+					value: weatherType,
+				})),
+			},
+			{
+				type: 'checkbox',
+				label: 'Freeze Weather',
+				checked: weatherFreezed,
+			},
+			{
+				type: 'slider',
+				label: 'TIME SYNC: 1. Server | 2. Custom | 3. IRL',
+				min: 1,
+				max: 3,
+				default: SyncConfig.indexOf(timeSyncConfig) + 1,
+			},
+			{
+				type: 'slider',
+				label: 'Time',
+				min: 0,
+				max: 23,
+				default: GetClockHours(),
+			},
+			{
+				type: 'checkbox',
+				label: 'Freeze Time',
+				checked: timeFreezed,
+			},
+		],
+		{},
+	)
 	if (!input) return
 
 	const weatherSyncType = input[0] as number
@@ -169,26 +169,28 @@ const openMenu = async () => {
 	switch (weatherSyncType) {
 		case 1:
 			set.server('weather', newWeatherFreezed)
-		break
+			break
 		case 2:
 			set.custom(weatherType, newWeatherFreezed)
-		break
+			break
 
-		default: throw new Error(`Invalid weatherType: ${weatherSyncType}`)
+		default:
+			throw new Error(`Invalid weatherType: ${weatherSyncType}`)
 	}
 
 	switch (timeSyncType) {
-		case 1: 
+		case 1:
 			set.server('time', newTimeFreezed)
-		break
-		case 2: 
+			break
+		case 2:
 			set.custom(hour, newTimeFreezed)
-		break
-		case 3: 
+			break
+		case 3:
 			set.irl(newTimeFreezed)
-		break
-	
-		default: throw new Error(`Invalid timeType: ${timeSyncType}`)
+			break
+
+		default:
+			throw new Error(`Invalid timeType: ${timeSyncType}`)
 	}
 }
 

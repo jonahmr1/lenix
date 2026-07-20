@@ -1,10 +1,19 @@
-import type { Team } from "types/index";
-import { alertDialog, cache, createPed, hideTextUI, inputDialog, registerContext, showContext, showTextUI } from "@overextended/ox_lib/client";
-import { MISSION_PRICE, PED_COORDS } from "common/robbery";
-import { client, useTimer, getNearest } from "lenix/client";
-import { notify, progressBar, requestModel } from "@overextended/ox_lib/client"
-import { DRILL_ITEM, PEDS_MODEL, VEHICLE_MODEL } from "common/robbery"
-import type { Vector3 } from "types/index"
+import type { Team } from 'types/index'
+import {
+	alertDialog,
+	cache,
+	createPed,
+	hideTextUI,
+	inputDialog,
+	registerContext,
+	showContext,
+	showTextUI,
+} from '@overextended/ox_lib/client'
+import { MISSION_PRICE, PED_COORDS } from 'common/robbery'
+import { client, useTimer, getNearest } from 'lenix/client'
+import { notify, progressBar, requestModel } from '@overextended/ox_lib/client'
+import { DRILL_ITEM, PEDS_MODEL, VEHICLE_MODEL } from 'common/robbery'
+import type { Vector3 } from 'types/index'
 
 let blip: number
 let inviteTick: number
@@ -12,7 +21,7 @@ let blipTick: number
 let team: Team | undefined
 const vehicleDoorsBroken = {
 	left: false,
-	right: false
+	right: false,
 }
 
 const isInTeam = () => !!team?.members.find(member => member === cache.serverId)
@@ -28,45 +37,49 @@ const refreshContext = async () => {
 				disabled: isLeader() || isInTeam(),
 				onSelect: async () => {
 					emitNet('lenix:server:robbery:createTeam')
-				}
+				},
 			},
 			{
 				title: 'Invite teammate',
 				disabled: !isLeader(),
 				onSelect: async () => {
-					const input = await inputDialog('Invite a teammate', [
-						{
-							type: 'number',
-							label: 'Player Id'
-						}
-					], {})
+					const input = await inputDialog(
+						'Invite a teammate',
+						[
+							{
+								type: 'number',
+								label: 'Player Id',
+							},
+						],
+						{},
+					)
 					if (!input) return
 
 					emitNet('lenix:server:robbery:invite', input[0])
-				}
+				},
 			},
 			{
 				title: 'Kick teammate',
 				disabled: !isLeader(),
 				onSelect: () => {
 					showContext('robbery-mission-kick')
-				}
+				},
 			},
 			{
 				title: 'Leave team',
 				disabled: !isInTeam() || isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:leaveTeam')
-				}
+				},
 			},
 			{
 				title: 'Delete team',
 				disabled: !isLeader(),
 				onSelect: () => {
 					emitNet('lenix:server:robbery:deleteTeam')
-				}
+				},
 			},
-		]
+		],
 	})
 
 	registerContext({
@@ -76,11 +89,11 @@ const refreshContext = async () => {
 			const teammates = team?.members.filter(member => member !== team?.leader) ?? []
 			return teammates.length > 0
 				? teammates.map(teammate => ({
-					title: `${teammate}`,
-					onSelect: () => emitNet('lenix:server:robbery:kickMember', teammate)
-				}))
+						title: `${teammate}`,
+						onSelect: () => emitNet('lenix:server:robbery:kickMember', teammate),
+					}))
 				: [{ title: 'No teammates found', readOnly: true }]
-		})()
+		})(),
 	})
 }
 
@@ -90,16 +103,16 @@ onNet('lenix:client:robbery:receiveInvite', (inviter: number) => {
 	const stop = useTimer(
 		10000,
 		1000,
-		(timeLeft) => {
+		timeLeft => {
 			showTextUI(`E - Show robbery invite - ${Math.ceil(timeLeft / 1000)}s`, {
-				position: 'bottom-center'
+				position: 'bottom-center',
 			})
 		},
 		() => {
 			hideTextUI()
 			clearTick(inviteTick)
 			inviteTick = 0
-		}
+		},
 	)
 
 	inviteTick = setTick(async () => {
@@ -112,7 +125,7 @@ onNet('lenix:client:robbery:receiveInvite', (inviter: number) => {
 				header: 'Robbery Invite',
 				content: `The player #${inviter} is inviting you to join his to a robbery mission`,
 				centered: true,
-				cancel: true
+				cancel: true,
 			})
 			emitNet('lenix:server:robbery:inviteDone', inviter, res satisfies 'cancel' | 'confirm')
 		}
@@ -128,7 +141,7 @@ onNet('lenix:client:robbery:updatePlayer', (updatedTeam: Team | undefined) => {
 })
 
 onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
-	const vehicle = await new Promise<number>((resolve) => {
+	const vehicle = await new Promise<number>(resolve => {
 		const interval = setInterval(() => {
 			const entity = NetworkGetEntityFromNetworkId(netId)
 			if (entity > 0 && DoesEntityExist(entity)) {
@@ -191,7 +204,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 		const drillAmount = globalThis.exports.ox_inventory.GetItemCount(DRILL_ITEM)
 		if (drillAmount < 1) {
 			notify({
-				title: 'You\'re missing a drill'
+				title: "You're missing a drill",
 			})
 			return
 		}
@@ -217,14 +230,14 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 			canInteract: () => team,
 			onSelect: async () => {
 				breakDoor('left')
-			}
+			},
 		},
 		{
 			name: 'right-door',
 			label: 'Break Right Door',
 			bones: 'door_pside_r',
 			canInteract: () => team,
-			onSelect: async () => breakDoor('right')
+			onSelect: async () => breakDoor('right'),
 		},
 		{
 			name: 'take-money',
@@ -242,7 +255,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 					},
 					anim: {
 						dict: 'anim@scripted@heist@ig1_table_grab@gold@male@',
-						clip: 'grab'
+						clip: 'grab',
 					},
 					prop: {
 						model: 'hei_p_m_bag_var22_arm_s',
@@ -267,7 +280,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 				globalThis.exports.ox_target.removeEntity(netId, 'take-money')
 
 				emitNet('lenix:server:robbery:takemoney')
-			}
+			},
 		},
 	])
 })
@@ -296,6 +309,6 @@ setImmediate(async () => {
 		label: 'Robbery Mission',
 		onSelect: () => {
 			showContext('robbery-mission')
-		}
+		},
 	})
 })

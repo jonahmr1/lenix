@@ -19,12 +19,16 @@ const addOfficer = (groupName: string) => {
 }
 
 const changeCallsign = async () => {
-	const input = await inputDialog('Update Callsgin', [
-		{
-			type: 'input',
-			label: 'Callsign',
-		}
-	], {})
+	const input = await inputDialog(
+		'Update Callsgin',
+		[
+			{
+				type: 'input',
+				label: 'Callsign',
+			},
+		],
+		{},
+	)
 	if (!input) return
 
 	const callsign = input[0]?.toString()
@@ -34,14 +38,14 @@ const changeCallsign = async () => {
 		notify({
 			title: 'Failed!',
 			description: `Callsign can not be longer than ${MAX_CALLSIGN_LENGTH} characters`,
-			type: 'error'
+			type: 'error',
 		})
 		return
 	}
 
 	emitNet('lenix:server:roster:updateOfficer', {
 		playerId: cache.serverId,
-		callsign
+		callsign,
 	} satisfies PartialOfficer)
 }
 
@@ -62,10 +66,10 @@ addKeybind({
 	name: 'roster_focus',
 	description: 'Turn On The Police Roster Cursor Focus',
 	defaultKey: 'i',
-	onPressed: nuiFocus
+	onPressed: nuiFocus,
 })
 
-onNui<Requests['updateOfficer']>('roster:updateOfficer', (partialData) => {
+onNui<Requests['updateOfficer']>('roster:updateOfficer', partialData => {
 	emitNet('lenix:server:roster:updateOfficer', partialData)
 	return true
 })

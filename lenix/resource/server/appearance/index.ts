@@ -1,5 +1,5 @@
-import { addCommand, onClientCallback } from '@overextended/ox_lib/server';
-import { oxmysql } from '@overextended/oxmysql';
+import { addCommand, onClientCallback } from '@overextended/ox_lib/server'
+import { oxmysql } from '@overextended/oxmysql'
 
 export async function getOfflineAppearance(charId: number) {
 	try {
@@ -12,10 +12,10 @@ export async function getOfflineAppearance(charId: number) {
 			LIMIT 1
 			`,
 			[charId],
-		);
+		)
 
-		return skin ? JSON.parse(skin) : null;
-	} catch(e) {
+		return skin ? JSON.parse(skin) : null
+	} catch (e) {
 		console.error(e)
 	}
 }
@@ -34,9 +34,9 @@ addCommand(
 			{
 				name: 'id',
 				paramType: 'playerId',
-				optional: true
-			}
+				optional: true,
+			},
 		],
-		restricted: 'group.admin'
-	}
+		restricted: 'group.admin',
+	},
 )

@@ -1,13 +1,13 @@
-import { GetPlayer } from "@overextended/ox_core/server";
-import { notify } from "@overextended/ox_lib/client";
-import { oxmysql } from "@overextended/oxmysql";
-import type { Officer, PartialOfficer, Officers as IOfficers } from "types/index";
+import { GetPlayer } from '@overextended/ox_core/server'
+import { notify } from '@overextended/ox_lib/client'
+import { oxmysql } from '@overextended/oxmysql'
+import type { Officer, PartialOfficer, Officers as IOfficers } from 'types/index'
 
 abstract class Officers {
 	private static readonly officers: IOfficers = {}
 
 	public static set add(officer: Officer) {
-		this.officers[officer.playerId] = officer;
+		this.officers[officer.playerId] = officer
 	}
 
 	public static get all(): IOfficers {
@@ -40,26 +40,29 @@ abstract class Officers {
 			const callsignsRows = await oxmysql.query<{ callsign: string }[]>('SELECT `callsign` FROM `lenix`')
 			if (!callsignsRows) throw new Error(`Failed to get table callsigns`)
 
-			const callsignTaken = callsignsRows.some(callsignRows => callsignRows.callsign === props.callsign?.toLowerCase().trim())
+			const callsignTaken = callsignsRows.some(
+				callsignRows => callsignRows.callsign === props.callsign?.toLowerCase().trim(),
+			)
 			if (callsignTaken) {
 				emitNet('ox_lib:notify', playerId, {
 					title: 'Failed to update callsign',
 					type: 'error',
-					description: 'That callsign already belongs to an officer'
+					description: 'That callsign already belongs to an officer',
 				} satisfies Parameters<typeof notify>[0])
 				return
 			}
 
 			const affectedRows = await oxmysql.update('UPDATE lenix SET callsign = ? WHERE charId = ?', [
-				props.callsign, charId
+				props.callsign,
+				charId,
 			])
-			
+
 			if (!affectedRows) throw new Error(`Failed to update the callsign<${props.callsign}> for player<${playerId}>`)
 		}
 
 		this.officers[playerId] = {
 			...officer,
-			...props
+			...props,
 		}
 
 		this.refreshOfficers()
@@ -67,21 +70,24 @@ abstract class Officers {
 
 	public static addOfficer = async (playerId: number) => {
 		const player = GetPlayer(playerId)
-		if (!player || !player.charId) throw new Error(`Failed to get player<${playerId}> properly: charId<${player?.charId}>`)
-	
+		if (!player || !player.charId)
+			throw new Error(`Failed to get player<${playerId}> properly: charId<${player?.charId}>`)
+
 		const grade = player.getGroup('police')
 		if (!grade) return
-	
-		const callsign = await oxmysql.scalar<string | null>('SELECT `callsign` FROM `lenix` WHERE `charId` = ? LIMIT 1', [player.charId])
-	
+
+		const callsign = await oxmysql.scalar<string | null>('SELECT `callsign` FROM `lenix` WHERE `charId` = ? LIMIT 1', [
+			player.charId,
+		])
+
 		this.add = {
 			playerId,
 			callsign: callsign ?? 'unset',
 			name: `${player.get('lastName')} ${player.get('firstName')}`,
 			duty_state: 'off',
-			talk_state: 'off'
+			talk_state: 'off',
 		}
-	
+
 		this.refreshOfficers()
 	}
 
@@ -93,19 +99,16 @@ abstract class Officers {
 }
 
 onNet('lenix:server:roster:updateOfficer', Officers.updateOfficer)
-
 onNet('lenix:server:roster:addOfficer', Officers.addOfficer)
 
 on('ox:playerLoaded', (playerId: number) => {
 	Officers.addOfficer(playerId)
 })
-
 on('ox:setGroup', (playerId: number, groupName: string) => {
 	if (groupName !== 'police') {
 		Officers.removeOfficer(playerId)
 		return
 	}
 	Officers.addOfficer(playerId)
-});
-
+})
 on('ox:playerLogout', Officers.removeOfficer)

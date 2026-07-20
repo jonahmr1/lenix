@@ -4,9 +4,9 @@ import { emitEvent } from 'lenix/client'
 
 type OxWeapon =
 	| {
-		ammo: string
-		metadata: { ammo: number }
-	}
+			ammo: string
+			metadata: { ammo: number }
+	  }
 	| undefined
 
 let turnedOff = false

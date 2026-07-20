@@ -42,7 +42,8 @@ const FIRST_FLOOR_SAFES: readonly Safe[] = [
 	{ coords: [-283.3085, -1054.848, 45.2238, 91.083], rotation: 70.0 },
 ]
 
-if (FIRST_FLOOR_SAFES.length !== ROOMS_PER_FLOOR) throw new Error(`Safes count mismatch, expected ${ROOMS_PER_FLOOR}, got ${FIRST_FLOOR_SAFES.length}`)
+if (FIRST_FLOOR_SAFES.length !== ROOMS_PER_FLOOR)
+	throw new Error(`Safes count mismatch, expected ${ROOMS_PER_FLOOR}, got ${FIRST_FLOOR_SAFES.length}`)
 
 export const HOTEL_ROOMS: number[] = Array.from({ length: ROOM_FLOORS_AMOUNT * ROOMS_PER_FLOOR }, (_, i) => {
 	const floor = HOTEL_ROOM_FLOORS[Math.floor(i / ROOMS_PER_FLOOR)]

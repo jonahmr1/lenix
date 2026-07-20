@@ -27,9 +27,11 @@ export default () => {
 		}
 	}, [])
 
-	
 	return (
-		<div inert={!display} className={`w-full flex items-end h-full justify-end py-10 ${display ? 'opacity-100' : 'opacity-0'}`}>
+		<div
+			inert={!display}
+			className={`w-full flex items-end h-full justify-end py-10 ${display ? 'opacity-100' : 'opacity-0'}`}
+		>
 			<div className='relative inline-block'>
 				<input
 					className='absolute top-45/100 left-1/2 -translate-x-1/2 max-w-31/100 h-15 text-2xl outline-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'

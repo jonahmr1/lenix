@@ -10,7 +10,7 @@ interface Reserve {
 	reserve: string
 }
 
-interface UpdateValue extends Clip, Reserve { }
+interface UpdateValue extends Clip, Reserve {}
 
 export default () => {
 	const [state, setState] = useState<UpdateValue>({
@@ -23,7 +23,9 @@ export default () => {
 		const disposes = [
 			onEvent<Events['displayHud']>('hud:display', setDisplay),
 			onEvent<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve }))),
-			onEvent<Events['updateHudReserve']>('hud:update:reserve', reserve => setState(prev => ({ reserve, clip: prev.clip }))),
+			onEvent<Events['updateHudReserve']>('hud:update:reserve', reserve =>
+				setState(prev => ({ reserve, clip: prev.clip })),
+			),
 		]
 		return () => disposes.forEach(dispose => dispose())
 	}, [])

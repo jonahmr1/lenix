@@ -1,5 +1,5 @@
-import { addKeybind, cache, requestAnimDict } from "@overextended/ox_lib/client"
-import { client } from "lenix/client"
+import { addKeybind, cache, requestAnimDict } from '@overextended/ox_lib/client'
+import { client } from 'lenix/client'
 
 let handsUp: boolean = false
 
@@ -17,5 +17,5 @@ addKeybind({
 			client.entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
 		}
 		handsUp = !handsUp
-	}
+	},
 })

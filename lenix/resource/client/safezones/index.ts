@@ -53,8 +53,8 @@ SAFE_ZONES.map(({ coords, distance }) => {
 			iconColor: '#FF5100',
 			style: {
 				borderRadius: '1rem',
-        backgroundColor: '#422A00',
-			}
+				backgroundColor: '#422A00',
+			},
 		})
 	}
 
@@ -65,8 +65,8 @@ SAFE_ZONES.map(({ coords, distance }) => {
 			iconColor: '#48FF00',
 			style: {
 				borderRadius: '1rem',
-        backgroundColor: '#0A4200',
-			}
+				backgroundColor: '#0A4200',
+			},
 		})
 		setTimeout(() => {
 			hideTextUI()
