@@ -65,14 +65,14 @@ abstract class Officers {
 		this.refreshOfficers()
 	}
 
-	public static addOfficer = async (playerId: number, charId: number) => {
+	public static addOfficer = async (playerId: number) => {
 		const player = GetPlayer(playerId)
-		if (!player) throw new Error(`Player<${playerId}> was not found`)
+		if (!player || !player.charId) throw new Error(`Failed to get player<${playerId}> properly: charId<${player?.charId}>`)
 	
 		const grade = player.getGroup('police')
 		if (!grade) return
 	
-		const callsign = await oxmysql.scalar<string | null>('SELECT `callsign` FROM `lenix` WHERE `charId` = ? LIMIT 1', [charId])
+		const callsign = await oxmysql.scalar<string | null>('SELECT `callsign` FROM `lenix` WHERE `charId` = ? LIMIT 1', [player.charId])
 	
 		this.add = {
 			playerId,
@@ -95,8 +95,13 @@ onNet('lenix:server:roster:updateOfficer', Officers.updateOfficer)
 
 onNet('lenix:server:roster:addOfficer', Officers.addOfficer)
 
-on('ox:playerLoaded', (playerId: number, _userId: number, charId: number) => {
-	Officers.addOfficer(playerId, charId)
+on('ox:playerLoaded', (playerId: number) => {
+	Officers.addOfficer(playerId)
 })
 
 on('ox:playerLogout', Officers.removeOfficer)
+
+on('ox:setGroup', (playerId: number, groupName: string) => {
+	if (groupName !== 'police') return
+	Officers.addOfficer(playerId)
+});

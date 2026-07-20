@@ -79,11 +79,6 @@ onNet('lenix:client:roster:refreshOfficers', (officers: Officers) => {
 	emitEvent<Events['refreshOfficers']>('roster:refreshOfficers', officers)
 })
 
-onNet('ox:setGroup', (groupName: string) => {
-	//TODO: check when firing
-	addOfficer(groupName)
-});
-
 on('lenix:client:roster:toggleDisplay', toggleDisplay)
 
 on('onResourceStart', (resource: string) => {
