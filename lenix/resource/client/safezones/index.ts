@@ -1,4 +1,4 @@
-import { Point, cache, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
+import { Point, cache, hideTextUI, showTextUI } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
 
 const SAFE_ZONES: {

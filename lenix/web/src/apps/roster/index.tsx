@@ -41,7 +41,7 @@ export const Roster = () => {
 			window.removeEventListener('keydown', handler)
 			disposes.forEach(dispose => dispose())
 		}
-	})
+	}, [])
 
 	if (!playerId) return
 

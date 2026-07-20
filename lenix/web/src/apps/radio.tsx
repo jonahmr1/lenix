@@ -2,7 +2,7 @@ import { focus, onEvent, triggerNui } from 'lenix/nui'
 import { useEffect, useState } from 'react'
 import type { Events, Requests } from 'types'
 
-export default () => {
+export const Radio = () => {
 	const [display, setDisplay] = useState<boolean>()
 	const [frequency, setFreq] = useState<string>('')
 

@@ -12,7 +12,7 @@ interface Reserve {
 
 interface UpdateValue extends Clip, Reserve {}
 
-export default () => {
+export const Hud = () => {
 	const [state, setState] = useState<UpdateValue>({
 		clip: '-',
 		reserve: '-',
