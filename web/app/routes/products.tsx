@@ -7,9 +7,9 @@ export default () => {
 	return (
 		<Layout>
 			<div>
-				<H1>Code Hub Live Products</H1>
+				<H1>Code Hub Products Catalogue</H1>
 				<P>
-					Browse our collection of digital software products designed to improve developer productivity. Every purchase includes documentation and support.
+					Browse our collection of digital software products designed to improve productivity.
 				</P>
 			</div>
 			<div className="grid grid-cols-3 gap-5 portrait:flex portrait:items-center portrait:flex-col justify-center">

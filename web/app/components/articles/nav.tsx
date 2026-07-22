@@ -59,7 +59,7 @@ export const Nav = () => {
 									className={navigationMenuTriggerStyle()}
 								>
 									<Icon className="size-4" />
-									<div>{label}</div>
+									<div className="cursor-default">{label}</div>
 								</NavigationMenuLink>
 							</NavigationMenuItem>
 						)
@@ -74,7 +74,7 @@ export const Nav = () => {
 										className={navigationMenuTriggerStyle()}
 									>
 										<Icon className="size-4" />
-										<div>{label}</div>
+										<div className="cursor-default">{label}</div>
 									</NavigationMenuLink>
 								</NavigationMenuItem>
 							)
@@ -88,7 +88,7 @@ export const Nav = () => {
 								>
 									<div className="flex items-center gap-1.5">
 										<Icon className="size-4" />
-										<div>{label}</div>
+										<div className="cursor-default">{label}</div>
 									</div>
 								</NavigationMenuTrigger>
 								<NavigationMenuContent>
@@ -99,7 +99,7 @@ export const Nav = () => {
 												className={navigationMenuTriggerStyle()}
 											>
 												<Icon />
-												<div>{title}</div>
+												<div className="cursor-default">{title}</div>
 											</NavigationMenuLink>
 										</NavigationMenuItem>
 									))}
