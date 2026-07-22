@@ -64,7 +64,7 @@ export default () => {
 				<br />
 				<div className="flex gap-5 portrait:flex-col">
 					<FeatureCard title="Reliability" description="Dependable products built for consistent performance and durability." icon={Wrench} />
-					<FeatureCard title="Pricing" description="Fair pricing for every purchase where every cent deserve being payed." icon={Euro} />
+					<FeatureCard title="Pricing" description="Fair pricing on every purchase, where every cent is worth paying for." icon={Euro} />
 					<FeatureCard title="Support" description="Support is our first philosophic priority, it's what keeps us the best." icon={MessageCircle} />
 				</div>
 			</div>
