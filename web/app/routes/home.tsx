@@ -3,11 +3,11 @@ import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
 import type { Faq } from "@/types"
-import { Book, MessageCircle, Check, Package, Settings, Wrench, Euro } from "lucide-react"
+import { MessageCircle, Check, Package, Settings, Wrench, Euro } from "lucide-react"
 import { useNavigate } from "react-router"
 import { Footer } from "~/components/articles/footer"
 import { Card } from "@/components/ui/card";
-import { H1, H2, H3, P, Ul } from "~/components/typography"
+import { H1, H2, P, Ul } from "~/components/typography"
 
 const data: Faq[] = [
 	{
@@ -19,8 +19,12 @@ const data: Faq[] = [
 		answer: <span>Yes, but not in here, since Code Hub tend to provide paid products only, you can check out Lenix publish all of his free products on <Button className='px-0' variant='link' onClick={() => window.open('https://github.com/jonahmr1', "_blank")}>GitHub</Button></span>
 	},
 	{
-		question: 'How do I download the product?',
-		answer: "After your payment is successfully processed, you'll receive access to download your product along with any applicable license key and installation instructions."
+		question: 'How does the support work?',
+		answer: 'Code Hub support life time support for the customers that have active license and there products products are still available in the stock.'
+	},
+	{
+		question: 'Are the products taxable?',
+		answer: 'Not necessarly. taxes may apply depending on your payment situation, such as the method, country,... . Final price will be calculated at checkout.'
 	},
 	{
 		question: 'Will I receive updates?',
@@ -29,6 +33,10 @@ const data: Faq[] = [
 	{
 		question: 'What is your refund policy?',
 		answer: "Refund requests are handled according to our Refund Policy. If you experience a technical issue that cannot be resolved or the product doesn't match its description, please contact us and we'll fairly review your request."
+	},
+	{
+		question: 'How do I download the product?',
+		answer: "After your payment is successfully processed, you'll receive access to download your product along with any applicable license key and installation instructions."
 	},
 ]
 

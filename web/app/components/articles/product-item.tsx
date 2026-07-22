@@ -2,10 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from "@/components/ui/card";
 import type { Product } from "@/types";
 import { useNavigate } from "react-router";
-import { getImage } from "~/constants";
+import { getImage } from "~/lib";
 
 export const ProductItem = ({
-	id, media, title, badges, feature, description, price
+	id, media, title, badges, promotions: feature, description, price
 }: Product & { id: string }) => {
 	const navigate = useNavigate()
 	return (
@@ -29,8 +29,8 @@ export const ProductItem = ({
 					<Badge>{feature}</Badge>
 				</CardAction>
 			</CardHeader>
-			<CardContent>{description}</CardContent>
-			<CardFooter className="text-xl">{price > 0 ? `${price}€` : 'Free'} / Lifetime</CardFooter>
+			<CardContent className="line-clamp-3">{description}</CardContent>
+			<CardFooter className="text-xl">{price > 0 ? `${price}€` : 'Free'}</CardFooter>
 		</Card>
 	);
 }
