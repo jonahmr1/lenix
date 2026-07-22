@@ -43,8 +43,8 @@ export const Muted = ({ children }: Children) => (
 	</p>
 )
 
-export const P = ({ children }: Children) => (
-	<p className='leading-7 not-first:mt-6'>
+export const P = ({ children, ...props }: Children & React.ComponentProps<'p'>) => (
+	<p className='leading-7 not-first:mt-6' {...props}>
 		{children}
 	</p>
 )
