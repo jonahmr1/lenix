@@ -20,7 +20,6 @@ const routes: Route[] = [
 	{ path: "/docs", label: "Docs", icon: Book },
 	{ path: "/contact", label: "Contact", icon: Headset },
 	{ path: "/legal", label: "Legal", icon: Scale },
-	{ path: "/about", label: "About", icon: ScrollText },
 ]
 
 export const Nav = () => {
