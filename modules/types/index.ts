@@ -17,3 +17,9 @@
  * ```
  */
 export type S<T> = (value: T | ((previous: T) => T)) => void
+
+export type Nestify<T, Prefix extends string = ""> = {
+  [K in keyof T]: T[K] extends Record<string, unknown>
+    ? Nestify<T[K], `${Prefix}${K & string}.`>
+    : `${Prefix}${K & string}`
+}[keyof T]

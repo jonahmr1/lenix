@@ -1,8 +1,6 @@
 import type { ReactNode } from "react"
 import type { Faq } from "./types"
-import { Ul } from "./components/typography/ul";
-import { Code } from "./components/typography/code";
-import { P } from "./components/typography/p";
+import { Ul, Code, P } from "./components/typography";
 
 export const getImage = (id: string) => `https://mezvgmfypkdvbnzvyxfz.supabase.co/storage/v1/object/public/images/${id}.png` as const
 

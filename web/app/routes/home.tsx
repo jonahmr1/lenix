@@ -7,7 +7,7 @@ import { Book, MessageCircle, Check, Package, Settings, Wrench } from "lucide-re
 import { useNavigate } from "react-router"
 import { Footer } from "~/components/articles/footer"
 import { Card } from "@/components/ui/card";
-import { H1, H2, H3, P, Ul } from "~/components/typegraphy"
+import { H1, H2, H3, P, Ul } from "~/components/typography"
 
 const data: Faq[] = [
 	{

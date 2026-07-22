@@ -11,10 +11,7 @@ import NotFound from "./404"
 import { toast } from "sonner"
 import Zoom from "react-medium-image-zoom"
 import "react-medium-image-zoom/dist/styles.css"
-import { Large } from "../components/typography/large";
-import { H2 } from "../components/typography/h2";
-import { Muted } from "../components/typography/muted";
-import { Lead } from "../components/typography/lead";
+import { Large, H2, Muted, Lead } from "../components/typography";
 
 export default () => {
 	const navigate = useNavigate()
