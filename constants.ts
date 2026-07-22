@@ -34,12 +34,8 @@ export const HOBIES = [
 
 export const HEADER = [
   'AI Engineer',
-  'Full-Stack Engineer',
   'Systems Engineer',
-  'Mobile Apps Engineer',
-  'Dev-Ops Engineer',
-  'Open Source Maintainer',
   'Technical Consultant',
   'Dev-Ex Engineer',
-	'Product Engineer'
+  'Product Engineer'
 ]
