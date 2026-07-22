@@ -1,9 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { products } from "@/constants";
-import { Book, Box, Headset, House, Menu, Package, Scale, ScrollText } from "lucide-react";
+import { Book, Box, Headset, House, Package, Scale } from "lucide-react";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import type { Route } from "~/types";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "../ui/navigation-menu";
 
 const routes: Route[] = [
 	{ path: "/", label: "Home", icon: House },
@@ -40,50 +47,68 @@ export const Nav = () => {
 	}
 
 	return (
-		<nav className='sticky top-0'>
-			<DropdownMenu>
-				<DropdownMenuTrigger className='m-4' render={<Button variant='ghost'><Menu /></Button>} />
-				<DropdownMenuContent className="w-40" align="start">
-					<DropdownMenuGroup>
-						<DropdownMenuLabel>{routes.find(route => route.path === pathname)?.label}</DropdownMenuLabel>
-						{routes.map(({ path, icon: Icon, label, sub }) => {
-							if (path === pathname) return <div key={path}></div>;
+		<div className="my-5 flex justify-center">
+			<NavigationMenu>
+				<NavigationMenuList>
+					{routes.map(({ path, icon: Icon, label, sub }) => {
+						if (!sub) return (
+							<NavigationMenuItem key={path} className={path === pathname ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}>
+								<NavigationMenuLink
+									aria-disabled={true}
+									onClick={() => navigate(path)}
+									className={navigationMenuTriggerStyle()}
+								>
+									<Icon className="size-4" />
+									<div>{label}</div>
+								</NavigationMenuLink>
+							</NavigationMenuItem>
+						)
 
-							const visibleSub = sub?.filter(({ id }) => id !== productMatch?.params.slug);
+						const visibleSub = sub?.filter(({ id }) => id !== productMatch?.params.slug);
 
-							if (!visibleSub?.length) {
-								return (
-									<DropdownMenuItem key={path} onClick={() => navigate(path)}>
-										<Icon />
-										{label}
-									</DropdownMenuItem>
-								)
-							}
-
+						if (!visibleSub?.length) {
 							return (
-								<DropdownMenuSub key={path}>
-									<DropdownMenuSubTrigger onClick={() => navigate(path)}>
-										<Icon />
-										{label}
-									</DropdownMenuSubTrigger>
-									<DropdownMenuPortal>
-										<DropdownMenuSubContent>
-											<DropdownMenuGroup>
-												{visibleSub.map(({ id, title, icon: Icon }) => (
-													<DropdownMenuItem key={`${path}/${id}`} onClick={() => navigate(`${path}/${id}`)}>
-														<Icon />
-														{title}
-													</DropdownMenuItem>
-												))}
-											</DropdownMenuGroup>
-										</DropdownMenuSubContent>
-									</DropdownMenuPortal>
-								</DropdownMenuSub>
+								<NavigationMenuItem key={path}>
+									<NavigationMenuLink
+										onClick={() => navigate(path)}
+										className={navigationMenuTriggerStyle()}
+									>
+										<Icon className="size-4" />
+										<div>{label}</div>
+									</NavigationMenuLink>
+								</NavigationMenuItem>
 							)
-						})}
-					</DropdownMenuGroup>
-				</DropdownMenuContent>
-			</DropdownMenu>
-		</nav>
+						}
+
+						return (
+							<NavigationMenuItem key={path}>
+								<NavigationMenuTrigger
+									className={navigationMenuTriggerStyle()}
+									onClick={() => navigate(path)}
+								>
+									<div className="flex items-center gap-1.5">
+										<Icon className="size-4" />
+										<div>{label}</div>
+									</div>
+								</NavigationMenuTrigger>
+								<NavigationMenuContent>
+									{visibleSub.map(({ id, title, icon: Icon }) => (
+										<NavigationMenuItem key={`${path}/${id}`}>
+											<NavigationMenuLink
+												onClick={() => navigate(`${path}/${id}`)}
+												className={navigationMenuTriggerStyle()}
+											>
+												<Icon />
+												<div>{title}</div>
+											</NavigationMenuLink>
+										</NavigationMenuItem>
+									))}
+								</NavigationMenuContent>
+							</NavigationMenuItem>
+						)
+					})}
+				</NavigationMenuList>
+			</NavigationMenu>
+		</div>
 	)
 }
