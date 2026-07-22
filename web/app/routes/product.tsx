@@ -63,7 +63,7 @@ export default () => {
 							</div>
 							<div className="flex justify-between w-full">
 								<H2>{title}</H2>
-								<Large>{price > 0 ? `${price}€` : 'Free'} / Lifetime</Large>
+								<Large>{price}</Large>
 							</div>
 							<Muted>{description}</Muted>
 							<Button onClick={() => {
