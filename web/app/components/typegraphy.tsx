@@ -20,27 +20,43 @@ export const H2 = ({ children }: Children) => (
 )
 
 export const H3 = ({ children }: Children) => (
-	<h3 className='scroll-m-20 text-2xl font-semibold tracking-tight'>{children}</h3>
+	<h3 className='scroll-m-20 text-2xl font-semibold tracking-tight'>
+		{children}
+	</h3>
 )
 
 export const Large = ({ children }: Children) => (
-	<div className='text-lg font-semibold'>{children}</div>
+	<div className='text-lg font-semibold'>
+		{children}
+	</div>
 )
 
 export const Lead = ({ children }: Children) => (
-	<p className='text-xl text-foreground'>{children}</p>
+	<p className='text-xl text-foreground'>
+		{children}
+	</p>
 )
 
 export const Muted = ({ children }: Children) => (
-	<p className='text-sm text-muted-foreground'>{children}</p>
+	<p className='text-sm text-muted-foreground'>
+		{children}
+	</p>
 )
 
 export const P = ({ children }: Children) => (
-	<p className='leading-7 not-first:mt-6'>{children}</p>
+	<p className='leading-7 not-first:mt-6'>
+		{children}
+	</p>
 )
 
-export const Required = () => <span className='text-destructive'>*</span>
+export const Required = () => (
+	<span className='text-destructive'>*</span>
+)
 
-export const Ul = ({ children, className }: Children & { className: HTMLUListElement['className'] }) => (
-	<ul className={twMerge('mb-6 ml-6 list-disc [&>li]:mt-2', className)}>{children}</ul>
+export const Ul = ({
+	children, className
+}: Children & { className: HTMLUListElement['className'] }) => (
+	<ul className={twMerge('mb-6 ml-6 list-disc [&>li]:mt-2', className)}>
+		{children}
+	</ul>
 )
