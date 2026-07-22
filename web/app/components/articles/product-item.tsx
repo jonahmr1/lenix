@@ -30,7 +30,7 @@ export const ProductItem = ({
 				</CardAction>
 			</CardHeader>
 			<CardContent className="line-clamp-3">{description}</CardContent>
-			<CardFooter className="text-xl">{price > 0 ? `${price}€` : 'Free'}</CardFooter>
+			<CardFooter className="text-xl">{price}</CardFooter>
 		</Card>
 	);
 }
