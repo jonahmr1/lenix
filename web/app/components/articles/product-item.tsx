@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { getImage } from "~/lib";
 
 export const ProductItem = ({
-	id, media, title, badges, promotions: feature, description, price
+	id, media, title, badges, description, price
 }: Product & { id: string }) => {
 	const navigate = useNavigate()
 	return (
@@ -23,10 +23,10 @@ export const ProductItem = ({
 			<CardHeader>
 				<CardTitle className="text-xl">{title}</CardTitle>
 				<CardDescription className="flex gap-2">
-					{badges.map(badge => <Badge key={badge} variant='outline'>{badge}</Badge>)}
+					{badges.primary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)}
 				</CardDescription>
 				<CardAction>
-					<Badge>{feature}</Badge>
+					{badges.secondary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)}
 				</CardAction>
 			</CardHeader>
 			<CardContent className="line-clamp-3">{description}</CardContent>

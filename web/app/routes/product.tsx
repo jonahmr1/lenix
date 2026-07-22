@@ -24,7 +24,6 @@ export default () => {
 		media,
 		title,
 		badges,
-		promotions,
 		description,
 		price,
 		tabs
@@ -57,9 +56,9 @@ export default () => {
 						<div className="flex flex-col gap-5">
 							<div className="flex justify-between">
 								<div className="flex gap-2">
-									{badges.map(badge => <Badge variant='secondary' key={badge}>{badge}</Badge>)}
+									{badges.primary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)}
 								</div>
-								<Badge>{promotions}</Badge>
+								{badges.secondary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)}
 							</div>
 							<div className="flex justify-between w-full">
 								<H2>{title}</H2>
