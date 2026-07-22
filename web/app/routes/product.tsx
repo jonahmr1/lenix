@@ -1,9 +1,9 @@
-import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { getImage, products } from "@/constants"
+import { products } from "@/constants"
+import { getImage } from '@/lib'
 import type { ProductSlug } from "@/types"
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router"
@@ -11,7 +11,9 @@ import NotFound from "./404"
 import { toast } from "sonner"
 import Zoom from "react-medium-image-zoom"
 import "react-medium-image-zoom/dist/styles.css"
-import { Large, H2, Muted, Lead } from "../components/typography";
+import { Large, H2, Muted } from "../components/typography";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "~/components/ui/card"
 
 export default () => {
 	const navigate = useNavigate()
@@ -22,11 +24,10 @@ export default () => {
 		media,
 		title,
 		badges,
-		feature,
+		promotions,
 		description,
 		price,
-		include,
-		accordion
+		tabs
 	} = products[slug]
 
 	return (
@@ -50,9 +51,6 @@ export default () => {
 						<CarouselPrevious className='portrait:hidden' />
 						<CarouselNext className='portrait:hidden' />
 					</Carousel>
-					<div className="portrait:hidden">
-						<AccordionItems data={accordion} />
-					</div>
 				</div>
 				<div className="flex-4">
 					<div className="flex flex-col gap-10">
@@ -61,7 +59,7 @@ export default () => {
 								<div className="flex gap-2">
 									{badges.map(badge => <Badge variant='secondary' key={badge}>{badge}</Badge>)}
 								</div>
-								<Badge>{feature}</Badge>
+								<Badge>{promotions}</Badge>
 							</div>
 							<div className="flex justify-between w-full">
 								<H2>{title}</H2>
@@ -75,16 +73,19 @@ export default () => {
 								navigate(`/docs/products/${slug}`)
 							}}>View Documentation <ArrowRight /></Button>
 						</div>
-						<div>
-							<Lead>What's included</Lead>
-							{include}
-						</div>
 					</div>
 				</div>
-				<div className="hidden portrait:flex">
-					<AccordionItems data={accordion} />
-				</div>
 			</div>
+			<Tabs>
+				<TabsList>
+					{tabs.map(({ title }) => <TabsTrigger value={title}>{title}</TabsTrigger>)}
+				</TabsList>
+				{tabs.map(({ title, content }) => (
+					<TabsContent value={title}>
+						{content}
+					</TabsContent>
+				))}
+			</Tabs>
 		</Layout>
 	)
 }
