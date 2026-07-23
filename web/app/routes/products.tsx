@@ -33,7 +33,7 @@ const badgeAlignments = {
 
 const CreateProduct = () => {
 	const [drawer, setDrawer] = useState(false)
-	const [badges, setBadges] = useState<Record<number, BadgeItem & { align: keyof typeof badgeAlignments }>>({})
+	const [badgesIds, setBadgesIds] = useState<number[]>([])
 	const [loading, setLoading] = useState(false)
 
 	const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -41,12 +41,19 @@ const CreateProduct = () => {
 		const form = event.currentTarget
 
 		const data = new FormData(form)
-		const [name, desc, media, price] = [
+		const inputs = [
 			data.get('name'),
 			data.get('desc'),
 			data.get('media'),
 			data.get('price'),
+			badgesIds.map(id => ({
+				content: data.get(`badge-${id}-value`),
+				variant: data.get(`badge-${id}-variant`),
+				align: data.get(`badge-${id}-align`)
+			}))
 		]
+
+		console.debug(inputs)
 		
 		setLoading(true)
 		try {
@@ -55,7 +62,7 @@ const CreateProduct = () => {
 		} finally {
 			setDrawer(false)
 			setLoading(false)
-			setBadges({})
+			setBadgesIds([])
 			form.reset()
 		}
 	}
@@ -103,7 +110,7 @@ const CreateProduct = () => {
 										<Field>
 											<FieldLabel htmlFor="media">Media <Required /></FieldLabel>
 											<FieldDescription>
-												<Input id="media" name="media" type="file"required />
+												<Input id="media" name="media" type="file" multiple required />
 											</FieldDescription>
 										</Field>
 										<Field>
@@ -118,23 +125,19 @@ const CreateProduct = () => {
 										<Field>
 											<FieldLabel>Promotional Badges (optional)</FieldLabel>
 											<FieldDescription className="space-y-2">
-												{entries(badges).map(([id], i) => (
-													<Item key={`${i}_${id}`} variant='outline'>
+												{badgesIds.map(id => (
+													<Item key={id} variant='outline'>
 														<ItemContent className="flex-row gap-5">
 															<Input
-																name='badge'
+																name={`badge-${id}-value`}
 																required
-																value={badges[id].content}
-																onChange={event => setBadges(prev => ({ ...prev, [id]: { ...prev[id], content: event.target.value } }))}
 																type="text"
 																placeholder="value"
 															/>
 															<Select
-																name='variant'
+																name={`badge-${id}-variant`}
 																items={badgeVariants}
 																defaultValue={badgeVariants[0].value}
-																value={badges[id].variant}
-																onValueChange={variant => setBadges(prev => ({ ...prev, [id]: { ...prev[id], variant } }))}
 															>
 																<SelectTrigger className="w-full">
 																	<SelectValue />
@@ -147,11 +150,9 @@ const CreateProduct = () => {
 																</SelectContent>
 															</Select>
 															<Select
-																name='align'
+																name={`badge-${id}-align`}
 																items={badgeAlignments}
 																defaultValue={badgeAlignments.left}
-																value={badges[id].align}
-																onValueChange={align => setBadges(prev => ({ ...prev, [id]: { ...prev[id], align: align as 'left' | 'right' } }))}
 															>
 																<SelectTrigger className="w-full">
 																	<SelectValue />
@@ -167,17 +168,17 @@ const CreateProduct = () => {
 														<ItemActions>
 															<Button
 																variant='outline'
-																onClick={() => setBadges(prev => {
-																	const {[id]: _, ...rest} = prev
-																	return rest
-																})}
-															>
+																onClick={() => setBadgesIds(prev => prev.filter(i => i !== id)) }>
 																<Minus />
 															</Button>
 														</ItemActions>
 													</Item>
 												))}
-												<Button className='w-full' disabled={entries(badges).length >= 4} onClick={() => entries(badges).length < 4 && setBadges(prev => ({ ...prev, [Math.max(...Object.keys(prev).map((id) => Number(id)), 0) + 1]: { content: '', variant: 'default', align: 'left' } }))}>Add</Button>
+												<Button
+													className='w-full'
+													disabled={badgesIds.length >= 4}
+													onClick={() => setBadgesIds(prev => [...prev, Math.max(...prev, 0) + 1])}
+												>Add</Button>
 											</FieldDescription>
 										</Field>
 									</FieldGroup>
