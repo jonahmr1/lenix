@@ -2,9 +2,8 @@ import { Layout } from "@/components/layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { products } from "@/constants"
-import { getImage } from '@/lib'
-import type { ProductSlug } from "@/types"
+import { products } from "~/constants"
+import { getImage } from '~/app/utils'
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router"
 import NotFound from "./404"
@@ -12,12 +11,12 @@ import { toast } from "sonner"
 import Zoom from "react-medium-image-zoom"
 import "react-medium-image-zoom/dist/styles.css"
 import { Large, H2, Muted } from "../components/typography";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "~/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 
 export default () => {
 	const navigate = useNavigate()
-	const slug = useParams().slug as ProductSlug | undefined
+	const slug = useParams().slug
 	if (!slug || !products[slug]) return <NotFound />
 
 	const {

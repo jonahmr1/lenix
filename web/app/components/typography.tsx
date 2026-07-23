@@ -1,4 +1,4 @@
-import type { Children } from "~/types.ts";
+import type { Children } from "~/types";
 import { twMerge } from 'tailwind-merge'
 
 export const Code = ({ children }: Children) => (
