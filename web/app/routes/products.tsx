@@ -47,7 +47,7 @@ const CreateProduct = () => {
 			data.get('media'),
 			data.get('price'),
 			badgesIds.map(id => ({
-				content: data.get(`badge-${id}-value`),
+				content: data.get(`badge-${id}-content`),
 				variant: data.get(`badge-${id}-variant`),
 				align: data.get(`badge-${id}-align`)
 			}))
@@ -124,15 +124,15 @@ const CreateProduct = () => {
 										</Field>
 										<Field>
 											<FieldLabel>Promotional Badges (optional)</FieldLabel>
-											<FieldDescription className="space-y-2">
-												{badgesIds.map(id => (
+											<div className="space-y-2">
+											{badgesIds.map(id => (
 													<Item key={id} variant='outline'>
 														<ItemContent className="flex-row gap-5">
 															<Input
-																name={`badge-${id}-value`}
+																name={`badge-${id}-content`}
 																required
 																type="text"
-																placeholder="value"
+																placeholder="label"
 															/>
 															<Select
 																name={`badge-${id}-variant`}
@@ -179,7 +179,7 @@ const CreateProduct = () => {
 													disabled={badgesIds.length >= 4}
 													onClick={() => setBadgesIds(prev => [...prev, Math.max(...prev, 0) + 1])}
 												>Add</Button>
-											</FieldDescription>
+											</div>
 										</Field>
 									</FieldGroup>
 								</FieldSet>
