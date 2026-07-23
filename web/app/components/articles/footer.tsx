@@ -7,7 +7,7 @@ export const Footer = ({ links }: { links: FooterLink[] }) => (
 		<p className="flex-1 text-sm text-muted-foreground">All rights reserved © Code Hub</p>
 		<ButtonGroup className="flex flex-1 justify-around portrait:flex-col">
 			{links.map(({ label, link }) => (
-				<Button 
+				<Button
 					key={label}
 					variant='link'
 					onClick={() => window.open(link, "_blank")}

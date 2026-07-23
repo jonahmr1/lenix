@@ -1,20 +1,22 @@
 import { ProductItem } from "@/components/articles/product-item"
 import { Layout } from "@/components/layout"
-import { products } from "@/constants"
+import { products } from "~/constants"
 import { H1, P, Required } from "../components/typography";
 import { CircleAlert, Euro, Minus } from "lucide-react";
-import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from "~/components/ui/empty";
-import { Button } from "~/components/ui/button";
-import { DrawerHeader, DrawerFooter, Drawer, DrawerTrigger, DrawerContent, DrawerTitle, DrawerDescription, DrawerClose } from "~/components/ui/drawer";
-import { useState, type ComponentProps } from "react";
-import { Input } from "~/components/ui/input";
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "~/components/ui/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~/components/ui/select";
-import type { Badge } from "~/components/ui/badge";
-import { Item, ItemActions, ItemContent } from "~/components/ui/item";
-import type { BadgeItem } from "~/types";
-import { entries, wait } from '@lenix/lenix'
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import { DrawerHeader, DrawerFooter, Drawer, DrawerTrigger, DrawerContent, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { useEffect, useState, type ComponentProps } from "react";
+import { Input } from "@/components/ui/input";
+import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Item, ItemActions, ItemContent } from "@/components/ui/item";
+import type { BadgeItem, Product } from "~/types";
+import { entries } from '@lenix/lenix'
+import { useFetcher } from "react-router";
+import type { Route } from "./+types/home";
+import { createClient } from "../utils/supabase.server";
 import { toast } from "sonner";
 
 const badgeVariants = [
@@ -24,47 +26,78 @@ const badgeVariants = [
 	{ label: 'Error', value: 'destructive' },
 	{ label: 'Link', value: 'link' },
 	{ label: 'Ghost', value: 'ghost' },
-] satisfies { label: string, value: ComponentProps<typeof Badge>['variant'] }[]
+] satisfies { label: string, value: BadgeItem['variant'] }[]
 
 const badgeAlignments = {
 	left: 'Left',
 	right: 'Right'
 }
 
+export async function action({ request }: Route.ActionArgs) {
+	const { supabase } = createClient(request)
+	const { name, desc, price, badges }: Product = await request.json()
+
+	const { data: product, error } = await supabase
+		.from('products')
+		.insert({ name: name, desc: desc, price: Number(price) })
+		.select()
+		.single()
+
+	if (error || !product) return { error: error?.message }
+
+	const badgeRows = badges.map(({ content, variant, align }) => ({
+		content,
+		variant,
+		align,
+		product: product.id,
+	}))
+
+	if (badgeRows.length) {
+		const { error: badgeError } = await supabase.from('badges').insert(badgeRows)
+		if (badgeError) return { error: badgeError.message }
+	}
+
+	return { success: true }
+}
+
 const CreateProduct = () => {
 	const [drawer, setDrawer] = useState(false)
-	const [badgesIds, setBadgesIds] = useState<number[]>([])
 	const [loading, setLoading] = useState(false)
+	const [{ name, desc, media, price, badges }, setFields] = useState<Product>({
+		name: '',
+		desc: '',
+		media: undefined,
+		price: '',
+		badges: []
+	})
+	const fetcher = useFetcher<typeof action>()
 
-	const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
-		event.preventDefault()
-		const form = event.currentTarget
-
-		const data = new FormData(form)
-		const inputs = [
-			data.get('name'),
-			data.get('desc'),
-			data.get('media'),
-			data.get('price'),
-			badgesIds.map(id => ({
-				content: data.get(`badge-${id}-content`),
-				variant: data.get(`badge-${id}-variant`),
-				align: data.get(`badge-${id}-align`)
-			}))
-		]
-
-		console.debug(inputs)
-		
-		setLoading(true)
-		try {
-			await wait(2000)
-			toast('Soon...')
-		} finally {
-			setDrawer(false)
-			setLoading(false)
-			setBadgesIds([])
-			form.reset()
+	useEffect(() => {
+		if (fetcher.data?.success) {
+			setFields({
+				name: '',
+				desc: '',
+				media: undefined,
+				price: '',
+				badges: []
+			})
+		} else if (fetcher.data?.error) {
+			toast.error(fetcher.data?.error)
 		}
+		setDrawer(false)
+		setLoading(false)
+	}, [fetcher.data])
+
+	const handleSubmit = async () => {
+		setLoading(true)
+		fetcher.submit(JSON.stringify({
+			name,
+			desc,
+			price,
+			badges,
+		}),
+			{ method: "post", encType: "application/json" }
+		)
 	}
 
 	return (
@@ -92,101 +125,136 @@ const CreateProduct = () => {
 								<DrawerTitle>Create new product</DrawerTitle>
 								<DrawerDescription>Please fill in the gaps to publish a new Code Hub product.</DrawerDescription>
 							</div>
-							<form id="product" onSubmit={handleSubmit}>
-								<FieldSet>
-									<FieldGroup>
-										<Field>
-											<FieldLabel htmlFor="name">Name <Required /></FieldLabel>
-											<FieldDescription>
-												<Input id="name" name="name" type="text" required />
-											</FieldDescription>
-										</Field>
-										<Field>
-											<FieldLabel htmlFor="desc">Description <Required /></FieldLabel>
-											<FieldDescription>
-												<Input id="desc" name="desc" type="text" required />
-											</FieldDescription>
-										</Field>
-										<Field>
-											<FieldLabel htmlFor="media">Media <Required /></FieldLabel>
-											<FieldDescription>
-												<Input id="media" name="media" type="file" multiple required />
-											</FieldDescription>
-										</Field>
-										<Field>
-											<FieldLabel htmlFor="price">Price <Required /></FieldLabel>
-											<InputGroup>
-												<InputGroupInput id="price" name="price" type="number" required />
-												<InputGroupAddon align="inline-end">
-													<Euro />
-												</InputGroupAddon>
-											</InputGroup>
-										</Field>
-										<Field>
-											<FieldLabel>Promotional Badges (optional)</FieldLabel>
-											<div className="space-y-2">
-											{badgesIds.map(id => (
-													<Item key={id} variant='outline'>
-														<ItemContent className="flex-row gap-5">
-															<Input
-																name={`badge-${id}-content`}
-																required
-																type="text"
-																placeholder="label"
-															/>
-															<Select
-																name={`badge-${id}-variant`}
-																items={badgeVariants}
-																defaultValue={badgeVariants[0].value}
-															>
-																<SelectTrigger className="w-full">
-																	<SelectValue />
-																</SelectTrigger>
-																<SelectContent>
-																	<SelectGroup>
-																		<SelectLabel>Variants</SelectLabel>
-																		{badgeVariants.map(({ value, label }) => <SelectItem key={value} value={value}>{label}</SelectItem>)}
-																	</SelectGroup>
-																</SelectContent>
-															</Select>
-															<Select
-																name={`badge-${id}-align`}
-																items={badgeAlignments}
-																defaultValue={badgeAlignments.left}
-															>
-																<SelectTrigger className="w-full">
-																	<SelectValue />
-																</SelectTrigger>
-																<SelectContent>
-																	<SelectGroup>
-																		<SelectLabel>Alignment</SelectLabel>
-																		{entries(badgeAlignments).map(([alignment, label]) => <SelectItem key={alignment} value={alignment}>{label}</SelectItem>)}
-																	</SelectGroup>
-																</SelectContent>
-															</Select>
-														</ItemContent>
-														<ItemActions>
-															<Button
-																variant='outline'
-																onClick={() => setBadgesIds(prev => prev.filter(i => i !== id)) }>
-																<Minus />
-															</Button>
-														</ItemActions>
-													</Item>
-												))}
-												<Button
-													className='w-full'
-													disabled={badgesIds.length >= 4}
-													onClick={() => setBadgesIds(prev => [...prev, Math.max(...prev, 0) + 1])}
-												>Add</Button>
-											</div>
-										</Field>
-									</FieldGroup>
-								</FieldSet>
-							</form>
+							<FieldSet>
+								<FieldGroup>
+									<Field>
+										<FieldLabel htmlFor="name">Name <Required /></FieldLabel>
+										<FieldDescription>
+											<Input
+												value={name}
+												onChange={e => setFields(prev => ({ ...prev, name: e.currentTarget.value }))}
+												type="text"
+												required
+											/>
+										</FieldDescription>
+									</Field>
+									<Field>
+										<FieldLabel htmlFor="desc">Description <Required /></FieldLabel>
+										<FieldDescription>
+											<Input
+												onChange={e => setFields(prev => ({ ...prev, desc: e.currentTarget.value }))}
+												value={desc}
+												type="text"
+												required
+											/>
+										</FieldDescription>
+									</Field>
+									<Field>
+										<FieldLabel htmlFor="media">Media <Required /></FieldLabel>
+										<FieldDescription>
+											<Input
+												onChange={e => setFields(prev => ({ ...prev, media: e.currentTarget.files?.[0] }))}
+												type="file"
+												multiple
+												required
+											/>
+										</FieldDescription>
+									</Field>
+									<Field>
+										<FieldLabel htmlFor="price">Price <Required /></FieldLabel>
+										<InputGroup>
+											<InputGroupInput
+												value={price}
+												onChange={e => setFields(prev => ({ ...prev, price: e.currentTarget.value }))}
+												type="number"
+												required
+											/>
+											<InputGroupAddon align="inline-end">
+												<Euro />
+											</InputGroupAddon>
+										</InputGroup>
+									</Field>
+									<Field>
+										<FieldLabel>Promotional Badges (optional)</FieldLabel>
+										<div className="space-y-2">
+											{badges.map(({ content, variant, align }, it) => (
+												<Item key={it} variant='outline'>
+													<ItemContent className="flex-row gap-5">
+														<Input
+															value={content}
+															onChange={e => {
+																setFields(prev => ({
+																	...prev,
+																	badges: prev.badges.map((badge, i) => i === it ? { ...badge, content: (e.currentTarget as { value: string | null })?.value ?? '' } : badge)
+																}))
+															}}
+															required
+															type="text"
+															placeholder="label"
+														/>
+														<Select
+															items={badgeVariants}
+															defaultValue={badgeVariants[0].value}
+															value={variant}
+															onValueChange={variant => setFields(prev => ({
+																...prev,
+																badges: prev.badges.map((badge, i) => i === it ? { ...badge, variant: variant || 'default' } : badge)
+															}))}
+														>
+															<SelectTrigger className="w-full">
+																<SelectValue />
+															</SelectTrigger>
+															<SelectContent>
+																<SelectGroup>
+																	<SelectLabel>Variants</SelectLabel>
+																	{badgeVariants.map(({ value, label }) => <SelectItem key={value} value={value}>{label}</SelectItem>)}
+																</SelectGroup>
+															</SelectContent>
+														</Select>
+														<Select
+															items={badgeAlignments}
+															defaultValue={badgeAlignments.left}
+															value={align}
+															onValueChange={align => setFields(prev => ({
+																...prev,
+																badges: prev.badges.map((badge, i) => i === it ? { ...badge, align: align as BadgeItem['align'] } : badge)
+															}))}
+														>
+															<SelectTrigger className="w-full">
+																<SelectValue />
+															</SelectTrigger>
+															<SelectContent>
+																<SelectGroup>
+																	<SelectLabel>Alignment</SelectLabel>
+																	{entries(badgeAlignments).map(([align, label]) => <SelectItem key={align} value={align}>{label}</SelectItem>)}
+																</SelectGroup>
+															</SelectContent>
+														</Select>
+													</ItemContent>
+													<ItemActions>
+														<Button
+															variant='outline'
+															onClick={() => setFields(prev => ({ ...prev, badges: prev.badges.filter((_, i) => i !== it) }))}>
+															<Minus />
+														</Button>
+													</ItemActions>
+												</Item>
+											))}
+											<Button
+												className='w-full'
+												disabled={badges.length >= 4}
+												onClick={() => setFields(prev => ({ ...prev, badges: [...prev.badges, { content: '', variant: 'default', align: 'left' }] }))}
+											>Add</Button>
+										</div>
+									</Field>
+								</FieldGroup>
+							</FieldSet>
 						</DrawerHeader>
 						<DrawerFooter>
-							<Button type="submit" form="product" disabled={loading}>{loading ? 'Submiting...' : 'Submit'}</Button>
+							<Button
+								disabled={loading}
+								onClick={handleSubmit}
+							>{loading ? 'Submiting...' : 'Submit'}</Button>
 						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>

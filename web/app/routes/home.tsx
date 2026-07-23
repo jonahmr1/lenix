@@ -2,12 +2,12 @@ import { FeatureCard } from "@/components/articles/card"
 import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
-import type { Faq } from "@/types"
+import type { Faq } from "~/types"
 import { MessageCircle, Check, Package, Settings, Wrench, Euro } from "lucide-react"
 import { useNavigate } from "react-router"
-import { Footer } from "~/components/articles/footer"
+import { Footer } from "@/components/articles/footer"
 import { Card } from "@/components/ui/card";
-import { H1, H2, P, Ul } from "~/components/typography"
+import { H1, H2, P, Ul } from "@/components/typography"
 
 const data: Faq[] = [
 	{
