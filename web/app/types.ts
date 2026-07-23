@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react"
-import type { ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import type { products } from "./constants"
+import type { Badge } from "./components/ui/badge"
 
 export interface Faq {
 	question: string
@@ -28,3 +29,8 @@ export type Product = typeof products[keyof typeof products]
 export type Products = Record<ProductSlug, Product>
 
 export interface Children { children: ReactNode }
+
+export interface BadgeItem {
+	content: string
+	variant: ComponentProps<typeof Badge>['variant']
+}
