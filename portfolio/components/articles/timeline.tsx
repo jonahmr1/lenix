@@ -26,7 +26,8 @@ export const Timeline = () => (
 				techs: ['Lua', 'YARN', 'Xampp', 'HeidiSQL'],
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
-				iconHover: 'Could not find the right partner'
+				iconHover: 'Could not find the right partner',
+				url: 'https://discord.gg/83bBX2GvCg'
 			},
 			{
 				id: 3,
@@ -37,6 +38,7 @@ export const Timeline = () => (
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
 				iconHover: 'Niche market',
+				url: 'http://discord.gg/vPwaW3rpUk'
 			},
 			{
 				id: 4,
@@ -46,6 +48,7 @@ export const Timeline = () => (
 				techs: ['TypeScript', 'Lua', 'UML', 'Business Strategy'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
+				url: 'http://discord.gg/FDp3UZqCtQ'
 			},
 			{
 				id: 6,
@@ -116,7 +119,7 @@ export const Timeline = () => (
 				techs: ['TypeScript', 'MySQL', 'Figma', 'Axios', 'Node.js', 'FiveM Native'],
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
-				iconHover: 'Very small projects',
+				iconHover: 'Projects too small',
 				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{

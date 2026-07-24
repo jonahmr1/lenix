@@ -6,7 +6,7 @@ export interface AppData {
 
 export const fetchAppData = async (): Promise<AppData> => {
 	const res = await fetch(
-		`https://api.github.com/gists/${import.meta.env.VITE_GIST_ID}`,
+		`https://api.github.com/gists/8a81298c8173af0f2bff75bba7f37c68`,
 	)
 	if (!res.ok) throw new Error(`Gist fetch failed: ${res.status}`)
 

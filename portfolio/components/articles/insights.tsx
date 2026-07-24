@@ -9,8 +9,8 @@ export const Stats = () => {
 
 	const { loc, commits } = ctx.data
 	const commitsData = commitsToChartData(commits)
-	const assertions = Math.round(loc.added / 1000)
-	const deletions = Math.round(loc.deleted / 1000)
+	const assertions = Math.round(loc.added)
+	const deletions = Math.round(loc.deleted)
 
 	return (
 		<div>
@@ -50,9 +50,7 @@ export const Stats = () => {
 					<div key={label} className=' px-5 py-6 text-center'>
 						<p className='text-2xl font-semibold text-foreground tabular-nums'>
 							<Count className='text-foreground' value={Number(value)} />
-							{label !== 'Commits'
-								&& label !== 'Average commits per active-day'
-								&& 'k'}
+							{label !== 'Commits' && label !== 'Average commits per active-day'}
 							{sub === 'specific time' && '+'}
 						</p>
 						<p className='text-[11px] text-foreground/60 mt-1'>{label}</p>
