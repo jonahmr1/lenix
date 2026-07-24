@@ -1,5 +1,5 @@
 # Commenix
-The AI commit message composer/generator
+The AI commit message composer/generator, [link](https://marketplace.visualstudio.com/items?itemName=Lenix.lenix)
 
 ## Features
 **Commit message composer**: Compose a git commit message in seconds based on the changes staged in the current git repository with AI.
