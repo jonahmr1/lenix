@@ -1,0 +1,11 @@
+<Project Sdk="CitizenFX.Sdk.Client/0.2.3">
+    <PropertyGroup>
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>false</Optimize>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <Compile Include="../Shared/**/*.cs" />
+    </ItemGroup>
+</Project>

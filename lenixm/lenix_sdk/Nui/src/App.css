@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  @apply h-screen flex;
+}
+
+#Container {
+  @apply scrollbar-hide bg-stone-500 text-white rounded-md h-full m-auto overflow-scroll flex flex-col items-center
+}
+
+.StaticButton {
+  @apply text-white
+}
+
+.Header {
+  @apply text-white bg-stone-600 text-center font-bold cursor-default w-full
+}
