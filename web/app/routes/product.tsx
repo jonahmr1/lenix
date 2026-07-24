@@ -2,8 +2,6 @@ import { Layout } from "@/components/layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { products } from "~/constants"
-import { getImage } from '~/app/utils'
 import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router"
 import NotFound from "./404"
@@ -12,12 +10,20 @@ import Zoom from "react-medium-image-zoom"
 import "react-medium-image-zoom/dist/styles.css"
 import { Large, H2, Muted } from "../components/typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import type { Route } from "./+types/product"
+import { createClient } from "../utils/supabase.server"
+import type { Product } from "~/types"
 
-export default () => {
+export async function loader({ request }: Route.LoaderArgs) {
+	const { supabase } = createClient(request)
+	const products = [] as Product[]
+	return { products }
+}
+
+export default function Product({ loaderData }: Route.ComponentProps) {
 	const navigate = useNavigate()
 	const slug = useParams().slug
-	if (!slug || !products[slug]) return <NotFound />
+	if (!slug || !loaderData[slug]) return <NotFound />
 
 	const {
 		media,
@@ -74,7 +80,7 @@ export default () => {
 					</div>
 				</div>
 			</div>
-			<Tabs>
+			{/* <Tabs>
 				<TabsList>
 					{tabs.map(({ title }) => <TabsTrigger value={title}>{title}</TabsTrigger>)}
 				</TabsList>
@@ -83,7 +89,7 @@ export default () => {
 						{content}
 					</TabsContent>
 				))}
-			</Tabs>
+			</Tabs> */}
 		</Layout>
 	)
 }

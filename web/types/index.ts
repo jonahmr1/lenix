@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react"
 import type { ComponentProps, ReactNode } from "react"
-import type { products } from "../constants"
 import type { Badge } from "@/components/ui/badge"
 import type { Database } from "./database"
 
@@ -14,8 +13,8 @@ export type Route = {
 	icon: LucideIcon
 	label?: string
 	sub?: {
-		id: keyof typeof products
-		title: typeof products[keyof typeof products]['title']
+		id: string
+		title: string
 		icon: LucideIcon
 	}[]
 }
@@ -25,11 +24,11 @@ export interface FooterLink {
 	label: string
 }
 
-export type Product = {
+type DbProduct = Database['public']['Tables']['products']['Row']
+export interface Product extends DbProduct {
 	name: string
 	desc: string
-	media: File | undefined
-	price: string
+	price: number
 	badges: BadgeItem[]
 }
 

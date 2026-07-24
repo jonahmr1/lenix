@@ -54,7 +54,7 @@ export type Database = {
           created_at: string
           desc: string
           id: number
-          media: string
+          media: string[]
           name: string
           price: number
         }
@@ -62,7 +62,7 @@ export type Database = {
           created_at?: string
           desc?: string
           id?: number
-          media?: string
+          media: string[]
           name?: string
           price: number
         }
@@ -70,7 +70,7 @@ export type Database = {
           created_at?: string
           desc?: string
           id?: number
-          media?: string
+          media?: string[]
           name?: string
           price?: number
         }
