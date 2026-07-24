@@ -37,7 +37,6 @@ export const Timeline = () => (
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
 				iconHover: 'Niche market',
-				url: 'https://github.com/tripplerscripts'
 			},
 			{
 				id: 4,
@@ -47,7 +46,6 @@ export const Timeline = () => (
 				techs: ['TypeScript', 'Lua', 'UML', 'Business Strategy'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/lenixstudio'
 			},
 			{
 				id: 6,
