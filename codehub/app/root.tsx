@@ -1,10 +1,10 @@
 import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  isRouteErrorResponse,
+	Links,
+	Meta,
+	Outlet,
+	Scripts,
+	ScrollRestoration,
+	isRouteErrorResponse,
 } from "react-router"
 import { RootProvider } from "fumadocs-ui/provider/react-router"
 
@@ -12,89 +12,89 @@ import { Nav } from "./components/articles/nav"
 import type { Route } from "./+types/root"
 import "./app.css"
 import { Toaster } from "sonner"
-import { createClient } from "./utils/supabase.server"
+import { createClient } from "./lib/supabase.server"
 
 export function meta(): Route.MetaDescriptors {
-  return [
-    { title: "Code Hub" },
+	return [
+		{ title: "Code Hub" },
 
-    { name: "description", content: "Software products for developers." },
+		{ name: "description", content: "Software products for developers." },
 
-    { property: "og:title", content: "Code Hub" },
-    { property: "og:site_name", content: "Code Hub" },
-    { property: "og:description", content: "Software products for businesses, developers and rockies." },
-    { property: "og:image", content: "https://codehub.lenix.dev/logo.png" },
-    { property: "og:url", content: "https://codehub.lenix.dev/" },
-    { property: "og:type", content: "website" },
+		{ property: "og:title", content: "Code Hub" },
+		{ property: "og:site_name", content: "Code Hub" },
+		{ property: "og:description", content: "Software products for businesses, developers and rockies." },
+		{ property: "og:image", content: "https://codehub.lenix.dev/logo.png" },
+		{ property: "og:url", content: "https://codehub.lenix.dev/" },
+		{ property: "og:type", content: "website" },
 
 		{ name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:creator", content: "@jonahmr1" },
-  ]
+		{ name: "twitter:creator", content: "@jonahmr1" },
+	]
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const { supabase } = createClient(request)
-  const { error, data } = await supabase.from('products').select('id, name')
-  if (error) return { products: [] };
+	const { supabase } = createClient(request)
+	const { error, data } = await supabase.from('products').select('id, name')
+	if (error) return { products: [] };
 
-  return { products: data.map(product => ({ id: product.id, title: product.name })) };
+	return { products: data.map(product => ({ id: product.id, title: product.name })) };
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <RootProvider theme={{ enabled: false }}>
-          {children}
-          <Toaster />
-        </RootProvider>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
-  )
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<head>
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<Meta />
+				<Links />
+			</head>
+			<body>
+				<RootProvider theme={{ enabled: false }}>
+					{children}
+					<Toaster />
+				</RootProvider>
+				<ScrollRestoration />
+				<Scripts />
+			</body>
+		</html>
+	)
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {
-  return (
-    <>
-      <Nav products={loaderData.products} />
-      <Outlet />
-    </>
-  )
+	return (
+		<>
+			<Nav products={loaderData.products} />
+			<Outlet />
+		</>
+	)
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!"
-  let details = "An unexpected error occurred."
-  let stack: string | undefined
+	let message = "Oops!"
+	let details = "An unexpected error occurred."
+	let stack: string | undefined
 
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error"
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message
-    stack = error.stack
-  }
+	if (isRouteErrorResponse(error)) {
+		message = error.status === 404 ? "404" : "Error"
+		details =
+			error.status === 404
+				? "The requested page could not be found."
+				: error.statusText || details
+	} else if (import.meta.env.DEV && error && error instanceof Error) {
+		details = error.message
+		stack = error.stack
+	}
 
-  return (
-    <main className="container mx-auto p-4 pt-16">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full overflow-x-auto p-4">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
-  )
+	return (
+		<main className="container mx-auto p-4 pt-16">
+			<h1>{message}</h1>
+			<p>{details}</p>
+			{stack && (
+				<pre className="w-full overflow-x-auto p-4">
+					<code>{stack}</code>
+				</pre>
+			)}
+		</main>
+	)
 }

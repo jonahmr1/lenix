@@ -11,28 +11,28 @@ import "react-medium-image-zoom/dist/styles.css"
 import { Large, H2, Muted } from "../components/typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { Route } from "./+types/product"
-import { createClient } from "../utils/supabase.server"
+import { createClient } from "../lib/supabase.server"
 import type { Product } from "~/types"
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, params }: Route.LoaderArgs) {
 	const { supabase } = createClient(request)
-	const products = [] as Product[]
-	return { products }
+	const { data: product, error } = await supabase
+		.from('products')
+		.select('*, badges(*)')
+		.eq('id', Number(params.slug))
+		.single()
+
+	if (error || !product) return { product: null }
+	return { product }
 }
 
 export default function Product({ loaderData }: Route.ComponentProps) {
 	const navigate = useNavigate()
-	const slug = useParams().slug
-	if (!slug || !loaderData[slug]) return <NotFound />
+	const { product } = loaderData
 
-	const {
-		media,
-		title,
-		badges,
-		description,
-		price,
-		tabs
-	} = products[slug]
+	if (!product) return <NotFound />
+
+	const { id, media, name, badges, desc, price } = product
 
 	return (
 		<Layout className="mx-[10vw]">
@@ -44,7 +44,7 @@ export default function Product({ loaderData }: Route.ComponentProps) {
 								<CarouselItem key={item}>
 									<Zoom>
 										<img
-											src={getImage(item)}
+											src={item}
 											className="aspect-video w-full rounded-md object-cover"
 											alt=""
 										/>
@@ -60,21 +60,21 @@ export default function Product({ loaderData }: Route.ComponentProps) {
 					<div className="flex flex-col gap-10">
 						<div className="flex flex-col gap-5">
 							<div className="flex justify-between">
-								<div className="flex gap-2">
+								{/* <div className="flex gap-2">
 									{badges.primary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)}
 								</div>
-								{badges.secondary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)}
+								{badges.secondary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)} */}
 							</div>
 							<div className="flex justify-between w-full">
-								<H2>{title}</H2>
+								<H2>{name}</H2>
 								<Large>{price}</Large>
 							</div>
-							<Muted>{description}</Muted>
+							<Muted>{desc}</Muted>
 							<Button onClick={() => {
 								toast('Sales are not yet available.')
 							}}>Buy Now</Button>
 							<Button variant='secondary' onClick={() => {
-								navigate(`/docs/products/${slug}`)
+								navigate(`/docs/products/${id}`)
 							}}>View Documentation <ArrowRight /></Button>
 						</div>
 					</div>

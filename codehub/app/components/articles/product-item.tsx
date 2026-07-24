@@ -1,13 +1,13 @@
-import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from "@/components/ui/card";
-import type { Product } from "~/types";
+import type { BadgeItem, Product } from "~/types";
 import { useNavigate } from "react-router";
-import React from "react";
 import { Package } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
+import { Badge } from "../ui/badge";
 
 export const ProductItem = ({
 	id, media, name, badges, desc, price
-}: Product) => {
+}: Omit<Product, 'badge'> & { badges: BadgeItem }) => {
 	const navigate = useNavigate()
 
 	return (
@@ -29,7 +29,7 @@ export const ProductItem = ({
 			<CardHeader>
 				<CardTitle className="text-xl">{name}</CardTitle>
 					{badges.map(({ content, variant, align }, i) => (
-						<React.Fragment>
+						<Fragment>
 							{align === 'left'
 							? (
 								<CardDescription className="flex gap-2">
@@ -40,7 +40,7 @@ export const ProductItem = ({
 									<Badge key={i} variant={variant}>{content}</Badge>
 								</CardAction>
 							)}
-						</React.Fragment>
+						</Fragment>
 					))}
 			</CardHeader>
 			<CardContent className="line-clamp-3">{desc}</CardContent>

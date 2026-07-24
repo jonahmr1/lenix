@@ -14,7 +14,7 @@ import { useFetcher } from "react-router";
 import { toast } from "sonner";
 import { Required } from "../typography";
 import type { action } from "@/routes/products";
-import { createClient } from "@/utils/supabase.client";
+import { createClient } from "~/app/lib/supabase.client";
 
 const badgeVariants = [
 	{ label: 'Default', value: 'default' },
@@ -57,16 +57,16 @@ export const CreateProduct = () => {
 		try {
 			setLoading(true)
 			if (!media) throw media
-		
+
 			const supabase = createClient()
 			const urls = await Promise.all(
 				Array.from(media ?? []).map(async file => {
 					const path = `${crypto.randomUUID()}-${file.name}`
-					const { data, error } = await supabase.storage
+					const { error } = await supabase.storage
 						.from('media')
 						.upload(path, file)
 					if (error) throw error.message
-				
+
 					return path
 				})
 			)
@@ -118,39 +118,33 @@ export const CreateProduct = () => {
 								<FieldGroup>
 									<Field>
 										<FieldLabel htmlFor="name">Name <Required /></FieldLabel>
-										<FieldDescription>
-											<Input
-												value={name}
-												onChange={e => handleOnChange(e, 'name')}
-												type="text"
-												required
-											/>
-										</FieldDescription>
+										<Input
+											value={name}
+											onChange={e => handleOnChange(e, 'name')}
+											type="text"
+											required
+										/>
 									</Field>
 									<Field>
 										<FieldLabel htmlFor="desc">Description <Required /></FieldLabel>
-										<FieldDescription>
-											<Input
-												onChange={e => handleOnChange(e, 'desc')}
-												value={desc}
-												type="text"
-												required
-											/>
-										</FieldDescription>
+										<Input
+											onChange={e => handleOnChange(e, 'desc')}
+											value={desc}
+											type="text"
+											required
+										/>
 									</Field>
 									<Field>
 										<FieldLabel htmlFor="media">Media <Required /></FieldLabel>
-										<FieldDescription>
-											<Input
-												onChange={e => {
-													const media = e.currentTarget?.files
-													return setFields(prev => ({ ...prev, media }))
-												}}
-												type="file"
-												multiple
-												required
-											/>
-										</FieldDescription>
+										<Input
+											onChange={e => {
+												const media = e.currentTarget?.files
+												return setFields(prev => ({ ...prev, media }))
+											}}
+											type="file"
+											multiple
+											required
+										/>
 									</Field>
 									<Field>
 										<FieldLabel htmlFor="price">Price <Required /></FieldLabel>
@@ -169,7 +163,7 @@ export const CreateProduct = () => {
 									<Field>
 										<FieldLabel>Promotional Badges (optional)</FieldLabel>
 										<div className="space-y-2">
-											{badges.map((_, it) => (
+											{badges?.map((_, it) => (
 												<Item key={it} variant='outline'>
 													<ItemContent className="flex-row gap-5">
 														<Input
@@ -178,7 +172,7 @@ export const CreateProduct = () => {
 																const content = e.currentTarget?.value ?? ''
 																setFields(prev => ({
 																	...prev,
-																	badges: prev.badges.map((badge, i) => i === it ? { ...badge, content } : badge)
+																	badges: prev.badges?.map((badge, i) => i === it ? { ...badge, content } : badge)
 																}))
 															}}
 															required
@@ -191,7 +185,7 @@ export const CreateProduct = () => {
 															value={badges[it].variant}
 															onValueChange={variant => setFields(prev => ({
 																...prev,
-																badges: prev.badges.map((badge, i) => i === it ? { ...badge, variant: variant || 'default' } : badge)
+																badges: prev.badges?.map((badge, i) => i === it ? { ...badge, variant: variant || 'default' } : badge)
 															}))}
 														>
 															<SelectTrigger className="w-full">
@@ -210,7 +204,7 @@ export const CreateProduct = () => {
 															value={badges[it].align}
 															onValueChange={align => setFields(prev => ({
 																...prev,
-																badges: prev.badges.map((badge, i) => i === it ? { ...badge, align: align as BadgeItem['align'] } : badge)
+																badges: prev.badges?.map((badge, i) => i === it ? { ...badge, align: align as BadgeItem['align'] } : badge)
 															}))}
 														>
 															<SelectTrigger className="w-full">
@@ -227,7 +221,7 @@ export const CreateProduct = () => {
 													<ItemActions>
 														<Button
 															variant='outline'
-															onClick={() => setFields(prev => ({ ...prev, badges: prev.badges.filter((_, i) => i !== it) }))}>
+															onClick={() => setFields(prev => ({ ...prev, badges: prev.badges?.filter((_, i) => i !== it) }))}>
 															<Minus />
 														</Button>
 													</ItemActions>
@@ -235,8 +229,8 @@ export const CreateProduct = () => {
 											))}
 											<Button
 												className='w-full'
-												disabled={badges.length >= 4}
-												onClick={() => setFields(prev => ({ ...prev, badges: [...prev.badges, { content: '', variant: 'default', align: 'left' }] }))}
+												disabled={(badges?.length || 0) >= 4}
+												onClick={() => setFields(prev => ({ ...prev, badges: [...prev.badges || [], { content: '', variant: 'default', align: 'left' }] }))}
 											>Add</Button>
 										</div>
 									</Field>

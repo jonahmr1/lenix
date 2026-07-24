@@ -5,35 +5,36 @@ import { CreateProduct } from "../components/articles/create-product";
 import type { Route } from "./+types/products";
 import { Suspense } from "react";
 import type { Product } from "~/types";
-import { createClient } from "@/utils/supabase.server";
+import { createClient } from "~/app/lib/supabase.server";
 import { Await } from "react-router";
 import { Spinner } from "../components/ui/spinner";
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const { supabase } = createClient(request)
-  const productsPromise: Promise<Product[]> = Promise.resolve(
+	const { supabase } = createClient(request)
+	const productsPromise: Promise<Product[]> = Promise.resolve(
 		supabase
-		.from('products')
-		.select('*, badges(*)')
-		.then(async response => {
-			const rows = response.data ?? []
-			return await Promise.all(
-				rows.map(async product => {
-					const signedUrls = await Promise.all(
-						product.media.map((key) =>
-							supabase
-							.storage
-							.from('media')
-							.createSignedUrl(key, 60 * 30)
-							.then(({ data }) => data?.signedUrl ?? '')
+			.from('products')
+			.select('*, badges(*)')
+			.then(async response => {
+				const rows = response.data ?? []
+				return await Promise.all(
+					rows.map(async product => {
+						console.debug(product)
+						const signedUrls = await Promise.all(
+							product.media.map((key) =>
+								supabase
+									.storage
+									.from('media')
+									.createSignedUrl(key, 60 * 30)
+									.then(({ data }) => data?.signedUrl ?? '')
+							)
 						)
-					)
-					return { ...product, media: signedUrls }
-				})
-			)
-		})
+						return { ...product, media: signedUrls }
+					})
+				)
+			})
 	)
-  return { products: productsPromise }
+	return { products: productsPromise }
 }
 
 export async function action({ request }: Route.ActionArgs) {

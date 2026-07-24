@@ -26,9 +26,6 @@ export interface FooterLink {
 
 type DbProduct = Database['public']['Tables']['products']['Row']
 export interface Product extends DbProduct {
-	name: string
-	desc: string
-	price: number
 	badges: BadgeItem[]
 }
 
