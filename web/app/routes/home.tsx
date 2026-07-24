@@ -2,12 +2,12 @@ import { FeatureCard } from "@/components/articles/card"
 import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
-import type { Faq } from "~/types"
+import type { Faq, FooterLink } from "~/types"
 import { MessageCircle, Check, Package, Settings, Wrench, Euro } from "lucide-react"
 import { useNavigate } from "react-router"
-import { Footer } from "@/components/articles/footer"
 import { Card } from "@/components/ui/card";
 import { H1, H2, P, Ul } from "@/components/typography"
+import { ButtonGroup } from "../components/ui/button-group"
 
 const data: Faq[] = [
 	{
@@ -106,12 +106,24 @@ export default () => {
 					</Ul>
 				</Card>
 			</div>
-			<Footer links={[
-				{
-					link: 'https://discord.gg/RRWYz5gzwx',
-					label: 'Discord Community'
-				}
-			]} />
+			<div className="flex w-full items-center">
+				<p className="flex-1 text-sm text-muted-foreground">All rights reserved © Code Hub</p>
+				<ButtonGroup className="flex flex-1 justify-around portrait:flex-col">
+					{([
+						{
+							link: 'https://discord.gg/RRWYz5gzwx',
+							label: 'Discord Community'
+						},
+					] satisfies FooterLink[]).map(({ label, link }) => (
+						<Button
+							key={label}
+							variant='link'
+							onClick={() => window.open(link, "_blank")}
+						>{label}</Button>
+					))}
+				</ButtonGroup>
+				<div className="flex-1"></div>
+			</div>
 		</Layout>
 	)
 }

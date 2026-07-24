@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, 
 import type { Product } from "~/types";
 import { useNavigate } from "react-router";
 import React from "react";
+import { Package } from "lucide-react";
 
 export const ProductItem = ({
 	id, media, name, badges, desc, price
@@ -17,9 +18,13 @@ export const ProductItem = ({
 			}}
 		>
 			<div className="overflow-hidden">
-				<img
-					src={media[0].length ? media[0] : 'https://lenix.dev/favicon-dark.svg'}
+				{media[0].length ? (
+					<img
+					src={media[0]}
 					className="aspect-5/4 object-cover group-hover:scale-105 transition" />
+				) : (
+					<Package />
+				)}
 			</div>
 			<CardHeader>
 				<CardTitle className="text-xl">{name}</CardTitle>

@@ -10,5 +10,4 @@ export default [
   route("docs/*", "routes/docs.tsx"),
   route("api/search", "routes/search.ts"),
   route("*", "routes/404.tsx"),
-	route("products/nav", "routes/products.nav.tsx"),
 ] satisfies RouteConfig;

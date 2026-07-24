@@ -12,6 +12,7 @@ import { Nav } from "./components/articles/nav"
 import type { Route } from "./+types/root"
 import "./app.css"
 import { Toaster } from "sonner"
+import { createClient } from "./utils/supabase.server"
 
 export function meta(): Route.MetaDescriptors {
   return [
@@ -31,6 +32,14 @@ export function meta(): Route.MetaDescriptors {
   ]
 }
 
+export async function loader({ request }: Route.LoaderArgs) {
+  const { supabase } = createClient(request)
+  const { error, data } = await supabase.from('products').select('id, name')
+  if (error) return { products: [] };
+
+  return { products: data.map(product => ({ id: product.id, title: product.name })) };
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -41,12 +50,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <RootProvider
-					theme={{ enabled: false }}
-				>
-          <Nav />
+        <RootProvider theme={{ enabled: false }}>
           {children}
-					<Toaster />
+          <Toaster />
         </RootProvider>
         <ScrollRestoration />
         <Scripts />
@@ -55,8 +61,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function App() {
-  return <Outlet />
+export default function App({ loaderData }: Route.ComponentProps) {
+  return (
+    <>
+      <Nav products={loaderData.products} />
+      <Outlet />
+    </>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

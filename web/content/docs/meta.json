@@ -1,7 +1,5 @@
 {
 	"pages": [
-		"index",
-		"---Products---",
-		"products/discord-bot"
+		"index"
 	]
 }
