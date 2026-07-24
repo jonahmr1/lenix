@@ -16,14 +16,23 @@ import type { Product } from "~/types"
 
 export async function loader({ request, params }: Route.LoaderArgs) {
 	const { supabase } = createClient(request)
-	const { data: product, error } = await supabase
+	const { data, error } = await supabase
 		.from('products')
 		.select('*, badges(*)')
-		.eq('id', Number(params.slug))
+		.eq('id', params.slug as unknown as number)
 		.single()
 
-	if (error || !product) return { product: null }
-	return { product }
+	if (error || !data) return { product: null }
+
+	const media = await Promise.all(
+		data.media.map(mediaId => supabase
+			.storage
+			.from('media')
+			.createSignedUrl(mediaId, 60 * 30)
+			.then(({ data }) => data?.signedUrl ?? '')
+	))
+
+	return { product: { ...data, media } }
 }
 
 export default function Product({ loaderData }: Route.ComponentProps) {
@@ -33,6 +42,7 @@ export default function Product({ loaderData }: Route.ComponentProps) {
 	if (!product) return <NotFound />
 
 	const { id, media, name, badges, desc, price } = product
+	console.debug(badges)
 
 	return (
 		<Layout className="mx-[10vw]">
@@ -60,10 +70,16 @@ export default function Product({ loaderData }: Route.ComponentProps) {
 					<div className="flex flex-col gap-10">
 						<div className="flex flex-col gap-5">
 							<div className="flex justify-between">
-								{/* <div className="flex gap-2">
-									{badges.primary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)}
+								<div className="flex gap-2">
+									{badges.filter(b => b.align === 'left').map(({ variant, content }, i) => (
+										<Badge key={i} variant={variant}>{content}</Badge>
+									))}
 								</div>
-								{badges.secondary.map(({ content, variant }, i) => <Badge key={i} variant={variant}>{content}</Badge>)} */}
+								<div className="flex gap-2">
+									{badges.filter(b => b.align === 'right').map(({ variant, content }, i) => (
+										<Badge key={i} variant={variant}>{content}</Badge>
+									))}
+								</div>
 							</div>
 							<div className="flex justify-between w-full">
 								<H2>{name}</H2>

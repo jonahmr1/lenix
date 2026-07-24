@@ -7,7 +7,7 @@ import { Badge } from "../ui/badge";
 
 export const ProductItem = ({
 	id, media, name, badges, desc, price
-}: Omit<Product, 'badge'> & { badges: BadgeItem }) => {
+}: Omit<Product, 'badge'> & { badges: BadgeItem | BadgeItem[] }) => {
 	const navigate = useNavigate()
 
 	return (

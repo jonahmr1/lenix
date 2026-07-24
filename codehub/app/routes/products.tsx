@@ -19,7 +19,6 @@ export async function loader({ request }: Route.LoaderArgs) {
 				const rows = response.data ?? []
 				return await Promise.all(
 					rows.map(async product => {
-						console.debug(product)
 						const signedUrls = await Promise.all(
 							product.media.map((key) =>
 								supabase
