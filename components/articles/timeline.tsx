@@ -240,7 +240,7 @@ export const Timeline = () => (
 				techs: ['VS Code API', 'Groq', 'Node.js', 'TypeScript', 'Eslint', 'Prettier'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/jonahmr1/commenix'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 23,
