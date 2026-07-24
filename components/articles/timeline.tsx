@@ -55,7 +55,7 @@ export const Timeline = () => (
 				techs: ['Lua5.4', 'FiveM Native', 'TypeScript', 'NPM'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/tripplerscripts/tr_lib'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 24,
@@ -65,7 +65,7 @@ export const Timeline = () => (
 				techs: ['FiveM Native', 'NPM', 'TypeScript', 'Lua5.4'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/tripplerscripts/tr_kit'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 7,
@@ -76,7 +76,7 @@ export const Timeline = () => (
 				icon: <HugeiconsIcon icon={ExclamationMarkIcon} />,
 				color: 'secondary',
 				iconHover: 'Abandoned',
-				url: 'https://github.com/tripplerscripts/tr_adapter'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 8,
@@ -86,7 +86,7 @@ export const Timeline = () => (
 				techs: ['JavaScript', 'Terser', 'Node.js'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/lenixstudio/lenix_builder'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 9,
@@ -117,7 +117,7 @@ export const Timeline = () => (
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
 				iconHover: 'Very small projects',
-				url: 'https://github.com/tripplerscripts/tr_sponsor'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 12,
@@ -137,7 +137,7 @@ export const Timeline = () => (
 				techs: ['YAML', 'Github-Actions', 'SQL'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/lenixstudio/lenix_txadminrecipes'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 5,
@@ -157,7 +157,7 @@ export const Timeline = () => (
 				techs: ['C#', 'TypeScript', '.Net', 'React', 'Vite', 'Node.js', 'Tailwind', 'Eslint'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/lenixstudio/lenix_sdk'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				id: 15,
