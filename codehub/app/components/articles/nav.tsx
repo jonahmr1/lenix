@@ -25,8 +25,8 @@ export const Nav = ({ products }: { products: { id: number; title: string }[] })
 			path: "/products",
 			label: "Products",
 			icon: Package,
-			sub: Object.entries(products).map(([id, { title }]) => ({
-				id,
+			sub: products.map(({ id, title }) => ({
+				id: id.toString(),
 				title,
 				icon: Box,
 			})),
