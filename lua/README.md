@@ -28,3 +28,9 @@ print(inspect({name = "Lenix"}))
 ### What it does
 
 Adds environment variables to your shell config (for mac users: `~/.zshrc` or `~/.bashrc`) to automatically change your Lua modules configurations to `./lua_modules` instead of hidden nested directories.
+
+### TODO
+
+- [ ] Implement the complete annotation
+- [ ] Provide Documentation
+- [ ] Clearify the installation steps
