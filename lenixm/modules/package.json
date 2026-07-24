@@ -9,13 +9,13 @@
     "lenix",
     "modules",
     "typescript",
+    "fivem",
     "lua",
     "luarocks",
     "oop",
-    "fivem",
-    "fxmanifest",
     "api",
     "class",
+    "fxmanifest",
     "eslint",
     "linter"
   ],
@@ -36,8 +36,7 @@
     "nui"
   ],
   "scripts": {
-    "prepare": "rm -rf ./client ./server ./shared ./nui && cp -R ../modules/client ./client && cp -R ../modules/server ./server && cp -R ../modules/shared ./shared && cp -R ../modules/nui ./nui && cp -R ../LICENSE ./",
-    "packpreview": "rm -rf ./package-preview && mkdir -p ./package-preview && bun pm pack --destination ./package-preview && tar -xzf ./package-preview/*.tgz -C ./package-preview && find ./package-preview/package -type f | sort"
+    "packprev": "rm -rf ./package-preview && mkdir -p ./package-preview && bun pm pack --destination ./package-preview && tar -xzf ./package-preview/*.tgz -C ./package-preview && find ./package-preview/package -type f | sort"
   },
   "devDependencies": {
     "@types/bun": "latest"

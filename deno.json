@@ -1,25 +1,18 @@
 {
 	"name": "@lenix/lenix",
-	"version": "1.8.10",
+	"version": "1.8.11",
 	"license": "MIT",
-	"exports": "./modules/typescript/index.ts",
+	"exports": "./typescript/index.ts",
 	"publish": {
 		"include": [
-			"modules/typescript/**",
+			"typescript/**",
 			"LICENSE",
 			"README.md"
 		]
 	},
 	"tasks": {
-		"check": "deno check modules/typescript/index.ts",
+		"check": "deno check typescript/index.ts",
 		"pre": "deno publish --dry-run"
-	},
-	"imports": {
-		"@citizenfx/client": "npm:@citizenfx/client@2.0.32698-1",
-		"@citizenfx/server": "npm:@citizenfx/server@2.0.32561-1"
-	},
-	"compilerOptions": {
-		"types": ["@citizenfx/server", "@citizenfx/client"]
 	},
 	"fmt": {
 		"useTabs": true,
@@ -31,18 +24,12 @@
 		"typeLiteral.separatorKind": "comma",
 		"trailingCommas": "never",
 		"include": [
-			"modules/typescript"
+			"typescript"
 		]
 	},
 	"lint": {
 		"include": [
-			"modules/typescript/**"
-		],
-		"exclude": [
-			"modules/typescript/client",
-			"modules/typescript/server",
-			"modules/typescript/shared",
-			"modules/typescript/nui"
+			"typescript/**"
 		],
 		"rules": {
 			"tags": [
