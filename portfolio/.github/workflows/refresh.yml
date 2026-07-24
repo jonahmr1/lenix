@@ -1,0 +1,23 @@
+name: Refresh Data
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install
+
+      - name: Run fetch script
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          VITE_GIST_ID: ${{ secrets.GIST_ID }}
+        run: bun --env-file=.env scripts/fetch.ts

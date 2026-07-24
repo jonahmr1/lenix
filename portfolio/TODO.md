@@ -1,0 +1,1 @@
+- [ ] use reusable component instead of duplication
