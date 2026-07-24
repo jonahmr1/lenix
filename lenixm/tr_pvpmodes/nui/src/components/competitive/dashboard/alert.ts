@@ -1,0 +1,1 @@
+export { useAlert as default } from "@lenixdev/fusion/nui"
