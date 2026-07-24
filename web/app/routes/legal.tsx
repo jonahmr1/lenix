@@ -1,6 +1,6 @@
 import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
-import type { Faq } from "@/types"
+import type { Faq } from "~/types"
 import { P, H1 } from "../components/typography";
 
 export default () => {

@@ -8,7 +8,7 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-		"types": "bun supabase gen types typescript --project-id mezvgmfypkdvbnzvyxfz --schema public > types/database.ts"
+    "types": "bun supabase gen types typescript --project-id mezvgmfypkdvbnzvyxfz --schema public > types/database.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -17,6 +17,8 @@
     "@react-router/node": "7.15.1",
     "@react-router/serve": "7.15.1",
     "@remixicon/react": "^4.9.0",
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.8",
     "@types/mdx": "^2.0.14",
     "@vercel/node": "^5.8.24",
     "class-variance-authority": "^0.7.1",

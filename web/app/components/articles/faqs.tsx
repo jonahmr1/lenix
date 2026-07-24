@@ -1,4 +1,4 @@
-import type { Faq } from '@/types';
+import type { Faq } from '~/types';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export const AccordionItems = ({ data }: { data: Faq[] }) => (

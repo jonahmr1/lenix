@@ -1,23 +1,12 @@
-import type { ReactNode } from "react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./app/components/ui/card"
-import type { BadgeItem } from "./app/types"
-
-export const products = {} as const satisfies Record<string, {
-	title: string
-	description: string
-	media: string[]
-	price: number
-	badges: {
-		primary: BadgeItem[]
-		secondary: BadgeItem[]
-	}
+{/*
+	
 	tabs: {
 		title: string
 		content: ReactNode
 	}[]
-}>
-
-{/* <Card>
+		
+	<Card>
 	<CardHeader>
 		<CardTitle>Overview</CardTitle>
 		<CardDescription>
