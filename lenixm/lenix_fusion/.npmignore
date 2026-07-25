@@ -1,7 +1,0 @@
-node_modules/
-src/
-.gitignore
-package-lock.json
-tsconfig.json
-fxmanifest.lua
-LICENSE
