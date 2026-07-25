@@ -1,8 +1,0 @@
-node_modules
-package-lock.json
-package/client
-package/server
-package/shared
-package/nui
-.DS_Store
-.env
