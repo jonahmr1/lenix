@@ -1,1 +1,0 @@
-export default (raw: string, delimiter = ','): string[] => raw.split(delimiter)
