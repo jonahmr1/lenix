@@ -20,7 +20,11 @@
 		"dev": "bun-tasks tsd --watch ::: webbuild --watch",
 		"webdev": "bun --cwd web vite dev --outDir ../dist/web --emptyOutDir",
 		"webbuild": "bun --cwd web vite build --outDir ../dist/web --emptyOutDir",
-		"build": "bun-tasks tsd ::: bun webbuild"
+		"build": "bun-tasks tsd ::: bun webbuild",
+		"obf.c": "bunx javascript-obfuscator dist/client.js --output dist/client.js --config obfuscator.config.json",
+		"obf.s": "bunx javascript-obfuscator dist/server.js --output dist/server.js --config obfuscator.config.json",
+		"obf.n": "for f in dist/web/assets/index-*.js; do bunx javascript-obfuscator \"$f\" --output \"$f\" --config obfuscator.config.json; done",
+		"obf": "bun obf.c && bun obf.s && bun obf.n"
 	},
 	"dependencies": {
 		"@lenix/lenix": "npm:@jsr/lenix__lenix",
@@ -37,6 +41,7 @@
 		"@types/node": "^22",
 		"bun-tasks": "^0.1.2",
 		"fast-glob": "^3.3.3",
+		"javascript-obfuscator": "^5.5.0",
 		"oxfmt": "^0.51.0",
 		"oxlint": "^1.66.0",
 		"tsdown": "^0.22.0",
