@@ -21,7 +21,6 @@ export type TimelineColor =
 	| 'paused'
 
 export interface TimelineElement {
-	id: number
 	date: string
 	title: string
 	description: string
