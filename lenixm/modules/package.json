@@ -39,6 +39,8 @@
     "packprev": "rm -rf ./package-preview && mkdir -p ./package-preview && bun pm pack --destination ./package-preview && tar -xzf ./package-preview/*.tgz -C ./package-preview && find ./package-preview/package -type f | sort"
   },
   "devDependencies": {
+    "@citizenfx/client": "^2.0.33230-1",
+    "@citizenfx/server": "^2.0.32561-1",
     "@types/bun": "latest"
   },
   "peerDependencies": {

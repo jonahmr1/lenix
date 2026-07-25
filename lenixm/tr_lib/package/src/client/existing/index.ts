@@ -21,7 +21,7 @@ export default async (
     }
     await new Promise(resolve => setTimeout(resolve, 0))
   }
-  
+
   if (!entityNetId) {
     entityNetId = NetworkGetNetworkIdFromEntity(entityHandle)
     if (!entityNetId) entityNetId = null
