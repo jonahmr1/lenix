@@ -1,4 +1,4 @@
-# Lua Object Oriented Programming Class Module
+# [Lua](https://luarocks.org/modules/lenixdev/lenix)
 
 Lua object oriented programming class module allow you to use oop similar to the TypeScript/JavaScript/Java/C++ Classes
 

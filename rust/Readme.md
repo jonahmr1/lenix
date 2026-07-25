@@ -1,4 +1,1 @@
-# Lenix
-Modular package for daily use.
-
-https://docs.rs/lenix
+# [Rust](https://docs.rs/lenix)

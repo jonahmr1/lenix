@@ -1,4 +1,4 @@
-# lenix
+# [JSR](https://jsr.io/@lenix/lenix)
 
 The All-in-one Repository
 
@@ -7,10 +7,3 @@ The All-in-one Repository
 ![](https://img.shields.io/jsr/v/@lenix/lenix)
 ![](https://img.shields.io/crates/v/lenix)
 ![](https://img.shields.io/crates/d/lenix)
-
-## 📥 Install
-
-### Deno
-```sh
-deno add jsr:@lenix/lenix
-```
