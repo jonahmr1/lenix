@@ -1,4 +1,4 @@
-import { trace } from '../../shared'
+import { trace } from '../../../tr_lib/package/src/shared'
 import binds from './binds.json'
 
 export type Bind = keyof typeof binds
