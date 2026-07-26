@@ -241,6 +241,15 @@ export const Timeline = () => (
 				iconHover: 'Paused',
 				url: 'https://github.com/jonahmr1/intellenix'
 			},
+			{
+				date: '2026-07-26',
+				title: 'Discord: Private AI Workspace Bot',
+				description: 'Built a gated Discord bot that only serves approved servers, exposes slash commands, and creates private forum-based AI workspaces for each user on demand. Threads inside those forums stream into a conversation memory per channel, where every message is forwarded to Groq with strict context handling, custom system prompts, and locale-aware response behavior.',
+				techs: ['Rust', 'Poise', 'Serenity', 'Tokio', 'Reqwest', 'Groq API', 'Discord Slash Commands', 'Thread AI Conversations'],
+				icon: <HugeiconsIcon icon={Tick02Icon} />,
+				color: 'success',
+				url: 'https://github.com/jonahmr1/lenix/tree/main/discord'
+			},
 		]}
 		size='md'
 	/>
