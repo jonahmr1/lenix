@@ -1,21 +1,3 @@
 {
-  "version": "5",
-  "specifiers": {
-    "npm:@citizenfx/client@2.0.32698-1": "2.0.32698-1",
-    "npm:@citizenfx/server@2.0.32561-1": "2.0.32561-1"
-  },
-  "npm": {
-    "@citizenfx/client@2.0.32698-1": {
-      "integrity": "sha512-GgeHFlQuJ+w7YDI0romOCpOzib50TjU/2EuHZlQw+R5dPTw14vOr3dpD1HbSldysyU98OFtz43WpoGWklC9k6Q=="
-    },
-    "@citizenfx/server@2.0.32561-1": {
-      "integrity": "sha512-2V76aX67pvB00mCbkMIPsTLWsXRJUHhTCVXuEYKm5jSaVh21ZnNN7t2AzRhNOEovBnllXDDHKcVaNzvzwN1fMA=="
-    }
-  },
-  "workspace": {
-    "dependencies": [
-      "npm:@citizenfx/client@2.0.32698-1",
-      "npm:@citizenfx/server@2.0.32561-1"
-    ]
-  }
+  "version": "5"
 }
