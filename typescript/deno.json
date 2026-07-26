@@ -2,16 +2,16 @@
 	"name": "@lenix/lenix",
 	"version": "1.8.12",
 	"license": "MIT",
-	"exports": "./typescript/index.ts",
+	"exports": "./index.ts",
 	"publish": {
 		"include": [
-			"typescript/**",
+			"**/",
 			"LICENSE",
 			"README.md"
 		]
 	},
 	"tasks": {
-		"check": "deno check typescript/index.ts",
+		"check": "deno check index.ts",
 		"pre": "deno publish --dry-run"
 	},
 	"fmt": {
