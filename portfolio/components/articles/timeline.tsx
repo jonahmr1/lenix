@@ -150,7 +150,7 @@ export const Timeline = () => (
 			{
 				date: '2026-02-09',
 				title: 'Architectural Framework Refactor',
-				description: 'Converted a major banking system to the QBox framework, pushing 142 commits to rewrite the core logic from scratch.',
+				description: 'Converted a major banking system to the QBox framework, pushing 142 commits to rewrite the core logic from scratch which was wanted by a lot of community developers and server owners',
 				techs: ['QBox', 'Typescript', 'Mariadb', 'Bun', 'TanStack', 'Node.js', 'Zod', 'Vite', 'Tailwind', 'FiveM Native', 'Emotion', 'Radix-ui', 'Recharts', 'Prettier'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
@@ -172,7 +172,7 @@ export const Timeline = () => (
 				techs: ['Next.js', 'Tailwind', 'Vite', 'Node.js', 'Shadcn', 'Resend', 'Octokit', 'Vercel', 'Babel', 'Tailwind', 'Radix-ui', 'Framer Motion', 'Recharts', 'Eslint', 'Prettier'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/jonahmr1/portfolio'
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
 				date: '2026-03-08',
@@ -187,7 +187,7 @@ export const Timeline = () => (
 			{
 				date: '2026-03-08',
 				title: 'Enterprise Management Platform',
-				description: 'Built a massive management suite for educational institutes, running natively on Mac, Windows, and Linux. Plus to that it contains a compatible web interface.',
+				description: 'Built a massive management suite for educational institutes with invoices, commercial stats, users management, log-ins, ...., running natively on Mac, Windows, and Linux, while supporting the compatible web interface.',
 				techs: ['Tauri', 'React', 'Rust', 'Supabase', 'PostgreSql', 'Deno', 'Tailwind', 'Shadcn', 'TanStack', 'Next.js', 'Radix-ui', 'i18next', 'Vite', 'Eslint', 'Prettier'],
 				icon: <HugeiconsIcon icon={ExclamationMarkIcon} />,
 				color: 'secondary',
@@ -220,7 +220,7 @@ export const Timeline = () => (
 				techs: ['VS Code API', 'Groq', 'Node.js', 'TypeScript', 'Eslint', 'Prettier'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/jonahmr1/lenix'
+				url: 'https://github.com/jonahmr1/lenix/tree/main/commenix'
 			},
 			{
 				date: '2026-03-25',
