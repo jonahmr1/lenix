@@ -5,7 +5,7 @@ import { TimelineLayout } from '../timeline'
 export const Timeline = () => (
 	<TimelineLayout
 		animate
-		className='min-h-[600px] w-full max-w-full flex items-center justify-center'
+		className='min-h-150 w-full max-w-full flex items-center justify-center'
 		connectorColor='primary'
 		iconColor='primary'
 		items={[
@@ -108,7 +108,6 @@ export const Timeline = () => (
 				techs: ['TypeScript', 'MySQL', 'Figma', 'Axios', 'Node.js', 'FiveM Native'],
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
-				iconHover: 'Projects too small',
 				url: 'https://github.com/jonahmr1/lenix'
 			},
 			{
@@ -127,7 +126,7 @@ export const Timeline = () => (
 				techs: ['YAML', 'Github-Actions', 'SQL'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/jonahmr1/lenix'
+				url: 'https://github.com/jonahmr1/lenix/tree/main/lenixfx'
 			},
 			{
 				date: '2026-01-27',
@@ -145,7 +144,7 @@ export const Timeline = () => (
 				techs: ['C#', 'TypeScript', '.Net', 'React', 'Vite', 'Node.js', 'Tailwind', 'Eslint'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/jonahmr1/lenix'
+				url: 'https://github.com/jonahmr1/lenix/tree/main/lenixfx'
 			},
 			{
 				date: '2026-02-09',
@@ -163,7 +162,7 @@ export const Timeline = () => (
 				techs: ['Lua5.4', 'LuaRocks', 'Shell', 'MacOS Internals'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/jonahmr1/lenix/tree/main/oop'
+				url: 'https://github.com/jonahmr1/lenix/tree/main/lua'
 			},
 			{
 				date: '2026-02-17',
@@ -172,7 +171,7 @@ export const Timeline = () => (
 				techs: ['Next.js', 'Tailwind', 'Vite', 'Node.js', 'Shadcn', 'Resend', 'Octokit', 'Vercel', 'Babel', 'Tailwind', 'Radix-ui', 'Framer Motion', 'Recharts', 'Eslint', 'Prettier'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
-				url: 'https://github.com/jonahmr1/lenix'
+				url: 'https://github.com/jonahmr1/lenix/tree/main/portfolio'
 			},
 			{
 				date: '2026-03-08',
@@ -242,13 +241,33 @@ export const Timeline = () => (
 				url: 'https://github.com/jonahmr1/intellenix'
 			},
 			{
-				date: '2026-07-26',
+				date: '2026-06-26',
 				title: 'Discord: Private AI Workspace Bot',
 				description: 'Built a gated Discord bot that only serves approved servers, exposes slash commands, and creates private forum-based AI workspaces for each user on demand. Threads inside those forums stream into a conversation memory per channel, where every message is forwarded to Groq with strict context handling, custom system prompts, and locale-aware response behavior.',
 				techs: ['Rust', 'Poise', 'Serenity', 'Tokio', 'Reqwest', 'Groq API', 'Discord Slash Commands', 'Thread AI Conversations'],
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'success',
 				url: 'https://github.com/jonahmr1/lenix/tree/main/discord'
+			},
+			{
+				date: '2026-06-29',
+				title: 'LenixFx',
+				description: 'Started LenixFx as a free community space to teach, share, and support developers while building an open development ecosystem.',
+				techs: ['TypeScript', 'Lua', 'Node.js', 'NPM', 'Bun', 'Overextended', 'Tailwind', 'NUI', 'FiveM Natives'],
+				icon: <HugeiconsIcon icon={Time04Icon} />,
+				color: 'pending',
+				iconHover: 'In progress',
+				url: 'https://github.com/jonahmr1/lenix/tree/main/lenixfx'
+			},
+			{
+				date: '2026-07-26',
+				title: 'LenixM',
+				description: 'Launched LenixM as a store to sell and publish my business. The focus is commercial growth with major FiveM servers through real contracts, sponsor deals, and funding, while shipping premium custom features and scripts from scratch.',
+				techs: ['QB', 'Ox'],
+				icon: <HugeiconsIcon icon={Tick02Icon} />,
+				color: 'pending',
+				iconHover: 'In progress',
+				url: 'https://github.com/jonahmr1/lenix'
 			},
 		]}
 		size='md'
