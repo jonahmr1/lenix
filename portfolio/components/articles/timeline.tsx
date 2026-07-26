@@ -267,7 +267,7 @@ export const Timeline = () => (
 				icon: <HugeiconsIcon icon={Tick02Icon} />,
 				color: 'pending',
 				iconHover: 'In progress',
-				url: 'https://github.com/jonahmr1/lenix'
+				url: 'https://discord.gg/vPwaW3rpUk'
 			},
 		]}
 		size='md'
