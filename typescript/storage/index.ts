@@ -17,7 +17,7 @@
  * const theme = getStorage('theme')
  * ```
  */
-export const getStorage = <T extends string>(key: T): string | null => localStorage.getItem(key)
+export const getStorage = <T extends object>(key: Extract<keyof T, string>) => localStorage.getItem(key) as T[keyof T] | null
 
 /**
  * Stores a value in local storage.
@@ -32,7 +32,7 @@ export const getStorage = <T extends string>(key: T): string | null => localStor
  * setStorage('theme', 'dark')
  * ```
  */
-export const setStorage = <T extends string>(key: T, value: string): void => {
+export const setStorage = <T extends object>(key: Extract<keyof T, string>, value: Extract<T[keyof T], string>): void => {
 	localStorage.setItem(key, value)
 }
 
@@ -48,6 +48,6 @@ export const setStorage = <T extends string>(key: T, value: string): void => {
  * destroyStorage('theme')
  * ```
  */
-export const destroyStorage = <T extends string>(key: T): void => {
+export const destroyStorage = <T extends object>(key: Extract<keyof T, string>): void => {
 	localStorage.removeItem(key)
 }
