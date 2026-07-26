@@ -264,7 +264,7 @@ export const Timeline = () => (
 				title: 'LenixM',
 				description: 'Launched LenixM as a store to sell and publish my business. The focus is commercial growth with major FiveM servers through real contracts, sponsor deals, and funding, while shipping premium custom features and scripts from scratch.',
 				techs: ['QB', 'Ox'],
-				icon: <HugeiconsIcon icon={Tick02Icon} />,
+				icon: <HugeiconsIcon icon={Time04Icon} />,
 				color: 'pending',
 				iconHover: 'In progress',
 				url: 'https://discord.gg/vPwaW3rpUk'
