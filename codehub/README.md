@@ -1,1 +1,1 @@
-# [CodeHub](https://codehub.lenix.dev/)
+# [Lenix Business](https://business.lenix.dev/)

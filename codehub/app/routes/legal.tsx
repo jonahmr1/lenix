@@ -7,7 +7,7 @@ export default () => {
 	const tos: Faq[] = [
 		{
 			question: 'About These Terms',
-			answer: 'These Terms of Service govern the purchase and use of products offered under the Code Hub brand, operated by Siagh Marouane Younes. By accessing, purchasing, or using our products, you agree to be bound by these Terms.'
+			answer: 'These Terms of Service govern the purchase and use of products offered under the Lenix brand, operated by Siagh Marouane Younes. By accessing, purchasing, or using our products, you agree to be bound by these Terms.'
 		},
 		{
 			question: 'Acceptance of Terms',
@@ -23,7 +23,7 @@ export default () => {
 		},
 		{
 			question: 'Intellectual Property',
-			answer: 'All software, source code, trademarks, documentation, and related materials remain the intellectual property of Code Hub unless explicitly stated otherwise. Purchasing a product grants only the license described for that product.'
+			answer: 'All software, source code, trademarks, documentation, and related materials remain the intellectual property of Lenix unless explicitly stated otherwise. Purchasing a product grants only the license described for that product.'
 		},
 		{
 			question: 'Limitation of Liability',
@@ -39,7 +39,7 @@ export default () => {
 		},
 		{
 			question: 'Contact',
-			answer: 'For questions regarding these Terms, contact Code Hub at support@lenix.dev.'
+			answer: 'For questions regarding these Terms, contact Lenix at support@lenix.dev.'
 		},
 		{
 			question: 'License',

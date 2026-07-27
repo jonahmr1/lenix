@@ -21,16 +21,16 @@ export const Nav = ({ products }: { products: { id: number; title: string }[] })
 
 	const routes: Route[] = [
 		{ path: "/", label: "Home", icon: House },
-		{
-			path: "/products",
-			label: "Products",
-			icon: Package,
-			sub: products.map(({ id, title }) => ({
-				id: id.toString(),
-				title,
-				icon: Box,
-			})),
-		},
+		// {
+		// 	path: "/products",
+		// 	label: "Products",
+		// 	icon: Package,
+		// 	sub: products.map(({ id, title }) => ({
+		// 		id: id.toString(),
+		// 		title,
+		// 		icon: Box,
+		// 	})),
+		// },
 		{ path: "/docs", label: "Docs", icon: Book },
 		{ path: "/contact", label: "Contact", icon: Headset },
 		{ path: "/legal", label: "Legal", icon: Scale },

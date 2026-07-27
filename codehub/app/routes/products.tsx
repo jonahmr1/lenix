@@ -66,7 +66,7 @@ export default function Products({ loaderData }: Route.ComponentProps) {
 	return (
 		<Layout>
 			<div className="flex flex-col items-center">
-				<H1>Code Hub Products Catalogue</H1>
+				<H1>Lenix Products Catalogue</H1>
 				<P>
 					Browse our collection of digital software products designed to improve productivity.
 				</P>

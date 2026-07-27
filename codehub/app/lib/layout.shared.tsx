@@ -4,14 +4,14 @@ import { RiDiscordFill } from '@remixicon/react'
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: 'Code Hub',
+      title: 'Lenix',
     },
 		links: [
       {
         type: 'icon',
         icon: <RiDiscordFill />,
         text: 'Blog',
-        url: 'https://discord.gg/VgnvM6CzwG',
+        url: 'https://discord.gg/FDp3UZqCtQ',
 				external: true
       },
     ],

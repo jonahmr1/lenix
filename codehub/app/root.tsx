@@ -16,15 +16,15 @@ import { createClient } from "./lib/supabase.server"
 
 export function meta(): Route.MetaDescriptors {
 	return [
-		{ title: "Code Hub" },
+		{ title: "Lenix Business" },
 
 		{ name: "description", content: "Software products for developers." },
 
-		{ property: "og:title", content: "Code Hub" },
-		{ property: "og:site_name", content: "Code Hub" },
+		{ property: "og:title", content: "Lenix Business" },
+		{ property: "og:site_name", content: "Lenix Business" },
 		{ property: "og:description", content: "Software products for businesses, developers and rockies." },
-		{ property: "og:image", content: "https://codehub.lenix.dev/logo.png" },
-		{ property: "og:url", content: "https://codehub.lenix.dev/" },
+		{ property: "og:image", content: "https://business.lenix.dev/logo.png" },
+		{ property: "og:url", content: "https://business.lenix.dev/" },
 		{ property: "og:type", content: "website" },
 
 		{ name: "twitter:card", content: "summary_large_image" },

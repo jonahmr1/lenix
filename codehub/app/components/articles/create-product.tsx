@@ -97,7 +97,7 @@ export const CreateProduct = () => {
 				</EmptyMedia>
 				<EmptyTitle>No Products Yet</EmptyTitle>
 				<EmptyDescription>
-					Code Hub haven&apos;t created any products yet. Get started by creating
+					Lenix haven&apos;t created any products yet. Get started by creating
 					the first one.
 				</EmptyDescription>
 			</EmptyHeader>
@@ -112,7 +112,7 @@ export const CreateProduct = () => {
 						<DrawerHeader className="gap-5">
 							<div>
 								<DrawerTitle>Create new product</DrawerTitle>
-								<DrawerDescription>Please fill in the gaps to publish a new Code Hub product.</DrawerDescription>
+								<DrawerDescription>Please fill in the gaps to publish a new product.</DrawerDescription>
 							</div>
 							<FieldSet>
 								<FieldGroup>

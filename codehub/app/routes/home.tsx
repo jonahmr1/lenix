@@ -6,37 +6,17 @@ import type { Faq, FooterLink } from "~/types"
 import { MessageCircle, Check, Package, Settings, Wrench, Euro } from "lucide-react"
 import { useNavigate } from "react-router"
 import { Card } from "@/components/ui/card";
-import { H1, H2, P, Ul } from "@/components/typography"
+import { H1, H2, Muted, P, Ul } from "@/components/typography"
 import { ButtonGroup } from "../components/ui/button-group"
 
 const data: Faq[] = [
 	{
-		question: 'Is there any one-time purchases?',
-		answer: 'No, Code Hub is designed to provide all of it\'s products among with licenses'
-	},
-	{
 		question: 'Do you have any free products?',
-		answer: <span>Yes, but not in here, since Code Hub tend to provide paid products only, you can check out Lenix publish all of his free products on <Button className='px-0' variant='link' onClick={() => window.open('https://github.com/jonahmr1', "_blank")}>GitHub</Button></span>
-	},
-	{
-		question: 'How does the support work?',
-		answer: 'Code Hub support life time support for the customers that have active license and there products products are still available in the stock.'
-	},
-	{
-		question: 'Are the products taxable?',
-		answer: 'Not necessarly. taxes may apply depending on your payment situation, such as the method, country,... . Final price will be calculated at checkout.'
-	},
-	{
-		question: 'Will I receive updates?',
-		answer: 'Yes. Every purchase includes free updates within the supported version of the product. Major upgrades, if released separately, may require a new license.'
+		answer: <span>Yes, you can check out all of my free products on <Button className='px-0' variant='link' onClick={() => window.open('https://github.com/jonahmr1', "_blank")}>GitHub</Button></span>
 	},
 	{
 		question: 'What is your refund policy?',
-		answer: "Refund requests are handled according to our Refund Policy. If you experience a technical issue that cannot be resolved or the product doesn't match its description, please contact us and we'll fairly review your request."
-	},
-	{
-		question: 'How do I download the product?',
-		answer: "After your payment is successfully processed, you'll receive access to download your product along with any applicable license key and installation instructions."
+		answer: "Refund requests are handled according to our Refund Policy. If you experience a technical issue that cannot be resolved or the product doesn't match its description, please contact me and I'll fairly review your request."
 	},
 ]
 
@@ -45,12 +25,12 @@ export default () => {
 	return (
 		<Layout>
 			<div className="flex flex-col items-center justify-center gap-5">
-				<H1>Welcome To Code Hub</H1>
-				<P className="text-center">Code Hub develops software products that help developers and business owners work faster and move forward.</P>
+				<H1>Welcome To Lenix Business</H1>
+				<P className="text-center">Lenix develops software products that help developers and business owners work faster and move forward.</P>
 				<div className="flex portrait:flex-col gap-3">
-					<Button onClick={() => {
+					{/* <Button onClick={() => {
 						navigate('products')
-					}}>View Products</Button>
+					}}>View Products</Button> */}
 					<Button onClick={() => {
 						navigate('/docs')
 					}}>Documentation</Button>
@@ -59,13 +39,13 @@ export default () => {
 
 			<div className="flex flex-col justify-center">
 				<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-					Why Code Hub?
+					Why Lenix?
 				</h2>
 				<br />
 				<div className="flex gap-5 portrait:flex-col">
 					<FeatureCard title="Reliability" description="Dependable products built for consistent performance and durability." icon={Wrench} />
 					<FeatureCard title="Pricing" description="Fair pricing on every purchase, where every cent is worth paying for." icon={Euro} />
-					<FeatureCard title="Support" description="Support is our first philosophic priority, it's what keeps us the best." icon={MessageCircle} />
+					<FeatureCard title="Support" description="Support is my first philosophic priority, it's what keeps me the best." icon={MessageCircle} />
 				</div>
 			</div>
 
@@ -76,29 +56,29 @@ export default () => {
 				<AccordionItems {...{ data }} />
 			</div>
 			<div className="space-y-5">
-				<H1>About Code Hub</H1>
-				<P>
-					Code Hub develops software for developers,
+				<H1>About Lenix</H1>
+				<Muted>
+					Lenix develops software for developers,
 					communities, and businesses.
-					We build digital products that automate
+					I build digital products that automate
 					repetitive tasks, improve workflows, and
 					save development time.
-				</P>
+				</Muted>
 			</div>
 			<div className="space-y-5">
-				<H2>Our Focus</H2>
+				<H2>My Focus</H2>
 				<div className="flex gap-5 portrait:flex-col">
-					<FeatureCard title="Developer Needs" description="We specialize in building high-quality products designed to help developers work faster and reduce repetitive manual workflows." icon={Settings} />
-					<FeatureCard title="Digital Products" description="Code Hub always focus on releasing unique and niche solutions that you can find only here, that's where we stand out." icon={Package} />
-					<FeatureCard title="Long-Term Support" description="We care more about creating less products and more quality that are maintained with ongoing improvements." icon={Wrench} />
+					<FeatureCard title="Developer Needs" description="I'm specialized in building high-quality products designed to help developers work faster and reduce repetitive manual workflows." icon={Settings} />
+					<FeatureCard title="Digital Products" description="I always focus on releasing unique and niche solutions that you can find only here, that's where I stand out." icon={Package} />
+					<FeatureCard title="Long-Term Support" description="I care more about creating less products and more quality that are maintained with ongoing improvements." icon={Wrench} />
 				</div>
 			</div>
 			<div className="space-y-5">
-				<H2>Our Principles</H2>
+				<H2>My Principles</H2>
 				<Card>
 					<Ul className='list-none *:flex *:gap-2 *:text-base *:items-center my-1'>
-						<li><Check size={15} /> Clear documentation</li>
 						<li><Check size={15} /> Reliable software</li>
+						<li><Check size={15} /> Clear documentation</li>
 						<li><Check size={15} /> Fair pricing</li>
 						<li><Check size={15} /> Customer support</li>
 						<li><Check size={15} /> Secured solutions</li>
@@ -107,12 +87,12 @@ export default () => {
 				</Card>
 			</div>
 			<div className="flex w-full items-center">
-				<p className="flex-1 text-sm text-muted-foreground">All rights reserved © Code Hub</p>
+				<p className="flex-1 text-sm text-muted-foreground">All rights reserved © Lenix</p>
 				<ButtonGroup className="flex flex-1 justify-around portrait:flex-col">
 					{([
 						{
-							link: 'https://discord.gg/RRWYz5gzwx',
-							label: 'Discord Community'
+							link: 'https://discord.gg/FDp3UZqCtQ',
+							label: 'Discord'
 						},
 					] satisfies FooterLink[]).map(({ label, link }) => (
 						<Button
