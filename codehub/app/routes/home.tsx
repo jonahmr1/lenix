@@ -91,8 +91,8 @@ export default () => {
 				<Card>
 					<Ul className='list-none *:flex *:gap-2 *:text-base *:items-center my-1'>
 						{
-							['Reliable software', 'Clear documentation', 'Fair pricing', 'Customer support', 'Secured solutions', 'Privacy first'].map(i => (
-								<li><Check size={15} /> {i}</li>
+							['Reliable software', 'Clear documentation', 'Fair pricing', 'Customer support', 'Secured solutions', 'Privacy first'].map((v, i) => (
+								<li key={i}><Check size={15} /> {v}</li>
 							))
 						}
 					</Ul>
