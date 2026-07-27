@@ -6,6 +6,7 @@ import { Footer } from '@/components/articles/footer'
 import { Quotes } from '@/components/articles/quote'
 import { DataProvider } from '@/lib/context'
 import { Timeline } from '@/components/articles/timeline'
+import { Button } from '@/components/ui/button'
 
 export const Main = () => (
 	<DataProvider>
@@ -15,6 +16,11 @@ export const Main = () => (
 					<div className='min-h-5/10 flex items-end'>
 						<Introduc />
 					</div>
+					<Button
+						onClick={() => window.open('https://business.lenix.dev')}
+					>
+						Visit The Business
+					</Button>
 				</div>
 				<div className='min-h-screen flex flex-col justify-evenly'>
 					<Stats />
