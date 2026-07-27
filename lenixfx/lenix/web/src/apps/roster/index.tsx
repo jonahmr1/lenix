@@ -3,7 +3,7 @@ import { Separator } from '@/components/ui/separator'
 import { useEffect, useState } from 'react'
 import type { Events, Officers, OfficerUpdates, Requests } from 'types'
 import { Officer } from './officer'
-import { DEV } from '@/index'
+import { DEV } from '@/App'
 import { Frown } from 'lucide-react'
 import { focus, onEvent, triggerNui } from 'lenix/nui'
 

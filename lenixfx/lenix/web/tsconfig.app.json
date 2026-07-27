@@ -25,5 +25,5 @@
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src", "../types"]
+	"include": ["src", "../types", "src/components/ui/avatar.tsx", "src/components/ui/card.tsx"]
 }

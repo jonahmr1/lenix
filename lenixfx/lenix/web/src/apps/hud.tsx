@@ -33,8 +33,8 @@ export const Hud = () => {
 	return (
 		<div className={`absolute w-full flex justify-end p-5 ${display ? 'opacity-100' : 'opacity-0'}`}>
 			<div className='flex gap-1 items-end'>
-				<div className='text-white font-[Saira] text-3xl font-bold'>{state.clip}</div>
-				<div className='text-white/50 text-xl font-[Saira]'>{state.reserve}</div>
+				<div className='text-white font-[Syncopate] text-3xl font-bold'>{state.clip}</div>
+				<div className='text-white/50 text-xl font-[Syncopate]'>{state.reserve}</div>
 			</div>
 		</div>
 	)
