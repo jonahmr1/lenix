@@ -1,19 +1,15 @@
 <svg
 	version="1.1"
-	id="Layer_1"
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	x="0px"
 	y="0px"
-	width="100%"
 	viewBox="100 100 712 712"
-	enable-background="new 0 0 912 912"
 	xml:space="preserve"
 >
-	<style>
-		path { fill: dark; }
-	</style>
+	<rect x="100" y="100" width="712" height="712" rx="120" ry="120" fill="#fff"/>
 	<path
+		fill="#000"
 		opacity="1.000000"
 		stroke="none"
 		d="
@@ -58,6 +54,7 @@
 		"
 	/>
 	<path
+		fill="#000"
 		opacity="1.000000"
 		stroke="none"
 		d="
