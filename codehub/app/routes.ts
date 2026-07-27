@@ -7,7 +7,7 @@ export default [
   route("contact", "routes/contact.tsx"),
   route("legal", "routes/legal.tsx"),
 
-  route("docs/*", "routes/docs.tsx"),
+  // route("docs/*", "routes/docs.tsx"),
   route("api/search", "routes/search.ts"),
   route("*", "routes/404.tsx"),
 ] satisfies RouteConfig;

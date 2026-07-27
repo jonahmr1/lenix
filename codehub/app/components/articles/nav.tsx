@@ -31,7 +31,7 @@ export const Nav = ({ products }: { products: { id: number; title: string }[] })
 		// 		icon: Box,
 		// 	})),
 		// },
-		{ path: "/docs", label: "Docs", icon: Book },
+		// { path: "/docs", label: "Docs", icon: Book },
 		{ path: "/contact", label: "Contact", icon: Headset },
 		{ path: "/legal", label: "Legal", icon: Scale },
 	]

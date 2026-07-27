@@ -1,11 +1,10 @@
-import { FeatureCard } from "@/components/articles/card"
 import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
 import type { Faq, FooterLink } from "~/types"
-import { MessageCircle, Check, Package, Settings, Wrench, Euro } from "lucide-react"
+import { MessageCircle, Check, Package, Settings, Wrench, Euro, type LucideIcon } from "lucide-react"
 import { useNavigate } from "react-router"
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { H1, H2, Muted, P, Ul } from "@/components/typography"
 import { ButtonGroup } from "../components/ui/button-group"
 
@@ -20,6 +19,19 @@ const data: Faq[] = [
 	},
 ]
 
+
+const FeatureCard = ({ title, description, icon: Icon }: { title: string, description: string, icon: LucideIcon }) => (
+	<Card>
+		<CardHeader className="gap-5">
+			<Icon size={32} />
+			<CardTitle>{title}</CardTitle>
+		</CardHeader>
+		<CardContent>
+			<CardDescription>{description}</CardDescription>
+		</CardContent>
+	</Card>
+)
+
 export default () => {
 	const navigate = useNavigate()
 	return (
@@ -28,12 +40,13 @@ export default () => {
 				<H1>Welcome To Lenix Business</H1>
 				<P className="text-center">Lenix develops software products that help developers and business owners work faster and move forward.</P>
 				<div className="flex portrait:flex-col gap-3">
+
 					{/* <Button onClick={() => {
 						navigate('products')
 					}}>View Products</Button> */}
-					<Button onClick={() => {
+					{/* <Button onClick={() => {
 						navigate('/docs')
-					}}>Documentation</Button>
+					}}>Documentation</Button> */}
 				</div>
 			</div>
 
@@ -77,12 +90,11 @@ export default () => {
 				<H2>My Principles</H2>
 				<Card>
 					<Ul className='list-none *:flex *:gap-2 *:text-base *:items-center my-1'>
-						<li><Check size={15} /> Reliable software</li>
-						<li><Check size={15} /> Clear documentation</li>
-						<li><Check size={15} /> Fair pricing</li>
-						<li><Check size={15} /> Customer support</li>
-						<li><Check size={15} /> Secured solutions</li>
-						<li><Check size={15} /> Privacy first</li>
+						{
+							['Reliable software', 'Clear documentation', 'Fair pricing', 'Customer support', 'Secured solutions', 'Privacy first'].map(i => (
+								<li><Check size={15} /> {i}</li>
+							))
+						}
 					</Ul>
 				</Card>
 			</div>
