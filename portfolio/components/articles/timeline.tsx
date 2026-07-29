@@ -251,9 +251,9 @@ export const Timeline = () => (
 			},
 			{
 				date: '2026-06-29',
-				title: 'LenixM (formerly Trippler Scripts)',
+				title: 'LenixM: formerly Trippler Scripts',
 				description: 'Launched LenixM as a store to sell and publish my business as well as providing a community space to teach, share, and support developers while building an open development ecosystem. The focus is commercial growth with major FiveM servers through real contracts, sponsor deals, and funding, while shipping premium custom features and scripts from scratch.',
-				techs: ['QB', 'Ox', 'TypeScript', 'Lua', 'Node.js', 'NPM', 'Bun', 'Overextended', 'Tailwind', 'NUI', 'FiveM Natives'],
+				techs: ['TypeScript', 'Lua', 'Node.js', 'NPM', 'Bun', 'Tailwind', 'NUI', 'FiveM Natives', 'QB', 'Ox'],
 				icon: <HugeiconsIcon icon={Time04Icon} />,
 				color: 'pending',
 				iconHover: 'In progress',
