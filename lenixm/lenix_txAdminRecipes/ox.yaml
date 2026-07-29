@@ -8,22 +8,22 @@ tasks:
     - action: connect_database
 
     - action: download_github
-      src: lenixdev/txAdminRecipes
+      src: jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes
       subpath: config/shared
       dest: ./config
       
     - action: download_github
-      src: lenixdev/txAdminRecipes
-      subpath: config/communityox
+      src: jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes
+      subpath: config/ox
       dest: ./config
 
     - action: download_file
-      url: https://raw.githubusercontent.com/lenixdev/txAdminRecipes/refs/heads/main/server/communityox/server.cfg
+      url: https://raw.githubusercontent.com/jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes/server/ox/server.cfg
       path: ./server.cfg
 
     - action: download_file
       path: ./tmp/ox_core.zip
-      url: https://github.com/communityox/ox_core/releases/latest/download/ox_core.zip
+      url: https://github.com/overextended/ox_core/releases/latest/download/ox_core.zip
     - action: unzip
       src: ./tmp/ox_core.zip
       dest: ./resources/[ox_core]
@@ -36,28 +36,28 @@ tasks:
 
     - action: download_file
       path: ./tmp/ox_lib.zip
-      url: https://github.com/communityox/ox_lib/releases/latest/download/ox_lib.zip
+      url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
     - action: unzip
       src: ./tmp/ox_lib.zip
       dest: ./resources/[ox_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/ox_inventory.zip
-      url: https://github.com/communityox/ox_inventory/releases/latest/download/ox_inventory.zip
+      url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
     - action: unzip
       src: ./tmp/ox_inventory.zip
       dest: ./resources/[ox_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/ox_target.zip
-      url: https://github.com/communityox/ox_target/releases/latest/download/ox_target.zip
+      url: https://github.com/overextended/ox_target/releases/latest/download/ox_target.zip
     - action: unzip
       src: ./tmp/ox_target.zip
       dest: ./resources/[ox_core]/[dependencies]
 
     - action: download_file
       path: ./tmp/oxmysql.zip
-      url: https://github.com/communityox/oxmysql/releases/latest/download/oxmysql.zip
+      url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
     - action: unzip
       src: ./tmp/oxmysql.zip
       dest: ./resources/[ox_core]/[dependencies]

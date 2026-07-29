@@ -1,4 +1,4 @@
-version: v0.0.20
+version: v0.0.21
 name: lenix
 author: Lenix
 $minFxVersion: 17000
@@ -8,17 +8,17 @@ tasks:
     - action: connect_database
 
     - action: download_github
-      src: lenixdev/txAdminRecipes
+      src: jonahmr1/lenix/lenixm/lenix_txAdminRecipes
       subpath: config/shared
       dest: ./config/shared
       
     - action: download_github
-      src: lenixdev/txAdminRecipes
+      src: jonahmr1/lenix/lenixm/lenix_txAdminRecipes
       subpath: config/qbox
       dest: ./config/qbox
 
     - action: download_file
-      url: https://raw.githubusercontent.com/lenixdev/txAdminRecipes/refs/heads/main/server/qbox/server.cfg
+      url: https://raw.githubusercontent.com/jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes/server/qbox/server.cfg
       path: ./server.cfg
 
     - action: download_github

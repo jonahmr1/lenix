@@ -6,7 +6,7 @@ A minimalistic FiveM server recipes from development cases and fresh servers sta
 - [ ] Add the db table as an injectabled SQL file
 
 ## QBox:
-- https://raw.githubusercontent.com/LenixDev/txAdminRecipes/refs/heads/main/qbox.yaml
+- https://raw.githubusercontent.com/jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes/qbox.yaml
 
 ## Overextended
-- https://raw.githubusercontent.com/LenixDev/txAdminRecipes/refs/heads/main/communityox.yaml
+- https://raw.githubusercontent.com/jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes/ox.yaml
