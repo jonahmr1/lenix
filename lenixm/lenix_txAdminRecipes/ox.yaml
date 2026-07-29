@@ -8,13 +8,15 @@ tasks:
     - action: connect_database
 
     - action: download_github
-      src: jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes
-      subpath: config/shared
+      src: jonahmr1/lenix
+      ref: main
+      subpath: lenixm/lenix_txAdminRecipes/config/shared
       dest: ./config
       
     - action: download_github
-      src: jonahmr1/lenix/refs/heads/main/lenixm/lenix_txAdminRecipes
-      subpath: config/ox
+      src: jonahmr1/lenix
+      ref: main
+      subpath: lenixm/lenix_txAdminRecipes/config/ox
       dest: ./config
 
     - action: download_file
