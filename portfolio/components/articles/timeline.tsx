@@ -251,19 +251,9 @@ export const Timeline = () => (
 			},
 			{
 				date: '2026-06-29',
-				title: 'LenixFx',
-				description: 'Started LenixFx as a free community space to teach, share, and support developers while building an open development ecosystem.',
-				techs: ['TypeScript', 'Lua', 'Node.js', 'NPM', 'Bun', 'Overextended', 'Tailwind', 'NUI', 'FiveM Natives'],
-				icon: <HugeiconsIcon icon={Time04Icon} />,
-				color: 'pending',
-				iconHover: 'In progress',
-				url: 'https://github.com/jonahmr1/lenix/tree/main/lenixfx'
-			},
-			{
-				date: '2026-07-26',
-				title: 'LenixM',
-				description: 'Launched LenixM as a store to sell and publish my business. The focus is commercial growth with major FiveM servers through real contracts, sponsor deals, and funding, while shipping premium custom features and scripts from scratch.',
-				techs: ['QB', 'Ox'],
+				title: 'LenixM (formerly Trippler Scripts)',
+				description: 'Launched LenixM as a store to sell and publish my business as well as providing a community space to teach, share, and support developers while building an open development ecosystem. The focus is commercial growth with major FiveM servers through real contracts, sponsor deals, and funding, while shipping premium custom features and scripts from scratch.',
+				techs: ['QB', 'Ox', 'TypeScript', 'Lua', 'Node.js', 'NPM', 'Bun', 'Overextended', 'Tailwind', 'NUI', 'FiveM Natives'],
 				icon: <HugeiconsIcon icon={Time04Icon} />,
 				color: 'pending',
 				iconHover: 'In progress',

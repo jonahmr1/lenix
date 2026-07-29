@@ -16,11 +16,13 @@ export const Main = () => (
 					<div className='min-h-5/10 flex items-end'>
 						<Introduc />
 					</div>
-					<Button
-						onClick={() => window.open('https://business.lenix.dev')}
-					>
-						Visit The Business
-					</Button>
+					<div className='h-full flex items-center justify-center'>
+						<Button
+							onClick={() => window.open('https://business.lenix.dev')}
+						>
+							Visit Lenix Business
+						</Button>
+					</div>
 				</div>
 				<div className='min-h-screen flex flex-col justify-evenly'>
 					<Stats />
