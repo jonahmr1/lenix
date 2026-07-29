@@ -22,35 +22,35 @@ tasks:
       path: ./server.cfg
 
     - action: download_github
-      src: communityox/qbx_core
+      src: overextended/qbx_core
       dest: ./resources/[qbx_core]/qbx_core
     - action: query_database
       file: ./resources/[qbx_core]/qbx_core/qbx_core.sql
 
     - action: download_file
       path: ./tmp/ox_lib.zip
-      url: https://github.com/communityox/ox_lib/releases/latest/download/ox_lib.zip
+      url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
     - action: unzip
       src: ./tmp/ox_lib.zip
       dest: ./resources/[qbx_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/oxmysql.zip
-      url: https://github.com/communityox/oxmysql/releases/latest/download/oxmysql.zip
+      url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
     - action: unzip
       src: ./tmp/oxmysql.zip
       dest: ./resources/[qbx_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/ox_inventory.zip
-      url: https://github.com/communityox/ox_inventory/releases/latest/download/ox_inventory.zip
+      url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
     - action: unzip
       src: ./tmp/ox_inventory.zip
       dest: ./resources/[qbx_core]/[mandatories]
 
     - action: download_file
       path: ./tmp/ox_target.zip
-      url: https://github.com/communityox/ox_target/releases/latest/download/ox_target.zip
+      url: https://github.com/overextended/ox_target/releases/latest/download/ox_target.zip
     - action: unzip
       src: ./tmp/ox_target.zip
       dest: ./resources/[qbx_core]/[mandatories]
