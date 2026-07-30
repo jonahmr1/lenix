@@ -24,7 +24,6 @@ export const Timeline = () => (
 				techs: ['Lua', 'YARN', 'Xampp', 'HeidiSQL'],
 				icon: <HugeiconsIcon icon={X} />,
 				color: 'destructive',
-				iconHover: 'Could not find the right partner',
 				url: 'https://discord.gg/83bBX2GvCg'
 			},
 			{
