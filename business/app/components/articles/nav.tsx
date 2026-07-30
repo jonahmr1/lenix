@@ -1,4 +1,4 @@
-import { Book, Box, Headset, House, Package, Scale } from "lucide-react";
+import { Book, Box, BriefcaseBusiness, Headset, House, Package, Scale } from "lucide-react";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import type { Route } from "~/types";
 import {
@@ -32,6 +32,7 @@ export const Nav = ({ products }: { products: { id: number; title: string }[] })
 		// 	})),
 		// },
 		// { path: "/docs", label: "Docs", icon: Book },
+		// { path: "/business", label: "Business", icon: BriefcaseBusiness },
 		{ path: "/contact", label: "Contact", icon: Headset },
 		{ path: "/legal", label: "Legal", icon: Scale },
 	]
