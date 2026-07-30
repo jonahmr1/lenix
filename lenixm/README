@@ -1,13 +1,4 @@
-1. Configure the restored local exclude file:
+mklink /D WHERE_TO_BE WHERE_IS_IT
 
-git config --local core.excludesFile "%CD%\.local-git-exclude"
-
-2. Recreate the three links if the backup didn’t preserve them:
-
-mklink /D resources\lenix ..\lenix
-mklink /D resources\ox_core ..\ox_core
-mklink /D resources\ox_lib ..\ox_lib
-
-3. Verify:
-
-git status
+Example:
+- mklink /D resources\lenix "C:\Users\Administrator\Desktop\lenix\lenixm\lenix"
