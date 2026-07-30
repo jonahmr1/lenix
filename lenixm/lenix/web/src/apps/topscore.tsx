@@ -1,105 +1,113 @@
-import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Item, ItemContent, ItemDescription, ItemTitle } from "@/components/ui/item";
-import { CircleAlert, TrendingUp } from "lucide-react";
+import { Crown, Crosshair, Skull, Trophy, TrendingUp } from "lucide-react";
+import type { CSSProperties, ComponentType } from "react";
 
-const stats = {
-	game: {
-		wins: 1,
-		losses: 2,
-	},
-	performance: {
-		kills: 3,
-		deaths: 4,
-		assists: 5,
-	},
+type Stat = {
+	label: string;
+	value: string;
+	Icon: ComponentType<{ className?: string; strokeWidth?: number }>;
 };
 
 export const TopScore = () => {
+	const frameStyle = {
+		left: 32,
+		top: 24,
+		width: 380 / 1,
+		height: 280 / 1,
+	} satisfies CSSProperties;
+	
+	const topScore = {
+		rank: "1ST",
+		rankLabel: "PLACE",
+		player: {
+			name: "Lenix",
+			avatar: "https://lenix.dev/favicon-light.svg",
+		},
+		stats: [
+			{
+				label: "KILLS",
+				value: "15",
+				Icon: Crosshair,
+			},
+			{
+				label: "DEATHS",
+				value: "3",
+				Icon: Skull,
+			},
+			{
+				label: "K/D RATIO",
+				value: "5.00",
+				Icon: Trophy,
+			},
+			{
+				label: "ACCURACY",
+				value: "42%",
+				Icon: TrendingUp,
+			},
+		] satisfies Stat[],
+	};
+
 	return (
-		<div className="absolute w-[clamp(320px,28vw,560px)] max-w-[90vw]">
-			<Card>
-				<CardHeader className="gap-[clamp(12px,1vw,20px)]">
-					<CardTitle className="flex items-center gap-[clamp(12px,1vw,20px)]">
-						<img
-							src="https://lenix.dev/favicon-dark.svg"
-							alt=""
-							className="size-[clamp(64px,7vw,128px)] shrink-0 rounded-full border object-cover"
-						/>
-						<div className="flex flex-col">
-							<span className="text-[clamp(1rem,1.2vw,2rem)] font-bold uppercase">
-								Lenix
-							</span>
+		<div
+			className="pointer-events-none absolute origin-top-left overflow-hidden [container-type:size]"
+			style={frameStyle}
+		>
+			<section className="relative border-l-5 size-full overflow-hidden rounded-xs border-[0.12cqw] border-red-600/85 bg-[#070b0f]/86 p-[3.1cqw] shadow-[inset_0_0_4.8cqw_rgb(255_255_255_/_0.035),0_0_1.6cqw_rgb(220_20_38_/_0.18)] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_68%_26%,rgb(255_255_255_/_0.07),transparent_18%),radial-gradient(circle_at_22%_78%,rgb(46_134_171_/_0.08),transparent_24%)] before:opacity-90">
+				<div className="relative z-10 flex h-full flex-col">
+					<header className="flex h-[17.2%] shrink-0 items-center gap-[3.2cqw] pb-[2.65cqw]">
+						<Crown className="size-[6.8cqw] fill-red-600 text-red-600 drop-shadow-[0_0_0.72cqw_rgb(220_20_38_/_0.45)]" />
 
-							<span className="text-[clamp(.9rem,1vw,1.5rem)] font-semibold text-yellow-300">
-								1st
+						<div className="flex items-baseline gap-[2.6cqw] font-[Syncopate] font-black uppercase italic tracking-normal">
+							<span className="text-[5.6cqw] leading-none text-red-600 drop-shadow-[0_0.24cqw_0_rgb(90_0_8_/_0.48)]">
+								{topScore.rank}
+							</span>
+							<span className="text-[4.15cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.55)]">
+								{topScore.rankLabel}
 							</span>
 						</div>
-					</CardTitle>
+					</header>
 
-					<CardAction className="flex items-center gap-[clamp(6px,.5vw,10px)] text-[clamp(.7rem,.7vw,.95rem)] text-foreground/40">
-						<CircleAlert className="size-[clamp(16px,1vw,22px)]" />
-						<span>Updates every minute</span>
-					</CardAction>
-				</CardHeader>
+					<div className="h-px shrink-0 bg-white/18" />
 
-				<CardContent className="flex flex-col gap-[clamp(10px,.8vw,18px)]">
-					<div className="grid grid-cols-2 gap-[clamp(8px,.8vw,16px)]">
-						{Object.entries(stats.game).map(([type, value]) => (
-							<Item
-								key={type}
-								className="bg-accent ring ring-ring/50 p-[clamp(10px,.8vw,18px)]"
-							>
-								<ItemContent className="items-center">
-									<ItemTitle className="text-[clamp(.65rem,.7vw,.9rem)]">
-										{type.toUpperCase()}
-									</ItemTitle>
-
-									<ItemDescription className="text-[clamp(1rem,1.4vw,2rem)] font-bold">
-										{value}
-									</ItemDescription>
-								</ItemContent>
-							</Item>
-						))}
-					</div>
-
-					<div className="grid grid-cols-3 gap-[clamp(8px,.8vw,16px)]">
-						{Object.entries(stats.performance).map(([type, value]) => (
-							<Item
-								key={type}
-								className="bg-accent ring ring-ring/50 p-[clamp(10px,.8vw,18px)]"
-							>
-								<ItemContent className="items-center">
-									<ItemTitle className="text-[clamp(.65rem,.7vw,.9rem)]">
-										{type.toUpperCase()}
-									</ItemTitle>
-
-									<ItemDescription className="text-[clamp(1rem,1.4vw,2rem)] font-bold">
-										{value}
-									</ItemDescription>
-								</ItemContent>
-							</Item>
-						))}
-					</div>
-				</CardContent>
-
-				<CardFooter>
-					<Item className="w-full border-0 bg-linear-to-r from-primary/50 to-transparent p-[clamp(10px,.8vw,18px)] ring ring-primary">
-						<div className="rounded bg-primary p-[clamp(8px,.7vw,14px)]">
-							<TrendingUp className="size-[clamp(18px,1vw,28px)]" />
+					<div className="grid flex-1 grid-cols-[25%_1fr] items-center gap-[4.8cqw] px-[3.1cqw] py-[3.9cqw]">
+						<div className="aspect-square w-full overflow-hidden rounded-full border-[0.32cqw] border-red-600 bg-black shadow-[0_0_1.32cqw_rgb(220_20_38_/_0.28)]">
+							<img
+								src={topScore.player.avatar}
+								alt=""
+								className="size-full object-cover grayscale"
+							/>
 						</div>
 
-						<ItemContent>
-							<ItemTitle className="text-[clamp(.65rem,.7vw,.9rem)] uppercase">
-								Win Ratio
-							</ItemTitle>
+						<div className="min-w-0 font-[Syncopate] uppercase tracking-normal">
+							<h2 className="truncate text-[7.15cqw] font-black leading-none text-white drop-shadow-[0_0.3cqw_0_rgb(0_0_0_/_0.58)]">
+								{topScore.player.name}
+							</h2>
+						</div>
+					</div>
 
-							<ItemDescription className="font-[Syncopate] text-[clamp(1rem,1.6vw,2.2rem)] font-bold">
-							{((stats.game.wins / (stats.game.wins + stats.game.losses || 1)) * 100).toFixed(2)}%
-							</ItemDescription>
-						</ItemContent>
-					</Item>
-				</CardFooter>
-			</Card>
+					<div className="h-px shrink-0 bg-white/18" />
+
+					<div className="grid h-[36.5%] shrink-0 grid-cols-4 gap-[2.35cqw] py-[2.2cqw]">
+						{topScore.stats.map(({ label, value, Icon }) => (
+							<div
+								key={label}
+								className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 px-[1.65cqw] text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
+							>
+								<Icon
+									className="mb-[1.45cqw] size-[5.7cqw] text-white/56 drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.42)]"
+								/>
+
+								<div className="font-[Syncopate] text-[2.05cqw] font-black uppercase leading-none text-white/60 drop-shadow-[0_0.18cqw_0_rgb(0_0_0_/_0.52)]">
+									{label}
+								</div>
+
+								<div className="mt-[1.8cqw] font-[Syncopate] text-[4.6cqw] font-black leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
+									{value}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
 		</div>
 	);
 };
