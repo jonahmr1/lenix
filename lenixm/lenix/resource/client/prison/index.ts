@@ -1,5 +1,5 @@
 import { inputDialog, onServerCallback, Point } from '@overextended/ox_lib/client'
-import { INSIDE } from 'common/prison'
+import { INSIDE_COORDS } from 'common/prison'
 
 onServerCallback('lenix:imprisonPlayer', async () => {
 	const input = await inputDialog(
@@ -25,7 +25,7 @@ onServerCallback('lenix:imprisonPlayer', async () => {
 
 setImmediate(() => {
 	const point = new Point({
-		coords: INSIDE,
+		coords: INSIDE_COORDS,
 		distance: 150,
 	})
 
