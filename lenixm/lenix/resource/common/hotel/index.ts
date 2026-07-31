@@ -5,22 +5,8 @@ interface Safe {
 	rotation: number
 }
 
-const FLOORS_AMOUNT: number = 26
 const ROOM_FLOORS_AMOUNT: number = 25
-export const FLOOR_HEIGHT: number = 4
-export const FIRST_ROOMS_FLOOR_INDEX: number = 4
-export const ROOMS_PER_FLOOR: number = 18
-export const FIRST_FLOOR_INDEX: number = 0
-export const STARTER_DEPOSIT = 5000
-
-export const HOTEL_FLOORS: number[] = Array.from({ length: FLOORS_AMOUNT }, (_, i) =>
-	i === 0 ? 0 : FIRST_ROOMS_FLOOR_INDEX + i - (FLOORS_AMOUNT - ROOM_FLOORS_AMOUNT),
-)
-export const HOTEL_ROOM_FLOORS: number[] = Array.from(
-	{ length: ROOM_FLOORS_AMOUNT },
-	(_, i) => i + FIRST_ROOMS_FLOOR_INDEX,
-)
-
+const ROOMS_PER_FLOOR: number = 18
 const FIRST_FLOOR_SAFES: readonly Safe[] = [
 	{ coords: [-348.0733, -1049.4086, 45.23, 160.1787], rotation: 70.0 },
 	{ coords: [-341.6795, -1031.9573, 45.2296, 271.7698], rotation: 70.0 },
@@ -41,6 +27,13 @@ const FIRST_FLOOR_SAFES: readonly Safe[] = [
 	{ coords: [-288.3881, -1068.9478, 45.225, 76.9939], rotation: 70.0 },
 	{ coords: [-283.3085, -1054.848, 45.2238, 91.083], rotation: 70.0 },
 ]
+const HOTEL_ROOM_FLOORS: number[] = Array.from(
+	{ length: ROOM_FLOORS_AMOUNT },
+	(_, i) => i + FIRST_ROOMS_FLOOR_INDEX,
+)
+
+export const FLOOR_HEIGHT: number = 4
+export const FIRST_ROOMS_FLOOR_INDEX: number = 4
 
 if (FIRST_FLOOR_SAFES.length !== ROOMS_PER_FLOOR)
 	throw new Error(`Safes count mismatch, expected ${ROOMS_PER_FLOOR}, got ${FIRST_FLOOR_SAFES.length}`)

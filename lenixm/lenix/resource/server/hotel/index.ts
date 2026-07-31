@@ -1,8 +1,10 @@
 import { sleep } from '@overextended/core/utils'
 import { GetPlayer } from '@overextended/ox_core/server'
 import { oxmysql } from '@overextended/oxmysql'
-import { getSafeById, HOTEL_ROOMS, HOTEL_SAFES, STARTER_DEPOSIT } from 'common/hotel'
+import { getSafeById, HOTEL_ROOMS, HOTEL_SAFES } from 'common/hotel'
 import type { Vector4 } from 'types/index'
+
+const STARTER_DEPOSIT = 5000
 
 const getTakenRooms = async () => {
 	const response = await oxmysql.query<{ room: number }[]>('SELECT `hotel_room` FROM `lenix`')
