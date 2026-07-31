@@ -12,6 +12,7 @@ const config: Record<string, UserConfig> = {
 		outputOptions: {
 			keepNames: true,
 			entryFileNames: '[name].js',
+			codeSplitting: false,
 		},
 		deps: {
 			skipNodeModulesBundle: false,
