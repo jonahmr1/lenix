@@ -51,12 +51,13 @@ export const TopScore = () => {
 
 	return (
 		<div
-			className="pointer-events-none absolute origin-top-left overflow-hidden [container-type:size]"
+			className="pointer-events-none absolute origin-bottom overflow-hidden [container-type:size]"
 			style={{
 				bottom: coords.bottom,
 				left: coords.left,
-				height: 260 / coords.scale,
-				width: 380 / coords.scale,
+				height: 260 * coords.scale,
+				width: 380 * coords.scale,
+				transform: 'translateX(-50%)',
 			}}
 		>
 			<section className="relative border-l-5 size-full overflow-hidden rounded-xs border-[0.12cqw] border-red-600/85 bg-black/50 p-[3.1cqw]">
