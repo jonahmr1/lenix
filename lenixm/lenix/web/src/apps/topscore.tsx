@@ -1,50 +1,6 @@
-import { Crown, Crosshair, Skull, Trophy, TrendingUp } from "lucide-react";
-import type { CSSProperties, ComponentType } from "react";
-
-type Stat = {
-	label: string;
-	value: string;
-	Icon: ComponentType<{ className?: string; strokeWidth?: number }>;
-};
-
-const topScores: {
-	rank: string;
-	player: {
-		name: string;
-		avatar: string;
-	};
-	stats: Stat[];
-}[] = [
-	{
-		rank: "1ST",
-		player: {
-			name: "Lenix",
-			avatar: "https://lenix.dev/favicon-light.svg",
-		},
-		stats: [
-			{
-				label: "KILLS",
-				value: "15",
-				Icon: Crosshair,
-			},
-			{
-				label: "DEATHS",
-				value: "3",
-				Icon: Skull,
-			},
-			{
-				label: "K/D RATIO",
-				value: "5.00",
-				Icon: Trophy,
-			},
-			{
-				label: "ACCURACY",
-				value: "42%",
-				Icon: TrendingUp,
-			},
-		] satisfies Stat[],
-	},
-]
+import { Crown, Crosshair, Skull, Award, ChartNoAxesCombined } from "lucide-react";
+import type { CSSProperties } from "react";
+import { entries } from '@lenix/lenix'
 
 export const TopScore = () => {
 	const frameStyle = {
@@ -61,7 +17,28 @@ export const TopScore = () => {
 			stats: {
 				kills: 15,
 				deaths: 3,
+				wins: 15,
+				kd: 5
 			}
+		},
+	}
+
+	const stats = {
+		kills: {
+			label: "KILLS",
+			icon: Crosshair,
+		},
+		deaths: {
+			label: "DEATHS",
+			icon: Skull,
+		},
+		wins: {
+			label: "WINS",
+			icon: Award,
+		},
+		kd: {
+			label: "K/D Ratio",
+			icon: ChartNoAxesCombined,
 		},
 	}
 
@@ -77,7 +54,7 @@ export const TopScore = () => {
 
 						<div className="flex items-baseline gap-[2.6cqw] font-[Syncopate] font-black uppercase italic tracking-normal">
 							<span className="text-[5.6cqw] leading-none text-red-600 drop-shadow-[0_0.24cqw_0_rgb(90_0_8_/_0.48)]">
-								{topScore.rank}
+								1ST
 							</span>
 							<span className="text-[4.15cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.55)]">
 								PLACE
@@ -90,7 +67,7 @@ export const TopScore = () => {
 					<div className="grid flex-1 grid-cols-[25%_1fr] items-center gap-[4.8cqw] px-[3.1cqw] py-[3.9cqw]">
 						<div className="aspect-square w-full overflow-hidden rounded-full border-[0.32cqw] border-red-600 bg-black shadow-[0_0_1.32cqw_rgb(220_20_38_/_0.28)]">
 							<img
-								src={topScore.player.avatar}
+								src={topScorers[1].avatar}
 								alt=""
 								className="size-full object-cover grayscale"
 							/>
@@ -98,7 +75,7 @@ export const TopScore = () => {
 
 						<div className="min-w-0 font-[Syncopate] uppercase tracking-normal">
 							<h2 className="truncate text-[7.15cqw] font-black leading-none text-white drop-shadow-[0_0.3cqw_0_rgb(0_0_0_/_0.58)]">
-								{topScore.player.name}
+								{topScorers[1].name}
 							</h2>
 						</div>
 					</div>
@@ -106,24 +83,27 @@ export const TopScore = () => {
 					<div className="h-px shrink-0 bg-white/18" />
 
 					<div className="grid h-[36.5%] shrink-0 grid-cols-4 gap-[2.35cqw] py-[2.2cqw]">
-						{topScore.stats.map(({ label, value, Icon }) => (
-							<div
-								key={label}
-								className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 px-[1.65cqw] text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
-							>
-								<Icon
-									className="mb-[1.45cqw] size-[5.7cqw] text-white/56 drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.42)]"
-								/>
+						{entries(topScorers[1].stats).map(([key, value]) => {
+							const Icon = stats[key].icon
+							return (
+								<div
+									key={key}
+									className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 px-[1.65cqw] text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
+								>
+									<Icon
+										className="mb-[1.45cqw] size-[5.7cqw] text-white/56 drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.42)]"
+									/>
 
-								<div className="font-[Syncopate] text-[2.05cqw] font-black uppercase leading-none text-white/60 drop-shadow-[0_0.18cqw_0_rgb(0_0_0_/_0.52)]">
-									{label}
-								</div>
+									<div className="font-[Syncopate] text-[2.05cqw] font-black uppercase leading-none text-white/60 drop-shadow-[0_0.18cqw_0_rgb(0_0_0_/_0.52)]">
+										{stats[key].label}
+									</div>
 
-								<div className="mt-[1.8cqw] font-[Syncopate] text-[4.6cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
-									{value}
+									<div className="mt-[1.8cqw] font-[Syncopate] text-[4.6cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
+										{value}
+									</div>
 								</div>
-							</div>
-						))}
+							)
+						})}
 					</div>
 				</div>
 			</section>
