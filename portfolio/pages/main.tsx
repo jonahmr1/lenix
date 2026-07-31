@@ -6,7 +6,6 @@ import { Footer } from '@/components/articles/footer'
 import { Quotes } from '@/components/articles/quote'
 import { DataProvider } from '@/lib/context'
 import { Timeline } from '@/components/articles/timeline'
-import { Business } from '@/components/articles/business'
 
 export const Main = () => (
 	<DataProvider>
@@ -22,7 +21,6 @@ export const Main = () => (
 					<Activity />
 					<Langs />
 				</div>
-				<Business />
 				<Timeline />
 				<div>
 					<Quotes />
