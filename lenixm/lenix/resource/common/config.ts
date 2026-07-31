@@ -1,7 +1,4 @@
-import { LoadFile } from './utils'
 import type { ClientScript, ServerScript } from 'types/dirs'
-
-const Config = LoadFile('public/config.json')
 
 export const ContextedScripts = [
 	'groups',
@@ -13,7 +10,8 @@ export const ContextedScripts = [
 	'hotel',
 	'roster',
 	'robbery',
-] as const satisfies (ClientScript & ServerScript)[]
+] as const satisfies readonly (ClientScript & ServerScript)[]
+
 export const ClientScripts = [
 	'crouch',
 	'rent',
@@ -28,7 +26,9 @@ export const ClientScripts = [
 	'elevators',
 	'handsup',
 	'settings',
-] as const satisfies Exclude<ClientScript, ServerScript>[]
-export const ServerScripts = ['appearance'] as const satisfies Exclude<ServerScript, ClientScript>[]
+] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 
-export default Config
+export const ServerScripts = [
+	'appearance',
+	'db',
+] as const satisfies readonly Exclude<ServerScript, ClientScript>[]

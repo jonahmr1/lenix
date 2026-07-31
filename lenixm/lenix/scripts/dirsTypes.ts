@@ -1,4 +1,4 @@
-import { mkdirSync, readdirSync, writeFileSync } from "fs"
+import { readdirSync, writeFileSync } from "fs"
 
 function folders(dir: string): string[] {
 	return readdirSync(dir, { withFileTypes: true })
@@ -14,10 +14,6 @@ function union(names: string[]): string {
 export function genDirsTypes() {
 	const client = folders('resource/client')
 	const server = folders('resource/server')
-	const common = folders('resource/common')
-	const scripts = [...new Set([...client, ...server, ...common])].sort()
-
-	mkdirSync('resource/generated', { recursive: true })
 
 	writeFileSync(
 		'types/dirs.d.ts',
@@ -26,8 +22,6 @@ export function genDirsTypes() {
 			'',
 			`export type ClientScript = ${union(client)}`,
 			`export type ServerScript = ${union(server)}`,
-			`export type CommonScript = ${union(common)}`,
-			`export type Script = ${union(scripts)}`,
 			'',
 		].join('\n'),
 		'utf8',
