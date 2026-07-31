@@ -37,7 +37,7 @@ export const TopScore = () => {
 			icon: Award,
 		},
 		kd: {
-			label: "K/D Ratio",
+			label: "K/D",
 			icon: ChartNoAxesCombined,
 		},
 	}

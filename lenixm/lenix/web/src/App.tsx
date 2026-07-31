@@ -3,7 +3,7 @@ import { Hud } from './apps/hud'
 import { Roster } from './apps/roster'
 import { TopScore } from './apps/topscore'
 
-export const DEV: boolean = true
+export const DEV: boolean = false
 
 export default () => {
 	document.documentElement.classList.add('dark')
