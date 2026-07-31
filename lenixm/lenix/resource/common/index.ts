@@ -8,14 +8,4 @@ if (Config.PrintMessage) {
 	console.log(message)
 }
 
-export const EnabledContextedScripts = [
-	'groups',
-	'prison',
-	'medical',
-	'cuffs',
-	'escort',
-	'interactions',
-	'hotel',
-	'roster',
-	'robbery',
-] as const satisfies readonly (ClientScript & ServerScript)[]
+export const EnabledContextedScripts = ['topscore'] as const satisfies readonly (ClientScript & ServerScript)[]
