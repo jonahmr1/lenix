@@ -16,7 +16,7 @@ function clamp(value: number, min: number, max: number) {
 
 function updateTopscoreCoords(coords: Vec4) {
 	const [x, y, z] = coords
-	const [visible, screenX, screenY] = GetScreenCoordFromWorldCoord(x, y, z + 1.15)
+	const [visible, screenX, screenY] = GetScreenCoordFromWorldCoord(x, y, z + 2.5)
 
 	if (!visible) {
 		emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {
