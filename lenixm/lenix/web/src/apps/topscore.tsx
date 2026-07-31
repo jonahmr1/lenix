@@ -7,7 +7,7 @@ import type { Events } from "types";
 export const TopScore = () => {
 	const [coords, setCoords] = useState<Events['updateTopscoreCoords']['1']['0']>({
 		left: 32,
-		top: 24,
+		bottom: 24,
 		scale: 1,
 	} satisfies CSSProperties)
 
@@ -53,7 +53,7 @@ export const TopScore = () => {
 		<div
 			className="pointer-events-none absolute origin-top-left overflow-hidden [container-type:size]"
 			style={{
-				top: coords.top,
+				bottom: coords.bottom,
 				left: coords.left,
 				height: 260 / coords.scale,
 				width: 380 / coords.scale,

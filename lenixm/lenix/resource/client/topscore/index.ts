@@ -21,7 +21,7 @@ function updateTopscoreCoords(coords: Vec4) {
 	if (!visible) {
 		emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {
 			scale: minScale,
-			top: -9999,
+			bottom: -9999,
 			left: -9999,
 		})
 		return
@@ -36,7 +36,7 @@ function updateTopscoreCoords(coords: Vec4) {
 
 	emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {
 		scale,
-		top: screenY * screenHeight,
+		bottom: screenY * screenHeight,
 		left: screenX * screenWidth,
 	})
 }

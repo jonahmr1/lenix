@@ -40,7 +40,7 @@ export interface Events {
 	refreshOfficers: Event<'roster:refreshOfficers', [Officers]>
 	updateTopscoreCoords: Event<'topscore:updateCoords', [{
 		scale: number
-		top: number
+		bottom: number
 		left: number
 	}]>
 }
@@ -68,21 +68,21 @@ export interface PlayerStorage {
 	timeSync: SyncConfig
 	timeValue: number
 	weatherType:
-		| 'CLEAR'
-		| 'EXTRASUNNY'
-		| 'CLOUDS'
-		| 'OVERCAST'
-		| 'RAIN'
-		| 'CLEARING'
-		| 'THUNDER'
-		| 'SMOG'
-		| 'FOGGY'
-		| 'XMAS'
-		| 'SNOW'
-		| 'SNOWLIGHT'
-		| 'BLIZZARD'
-		| 'HALLOWEEN'
-		| 'NEUTRAL'
-		| 'RAIN_HALLOWEEN'
-		| 'SNOW_HALLOWEEN'
+	| 'CLEAR'
+	| 'EXTRASUNNY'
+	| 'CLOUDS'
+	| 'OVERCAST'
+	| 'RAIN'
+	| 'CLEARING'
+	| 'THUNDER'
+	| 'SMOG'
+	| 'FOGGY'
+	| 'XMAS'
+	| 'SNOW'
+	| 'SNOWLIGHT'
+	| 'BLIZZARD'
+	| 'HALLOWEEN'
+	| 'NEUTRAL'
+	| 'RAIN_HALLOWEEN'
+	| 'SNOW_HALLOWEEN'
 }
