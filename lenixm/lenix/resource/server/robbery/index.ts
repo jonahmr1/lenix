@@ -1,8 +1,16 @@
-import { MIN_TEAMS_TO_START_ROBBERY, MISSION_PRICE } from 'common/robbery'
-import type { Team } from 'types/index'
+import { MISSION_PRICE } from 'common/robbery'
+import type { Team, Vector4 } from 'types/index'
 import { server } from 'lenix/server'
-import { random, VEHICLE_BLIP_UPDATE_INTERVAL, VEHICLE_COORDS, VEHICLE_MODEL } from 'common/robbery'
+import { random, VEHICLE_MODEL } from 'common/robbery'
 import { CreateVehicle, type OxVehicle } from '@overextended/ox_core/server'
+
+const VEHICLE_COORDS: Vector4[] = [
+	[-1209.2249, -1162.83, 7.6913, 13.5316],
+	[1070.0637, -233.9568, 69.6071, 253.4912],
+	[691.7452, -1726.9247, 29.278, 83.3026],
+]
+const MIN_TEAMS_TO_START_ROBBERY: number = 1
+const VEHICLE_BLIP_UPDATE_INTERVAL = 1000
 
 const notify = (
 	source: number,

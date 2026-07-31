@@ -1,4 +1,4 @@
-import type { Team } from 'types/index'
+import type { Team, Vector4 } from 'types/index'
 import {
 	alertDialog,
 	cache,
@@ -9,11 +9,15 @@ import {
 	showContext,
 	showTextUI,
 } from '@overextended/ox_lib/client'
-import { MISSION_PRICE, PED_COORDS } from 'common/robbery'
+import { MISSION_PRICE } from 'common/robbery'
 import { client, useTimer, getNearest } from 'lenix/client'
 import { notify, progressBar, requestModel } from '@overextended/ox_lib/client'
-import { DRILL_ITEM, PEDS_MODEL, VEHICLE_MODEL } from 'common/robbery'
+import { VEHICLE_MODEL } from 'common/robbery'
 import type { Vector3 } from 'types/index'
+
+const PEDS_MODEL = 'mp_s_m_armoured_01'
+const DRILL_ITEM = 'drill'
+const PED_COORDS: Vector4 = [16.1564, -615.8132, 31.7635, 260.847]
 
 let blip: number
 let inviteTick: number
