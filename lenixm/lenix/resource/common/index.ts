@@ -8,7 +8,7 @@ if (Config.PrintMessage) {
 	console.log(message)
 }
 
-export const ContextedScripts = [
+export const EnabledContextedScripts = [
 	'groups',
 	'prison',
 	'medical',
