@@ -1,5 +1,4 @@
-import 'common'
-import { ContextedScripts } from 'common/config'
+import { ContextedScripts } from 'common'
 import type { ClientScript, ServerScript } from 'types/dirs'
 
 const ClientScripts = [
