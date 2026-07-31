@@ -46,7 +46,7 @@ export const TopScore = () => {
 	useEffect(() => {
 		const off = onEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', setCoords)
 
-		return () => off()
+		return off
 	}, [])
 
 	return (
@@ -55,16 +55,16 @@ export const TopScore = () => {
 			style={{
 				top: coords.top,
 				left: coords.left,
-				height: 280 / coords.scale,
+				height: 260 / coords.scale,
 				width: 380 / coords.scale,
 			}}
 		>
-			<section className="relative border-l-5 size-full overflow-hidden rounded-xs border-[0.12cqw] border-red-600/85 bg-[#070b0f]/50 p-[3.1cqw]">
+			<section className="relative border-l-5 size-full overflow-hidden rounded-xs border-[0.12cqw] border-red-600/85 bg-black/50 p-[3.1cqw]">
 				<div className="relative z-10 flex h-full flex-col">
 					<header className="flex h-[17.2%] shrink-0 items-center gap-[3.2cqw] pb-[2.65cqw]">
 						<Crown className="size-[6.8cqw] fill-red-600 text-red-600 drop-shadow-[0_0_0.72cqw_rgb(220_20_38_/_0.45)]" />
 
-						<div className="flex items-baseline gap-[2.6cqw] font-[Syncopate] font-black uppercase italic tracking-normal">
+						<div className="flex items-baseline gap-[2.6cqw] font-black uppercase italic tracking-normal">
 							<span className="text-[5.6cqw] leading-none text-red-600 drop-shadow-[0_0.24cqw_0_rgb(90_0_8_/_0.48)]">
 								1ST
 							</span>
@@ -85,7 +85,7 @@ export const TopScore = () => {
 							/>
 						</div>
 
-						<div className="min-w-0 font-[Syncopate] uppercase tracking-normal">
+						<div className="min-w-0 uppercase tracking-normal">
 							<h2 className="truncate text-[7.15cqw] font-black leading-none text-white drop-shadow-[0_0.3cqw_0_rgb(0_0_0_/_0.58)]">
 								{topScorers[1].name}
 							</h2>
@@ -106,11 +106,11 @@ export const TopScore = () => {
 										className="mb-[1.45cqw] size-[5.7cqw] text-white/56 drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.42)]"
 									/>
 
-									<div className="font-[Syncopate] text-[2.05cqw] font-black uppercase leading-none text-white/60 drop-shadow-[0_0.18cqw_0_rgb(0_0_0_/_0.52)]">
+									<div className="text-[2.05cqw] font-black uppercase leading-none text-white/60 drop-shadow-[0_0.18cqw_0_rgb(0_0_0_/_0.52)]">
 										{stats[key].label}
 									</div>
 
-									<div className="mt-[1.8cqw] font-[Syncopate] text-[4.6cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
+									<div className="mt-[1.8cqw] text-[4.6cqw] leading-none font-black text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
 										{value}
 									</div>
 								</div>
