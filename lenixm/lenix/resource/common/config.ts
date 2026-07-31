@@ -1,4 +1,4 @@
-import Config from 'public/config.json'
+import { LoadFile } from "./utils";
 import type { ClientScript, ServerScript } from 'types/dirs'
 import type { Vector3 } from 'types/index'
 
@@ -90,4 +90,7 @@ export const HOTEL_SAFES: Record<number, Safe> = Object.fromEntries(
 export const getSafeById = (id: number) => `room:${id}`
 
 
-export default Config
+
+const Config = LoadFile("public/config.json");
+
+export default Config;
