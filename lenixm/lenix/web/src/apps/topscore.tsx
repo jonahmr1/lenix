@@ -7,17 +7,16 @@ type Stat = {
 	Icon: ComponentType<{ className?: string; strokeWidth?: number }>;
 };
 
-export const TopScore = () => {
-	const frameStyle = {
-		left: 32,
-		top: 24,
-		width: 380 / 1,
-		height: 280 / 1,
-	} satisfies CSSProperties;
-	
-	const topScore = {
+const topScores: {
+	rank: string;
+	player: {
+		name: string;
+		avatar: string;
+	};
+	stats: Stat[];
+}[] = [
+	{
 		rank: "1ST",
-		rankLabel: "PLACE",
 		player: {
 			name: "Lenix",
 			avatar: "https://lenix.dev/favicon-light.svg",
@@ -44,7 +43,27 @@ export const TopScore = () => {
 				Icon: TrendingUp,
 			},
 		] satisfies Stat[],
-	};
+	},
+]
+
+export const TopScore = () => {
+	const frameStyle = {
+		left: 32,
+		top: 24,
+		width: 380 / 1,
+		height: 280 / 1,
+	} satisfies CSSProperties;
+
+	const topScorers = {
+		1: {
+			name: 'Lenix',
+			avatar: "https://lenix.dev/favicon-light.svg",
+			stats: {
+				kills: 15,
+				deaths: 3,
+			}
+		},
+	}
 
 	return (
 		<div
@@ -61,7 +80,7 @@ export const TopScore = () => {
 								{topScore.rank}
 							</span>
 							<span className="text-[4.15cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.55)]">
-								{topScore.rankLabel}
+								PLACE
 							</span>
 						</div>
 					</header>
@@ -100,7 +119,7 @@ export const TopScore = () => {
 									{label}
 								</div>
 
-								<div className="mt-[1.8cqw] font-[Syncopate] text-[4.6cqw] font-black leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
+								<div className="mt-[1.8cqw] font-[Syncopate] text-[4.6cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
 									{value}
 								</div>
 							</div>
