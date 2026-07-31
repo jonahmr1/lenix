@@ -8,8 +8,7 @@ export const TopScore = () => {
 	const [coords, setCoords] = useState<Events['updateTopscoreCoords']['1']['0']>({
 		left: 32,
 		top: 24,
-		width: 1,
-		height: 1,
+		scale: 1,
 	} satisfies CSSProperties)
 
 	const topScorers = {
