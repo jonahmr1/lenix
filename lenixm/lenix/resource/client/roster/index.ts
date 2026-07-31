@@ -2,7 +2,7 @@ import { addKeybind, cache, inputDialog, notify } from '@overextended/ox_lib/cli
 import type { Events, Officers, PartialOfficer, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
 import { emitEvent, onNui } from 'lenix/client'
-import { MAX_CALLSIGN_LENGTH } from 'common/roster'
+import { MAX_CALLSIGN_LENGTH } from 'common/config'
 
 let visible: boolean = false
 let group: string

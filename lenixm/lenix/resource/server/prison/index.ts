@@ -1,7 +1,7 @@
 import { GetPlayer, type OxPlayer } from '@overextended/ox_core/server'
 import { addCommand, triggerClientCallback } from '@overextended/ox_lib/server'
 import { oxmysql } from '@overextended/oxmysql'
-import { INSIDE_COORDS } from 'common/prison'
+import { INSIDE_COORDS } from 'common/config'
 import type { Vector4 } from 'types/index'
 
 const OUTSIDE_COORDS: Vector4 = [1845.8193, 2585.856, 45.672, 269.8568]

@@ -1,8 +1,9 @@
-import { MISSION_PRICE } from 'common/robbery'
+import { MISSION_PRICE } from 'common/config'
 import type { Team, Vector4 } from 'types/index'
 import { server } from 'lenix/server'
-import { random, VEHICLE_MODEL } from 'common/robbery'
+import { VEHICLE_MODEL } from 'common/config'
 import { CreateVehicle, type OxVehicle } from '@overextended/ox_core/server'
+import { random } from '@lenix/lenix'
 
 const VEHICLE_COORDS: Vector4[] = [
 	[-1209.2249, -1162.83, 7.6913, 13.5316],

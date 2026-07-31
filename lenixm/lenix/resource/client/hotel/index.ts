@@ -1,5 +1,5 @@
 import { GetPlayer } from '@overextended/ox_core/client'
-import { getSafeById, HOTEL_SAFES } from 'common/hotel'
+import { getSafeById, HOTEL_SAFES } from 'common/config'
 
 const SAFE_SIZE = [1.66, 1.66, 1.66] as const
 

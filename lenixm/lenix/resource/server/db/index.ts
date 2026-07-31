@@ -1,5 +1,5 @@
 import { oxmysql } from '@overextended/oxmysql'
-import { MAX_CALLSIGN_LENGTH } from 'common/roster'
+import { MAX_CALLSIGN_LENGTH } from 'common/config'
 
 setImmediate(async () => {
 	const table = await oxmysql.query(`

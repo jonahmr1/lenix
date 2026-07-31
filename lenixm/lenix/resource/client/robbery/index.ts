@@ -9,10 +9,9 @@ import {
 	showContext,
 	showTextUI,
 } from '@overextended/ox_lib/client'
-import { MISSION_PRICE } from 'common/robbery'
+import { MISSION_PRICE, VEHICLE_MODEL } from 'common/config'
 import { client, useTimer, getNearest } from 'lenix/client'
 import { notify, progressBar, requestModel } from '@overextended/ox_lib/client'
-import { VEHICLE_MODEL } from 'common/robbery'
 import type { Vector3 } from 'types/index'
 
 const PEDS_MODEL = 'mp_s_m_armoured_01'

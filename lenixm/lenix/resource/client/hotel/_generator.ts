@@ -1,4 +1,4 @@
-import { FIRST_ROOMS_FLOOR_INDEX, FLOOR_HEIGHT } from 'common/hotel'
+import { FIRST_ROOMS_FLOOR_INDEX, FLOOR_HEIGHT } from 'common/config'
 
 interface DoorData {
 	coords: { x: number; y: number; z: number }

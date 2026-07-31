@@ -1,7 +1,7 @@
 import { sleep } from '@overextended/core/utils'
 import { GetPlayer } from '@overextended/ox_core/server'
 import { oxmysql } from '@overextended/oxmysql'
-import { getSafeById, HOTEL_ROOMS, HOTEL_SAFES } from 'common/hotel'
+import { getSafeById, HOTEL_ROOMS, HOTEL_SAFES } from 'common/config'
 import type { Vector4 } from 'types/index'
 
 const STARTER_DEPOSIT = 5000
