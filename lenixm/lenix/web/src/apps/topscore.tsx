@@ -55,8 +55,8 @@ export const TopScore = () => {
 			style={{
 				bottom: coords.bottom,
 				left: coords.left,
-				height: 260 * coords.scale,
-				width: 380 * coords.scale,
+				height: 160 * coords.scale,
+				width: 280 * coords.scale,
 				transform: 'translateX(-50%)',
 			}}
 		>

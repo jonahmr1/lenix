@@ -36,7 +36,7 @@ function updateTopscoreCoords(coords: Vec4) {
 
 	emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {
 		scale,
-		bottom: (1 - screenY) * screenHeight,
+		bottom: screenY * screenHeight,
 		left: screenX * screenWidth,
 	})
 }
