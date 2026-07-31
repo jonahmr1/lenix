@@ -1,14 +1,16 @@
 import { Crown, Crosshair, Skull, Award, ChartNoAxesCombined } from "lucide-react";
-import type { CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { entries } from '@lenix/lenix'
+import { onEvent } from "lenix/nui";
+import type { Events } from "types";
 
 export const TopScore = () => {
-	const frameStyle = {
+	const [coords, setCoords] = useState<Events['updateTopscoreCoords']['1']['0']>({
 		left: 32,
 		top: 24,
-		width: 380 / 1,
-		height: 280 / 1,
-	} satisfies CSSProperties;
+		width: 1,
+		height: 1,
+	} satisfies CSSProperties)
 
 	const topScorers = {
 		1: {
@@ -42,12 +44,23 @@ export const TopScore = () => {
 		},
 	}
 
+	useEffect(() => {
+		const off = onEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', setCoords)
+
+		return () => off()
+	}, [])
+
 	return (
 		<div
 			className="pointer-events-none absolute origin-top-left overflow-hidden [container-type:size]"
-			style={frameStyle}
+			style={{
+				top: coords.top,
+				left: coords.left,
+				height: 280 / coords.scale,
+				width: 380 / coords.scale,
+			}}
 		>
-			<section className="relative border-l-5 size-full overflow-hidden rounded-xs border-[0.12cqw] border-red-600/85 bg-[#070b0f]/86 p-[3.1cqw] shadow-[inset_0_0_4.8cqw_rgb(255_255_255_/_0.035),0_0_1.6cqw_rgb(220_20_38_/_0.18)] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_68%_26%,rgb(255_255_255_/_0.07),transparent_18%),radial-gradient(circle_at_22%_78%,rgb(46_134_171_/_0.08),transparent_24%)] before:opacity-90">
+			<section className="relative border-l-5 size-full overflow-hidden rounded-xs border-[0.12cqw] border-red-600/85 bg-[#070b0f]/50 p-[3.1cqw]">
 				<div className="relative z-10 flex h-full flex-col">
 					<header className="flex h-[17.2%] shrink-0 items-center gap-[3.2cqw] pb-[2.65cqw]">
 						<Crown className="size-[6.8cqw] fill-red-600 text-red-600 drop-shadow-[0_0_0.72cqw_rgb(220_20_38_/_0.45)]" />

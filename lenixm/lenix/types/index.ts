@@ -38,6 +38,11 @@ export interface Events {
 	updateHudReserve: Event<'hud:update:reserve', [string]>
 	addOfficer: Event<'roster:addOfficer', [Officer]>
 	refreshOfficers: Event<'roster:refreshOfficers', [Officers]>
+	updateTopscoreCoords: Event<'topscore:updateCoords', [{
+		scale: number
+		top: number
+		left: number
+	}]>
 }
 
 export interface Requests {
