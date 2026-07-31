@@ -1,6 +1,22 @@
 import 'common'
+import { ContextedScripts } from 'common/config'
+import type { ClientScript, ServerScript } from 'types/dirs'
 
-import { ClientScripts, ContextedScripts } from 'common/config'
+const ClientScripts = [
+	'crouch',
+	'rent',
+	'safezones',
+	'crouch',
+	'tick',
+	'radialmenu',
+	'identities',
+	'weather',
+	'hud',
+	'radio',
+	'elevators',
+	'handsup',
+	'settings',
+] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 
 for (const script of [...ClientScripts, ...ContextedScripts]) {
 	import(script)
