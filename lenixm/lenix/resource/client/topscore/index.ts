@@ -1,3 +1,8 @@
 import { triggerServerCallback } from "@overextended/ox_lib/client";
 
-console.debug(await triggerServerCallback('lenix:server:topscore:getData', null))
+setImmediate(async () => {
+	const ret = await triggerServerCallback('lenix:server:topscore:getData', null)
+	const t = [-262.79, -964.18, 30.22, 181.71]
+
+	console.debug(ret)
+})

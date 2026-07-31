@@ -2,7 +2,6 @@ import { onClientCallback } from "@overextended/ox_lib/server"
 
 const getData = () => {
 	const players = globalThis.exports['qb-core'].GetCoreObject().Functions.GetQBPlayers()
-	console.debug(players)
 
 	return players.map(player => {
 		console.debug(player)
@@ -16,7 +15,7 @@ const getData = () => {
 let players = getData()
 
 setInterval(() => {
-	players = getData()
+	// players = getData()
 }, 60_000)
 
 onClientCallback('lenix:server:topscore:getData', () => players)
