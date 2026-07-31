@@ -18,5 +18,5 @@ const ClientScripts = [
 ] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 
 for (const script of [...ClientScripts, ...ContextedScripts]) {
-	import(script)
+	import(`./${script}`)
 }
