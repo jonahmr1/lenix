@@ -1,17 +1,12 @@
 import 'common'
-import './groups'
-import './prison'
-import './medical'
-import './cuffs'
-import './escort'
-import './interactions'
-import './hotel'
-import './roster'
-import './robbery'
-import './appearance'
+
 import { oxmysql } from '@overextended/oxmysql'
 import { MAX_CALLSIGN_LENGTH } from 'common/roster'
+import { ContextedScripts, ServerScripts } from 'common/config'
 
+for (const script of [...ServerScripts, ...ContextedScripts]) {
+	import(script)
+}
 setImmediate(async () => {
 	const table = await oxmysql.query(`
 		CREATE TABLE IF NOT EXISTS lenix (

@@ -1,22 +1,7 @@
 import 'common'
-import './radialmenu'
-import './rent'
-import './medical'
-import './safezones'
-import './crouch'
-import './tick'
-import './groups'
-import './prison'
-import './identities'
-import './cuffs'
-import './escort'
-import './interactions'
-import './weather'
-import './hud'
-import './hotel'
-import './radio'
-import './elevators'
-import './roster'
-import './robbery'
-import './handsup'
-import './settings'
+
+import { ClientScripts, ContextedScripts } from 'common/config'
+
+for (const script of [...ClientScripts, ...ContextedScripts]) {
+	import(script)
+}

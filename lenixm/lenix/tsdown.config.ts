@@ -1,5 +1,8 @@
 import { defineConfig, type UserConfig } from 'tsdown'
 import postBuild from './scripts/postBuild.ts'
+import { genDirsTypes } from './scripts/dirsTypes.ts'
+
+genDirsTypes()
 
 const config: Record<string, UserConfig> = {
 	resource: {
