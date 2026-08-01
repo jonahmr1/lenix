@@ -6,9 +6,9 @@ import type { Events } from "types/index";
 const screenResolution = GetActiveScreenResolution()
 const screenWidth = screenResolution[0] ?? 1920
 const screenHeight = screenResolution[1] ?? 1080
-const minScale = 0.42
-const maxScale = 1
-const maxDistance = 10
+const minScale = 1.22
+const maxScale = 3
+const maxDistance = 5
 
 function clamp(value: number, min: number, max: number) {
 	return Math.min(Math.max(value, min), max)
