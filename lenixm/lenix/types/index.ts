@@ -38,11 +38,20 @@ export interface Events {
 	updateHudReserve: Event<'hud:update:reserve', [string]>
 	addOfficer: Event<'roster:addOfficer', [Officer]>
 	refreshOfficers: Event<'roster:refreshOfficers', [Officers]>
-	updateTopscoreCoords: Event<'topscore:updateCoords', [{
+	updateTopscoreData: Event<'topscore:updateData', [Record<1 | 2 | 3, {
 		scale: number
 		bottom: number
 		left: number
-	}]>
+		visible: boolean
+		name: string
+		avatar: string
+		stats: {
+			kills: number
+			deaths: number
+			wins: number
+			kd: number
+		}
+	}>]>
 }
 
 export interface Requests {
@@ -85,4 +94,8 @@ export interface PlayerStorage {
 	| 'NEUTRAL'
 	| 'RAIN_HALLOWEEN'
 	| 'SNOW_HALLOWEEN'
+}
+
+export interface TopscoreData {
+	
 }

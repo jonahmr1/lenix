@@ -1,12 +1,12 @@
 import { triggerServerCallback } from "@overextended/ox_lib/client";
 import type { Vec4 } from "lenix";
 import { emitEvent } from "lenix/client";
-import type { Events } from "types/index";
+import type { Events, TopscoreData } from "types/index";
 
 const screenResolution = GetActiveScreenResolution()
 const screenWidth = screenResolution[0] ?? 1920
 const screenHeight = screenResolution[1] ?? 1080
-const minScale = 1.22
+const minScale: number = 1.22
 const maxScale = 3
 const maxDistance = 5
 
@@ -24,26 +24,31 @@ function updateTopscoreCoords(coords: Vec4) {
 	const playerZ = playerCoords[2] ?? 0
 	const distance = GetDistanceBetweenCoords(playerX, playerY, playerZ, x, y, z, true)
 
+	const
+		bottom = screenHeight - screenY * screenHeight,
+		left = screenX * screenWidth
 	if (!visible || distance > maxDistance) {
-		emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {
+		emitEvent<Events['updateTopscoreData']>('topscore:updateData', {
 			scale: minScale,
-			bottom: -9999,
-			left: -9999,
+			bottom,
+			left,
+			visible: false
 		})
 		return
 	}
 
 	const scale = clamp(1 - distance / maxDistance, minScale, maxScale)
 
-	emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {
+	emitEvent<Events['updateTopscoreData']>('topscore:updateData', {
 		scale,
-		bottom: screenHeight - screenY * screenHeight,
-		left: screenX * screenWidth,
+		bottom,
+		left,
+		visible: true
 	})
 }
 
 setImmediate(async () => {
-	await triggerServerCallback('lenix:server:topscore:getData', null)
+	const data = await triggerServerCallback<TopscoreData>('lenix:server:topscore:getData', null)
 	const coords: Vec4 = [-262.79, -964.18, 30.22, 181.71]
 
 	setTick(() => updateTopscoreCoords(coords))
