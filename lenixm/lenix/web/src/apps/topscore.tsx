@@ -1,5 +1,5 @@
-import { Crown, Crosshair, Skull, Award, ChartNoAxesCombined } from "lucide-react";
-import { Fragment, useEffect, useState } from "react";
+import { Crown, Crosshair, Skull, Award, ChartNoAxesCombined, Medal } from "lucide-react";
+import { createElement, Fragment, useEffect, useState } from "react";
 import { entries } from '@lenix/lenix'
 import { onEvent } from "lenix/nui";
 import type { Events } from "types";
@@ -56,25 +56,25 @@ export const TopScore = () => {
 				label: '1ST',
 				Icon: Crown,
 				styles: {
-					icon: 'fill-yellow-400 text-yellow-400 drop-shadow-[0_0_0.72cqw_rgb(250_204_21_/_0.55)]',
+					icon: 'text-yellow-400 drop-shadow-[0_0_0.72cqw_rgb(250_204_21_/_0.55)]',
 					rank: 'text-yellow-400 drop-shadow-[0_0.24cqw_0_rgb(120_80_0_/_0.5)]',
 					border: 'border-yellow-400 drop-shadow-[0_0_1cqw_rgb(250_204_21_/_0.75)]'
 				}
 			},
 			2: {
 				label: '2ND',
-				Icon: Crown,
+				Icon: Award,
 				styles: {
-					icon: 'fill-slate-300 text-slate-300 drop-shadow-[0_0_0.72cqw_rgb(203_213_225_/_0.55)]',
+					icon: 'text-slate-300 drop-shadow-[0_0_0.72cqw_rgb(203_213_225_/_0.55)]',
 					rank: 'text-slate-300 drop-shadow-[0_0.24cqw_0_rgb(71_85_105_/_0.5)]',
 					border: 'border-slate-300 drop-shadow-[0_0_1cqw_rgb(203_213_225_/_0.75)]'
 				}
 			},
 			3: {
 				label: '3RD',
-				Icon: Crown,
+				Icon: Medal,
 				styles: {
-					icon: 'fill-[#cd7f32] text-[#cd7f32] drop-shadow-[0_0_0.72cqw_rgb(205_127_50_/_0.55)]',
+					icon: 'text-[#cd7f32] drop-shadow-[0_0_0.72cqw_rgb(205_127_50_/_0.55)]',
 					rank: 'text-[#cd7f32] drop-shadow-[0_0.24cqw_0_rgb(92_45_12_/_0.5)]',
 					border: 'border-[#cd7f32] drop-shadow-[0_0_1cqw_rgb(205_127_50_/_0.75)]'
 				}
@@ -125,7 +125,9 @@ export const TopScore = () => {
 						<div className="absolute -bottom-[1.2cqw] -right-[1.2cqw] h-[12cqw] w-[12cqw] border-b-[1.1cqw] border-r-[1.1cqw] border-red-600 drop-shadow-[0_0_1cqw_rgb(220_20_38_/_0.75)]" />
 						<div className="relative z-10 flex h-full flex-col pb-2">
 							<header className="flex h-[17.2%] shrink-0 items-center gap-[3.2cqw] pb-[2.65cqw]">
-								<stats.ranks[rank].Icon className={`size-[6.8cqw] ${stats.ranks[rank].styles.icon}`} />
+								{createElement(stats.ranks[rank].Icon, {
+									className: `size-[6.8cqw] ${stats.ranks[rank].styles.icon}`,
+								})}
 
 								<div className="flex items-baseline gap-[2.6cqw] font-black uppercase italic tracking-normal">
 									<span className={`text-[5.6cqw] leading-none ${stats.ranks[rank].styles.rank}`}>
