@@ -1,6 +1,6 @@
 import { cache } from '@overextended/ox_lib'
 import type { Events } from 'types/index'
-import { emitEvent } from 'lenix/client'
+import { emitEvent, pool } from 'lenix/client'
 
 type OxWeapon =
 	| {
@@ -29,7 +29,7 @@ const updateClip = (weapon: number) => updateHud('clip', GetAmmoInClip(cache.ped
 
 const updateReserve = (reserve: string) => updateHud('reserve', reserve)
 
-export const setHudState = () => {
+const setHudState = () => {
 	const weapon = GetSelectedPedWeapon(cache.ped)
 	const hasWeapon = GetMaxAmmo(cache.ped, weapon)[1] > 0
 
@@ -56,3 +56,7 @@ on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
 })
 
 onNet('ox:startCharacterSelect', () => toggleHud(false))
+
+pool(() => {
+	setHudState()
+})

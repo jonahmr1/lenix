@@ -15,7 +15,6 @@ for (const script of [...EnabledClientScripts, ...EnabledContextedScripts]) {
 		rent: () => import('./rent'),
 		safezones: () => import('./safezones'),
 		settings: () => import('./settings'),
-		tick: () => import('./tick'),
 		weather: () => import('./weather'),
 
 		cuffs: () => import('./cuffs'),
@@ -31,3 +30,18 @@ for (const script of [...EnabledClientScripts, ...EnabledContextedScripts]) {
 	} satisfies Record<ClientScript, () => Promise<unknown>>
 	modules[script]()
 }
+
+setTick(() => {
+	SetParkedVehicleDensityMultiplierThisFrame(0.0)
+	SetVehicleDensityMultiplierThisFrame(0.0)
+	SetRandomVehicleDensityMultiplierThisFrame(0.0)
+	SetPedDensityMultiplierThisFrame(0.0)
+	SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
+
+	SetPedStealthMovement(PlayerPedId(), false, 'nil')
+
+	// disable shuffle
+	SetPedConfigFlag(PlayerPedId(), 184, true)
+
+	DisplayAmmoThisFrame(false)
+})

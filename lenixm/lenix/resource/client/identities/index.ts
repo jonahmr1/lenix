@@ -1,4 +1,5 @@
 import { addKeybind, cache } from '@overextended/ox_lib/client'
+import { pool } from 'lenix/client'
 import type { Vector3 } from 'types'
 
 let shown = false
@@ -49,7 +50,7 @@ const drawText3D = ({
 	ClearDrawOrigin()
 }
 
-export const displayIdentities = () => {
+const displayIdentities = () => {
 	if (!shown) return
 	const players = GetActivePlayers()
 
@@ -79,3 +80,7 @@ export const displayIdentities = () => {
 		})
 	}
 }
+
+pool(() => {
+	displayIdentities()
+})

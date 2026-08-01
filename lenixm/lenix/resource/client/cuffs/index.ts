@@ -1,4 +1,4 @@
-import { client, getNearest } from 'lenix/client'
+import { client, getNearest, pool } from 'lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
 
@@ -63,7 +63,7 @@ const gettingCuffedAnimation = async (playerId: number) => {
 	client.entity.stopAnim(cache.ped, 'mp_arrest_paired')
 }
 
-export const setCuffs = async () => {
+const setCuffs = async () => {
 	if (!isCuffed) return
 
 	DisableAllControlActions(0)
@@ -108,4 +108,8 @@ onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 		ClearPedTasks(cache.ped)
 		client.entity.stopAnim(cache.ped, 'mp_arresting')
 	}
+})
+
+pool(() => {
+	setCuffs()
 })
