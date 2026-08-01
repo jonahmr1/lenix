@@ -5,50 +5,7 @@ import { onEvent } from "lenix/nui";
 import type { Events } from "types";
 
 export const TopScore = () => {
-	const [scores, setScores] = useState<Events['updateTopscoreData']['1']['0']>({
-		1: {
-			left: 232,
-			bottom: 24,
-			scale: 1,
-			visible: true,
-			name: 'Dev',
-			avatar: "https://lenix.dev/favicon.svg",
-			stats: {
-				kills: 15,
-				deaths: 3,
-				wins: 15,
-				kd: 5
-			}
-		},
-		2: {
-			left: 532,
-			bottom: 24,
-			scale: 1,
-			visible: true,
-			name: 'Lenix',
-			avatar: "https://lenix.dev/favicon-light.svg",
-			stats: {
-				kills: 15,
-				deaths: 3,
-				wins: 15,
-				kd: 5
-			}
-		},
-		3: {
-			left: 832,
-			bottom: 24,
-			scale: 1,
-			visible: true,
-			name: 'Fahah',
-			avatar: "https://lenix.dev/favicon-dark.svg",
-			stats: {
-				kills: 15,
-				deaths: 3,
-				wins: 15,
-				kd: 5
-			}
-		},
-	})
+	const [scores, setScores] = useState<Events['updateTopscoreData']['1']['0']>()
 
 	const stats = {
 		ranks: {
@@ -103,6 +60,8 @@ export const TopScore = () => {
 
 		return off
 	}, [])
+	
+	if (!scores) return
 
 	return (
 		<Fragment>
@@ -154,7 +113,7 @@ export const TopScore = () => {
 									<h2 className="truncate text-[7.15cqw] font-black leading-none text-white drop-shadow-[0_0.3cqw_0_rgb(0_0_0_/_0.58)]">
 										{data.name}
 									</h2>
-									<p className="text-[10px] text-white/66">ID: 67</p>
+									<p className="text-[10px] text-white/66">ID: {data.id}</p>
 								</div>
 							</div>
 

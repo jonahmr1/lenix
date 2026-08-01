@@ -51,6 +51,7 @@ export interface Events {
 			wins: number
 			kd: number
 		}
+		id: number
 	}>]>
 }
 
@@ -97,5 +98,8 @@ export interface PlayerStorage {
 }
 
 export interface TopscoreData {
-	
+	wins: number;
+	deaths: number;
+	kills: number;
+	kd: number
 }
