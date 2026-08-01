@@ -106,9 +106,13 @@ export const TopScore = () => {
 							return (
 								<div
 									key={key}
-									className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 gap-1 text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
+									className="relative flex min-h-0 flex-col items-center justify-center overflow-visible rounded-[0.48cqw] bg-[#080d12]/72 gap-1 text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
 								>
-									<div className="gap-0.5 flex flex-col items-center">
+									<div className="absolute -left-[0.45cqw] -top-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-l-[0.45cqw] border-t-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
+									<div className="absolute -right-[0.45cqw] -top-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-r-[0.45cqw] border-t-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
+									<div className="absolute -bottom-[0.45cqw] -left-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-b-[0.45cqw] border-l-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
+									<div className="absolute -bottom-[0.45cqw] -right-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-b-[0.45cqw] border-r-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
+									<div className="relative z-10 gap-0.5 flex flex-col items-center">
 										<Icon
 											className="size-[5.7cqw] text-white/56 drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.42)]"
 										/>
@@ -118,7 +122,7 @@ export const TopScore = () => {
 										</div>
 									</div>
 
-									<div className="text-[4.6cqw] leading-none font-black text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
+									<div className="relative z-10 text-[4.6cqw] leading-none font-black text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
 										{value}
 									</div>
 								</div>
