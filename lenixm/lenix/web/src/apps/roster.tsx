@@ -2,10 +2,45 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { useEffect, useState } from 'react'
 import type { Events, Officers, OfficerUpdates, Requests } from 'types'
-import { Officer } from './officer'
 import { DEV } from '@/App'
 import { Frown } from 'lucide-react'
 import { focus, onEvent, triggerNui } from 'lenix/nui'
+import { Badge } from '@/components/ui/badge'
+import { AudioLines } from 'lucide-react'
+import type { DutyState, Officer as IOfficer, TalkState } from 'types'
+
+const TalkStates: Record<TalkState, string> = {
+	on: 'text-blue-400',
+	off: 'text-gray-500',
+}
+
+const DutyStates: Record<DutyState, string> = {
+	on: 'bg-green-500',
+	off: 'bg-red-500',
+	break: 'bg-orange-500',
+}
+
+const Officer = ({ callsign, name, duty_state, talk_state }: IOfficer) => (
+	<div className='w-full min-h-1/10 flex justify-around items-center'>
+		<div className='flex-3 flex gap-3'>
+			<div>
+				<Badge className={`size-3 rounded-full p-0 ${DutyStates[duty_state]}`} />
+			</div>
+			<div className='text-white/70 whitespace-nowrap font-extralight'>{callsign}</div>
+		</div>
+		<div className='py-1 flex-1 flex justify-center'>
+			<Separator orientation='vertical' className='h-4 bg-gray-600' />
+		</div>
+		<div className='flex-8 flex justify-between'>
+			<div className='text-white text-left'>{name}</div>
+			<Badge className='hidden'>
+				{/* TODO */}
+				<AudioLines className={`${TalkStates[talk_state]}`} />
+			</Badge>
+		</div>
+	</div>
+)
+
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)
