@@ -138,8 +138,15 @@ export const client = {
 		},
 
 		/*  */
-		coords(excludeH?: true, isAlive?: boolean) {
-			return client.entity.coords(this.entity(), excludeH, isAlive)
+		coords<T extends true | undefined = undefined>(
+			excludeH?: T,
+			isAlive?: boolean
+		): T extends true ? Vec3 : Vec4 {
+			return (
+				excludeH === true
+					? client.entity.coords(this.entity(), true, isAlive)
+					: client.entity.coords(this.entity(), false, isAlive)
+			) as T extends true ? Vec3 : Vec4;
 		},
 
 		/*  */
