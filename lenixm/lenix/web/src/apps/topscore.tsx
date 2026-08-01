@@ -101,7 +101,7 @@ export const TopScore = () => {
 							return (
 								<div
 									key={key}
-									className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 gap-1.5 text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
+									className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 gap-1 text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
 								>
 									<div className="gap-0.5 flex flex-col items-center">
 										<Icon
