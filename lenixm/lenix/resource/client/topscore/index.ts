@@ -1,7 +1,7 @@
 import { entries } from "@lenix/lenix";
 import { triggerServerCallback } from "@overextended/ox_lib/client";
 import type { Vec3 } from "lenix";
-import { client, emitEvent } from "lenix/client";
+import { client, emitEvent, pool } from "lenix/client";
 import type { Events, TopscoreContextData, TopscoreData } from "types/index";
 
 const screenResolution = GetActiveScreenResolution()
@@ -22,7 +22,7 @@ setInterval(async () => {
 	players = await triggerServerCallback<TopscoreContextData>('lenix:server:topscore:getData', 60_000)
 }, 60_000)
 
-setTick(() => {
+pool(() => {
 	if (!players) return
 
 	const playerCoords = client.player.coords(true)
