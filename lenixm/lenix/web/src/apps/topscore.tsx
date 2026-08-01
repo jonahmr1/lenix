@@ -90,6 +90,7 @@ export const TopScore = () => {
 							<h2 className="truncate text-[7.15cqw] font-black leading-none text-white drop-shadow-[0_0.3cqw_0_rgb(0_0_0_/_0.58)]">
 								{topScorers[1].name}
 							</h2>
+							<p className="text-[8px] text-white/66">ID: 67</p>
 						</div>
 					</div>
 
