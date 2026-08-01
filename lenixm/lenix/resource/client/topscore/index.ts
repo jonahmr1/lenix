@@ -18,7 +18,13 @@ function updateTopscoreCoords(coords: Vec4) {
 	const [x, y, z] = coords
 	const [visible, screenX, screenY] = GetScreenCoordFromWorldCoord(x, y, z + 0.5)
 
-	if (!visible) {
+	const playerCoords = GetEntityCoords(PlayerPedId(), false)
+	const playerX = playerCoords[0] ?? 0
+	const playerY = playerCoords[1] ?? 0
+	const playerZ = playerCoords[2] ?? 0
+	const distance = GetDistanceBetweenCoords(playerX, playerY, playerZ, x, y, z, true)
+
+	if (!visible || distance > maxDistance) {
 		emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {
 			scale: minScale,
 			bottom: -9999,
@@ -27,11 +33,6 @@ function updateTopscoreCoords(coords: Vec4) {
 		return
 	}
 
-	const playerCoords = GetEntityCoords(PlayerPedId(), false)
-	const playerX = playerCoords[0] ?? 0
-	const playerY = playerCoords[1] ?? 0
-	const playerZ = playerCoords[2] ?? 0
-	const distance = GetDistanceBetweenCoords(playerX, playerY, playerZ, x, y, z, true)
 	const scale = clamp(1 - distance / maxDistance, minScale, maxScale)
 
 	emitEvent<Events['updateTopscoreCoords']>('topscore:updateCoords', {

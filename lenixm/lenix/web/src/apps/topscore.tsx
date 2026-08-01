@@ -6,7 +6,7 @@ import type { Events } from "types";
 
 export const TopScore = () => {
 	const [coords, setCoords] = useState<Events['updateTopscoreCoords']['1']['0']>({
-		left: 32,
+		left: 232,
 		bottom: 24,
 		scale: 1,
 	} satisfies CSSProperties)
@@ -55,8 +55,8 @@ export const TopScore = () => {
 			style={{
 				bottom: coords.bottom,
 				left: coords.left,
-				height: 180 * coords.scale,
-				width: 280 * coords.scale,
+				height: 130 * coords.scale,
+				width: 210 * coords.scale,
 				transform: 'translateX(-50%)',
 			}}
 		>
@@ -77,7 +77,7 @@ export const TopScore = () => {
 
 					<div className="h-px shrink-0 bg-white/18" />
 
-					<div className="grid flex-1 grid-cols-[20%_1fr] items-center gap-[4.8cqw] px-[3.1cqw] py-[3.9cqw]">
+					<div className="grid flex-1 grid-cols-[20%_1fr] items-center gap-[4.8cqw] px-[3.1cqw] py-[2.9cqw]">
 						<div className="aspect-square w-full overflow-hidden rounded-full border-[0.32cqw] border-red-600 bg-black shadow-[0_0_1.32cqw_rgb(220_20_38_/_0.28)]">
 							<img
 								src={topScorers[1].avatar}
