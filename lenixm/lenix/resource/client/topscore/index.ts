@@ -16,7 +16,7 @@ function clamp(value: number, min: number, max: number) {
 
 function updateTopscoreCoords(coords: Vec4) {
 	const [x, y, z] = coords
-	const [visible, screenX, screenY] = GetScreenCoordFromWorldCoord(x, y, z + 0.5)
+	const [visible, screenX, screenY] = GetScreenCoordFromWorldCoord(x, y, z + 2.0)
 
 	const playerCoords = GetEntityCoords(PlayerPedId(), false)
 	const playerX = playerCoords[0] ?? 0
