@@ -108,8 +108,8 @@ export const TopScore = () => {
 									key={key}
 									className="relative flex min-h-0 flex-col items-center justify-center overflow-visible rounded-[0.48cqw] bg-[#080d12]/72 gap-1 text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
 								>
-									<div className="absolute -left-[0.45cqw] -top-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-l-[0.45cqw] border-t-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
-									<div className="absolute -right-[0.45cqw] -top-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-r-[0.45cqw] border-t-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
+									<div className="absolute -left-[0.45cqw] -top-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-l-[0.45cqw] border-t-[0.45cqw] border-yellow-400 drop-shadow-[0_0_0.45cqw_rgb(250_204_21_/_0.7)]" />
+									<div className="absolute -right-[0.45cqw] -top-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-r-[0.45cqw] border-t-[0.45cqw] border-yellow-400 drop-shadow-[0_0_0.45cqw_rgb(250_204_21_/_0.7)]" />
 									<div className="absolute -bottom-[0.45cqw] -left-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-b-[0.45cqw] border-l-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
 									<div className="absolute -bottom-[0.45cqw] -right-[0.45cqw] h-[3.8cqw] w-[3.8cqw] border-b-[0.45cqw] border-r-[0.45cqw] border-red-600 drop-shadow-[0_0_0.45cqw_rgb(220_20_38_/_0.7)]" />
 									<div className="relative z-10 gap-0.5 flex flex-col items-center">
