@@ -67,10 +67,10 @@ export const TopScore = () => {
 				<div className="absolute -bottom-[1.2cqw] -right-[1.2cqw] h-[12cqw] w-[12cqw] border-b-[1.1cqw] border-r-[1.1cqw] border-red-600 drop-shadow-[0_0_1cqw_rgb(220_20_38_/_0.75)]" />
 				<div className="relative z-10 flex h-full flex-col pb-2">
 					<header className="flex h-[17.2%] shrink-0 items-center gap-[3.2cqw] pb-[2.65cqw]">
-						<Crown className="size-[6.8cqw] fill-red-600 text-red-600 drop-shadow-[0_0_0.72cqw_rgb(220_20_38_/_0.45)]" />
+						<Crown className="size-[6.8cqw] fill-yellow-400 text-yellow-400 drop-shadow-[0_0_0.72cqw_rgb(250_204_21_/_0.55)]" />
 
 						<div className="flex items-baseline gap-[2.6cqw] font-black uppercase italic tracking-normal">
-							<span className="text-[5.6cqw] leading-none text-red-600 drop-shadow-[0_0.24cqw_0_rgb(90_0_8_/_0.48)]">
+							<span className="text-[5.6cqw] leading-none text-yellow-400 drop-shadow-[0_0.24cqw_0_rgb(120_80_0_/_0.5)]">
 								1ST
 							</span>
 							<span className="text-[4.15cqw] leading-none text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.55)]">
