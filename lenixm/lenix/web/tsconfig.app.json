@@ -9,7 +9,9 @@
 		"skipLibCheck": true,
 		"paths": {
 			"@/*": ["./src/*"],
-			"types": ["../types"]
+			"types/*": ["../types/*"],
+			"types": ["../types"],
+			"common": ["../resource/common/index.ts"]
 		},
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -25,5 +27,5 @@
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src", "../types"]
+	"include": ["src", "../resource/common/index.ts", "../types"]
 }
