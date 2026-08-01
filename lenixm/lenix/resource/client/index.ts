@@ -1,9 +1,7 @@
-import { EnabledContextedScripts } from 'common'
-import type { ClientScript, ServerScript } from 'types/dirs'
+import { EnabledClientScripts } from 'common'
+import type { ClientScript } from 'types/dirs'
 
-const EnabledClientScripts = [] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
-
-for (const script of [...EnabledClientScripts, ...EnabledContextedScripts]) {
+for (const script of EnabledClientScripts) {
 	const modules = {
 		crouch: () => import('./crouch'),
 		elevators: () => import('./elevators'),
