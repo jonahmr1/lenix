@@ -4,7 +4,7 @@ import Locale from './locale'
 import type { ClientScript, ServerScript } from 'types/dirs'
 
 if (Config.PrintMessage) {
-	const message = Locale(`starting.${ResourceContext}`, ResourceName) as string
+	const message = Locale(`starting.${ResourceContext}`, ResourceName)
 	console.log(message)
 }
 

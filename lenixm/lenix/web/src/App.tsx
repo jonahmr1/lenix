@@ -16,9 +16,9 @@ const apps = {
 
 export default () => {
 	document.documentElement.classList.add('dark')
-	
+
 	return (
-		<div className={`${DEV && 'bg-black/75'} w-full h-screen relative`}>
+		<div className={`${DEV && 'bg-muted'} w-full h-screen relative`}>
 			{EnabledClientScripts.filter((script: ClientScript): script is WebScript => script in apps).map(script => {
 				const App = apps[script]
 				return <App key={script} />
