@@ -38,21 +38,7 @@ export interface Events {
 	updateHudReserve: Event<'hud:update:reserve', [string]>
 	addOfficer: Event<'roster:addOfficer', [Officer]>
 	refreshOfficers: Event<'roster:refreshOfficers', [Officers]>
-	updateTopscoreData: Event<'topscore:updateData', [Record<1 | 2 | 3, {
-		scale: number
-		bottom: number
-		left: number
-		visible: boolean
-		name: string
-		avatar: string
-		stats: {
-			kills: number
-			deaths: number
-			wins: number
-			kd: number
-		}
-		id: number
-	}>]>
+	updateTopscoreData: Event<'topscore:updateData', [TopscoreData]>
 }
 
 export interface Requests {
@@ -97,9 +83,23 @@ export interface PlayerStorage {
 	| 'SNOW_HALLOWEEN'
 }
 
-export interface TopscoreData {
-	wins: number;
-	deaths: number;
-	kills: number;
-	kd: number
-}
+export type TopscoreData = Record<1 | 2 | 3, {
+	scale: number
+	bottom: number
+	left: number
+	visible: boolean
+	name: string
+	avatar: string
+	stats: {
+		kills: number
+		deaths: number
+		wins: number
+		kd: number
+	}
+	id: number
+}>
+
+export type TopscoreContextData = Record<
+1 | 2 | 3,
+Omit<TopscoreData[1], 'scale' | 'bottom' | 'left' | 'visible'>
+>
