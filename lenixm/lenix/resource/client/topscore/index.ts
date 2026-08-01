@@ -8,7 +8,7 @@ const screenWidth = screenResolution[0] ?? 1920
 const screenHeight = screenResolution[1] ?? 1080
 const minScale = 0.42
 const maxScale = 1
-const maxDistance = 35
+const maxDistance = 15
 
 function clamp(value: number, min: number, max: number) {
 	return Math.min(Math.max(value, min), max)
