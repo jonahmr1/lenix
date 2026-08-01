@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-undef
 import type { _InternalRequests } from '../shared/types.ts'
 import { onNui } from './nui.ts'
 

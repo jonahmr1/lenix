@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-undef
-
 import type { Vec4 } from '../shared/types.ts'
 
 export interface Blip {

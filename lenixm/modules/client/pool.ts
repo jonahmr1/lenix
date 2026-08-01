@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-undef
 const tasks = new Set<() => void>()
 let running = false
 

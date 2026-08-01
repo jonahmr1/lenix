@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-undef
 import type { Vec3 } from '../shared/types.ts'
 import { client } from './client.ts'
 

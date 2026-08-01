@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-undef
-
 /**
  * Starts a client timer using FiveM game time.
  */

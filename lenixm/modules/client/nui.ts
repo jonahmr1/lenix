@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-undef
 import type { Request } from '../shared/types.ts'
 
 /**
