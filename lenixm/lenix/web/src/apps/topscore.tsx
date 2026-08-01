@@ -55,13 +55,13 @@ export const TopScore = () => {
 			style={{
 				bottom: coords.bottom,
 				left: coords.left,
-				height: 160 * coords.scale,
+				height: 180 * coords.scale,
 				width: 280 * coords.scale,
 				transform: 'translateX(-50%)',
 			}}
 		>
 			<section className="relative border-l-5 size-full overflow-hidden rounded-xs border-[0.12cqw] border-red-600/85 bg-black/50 p-[3.1cqw]">
-				<div className="relative z-10 flex h-full flex-col">
+				<div className="relative z-10 flex h-full flex-col pb-2">
 					<header className="flex h-[17.2%] shrink-0 items-center gap-[3.2cqw] pb-[2.65cqw]">
 						<Crown className="size-[6.8cqw] fill-red-600 text-red-600 drop-shadow-[0_0_0.72cqw_rgb(220_20_38_/_0.45)]" />
 
@@ -77,7 +77,7 @@ export const TopScore = () => {
 
 					<div className="h-px shrink-0 bg-white/18" />
 
-					<div className="grid flex-1 grid-cols-[25%_1fr] items-center gap-[4.8cqw] px-[3.1cqw] py-[3.9cqw]">
+					<div className="grid flex-1 grid-cols-[20%_1fr] items-center gap-[4.8cqw] px-[3.1cqw] py-[3.9cqw]">
 						<div className="aspect-square w-full overflow-hidden rounded-full border-[0.32cqw] border-red-600 bg-black shadow-[0_0_1.32cqw_rgb(220_20_38_/_0.28)]">
 							<img
 								src={topScorers[1].avatar}
@@ -93,25 +93,27 @@ export const TopScore = () => {
 						</div>
 					</div>
 
-					<div className="h-px shrink-0 bg-white/18" />
+					<div className="h-px shrink-0 bg-white/18 my-1" />
 
-					<div className="grid h-[36.5%] shrink-0 grid-cols-4 gap-[2.35cqw] py-[2.2cqw]">
+					<div className="grid h-[36.5%] shrink-0 grid-cols-4 gap-[2.35cqw]">
 						{entries(topScorers[1].stats).map(([key, value]) => {
 							const Icon = stats[key].icon
 							return (
 								<div
 									key={key}
-									className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 px-[1.65cqw] text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
+									className="flex min-h-0 flex-col items-center justify-center rounded-[0.48cqw] border-[0.1cqw] border-red-600/90 bg-[#080d12]/72 gap-1.5 text-center shadow-[inset_0_0_2cqw_rgb(255_255_255_/_0.025)]"
 								>
-									<Icon
-										className="mb-[1.45cqw] size-[5.7cqw] text-white/56 drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.42)]"
-									/>
+									<div className="gap-0.5 flex flex-col items-center">
+										<Icon
+											className="size-[5.7cqw] text-white/56 drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.42)]"
+										/>
 
-									<div className="text-[2.05cqw] font-black uppercase leading-none text-white/60 drop-shadow-[0_0.18cqw_0_rgb(0_0_0_/_0.52)]">
-										{stats[key].label}
+										<div className="text-[2.05cqw] font-black uppercase leading-none text-white/60 drop-shadow-[0_0.18cqw_0_rgb(0_0_0_/_0.52)]">
+											{stats[key].label}
+										</div>
 									</div>
 
-									<div className="mt-[1.8cqw] text-[4.6cqw] leading-none font-black text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
+									<div className="text-[4.6cqw] leading-none font-black text-white drop-shadow-[0_0.24cqw_0_rgb(0_0_0_/_0.56)]">
 										{value}
 									</div>
 								</div>
