@@ -39,7 +39,7 @@ export default () => {
 		},
 		{
 			question: 'Contact',
-			answer: 'For questions regarding these Terms, contact Lenix at support@lenix.dev.'
+			answer: 'For questions regarding these Terms, contact Lenix at contact@lenix.dev.'
 		},
 		{
 			question: 'License',
