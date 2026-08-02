@@ -8,6 +8,20 @@
 @source "../../../components/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
 
+
+html,
+body,
+#root {
+	background-color: #a0ffed;
+	overflow-y: scroll;
+	scrollbar-width: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+::selection {
+	color: var(--color-foreground);
+}
+
 @theme inline {
     --font-heading: var(--font-sans);
     --color-sidebar-ring: var(--sidebar-ring);
