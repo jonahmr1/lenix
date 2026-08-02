@@ -1,12 +1,10 @@
 import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Button } from "@workspace/ui/components/button"
-import type { Faq, FooterLink } from "../types"
+import type { Faq } from "../types"
 import { MessageCircle, Check, Package, Settings, Wrench, Euro, type LucideIcon } from "lucide-react"
-import { useNavigate } from "react-router"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@workspace/ui/components/card";
 import { H1, H2, Muted, P, Ul } from "@/components/typography"
-import { ButtonGroup } from "@workspace/ui/components/button-group"
 
 const data: Faq[] = [
 	{
@@ -33,7 +31,6 @@ const FeatureCard = ({ title, description, icon: Icon }: { title: string, descri
 )
 
 export const App = () => {
-	const navigate = useNavigate()
 	return (
 		<Layout>
 			<div className="flex flex-col items-center justify-center gap-5">

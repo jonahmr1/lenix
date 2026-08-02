@@ -1,4 +1,4 @@
-import { Book, Box, BriefcaseBusiness, Headset, House, MessagesSquare, MoveUpRight, Package, Scale } from "lucide-react";
+import { Headset, House, MessagesSquare, MoveUpRight, Scale } from "lucide-react";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import type { Route } from "@/types";
 import {

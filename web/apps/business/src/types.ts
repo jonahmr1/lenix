@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import type { ComponentProps, ReactNode } from "react"
-import type { Badge } from "@workspace/ui/components/badge"
+import type { ReactNode } from "react"
 
 export interface Faq {
 	question: string
