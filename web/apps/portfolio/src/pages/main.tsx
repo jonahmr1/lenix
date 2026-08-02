@@ -3,7 +3,7 @@ import { Stats } from '@/components/articles/insights'
 import { Activity } from '@/components/articles/activity'
 import { Langs } from '@/components/articles/langs'
 import { Footer } from '@/components/articles/footer'
-import { Quotes } from '@/components/articles/quote'
+import { Quotes } from '@/components/articles/quotes'
 import { DataProvider } from '@/lib/context'
 import { Timeline } from '@/components/articles/timeline'
 

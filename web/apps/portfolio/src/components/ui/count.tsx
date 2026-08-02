@@ -1,6 +1,6 @@
 import { type ComponentPropsWithoutRef, useEffect, useRef } from 'react'
 import { useInView, useMotionValue, useSpring } from 'motion/react'
-import { cn } from '@/lib/utils'
+import { cn } from '@workspace/ui/lib/utils'
 
 interface CountProps extends ComponentPropsWithoutRef<'span'> {
 	value: number

@@ -1,14 +1,11 @@
-/* eslint-disable max-lines */
-
 import * as React from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@workspace/ui/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { motion, type HTMLMotionProps } from 'framer-motion'
+import { motion, type HTMLMotionProps } from 'motion/react'
 import type { TimelineColor, TimelineElement } from '@/types'
-import { AlertCircle, ArrowUpRight, Loader } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Badge } from './ui/badge'
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { Badge } from '@workspace/ui/components/badge'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip'
+import { AlertCircle, Loader, MoveUpRight } from 'lucide-react'
 
 const timelineVariants = cva('flex flex-col relative', {
 	variants: {
@@ -393,10 +390,7 @@ const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
 
 						<div className='mx-3 flex flex-col items-center justify-start gap-y-2'>
 							<div className='relative flex h-8 w-8 animate-pulse items-center justify-center rounded-full bg-muted ring-8 ring-background'>
-								<HugeiconsIcon
-									icon={Loader}
-									className='h-4 w-4 animate-spin text-muted-foreground'
-								/>
+								<Loader />
 							</div>
 							{showConnector && (
 								<div className='h-full w-0.5 animate-pulse bg-muted' />
@@ -434,10 +428,7 @@ const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
 
 						<div className='mx-3 flex flex-col items-center justify-start gap-y-2'>
 							<div className='relative flex h-8 w-8 items-center justify-center rounded-full bg-destructive/20 ring-8 ring-background'>
-								<HugeiconsIcon
-									icon={AlertCircle}
-									className='h-4 w-4 text-destructive'
-								/>
+								<AlertCircle/>
 							</div>
 							{showConnector && (
 								<TimelineConnector status='pending' className='h-full' />
@@ -492,7 +483,7 @@ const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
 									className='flex group items-center'
 								>
 									{title}
-									<HugeiconsIcon icon={ArrowUpRight} className='opacity-0 group-hover:opacity-100' />
+									<MoveUpRight className='opacity-0 group-hover:opacity-100' />
 								</a>
 							: title}
 						</TimelineTitle>
@@ -545,7 +536,7 @@ const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
 )
 TimelineItem.displayName = 'TimelineItem'
 
-export const TimelineLayout = ({
+const TimelineLayout = ({
 	items,
 	size = 'md',
 	iconColor,
@@ -598,4 +589,5 @@ export {
 	TimelineContent,
 	TimelineTime,
 	TimelineEmpty,
+	TimelineLayout
 }

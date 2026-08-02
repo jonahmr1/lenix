@@ -1,5 +1,4 @@
-import { ArrowUpRight } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
+import { MoveUpRight } from 'lucide-react'
 import { Link } from 'react-router'
 
 export const Footer = ({ className, items }: {
@@ -25,7 +24,7 @@ export const Footer = ({ className, items }: {
 						className='text-[11px] tracking-[2px] uppercase text-foreground/20 hover:text-foreground transition-colors group flex items-center gap-1'
 					>
 						{label}
-						{!replace && <HugeiconsIcon icon={ArrowUpRight} size={15} className='opacity-0 group-hover:opacity-100' />}
+						{!replace && <MoveUpRight size={15} className='opacity-0 group-hover:opacity-100' />}
 					</Link>
 				))}
 			</div>

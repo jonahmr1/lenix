@@ -1,5 +1,4 @@
 import { useRef, useState, type SyntheticEvent } from 'react'
-import { motion } from 'motion/react'
 import { fade } from '@/lib/utils'
 import { Footer } from '@/components/articles/footer'
 import {
@@ -8,23 +7,20 @@ import {
 	FieldGroup,
 	FieldLabel,
 	FieldSet,
-} from '../components/ui/field'
-import { Input } from '@/components/ui/input'
-import { Switch } from '@/components/ui/switch'
+} from '@workspace/ui/components/field'
+import { Input } from '@workspace/ui/components/input'
+import { Switch } from '@workspace/ui/components/switch'
 import {
 	InputGroup,
 	InputGroupTextarea,
 	InputGroupAddon,
 	InputGroupText,
 	InputGroupButton,
-} from '@/components/ui/input-group'
+} from '@workspace/ui/components/input-group'
 import { Required } from '@/components/required'
-import { Spinner } from '@/components/ui/spinner'
-import {
-	ArrowRight02FreeIcons,
-	CheckmarkCircle01Icon,
-} from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
+import { Spinner } from '@workspace/ui/components/spinner'
+import { ArrowRight, CheckCircle } from 'lucide-react'
+import { motion } from 'motion/react'
 
 // eslint-disable-next-line max-lines-per-function
 export const Contact = () => {
@@ -33,7 +29,7 @@ export const Contact = () => {
 	)
 	const [value, setValue] = useState('')
 	const abortRef = useRef<AbortController | null>(null)
-	
+
 	const handleCancel = () => {
 		abortRef.current?.abort()
 	}
@@ -56,7 +52,7 @@ export const Contact = () => {
 			setStatus(
 				err instanceof DOMException && err.name === 'AbortError' ?
 					'idle'
-				:	'error',
+					: 'error',
 			)
 		} finally {
 			setTimeout(() => {
@@ -157,41 +153,41 @@ export const Contact = () => {
 														variant='default'
 														size='sm'
 													>
-														Send <HugeiconsIcon icon={ArrowRight02FreeIcons} />
+														Send <ArrowRight />
 													</InputGroupButton>
 													// eslint-disable-next-line no-nested-ternary
-												: status === 'loading' ?
-													<InputGroupButton
-														type='button'
-														variant='default'
-														size='sm'
-														onClick={handleCancel}
-														className='group'
-													>
-														<span className='group-hover:hidden flex items-center gap-1'>
-															Sending... <Spinner />
-														</span>
-														<span className='hidden group-hover:inline'>
-															Cancel
-														</span>
-													</InputGroupButton>
-												: status === 'done' ?
-													<InputGroupButton
-														disabled
-														type='button'
-														variant='default'
-														size='sm'
-													>
-														Sent <HugeiconsIcon icon={CheckmarkCircle01Icon} />
-													</InputGroupButton>
-												:	<InputGroupButton
-														disabled
-														type='button'
-														variant='default'
-														size='sm'
-													>
-														Failed
-													</InputGroupButton>
+													: status === 'loading' ?
+														<InputGroupButton
+															type='button'
+															variant='default'
+															size='sm'
+															onClick={handleCancel}
+															className='group'
+														>
+															<span className='group-hover:hidden flex items-center gap-1'>
+																Sending... <Spinner />
+															</span>
+															<span className='hidden group-hover:inline'>
+																Cancel
+															</span>
+														</InputGroupButton>
+														: status === 'done' ?
+															<InputGroupButton
+																disabled
+																type='button'
+																variant='default'
+																size='sm'
+															>
+																Sent <CheckCircle />
+															</InputGroupButton>
+															: <InputGroupButton
+																disabled
+																type='button'
+																variant='default'
+																size='sm'
+															>
+																Failed
+															</InputGroupButton>
 
 											}
 										</InputGroupAddon>

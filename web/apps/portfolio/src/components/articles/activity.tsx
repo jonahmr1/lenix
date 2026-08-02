@@ -1,7 +1,20 @@
 import { useAppData } from '@/hooks/use-appdata'
 import { commitsToChartData, fade } from '@/lib/utils'
+import {
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+	type ChartConfig,
+} from '@workspace/ui/components/chart'
 import { motion } from 'motion/react'
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
+import { Line, LineChart, XAxis } from 'recharts'
+
+const chartConfig = {
+	count: {
+		label: 'Commits',
+		color: 'var(--foreground)',
+	},
+} satisfies ChartConfig
 
 export const Activity = () => {
 	const ctx = useAppData()
@@ -25,31 +38,23 @@ export const Activity = () => {
 				{...fade(0.125)}
 				className='border border-foreground/10 rounded-lg p-4'
 			>
-				<ResponsiveContainer width='100%' height={120}>
+				<ChartContainer config={chartConfig} className='h-[120px] w-full aspect-auto'>
 					<LineChart data={commitsData}>
 						<XAxis dataKey='date' hide />
-						<Tooltip
-							contentStyle={{
-								background: 'var(--background)',
-								border: '1px solid var(--border)',
-								borderRadius: 6,
-								fontSize: 11,
-								padding: '6px 10px',
-							}}
-							labelStyle={{ color: 'var(--muted-foreground)', marginBottom: 2 }}
-							itemStyle={{ color: 'var(--foreground)' }}
+						<ChartTooltip
 							cursor={{ stroke: 'var(--border)' }}
+							content={<ChartTooltipContent />}
 						/>
 						<Line
 							type='monotone'
 							dataKey='count'
-							stroke='#71717a'
+							stroke='var(--color-count)'
 							strokeWidth={1.5}
 							dot={false}
 							activeDot={{ r: 3, fill: '#a1a1aa' }}
 						/>
 					</LineChart>
-				</ResponsiveContainer>
+				</ChartContainer>
 			</motion.div>
 		</div>
 	)

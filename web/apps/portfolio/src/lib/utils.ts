@@ -1,11 +1,4 @@
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-import { EXCLUDED_LANGS } from '../constants'
 import type { AppData } from './data'
-
-export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs))
-}
 
 export const commitsToChartData = (commits: string[]) => {
 	const grouped = new Map<string, number>()
@@ -16,9 +9,7 @@ export const commitsToChartData = (commits: string[]) => {
 }
 
 export const filterLangs = (langsBytes: AppData['langsBytes']) => {
-	const filtered = langsBytes.filter(
-		lang => !EXCLUDED_LANGS.includes(lang.name),
-	)
+	const filtered = langsBytes
 	const total = filtered.reduce((acc, lang) => acc + lang.bytes, 0)
 	return { filtered, total }
 }

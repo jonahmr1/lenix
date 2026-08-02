@@ -1,5 +1,5 @@
 'use client'
-import { cn } from '@/lib/utils'
+import { cn } from '@workspace/ui/lib/utils'
 import { AnimatePresence, motion } from 'motion/react'
 import type {
 	TargetAndTransition,
@@ -119,26 +119,26 @@ const AnimationComponent: React.FC<{
 			<motion.span variants={variants} className='block'>
 				{segment}
 			</motion.span>
-		: per === 'word' ?
-			<motion.span
-				aria-hidden='true'
-				variants={variants}
-				className='inline-block whitespace-pre'
-			>
-				{segment}
-			</motion.span>
-		:	<motion.span className='inline-block whitespace-pre'>
-				{segment.split('').map((char, charIndex) => (
-					<motion.span
-						key={`char-${charIndex}`}
-						aria-hidden='true'
-						variants={variants}
-						className='inline-block whitespace-pre'
-					>
-						{char}
-					</motion.span>
-				))}
-			</motion.span>
+			: per === 'word' ?
+				<motion.span
+					aria-hidden='true'
+					variants={variants}
+					className='inline-block whitespace-pre'
+				>
+					{segment}
+				</motion.span>
+				: <motion.span className='inline-block whitespace-pre'>
+					{segment.split('').map((char, charIndex) => (
+						<motion.span
+							key={`char-${charIndex}`}
+							aria-hidden='true'
+							variants={variants}
+							className='inline-block whitespace-pre'
+						>
+							{char}
+						</motion.span>
+					))}
+				</motion.span>
 
 	if (!segmentWrapperClassName) {
 		return content
@@ -182,7 +182,7 @@ const createVariantsWithTransition = (
 			transition: {
 				...(hasTransition(baseVariants.visible) ?
 					baseVariants.visible.transition
-				:	{}),
+					: {}),
 				...mainTransition,
 			},
 		},
@@ -191,7 +191,7 @@ const createVariantsWithTransition = (
 			transition: {
 				...(hasTransition(baseVariants.exit) ?
 					baseVariants.exit.transition
-				:	{}),
+					: {}),
 				...mainTransition,
 				staggerDirection: -1,
 			},
@@ -223,7 +223,7 @@ export function TextEffect({
 	const baseVariants =
 		preset ?
 			presetVariants[preset]
-		:	{ container: defaultContainerVariants, item: defaultItemVariants }
+			: { container: defaultContainerVariants, item: defaultItemVariants }
 
 	const stagger = defaultStaggerTimes[per] / speedReveal
 
@@ -233,13 +233,13 @@ export function TextEffect({
 		hasTransition(variants?.container?.visible ?? {}) ?
 			(variants?.container?.visible as TargetAndTransition).transition
 				?.staggerChildren
-		:	undefined
+			: undefined
 
 	const customDelay =
 		hasTransition(variants?.container?.visible ?? {}) ?
 			(variants?.container?.visible as TargetAndTransition).transition
 				?.delayChildren
-		:	undefined
+			: undefined
 
 	const computedVariants = {
 		container: createVariantsWithTransition(
@@ -277,7 +277,7 @@ export function TextEffect({
 						<span suppressHydrationWarning className='sr-only'>
 							{children}
 						</span>
-					:	null}
+						: null}
 					{segments.map((segment, index) => (
 						<AnimationComponent
 							key={`${per}-${index}-${segment}`}

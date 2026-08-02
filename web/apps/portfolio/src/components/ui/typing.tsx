@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, type MotionProps, useInView } from 'motion/react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@workspace/ui/lib/utils'
 
 interface TypingAnimationProps extends MotionProps {
 	children?: string
@@ -69,9 +69,9 @@ export function TypingAnimation({
 
 		const timeoutDelay =
 			delay > 0 && displayedText === '' ? delay
-			: phase === 'typing' ? typingSpeed
-			: phase === 'deleting' ? deletingSpeed
-			: pauseDelay
+				: phase === 'typing' ? typingSpeed
+					: phase === 'deleting' ? deletingSpeed
+						: pauseDelay
 
 		const timeout = setTimeout(() => {
 			const currentWord = wordsToAnimate[currentWordIndex] || ''
