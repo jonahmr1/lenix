@@ -1,6 +1,6 @@
 import { ProductItem } from "@/components/articles/product-item"
 import { Layout } from "@/components/layout"
-import { H1, P } from "../components/typography";
+import { H1, P } from "../src/components/typography";
 import { CreateProduct } from "./create-product";
 import type { Route } from "./+types/products";
 import { Suspense } from "react";

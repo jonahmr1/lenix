@@ -12,7 +12,7 @@ import type { BadgeItem, Product } from "~/types";
 import { entries } from '@lenix/lenix'
 import { useFetcher } from "react-router";
 import { toast } from "sonner";
-import { Required } from "../components/typography";
+import { Required } from "../src/components/typography";
 import type { action } from "@/routes/products";
 import { createClient } from "~/app/lib/supabase.client";
 

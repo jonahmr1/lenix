@@ -8,7 +8,7 @@ import NotFound from "./404"
 import { toast } from "sonner"
 import Zoom from "react-medium-image-zoom"
 import "react-medium-image-zoom/dist/styles.css"
-import { Large, H2, Muted } from "../components/typography";
+import { Large, H2, Muted } from "../src/components/typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { Route } from "./+types/product"
 import { createClient } from "../../../business/lib/supabase.server"
