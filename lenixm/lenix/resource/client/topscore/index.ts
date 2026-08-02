@@ -11,9 +11,9 @@ const minScale: number = 1.22
 const maxScale = 3
 const maxDistance = 5
 const coords: Record<keyof TopscoreContextData, Vec3> = {
-	1: [-262.79, -964.18, 30.22],
-	2: [-262.79, -964.18, 30.22],
-	3: [-262.79, -964.18, 30.22],
+	1: [902.8286, -2108.0896, 30.4594],
+	2: [904.6212, -2108.2192, 30.4594],
+	3: [901.0425, -2107.9170, 30.4594],
 }
 
 let players: TopscoreContextData | undefined | void

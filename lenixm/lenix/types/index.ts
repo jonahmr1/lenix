@@ -96,7 +96,7 @@ export type TopscoreData = Record<1 | 2 | 3, {
 		wins: number
 		kd: number
 	}
-	id: number
+	id: string
 }>
 
 export type TopscoreContextData = Record<
