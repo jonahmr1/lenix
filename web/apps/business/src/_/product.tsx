@@ -1,0 +1,111 @@
+import { Layout } from "@/components/layout"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { ArrowRight } from "lucide-react"
+import { useNavigate, useParams } from "react-router"
+import NotFound from "./404"
+import { toast } from "sonner"
+import Zoom from "react-medium-image-zoom"
+import "react-medium-image-zoom/dist/styles.css"
+import { Large, H2, Muted } from "../components/typography";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import type { Route } from "./+types/product"
+import { createClient } from "../../../business/lib/supabase.server"
+import type { Product } from "~/types"
+
+export async function loader({ request, params }: Route.LoaderArgs) {
+	const { supabase } = createClient(request)
+	const { data, error } = await supabase
+		.from('products')
+		.select('*, badges(*)')
+		.eq('id', params.slug as unknown as number)
+		.single()
+
+	if (error || !data) return { product: null }
+
+	const media = await Promise.all(
+		data.media.map(mediaId => supabase
+			.storage
+			.from('media')
+			.createSignedUrl(mediaId, 60 * 30)
+			.then(({ data }) => data?.signedUrl ?? '')
+		))
+
+	return { product: { ...data, media } }
+}
+
+export default function Product({ loaderData }: Route.ComponentProps) {
+	const navigate = useNavigate()
+	const { product } = loaderData
+
+	if (!product) return <NotFound />
+
+	const { id, media, name, badges, desc, price } = product
+	console.debug(badges)
+
+	return (
+		<Layout className="mx-[10vw]">
+			<div className="flex *:flex-col gap-10 portrait:flex-col">
+				<div className="flex flex-5 gap-10 items-center *:w-9/10 *:portrait:w-full">
+					<Carousel>
+						<CarouselContent>
+							{media.map(item => (
+								<CarouselItem key={item}>
+									<Zoom>
+										<img
+											src={item}
+											className="aspect-video w-full rounded-md object-cover"
+											alt=""
+										/>
+									</Zoom>
+								</CarouselItem>
+							))}
+						</CarouselContent>
+						<CarouselPrevious className='portrait:hidden' />
+						<CarouselNext className='portrait:hidden' />
+					</Carousel>
+				</div>
+				<div className="flex-4">
+					<div className="flex flex-col gap-10">
+						<div className="flex flex-col gap-5">
+							<div className="flex justify-between">
+								<div className="flex gap-2">
+									{badges.filter(b => b.align === 'left').map(({ variant, content }, i) => (
+										<Badge key={i} variant={variant}>{content}</Badge>
+									))}
+								</div>
+								<div className="flex gap-2">
+									{badges.filter(b => b.align === 'right').map(({ variant, content }, i) => (
+										<Badge key={i} variant={variant}>{content}</Badge>
+									))}
+								</div>
+							</div>
+							<div className="flex justify-between w-full">
+								<H2>{name}</H2>
+								<Large>{price}</Large>
+							</div>
+							<Muted>{desc}</Muted>
+							<Button onClick={() => {
+								toast('Sales are not yet available.')
+							}}>Buy Now</Button>
+							<Button variant='secondary' onClick={() => {
+								navigate(`/docs/products/${id}`)
+							}}>View Documentation <ArrowRight /></Button>
+						</div>
+					</div>
+				</div>
+			</div>
+			{/* <Tabs>
+				<TabsList>
+					{tabs.map(({ title }) => <TabsTrigger value={title}>{title}</TabsTrigger>)}
+				</TabsList>
+				{tabs.map(({ title, content }) => (
+					<TabsContent value={title}>
+						{content}
+					</TabsContent>
+				))}
+			</Tabs> */}
+		</Layout>
+	)
+}

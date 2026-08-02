@@ -1,1 +1,0 @@
-# [Lenix Business](https://business.lenix.dev/)
