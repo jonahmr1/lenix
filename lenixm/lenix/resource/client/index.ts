@@ -1,4 +1,5 @@
-import { EnabledClientScripts } from 'common'
+import 'common'
+import { EnabledClientScripts } from 'common/scripts'
 import type { ClientScript } from 'types/dirs'
 
 for (const script of EnabledClientScripts) {

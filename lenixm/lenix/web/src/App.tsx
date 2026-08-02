@@ -1,4 +1,4 @@
-import { EnabledClientScripts } from 'common'
+import { EnabledClientScripts } from 'scripts'
 import { Radio } from './apps/radio'
 import { Hud } from './apps/hud'
 import { Roster } from './apps/roster'

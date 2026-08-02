@@ -11,7 +11,7 @@
 			"@/*": ["./src/*"],
 			"types/*": ["../types/*"],
 			"types": ["../types"],
-			"common": ["../resource/common/index.ts"]
+			"scripts": ["../resource/common/scripts"]
 		},
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -27,5 +27,5 @@
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src", "../resource/common/index.ts", "../types"]
+	"include": ["src", "../types"]
 }

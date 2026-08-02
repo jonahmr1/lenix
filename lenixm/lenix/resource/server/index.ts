@@ -1,4 +1,5 @@
-import { EnabledServerScripts } from 'common'
+import 'common'
+import { EnabledServerScripts } from 'common/scripts'
 import type { ServerScript } from 'types/dirs'
 
 for (const script of EnabledServerScripts) {
