@@ -35,16 +35,5 @@
 	},
 	"include": [
 		"src",
-		"src/_/lib",
-		"src/_/ui",
-		"src/_/docs.tsx",
-		"src/_/search.ts",
-		"src/_/mdx.tsx",
-		"src/_/root.tsx",
-		"src/_/routes.ts",
-		"src/_/create-product.tsx",
-		"src/_/product-item.tsx",
-		"src/_/product.tsx",
-		"src/_/products.tsx"
 	]
 }
