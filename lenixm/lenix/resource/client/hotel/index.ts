@@ -1,16 +1,17 @@
 import { GetPlayer } from '@overextended/ox_core/client'
 import { getSafeById, HOTEL_SAFES } from 'common/config'
+import { api } from 'lenix'
 
 const SAFE_SIZE = [1.66, 1.66, 1.66] as const
 
 for (const [room, { coords, rotation }] of Object.entries(HOTEL_SAFES)) {
-	globalThis.exports.ox_target.addBoxZone({
+	api.ox_target?.addBoxZone?.({
 		coords: coords,
 		size: SAFE_SIZE,
 		rotation: rotation,
 		options: {
 			label: 'Open Safe',
-			onSelect: () => globalThis.exports.ox_inventory.openInventory('stash', getSafeById(Number(room))),
+			onSelect: () => api.ox_inventory?.openInventory?.('stash', getSafeById(Number(room))),
 		},
 	})
 }

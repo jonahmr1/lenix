@@ -4,6 +4,7 @@ import { server } from 'lenix/server'
 import { VEHICLE_MODEL } from 'common/config'
 import { CreateVehicle, type OxVehicle } from '@overextended/ox_core/server'
 import { random } from '@lenix/lenix'
+import { api, type Fn } from 'lenix'
 
 const VEHICLE_COORDS: Vector4[] = [
 	[-1209.2249, -1162.83, 7.6913, 13.5316],
@@ -29,7 +30,7 @@ abstract class Teams {
 	private static interval: CitizenTimer
 
 	static create(leader: number) {
-		const moneyAmount = globalThis.exports.ox_inventory.GetItemCount(leader, 'money')
+		const moneyAmount = api.ox_inventory?.GetItemCount?.<number, [...unknown[]]>(leader, 'money') ?? 0
 		if (moneyAmount < MISSION_PRICE) {
 			notify(leader, {
 				type: 'error',
@@ -39,7 +40,7 @@ abstract class Teams {
 			return
 		}
 
-		const result = globalThis.exports.ox_inventory.RemoveItem(leader, 'money', MISSION_PRICE)
+		const result = api.ox_inventory?.RemoveItem?.(leader, 'money', MISSION_PRICE)
 		const [success, response] = Array.isArray(result) ? result : [result, undefined]
 		if (!success) throw new Error(`Could not create team for player<${leader}>, reason: ${response}`)
 
@@ -182,7 +183,7 @@ abstract class Teams {
 	}
 
 	private static finish() {
-		globalThis.exports.ox_inventory.AddItem(source, 'money', 10000)
+		api.ox_inventory?.AddItem?.(source, 'money', 10000)
 
 		setTimeout(this.robberyVeh.despawn, 60_000)
 

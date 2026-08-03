@@ -13,6 +13,7 @@ import { MISSION_PRICE, VEHICLE_MODEL } from 'common/config'
 import { client, useTimer, getNearest } from 'lenix/client'
 import { notify, progressBar, requestModel } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types/index'
+import { api } from 'lenix'
 
 const PEDS_MODEL = 'mp_s_m_armoured_01'
 const DRILL_ITEM = 'drill'
@@ -204,14 +205,14 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 	})
 
 	const breakDoor = async (side: 'left' | 'right') => {
-		const drillAmount = globalThis.exports.ox_inventory.GetItemCount(DRILL_ITEM)
+		const drillAmount = api.ox_inventory?.GetItemCount?.<number, [unknown]>(DRILL_ITEM) ?? 0
 		if (drillAmount < 1) {
 			notify({
 				title: "You're missing a drill",
 			})
 			return
 		}
-		const success = await globalThis.exports['glitch-minigames'].StartPlasmaDrilling(5)
+		const success = await api['glitch-minigames'].StartPlasmaDrilling(5)
 		if (!success) return
 
 		vehicleDoorsBroken[side] = true
@@ -222,10 +223,10 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 		SetVehicleDoorOpen(entity, 2, false, false)
 		SetVehicleDoorOpen(entity, 3, false, false)
 
-		globalThis.exports.ox_target.removeEntity(netId, `${side}-door`)
+		api.ox_target.removeEntity(netId, `${side}-door`)
 	}
 
-	globalThis.exports.ox_target.addEntity(netId, [
+	api.ox_target.addEntity(netId, [
 		{
 			name: 'left-door',
 			label: 'Break Left Door',
@@ -280,7 +281,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 				vehicleDoorsBroken['left'] = false
 				vehicleDoorsBroken['right'] = false
 				clearTick(blipTick)
-				globalThis.exports.ox_target.removeEntity(netId, 'take-money')
+				api.ox_target.removeEntity(netId, 'take-money')
 
 				emitNet('lenix:server:robbery:takemoney')
 			},
@@ -308,7 +309,7 @@ setImmediate(async () => {
 	const entity = await createPed('a_m_m_prolhost_01', ...PED_COORDS, true)
 	if (!entity) return
 
-	globalThis.exports.ox_target.addLocalEntity(entity, {
+	api.ox_target.addLocalEntity(entity, {
 		label: 'Robbery Mission',
 		onSelect: () => {
 			showContext('robbery-mission')

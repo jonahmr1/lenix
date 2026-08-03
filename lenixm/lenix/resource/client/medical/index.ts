@@ -1,7 +1,8 @@
 import { cache, progressBar, skillCheck } from '@overextended/ox_lib/client'
+import { api } from 'lenix'
 
 setImmediate(() => {
-	globalThis.exports.ox_target.addSphereZone({
+	api.ox_target?.addSphereZone?.({
 		coords: [-324.9671, -588.6762, 32.7755, 46.672],
 		options: {
 			label: 'Check-in',
@@ -19,13 +20,13 @@ setImmediate(() => {
 		},
 	})
 
-	globalThis.exports.ox_target.addGlobalPlayer({
+	api.ox_target?.addGlobalPlayer?.({
 		label: 'Revive',
 		canInteract: (entity: number) => {
 			const source = GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity))
 			const player = Player(source)
 			const isDead = player.state['isDead']
-			const count = globalThis.exports.ox_inventory.GetItemCount('medkit')
+			const count = api.ox_inventory?.GetItemCount?.<number, [unknown]>('medkit') ?? 0
 			return isDead && count > 0
 		},
 		onSelect: async ({ entity }: { entity: number }) => {

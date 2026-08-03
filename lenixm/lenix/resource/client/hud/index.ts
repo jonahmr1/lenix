@@ -1,6 +1,7 @@
 import { cache } from '@overextended/ox_lib'
 import type { Events } from 'types/index'
 import { emitEvent, pool } from 'lenix/client'
+import { api } from 'lenix'
 
 type OxWeapon =
 	| {
@@ -23,7 +24,7 @@ const updateHud = (type: 'clip' | 'reserve', value: string) => {
 
 const toggleHud = (value: boolean) => emitEvent<Events['displayHud']>('hud:display', value)
 
-const getReserve = (ammoName: string): number => globalThis.exports.ox_inventory.GetItemCount(ammoName)
+const getReserve = (ammoName: string): number => api.ox_inventory?.GetItemCount?.<number, [unknown]>(ammoName) ?? 0
 
 const updateClip = (weapon: number) => updateHud('clip', GetAmmoInClip(cache.ped, weapon)[1].toString())
 
@@ -48,7 +49,7 @@ on('ox_inventory:currentWeapon', (weapon: OxWeapon) => {
 })
 
 on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
-	const weapon: OxWeapon = globalThis.exports.ox_inventory.getCurrentWeapon()
+	const weapon: OxWeapon = api.ox_inventory.getCurrentWeapon<Fn<OxWeapon>>()
 	if (!weapon) return
 	if (weapon.ammo !== itemName) return
 

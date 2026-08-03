@@ -1,5 +1,6 @@
 import { cache } from '@overextended/ox_lib'
 import { notify, createVehicle, registerContext, showContext, createPed } from '@overextended/ox_lib/client'
+import { api } from 'lenix'
 import type { Vector4 } from 'types'
 
 let lastVehicle: number
@@ -92,7 +93,7 @@ setImmediate(() => {
 		const entity = await createPed('a_m_m_prolhost_01', ...coords, true)
 		if (!entity) return
 
-		globalThis.exports.ox_target.addLocalEntity(entity, [
+		api.ox_target?.addLocalEntity?.(entity, [
 			{
 				icon: 'fas fa-car',
 				label: 'Take a car',

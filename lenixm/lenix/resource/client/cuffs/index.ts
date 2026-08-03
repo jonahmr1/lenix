@@ -1,6 +1,7 @@
 import { client, getNearest, pool } from 'lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
+import { api } from 'lenix'
 
 let isCuffed = false
 
@@ -94,7 +95,7 @@ on('lenix:client:cuff', () => {
 onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 	isCuffed = state
 	disableRadial(state)
-	globalThis.exports.ox_target.disableTargeting(state)
+	api.ox_target?.disableTargeting?.(state)
 	if (state) {
 		gettingCuffedAnimation(cuffer)
 		const res = await skillCheck('easy')

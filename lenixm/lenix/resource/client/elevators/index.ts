@@ -1,4 +1,5 @@
 import { progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
+import { api } from 'lenix'
 import { client } from 'lenix/client'
 import type { Vector4 } from 'types/index'
 
@@ -58,7 +59,7 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 				})),
 		],
 	})
-	globalThis.exports.ox_target.addBoxZone({
+	api.ox_target?.addBoxZone?.({
 		coords,
 		size: [0.3, 0.3, 0.8],
 		rotation: COMMANDER_ROTATION,

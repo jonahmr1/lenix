@@ -2,6 +2,7 @@ import { sleep } from '@overextended/core/utils'
 import { GetPlayer } from '@overextended/ox_core/server'
 import { oxmysql } from '@overextended/oxmysql'
 import { getSafeById, HOTEL_ROOMS, HOTEL_SAFES } from 'common/config'
+import { api } from 'lenix'
 import type { Vector4 } from 'types/index'
 
 const STARTER_DEPOSIT = 5000
@@ -42,7 +43,7 @@ const setupStash = (roomId: number, stashCoords: Vector4) => {
 		coords: { x: stashCoords[0], y: stashCoords[1], z: stashCoords[2] },
 	}
 
-	globalThis.exports.ox_inventory.RegisterStash(id, label, slots, weight, null, {}, coords)
+	api.ox_inventory?.RegisterStash?.(id, label, slots, weight, null, {}, coords)
 }
 
 const loadStash = async (charId: number) => {
@@ -70,7 +71,7 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 		if (!res) throw new Error(`Failed to update new room<${roomId}> for charId<${charId}>`)
 
 		await sleep(1000)
-		const [success, response] = globalThis.exports.ox_inventory.AddItem(playerId, 'hotel_keycard', 1, {
+		const [success, response] = api.ox_inventory.AddItem<Fn<[true] | [false, string], [...unknown[]]>>(playerId, 'hotel_keycard', 1, {
 			type: `Room ${roomId}`,
 		})
 		if (!success) throw new Error(`Failed to give hotel room key to charId<${charId}>, reason: ${response}`)

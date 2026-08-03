@@ -1,13 +1,14 @@
 import { cache, notify, requestAnimDict } from '@overextended/ox_lib/client'
 import type { Events, Requests } from 'types/index'
 import { client, emitEvent, onNui } from 'lenix/client'
+import { api } from 'lenix'
 
 const dict = 'cellphone@'
 const anim = 'cellphone_text_read_base'
 let state = false
 let radioProp = 0
 
-const leaveChannel = () => globalThis.exports['pma-voice'].setRadioChannel(0)
+const leaveChannel = () => api['pma-voice']?.setRadioChannel?.(0)
 
 const toggleRadioAnimation = async () => {
 	await requestAnimDict(dict)
@@ -63,7 +64,7 @@ onNui<Requests['changeFrequency']>('radio:frequency', ({ frequency }) => {
 		return false
 	}
 	notify({ title: `Set to #${frequency}` })
-	globalThis.exports['pma-voice'].setRadioChannel(channel)
+	api['pma-voice']?.setRadioChannel?.(channel)
 	return true
 })
 

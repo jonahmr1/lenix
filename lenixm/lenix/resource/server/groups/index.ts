@@ -1,5 +1,6 @@
 import type { OxAccountRole } from '@overextended/ox_core'
 import { addCommand, triggerClientCallback } from '@overextended/ox_lib/server'
+import { api } from 'lenix'
 
 addCommand(
 	'creategroup',
@@ -16,7 +17,7 @@ addCommand(
 		if (!input) return
 
 		//@ts-ignore
-		globalThis.exports.ox_core.CreateGroup(input)
+		api.ox_core.CreateGroup(input)
 	},
 	{
 		help: 'Create new group to the db.',
