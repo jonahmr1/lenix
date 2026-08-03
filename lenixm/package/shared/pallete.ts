@@ -9,4 +9,4 @@ const colorCodes = {
 	navy: '9',
 } as const
 
-export const forma = (color: keyof typeof colorCodes, text: string) => `^${colorCodes[color]}${text}^7` as const
+export const pallete = (color: keyof typeof colorCodes, text: string) => `^${colorCodes[color]}${text}^7` as const
