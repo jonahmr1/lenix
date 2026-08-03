@@ -33,3 +33,5 @@ export interface _InternalRequests {
 		cursor: boolean
 	}>
 }
+
+export type Fn<Return, Args extends unknown[] = []> = (...args: Args) => Return
