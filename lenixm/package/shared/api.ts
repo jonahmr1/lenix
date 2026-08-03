@@ -1,11 +1,10 @@
 import { asserts } from "@lenix/lenix"
-import type { Fn } from "./types"
 
 interface Api {
 	[resource: number]: never
 	[resource: string]: {
 		[method: number]: never
-		[method: string]: <T extends Fn<unknown, any[]>>(...args: Parameters<T>) => ReturnType<T>
+		[method: string]: <Return, Args extends unknown[] = []>(...args: Args) => Return
 	}
 }
 
