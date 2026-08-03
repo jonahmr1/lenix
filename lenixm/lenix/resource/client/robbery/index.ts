@@ -13,7 +13,7 @@ import { MISSION_PRICE, VEHICLE_MODEL } from 'common/config'
 import { client, useTimer, getNearest } from 'lenix/client'
 import { notify, progressBar, requestModel } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types/index'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 
 const PEDS_MODEL = 'mp_s_m_armoured_01'
 const DRILL_ITEM = 'drill'
@@ -93,9 +93,9 @@ const refreshContext = async () => {
 			const teammates = team?.members.filter(member => member !== team?.leader) ?? []
 			return teammates.length > 0
 				? teammates.map(teammate => ({
-						title: `${teammate}`,
-						onSelect: () => emitNet('lenix:server:robbery:kickMember', teammate),
-					}))
+					title: `${teammate}`,
+					onSelect: () => emitNet('lenix:server:robbery:kickMember', teammate),
+				}))
 				: [{ title: 'No teammates found', readOnly: true }]
 		})(),
 	})

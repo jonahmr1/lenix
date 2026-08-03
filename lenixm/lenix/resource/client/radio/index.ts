@@ -1,7 +1,7 @@
 import { cache, notify, requestAnimDict } from '@overextended/ox_lib/client'
 import type { Events, Requests } from 'types/index'
 import { client, emitEvent, onNui } from 'lenix/client'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 
 const dict = 'cellphone@'
 const anim = 'cellphone_text_read_base'

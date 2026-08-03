@@ -1,5 +1,5 @@
 import { progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 import { client } from 'lenix/client'
 import type { Vector4 } from 'types/index'
 

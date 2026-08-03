@@ -1,6 +1,6 @@
 import { cache } from '@overextended/ox_lib'
 import { notify, createVehicle, registerContext, showContext, createPed } from '@overextended/ox_lib/client'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 import type { Vector4 } from 'types'
 
 let lastVehicle: number
@@ -15,28 +15,28 @@ const PEDS: {
 	spawn: Vector4
 	menu?: string[]
 }[] = [
-	{
-		coords: [-252.2817, -297.2987, 21.6264, 69.0925],
-		spawn: [-256.1688, -333.2883, 29.1064, 9.207],
-	},
-	{
-		coords: [-295.1785, -622.0973, 32.7741, 175.3196],
-		spawn: [-301.8, -626.566, 32.1928, 271.8865],
-	},
-	{
-		coords: [1851.5194, 2583.6697, 45.6639, 357.8237],
-		spawn: [1855.4651, 2578.8855, 45.4116, 271.0542],
-	},
-	{
-		coords: [-292.8378, -985.7634, 31.0969, 41.8034],
-		spawn: [-301.6614, -990.4818, 31.0812, 343.2394],
-	},
-	{
-		coords: [418.6655, -991.6953, 21.3117, 90.1289],
-		spawn: [429.1385, -986.8941, 21.3117, 91.0006],
-		menu: MENUS.police,
-	},
-]
+		{
+			coords: [-252.2817, -297.2987, 21.6264, 69.0925],
+			spawn: [-256.1688, -333.2883, 29.1064, 9.207],
+		},
+		{
+			coords: [-295.1785, -622.0973, 32.7741, 175.3196],
+			spawn: [-301.8, -626.566, 32.1928, 271.8865],
+		},
+		{
+			coords: [1851.5194, 2583.6697, 45.6639, 357.8237],
+			spawn: [1855.4651, 2578.8855, 45.4116, 271.0542],
+		},
+		{
+			coords: [-292.8378, -985.7634, 31.0969, 41.8034],
+			spawn: [-301.6614, -990.4818, 31.0812, 343.2394],
+		},
+		{
+			coords: [418.6655, -991.6953, 21.3117, 90.1289],
+			spawn: [429.1385, -986.8941, 21.3117, 91.0006],
+			menu: MENUS.police,
+		},
+	]
 
 const handleVehicleDeletion = (vehicle: number) => {
 	clearInterval(vehicleInterval)

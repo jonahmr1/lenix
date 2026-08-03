@@ -1,6 +1,6 @@
 import type { OxAccountRole } from '@overextended/ox_core'
 import { addCommand, triggerClientCallback } from '@overextended/ox_lib/server'
-import { api } from 'lenix'
+import { api } from 'lenix/server'
 
 addCommand(
 	'creategroup',

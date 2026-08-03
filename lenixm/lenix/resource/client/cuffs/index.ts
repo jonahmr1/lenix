@@ -1,7 +1,7 @@
 import { client, getNearest, pool } from 'lenix/client'
 import { cache, disableRadial, notify, requestAnimDict, skillCheck, sleep } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 
 let isCuffed = false
 

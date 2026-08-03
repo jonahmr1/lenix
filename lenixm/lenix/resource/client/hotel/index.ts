@@ -1,6 +1,6 @@
 import { GetPlayer } from '@overextended/ox_core/client'
 import { getSafeById, HOTEL_SAFES } from 'common/config'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 
 const SAFE_SIZE = [1.66, 1.66, 1.66] as const
 

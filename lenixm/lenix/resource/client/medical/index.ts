@@ -1,5 +1,5 @@
 import { cache, progressBar, skillCheck } from '@overextended/ox_lib/client'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 
 setImmediate(() => {
 	api.ox_target?.addSphereZone?.({

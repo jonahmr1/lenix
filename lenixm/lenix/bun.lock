@@ -10,7 +10,7 @@
         "@overextended/ox_core": "^1.5.14",
         "@overextended/ox_lib": "^3.35.0",
         "@overextended/oxmysql": "^2.14.1",
-        "lenix": "^1.7.13",
+        "lenix": "^1.7.16",
       },
       "devDependencies": {
         "@citizenfx/client": "latest",
@@ -681,7 +681,7 @@
 
     "kleur": ["kleur@4.1.5", "", {}, "sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ=="],
 
-    "lenix": ["lenix@1.7.13", "", { "dependencies": { "@lenix/lenix": "npm:@jsr/lenix__lenix" }, "peerDependencies": { "typescript": "^5" } }, "sha512-N7+ON2Gxi35MS/Ioy/6/f+Kl68HmIkjnBzdGz5WT2UX93LxtDFueM4kuzccnDcSqYVeawI9Q3HnWsGHolBknFw=="],
+    "lenix": ["lenix@1.7.16", "", { "dependencies": { "@lenix/lenix": "npm:@jsr/lenix__lenix" }, "peerDependencies": { "typescript": "^5" } }, "sha512-znznxJdjY71wh1DPIGQXMOsxjIcJoLb4FohEZpspCcqJ8cq9jynamT0otiGWAPpmHIn0bsg0ixvHJv1+YH7LyA=="],
 
     "lightningcss": ["lightningcss@1.33.0", "", { "dependencies": { "detect-libc": "^2.0.3" }, "optionalDependencies": { "lightningcss-android-arm64": "1.33.0", "lightningcss-darwin-arm64": "1.33.0", "lightningcss-darwin-x64": "1.33.0", "lightningcss-freebsd-x64": "1.33.0", "lightningcss-linux-arm-gnueabihf": "1.33.0", "lightningcss-linux-arm64-gnu": "1.33.0", "lightningcss-linux-arm64-musl": "1.33.0", "lightningcss-linux-x64-gnu": "1.33.0", "lightningcss-linux-x64-musl": "1.33.0", "lightningcss-win32-arm64-msvc": "1.33.0", "lightningcss-win32-x64-msvc": "1.33.0" } }, "sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA=="],
 

@@ -1,4 +1,4 @@
-import { api } from "lenix"
+import { api } from "lenix/server"
 
 onNet('lenix:server:medical:revive', (target: number) => {
 	api.ox_inventory?.RemoveItem?.(source, 'medkit', 1)

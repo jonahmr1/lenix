@@ -28,7 +28,7 @@
 		"@overextended/ox_core": "^1.5.14",
 		"@overextended/ox_lib": "^3.35.0",
 		"@overextended/oxmysql": "^2.14.1",
-		"lenix": "^1.7.13"
+		"lenix": "^1.7.16"
 	},
 	"devDependencies": {
 		"@citizenfx/client": "latest",

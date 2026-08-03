@@ -1,13 +1,13 @@
 import { cache } from '@overextended/ox_lib'
 import type { Events } from 'types/index'
 import { emitEvent, pool } from 'lenix/client'
-import { api } from 'lenix'
+import { api } from 'lenix/client'
 
 type OxWeapon =
 	| {
-			ammo: string
-			metadata: { ammo: number }
-	  }
+		ammo: string
+		metadata: { ammo: number }
+	}
 	| undefined
 
 let turnedOff = false

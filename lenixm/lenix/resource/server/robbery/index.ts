@@ -4,7 +4,7 @@ import { server } from 'lenix/server'
 import { VEHICLE_MODEL } from 'common/config'
 import { CreateVehicle, type OxVehicle } from '@overextended/ox_core/server'
 import { random } from '@lenix/lenix'
-import { api, type Fn } from 'lenix'
+import { api } from 'lenix/server'
 
 const VEHICLE_COORDS: Vector4[] = [
 	[-1209.2249, -1162.83, 7.6913, 13.5316],
