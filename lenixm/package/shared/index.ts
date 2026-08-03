@@ -6,4 +6,4 @@
 
 export * from './types.ts'
 export * from './repeat.ts'
-export * from './pallete.ts'
+export * from './palette.ts'
