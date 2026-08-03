@@ -7,3 +7,4 @@
 export * from './api.ts'
 export * from './types.ts'
 export * from './repeat.ts'
+export * from './pallete.ts'
