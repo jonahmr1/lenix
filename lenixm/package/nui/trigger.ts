@@ -7,7 +7,7 @@ declare function GetParentResourceName(): string
  */
 export const triggerNui = async <T extends Request<unknown, string, object>>(
 	id: T[1],
-	data?: T[2]
+	data: T[2]
 ): Promise<T[0]> => {
 	try {
 		const response = await fetch(`https://${GetParentResourceName()}/${id}`, {
