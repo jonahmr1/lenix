@@ -1,6 +1,7 @@
 import 'common'
 import { EnabledClientScripts } from 'common/scripts'
 import type { ClientScript } from 'types/dirs'
+import './snipets'
 
 for (const script of EnabledClientScripts) {
 	const modules = {
@@ -29,18 +30,3 @@ for (const script of EnabledClientScripts) {
 	} satisfies Record<ClientScript, () => Promise<unknown>>
 	modules[script]()
 }
-
-setTick(() => {
-	SetParkedVehicleDensityMultiplierThisFrame(0.0)
-	SetVehicleDensityMultiplierThisFrame(0.0)
-	SetRandomVehicleDensityMultiplierThisFrame(0.0)
-	SetPedDensityMultiplierThisFrame(0.0)
-	SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
-
-	SetPedStealthMovement(PlayerPedId(), false, 'nil')
-
-	// disable shuffle
-	SetPedConfigFlag(PlayerPedId(), 184, true)
-
-	DisplayAmmoThisFrame(false)
-})
