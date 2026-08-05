@@ -2,9 +2,7 @@ import { totalLangsBytes } from './langs'
 import { totalCommits } from './commits'
 import { totalLinesAdded } from './loc'
 
-if (typeof process.env.GH_TOKEN !== 'string')
-	throw new Error('GH_TOKEN missing')
-if (typeof process.env.VITE_GIST_ID !== 'string') throw new Error('VITE_GIST_ID missing')
+if (!process.env.GH_TOKEN?.length) throw 'GH_TOKEN missing'
 
 const loc = await totalLinesAdded()
 const commits = await totalCommits()
@@ -13,7 +11,7 @@ const langsBytes = await totalLangsBytes()
 const content = JSON.stringify({ loc, commits, langsBytes })
 
 const res = await fetch(
-	`https://api.github.com/gists/${process.env.VITE_GIST_ID}`,
+	`https://gist.github.com/jonahmr1/8a81298c8173af0f2bff75bba7f37c68`,
 	{
 		method: 'PATCH',
 		headers: {
