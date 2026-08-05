@@ -18,13 +18,10 @@ const chartConfig = {
 
 export const Activity = () => {
 	const ctx = useAppData()
-	if (ctx.status !== 'ok') {
-		console.debug(`context status: ${ctx.status}`)
-		return null
-	}
-	console.debug(`context status: ${ctx.status}`)
+	if (ctx.status !== 'ok') return null
 
 	const commitsData = commitsToChartData(ctx.data.commits)
+	console.debug(commitsData)
 	return (
 		<div className='mb-16'>
 			<div className='flex items-center justify-between mb-5'>
