@@ -153,9 +153,6 @@ const enable = ({
 	})
 }
 
-on({ event: 'disabled', key: ',', cb: () => {} })
-enable({ key: '-'})
-
 pool(() => binds.forEach(({ event, key, cb, type }) => {
 	for (const index of CONTROLS[key]) {
 		if (!EVENTS[event](TYPES[type], index, true)) continue
