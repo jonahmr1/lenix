@@ -21,7 +21,6 @@ export const Activity = () => {
 	if (ctx.status !== 'ok') return null
 
 	const commitsData = commitsToChartData(ctx.data.commits)
-	console.debug(commitsData)
 	return (
 		<div className='mb-16'>
 			<div className='flex items-center justify-between mb-5'>
@@ -39,7 +38,10 @@ export const Activity = () => {
 				{...fade(0.125)}
 				className='border border-foreground/10 rounded-lg p-4'
 			>
-				<ChartContainer config={chartConfig} className='h-[120px] w-full aspect-auto'>
+				<ChartContainer
+					config={chartConfig}
+					className='w-full h-[160px] min-h-[160px] overflow-hidden'
+				>
 					<LineChart data={commitsData}>
 						<XAxis dataKey='date' hide />
 						<ChartTooltip
