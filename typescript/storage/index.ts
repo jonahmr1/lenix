@@ -17,7 +17,7 @@
  * const theme = getStorage('theme')
  * ```
  */
-export const getStorage = <
+export const get = <
 	T extends object,
 	K extends Extract<keyof T, string>
 >(key: K): T[K] | null => localStorage.getItem(key) as T[K] | null
@@ -35,7 +35,7 @@ export const getStorage = <
  * setStorage('theme', 'dark')
  * ```
  */
-export const setStorage = <T extends object>(
+export const set = <T extends object>(
 	key: Extract<keyof T, string>,
 	value: Extract<T[keyof T], string>
 ): void => {
@@ -54,6 +54,12 @@ export const setStorage = <T extends object>(
  * destroyStorage('theme')
  * ```
  */
-export const destroyStorage = <T extends object>(key: Extract<keyof T, string>): void => {
+export const destroy = <T extends object>(key: Extract<keyof T, string>): void => {
 	localStorage.removeItem(key)
+}
+
+export const storage = {
+	get,
+	set,
+	destroy
 }
