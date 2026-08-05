@@ -18,7 +18,11 @@ const chartConfig = {
 
 export const Activity = () => {
 	const ctx = useAppData()
-	if (ctx.status !== 'ok') return null
+	if (ctx.status !== 'ok') {
+		console.debug(`context status: ${ctx.status}`)
+		return null
+	}
+	console.debug(`context status: ${ctx.status}`)
 
 	const commitsData = commitsToChartData(ctx.data.commits)
 	return (
