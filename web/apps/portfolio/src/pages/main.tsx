@@ -9,6 +9,8 @@ import { Timeline } from '@/components/articles/timeline'
 import { Button } from '@workspace/ui/components/button'
 import { ExternalLink } from 'lucide-react'
 import { useNavigate } from 'react-router'
+import { motion } from 'motion/react'
+import { fade } from '@/lib/utils'
 
 export const Main = () => {
 	const nav = useNavigate()
@@ -20,10 +22,10 @@ export const Main = () => {
 						<div className='min-h-5/10 flex items-end'>
 							<Introduc />
 						</div>
-						<div className='h-full flex items-center justify-center gap-2'>
+						<motion.div {...fade(0.75)} className='h-full flex items-center justify-center gap-2'>
 							<Button variant='outline' onClick={() => nav('/contact')}>Contact Me</Button>
 							<Button onClick={() => window.open('https://business.lenix.dev', '_blank')}>Explore Business <ExternalLink /></Button>
-						</div>
+						</motion.div>
 					</div>
 					<div className='min-h-screen flex flex-col justify-evenly'>
 						<Stats />
