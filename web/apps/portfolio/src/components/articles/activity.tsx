@@ -1,20 +1,7 @@
 import { useAppData } from '@/hooks/use-appdata'
 import { commitsToChartData, fade } from '@/lib/utils'
-import {
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-	type ChartConfig,
-} from '@workspace/ui/components/chart'
 import { motion } from 'motion/react'
-import { Line, LineChart, XAxis } from 'recharts'
-
-const chartConfig = {
-	count: {
-		label: 'Commits',
-		color: 'var(--foreground)',
-	},
-} satisfies ChartConfig
+import { Line, LineChart, Tooltip, XAxis } from 'recharts'
 
 export const Activity = () => {
 	const ctx = useAppData()
@@ -39,26 +26,31 @@ export const Activity = () => {
 				{...fade(0.125)}
 				className='border border-foreground/10 rounded-lg p-4'
 			>
-				<ChartContainer
-					config={chartConfig}
-					className='w-full h-[160px] min-h-[160px] aspect-auto'
-				>
-					<LineChart data={commitsData}>
-						<XAxis dataKey='date' hide />
-						<ChartTooltip
-							cursor={{ stroke: 'var(--border)' }}
-							content={<ChartTooltipContent />}
-						/>
-						<Line
-							type='monotone'
-							dataKey='count'
-							stroke='var(--foreground)'
-							strokeWidth={1.5}
-							dot={false}
-							activeDot={{ r: 3, fill: '#a1a1aa' }}
-						/>
-					</LineChart>
-				</ChartContainer>
+				<div className='w-full overflow-x-auto'>
+					<div className='h-[160px] min-w-[960px]'>
+						<LineChart width={960} height={160} data={commitsData}>
+							<XAxis dataKey='date' hide />
+							<Tooltip
+								cursor={{ stroke: 'var(--border)' }}
+								contentStyle={{
+									background: 'var(--background)',
+									border: '1px solid var(--border)',
+									borderRadius: 8,
+								}}
+								labelStyle={{ color: 'var(--foreground)' }}
+								itemStyle={{ color: 'var(--foreground)' }}
+							/>
+							<Line
+								type='monotone'
+								dataKey='count'
+								stroke='var(--foreground)'
+								strokeWidth={1.5}
+								dot={false}
+								activeDot={{ r: 3, fill: '#a1a1aa' }}
+							/>
+						</LineChart>
+					</div>
+				</div>
 			</motion.div>
 		</div>
 	)
