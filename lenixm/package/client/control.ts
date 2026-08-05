@@ -161,6 +161,9 @@ pool(() => binds.forEach(({ event, key, cb, type }) => {
 	}
 }))
 
+/**
+ * @beta This API is in beta. Use with caution.
+ */
 export const control = {
 	on,
 	disable,
