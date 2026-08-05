@@ -1,7 +1,7 @@
 import { asserts } from '@lenix/lenix'
 import { pool } from './pool'
 
-interface Bind {
+export interface Bind {
 	event: keyof typeof EVENTS,
 	key: keyof typeof CONTROLS,
 	cb: () => void,
@@ -17,11 +17,11 @@ const EVENTS = {
 	disable: DisableControlAction,
 	enable: EnableControlAction,
 }
-const TYPES = {
+export const TYPES = {
 	player: 0,
 	camera: 1,
 	frontend: 2,
-}
+} as const
 export const CONTROLS = {
 	"V": [0, 236, 320, 325],
 	"MOUSE RIGHT": [1, 6, 13, 66, 98, 220, 270, 271, 282, 283, 286, 287, 290, 333],
@@ -117,18 +117,23 @@ const on = ({
 	key,
 	cb,
 	type = 'player',
-}: Bind) => {
+}: Omit<Bind, 'event' | 'type'> & {
+	type?: Bind['type']
+} & {
+	event: Exclude<Bind['event'], 'disable' | 'enable'>
+}) => {
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
 	binds.add({
 		event, key, cb, type
 	})
 }
-
 const disable = ({
 	key,
 	type = 'player',
-}: Bind) => {
+}: Pick<Bind, 'key'> & {
+	type?: Bind['type']
+}) => {
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
 	binds.add({
@@ -138,7 +143,9 @@ const disable = ({
 const enable = ({
 	key,
 	type = 'player',
-}: Bind) => {
+}: Pick<Bind, 'key'> & {
+	type?: Bind['type']
+}) => {
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
 	binds.add({
@@ -146,15 +153,16 @@ const enable = ({
 	})
 }
 
-pool(() => {
-	binds.forEach(({ event, key, cb, type }) => {
-		for (const index of CONTROLS[key]) {
-			if (!EVENTS[event](TYPES[type], index, true)) continue
-			cb()
-			break
-		}
-	})
-})
+on({ event: 'disabled', key: ',', cb: () => {} })
+enable({ key: '-'})
+
+pool(() => binds.forEach(({ event, key, cb, type }) => {
+	for (const index of CONTROLS[key]) {
+		if (!EVENTS[event](TYPES[type], index, true)) continue
+		cb()
+		break
+	}
+}))
 
 export const control = {
 	on,
