@@ -7,17 +7,17 @@
   "type": "module",
   "keywords": [
     "lenix",
-    "modules",
-    "typescript",
     "fivem",
+    "typescript",
     "lua",
     "luarocks",
     "oop",
     "api",
-    "class",
-    "fxmanifest",
     "eslint",
-    "linter"
+    "linter",
+    "modules",
+    "class",
+    "fxmanifest"
   ],
   "repository": {
     "type": "git",
