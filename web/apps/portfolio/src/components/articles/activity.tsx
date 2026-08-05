@@ -7,7 +7,7 @@ import {
 	type ChartConfig,
 } from '@workspace/ui/components/chart'
 import { motion } from 'motion/react'
-import { Line, LineChart, XAxis } from 'recharts'
+import { Line, LineChart, ResponsiveContainer, XAxis } from 'recharts'
 
 const chartConfig = {
 	count: {
@@ -43,25 +43,23 @@ export const Activity = () => {
 					config={chartConfig}
 					className='w-full h-[160px] min-h-[160px] aspect-auto'
 				>
-					<LineChart
-						responsive
-						style={{ width: '100%', height: '100%' }}
-						data={commitsData}
-					>
-						<XAxis dataKey='date' hide />
-						<ChartTooltip
-							cursor={{ stroke: 'var(--border)' }}
-							content={<ChartTooltipContent />}
-						/>
-						<Line
-							type='monotone'
-							dataKey='count'
-							stroke='var(--foreground)'
-							strokeWidth={1.5}
-							dot={false}
-							activeDot={{ r: 3, fill: '#a1a1aa' }}
-						/>
-					</LineChart>
+					<ResponsiveContainer width='100%' height='100%'>
+						<LineChart data={commitsData}>
+							<XAxis dataKey='date' hide />
+							<ChartTooltip
+								cursor={{ stroke: 'var(--border)' }}
+								content={<ChartTooltipContent />}
+							/>
+							<Line
+								type='monotone'
+								dataKey='count'
+								stroke='var(--foreground)'
+								strokeWidth={1.5}
+								dot={false}
+								activeDot={{ r: 3, fill: '#a1a1aa' }}
+							/>
+						</LineChart>
+					</ResponsiveContainer>
 				</ChartContainer>
 			</motion.div>
 		</div>
