@@ -21,6 +21,7 @@ export const Activity = () => {
 	if (ctx.status !== 'ok') return null
 
 	const commitsData = commitsToChartData(ctx.data.commits)
+
 	return (
 		<div className='mb-16'>
 			<div className='flex items-center justify-between mb-5'>
@@ -38,26 +39,28 @@ export const Activity = () => {
 				{...fade(0.125)}
 				className='border border-foreground/10 rounded-lg p-4'
 			>
-				<ChartContainer
-					config={chartConfig}
-					className='w-full h-[160px] min-h-[160px] overflow-hidden'
-				>
-					<LineChart data={commitsData}>
-						<XAxis dataKey='date' hide />
-						<ChartTooltip
-							cursor={{ stroke: 'var(--border)' }}
-							content={<ChartTooltipContent />}
-						/>
-						<Line
-							type='monotone'
-							dataKey='count'
-							stroke='var(--color-count)'
-							strokeWidth={1.5}
-							dot={false}
-							activeDot={{ r: 3, fill: '#a1a1aa' }}
-						/>
-					</LineChart>
-				</ChartContainer>
+				<div className='w-full h-[160px] min-h-[160px]'>
+					<ChartContainer
+						config={chartConfig}
+						className='w-full h-full aspect-auto'
+					>
+						<LineChart data={commitsData}>
+							<XAxis dataKey='date' hide />
+							<ChartTooltip
+								cursor={{ stroke: 'var(--border)' }}
+								content={<ChartTooltipContent />}
+							/>
+							<Line
+								type='monotone'
+								dataKey='count'
+								stroke='var(--foreground)'
+								strokeWidth={1.5}
+								dot={false}
+								activeDot={{ r: 3, fill: '#a1a1aa' }}
+							/>
+						</LineChart>
+					</ChartContainer>
+				</div>
 			</motion.div>
 		</div>
 	)
