@@ -39,28 +39,30 @@ export const Activity = () => {
 				{...fade(0.125)}
 				className='border border-foreground/10 rounded-lg p-4'
 			>
-				<div className='w-full h-[160px] min-h-[160px]'>
-					<ChartContainer
-						config={chartConfig}
-						className='w-full h-full aspect-auto'
+				<ChartContainer
+					config={chartConfig}
+					className='w-full h-[160px] min-h-[160px] aspect-auto'
+				>
+					<LineChart
+						responsive
+						style={{ width: '100%', height: '100%' }}
+						data={commitsData}
 					>
-						<LineChart data={commitsData}>
-							<XAxis dataKey='date' hide />
-							<ChartTooltip
-								cursor={{ stroke: 'var(--border)' }}
-								content={<ChartTooltipContent />}
-							/>
-							<Line
-								type='monotone'
-								dataKey='count'
-								stroke='var(--foreground)'
-								strokeWidth={1.5}
-								dot={false}
-								activeDot={{ r: 3, fill: '#a1a1aa' }}
-							/>
-						</LineChart>
-					</ChartContainer>
-				</div>
+						<XAxis dataKey='date' hide />
+						<ChartTooltip
+							cursor={{ stroke: 'var(--border)' }}
+							content={<ChartTooltipContent />}
+						/>
+						<Line
+							type='monotone'
+							dataKey='count'
+							stroke='var(--foreground)'
+							strokeWidth={1.5}
+							dot={false}
+							activeDot={{ r: 3, fill: '#a1a1aa' }}
+						/>
+					</LineChart>
+				</ChartContainer>
 			</motion.div>
 		</div>
 	)
