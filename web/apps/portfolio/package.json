@@ -10,9 +10,10 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
-		"fetchapi": "bun --env-file=.env scripts/fetch.ts"
+    "fetchapi": "bun --env-file=.env scripts/fetch.ts"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.1",
     "@types/formidable": "^3.5.1",
     "@workspace/ui": "workspace:*",
     "class-variance-authority": "^0.7.1",
