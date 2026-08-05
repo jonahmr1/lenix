@@ -1,105 +1,163 @@
-import { palette } from '../shared'
-import type { binds } from './_init'
+import { asserts } from '@lenix/lenix'
+import { pool } from './pool'
 
-type Bind = keyof typeof binds
-
-const isInvalidKey = (key: Bind) => {
-  if (!binds[key]) {
-    console.log(palette('pink', `Invalid control key passed: ${key}`))
-    return true
-  }
+interface Bind {
+	event: keyof typeof EVENTS,
+	key: keyof typeof CONTROLS,
+	cb: () => void,
+	type: keyof typeof TYPES,
 }
 
-const getKeyByIndex = (index: number) => {
-  for (const key of Object.keys(binds)) {
-    for (const value of binds[key as Bind]) {
-      if (value == index) {
-        return key
-      }
-    }
-  }
+const EVENTS = {
+	press: IsControlJustPressed,
+	hold: IsControlPressed,
+	release: IsControlJustReleased,
+	released: IsControlReleased,
+	disabled: IsDisabledControlJustPressed,
+	disable: DisableControlAction,
+	enable: EnableControlAction,
+}
+const TYPES = {
+	player: 0,
+	camera: 1,
+	frontend: 2,
+}
+export const CONTROLS = {
+	"V": [0, 236, 320, 325],
+	"MOUSE RIGHT": [1, 6, 13, 66, 98, 220, 270, 271, 282, 283, 286, 287, 290, 333],
+	"MOUSE DOWN": [2, 4, 12, 67, 95, 112, 198, 221, 273, 291, 293, 332],
+	"S": [8, 33, 60, 72, 88, 126, 139, 149, 151, 196, 219, 233, 268, 269, 302],
+	"D": [9, 30, 35, 59, 64, 90, 195, 218, 235, 267, 278, 279, 342],
+	"PAGEUP": [10],
+	"PAGEDOWN": [11],
+	"SCROLLWHEEL DOWN": [14, 16, 50, 97, 180, 198, 242, 262, 334, 336],
+	"SCROLLWHEEL UP": [17, 96, 99, 115, 181, 241, 261, 335],
+	"ENTER": [18, 176, 191, 201, 215],
+	"LEFT MOUSE BUTTON": [18, 24, 122, 135, 142, 144, 176, 223, 229, 237, 257, 329, 346],
+	"SPACEBAR": [18, 22, 55, 76, 102, 143, 179, 203, 216, 255, 298, 321, 328, 353],
+	"LEFT ALT": [19],
+	"Z": [20, 48],
+	"LEFT SHIFT": [21, 61, 131, 137, 155, 209, 254, 340, 352],
+	"F": [23, 49, 56, 75, 144, 145, 251],
+	"E": [23, 38, 46, 51, 54, 86, 103, 119, 184, 206, 350, 351, 355, 356],
+	"RIGHT MOUSE BUTTON": [25, 68, 70, 91, 114, 177, 222, 225, 238, 330, 331, 347],
+	"C": [26, 79, 253, 319, 324],
+	"ARROW UP": [27, 172, 188, 300, 303],
+	"B": [29, 170, 305],
+	"W": [32, 61, 71, 77, 87, 111, 129, 136, 150, 232],
+	"A": [34, 63, 89, 124, 133, 147, 234, 338],
+	"LEFT CTRL": [36, 60, 62, 132, 210, 224, 280, 281, 326, 341, 343],
+	"TAB": [37, 192, 204, 211, 349],
+	"[": [39, 41, 43, 100, 116, 274, 275, 276, 277, 312],
+	"]": [40, 42, 197, 313],
+	"Q": [44, 52, 85, 138, 141, 152, 205, 264],
+	"R": [45, 80, 140, 250, 263, 310],
+	"G": [47, 58, 113, 183],
+	"F9": [56],
+	"F10": [57],
+	"X": [73, 105, 120, 131, 154, 186, 203, 214, 224, 252, 256, 296, 323, 337, 345, 349, 354, 357],
+	"H": [74, 101, 104, 304],
+	".": [81],
+	",": [82],
+	"=": [83],
+	"-": [84],
+	"NUMPAD-": [96],
+	"NUMPAD+": [97, 314],
+	"NUMPAD 6": [107, 109, 123, 125],
+	"NUMPAD 4": [108, 124],
+	"NUMPAD 5": [110, 112, 126, 128],
+	"NUMPAD 8": [111, 127],
+	"NUMPAD 7": [117],
+	"NUMPAD 9": [118],
+	"INSERT": [121],
+	"1": [157],
+	"2": [158],
+	"6": [159],
+	"3": [160],
+	"7": [161],
+	"8": [162],
+	"9": [163],
+	"4": [164],
+	"5": [165],
+	"F5": [166, 318, 327],
+	"F6": [167],
+	"F7": [168],
+	"F8": [169],
+	"F3": [170],
+	"CAPSLOCK": [137, 171, 217],
+	"ARROW DOWN": [173, 187, 233, 299],
+	"ARROW LEFT": [174, 189, 308],
+	"ARROW RIGHT": [175, 190, 307],
+	"BACKSPACE": [177, 194, 202],
+	"DELETE": [178, 214, 256, 296],
+	"Y": [178, 204, 246, 348],
+	"ESC": [177, 200, 202, 322],
+	"P": [199],
+	"NUMPAD ENTER": [201],
+	"PAGE DOWN": [207, 317],
+	"PAGE UP": [208, 316],
+	"HOME": [212, 213],
+	"T": [245, 309],
+	"M": [244, 301],
+	"N": [249, 306],
+	"~": [243],
+	"`": [243],
+	"K": [311],
+	"U": [303],
+	"F1": [288],
+	"F2": [289],
+	"F11": [344],
+	"SCROLLWHEEL BUTTON (PRESS)": [27, 348]
+} as const
+
+const binds = new Set<Bind>()
+
+const on = ({
+	event,
+	key,
+	cb,
+	type = 'player',
+}: Bind) => {
+	asserts(CONTROLS[key], `Could not find key<${key}>`)
+
+	binds.add({
+		event, key, cb, type
+	})
 }
 
-const onKey = (Function: Function, key: Bind, callback: Function, ...parameters: any) => {
-  for (const index of binds[key]) {
-    if (Function(0, index, ...parameters)) {
-      if (callback) {
-        callback()
-      }
-      break
-    }
-  }
+const disable = ({
+	key,
+	type = 'player',
+}: Bind) => {
+	asserts(CONTROLS[key], `Could not find key<${key}>`)
+
+	binds.add({
+		event: 'disable', key, cb: () => {}, type
+	})
+}
+const enable = ({
+	key,
+	type = 'player',
+}: Bind) => {
+	asserts(CONTROLS[key], `Could not find key<${key}>`)
+
+	binds.add({
+		event: 'enable', key, cb: () => {}, type
+	})
 }
 
-const onReleased = (key: Bind, callback: Function) => {
-  if (isInvalidKey(key)) return false
-  try {
-    setTick(() => onKey(IsControlReleased, key, callback))
-  } catch (error) {
-    console.error(error)
-  }
-  return true
-}
-
-const onRelease = (key: Bind, callback: Function) => {
-  if (isInvalidKey(key)) return false
-
-  try {
-    setTick(() => onKey(IsControlJustReleased, key, callback))
-  } catch (error) {
-    console.error(error)
-  }
-  return true
-}
-
-const onPress = (key: Bind, callback: Function) => {
-  if (isInvalidKey(key)) return false
-
-  try {
-    setTick(() => onKey(IsControlJustPressed, key, callback))
-  } catch (error) {
-    console.error(error)
-  }
-  return true
-}
-
-
-const onHold = (key: Bind, callback: Function) => {
-  if (isInvalidKey(key)) return false
-
-  try {
-    setTick(() => onKey(IsControlPressed, key, callback))
-  } catch (error) {
-    console.error(error)
-  }
-  return true
-}
-
-const onDisabled = (key: Bind, callback: Function) => {
-  if (isInvalidKey(key)) return false
-
-  try {
-    setTick(() => {
-      onKey(DisableControlAction, key, noop, true)
-      onKey(IsDisabledControlJustPressed, key, callback)
-    })
-  } catch (error) {
-    console.error(error)
-  }
-  return true
-}
-
-const disable = (key: Bind) => {
-  if (isInvalidKey(key)) return false
-
-  try {
-    setTick(() => onKey(DisableControlAction, key, noop, true) )
-  } catch (error) {
-    console.error(error)
-  }
-  return true
-}
+pool(() => {
+	binds.forEach(({ event, key, cb, type }) => {
+		for (const index of CONTROLS[key]) {
+			if (!EVENTS[event](TYPES[type], index, true)) continue
+			cb()
+			break
+		}
+	})
+})
 
 export const control = {
-	
+	on,
+	disable,
+	enable
 }
