@@ -31,7 +31,7 @@ export const Nav = (/* { products }: { products: { id: number; title: string }[]
 		// 		icon: Box,
 		// 	})),
 		// },
-		{ path: "/docs", label: "Docs", icon: Book },
+		{ path: "/docs", label: "Docs", icon: Book, external: true },
 		{ path: "https://lenix.dev/contact", label: "Contact", icon: Headset, external: true },
 		{ path: "https://discord.gg/FDp3UZqCtQ", label: "Discord", icon: MessagesSquare, external: true },
 		{ path: "/legal", label: "Legal", icon: Scale },
@@ -48,7 +48,10 @@ export const Nav = (/* { products }: { products: { id: number; title: string }[]
 
 	const Navbar = () => routes.map(({ path, icon: Icon, label, sub, external }) => {
 		if (!sub) return (
-			<NavigationMenuItem key={path} className={path === pathname ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}>
+			<NavigationMenuItem
+				key={path}
+				className={path === pathname ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}
+			>
 				<NavigationMenuLink
 					aria-disabled={true}
 					onClick={() => external ? window.open(path, '_blank') : navigate(path)}

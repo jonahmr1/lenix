@@ -2,10 +2,10 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 
 import "@workspace/ui/globals.css"
-import { App } from "./routes/home.tsx"
+import { Business } from "./routes/index.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { Toaster } from "@workspace/ui/components/sonner"
-import { Nav } from "./components/articles/nav"
+import { Nav } from "./components/articles/nav.tsx"
 import { MemoryRouter, Route, Routes } from "react-router"
 import Legal from "./routes/legal.tsx"
 
@@ -15,8 +15,8 @@ createRoot(document.getElementById("root")!).render(
 			<MemoryRouter>
 				<Nav />
 				<Routes>
-					<Route path="/" element={<App />}/>
-					<Route path="/legal" element={<Legal />}/>
+					<Route path="/" element={<Business />} />
+					<Route path="/legal" element={<Legal />} />
 				</Routes>
 			</MemoryRouter>
 			<Toaster />

@@ -2,9 +2,10 @@ import { AccordionItems } from "@/components/articles/faqs"
 import { Layout } from "@/components/layout"
 import { Button } from "@workspace/ui/components/button"
 import type { Faq } from "../types"
-import { MessageCircle, Check, Package, Settings, Wrench, Euro, type LucideIcon } from "lucide-react"
+import { MessageCircle, Check, Package, Settings, Wrench, Euro, type LucideIcon, MoveUpRight } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@workspace/ui/components/card";
 import { H1, H2, Muted, P, Ul } from "@/components/typography"
+import { useNavigate } from "react-router"
 
 const data: Faq[] = [
 	{
@@ -17,6 +18,7 @@ const data: Faq[] = [
 	},
 ]
 
+const payLink = 'https://buy.polar.sh/polar_cl_ihhMVbNL2cuRAKiafieSfHSXpcaGfSNK0sn1N0zqZtx'
 
 const FeatureCard = ({ title, description, icon: Icon }: { title: string, description: string, icon: LucideIcon }) => (
 	<Card>
@@ -30,7 +32,8 @@ const FeatureCard = ({ title, description, icon: Icon }: { title: string, descri
 	</Card>
 )
 
-export const App = () => {
+export const Business = () => {
+	const nav = useNavigate()
 	return (
 		<Layout>
 			<div className="flex flex-col items-center justify-center gap-5">
@@ -38,12 +41,12 @@ export const App = () => {
 				<P className="text-center">Lenix develops software products that help developers and business owners work faster and move forward.</P>
 				<div className="flex portrait:flex-col gap-3">
 
-					{/* <Button onClick={() => {
-						navigate('products')
-					}}>View Products</Button> */}
-					{/* <Button onClick={() => {
-						navigate('/docs')
-					}}>Documentation</Button> */}
+					<Button onClick={() => {
+						window.open(payLink, '_blank')
+					}}>Pay Lenix</Button>
+					<Button variant='link' onClick={() => {
+						window.open('https://docs.lenix.dev', '_blank')
+					}}>Documentation <MoveUpRight /></Button>
 				</div>
 			</div>
 
