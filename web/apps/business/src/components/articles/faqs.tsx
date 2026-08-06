@@ -2,7 +2,7 @@ import type { Faq } from '@/types';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@workspace/ui/components/accordion";
 
 export const AccordionItems = ({ data }: { data: Faq[] }) => (
-	<Accordion type='single'>
+	<Accordion type='single' defaultValue={'0'}>
 		{data.map(({ question, answer }, i) => (
 			<AccordionItem value={i.toString()} key={i}>
 				<AccordionTrigger>{question}</AccordionTrigger>
