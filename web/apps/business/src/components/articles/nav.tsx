@@ -1,4 +1,4 @@
-import { Headset, House, Menu, MessagesSquare, MoveUpRight, Scale } from "lucide-react";
+import { Book, Headset, House, Menu, MessagesSquare, MoveUpRight, Scale } from "lucide-react";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import type { Route } from "@/types";
 import {
@@ -31,8 +31,7 @@ export const Nav = (/* { products }: { products: { id: number; title: string }[]
 		// 		icon: Box,
 		// 	})),
 		// },
-		// { path: "/docs", label: "Docs", icon: Book },
-		// { path: "/business", label: "Business", icon: BriefcaseBusiness },
+		{ path: "/docs", label: "Docs", icon: Book },
 		{ path: "https://lenix.dev/contact", label: "Contact", icon: Headset, external: true },
 		{ path: "https://discord.gg/FDp3UZqCtQ", label: "Discord", icon: MessagesSquare, external: true },
 		{ path: "/legal", label: "Legal", icon: Scale },
