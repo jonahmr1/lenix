@@ -5,7 +5,6 @@ import type { Faq } from "../types"
 import { MessageCircle, Check, Package, Settings, Wrench, Euro, type LucideIcon, MoveUpRight } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@workspace/ui/components/card";
 import { H1, H2, Muted, P, Ul } from "@/components/typography"
-import { useNavigate } from "react-router"
 
 const data: Faq[] = [
 	{
@@ -33,7 +32,6 @@ const FeatureCard = ({ title, description, icon: Icon }: { title: string, descri
 )
 
 export const Business = () => {
-	const nav = useNavigate()
 	return (
 		<Layout>
 			<div className="flex flex-col items-center justify-center gap-5">
