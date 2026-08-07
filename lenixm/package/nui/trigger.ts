@@ -15,7 +15,7 @@ export const triggerNui = async <T extends Request<unknown, string, object>>(
 			headers: {
 				'Content-Type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify(data ?? {})
+			body: JSON.stringify(data)
 		})
 		return await response.json()
 	} catch (e) {

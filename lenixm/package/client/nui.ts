@@ -23,10 +23,14 @@ export const onNui = <T extends Request<unknown, string, object>>(
 	id: T[1],
 	cb: (data: T[2]) => T[0] | Promise<T[0]>
 ): void => {
-	RegisterNuiCallback(id, (
+	RegisterNuiCallback(id, async (
 		data: T[2],
 		reply: (_: unknown) => void
 	) => {
-		reply(cb(data))
+		try {
+			reply(await cb(data))
+		} catch(e) {
+			throw e
+		}
 	})
 }
