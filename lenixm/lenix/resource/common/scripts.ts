@@ -1,9 +1,35 @@
 import type { ClientScript, ServerScript } from 'types/dirs'
 
-const EnabledContextedScripts = ['topscore'] as const satisfies readonly (ClientScript & ServerScript)[]
+const EnabledContextedScripts = [
+	'cuffs',
+	'escort',
+	'groups',
+	'hotel',
+	'interactions',
+	'medical',
+	'prison',
+	'robbery',
+	// 'roster',
+	// 'topscore'
+] as const satisfies readonly (ClientScript & ServerScript)[]
 
-export const EnabledOnlyClientScripts = [] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
-export const EnabledOnlyServerScripts = [] as const satisfies readonly Exclude<ServerScript, ClientScript>[]
+export const EnabledOnlyClientScripts = [
+	'crouch',
+	'elevators',
+	'handsup',
+	'hud',
+	'identities',
+	'radialmenu',
+	'radio',
+	'rent',
+	'safezones',
+	'settings',
+	'weather'
+] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
+export const EnabledOnlyServerScripts = [
+	'appearance',
+	'db'
+] as const satisfies readonly Exclude<ServerScript, ClientScript>[]
 
 export const EnabledClientScripts = [
 	...EnabledOnlyClientScripts,
