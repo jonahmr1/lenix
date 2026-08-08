@@ -4,7 +4,7 @@ import { pool } from './pool'
 export interface Bind {
 	event: keyof typeof EVENTS,
 	key: keyof typeof CONTROLS,
-	cb: () => void,
+	onEvent: () => void,
 	type: keyof typeof TYPES,
 }
 
@@ -115,7 +115,7 @@ const binds = new Set<Bind>()
 const on = ({
 	event,
 	key,
-	cb,
+	onEvent: cb,
 	type = 'player',
 }: Omit<Bind, 'event' | 'type'> & {
 	type?: Bind['type']
@@ -125,7 +125,7 @@ const on = ({
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
 	binds.add({
-		event, key, cb, type
+		event, key, onEvent: cb, type
 	})
 }
 const disable = ({
@@ -137,7 +137,7 @@ const disable = ({
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
 	binds.add({
-		event: 'disable', key, cb: () => {}, type
+		event: 'disable', key, onEvent: () => {}, type
 	})
 }
 const enable = ({
@@ -149,11 +149,11 @@ const enable = ({
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
 	binds.add({
-		event: 'enable', key, cb: () => {}, type
+		event: 'enable', key, onEvent: () => {}, type
 	})
 }
 
-pool(() => binds.forEach(({ event, key, cb, type }) => {
+pool(() => binds.forEach(({ event, key, onEvent: cb, type }) => {
 	for (const index of CONTROLS[key]) {
 		if (!EVENTS[event](TYPES[type], index, true)) continue
 		cb()
