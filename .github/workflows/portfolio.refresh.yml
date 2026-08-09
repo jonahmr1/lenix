@@ -22,5 +22,4 @@ jobs:
       - name: Run fetch script
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          VITE_GIST_ID: ${{ secrets.GIST_ID }}
         run: bun --env-file=.env scripts/fetch.ts
