@@ -11,12 +11,12 @@
  *
  * @example
  * ```ts
- * import { wait } from '@lenix/lenix'
+ * import { delay } from '@lenix/lenix'
  *
- * await wait(1000)
+ * await delay(1000)
  * ```
  */
-export const wait = async (ms: number): Promise<void> =>
+export const delay = async (ms: number): Promise<void> =>
 	await new Promise((resolve) => {
 		setTimeout(resolve, ms)
 	})

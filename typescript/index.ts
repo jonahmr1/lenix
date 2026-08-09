@@ -13,7 +13,7 @@
  * ```
  */
 
-export * from './wait/index.ts'
+export * from './delay/index.ts'
 export * from './entries/index.ts'
 export * from './raise/index.ts'
 export * from './storage/index.ts'
