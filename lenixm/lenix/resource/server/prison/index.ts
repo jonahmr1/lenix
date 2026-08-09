@@ -1,8 +1,12 @@
 import { GetPlayer, type OxPlayer } from '@overextended/ox_core/server'
-import { addCommand, triggerClientCallback } from '@overextended/ox_lib/server'
+import { addCommand, checkDependency, triggerClientCallback } from '@overextended/ox_lib/server'
 import { oxmysql } from '@overextended/oxmysql'
 import { INSIDE_COORDS } from 'common/config'
 import type { Vector4 } from 'types/index'
+
+checkDependency('oxmysql', '2.14.1', true)
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_core', '1.5.14', true)
 
 const OUTSIDE_COORDS: Vector4 = [1845.8193, 2585.856, 45.672, 269.8568]
 

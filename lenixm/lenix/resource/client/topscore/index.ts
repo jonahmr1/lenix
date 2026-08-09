@@ -1,8 +1,10 @@
 import { entries } from "@lenix/lenix";
-import { triggerServerCallback } from "@overextended/ox_lib/client";
+import { checkDependency, triggerServerCallback } from "@overextended/ox_lib/client";
 import type { Vec3 } from "lenix";
 import { client, emitEvent, pool } from "lenix/client";
 import type { Events, TopscoreContextData, TopscoreData } from "types/index";
+
+checkDependency('ox_lib', '3.39.0', true)
 
 const screenResolution = GetActiveScreenResolution()
 const screenWidth = screenResolution[0] ?? 1920

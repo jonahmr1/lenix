@@ -1,7 +1,12 @@
 import { GetPlayer } from '@overextended/ox_core/server'
 import { notify } from '@overextended/ox_lib/client'
+import { checkDependency } from '@overextended/ox_lib'
 import { oxmysql } from '@overextended/oxmysql'
 import type { Officer, PartialOfficer, Officers as IOfficers } from 'types/index'
+
+checkDependency('oxmysql', '2.14.1', true)
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_core', '1.5.14', true)
 
 abstract class Officers {
 	private static readonly officers: IOfficers = {}

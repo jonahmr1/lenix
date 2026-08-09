@@ -1,6 +1,9 @@
-import { inputDialog } from '@overextended/ox_lib/client'
+import { checkDependency, inputDialog } from '@overextended/ox_lib/client'
 import { client } from 'lenix/client'
 import type { PlayerStorage } from 'types/index'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_inventory', '2.47.9', true)
 
 const openSettings = async () => {
 	const input = await inputDialog(

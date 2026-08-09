@@ -10,9 +10,7 @@ interface DoorData {
 	maxDistance: number
 }
 
-type DoorTemplate = Omit<DoorData, 'items'>
-
-const FIRST_FLOOR_DOORS: [string, DoorTemplate][] = [
+const FIRST_FLOOR_DOORS: [string, Omit<DoorData, 'items'>][] = [
 	[
 		'401',
 		{
@@ -212,6 +210,7 @@ const FIRST_FLOOR_DOORS: [string, DoorTemplate][] = [
 		},
 	],
 ]
+const FLOORS_AMOUNT: number = 27
 
 const rows: string[] = []
 

@@ -1,6 +1,9 @@
-import { onClientCallback } from "@overextended/ox_lib/server"
+import { checkDependency, onClientCallback } from "@overextended/ox_lib/server"
 import { oxmysql } from "@overextended/oxmysql"
 import type { TopscoreContextData } from "types/index"
+
+checkDependency('oxmysql', '2.14.1', true)
+checkDependency('ox_lib', '3.39.0', true)
 
 const getData = async (): Promise<TopscoreContextData> => {
 	const players = await oxmysql.query<{

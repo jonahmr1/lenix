@@ -1,5 +1,8 @@
-import { addCommand, onClientCallback } from '@overextended/ox_lib/server'
+import { addCommand, checkDependency, onClientCallback } from '@overextended/ox_lib/server'
 import { oxmysql } from '@overextended/oxmysql'
+
+checkDependency('illenium-appearance', '5.7.0', true)
+checkDependency('ox_lib', '3.39.0', true)
 
 export async function getOfflineAppearance(charId: number) {
 	try {

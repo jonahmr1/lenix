@@ -1,4 +1,6 @@
-import { addKeybind, cache, requestAnimSet } from '@overextended/ox_lib/client'
+import { addKeybind, cache, checkDependency, requestAnimSet } from '@overextended/ox_lib/client'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 let crouched: boolean = false
 

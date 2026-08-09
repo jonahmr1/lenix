@@ -2,18 +2,25 @@ import type { Team, Vector4 } from 'types/index'
 import {
 	alertDialog,
 	cache,
+	checkDependency,
 	createPed,
 	hideTextUI,
 	inputDialog,
 	registerContext,
 	showContext,
 	showTextUI,
+	notify,
+	progressBar,
+	requestModel
 } from '@overextended/ox_lib/client'
 import { MISSION_PRICE, VEHICLE_MODEL } from 'common/config'
 import { client, useTimer, getNearest } from 'lenix/client'
-import { notify, progressBar, requestModel } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types/index'
 import { api } from 'lenix/client'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_inventory', '2.47.9', true)
+checkDependency('ox_target', '1.18.1', true)
 
 const PEDS_MODEL = 'mp_s_m_armoured_01'
 const DRILL_ITEM = 'drill'

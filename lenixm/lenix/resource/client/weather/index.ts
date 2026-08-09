@@ -1,6 +1,8 @@
-import { inputDialog, notify } from '@overextended/ox_lib/client'
+import { checkDependency, inputDialog, notify } from '@overextended/ox_lib/client'
 import { client } from 'lenix/client'
 import type { PlayerStorage, SyncConfig as ISyncConfig } from 'types/index'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 export const SyncConfig: readonly ISyncConfig[] = ['server', 'custom', 'irl']
 

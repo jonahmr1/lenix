@@ -1,7 +1,10 @@
-import { cache } from '@overextended/ox_lib'
+import { cache, checkDependency } from '@overextended/ox_lib'
 import { notify, createVehicle, registerContext, showContext, createPed } from '@overextended/ox_lib/client'
 import { api } from 'lenix/client'
 import type { Vector4 } from 'types'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_target', '1.18.1', true)
 
 let lastVehicle: number
 let vehicleInterval: ReturnType<typeof setInterval>

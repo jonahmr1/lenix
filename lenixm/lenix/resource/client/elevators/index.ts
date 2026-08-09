@@ -1,7 +1,9 @@
-import { progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
+import { checkDependency, progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
 import { api } from 'lenix/client'
 import { client } from 'lenix/client'
 import type { Vector4 } from 'types/index'
+
+checkDependency('ox_target', '1.18.1', true)
 
 const COMMANDER_ROTATION = 70
 const WAIT_DURATION = 5

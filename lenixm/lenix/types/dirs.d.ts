@@ -20,6 +20,7 @@ export type ClientScript =
   | 'roster'
   | 'safezones'
   | 'settings'
+  | 'snipets'
   | 'topscore'
   | 'weather'
 export type ServerScript = 

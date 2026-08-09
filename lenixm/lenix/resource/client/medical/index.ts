@@ -1,5 +1,9 @@
-import { cache, progressBar, skillCheck } from '@overextended/ox_lib/client'
+import { cache, checkDependency, progressBar, skillCheck } from '@overextended/ox_lib/client'
 import { api } from 'lenix/client'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_target', '1.18.1', true)
+checkDependency('ox_inventory', '2.47.9', true)
 
 setImmediate(() => {
 	api.ox_target?.addSphereZone?.({

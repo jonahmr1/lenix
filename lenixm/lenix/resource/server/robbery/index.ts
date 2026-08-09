@@ -5,6 +5,11 @@ import { VEHICLE_MODEL } from 'common/config'
 import { CreateVehicle, type OxVehicle } from '@overextended/ox_core/server'
 import { random } from '@lenix/lenix'
 import { api } from 'lenix/server'
+import { checkDependency } from '@overextended/ox_lib'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_core', '1.5.14', true)
+checkDependency('ox_inventory', '2.47.9', true)
 
 const VEHICLE_COORDS: Vector4[] = [
 	[-1209.2249, -1162.83, 7.6913, 13.5316],

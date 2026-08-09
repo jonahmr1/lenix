@@ -1,5 +1,7 @@
-import { inputDialog, onServerCallback, Point } from '@overextended/ox_lib/client'
+import { checkDependency, inputDialog, onServerCallback, Point } from '@overextended/ox_lib/client'
 import { INSIDE_COORDS } from 'common/config'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 onServerCallback('lenix:imprisonPlayer', async () => {
 	const input = await inputDialog(

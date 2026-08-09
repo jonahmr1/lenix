@@ -20,3 +20,4 @@ for (const script of EnabledServerScripts) {
 	} satisfies Record<ServerScript, () => Promise<unknown>>
 	modules[script]()
 }
+

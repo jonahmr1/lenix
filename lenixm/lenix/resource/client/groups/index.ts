@@ -1,4 +1,6 @@
-import { inputDialog, onServerCallback } from '@overextended/ox_lib/client'
+import { checkDependency, inputDialog, onServerCallback } from '@overextended/ox_lib/client'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 onServerCallback('lenix:createGroup', async (count: number) => {
 	const input = await inputDialog(

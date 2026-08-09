@@ -1,5 +1,7 @@
-import { addKeybind, cache, requestAnimDict } from '@overextended/ox_lib/client'
+import { addKeybind, cache, checkDependency, requestAnimDict } from '@overextended/ox_lib/client'
 import { client } from 'lenix/client'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 let handsUp: boolean = false
 

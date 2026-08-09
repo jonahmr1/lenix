@@ -1,4 +1,8 @@
-import { addRadialItem, notify, onCache, removeRadialItem } from '@overextended/ox_lib/client'
+import { addRadialItem, checkDependency, notify, onCache, removeRadialItem } from '@overextended/ox_lib/client'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('illenium-appearance', '5.7.0', true)
+checkDependency('ox_core', '1.5.14', true)
 
 addRadialItem([
 	{
@@ -51,7 +55,7 @@ onCache('vehicle', vehicle => {
 			id: 'vehicle-menu',
 			label: 'Vehicle',
 			icon: 'car',
-			onSelect: () => emit('vehiclecontrol:toggle'),
+			onSelect: () => notify({ title: 'Not available yet!', }),
 		})
 		return
 	}

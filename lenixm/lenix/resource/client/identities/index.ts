@@ -1,6 +1,8 @@
-import { addKeybind, cache } from '@overextended/ox_lib/client'
+import { addKeybind, cache, checkDependency } from '@overextended/ox_lib/client'
 import { pool } from 'lenix/client'
 import type { Vector3 } from 'types'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 let shown = false
 

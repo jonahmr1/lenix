@@ -1,7 +1,11 @@
-import { cache } from '@overextended/ox_lib'
+import { cache, checkDependency } from '@overextended/ox_lib'
 import type { Events } from 'types/index'
 import { emitEvent, pool } from 'lenix/client'
 import { api } from 'lenix/client'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_inventory', '2.47.9', true)
+checkDependency('ox_core', '1.5.14', true)
 
 type OxWeapon =
 	| {
@@ -49,7 +53,7 @@ on('ox_inventory:currentWeapon', (weapon: OxWeapon) => {
 })
 
 on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
-	const weapon: OxWeapon = api.ox_inventory.getCurrentWeapon<Fn<OxWeapon>>()
+	const weapon: OxWeapon = api.ox_inventory.getCurrentWeapon<OxWeapon>()
 	if (!weapon) return
 	if (weapon.ammo !== itemName) return
 

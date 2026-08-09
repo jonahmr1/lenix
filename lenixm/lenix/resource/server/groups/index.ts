@@ -1,6 +1,10 @@
 import type { OxAccountRole } from '@overextended/ox_core'
-import { addCommand, triggerClientCallback } from '@overextended/ox_lib/server'
+import { addCommand, checkDependency, triggerClientCallback } from '@overextended/ox_lib/server'
 import { api } from 'lenix/server'
+
+checkDependency('oxmysql', '2.14.1', true)
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_core', '1.5.14', true)
 
 addCommand(
 	'creategroup',

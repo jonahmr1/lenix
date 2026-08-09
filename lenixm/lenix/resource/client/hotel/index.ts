@@ -1,6 +1,11 @@
 import { GetPlayer } from '@overextended/ox_core/client'
+import { checkDependency } from '@overextended/ox_lib'
 import { getSafeById, HOTEL_SAFES } from 'common/config'
 import { api } from 'lenix/client'
+
+checkDependency('ox_core', '1.5.14', true)
+checkDependency('ox_target', '1.18.1', true)
+checkDependency('ox_inventory', '2.47.9', true)
 
 const SAFE_SIZE = [1.66, 1.66, 1.66] as const
 

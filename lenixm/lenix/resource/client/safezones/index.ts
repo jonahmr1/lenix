@@ -1,5 +1,7 @@
-import { Point, cache, hideTextUI, showTextUI } from '@overextended/ox_lib/client'
+import { Point, cache, checkDependency, hideTextUI, showTextUI } from '@overextended/ox_lib/client'
 import type { Vector3 } from 'types'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 const SAFE_ZONES: {
 	coords: Vector3

@@ -17,8 +17,6 @@ interface Safe {
 
 const ROOM_FLOORS_AMOUNT: number = 25
 const ROOMS_PER_FLOOR: number = 18
-const FLOOR_HEIGHT: number = 4
-const FIRST_ROOMS_FLOOR_INDEX: number = 4
 const FIRST_FLOOR_SAFES: readonly Safe[] = [
 	{ coords: [-348.0733, -1049.4086, 45.23, 160.1787], rotation: 70.0 },
 	{ coords: [-341.6795, -1031.9573, 45.2296, 271.7698], rotation: 70.0 },
@@ -47,6 +45,9 @@ const HOTEL_ROOM_FLOORS: number[] = Array.from(
 	{ length: ROOM_FLOORS_AMOUNT },
 	(_, i) => i + FIRST_ROOMS_FLOOR_INDEX,
 )
+
+export const FLOOR_HEIGHT: number = 4
+export const FIRST_ROOMS_FLOOR_INDEX: number = 4
 
 export const HOTEL_ROOMS: number[] = Array.from({ length: ROOM_FLOORS_AMOUNT * ROOMS_PER_FLOOR }, (_, i) => {
 	const floor = HOTEL_ROOM_FLOORS[Math.floor(i / ROOMS_PER_FLOOR)]

@@ -1,5 +1,9 @@
+import { checkDependency } from '@overextended/ox_lib'
 import { oxmysql } from '@overextended/oxmysql'
 import { MAX_CALLSIGN_LENGTH } from 'common/config'
+
+checkDependency('oxmysql', '2.14.1', true)
+checkDependency('ox_lib', '3.39.0', true)
 
 setImmediate(async () => {
 	const table = await oxmysql.query(`

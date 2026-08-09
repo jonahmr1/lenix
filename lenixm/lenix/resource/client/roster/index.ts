@@ -1,8 +1,10 @@
-import { addKeybind, cache, inputDialog, notify } from '@overextended/ox_lib/client'
+import { addKeybind, cache, checkDependency, inputDialog, notify } from '@overextended/ox_lib/client'
 import type { Events, Officers, PartialOfficer, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
 import { emitEvent, onNui } from 'lenix/client'
 import { MAX_CALLSIGN_LENGTH } from 'common/config'
+
+checkDependency('ox_lib', '3.39.0', true)
 
 let visible: boolean = false
 let group: string
