@@ -64,7 +64,6 @@ const toggleCam = ({
 }) => {
 	setTimeout(() => {
 		SetCamActive(cam, state)
-		// deno-lint-ignore no-boolean-literal-for-arguments
 		RenderScriptCams(state, state, delay, true, state)
 		DoScreenFadeIn(fadeIn)
 	}, delay)
@@ -89,7 +88,6 @@ const create = ({
 		rotationOrder = details?.rotationOrder ?? 0
 
 	DoScreenFadeOut(fadeOut)
-	// deno-lint-ignore no-boolean-literal-for-arguments
 	const cam = CreateCamWithParams(
 		'DEFAULT_SCRIPTED_CAMERA',
 		coords[0],

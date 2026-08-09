@@ -21,7 +21,6 @@ export const pool = (func: () => void): void => {
 				task()
 			} catch (e) {
 				tasks.delete(task)
-				// deno-lint-ignore no-console
 				console.warn(e)
 			}
 		}

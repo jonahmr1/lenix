@@ -6,7 +6,6 @@ interface Listener<T extends unknown[]> {
 }
 const events = new Map<string, Set<Listener<unknown[]>>>()
 
-// deno-lint-ignore no-window no-window-prefix no-unused-vars
 const handler = (event: MessageEvent) => {
 	const { id, params } = event.data
 	const callbacks = events.get(id)
