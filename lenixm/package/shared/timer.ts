@@ -1,12 +1,17 @@
 /**
  * Starts a client timer using FiveM game time.
  */
-export const useTimer = (
+export const useTimer = ({
+	duration,
+	updateInterval,
+	onTick,
+	onEnd
+}: {
 	duration: number,
 	updateInterval: number,
 	onTick: (timeLeft: number) => void,
 	onEnd: () => void
-): () => void => {
+}): () => void => {
 	const start = GetGameTimer()
 
 	const interval = setInterval(() => {
