@@ -17,6 +17,7 @@ for (const script of EnabledServerScripts) {
 		robbery: () => import('./robbery'),
 		roster: () => import('./roster'),
 		topscore: () => import('./topscore'),
+		criminalTask: () => import('./criminalTask'),
 	} satisfies Record<ServerScript, () => Promise<unknown>>
 	modules[script]()
 }

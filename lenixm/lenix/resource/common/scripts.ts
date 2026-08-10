@@ -24,7 +24,8 @@ export const EnabledOnlyClientScripts = [
 	'rent',
 	'safezones',
 	'settings',
-	'weather'
+	'weather',
+	'snipets'
 ] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 export const EnabledOnlyServerScripts = [
 	'appearance',

@@ -1,5 +1,3 @@
-local config<const> = require 'shared/constants/index'
-
 local vitalsEnabled<const> = config.vitals.enabled
 local weaponaryEnabled<const> = config.weaponary.enabled
 

@@ -1,6 +1,7 @@
 /* auto-generated */
 
 export type ClientScript = 
+  | 'criminalTask'
   | 'crouch'
   | 'cuffs'
   | 'elevators'
@@ -25,6 +26,7 @@ export type ClientScript =
   | 'weather'
 export type ServerScript = 
   | 'appearance'
+  | 'criminalTask'
   | 'cuffs'
   | 'db'
   | 'escort'

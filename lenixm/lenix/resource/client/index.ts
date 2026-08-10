@@ -1,7 +1,6 @@
 import 'common'
 import { EnabledClientScripts } from 'common/scripts'
 import type { ClientScript } from 'types/dirs'
-import './snipets'
 
 for (const script of EnabledClientScripts) {
 	const modules = {
@@ -27,6 +26,8 @@ for (const script of EnabledClientScripts) {
 		robbery: () => import('./robbery'),
 		roster: () => import('./roster'),
 		topscore: () => import('./topscore'),
+		criminalTask: () => import('./criminalTask'),
+		snipets: () => import('./snipets'),
 	} satisfies Record<ClientScript, () => Promise<unknown>>
 	modules[script]()
 }
