@@ -1,8 +1,11 @@
 import { asserts, entries, random } from "@lenix/lenix"
-import { onClientCallback } from "@overextended/ox_lib/server"
+import { checkDependency, onClientCallback } from "@overextended/ox_lib/server"
 import { CRIMINIL_TASK } from "common/config"
 import { api } from "lenix/server"
 import type { CriminialApi } from "types/index"
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('ox_inventory', '2.47.9', true)
 
 const config = CRIMINIL_TASK
 

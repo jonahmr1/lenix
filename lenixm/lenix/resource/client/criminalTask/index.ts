@@ -1,10 +1,12 @@
 import { asserts, random } from "@lenix/lenix"
-import { createPed as oxCreatePed, notify, requestAnimDict, requestModel, triggerServerCallback } from "@overextended/ox_lib/client"
+import { createPed as oxCreatePed, notify, requestAnimDict, requestModel, triggerServerCallback, checkDependency } from "@overextended/ox_lib/client"
 import { CRIMINIL_TASK } from "common/config"
 import type { Vec3, Vec4 } from "lenix"
 import { blip, client } from "lenix/client"
 import { bridge } from "./bridge"
 import type { CriminialApi } from "types/index"
+
+checkDependency('ox_lib', '3.39.0', true)
 
 const config = CRIMINIL_TASK
 let isPlayerFree = true

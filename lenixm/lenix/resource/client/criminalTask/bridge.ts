@@ -1,10 +1,11 @@
-import { progressBar } from "@overextended/ox_lib/client"
+import { checkDependency, progressBar } from "@overextended/ox_lib/client"
 import { CRIMINIL_TASK } from "common/config"
 import type { Vec3 } from "lenix"
 import { api } from "lenix/client"
 
-const config = CRIMINIL_TASK
+checkDependency('ox_target', '1.18.1', true)
 
+const config = CRIMINIL_TASK
 
 const progress = (label: string) => progressBar({
 	duration: 1000,
