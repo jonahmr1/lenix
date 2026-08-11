@@ -26,8 +26,9 @@ for (const script of EnabledClientScripts) {
 		robbery: () => import('./robbery'),
 		roster: () => import('./roster'),
 		topscore: () => import('./topscore'),
-		criminalTask: () => import('./criminaltask'),
+		criminaltask: () => import('./criminaltask'),
 		snipets: () => import('./snipets'),
+		carmodes: () => import('./carmodes'),
 	} satisfies Record<ClientScript, () => Promise<unknown>>
 	modules[script]()
 }

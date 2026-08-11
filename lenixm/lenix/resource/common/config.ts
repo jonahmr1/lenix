@@ -1,5 +1,7 @@
 import { LoadFile } from "./utils";
 import type { Vector3 } from 'types/index'
+import type { Vector4 } from 'types'
+import type { Vec3, Vec4 } from "lenix";
 
 const Config = LoadFile("public/config.json");
 export default Config;
@@ -10,10 +12,6 @@ export const VEHICLE_MODEL: string = 'stockade'
 export const MISSION_PRICE = 2000
 
 export const INSIDE_COORDS: Vector3 = [1680.1442, 2512.8276, 45.5648]
-
-import type { Vector4 } from 'types'
-import type { Vec3, Vec4 } from "lenix";
-
 interface Safe {
 	coords: Vector4
 	rotation: number
@@ -80,7 +78,6 @@ export const HOTEL_SAFES: Record<number, Safe> = Object.fromEntries(
 )
 
 export const getSafeById = (id: number) => `room:${id}`
-
 
 export const CRIMINIL_TASK: {
 	settings: {
@@ -262,4 +259,165 @@ export const CRIMINIL_TASK: {
 			amount: 0
 		},
 	}
+}
+
+export const DEFAULT_KEY = 'N'
+export const AUTHORIZED_JOBS: string[] | null = null
+export const VEHICLE_TIERS = {
+	S: ['police',],
+	A: ['police2',],
+	B: ['police3',],
+	C: ['police4',],
+}
+
+export const VEHICLE_MODES = ["N", "S", "S+", "R"] as const
+
+export const VEHICLE_MODS = {
+	N: {
+		Turbo: false,
+		Engine: -1,
+		Brakes: 0,
+		Transmission: -1,
+	},
+	S: {
+		Turbo: false,
+		Engine: 1,
+		Brakes: 1,
+		Transmission: 1,
+	},
+	["S+"]: {
+		Turbo: true,
+		Engine: 2,
+		Brakes: 2,
+		Transmission: 2,
+	},
+	R: {
+		Turbo: true,
+		Engine: 3,
+		Brakes: 2,
+		Transmission: 2,
+	}
+}
+
+export const TIER_CONFIG = {
+	C: {
+		N: {
+			fDriveInertia: 1.000000,
+			fBrakeForce: 0.750,
+			fInitialDriveMaxFlatVel: 135.000000,
+			fSteeringLock: 42.00,
+			fInitialDriveForce: 0.260
+		},
+		S: {
+			fDriveInertia: 1.050000,
+			fBrakeForce: 0.800,
+			fInitialDriveMaxFlatVel: 145.000000,
+			fSteeringLock: 40.00,
+			fInitialDriveForce: 0.280
+		},
+		['S+']: {
+			fDriveInertia: 1.100000,
+			fBrakeForce: 0.850,
+			fInitialDriveMaxFlatVel: 155.000000,
+			fSteeringLock: 38.00,
+			fInitialDriveForce: 0.300
+		},
+		R: {
+			fDriveInertia: 1.150000,
+			fBrakeForce: 0.900,
+			fInitialDriveMaxFlatVel: 165.000000,
+			fSteeringLock: 36.00,
+			fInitialDriveForce: 0.350
+		}
+	},
+	B: {
+		N: {
+			fDriveInertia: 1.000000,
+			fBrakeForce: 0.800,
+			fInitialDriveMaxFlatVel: 145.000000,
+			fSteeringLock: 40.00,
+			fInitialDriveForce: 0.280
+		},
+		S: {
+			fDriveInertia: 1.080000,
+			fBrakeForce: 0.850,
+			fInitialDriveMaxFlatVel: 155.000000,
+			fSteeringLock: 38.00,
+			fInitialDriveForce: 0.310
+		},
+		['S+']: {
+			fDriveInertia: 1.130000,
+			fBrakeForce: 0.900,
+			fInitialDriveMaxFlatVel: 165.000000,
+			fSteeringLock: 36.00,
+			fInitialDriveForce: 0.340
+		},
+		R: {
+			fDriveInertia: 1.180000,
+			fBrakeForce: 0.950,
+			fInitialDriveMaxFlatVel: 175.000000,
+			fSteeringLock: 34.00,
+			fInitialDriveForce: 0.380
+		}
+	},
+	A: {
+		N: {
+			fDriveInertia: 1.000000,
+			fBrakeForce: 0.850,
+			fInitialDriveMaxFlatVel: 155.000000,
+			fSteeringLock: 38.00,
+			fInitialDriveForce: 0.300
+		},
+		S: {
+			fDriveInertia: 1.100000,
+			fBrakeForce: 0.900,
+			fInitialDriveMaxFlatVel: 165.000000,
+			fSteeringLock: 36.00,
+			fInitialDriveForce: 0.330
+		},
+		['S+']: {
+			fDriveInertia: 1.160000,
+			fBrakeForce: 0.950,
+			fInitialDriveMaxFlatVel: 175.000000,
+			fSteeringLock: 34.00,
+			fInitialDriveForce: 0.370
+		},
+		R: {
+			fDriveInertia: 1.220000,
+			fBrakeForce: 1.000,
+			fInitialDriveMaxFlatVel: 185.000000,
+			fSteeringLock: 32.00,
+			fInitialDriveForce: 0.420
+		}
+	},
+	S: {
+		N: {
+			fDriveInertia: 1.000000,
+			fBrakeForce: 0.900,
+			fInitialDriveMaxFlatVel: 165.000000,
+			fSteeringLock: 36.00,
+			fInitialDriveForce: 0.320
+		},
+		S: {
+			fDriveInertia: 1.120000,
+			fBrakeForce: 0.950,
+			fInitialDriveMaxFlatVel: 175.000000,
+			fSteeringLock: 34.00,
+			fInitialDriveForce: 0.360
+		},
+		['S+']: {
+			fDriveInertia: 1.200000,
+			fBrakeForce: 1.000,
+			fInitialDriveMaxFlatVel: 185.000000,
+			fSteeringLock: 32.00,
+			fInitialDriveForce: 0.410
+		},
+		R: {
+			fDriveInertia: 1.280000,
+			fBrakeForce: 1.100,
+			fInitialDriveMaxFlatVel: 195.000000,
+			fSteeringLock: 30.00,
+			fInitialDriveForce: 0.480
+		}
+	},
 }
