@@ -13,6 +13,7 @@ const EnabledContextedScripts = [
 	// 'topscore',
 	// 'criminaltask',
 	// 'carmodes',
+	// 'megaphone',
 ] as const satisfies readonly (ClientScript & ServerScript)[]
 
 export const EnabledOnlyClientScripts = [

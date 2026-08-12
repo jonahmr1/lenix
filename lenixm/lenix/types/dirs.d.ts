@@ -14,6 +14,7 @@ export type ClientScript =
   | 'identities'
   | 'interactions'
   | 'medical'
+  | 'megaphone'
   | 'prison'
   | 'radialmenu'
   | 'radio'

@@ -6,22 +6,12 @@ local getState = {
   remoteBusy = false,
   vehicleBusy = false,
   vehicleHandle = 0,
-
-  micNotBusy = true,
-  micFilter = nil,
-  micBusy = false,
-  micCurrentlyBusy = false,
 }
 
 local setState<const> = {
   remoteBusy = function(state) getState.remoteBusy = state end,
   vehicleBusy = function(state) getState.vehicleBusy = state end,
   vehicleHandle = function(handle) getState.vehicleHandle = handle end,
-
-  micNotBusy = function(state) getState.micNotBusy = state end,
-  micFilter = function(filter) getState.micFilter = filter end,
-  micBusy = function(state) getState.micBusy = state end,
-  micCurrentlyBusy = function(state) getState.micCurrentlyBusy = state end,
 }
 
 return {

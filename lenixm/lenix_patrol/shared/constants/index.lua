@@ -27,29 +27,6 @@ local config<const> = {
       description = 'Toggle Patrol Extra Cursor',
     }
   },
-  megaphone = {
-    range = 30.0,
-    command = 'togglemic',
-    key = 'K',
-    description = "Toggle Patrol's Mic",
-    locales = {
-      on = 'Activated',
-      off = 'Deactivated',
-      left = 'You left the emergency vehicle, mic turned off!',
-      refused = 'You must be in an emergency vehicle to use the patrol mic!',
-      unavailable = 'Patrol mic is not available right now!',
-    },
-    vehicleClass = {
-      [18] = true,
-    },
-    vehicleModels = {
-      [GetHashKey('ambulance')] = true,
-      [GetHashKey('firetruk')] = true,
-      [GetHashKey('police')] = true,
-      [GetHashKey('police2')] = true,
-      [GetHashKey('police3')] = true,
-    }
-  }
 }
 
 return config
