@@ -1,4 +1,4 @@
-import type { NuiFetchGeneric, Request, Test } from '../shared/types.ts'
+import type { NuiFetchGeneric, Request } from '../shared/types.ts'
 
 declare function GetParentResourceName(): string
 
@@ -41,5 +41,3 @@ export const fetchNuiServer = <T extends NuiFetchGeneric>(
 		requestData,
 	}
 })
-
-const t = fetchNuiServer<Test>('test:test', { age: 20 })

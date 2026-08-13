@@ -1,5 +1,5 @@
 import { asserts } from "@lenix/lenix";
-import { NuiFetchGeneric, Test } from "../shared";
+import { NuiFetchGeneric } from "../shared";
 
 const clientRequests: string[] = []
 

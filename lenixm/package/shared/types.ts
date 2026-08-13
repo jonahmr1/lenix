@@ -29,5 +29,3 @@ export type Request<
 	: [Response, Id, Params]
 
 export type NuiFetchGeneric = Request<JsonValue, string, JsonObject>
-
-export type Test = Request<string, 'test:test', { age: 20 }>
