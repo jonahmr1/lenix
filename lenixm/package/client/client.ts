@@ -1,8 +1,7 @@
+import { JsonValue } from '@lenix/lenix'
 import { repeat } from '../shared/repeat.ts'
 import type { Vec3, Vec4 } from '../shared/types.ts'
 
-type JsonPrimitive = string | number | boolean | null
-type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue }
 
 export const client = {
 	entity: {
