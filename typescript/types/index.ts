@@ -23,4 +23,6 @@ export type Nestify<T, Prefix extends string = ''> = {
 		: `${Prefix}${K & string}`
 }[keyof T]
 
-export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
+export type JsonValue = string | number | boolean | null | JsonValue[] | {
+	[key: string]: JsonValue
+}
