@@ -1,12 +1,11 @@
-import { JsonValue } from '@lenix/lenix'
-import type { Request } from '../shared/types.ts'
+import type { NuiFetchGeneric, Request } from '../shared/types.ts'
 
 declare function GetParentResourceName(): string
 
 /**
  * Fetchs a typed request from the NUI browser to the game client.
  */
-export const fetchNui = async <T extends Request<JsonValue, string, object>>(
+export const fetchNui = async <T extends NuiFetchGeneric>(
 	id: T[1],
 	data: T[2]
 ): Promise<T[0]> => {

@@ -24,3 +24,5 @@ export type Request<
 	Params extends object = { [key: string]: unknown }
 > = Params extends readonly unknown[] ? never
 	: [Response, Id, Params]
+
+export type NuiFetchGeneric = Request<JsonValue, string, object>

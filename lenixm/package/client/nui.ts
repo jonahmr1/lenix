@@ -1,5 +1,4 @@
-import { JsonValue } from '@lenix/lenix'
-import type { Request } from '../shared/types.ts'
+import type { NuiFetchGeneric } from '../shared/types.ts'
 
 /**
  * Sends an event from the game client to the NUI browser.
@@ -20,7 +19,7 @@ export const emitNui = <T extends [string, unknown[]]>(id: T[0], ...params: T[1]
 /**
  * Registers a typed NUI callback on the game client.
  */
-export const onNui = <T extends Request<JsonValue, string, object>>(
+export const onNui = <T extends NuiFetchGeneric>(
 	id: T[1],
 	cb: (data: T[2]) => T[0] | Promise<T[0]>
 ): void => {
