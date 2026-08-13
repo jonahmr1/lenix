@@ -18,11 +18,16 @@ export type Event<Id extends string, Params extends unknown[] = never> = [Id, Pa
 /**
  * Typed request tuple containing a response type, request id, and object payload.
  */
+interface JsonObject {
+	[key: string]: JsonValue
+}
 export type Request<
 	Response extends JsonValue,
 	Id extends string,
-	Params extends object = { [key: string]: unknown }
+	Params extends JsonObject = JsonObject
 > = Params extends readonly unknown[] ? never
 	: [Response, Id, Params]
 
-export type NuiFetchGeneric = Request<JsonValue, string, object>
+export type NuiFetchGeneric = Request<JsonValue, string, JsonObject>
+
+export type Test = Request<string, 'test:test', { age: 20 }>

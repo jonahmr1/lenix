@@ -1,4 +1,4 @@
-import type { NuiFetchGeneric, Request } from '../shared/types.ts'
+import type { NuiFetchGeneric, Request, Test } from '../shared/types.ts'
 
 declare function GetParentResourceName(): string
 
@@ -22,3 +22,24 @@ export const fetchNui = async <T extends NuiFetchGeneric>(
 		throw `Error occured while emiting an nui<${id}>.\n${e}`
 	}
 }
+
+export const fetchNuiServer = <T extends NuiFetchGeneric>(
+	id: T[1],
+	requestData: T[2],
+	timeout?: number,
+): Promise<T[0]> => fetchNui<Request<T[0], '__nuiServer', {
+	id: T[1]
+	data: {
+		timeout?: number
+		requestData: T[2]
+	}
+}>>(
+	'__nuiServer', {
+	id,
+	data: {
+		timeout,
+		requestData,
+	}
+})
+
+const t = fetchNuiServer<Test>('test:test', { age: 20 })
