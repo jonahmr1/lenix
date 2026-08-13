@@ -1,10 +1,10 @@
 import type { Event } from '../shared/types.ts'
 
-interface Listener<T extends unknown[]> {
+interface Logger<T extends unknown[]> {
 	callback: (...params: T) => void
 	log?: true
 }
-const events = new Map<string, Set<Listener<unknown[]>>>()
+const events = new Map<string, Set<Logger<unknown[]>>>()
 
 const handler = (event: MessageEvent) => {
 	const { id, params } = event.data
@@ -24,34 +24,34 @@ const handler = (event: MessageEvent) => {
 /**
  * Registers a typed browser-side handler for events sent from the game client.
  */
-export const onEvent = <
+export const onNuiEmit = <
 	T extends Event<string, unknown[]>
 >(
 	id: T[0],
 	cb: (...params: T[1]) => void,
-	listen?: true
+	log?: true
 ): () => void => {
 	if (events.size === 0) {
 		window.addEventListener('message', handler)
-		listen && console.info(`Event<${id}> is the first on the window`)
+		log && console.info(`Event<${id}> is the first on the window`)
 	}
 
-	const callbacks = events.get(id) ?? new Set<Listener<unknown[]>>()
-	const listenerCb = { callback: cb, log: listen }
+	const callbacks = events.get(id) ?? new Set<Logger<unknown[]>>()
+	const listenerCb = { callback: cb, log: log }
 	callbacks.add(listenerCb)
 	events.set(id, callbacks)
-	listen && console.info(`Event<${id}> was registered`)
+	log && console.info(`Event<${id}> was registered`)
 
 	return () => {
-		listen && console.info(`Event<${id}> was unregistered`)
+		log && console.info(`Event<${id}> was unregistered`)
 		callbacks.delete(listenerCb)
 		if (callbacks.size === 0) {
 			events.delete(id)
-			listen && console.info(`Event<${id}> got no callbacks left, memory cleared successfully`)
+			log && console.info(`Event<${id}> got no callbacks left, memory cleared successfully`)
 		}
 		if (events.size === 0) {
 			window.removeEventListener('message', handler)
-			listen && console.info(`No events left, this event<${id}> was the last, opting out the listen...`)
+			log && console.info(`No events left, this event<${id}> was the last, opting out the listen...`)
 		}
 	}
 }
