@@ -1,5 +1,3 @@
 require 'client/api/extras'
 require 'client/game/extras'
 require 'client/nui/extras'
-require 'client/api/megaphone'
-require 'client/game/megaphone'
