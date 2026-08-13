@@ -1,7 +1,10 @@
-import type { _InternalRequests } from '../shared/types.ts'
+import type { Request } from '../shared/types.ts'
 import { onNui } from './nui.ts'
 
-onNui<_InternalRequests['focus']>('__nuiFocus', ({
+onNui<Request<true, '__nuiFocus', {
+	keyboard: boolean,
+	cursor: boolean
+}>>('__nuiFocus', ({
 	keyboard,
 	cursor
 }) => {

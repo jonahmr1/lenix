@@ -6,5 +6,5 @@
  */
 
 export * from './on.ts'
-export * from './trigger.ts'
+export * from './fetch.ts'
 export * from './focus.ts'

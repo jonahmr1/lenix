@@ -1,11 +1,12 @@
+import { JsonValue } from '@lenix/lenix'
 import type { Request } from '../shared/types.ts'
 
 declare function GetParentResourceName(): string
 
 /**
- * Sends a typed request from the NUI browser to the game client.
+ * Fetchs a typed request from the NUI browser to the game client.
  */
-export const triggerNui = async <T extends Request<unknown, string, object>>(
+export const fetchNui = async <T extends Request<JsonValue, string, object>>(
 	id: T[1],
 	data: T[2]
 ): Promise<T[0]> => {
@@ -19,6 +20,6 @@ export const triggerNui = async <T extends Request<unknown, string, object>>(
 		})
 		return await response.json()
 	} catch (e) {
-		throw new Error(`Error occured while emiting an nui<${id}>.\n${e}`)
+		throw `Error occured while emiting an nui<${id}>.\n${e}`
 	}
 }
