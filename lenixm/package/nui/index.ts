@@ -8,3 +8,4 @@
 export * from './on.ts'
 export * from './fetch.ts'
 export * from './focus.ts'
+export * from './keydown.ts'
