@@ -47,6 +47,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@lenix/lenix": "npm:@jsr/lenix__lenix"
+    "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.16"
   }
 }
