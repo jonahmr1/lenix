@@ -61,7 +61,7 @@ export const destroy = <T extends object>(key: Extract<keyof T, string>): void =
 export const storage: {
 	get: typeof get,
 	set: typeof set,
-	destroy: typeof destroy,
+	destroy: typeof destroy
 } = {
 	get,
 	set,
