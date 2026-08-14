@@ -58,7 +58,11 @@ export const destroy = <T extends object>(key: Extract<keyof T, string>): void =
 	localStorage.removeItem(key)
 }
 
-export const storage = {
+export const storage: {
+	get: typeof get,
+	set: typeof set,
+	destroy: typeof destroy,
+} = {
 	get,
 	set,
 	destroy
