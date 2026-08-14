@@ -1,4 +1,4 @@
-import { Request } from '../shared/types.ts'
+import type { Request } from '../shared/types.ts'
 import { fetchNui } from './fetch.ts'
 
 /**

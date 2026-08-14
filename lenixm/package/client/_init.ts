@@ -1,4 +1,4 @@
-import { asserts, JsonValue } from '@lenix/lenix'
+import { asserts, type JsonValue } from '@lenix/lenix'
 import type { Request } from '../shared/types.ts'
 import { onNui } from './nui.ts'
 

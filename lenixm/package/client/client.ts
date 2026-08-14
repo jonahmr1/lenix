@@ -1,4 +1,4 @@
-import { JsonValue } from '@lenix/lenix'
+import type { JsonValue } from '@lenix/lenix'
 import { repeat } from '../shared/repeat.ts'
 import type { Vec3, Vec4 } from '../shared/types.ts'
 

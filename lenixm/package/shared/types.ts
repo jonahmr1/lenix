@@ -1,4 +1,4 @@
-import { JsonValue } from "@lenix/lenix"
+import type { JsonValue } from "@lenix/lenix"
 
 /**
  * Three-dimensional coordinates plus heading.
