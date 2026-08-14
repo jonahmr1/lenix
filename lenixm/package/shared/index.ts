@@ -7,4 +7,3 @@
 export * from './types.ts'
 export * from './repeat.ts'
 export * from './palette.ts'
-export * from './timer.ts'
