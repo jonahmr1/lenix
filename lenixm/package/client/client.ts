@@ -63,12 +63,11 @@ export const client = {
 			y: number,
 			z: number,
 			h?: number,
-			clearArea = false,
-			alive = true,
-			deadDisable = false,
-			ragdol = false
+			keepTasks = false,
+			keepIK = false,
+			doWarp = false
 		) => {
-			SetEntityCoords(entity, x, y, z, alive, deadDisable, ragdol, clearArea)
+			SetEntityCoordsNoOffset(entity, x, y, z, keepTasks, keepIK, doWarp)
 			h && SetEntityHeading(entity, h)
 		},
 
@@ -154,12 +153,11 @@ export const client = {
 			y: number,
 			z: number,
 			h?: number,
-			clearArea?: boolean,
-			alive?: boolean,
-			deadDisable?: boolean,
-			ragdol?: boolean
+			keepTasks = false,
+			keepIK = false,
+			doWarp = false
 		) {
-			return client.entity.teleport(this.entity(), x, y, z, h, clearArea, alive, deadDisable, ragdol)
+			return client.entity.teleport(this.entity(), x, y, z, h, keepTasks, keepIK, doWarp)
 		},
 
 		/*  */
