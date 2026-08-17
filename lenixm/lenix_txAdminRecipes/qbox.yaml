@@ -1,4 +1,4 @@
-version: v0.0.22
+version: v0.0.23
 name: lenix
 author: Lenix
 $minFxVersion: 17000
@@ -24,7 +24,7 @@ tasks:
       path: ./server.cfg
 
     - action: download_github
-      src: overextended/qbx_core
+      src: qbox-project/qbx_core
       dest: ./resources/[qbx_core]/qbx_core
     - action: query_database
       file: ./resources/[qbx_core]/qbx_core/qbx_core.sql
