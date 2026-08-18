@@ -23,7 +23,7 @@ export function repeat <T>(
 				return
 			}
 
-			if (!result !== equal) return
+			if (result !== equal) return
 
 			resolve(equal ?? result)
 			clearInterval(interval)
