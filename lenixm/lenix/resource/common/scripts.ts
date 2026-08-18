@@ -3,8 +3,8 @@ import type { ClientScript, ServerScript } from 'types/dirs'
 const EnabledContextedScripts = [
 	'cuffs',
 	'escort',
-	'groups',
-	'hotel',
+	// 'groups',
+	// 'hotel',
 	'interactions',
 	'medical',
 	'prison',
@@ -18,7 +18,7 @@ const EnabledContextedScripts = [
 
 export const EnabledOnlyClientScripts = [
 	'crouch',
-	'elevators',
+	// 'elevators',
 	'handsup',
 	'hud',
 	'identities',
