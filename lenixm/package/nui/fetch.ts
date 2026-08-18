@@ -30,8 +30,11 @@ export const fetchNuiServer = async <T extends NuiFetchGeneric>(
 	timeout?: number,
 ): Promise<T[0]> => {
 	const { data, error } = await fetchNui<Request<{
-		data: T[0] | null
-		error: string | null
+		data: T[0]
+		error: null
+	} | {
+		data: null
+		error: string
 	}, '__nuiServer', {
 		id: T[1]
 		data: {
@@ -46,11 +49,11 @@ export const fetchNuiServer = async <T extends NuiFetchGeneric>(
 			requestData,
 		}
 	})
-	if (error) {
+	if (error !== null) {
 		const typeofError = typeof error
 		if (typeofError === 'string') throw error
 		
-		console.log(palette('wine', `Expected 'error' typeof 'string', got ${error} typeof ${typeofError}`))
+		throw `Expected 'error' typeof 'string', got ${error} typeof ${typeofError}`
 	}
 
 	return data
