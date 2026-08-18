@@ -1,4 +1,5 @@
 import type { NuiFetchGeneric, Request } from '../shared/types.ts'
+import { palette } from '../shared/palette.ts'
 
 declare function GetParentResourceName(): string
 
@@ -23,21 +24,34 @@ export const fetchNui = async <T extends NuiFetchGeneric>(
 	}
 }
 
-export const fetchNuiServer = <T extends NuiFetchGeneric>(
+export const fetchNuiServer = async <T extends NuiFetchGeneric>(
 	id: T[1],
 	requestData: T[2],
 	timeout?: number,
-): Promise<T[0]> => fetchNui<Request<T[0], '__nuiServer', {
-	id: T[1]
-	data: {
-		timeout?: number
-		requestData: T[2]
+): Promise<T[0]> => {
+	const { data, error } = await fetchNui<Request<{
+		data: T[0] | null
+		error: string | null
+	}, '__nuiServer', {
+		id: T[1]
+		data: {
+			timeout?: number
+			requestData: T[2]
+		}
+	}>>(
+		'__nuiServer', {
+		id,
+		data: {
+			timeout,
+			requestData,
+		}
+	})
+	if (error) {
+		const typeofError = typeof error
+		if (typeofError === 'string') throw error
+		
+		console.log(palette('wine', `Expected 'error' typeof 'string', got ${error} typeof ${typeofError}`))
 	}
-}>>(
-	'__nuiServer', {
-	id,
-	data: {
-		timeout,
-		requestData,
-	}
-})
+
+	return data
+}

@@ -15,10 +15,16 @@ export const onNuiServer = <T extends NuiFetchGeneric>(
     const clientSource = source
 
     try {
-      const result = await cb(clientSource, parameters)
-      emitNet(`lenix/nui:${id}`, clientSource, requestId, result)
+      const data = await cb(clientSource, parameters)
+      emitNet(`lenix/nui:${id}`, clientSource, requestId, {
+				data,
+				error: null
+			})
     } catch (error) {
-      emitNet(`lenix/nui:${id}`, clientSource, requestId)
+      emitNet(`lenix/nui:${id}`, clientSource, requestId, {
+				data: null,
+				error
+			})
 			throw error
 		}
   })
