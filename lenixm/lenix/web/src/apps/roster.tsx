@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import type { Events, Officers, OfficerUpdates, Requests } from 'types'
 import { DEV } from '@/App'
 import { Frown } from 'lucide-react'
-import { focus, onEvent, triggerNui } from 'lenix/nui'
+import { focus, onNuiEmit, fetchNui } from 'lenix/nui'
 import { Badge } from '@/components/ui/badge'
 import { AudioLines } from 'lucide-react'
 import type { DutyState, Officer as IOfficer, TalkState } from 'types'
@@ -64,12 +64,12 @@ export const Roster = () => {
 		window.addEventListener('keydown', handler)
 
 		const disposes = [
-			onEvent<Events['displayRoster']>('roster:display', (state, playerId) => {
+			onNuiEmit<Events['displayRoster']>('roster:display', (state, playerId) => {
 				setDisplay(state)
 				setPlayerId(playerId)
 				console.debug({ state })
 			}),
-			onEvent<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers),
+			onNuiEmit<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers),
 		]
 
 		return () => {
@@ -81,7 +81,7 @@ export const Roster = () => {
 	if (!playerId) return
 
 	const updateOfficer = (playerId: number, updates: OfficerUpdates) => {
-		triggerNui<Requests['updateOfficer']>('roster:updateOfficer', {
+		fetchNui<Requests['updateOfficer']>('roster:updateOfficer', {
 			playerId,
 			...updates,
 		})
@@ -105,7 +105,7 @@ export const Roster = () => {
 
 	const handleCallsign = () => {
 		focus()
-		triggerNui<Requests['triggerCallsign']>('roster:callsign')
+		fetchNui<Requests['triggerCallsign']>('roster:callsign', {})
 	}
 
 	return (

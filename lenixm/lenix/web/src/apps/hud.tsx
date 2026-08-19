@@ -1,4 +1,4 @@
-import { onEvent } from 'lenix/nui'
+import { onNuiEmit } from 'lenix/nui'
 import { useEffect, useState } from 'react'
 import type { Events } from 'types'
 
@@ -21,9 +21,9 @@ export const Hud = () => {
 
 	useEffect(() => {
 		const disposes = [
-			onEvent<Events['displayHud']>('hud:display', setDisplay),
-			onEvent<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve }))),
-			onEvent<Events['updateHudReserve']>('hud:update:reserve', reserve =>
+			onNuiEmit<Events['displayHud']>('hud:display', setDisplay),
+			onNuiEmit<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve }))),
+			onNuiEmit<Events['updateHudReserve']>('hud:update:reserve', reserve =>
 				setState(prev => ({ reserve, clip: prev.clip })),
 			),
 		]

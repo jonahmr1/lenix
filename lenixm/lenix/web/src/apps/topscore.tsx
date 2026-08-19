@@ -1,7 +1,7 @@
 import { Crown, Crosshair, Skull, Award, ChartNoAxesCombined, Medal } from "lucide-react";
 import { createElement, Fragment, useEffect, useState } from "react";
 import { entries } from '@lenix/lenix'
-import { onEvent } from "lenix/nui";
+import { onNuiEmit } from "lenix/nui";
 import type { Events } from "types";
 
 export const TopScore = () => {
@@ -56,7 +56,7 @@ export const TopScore = () => {
 	}
 
 	useEffect(() => {
-		const off = onEvent<Events['updateTopscoreData']>('topscore:updateData', setScores)
+		const off = onNuiEmit<Events['updateTopscoreData']>('topscore:updateData', setScores)
 
 		return off
 	}, [])
