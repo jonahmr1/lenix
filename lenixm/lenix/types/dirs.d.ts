@@ -2,7 +2,7 @@
 
 export type ClientScript = 
   | 'carmodes'
-  | 'criminalTask'
+  | 'criminaltask'
   | 'crouch'
   | 'cuffs'
   | 'elevators'
@@ -28,7 +28,7 @@ export type ClientScript =
   | 'weather'
 export type ServerScript = 
   | 'appearance'
-  | 'criminalTask'
+  | 'criminaltask'
   | 'cuffs'
   | 'db'
   | 'escort'

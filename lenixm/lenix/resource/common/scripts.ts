@@ -14,6 +14,7 @@ const EnabledContextedScripts = [
 	// 'criminaltask',
 	// 'carmodes',
 	// 'megaphone',
+	'criminaltask',
 ] as const satisfies readonly (ClientScript & ServerScript)[]
 
 export const EnabledOnlyClientScripts = [
@@ -28,7 +29,9 @@ export const EnabledOnlyClientScripts = [
 	// 'safezones',
 	// 'settings',
 	// 'weather',
-	'snipets'
+	'snipets',
+	'carmodes',
+	'megaphone',
 ] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 export const EnabledOnlyServerScripts = [
 	'appearance',
