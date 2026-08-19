@@ -3,7 +3,7 @@
  */
 export function asserts(
 	condition: unknown,
-	errorMessage = `assertion did not passed successfuly, got ${condition}`
+	errorMessage = `assertion failed!, expected truthy, got <${condition}>`
 ): asserts condition {
 	if (!condition) throw errorMessage
 }

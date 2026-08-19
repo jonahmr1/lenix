@@ -1,5 +1,4 @@
 import type { NuiFetchGeneric, Request } from '../shared/types.ts'
-import { palette } from '../shared/palette.ts'
 
 declare function GetParentResourceName(): string
 
