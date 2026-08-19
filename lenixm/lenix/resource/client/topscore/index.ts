@@ -1,7 +1,7 @@
 import { entries } from "@lenix/lenix";
 import { checkDependency, triggerServerCallback } from "@overextended/ox_lib/client";
 import type { Vec3 } from "lenix";
-import { client, emitEvent, pool } from "lenix/client";
+import { client, emitNui, pool } from "lenix/client";
 import type { Events, TopscoreContextData, TopscoreData } from "types/index";
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -35,7 +35,7 @@ pool(() => {
 
 	const playerCoords = client.player.coords(true)
 
-	emitEvent<Events['updateTopscoreData']>(
+	emitNui<Events['updateTopscoreData']>(
 		'topscore:updateData',
 		Object.fromEntries(
 			entries(players).map(([rank, data]) => {

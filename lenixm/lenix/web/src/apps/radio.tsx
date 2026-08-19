@@ -1,4 +1,4 @@
-import { focus, onEvent, triggerNui } from 'lenix/nui'
+import { focus, onNuiEmit, fetchNui } from 'lenix/nui'
 import { useEffect, useState } from 'react'
 import type { Events, Requests } from 'types'
 
@@ -12,12 +12,12 @@ export const Radio = () => {
 
 			setDisplay(false)
 			focus()
-			triggerNui<Requests['closeRadio']>('radio:close')
+			fetchNui<Requests['closeRadio']>('radio:close', {})
 		}
 
-		const dispose = onEvent<Events['displayRadio']>('radio:display', state => {
+		const dispose = onNuiEmit<Events['displayRadio']>('radio:display', state => {
 			setDisplay(state)
-			focus(state, state)
+			focus()
 		})
 
 		window.addEventListener('keydown', escHandler)
@@ -45,14 +45,14 @@ export const Radio = () => {
 					onKeyDown={event => {
 						if (event.key !== 'Enter') return
 
-						triggerNui<Requests['changeFrequency']>('radio:frequency', { frequency })
+						fetchNui<Requests['changeFrequency']>('radio:frequency', { frequency })
 					}}
 				/>
 				<button
 					className='absolute top-80/100 left-38/100 -translate-x-1/2 cursor-pointer hover:bg-black/20 w-8 h-5'
 					title='Leave the frequency'
 					onClick={() => {
-						triggerNui<Requests['leaveRadio']>('radio:leave')
+						fetchNui<Requests['leaveRadio']>('radio:leave', {})
 						setFreq('')
 					}}
 				/>

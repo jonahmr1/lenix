@@ -1,7 +1,7 @@
 import { addKeybind, cache, checkDependency, inputDialog, notify } from '@overextended/ox_lib/client'
 import type { Events, Officers, PartialOfficer, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
-import { emitEvent, onNui } from 'lenix/client'
+import { emitNui, onNui } from 'lenix/client'
 import { MAX_CALLSIGN_LENGTH } from 'common/config'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -55,7 +55,7 @@ const toggleDisplay = () => {
 	const newState = !visible
 	if (!group || group !== 'police') return
 
-	emitEvent<Events['displayRoster']>('roster:display', newState, cache.serverId)
+	emitNui<Events['displayRoster']>('roster:display', newState, cache.serverId)
 	visible = newState
 }
 
@@ -82,7 +82,7 @@ onNui<Requests['triggerCallsign']>('roster:callsign', () => {
 })
 
 onNet('lenix:client:roster:refreshOfficers', (officers: Officers) => {
-	emitEvent<Events['refreshOfficers']>('roster:refreshOfficers', officers)
+	emitNui<Events['refreshOfficers']>('roster:refreshOfficers', officers)
 })
 
 on('lenix:client:roster:toggleDisplay', toggleDisplay)

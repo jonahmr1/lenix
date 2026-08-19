@@ -1,6 +1,6 @@
 import { cache, checkDependency } from '@overextended/ox_lib'
 import type { Events } from 'types/index'
-import { emitEvent, pool } from 'lenix/client'
+import { emitNui, pool } from 'lenix/client'
 import { api } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -19,14 +19,14 @@ let turnedOff = false
 const updateHud = (type: 'clip' | 'reserve', value: string) => {
 	if (type === 'clip') {
 		if (!IsPedShooting(cache.ped)) return
-		emitEvent<Events['updateHudClip']>('hud:update:clip', value)
+		emitNui<Events['updateHudClip']>('hud:update:clip', value)
 		return
 	}
 
-	emitEvent<Events['updateHudReserve']>('hud:update:reserve', value)
+	emitNui<Events['updateHudReserve']>('hud:update:reserve', value)
 }
 
-const toggleHud = (value: boolean) => emitEvent<Events['displayHud']>('hud:display', value)
+const toggleHud = (value: boolean) => emitNui<Events['displayHud']>('hud:display', value)
 
 const getReserve = (ammoName: string): number => api.ox_inventory?.GetItemCount?.<number, [unknown]>(ammoName) ?? 0
 
@@ -53,7 +53,7 @@ on('ox_inventory:currentWeapon', (weapon: OxWeapon) => {
 })
 
 on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
-	const weapon: OxWeapon = api.ox_inventory.getCurrentWeapon<OxWeapon>()
+	const weapon: OxWeapon = api.ox_inventory?.getCurrentWeapon<OxWeapon>?.()
 	if (!weapon) return
 	if (weapon.ammo !== itemName) return
 
