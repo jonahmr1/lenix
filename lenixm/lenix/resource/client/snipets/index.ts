@@ -37,5 +37,7 @@ setTick(() => {
 
 	DisplayAmmoThisFrame(false)
 
+	DisableIdleCamera(true)
+
 	// ghostVehicle()
 })
