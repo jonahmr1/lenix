@@ -24,6 +24,12 @@ addRadialItem([
 		onSelect: () => emit('lenix:client:interactions:out'),
 	},
 	{
+		id: 'reload',
+		label: 'Reload',
+		icon: 'shirt',
+		onSelect: () => emit('illenium-appearance:client:reloadSkin'),
+	},
+	{
 		id: 'settings',
 		label: 'Settings',
 		icon: 'gear',
@@ -33,13 +39,7 @@ addRadialItem([
 		id: 'weather',
 		label: 'Weather & Time',
 		icon: 'cloud-moon',
-		onSelect: () => emit('lenix:client:weather:open'),
-	},
-	{
-		id: 'reload',
-		label: 'Reload',
-		icon: 'shirt',
-		onSelect: () => emit('illenium-appearance:client:reloadSkin'),
+		onSelect: () => notify({ title: 'Not available yet!', })/* emit('lenix:client:weather:open') */,
 	},
 	{
 		id: 'emote',

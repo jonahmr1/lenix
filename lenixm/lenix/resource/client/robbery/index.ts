@@ -111,20 +111,20 @@ const refreshContext = async () => {
 onNet('lenix:client:robbery:receiveInvite', (inviter: number) => {
 	if (inviteTick) return
 
-	const stop = useTimer(
-		10000,
-		1000,
-		timeLeft => {
+	const stop = useTimer({
+		duration: 10000,
+		updateInterval: 1000,
+		onTick: timeLeft => {
 			showTextUI(`E - Show robbery invite - ${Math.ceil(timeLeft / 1000)}s`, {
 				position: 'bottom-center',
 			})
 		},
-		() => {
+		onEnd: () => {
 			hideTextUI()
 			clearTick(inviteTick)
 			inviteTick = 0
 		},
-	)
+	})
 
 	inviteTick = setTick(async () => {
 		if (IsControlJustPressed(0, 38)) {
@@ -219,7 +219,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 			})
 			return
 		}
-		const success = await api['glitch-minigames'].StartPlasmaDrilling(5)
+		const success = await api['glitch-minigames']?.StartPlasmaDrilling?.(5)
 		if (!success) return
 
 		vehicleDoorsBroken[side] = true
@@ -230,10 +230,10 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 		SetVehicleDoorOpen(entity, 2, false, false)
 		SetVehicleDoorOpen(entity, 3, false, false)
 
-		api.ox_target.removeEntity(netId, `${side}-door`)
+		api.ox_target?.removeEntity?.(netId, `${side}-door`)
 	}
 
-	api.ox_target.addEntity(netId, [
+	api.ox_target?.addEntity?.(netId, [
 		{
 			name: 'left-door',
 			label: 'Break Left Door',
@@ -288,7 +288,7 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 				vehicleDoorsBroken['left'] = false
 				vehicleDoorsBroken['right'] = false
 				clearTick(blipTick)
-				api.ox_target.removeEntity(netId, 'take-money')
+				api.ox_target?.removeEntity?.(netId, 'take-money')
 
 				emitNet('lenix:server:robbery:takemoney')
 			},
@@ -316,7 +316,7 @@ setImmediate(async () => {
 	const entity = await createPed('a_m_m_prolhost_01', ...PED_COORDS, true)
 	if (!entity) return
 
-	api.ox_target.addLocalEntity(entity, {
+	api.ox_target?.addLocalEntity?.(entity, {
 		label: 'Robbery Mission',
 		onSelect: () => {
 			showContext('robbery-mission')

@@ -1,17 +1,20 @@
-import { addKeybind, cache, checkDependency } from '@overextended/ox_lib/client'
-import { pool } from 'lenix/client'
+import { cache, checkDependency } from '@overextended/ox_lib/client'
+import { control, pool } from 'lenix/client'
 import type { Vector3 } from 'types'
 
 checkDependency('ox_lib', '3.39.0', true)
 
 let shown = false
 
-addKeybind({
-	name: 'identities',
-	description: 'Show players identities',
-	defaultKey: 'HOME',
-	onPressed: () => !shown,
-	onReleased: () => !shown,
+control.on({
+	event: 'press',
+	key: 'HOME',
+	onEvent: () => !shown,
+})
+control.on({
+	event: 'released',
+	key: 'HOME',
+	onEvent: () => !shown,
 })
 
 // From https://github.com/Qbox-project/qbx_core/blob/main/modules/lib.lua#L441

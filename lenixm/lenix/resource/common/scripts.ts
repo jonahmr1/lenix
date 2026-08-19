@@ -6,7 +6,7 @@ const EnabledContextedScripts = [
 	// 'groups',
 	// 'hotel',
 	'interactions',
-	'medical',
+	// 'medical',
 	'prison',
 	'robbery',
 	// 'roster',
@@ -24,10 +24,10 @@ export const EnabledOnlyClientScripts = [
 	'identities',
 	'radialmenu',
 	'radio',
-	'rent',
-	'safezones',
-	'settings',
-	'weather',
+	// 'rent',
+	// 'safezones',
+	// 'settings',
+	// 'weather',
 	'snipets'
 ] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 export const EnabledOnlyServerScripts = [
