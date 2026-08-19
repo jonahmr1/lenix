@@ -1,15 +1,14 @@
-import { addKeybind, cache, checkDependency, requestAnimDict } from '@overextended/ox_lib/client'
-import { client } from 'lenix/client'
+import { cache, checkDependency, requestAnimDict } from '@overextended/ox_lib/client'
+import { client, control } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
 
 let handsUp: boolean = false
 
-addKeybind({
-	name: 'lenix:handsup',
-	description: 'Toggle Hands Up',
-	defaultKey: 'x',
-	onPressed: async () => {
+control.on({
+	event: 'press',
+	key: 'X',
+	onEvent: async () => {
 		if (Player(cache.ped).state.isCuffed) return
 
 		await requestAnimDict('missminuteman_1ig_2')
@@ -19,5 +18,5 @@ addKeybind({
 			client.entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
 		}
 		handsUp = !handsUp
-	},
+	}
 })
