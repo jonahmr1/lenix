@@ -316,7 +316,9 @@ setImmediate(async () => {
 	const entity = await createPed('a_m_m_prolhost_01', ...PED_COORDS, true)
 	if (!entity) return
 
-	api.ox_target?.addLocalEntity?.(entity, {
+	refreshContext()
+	
+	api.ox_target?.addLocalEntity?.(entity.handle, {
 		label: 'Robbery Mission',
 		onSelect: () => {
 			showContext('robbery-mission')
