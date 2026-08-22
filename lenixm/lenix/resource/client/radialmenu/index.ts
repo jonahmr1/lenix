@@ -39,13 +39,13 @@ addRadialItem([
 		id: 'weather',
 		label: 'Weather & Time',
 		icon: 'cloud-moon',
-		onSelect: () => notify({ title: 'Not available yet!', })/* emit('lenix:client:weather:open') */,
+		onSelect: () => notify({ title: 'Not available yet!' }) /* emit('lenix:client:weather:open') */,
 	},
 	{
 		id: 'emote',
 		label: 'Emotes',
 		icon: 'person-walking',
-		onSelect: () => notify({ title: 'Not available yet!', }),
+		onSelect: () => notify({ title: 'Not available yet!' }),
 	},
 ])
 
@@ -55,7 +55,7 @@ onCache('vehicle', vehicle => {
 			id: 'vehicle-menu',
 			label: 'Vehicle',
 			icon: 'car',
-			onSelect: () => notify({ title: 'Not available yet!', }),
+			onSelect: () => notify({ title: 'Not available yet!' }),
 		})
 		return
 	}

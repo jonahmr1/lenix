@@ -1,4 +1,3 @@
-
 # Vehicle Performance System Configuration
 
 ## Overview
@@ -8,6 +7,7 @@ This configuration system allows for dynamic vehicle performance tuning with mul
 ---
 
 ## Basic Configuration
+
 ```lua
 ---@field Print boolean Enable debug messages for troubleshooting
 ---@field Core string Framework core identifier (default: 'qb-')
@@ -15,7 +15,9 @@ This configuration system allows for dynamic vehicle performance tuning with mul
 ---@field Notify string Notification system to use ('qb-core' or 'ox_lib')
 ---@field Notification string Notification message template (%s = mode name)
 ```
+
 ### Example:
+
 ```lua
 Config.Print = false
 Config.Core = 'qb-'
@@ -27,10 +29,13 @@ Config.Notification = "%s mode applied"
 ---
 
 ## Authorization System
+
 ```lua
 ---@field AuthorizedJobs table|nil Jobs allowed to use the system (nil = all players)
 ```
+
 ### Example:
+
 ```lua
 Config.AuthorizedJobs = {
     "police",
@@ -42,6 +47,7 @@ Config.AuthorizedJobs = {
 ---
 
 ## Vehicle Tier Classification
+
 ```lua
 ---@field VehicleTiers table Vehicle spawn names organized by performance tier
 ---@field S table Elite/Specialist vehicles (highest performance)
@@ -49,7 +55,9 @@ Config.AuthorizedJobs = {
 ---@field B table Standard patrol vehicles
 ---@field C table Entry-level patrol vehicles (lowest performance)
 ```
+
 ### Example:
+
 ```lua
 Config.VehicleTiers = {
     ['S'] = {
@@ -74,6 +82,7 @@ Config.VehicleTiers = {
 ---
 
 ## Drive Modes
+
 ```lua
 ---@field VehicleModes table Available drive modes in order
 ---@field N string Normal/Patrol mode (stock performance)
@@ -81,11 +90,13 @@ Config.VehicleTiers = {
 ---@field S+ string Sport Plus mode (high performance)
 ---@field R string Race mode (maximum performance)
 ```
+
 ### Example:
+
 ```lua
-Config.VehicleModes = { 
+Config.VehicleModes = {
     "N",
-    "S", 
+    "S",
     "S+",
     "R"
 }
@@ -94,6 +105,7 @@ Config.VehicleModes = {
 ---
 
 ## Vehicle Modifications
+
 ```lua
 ---@field VehicleModifications table Visual and mechanical modifications per mode
 ---@field Turbo boolean Enable/disable turbo sound and effect
@@ -101,7 +113,9 @@ Config.VehicleModes = {
 ---@field Brakes number Brake upgrade level (0-2)
 ---@field Transmission number Transmission upgrade level (-1 = stock, 0-2 = upgrade levels)
 ```
+
 ### Example:
+
 ```lua
 Config.VehicleModifications = {
     ["N"] = {
@@ -122,6 +136,7 @@ Config.VehicleModifications = {
 ---
 
 ## Performance Tuning Parameters
+
 ```lua
 ---@field TierConfig table Performance values for each tier and mode combination
 ---@field fDriveInertia number Drive inertia multiplier (higher = more responsive)
@@ -130,7 +145,9 @@ Config.VehicleModifications = {
 ---@field fSteeringLock number Steering lock angle (lower = more sensitive steering)
 ---@field fInitialDriveForce number Initial drive force (acceleration multiplier)
 ```
+
 ### Example - Tier S (Elite) Configuration:
+
 ```lua
 Config.TierConfig = {
     ["S"] = {
@@ -157,18 +174,22 @@ Config.TierConfig = {
 ## Performance Tier Breakdown
 
 ### Tier S (Elite/Specialist)
+
 - **Normal Mode**: 165 mph top speed, responsive handling
 - **Race Mode**: 195 mph top speed, maximum acceleration and braking
 
 ### Tier A (Advanced Patrol)
+
 - **Normal Mode**: 155 mph top speed, good balance
 - **Race Mode**: 185 mph top speed, high performance
 
 ### Tier B (Standard Patrol)
+
 - **Normal Mode**: 145 mph top speed, reliable performance
 - **Race Mode**: 175 mph top speed, enhanced capabilities
 
 ### Tier C (Entry Level)
+
 - **Normal Mode**: 135 mph top speed, basic patrol use
 - **Race Mode**: 165 mph top speed, moderate enhancement
 

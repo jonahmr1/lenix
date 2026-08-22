@@ -1,10 +1,10 @@
-import { LoadFile } from "./utils";
+import { LoadFile } from './utils'
 import type { Vector3 } from 'types/index'
 import type { Vector4 } from 'types'
-import type { Vec3, Vec4 } from "lenix";
+import type { Vec3, Vec4 } from 'lenix'
 
-const Config = LoadFile("public/config.json");
-export default Config;
+const Config = LoadFile('public/config.json')
+export default Config
 
 export const MAX_CALLSIGN_LENGTH = 6
 
@@ -43,10 +43,7 @@ const FIRST_FLOOR_SAFES: readonly Safe[] = [
 if (FIRST_FLOOR_SAFES.length !== ROOMS_PER_FLOOR)
 	throw new Error(`Safes count mismatch, expected ${ROOMS_PER_FLOOR}, got ${FIRST_FLOOR_SAFES.length}`)
 
-const HOTEL_ROOM_FLOORS: number[] = Array.from(
-	{ length: ROOM_FLOORS_AMOUNT },
-	(_, i) => i + FIRST_ROOMS_FLOOR_INDEX,
-)
+const HOTEL_ROOM_FLOORS: number[] = Array.from({ length: ROOM_FLOORS_AMOUNT }, (_, i) => i + FIRST_ROOMS_FLOOR_INDEX)
 
 export const FLOOR_HEIGHT: number = 4
 export const FIRST_ROOMS_FLOOR_INDEX: number = 4
@@ -83,68 +80,68 @@ export const CRIMINIL_TASK: {
 	settings: {
 		ped: {
 			take: {
-				targetLabel: string;
-				targetIcon: string;
-				distance: number;
-			};
+				targetLabel: string
+				targetIcon: string
+				distance: number
+			}
 			abort: {
-				targetLabel: string;
-				targetIcon: string;
-				distance: number;
-			};
-		};
+				targetLabel: string
+				targetIcon: string
+				distance: number
+			}
+		}
 		task: {
 			notify: {
-				take: string;
-				abort: string;
-				progressBar: string;
-				title: string;
-				success: string;
-				canceled: string;
-				description: string;
-			};
+				take: string
+				abort: string
+				progressBar: string
+				title: string
+				success: string
+				canceled: string
+				description: string
+			}
 			target: {
-				label: string;
-				icon: string;
-				distance: number;
-			};
-			propModel: string;
-		};
+				label: string
+				icon: string
+				distance: number
+			}
+			propModel: string
+		}
 		blipWaypoint: {
-			sprite: number;
+			sprite: number
 			color: {
-				route: number;
-				blip: number;
-			};
-			scale: number;
-			label: string;
-		};
-	};
-	taskCoords: Vec3[];
+				route: number
+				blip: number
+			}
+			scale: number
+			label: string
+		}
+	}
+	taskCoords: Vec3[]
 	peds: {
-		model: string;
-		scenario: string;
-		coords: Vec4;
-	}[];
+		model: string
+		scenario: string
+		coords: Vec4
+	}[]
 	items: {
 		[key: string]: {
-			percentage: number;
-			amount: number;
-		};
-	};
+			percentage: number
+			amount: number
+		}
+	}
 } = {
 	settings: {
 		ped: {
 			take: {
 				targetLabel: 'Take a task',
 				targetIcon: 'fa-solid fa-circle',
-				distance: 1.0
+				distance: 1.0,
 			},
 			abort: {
 				targetLabel: 'Abort the task',
 				targetIcon: 'fa-solid fa-xmark',
-				distance: 1.0
-			}
+				distance: 1.0,
+			},
 		},
 		task: {
 			notify: {
@@ -154,24 +151,24 @@ export const CRIMINIL_TASK: {
 				title: 'Delivery',
 				success: 'You picked up the package!',
 				canceled: 'Canceled',
-				description: 'You canceled picking up the package.'
+				description: 'You canceled picking up the package.',
 			},
 			target: {
 				label: 'Open the box',
 				icon: 'fa-solid fa-box',
-				distance: 1.5
+				distance: 1.5,
 			},
-			propModel: 'prop_cs_package_01'
+			propModel: 'prop_cs_package_01',
 		},
 		blipWaypoint: {
 			sprite: 543,
 			color: {
 				route: 1,
-				blip: 1
+				blip: 1,
 			},
 			scale: 0.9,
-			label: 'Anonymous'
-		}
+			label: 'Anonymous',
+		},
 	},
 	taskCoords: [
 		[522.43, 198.49, 107.31],
@@ -256,21 +253,21 @@ export const CRIMINIL_TASK: {
 	items: {
 		['itemName']: {
 			percentage: 0,
-			amount: 0
+			amount: 0,
 		},
-	}
+	},
 }
 
 export const DEFAULT_KEY = 'N'
 export const AUTHORIZED_JOBS: string[] | null = null
 export const VEHICLE_TIERS = {
-	S: ['police',],
-	A: ['police2',],
-	B: ['police3',],
-	C: ['police4',],
+	S: ['police'],
+	A: ['police2'],
+	B: ['police3'],
+	C: ['police4'],
 }
 
-export const VEHICLE_MODES = ["N", "S", "S+", "R"] as const
+export const VEHICLE_MODES = ['N', 'S', 'S+', 'R'] as const
 
 export const VEHICLE_MODS = {
 	N: {
@@ -285,7 +282,7 @@ export const VEHICLE_MODS = {
 		Brakes: 1,
 		Transmission: 1,
 	},
-	["S+"]: {
+	['S+']: {
 		Turbo: true,
 		Engine: 2,
 		Brakes: 2,
@@ -296,133 +293,131 @@ export const VEHICLE_MODS = {
 		Engine: 3,
 		Brakes: 2,
 		Transmission: 2,
-	}
+	},
 }
 
 export const TIER_CONFIG = {
 	C: {
 		N: {
-			fDriveInertia: 1.000000,
-			fBrakeForce: 0.750,
-			fInitialDriveMaxFlatVel: 135.000000,
-			fSteeringLock: 42.00,
-			fInitialDriveForce: 0.260
+			fDriveInertia: 1.0,
+			fBrakeForce: 0.75,
+			fInitialDriveMaxFlatVel: 135.0,
+			fSteeringLock: 42.0,
+			fInitialDriveForce: 0.26,
 		},
 		S: {
-			fDriveInertia: 1.050000,
-			fBrakeForce: 0.800,
-			fInitialDriveMaxFlatVel: 145.000000,
-			fSteeringLock: 40.00,
-			fInitialDriveForce: 0.280
+			fDriveInertia: 1.05,
+			fBrakeForce: 0.8,
+			fInitialDriveMaxFlatVel: 145.0,
+			fSteeringLock: 40.0,
+			fInitialDriveForce: 0.28,
 		},
 		['S+']: {
-			fDriveInertia: 1.100000,
-			fBrakeForce: 0.850,
-			fInitialDriveMaxFlatVel: 155.000000,
-			fSteeringLock: 38.00,
-			fInitialDriveForce: 0.300
+			fDriveInertia: 1.1,
+			fBrakeForce: 0.85,
+			fInitialDriveMaxFlatVel: 155.0,
+			fSteeringLock: 38.0,
+			fInitialDriveForce: 0.3,
 		},
 		R: {
-			fDriveInertia: 1.150000,
-			fBrakeForce: 0.900,
-			fInitialDriveMaxFlatVel: 165.000000,
-			fSteeringLock: 36.00,
-			fInitialDriveForce: 0.350
-		}
+			fDriveInertia: 1.15,
+			fBrakeForce: 0.9,
+			fInitialDriveMaxFlatVel: 165.0,
+			fSteeringLock: 36.0,
+			fInitialDriveForce: 0.35,
+		},
 	},
 	B: {
 		N: {
-			fDriveInertia: 1.000000,
-			fBrakeForce: 0.800,
-			fInitialDriveMaxFlatVel: 145.000000,
-			fSteeringLock: 40.00,
-			fInitialDriveForce: 0.280
+			fDriveInertia: 1.0,
+			fBrakeForce: 0.8,
+			fInitialDriveMaxFlatVel: 145.0,
+			fSteeringLock: 40.0,
+			fInitialDriveForce: 0.28,
 		},
 		S: {
-			fDriveInertia: 1.080000,
-			fBrakeForce: 0.850,
-			fInitialDriveMaxFlatVel: 155.000000,
-			fSteeringLock: 38.00,
-			fInitialDriveForce: 0.310
+			fDriveInertia: 1.08,
+			fBrakeForce: 0.85,
+			fInitialDriveMaxFlatVel: 155.0,
+			fSteeringLock: 38.0,
+			fInitialDriveForce: 0.31,
 		},
 		['S+']: {
-			fDriveInertia: 1.130000,
-			fBrakeForce: 0.900,
-			fInitialDriveMaxFlatVel: 165.000000,
-			fSteeringLock: 36.00,
-			fInitialDriveForce: 0.340
+			fDriveInertia: 1.13,
+			fBrakeForce: 0.9,
+			fInitialDriveMaxFlatVel: 165.0,
+			fSteeringLock: 36.0,
+			fInitialDriveForce: 0.34,
 		},
 		R: {
-			fDriveInertia: 1.180000,
-			fBrakeForce: 0.950,
-			fInitialDriveMaxFlatVel: 175.000000,
-			fSteeringLock: 34.00,
-			fInitialDriveForce: 0.380
-		}
+			fDriveInertia: 1.18,
+			fBrakeForce: 0.95,
+			fInitialDriveMaxFlatVel: 175.0,
+			fSteeringLock: 34.0,
+			fInitialDriveForce: 0.38,
+		},
 	},
 	A: {
 		N: {
-			fDriveInertia: 1.000000,
-			fBrakeForce: 0.850,
-			fInitialDriveMaxFlatVel: 155.000000,
-			fSteeringLock: 38.00,
-			fInitialDriveForce: 0.300
+			fDriveInertia: 1.0,
+			fBrakeForce: 0.85,
+			fInitialDriveMaxFlatVel: 155.0,
+			fSteeringLock: 38.0,
+			fInitialDriveForce: 0.3,
 		},
 		S: {
-			fDriveInertia: 1.100000,
-			fBrakeForce: 0.900,
-			fInitialDriveMaxFlatVel: 165.000000,
-			fSteeringLock: 36.00,
-			fInitialDriveForce: 0.330
+			fDriveInertia: 1.1,
+			fBrakeForce: 0.9,
+			fInitialDriveMaxFlatVel: 165.0,
+			fSteeringLock: 36.0,
+			fInitialDriveForce: 0.33,
 		},
 		['S+']: {
-			fDriveInertia: 1.160000,
-			fBrakeForce: 0.950,
-			fInitialDriveMaxFlatVel: 175.000000,
-			fSteeringLock: 34.00,
-			fInitialDriveForce: 0.370
+			fDriveInertia: 1.16,
+			fBrakeForce: 0.95,
+			fInitialDriveMaxFlatVel: 175.0,
+			fSteeringLock: 34.0,
+			fInitialDriveForce: 0.37,
 		},
 		R: {
-			fDriveInertia: 1.220000,
-			fBrakeForce: 1.000,
-			fInitialDriveMaxFlatVel: 185.000000,
-			fSteeringLock: 32.00,
-			fInitialDriveForce: 0.420
-		}
+			fDriveInertia: 1.22,
+			fBrakeForce: 1.0,
+			fInitialDriveMaxFlatVel: 185.0,
+			fSteeringLock: 32.0,
+			fInitialDriveForce: 0.42,
+		},
 	},
 	S: {
 		N: {
-			fDriveInertia: 1.000000,
-			fBrakeForce: 0.900,
-			fInitialDriveMaxFlatVel: 165.000000,
-			fSteeringLock: 36.00,
-			fInitialDriveForce: 0.320
+			fDriveInertia: 1.0,
+			fBrakeForce: 0.9,
+			fInitialDriveMaxFlatVel: 165.0,
+			fSteeringLock: 36.0,
+			fInitialDriveForce: 0.32,
 		},
 		S: {
-			fDriveInertia: 1.120000,
-			fBrakeForce: 0.950,
-			fInitialDriveMaxFlatVel: 175.000000,
-			fSteeringLock: 34.00,
-			fInitialDriveForce: 0.360
+			fDriveInertia: 1.12,
+			fBrakeForce: 0.95,
+			fInitialDriveMaxFlatVel: 175.0,
+			fSteeringLock: 34.0,
+			fInitialDriveForce: 0.36,
 		},
 		['S+']: {
-			fDriveInertia: 1.200000,
-			fBrakeForce: 1.000,
-			fInitialDriveMaxFlatVel: 185.000000,
-			fSteeringLock: 32.00,
-			fInitialDriveForce: 0.410
+			fDriveInertia: 1.2,
+			fBrakeForce: 1.0,
+			fInitialDriveMaxFlatVel: 185.0,
+			fSteeringLock: 32.0,
+			fInitialDriveForce: 0.41,
 		},
 		R: {
-			fDriveInertia: 1.280000,
-			fBrakeForce: 1.100,
-			fInitialDriveMaxFlatVel: 195.000000,
-			fSteeringLock: 30.00,
-			fInitialDriveForce: 0.480
-		}
+			fDriveInertia: 1.28,
+			fBrakeForce: 1.1,
+			fInitialDriveMaxFlatVel: 195.0,
+			fSteeringLock: 30.0,
+			fInitialDriveForce: 0.48,
+		},
 	},
 }
-
-
 
 export const MEGAPHONE = {
 	range: 30.0,
@@ -437,5 +432,5 @@ export const MEGAPHONE = {
 		unavailable: 'Patrol mic is not available right now!',
 	},
 	vehicleClass: [18],
-	vehicleModels: ['ambulance', 'firetruck', 'police', 'police2', 'police3']
+	vehicleModels: ['ambulance', 'firetruck', 'police', 'police2', 'police3'],
 }

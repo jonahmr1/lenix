@@ -22,7 +22,9 @@ export const Hud = () => {
 	useEffect(() => {
 		const disposes = [
 			onNuiEmit<Events['displayHud']>('hud:display', setDisplay),
-			onNuiEmit<Events['updateHudClip']>('hud:update:clip', clip => setState(prev => ({ clip, reserve: prev.reserve }))),
+			onNuiEmit<Events['updateHudClip']>('hud:update:clip', clip =>
+				setState(prev => ({ clip, reserve: prev.reserve })),
+			),
 			onNuiEmit<Events['updateHudReserve']>('hud:update:reserve', reserve =>
 				setState(prev => ({ reserve, clip: prev.clip })),
 			),

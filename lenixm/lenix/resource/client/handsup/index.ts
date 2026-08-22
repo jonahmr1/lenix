@@ -18,5 +18,5 @@ control.on({
 			client.entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
 		}
 		handsUp = !handsUp
-	}
+	},
 })

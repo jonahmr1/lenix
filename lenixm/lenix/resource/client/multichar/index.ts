@@ -1,8 +1,16 @@
-import { asserts } from "@lenix/lenix"
-import type { Character } from "@overextended/ox_core"
-import { cache, checkDependency, locale, registerContext, requestModel, showContext, triggerServerCallback } from "@overextended/ox_lib/client"
-import type { Vec3 } from "lenix"
-import { api } from "lenix/client"
+import { asserts } from '@lenix/lenix'
+import type { Character } from '@overextended/ox_core'
+import {
+	cache,
+	checkDependency,
+	locale,
+	registerContext,
+	requestModel,
+	showContext,
+	triggerServerCallback,
+} from '@overextended/ox_lib/client'
+import type { Vec3 } from 'lenix'
+import { api } from 'lenix/client'
 
 checkDependency('ox_core', '1.5.14', true)
 checkDependency('ox_lib', '3.39.0', true)
@@ -14,35 +22,22 @@ const pedsCoords: [number, number, number, number][] = [
 ]
 const hiddenCoords = [-2154.6487, 1135.6996, -24.3712] as const
 const camCoords = [-2156.2529, 1136.0225, -23.3712, 89.9823] as const
-const charactersFocusOffset = [
-	99,
-	79
-] as const
+const charactersFocusOffset = [99, 79] as const
 
 asserts(
 	pedsCoords.length === CHARACTER_SLOTS,
-	`Please match the CHARACTER_SLOTS<${CHARACTER_SLOTS}> with you pedCoords length<${pedsCoords.length}>`
+	`Please match the CHARACTER_SLOTS<${CHARACTER_SLOTS}> with you pedCoords length<${pedsCoords.length}>`,
 )
 
 const getCursorRay = (cam: number): [[number, number, number], [number, number, number]] => {
-	const [cursorX, cursorY] = GetNuiCursorPosition();
-	const [resX, resY] = GetActiveScreenResolution();
-	const screenX = cursorX / resX;
-	const screenY = cursorY / resY;
-	const camPos = GetCamCoord(cam) as Vec3;
-	const [worldPos, normal] = GetWorldCoordFromScreenCoord(screenX, screenY) as [
-		Vec3,
-		Vec3,
-	];
+	const [cursorX, cursorY] = GetNuiCursorPosition()
+	const [resX, resY] = GetActiveScreenResolution()
+	const screenX = cursorX / resX
+	const screenY = cursorY / resY
+	const camPos = GetCamCoord(cam) as Vec3
+	const [worldPos, normal] = GetWorldCoordFromScreenCoord(screenX, screenY) as [Vec3, Vec3]
 
-	return [
-		camPos,
-		[
-			worldPos[0] + normal[0] * 50,
-			worldPos[1] + normal[1] * 50,
-			worldPos[2] + normal[2] * 50,
-		],
-	];
+	return [camPos, [worldPos[0] + normal[0] * 50, worldPos[1] + normal[1] * 50, worldPos[2] + normal[2] * 50]]
 }
 
 const charSelect = async (characters: Character[]): Promise<Character | undefined> => {
@@ -80,8 +75,8 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 		if (character) {
 			const appearance = await triggerServerCallback('lenix:server:appearance:getappearance', null, character.charId)
 			if (!appearance) console.error(`Failed to get character<${character.charId}> appearance`)
-				api["illenium-appearance"]?.setPedAppearance?.(ped, appearance)
-			}
+			api['illenium-appearance']?.setPedAppearance?.(ped, appearance)
+		}
 
 		if (!character) SetEntityAlpha(ped, 51 * 4, false)
 		SetModelAsNoLongerNeeded(hash)
@@ -102,7 +97,7 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	on('onResourceStop', () => {
 		peds.forEach(ped => {
 			DeletePed(ped)
-		});
+		})
 	})
 
 	DoScreenFadeIn(1000)
@@ -126,9 +121,15 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 			const [camPos, farPoint] = getCursorRay(activeCam)
 			const ray = StartShapeTestRay(
-				camPos[0], camPos[1], camPos[2],
-				farPoint[0], farPoint[1], farPoint[2],
-				12, cache.ped, 0
+				camPos[0],
+				camPos[1],
+				camPos[2],
+				farPoint[0],
+				farPoint[1],
+				farPoint[2],
+				12,
+				cache.ped,
+				0,
 			)
 			const [, hit, , , entity] = GetShapeTestResult(ray)
 
@@ -161,13 +162,13 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 
 			if (!IsDisabledControlJustPressed(0, 24)) return
 			if (index === -1) return
-	
+
 			RenderScriptCams(false, false, 0, true, false)
 			DestroyCam(activeCam, false)
 			clearTick(tick)
 			SetNuiFocus(false, false)
 			SetNuiFocusKeepInput(false)
-			DoScreenFadeOut(100);
+			DoScreenFadeOut(100)
 			peds.forEach(ped => {
 				DeletePed(ped)
 			})
@@ -176,30 +177,31 @@ const charSelect = async (characters: Character[]): Promise<Character | undefine
 	})
 }
 
-const promptCharacterMenu = async (characters: Character[]): Promise<Character | undefined> => new Promise((resolve) => {
-	registerContext({
-		id: 'char_selection',
-		title: 'Character Selection',
-		canClose: false,
-		options: [
-			...characters.map(character => ({
-				title: `${character.firstName} ${character.lastName}`,
-				metadata: [
-					{ label: locale('gender'), value: locale(character.gender as any) },
-					{ label: locale('last_played'), value: character.lastPlayed },
-				],
-				onSelect: () => resolve(character)
-			})),
-			{
-				title: locale('create_character'),
-				disabled: characters.length >= CHARACTER_SLOTS,
-				onSelect: () => resolve(undefined)
-			},
-		]
-	})
+const promptCharacterMenu = async (characters: Character[]): Promise<Character | undefined> =>
+	new Promise(resolve => {
+		registerContext({
+			id: 'char_selection',
+			title: 'Character Selection',
+			canClose: false,
+			options: [
+				...characters.map(character => ({
+					title: `${character.firstName} ${character.lastName}`,
+					metadata: [
+						{ label: locale('gender'), value: locale(character.gender as any) },
+						{ label: locale('last_played'), value: character.lastPlayed },
+					],
+					onSelect: () => resolve(character),
+				})),
+				{
+					title: locale('create_character'),
+					disabled: characters.length >= CHARACTER_SLOTS,
+					onSelect: () => resolve(undefined),
+				},
+			],
+		})
 
-	showContext('char_selection')
-})
+		showContext('char_selection')
+	})
 
 exports('charselection', (characters: Character[], variant: 'menu' | 'native') => {
 	variant === 'menu' ? promptCharacterMenu(characters) : charSelect(characters)

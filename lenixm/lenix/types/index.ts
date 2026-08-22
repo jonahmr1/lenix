@@ -64,50 +64,50 @@ export interface PlayerStorage {
 	timeSync: SyncConfig
 	timeValue: number
 	weatherType:
-	| 'CLEAR'
-	| 'EXTRASUNNY'
-	| 'CLOUDS'
-	| 'OVERCAST'
-	| 'RAIN'
-	| 'CLEARING'
-	| 'THUNDER'
-	| 'SMOG'
-	| 'FOGGY'
-	| 'XMAS'
-	| 'SNOW'
-	| 'SNOWLIGHT'
-	| 'BLIZZARD'
-	| 'HALLOWEEN'
-	| 'NEUTRAL'
-	| 'RAIN_HALLOWEEN'
-	| 'SNOW_HALLOWEEN'
+		| 'CLEAR'
+		| 'EXTRASUNNY'
+		| 'CLOUDS'
+		| 'OVERCAST'
+		| 'RAIN'
+		| 'CLEARING'
+		| 'THUNDER'
+		| 'SMOG'
+		| 'FOGGY'
+		| 'XMAS'
+		| 'SNOW'
+		| 'SNOWLIGHT'
+		| 'BLIZZARD'
+		| 'HALLOWEEN'
+		| 'NEUTRAL'
+		| 'RAIN_HALLOWEEN'
+		| 'SNOW_HALLOWEEN'
 }
 
-export type TopscoreData = Record<1 | 2 | 3, {
-	scale: number
-	bottom: number
-	left: number
-	visible: boolean
-	name: string
-	avatar: string
-	stats: {
-		kills: number
-		deaths: number
-		wins: number
-		kd: number
+export type TopscoreData = Record<
+	1 | 2 | 3,
+	{
+		scale: number
+		bottom: number
+		left: number
+		visible: boolean
+		name: string
+		avatar: string
+		stats: {
+			kills: number
+			deaths: number
+			wins: number
+			kd: number
+		}
+		id: string
 	}
-	id: string
-}>
-
-export type TopscoreContextData = Record<
-1 | 2 | 3,
-Omit<TopscoreData[1], 'scale' | 'bottom' | 'left' | 'visible'>
 >
 
+export type TopscoreContextData = Record<1 | 2 | 3, Omit<TopscoreData[1], 'scale' | 'bottom' | 'left' | 'visible'>>
+
 export interface CriminialApi {
-	success: boolean;
-	error?: string;
-	item?: string;
-	amount?: number;
+	success: boolean
+	error?: string
+	item?: string
+	amount?: number
 	response?: string
 }

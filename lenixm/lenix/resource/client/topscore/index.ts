@@ -1,8 +1,8 @@
-import { entries } from "@lenix/lenix";
-import { checkDependency, triggerServerCallback } from "@overextended/ox_lib/client";
-import type { Vec3 } from "lenix";
-import { client, emitNui, pool } from "lenix/client";
-import type { Events, TopscoreContextData, TopscoreData } from "types/index";
+import { entries } from '@lenix/lenix'
+import { checkDependency, triggerServerCallback } from '@overextended/ox_lib/client'
+import type { Vec3 } from 'lenix'
+import { client, emitNui, pool } from 'lenix/client'
+import type { Events, TopscoreContextData, TopscoreData } from 'types/index'
 
 checkDependency('ox_lib', '3.39.0', true)
 
@@ -15,12 +15,13 @@ const maxDistance = 5
 const coords: Record<keyof TopscoreContextData, Vec3> = {
 	1: [902.8286, -2108.0896, 30.4594],
 	2: [904.6212, -2108.2192, 30.4594],
-	3: [901.0425, -2107.9170, 30.4594],
+	3: [901.0425, -2107.917, 30.4594],
 }
 
 let players: TopscoreContextData | undefined | void
 
-const getData = async () => players = await triggerServerCallback<TopscoreContextData>('lenix:server:topscore:getData', 60_000)
+const getData = async () =>
+	(players = await triggerServerCallback<TopscoreContextData>('lenix:server:topscore:getData', 60_000))
 
 setImmediate(async () => {
 	getData()
@@ -52,13 +53,14 @@ pool(() => {
 						...data,
 						bottom,
 						left,
-						scale: visible && distance <= maxDistance
-							? Math.min(Math.max(1 - distance / maxDistance, minScale), maxScale)
-							: minScale,
+						scale:
+							visible && distance <= maxDistance
+								? Math.min(Math.max(1 - distance / maxDistance, minScale), maxScale)
+								: minScale,
 						visible: visible && distance <= maxDistance,
 					},
 				]
-			})
-		) as TopscoreData
+			}),
+		) as TopscoreData,
 	)
 })

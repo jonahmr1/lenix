@@ -9,9 +9,9 @@ checkDependency('ox_core', '1.5.14', true)
 
 type OxWeapon =
 	| {
-		ammo: string
-		metadata: { ammo: number }
-	}
+			ammo: string
+			metadata: { ammo: number }
+	  }
 	| undefined
 
 let turnedOff = false

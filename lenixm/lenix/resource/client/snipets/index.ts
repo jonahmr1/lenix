@@ -1,4 +1,4 @@
-import { palette } from "lenix"
+import { palette } from 'lenix'
 
 let currentVehicle = 0
 const vehicleAlpha = 200

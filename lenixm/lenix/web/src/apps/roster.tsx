@@ -41,7 +41,6 @@ const Officer = ({ callsign, name, duty_state, talk_state }: IOfficer) => (
 	</div>
 )
 
-
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)
 	const [officers, setOfficers] = useState<Officers>({

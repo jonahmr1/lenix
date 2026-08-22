@@ -11,7 +11,7 @@ import {
 	showTextUI,
 	notify,
 	progressBar,
-	requestModel
+	requestModel,
 } from '@overextended/ox_lib/client'
 import { MISSION_PRICE, VEHICLE_MODEL } from 'common/config'
 import { client, useTimer, getNearest } from 'lenix/client'
@@ -100,9 +100,9 @@ const refreshContext = async () => {
 			const teammates = team?.members.filter(member => member !== team?.leader) ?? []
 			return teammates.length > 0
 				? teammates.map(teammate => ({
-					title: `${teammate}`,
-					onSelect: () => emitNet('lenix:server:robbery:kickMember', teammate),
-				}))
+						title: `${teammate}`,
+						onSelect: () => emitNet('lenix:server:robbery:kickMember', teammate),
+					}))
 				: [{ title: 'No teammates found', readOnly: true }]
 		})(),
 	})
@@ -317,7 +317,7 @@ setImmediate(async () => {
 	if (!entity) return
 
 	refreshContext()
-	
+
 	api.ox_target?.addLocalEntity?.(entity.handle, {
 		label: 'Robbery Mission',
 		onSelect: () => {

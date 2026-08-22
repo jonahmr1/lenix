@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, writeFileSync } from "fs"
+import { existsSync, readdirSync, writeFileSync } from 'fs'
 
 function folders(dir: string): string[] {
 	if (!existsSync(dir)) return []

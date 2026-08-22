@@ -1,5 +1,5 @@
-import { checkDependency } from "@overextended/ox_lib"
-import { api } from "lenix/server"
+import { checkDependency } from '@overextended/ox_lib'
+import { api } from 'lenix/server'
 
 checkDependency('ox_inventory', '2.47.9', true)
 
