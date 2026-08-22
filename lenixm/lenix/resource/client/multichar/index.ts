@@ -1,8 +1,11 @@
 import { asserts } from "@lenix/lenix"
 import type { Character } from "@overextended/ox_core"
-import { cache, locale, registerContext, requestModel, showContext, triggerServerCallback } from "@overextended/ox_lib/client"
+import { cache, checkDependency, locale, registerContext, requestModel, showContext, triggerServerCallback } from "@overextended/ox_lib/client"
 import type { Vec3 } from "lenix"
 import { api } from "lenix/client"
+
+checkDependency('ox_core', '1.5.14', true)
+checkDependency('ox_lib', '3.39.0', true)
 
 const CHARACTER_SLOTS = 2
 const pedsCoords: [number, number, number, number][] = [
