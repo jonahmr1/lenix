@@ -14,7 +14,7 @@ const apps = {
 	topscore: TopScore,
 } satisfies Record<WebScript, React.ComponentType>
 
-export default () => {
+export const App = () => {
 	document.documentElement.classList.add('dark')
 
 	return (
