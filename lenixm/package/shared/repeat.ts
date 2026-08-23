@@ -1,32 +1,34 @@
 /*  */
-export function repeat<T>(
-	until: () => T,
-): Promise<T>
-export function repeat<T, const C extends T>(
-	until: () => T,
-	equal: C,
+export function repeat<T>(check: () => T): Promise<T>
+export function repeat<T, C extends T>(
+	check: () => T,
+	untilOrEqual: C | ((checked: T) => checked is C),
 	each?: number,
 ): Promise<C>
-export function repeat <T>(
-	until: () => T,
-	equal?: T,
-	each?: number
+export function repeat<T>(
+	check: () => T,
+	untilOrEqual?: T | ((checked: T) => boolean),
+	each?: number,
 ): Promise<T> {
+	const hasCondition = arguments.length > 1
+	const predicate = typeof untilOrEqual === 'function'
+		? untilOrEqual as (checked: T) => boolean
+		: undefined
+
 	return new Promise(resolve => {
 		const interval = setInterval(() => {
-			const result = until()
+			const checked = check()
 
-			if (equal === undefined) {
-				if (result === undefined || result === null) return
-				resolve(result)
-				clearInterval(interval)
-				return
-			}
+			const met = predicate
+				? predicate(checked)
+				: hasCondition
+					? checked === untilOrEqual
+					: checked !== undefined && checked !== null
 
-			if (result !== equal) return
-
-			resolve(equal ?? result)
+			if (!met) return
+			
 			clearInterval(interval)
+			resolve(checked)
 		}, each)
 	})
 }

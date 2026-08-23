@@ -203,12 +203,7 @@ const promptCharacterMenu = async (characters: Character[]): Promise<Character |
 		showContext('char_selection')
 	})
 
-exports('charselect', async (characters: Character[], variant: 'menu' | 'native') => {
-	const state = GetResourceState('lenix_premiums')
-	console.info(`lenix_premiums state: ${state}`)
-
-	if (state === 'started') return await api.lenix_premiums?.charselect?.(characters)
-	
+exports('charselect', async (characters: Character[], variant: 'menu' | 'native'): Promise<Character | undefined> => {
 	switch (variant) {
 		case 'menu': return await promptCharacterMenu(characters)
 		case 'native': return await charSelect(characters)
