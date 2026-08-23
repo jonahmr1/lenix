@@ -53,7 +53,7 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 
 	if (!CHARACTER_SELECT) return;
 
-	const character = await globalThis.exports.lenix_premiums.charselect(<Character[]>characters);
+	const character = await globalThis.exports.lenix_premiums.charselect(<Character[]>characters) as Character | undefined
 
 	const [x, y, z] = [
 		character?.x || SPAWN_LOCATION[0],
