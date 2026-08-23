@@ -203,6 +203,15 @@ const promptCharacterMenu = async (characters: Character[]): Promise<Character |
 		showContext('char_selection')
 	})
 
-exports('charselection', (characters: Character[], variant: 'menu' | 'native') => {
-	variant === 'menu' ? promptCharacterMenu(characters) : charSelect(characters)
+exports('charselection', async (characters: Character[], variant: 'menu' | 'native') => {
+	const state = GetResourceState('lenix_premiums')
+	console.info(`lenix_premiums state: ${state}`)
+
+	if (state === 'started') return await api.lenix_premiums?.charselect?.(characters)
+	
+	switch (variant) {
+		case 'menu': return await promptCharacterMenu(characters)
+		case 'native': return await charSelect(characters)
+		default: throw `Unknown charselection variant<${variant}>`
+	}
 })

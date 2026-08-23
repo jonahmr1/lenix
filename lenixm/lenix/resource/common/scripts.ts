@@ -32,7 +32,7 @@ export const EnabledOnlyClientScripts = [
 	'snipets',
 	'carmodes',
 	'megaphone',
-	// 'charselect'
+	'charselect'
 ] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 export const EnabledOnlyServerScripts = ['appearance', 'db'] as const satisfies readonly Exclude<
 	ServerScript,

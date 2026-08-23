@@ -30,6 +30,7 @@ for (const script of EnabledClientScripts) {
 		snipets: () => import('./snipets'),
 		carmodes: () => import('./carmodes'),
 		megaphone: () => import('./megaphone'),
+		charselect: () => import('./charselect'),
 	} satisfies Record<ClientScript, () => Promise<unknown>>
 	modules[script]()
 }
