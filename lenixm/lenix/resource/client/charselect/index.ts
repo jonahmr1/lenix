@@ -203,7 +203,7 @@ const promptCharacterMenu = async (characters: Character[]): Promise<Character |
 		showContext('char_selection')
 	})
 
-exports('charselection', async (characters: Character[], variant: 'menu' | 'native') => {
+exports('charselect', async (characters: Character[], variant: 'menu' | 'native') => {
 	const state = GetResourceState('lenix_premiums')
 	console.info(`lenix_premiums state: ${state}`)
 
