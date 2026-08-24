@@ -124,9 +124,12 @@ const on = ({
 }) => {
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
-	binds.add({
+	const bind = {
 		event, key, onEvent: cb, type
-	})
+	}
+	binds.add(bind)
+	
+	return () => binds.delete(bind)
 }
 const disable = ({
 	key,
