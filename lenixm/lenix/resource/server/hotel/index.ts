@@ -77,7 +77,7 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 		if (!res) throw new Error(`Failed to update new room<${roomId}> for charId<${charId}>`)
 
 		await sleep(1000)
-		const [success, response] = api.ox_inventory.AddItem<[true] | [false, string], [...unknown[]]>(
+		const re = api.ox_inventory?.AddItem?.<[true] | [false, string], [...unknown[]]>(
 			playerId,
 			'hotel_keycard',
 			1,
@@ -85,6 +85,7 @@ on('ox:createdCharacter', async (playerId: number, _userId: number, charId: numb
 				type: `Room ${roomId}`,
 			},
 		)
+		const [success, response] = re ?? [false, 'Unknown']
 		if (!success) throw new Error(`Failed to give hotel room key to charId<${charId}>, reason: ${response}`)
 
 		const player = GetPlayer(playerId)
