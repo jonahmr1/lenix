@@ -1,6 +1,5 @@
 import { Introduc } from '@/components/articles/introduct'
 import { Stats } from '@/components/articles/insights'
-import { Activity } from '@/components/articles/activity'
 import { Langs } from '@/components/articles/langs'
 import { Footer } from '@/components/articles/footer'
 import { Quotes } from '@/components/articles/quotes'
@@ -29,7 +28,6 @@ export const Main = () => {
 					</div>
 					<div className='min-h-screen flex flex-col justify-evenly'>
 						<Stats />
-						<Activity />
 						<Langs />
 					</div>
 					<Timeline />

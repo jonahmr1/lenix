@@ -11,6 +11,11 @@ export type Vec4 = [number, number, number, number]
 export type Vec3 = [number, number, number]
 
 /**
+ * Two-dimensional coordinates.
+ */
+export type Vec2 = [number, number, number]
+
+/**
  * Typed event tuple containing an event id and positional parameters.
  */
 export type Event<Id extends string, Params extends unknown[] = never> = [Id, Params]
