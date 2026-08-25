@@ -3,17 +3,17 @@ import type { JsonValue } from "@lenix/lenix"
 /**
  * Three-dimensional coordinates plus heading.
  */
-export type Vec4 = [number, number, number, number]
+export type Vec4 = readonly [number, number, number, number]
 
 /**
  * Three-dimensional coordinates.
  */
-export type Vec3 = [number, number, number]
+export type Vec3 = readonly [number, number, number]
 
 /**
  * Two-dimensional coordinates.
  */
-export type Vec2 = [number, number, number]
+export type Vec2 = readonly [number, number, number]
 
 /**
  * Typed event tuple containing an event id and positional parameters.

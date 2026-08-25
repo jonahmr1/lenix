@@ -1,4 +1,3 @@
-/*  */
 export function repeat<T>(check: () => T): Promise<T>
 export function repeat<T, C extends T>(
 	check: () => T,

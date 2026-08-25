@@ -3,195 +3,169 @@ import { repeat } from '../shared/repeat.ts'
 import type { Vec3, Vec4 } from '../shared/types.ts'
 
 
-export const client = {
-	entity: {
-		/**
-		 * Gets the local entity handle from a network ID.
-		 *
-		 * Network IDs are shared, but entity handles are local.
-		 * The returned handle is only valid on the current machine.
-		 *
-		 * If no network ID is provided, this resolves your own player ped
-		 * by first getting its network ID.
-		 *
-		 * Examples:
-		 * - entity(vehicleNetId) -> local vehicle handle
-		 * - entity(pedNetId) -> local ped handle
-		 * - entity() -> your own player ped handle
-		 */
-		handle: (entityNetId: number) => NetworkGetEntityFromNetworkId(entityNetId),
+export const entity = {
+	/**
+	 * Gets the local entity handle from a network ID.
+	 *
+	 * Network IDs are shared, but entity handles are local.
+	 * The returned handle is only valid on the current machine.
+	 *
+	 * If no network ID is provided, this resolves your own player ped
+	 * by first getting its network ID.
+	 *
+	 * Examples:
+	 * - entity(vehicleNetId) -> local vehicle handle
+	 * - entity(pedNetId) -> local ped handle
+	 * - entity() -> your own player ped handle
+	 */
+	handle: (entityNetId: number) => NetworkGetEntityFromNetworkId(entityNetId),
 
-		/**
-		 * Gets the network ID for an entity.
-		 *
-		 * Entity handles are local to the current machine.
-		 * Network IDs are shared references for networked entities.
-		 *
-		 * If no entity is provided, this uses your own player ped.
-		 *
-		 * Examples:
-		 * - netId(vehicle) -> network ID of that vehicle
-		 * - netId(targetPed) -> network ID of that ped
-		 * - netId() -> network ID of your own player ped
-		 */
-		netId: (entity: number) => NetworkGetNetworkIdFromEntity(entity),
+	/**
+	 * Gets the network ID for an entity.
+	 *
+	 * Entity handles are local to the current machine.
+	 * Network IDs are shared references for networked entities.
+	 *
+	 * If no entity is provided, this uses your own player ped.
+	 *
+	 * Examples:
+	 * - netId(vehicle) -> network ID of that vehicle
+	 * - netId(targetPed) -> network ID of that ped
+	 * - netId() -> network ID of your own player ped
+	 */
+	netId: (entity: number) => NetworkGetNetworkIdFromEntity(entity),
 
-		/**
-		 * Gets entity coordinates and heading.
-		 */
-		coords: (() => {
-			function coords(entity: number, excludeH?: true, isAlive?: boolean): Vec3
-			function coords(entity: number, excludeH?: false, isAlive?: boolean): Vec4
-			function coords(entity: number, excludeH = false, isAlive = true) {
-				const entityCoords = GetEntityCoords(entity, isAlive) as Vec3
+	/**
+	 * Gets entity coordinates and heading.
+	 */
+	coords: (() => {
+		function coords(entity?: number, excludeH?: true, isAlive?: boolean): Vec3
+		function coords(entity?: number, excludeH?: false, isAlive?: boolean): Vec4
+		function coords(handle = entity.handle(), excludeH = false, isAlive = true) {
+			const entityCoords = GetEntityCoords(handle, isAlive) as Vec3
 
-				if (excludeH) return entityCoords
+			if (excludeH) return entityCoords
 
-				return [
-					...entityCoords,
-					GetEntityHeading(entity)
-				]
-			}
-
-			return coords
-		})(),
-
-		/*  */
-		teleport: (
-			entity: number,
-			x: number,
-			y: number,
-			z: number,
-			h?: number,
-			keepTasks = false,
-			keepIK = false,
-			doWarp = false
-		) => {
-			SetEntityCoordsNoOffset(entity, x, y, z, keepTasks, keepIK, doWarp)
-			h && SetEntityHeading(entity, h)
-		},
-
-		/*  */
-		playAnim: async (
-			ped: number,
-			dict: string,
-			name: string,
-			blendIn = 2.0,
-			blendOut = 2.0,
-			duration = -1,
-			flag = 0,
-			playbackFrom = 0.0,
-			x = false,
-			y = false,
-			z = false
-		) => {
-			RequestAnimDict(dict)
-			await repeat(() => HasAnimDictLoaded(dict), true)
-			TaskPlayAnim(ped, dict, name, blendIn, blendOut, duration, flag, playbackFrom, x, y, z)
-		},
-
-		/*  */
-		stopAnim: (ped: number, dict: string) => {
-			RemoveAnimDict(dict)
-			ClearPedTasks(ped)
+			return [
+				...entityCoords,
+				GetEntityHeading(handle)
+			]
 		}
+
+		return coords
+	})(),
+
+	/*  */
+	teleport: (
+		x: number,
+		y: number,
+		z: number,
+		handle: number = player.entity(),
+		h?: number,
+		keepTasks = false,
+		keepIK = false,
+		doWarp = false
+	) => {
+		SetEntityCoordsNoOffset(handle, x, y, z, keepTasks, keepIK, doWarp)
+		h && SetEntityHeading(handle, h)
 	},
-	player: {
-		/**
-		 * Gets a client player ID.
-		 *
-		 * If a server ID is provided, this converts that server ID into a client
-		 * player ID on the current client.
-		 *
-		 * If no server ID is provided, this returns your own client player ID.
-		 *
-		 * Examples:
-		 * - id(targetServerId) -> target player's client player ID
-		 * - id() -> your own client player ID
-		 */
-		id: (serverId?: number) => serverId !== undefined ? GetPlayerFromServerId(serverId) : PlayerId(),
 
-		/**
-		 * Gets a player's server ID from their client player ID.
-		 *
-		 * Client player IDs are local to each client.
-		 * Server IDs, also called source IDs, identify connected players on the server.
-		 *
-		 * If no client player ID is provided, this uses your own client player ID.
-		 *
-		 * Examples:
-		 * - serverId(targetPlayerId) -> target player's server ID
-		 * - serverId() -> your own server ID
-		 */
-		serverId(playerId?: number) {
-			return GetPlayerServerId(playerId ?? this.id())
-		},
+	/*  */
+	playAnim: async (
+		ped: number,
+		dict: string,
+		name: string,
+		blendIn = 2.0,
+		blendOut = 2.0,
+		duration = -1,
+		flag = 0,
+		playbackFrom = 0.0,
+		x = false,
+		y = false,
+		z = false
+	) => {
+		RequestAnimDict(dict)
+		await repeat(() => HasAnimDictLoaded(dict), true)
+		TaskPlayAnim(ped, dict, name, blendIn, blendOut, duration, flag, playbackFrom, x, y, z)
+	},
 
-		/*  */
-		entity: (playerId?: number) => playerId !== undefined ? GetPlayerPed(playerId) : PlayerPedId(),
+	/*  */
+	stopAnim: (ped: number, dict: string) => {
+		RemoveAnimDict(dict)
+		ClearPedTasks(ped)
+	}
+}
 
-		/*  */
-		netId(playerId?: number) {
-			return PedToNet(this.entity(playerId))
-		},
+export const player = {
+	/**
+	 * Gets a client player ID.
+	 *
+	 * If a server ID is provided, this converts that server ID into a client
+	 * player ID on the current 
+	 *
+	 * If no server ID is provided, this returns your own client player ID.
+	 *
+	 * Examples:
+	 * - id(targetServerId) -> target player's client player ID
+	 * - id() -> your own client player ID
+	 */
+	id: (serverId?: number) => serverId !== undefined ? GetPlayerFromServerId(serverId) : PlayerId(),
 
-		/*  */
-		coords<T extends true | undefined = undefined>(
-			excludeH?: T,
-			isAlive?: boolean
-		): T extends true ? Vec3 : Vec4 {
-			return (
-				excludeH === true
-					? client.entity.coords(this.entity(), true, isAlive)
-					: client.entity.coords(this.entity(), false, isAlive)
-			) as T extends true ? Vec3 : Vec4;
-		},
+	/**
+	 * Gets a player's server ID from their client player ID.
+	 *
+	 * Client player IDs are local to each 
+	 * Server IDs, also called source IDs, identify connected players on the server.
+	 *
+	 * If no client player ID is provided, this uses your own client player ID.
+	 *
+	 * Examples:
+	 * - serverId(targetPlayerId) -> target player's server ID
+	 * - serverId() -> your own server ID
+	 */
+	serverId(playerId?: number) {
+		return GetPlayerServerId(playerId ?? this.id())
+	},
 
-		/*  */
-		teleport(
-			x: number,
-			y: number,
-			z: number,
-			h?: number,
-			keepTasks = false,
-			keepIK = false,
-			doWarp = false
-		) {
-			return client.entity.teleport(this.entity(), x, y, z, h, keepTasks, keepIK, doWarp)
-		},
+	/*  */
+	entity: (playerId?: number) => playerId !== undefined ? GetPlayerPed(playerId) : PlayerPedId(),
 
-		/*  */
-		storage: {
-			set: <Storage>(
-				...[key, value]: {
-					[K in keyof Storage]: Storage[K] extends JsonValue
-						? [key: Extract<K, string>, value: Storage[K]]
-						: never
-				}[keyof Storage]
-			) => SetResourceKvp(key, JSON.stringify(value)),
+	/*  */
+	netId(playerId: number): number {
+		return PedToNet(entity.handle(playerId))
+	},
 
-			get: <Storage, K extends Extract<keyof Storage, string>>(
-				key: K,
-				init?: Storage[K] extends JsonValue ? Storage[K] : never
-			): Storage[K] extends JsonValue ? Storage[K] : never => {
-				const value = GetResourceKvpString(key)
+	/*  */
+	storage: {
+		set: <Storage>(
+			...[key, value]: {
+				[K in keyof Storage]: Storage[K] extends JsonValue
+					? [key: Extract<K, string>, value: Storage[K]]
+					: never
+			}[keyof Storage]
+		) => SetResourceKvp(key, JSON.stringify(value)),
 
-				if (value === null) {
-					if (init === undefined) {
-						throw new Error(`Storage<${key}> was never assigned`)
-					}
+		get: <Storage, K extends Extract<keyof Storage, string>>(
+			key: K,
+			init?: Storage[K] extends JsonValue ? Storage[K] : never
+		): Storage[K] extends JsonValue ? Storage[K] : never => {
+			const value = GetResourceKvpString(key)
 
-					SetResourceKvp(key, JSON.stringify(init))
-					return init as Storage[K] extends JsonValue ? Storage[K] : never
+			if (value === null) {
+				if (init === undefined) {
+					throw `Storage<${key}> was never assigned`
 				}
 
-				return JSON.parse(value) as Storage[K] extends JsonValue ? Storage[K] : never
-			},
+				SetResourceKvp(key, JSON.stringify(init))
+				return init as Storage[K] extends JsonValue ? Storage[K] : never
+			}
 
-			delete: <Storage>(
-				key: Extract<keyof Storage, string>
-			) => DeleteResourceKvp(key),
-			/* TODO: add on event */
-		}
+			return JSON.parse(value) as Storage[K] extends JsonValue ? Storage[K] : never
+		},
+
+		delete: <Storage>(
+			key: Extract<keyof Storage, string>
+		) => DeleteResourceKvp(key),
+		/* TODO: add on event */
 	}
 }
