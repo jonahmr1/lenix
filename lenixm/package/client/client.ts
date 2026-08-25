@@ -41,7 +41,7 @@ export const entity = {
 	coords: (() => {
 		function coords(entity?: number, excludeH?: true, isAlive?: boolean): Vec3
 		function coords(entity?: number, excludeH?: false, isAlive?: boolean): Vec4
-		function coords(handle = entity.handle(), excludeH = false, isAlive = true) {
+		function coords(handle = player.entity(), excludeH = false, isAlive = true) {
 			const entityCoords = GetEntityCoords(handle, isAlive) as Vec3
 
 			if (excludeH) return entityCoords

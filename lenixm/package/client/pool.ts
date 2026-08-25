@@ -4,10 +4,12 @@ let running = false
 /**
  * Adds a task to a shared FiveM tick pool.
  */
-export const pool = (func: () => void): void => {
-	tasks.add(func)
+export const pool = (cb: () => void): () => boolean => {
+	const cleanUp = () => tasks.delete(cb)
+	tasks.add(cb)
 
-	if (running) return
+	if (running) return cleanUp
+	
 	running = true
 
 	const tick = setTick(() => {
@@ -25,4 +27,6 @@ export const pool = (func: () => void): void => {
 			}
 		}
 	})
+
+	return cleanUp
 }

@@ -1,5 +1,5 @@
 import type { Vec3 } from '../shared/types.ts'
-import { client } from './client.ts'
+import { entity } from './client.ts'
 
 /**
  * Finds the nearest coordinates from a list.
@@ -50,7 +50,7 @@ const player = (
 			const playerPed = GetPlayerPed(playerId)
 			const vehicle = GetVehiclePedIsIn(playerPed, false)
 			const playerCoords: Vec3 = vehicle === 0
-				? client.entity.coords(playerPed, true)
+				? entity.coords(playerPed, true)
 				: GetWorldPositionOfEntityBone(playerPed, 0) as Vec3
 
 			const distance = Vdist(
@@ -83,15 +83,15 @@ const player = (
 /**
  * Finds the nearest vehicle around an entity.
  */
-const vehicle = (entity: number, radialSpace: number): number | undefined => {
-	const coords: Vec3 = client.entity.coords(entity, true)
+const vehicle = (entityHandle: number, radialSpace: number): number | undefined => {
+	const coords: Vec3 = entity.coords(entityHandle, true)
 	const vehicles = GetGamePool('CVehicle') as number[]
 
 	let closest: number | undefined
 	let closestDistance = radialSpace
 
 	for (const vehicle of vehicles) {
-		const vehCoords: Vec3 = client.entity.coords(vehicle, true)
+		const vehCoords: Vec3 = entity.coords(vehicle, true)
 		const x = coords[0] - vehCoords[0]
 		const y = coords[1] - vehCoords[1]
 		const z = coords[2] - vehCoords[2]
