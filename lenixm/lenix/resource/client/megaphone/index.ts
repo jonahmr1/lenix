@@ -1,7 +1,10 @@
-import { addKeybind, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
+import { addKeybind, checkDependency, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
 import { MEGAPHONE } from 'common/config'
 import { ResourceName } from 'common/resource'
 import { api, client } from 'lenix/client'
+
+checkDependency('ox_lib', '3.39.0', true)
+checkDependency('pma-voice', '6.6.2', true)
 
 const getState = {
 	micNotBusy: true,

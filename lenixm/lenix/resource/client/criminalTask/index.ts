@@ -6,11 +6,11 @@ import {
 	requestModel,
 	triggerServerCallback,
 	checkDependency,
+	progressBar,
 } from '@overextended/ox_lib/client'
 import { CRIMINIL_TASK } from 'common/config'
 import type { Vec3, Vec4 } from 'lenix'
-import { blip, client } from 'lenix/client'
-import { bridge } from './bridge'
+import { api, blip, client } from 'lenix/client'
 import type { CriminialApi } from 'types/index'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -57,7 +57,15 @@ const createPackage = async (coords: Vec3) => {
 	PlaceObjectOnGroundProperly(prop)
 	SetEntityAsMissionEntity(prop, true, true)
 
-	bridge.addLocalEntity(prop, target, takeThePackage)
+	api.ox_target?.addLocalEntity?.(prop, [
+		{
+			name: prop,
+			icon: target.icon,
+			label: target.label,
+			distance: target.distance,
+			onSelect: takeThePackage,
+		},
+	])
 	return prop
 }
 
@@ -82,7 +90,7 @@ const abortTask = () => {
 	})
 	if (prop) {
 		DeleteEntity(prop)
-		bridge.removeLocalEntity(prop)
+		api.ox_target?.removeLocalEntity?.(prop, prop)
 	}
 	prop = null
 }
@@ -96,7 +104,17 @@ const takeThePackage = async () => {
 
 	client.entity.playAnim(playerPed, dict, 'pickup_low', 1.5, 1.5, 1000, 49, 0, false, false, false)
 
-	if (await bridge.progress(locale.progressBar)) {
+	if (await progressBar({
+		duration: 1000,
+		label: locale.progressBar,
+		useWhileDead: false,
+		canCancel: true,
+		disable: {
+			move: true,
+			car: true,
+			combat: true,
+		},
+	})) {
 		client.entity.stopAnim(playerPed, dict)
 		const re = await triggerServerCallback<CriminialApi>('lenix_criminiltasks:server:receiveItem', null)
 		asserts(re)
@@ -153,11 +171,26 @@ setImmediate(() => {
 	for (const data of config.peds) {
 		const pedCoords = data.coords
 		createPed(data.model, pedCoords, data.scenario)
-		bridge.addBoxZone({
-			pedCoords: [pedCoords[0], pedCoords[1], pedCoords[2]],
-			takeTask,
-			isPlayerFree,
-			abortTask,
+		api.ox_target?.addBoxZone?.({
+			coords: [pedCoords[0], pedCoords[1], pedCoords[2]],
+			size: [1, 1, 2],
+			debug: false,
+			options: [
+				{
+					label: config.settings.ped.take.targetLabel,
+					icon: config.settings.ped.take.targetIcon,
+					onSelect: takeTask,
+					canInteract: () => isPlayerFree,
+					distance: config.settings.ped.take.distance,
+				},
+				{
+					label: config.settings.ped.abort.targetLabel,
+					icon: config.settings.ped.abort.targetIcon,
+					onSelect: abortTask,
+					canInteract: () => !isPlayerFree,
+					distance: config.settings.ped.abort.distance,
+				},
+			],
 		})
 	}
 })
