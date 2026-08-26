@@ -15,13 +15,13 @@ addRadialItem([
 		id: 'put-in-vehicle',
 		label: 'Put in vehicle',
 		icon: 'arrow-right-to-bracket',
-		onSelect: () => emit('lenix:client:interactions:in'),
+		onSelect: () => emit('lenix:client:interactions:putInVehicle'),
 	},
 	{
 		id: 'take-out-vehicle',
 		label: 'Take out of vehicle',
 		icon: 'arrow-right-from-bracket',
-		onSelect: () => emit('lenix:client:interactions:out'),
+		onSelect: () => emit('lenix:client:interactions:takeOutVehicle'),
 	},
 	{
 		id: 'reload',

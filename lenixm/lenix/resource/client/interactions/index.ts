@@ -18,7 +18,7 @@ const getNearestVehicle = (coords: Vec3): [Vec3 | undefined, number | undefined]
 	return [closestCoords, closestVehicle]
 }
 
-on('lenix:client:interactions:in', () => {
+on('lenix:client:interactions:putInVehicle', () => {
 	const coords = GetPlayer().getCoords() as Vec3
 	const [closestCoords, closestVehicle] = getNearestVehicle(coords)
 	if (!closestCoords || !closestVehicle) {
@@ -41,12 +41,12 @@ on('lenix:client:interactions:in', () => {
 
 	for (let seat = 0; seat <= GetVehicleMaxNumberOfPassengers(closestVehicle); seat++) {
 		if (!IsVehicleSeatFree(closestVehicle, seat)) continue
-		emitNet('lenix:server:interactions:put', targetId, NetworkGetNetworkIdFromEntity(closestVehicle), seat)
+		emitNet('lenix:server:interactions:setInVehicle', targetId, NetworkGetNetworkIdFromEntity(closestVehicle), seat)
 		break
 	}
 })
 
-on('lenix:client:interactions:out', () => {
+on('lenix:client:interactions:takeOutVehicle', () => {
 	const coords = GetPlayer().getCoords() as Vec3
 	const [closestCoords, closestVehicle] = getNearestVehicle(coords)
 	if (!closestCoords || !closestVehicle) {
@@ -58,7 +58,7 @@ on('lenix:client:interactions:out', () => {
 		if (!ped) continue
 
 		emitNet(
-			'lenix:server:interactions:take',
+			'lenix:server:interactions:setOutVehicle',
 			GetPlayerServerId(NetworkGetPlayerIndexFromPed(ped)),
 			NetworkGetNetworkIdFromEntity(closestVehicle),
 			seat,
