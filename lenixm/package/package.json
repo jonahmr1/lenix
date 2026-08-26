@@ -1,6 +1,6 @@
 {
   "name": "lenix",
-  "version": "1.8.11",
+  "version": "1.8.12",
   "description": "Typed FiveM utilities for client, server, shared, and NUI scripts",
   "author": "Lenix",
   "license": "MIT",
@@ -47,6 +47,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.19"
+    "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.20"
   }
 }

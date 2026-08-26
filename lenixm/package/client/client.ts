@@ -1,5 +1,5 @@
 import type { JsonValue } from '@lenix/lenix'
-import { repeat } from '../../../typescript/repeat.ts'
+import { repeat } from '@lenix/lenix'
 import type { Vec3, Vec4 } from '../shared/types.ts'
 
 
