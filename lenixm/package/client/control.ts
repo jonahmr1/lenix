@@ -13,9 +13,16 @@ const EVENTS = {
 	hold: IsControlPressed,
 	release: IsControlJustReleased,
 	released: IsControlReleased,
-	disabled: IsDisabledControlJustPressed,
+
+	disabledPress: IsDisabledControlJustPressed,
+	disabledHold: IsDisabledControlPressed,
+	disabledRelease: IsDisabledControlJustReleased,
+	disabledReleased: IsDisabledControlReleased,
+
 	disable: DisableControlAction,
 	enable: EnableControlAction,
+	disableAll: DisableAllControlActions,
+	enableAll: EnableAllControlActions,
 }
 export const TYPES = {
 	player: 0,
@@ -112,17 +119,15 @@ const binds = new Set<Bind>()
 const on = ({
 	event,
 	key,
-	onEvent: cb,
+	onEvent,
 	type = 'player',
-}: Omit<Bind, 'event' | 'type'> & {
-	type?: Bind['type']
-} & {
-	event: Exclude<Bind['event'], 'disable' | 'enable'>
+}: Bind & {
+	event: Extract<Bind['event'], 'press' | 'hold' | 'release' | 'released' | 'disabledPress' | 'disabledHold' | 'disabledRelease' | 'disabledReleased'>
 }) => {
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
 	const bind = {
-		event, key, onEvent: cb, type
+		event, key, onEvent, type
 	}
 	binds.add(bind)
 	
@@ -131,35 +136,33 @@ const on = ({
 const disable = ({
 	key,
 	type = 'player',
-}: Pick<Bind, 'key'> & {
+}: {
+	key: Bind['key'] | true
 	type?: Bind['type']
 }) => {
-	asserts(CONTROLS[key], `Could not find key<${key}>`)
-
 	binds.add({
-		event: 'disable', key, onEvent: () => {}, type
+		event: key === true ? 'disableAll' : 'disable', key: 'A' /* anything */, onEvent: () => {}, type
 	})
 }
 const enable = ({
 	key,
 	type = 'player',
-}: Pick<Bind, 'key'> & {
+}: {
+	key: Bind['key'] | true
 	type?: Bind['type']
 }) => {
-	asserts(CONTROLS[key], `Could not find key<${key}>`)
-
 	binds.add({
-		event: 'enable', key, onEvent: () => {}, type
+		event: key === true ? 'enableAll' : 'enable', key: 'A' /* anything */, onEvent: () => {}, type
 	})
 }
 
-pool(() => binds.forEach(({ event, key, onEvent: cb, type }) => {
-	for (const index of CONTROLS[key]) {
+pool(() => {
+	for (const { event, key, onEvent: cb, type } of binds) for (const index of CONTROLS[key]) {
 		if (!EVENTS[event](TYPES[type], index, true)) continue
 		cb()
 		break
 	}
-}))
+})
 
 /**
  * @beta This API is in beta. Use with caution.
