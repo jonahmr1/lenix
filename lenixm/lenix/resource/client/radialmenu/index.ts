@@ -9,7 +9,7 @@ addRadialItem([
 		id: 'escort',
 		label: 'Escort',
 		icon: 'user-group',
-		onSelect: () => emit('lenix:client:escort'),
+		onSelect: () => emit('lenix:client:interactions:escort'),
 	},
 	{
 		id: 'put-in-vehicle',
