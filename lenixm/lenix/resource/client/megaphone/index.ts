@@ -1,7 +1,6 @@
-import { addKeybind, checkDependency, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
+import { checkDependency, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
 import { MEGAPHONE } from 'common/config'
-import { ResourceName } from 'common/resource'
-import { api, player } from 'lenix/client'
+import { api, control, player } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
 checkDependency('pma-voice', '6.6.2', true)
@@ -63,7 +62,7 @@ const vehicleCheckLoop = () => {
 	}, 500)
 }
 
-const toggleMEGAPHONE = () => {
+const toggleMegaphone = () => {
 	if (!isEmergencyVehicle()) {
 		notify({
 			title: MEGAPHONE.locales.refused,
@@ -101,9 +100,8 @@ setImmediate(() => {
 	AddAudioSubmixOutput(submix, 0)
 })
 
-addKeybind({
-	name: `${ResourceName}:MEGAPHONE:toggle`,
-	description: MEGAPHONE.description,
-	defaultKey: MEGAPHONE.key,
-	onPressed: () => toggleMEGAPHONE(),
+control.on({
+	event: 'press',
+	key: MEGAPHONE.key,
+	onEvent: () => toggleMegaphone()
 })

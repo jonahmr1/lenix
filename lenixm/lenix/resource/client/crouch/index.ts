@@ -1,4 +1,5 @@
-import { addKeybind, cache, checkDependency, requestAnimSet } from '@overextended/ox_lib/client'
+import { cache, checkDependency, requestAnimSet } from '@overextended/ox_lib/client'
+import { control } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
 
@@ -19,13 +20,8 @@ const updateCrouchAnimation = async () => {
 	crouched = !crouched
 }
 
-addKeybind({
-	name: 'crouch',
-	description: 'Crouch',
-	defaultKey: 'LCONTROL',
-	onReleased: () => {
-		if (cache.vehicle) return
-
-		updateCrouchAnimation()
-	},
+control.on({
+	event: 'press',
+	key: 'LEFT CTRL',
+	onEvent: () => !cache.vehicle && updateCrouchAnimation()
 })

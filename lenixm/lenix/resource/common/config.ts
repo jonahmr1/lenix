@@ -433,4 +433,4 @@ export const MEGAPHONE = {
 	},
 	vehicleClass: [18],
 	vehicleModels: ['ambulance', 'firetruck', 'police', 'police2', 'police3'],
-}
+} as const

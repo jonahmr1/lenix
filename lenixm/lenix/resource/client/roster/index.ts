@@ -1,7 +1,7 @@
-import { addKeybind, cache, checkDependency, inputDialog, notify } from '@overextended/ox_lib/client'
+import { cache, checkDependency, inputDialog, notify } from '@overextended/ox_lib/client'
 import type { Events, Officers, PartialOfficer, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
-import { emitNui, onNui } from 'lenix/client'
+import { control, emitNui, onNui } from 'lenix/client'
 import { MAX_CALLSIGN_LENGTH } from 'common/config'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -64,11 +64,10 @@ const nuiFocus = () => {
 	SetNuiFocus(true, true)
 }
 
-addKeybind({
-	name: 'roster_focus',
-	description: 'Turn On The Police Roster Cursor Focus',
-	defaultKey: 'i',
-	onPressed: nuiFocus,
+control.on({
+	event: 'press',
+	key: 'U',
+	onEvent: nuiFocus
 })
 
 onNui<Requests['updateOfficer']>('roster:updateOfficer', partialData => {
