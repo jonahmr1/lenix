@@ -12,11 +12,7 @@ control.on({
 		if (Player(cache.ped).state.isCuffed) return
 
 		await requestAnimDict('missminuteman_1ig_2')
-		if (handsUp) {
-			ClearPedTasks(cache.ped)
-		} else {
-			entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
-		}
+		handsUp ? ClearPedTasks(cache.ped) : entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
 		handsUp = !handsUp
 	},
 })

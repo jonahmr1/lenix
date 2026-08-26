@@ -54,14 +54,11 @@ on('ox_inventory:currentWeapon', (weapon: OxWeapon) => {
 
 on('ox_inventory:itemCount', (itemName: string, totalCount: number) => {
 	const weapon: OxWeapon = api.ox_inventory?.getCurrentWeapon<OxWeapon>?.()
-	if (!weapon) return
-	if (weapon.ammo !== itemName) return
+	if (!weapon || weapon.ammo !== itemName) return
 
 	updateReserve(totalCount.toString())
 })
 
 onNet('ox:startCharacterSelect', () => toggleHud(false))
 
-pool(() => {
-	setHudState()
-})
+pool(setHudState)
