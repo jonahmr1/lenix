@@ -9,19 +9,19 @@ addRadialItem([
 		id: 'escort',
 		label: 'Escort',
 		icon: 'user-group',
-		onSelect: () => emit('lenix:client:interactions:escort'),
+		onSelect: () => emit('lenix:client:interaction:escort'),
 	},
 	{
 		id: 'put-in-vehicle',
 		label: 'Put in vehicle',
 		icon: 'arrow-right-to-bracket',
-		onSelect: () => emit('lenix:client:interactions:putInVehicle'),
+		onSelect: () => emit('lenix:client:interaction:putInVehicle'),
 	},
 	{
 		id: 'take-out-vehicle',
 		label: 'Take out of vehicle',
 		icon: 'arrow-right-from-bracket',
-		onSelect: () => emit('lenix:client:interactions:takeOutVehicle'),
+		onSelect: () => emit('lenix:client:interaction:takeOutVehicle'),
 	},
 	{
 		id: 'reload',

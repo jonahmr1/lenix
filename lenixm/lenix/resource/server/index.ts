@@ -9,7 +9,7 @@ for (const script of EnabledServerScripts) {
 
 		groups: () => import('./groups'),
 		hotel: () => import('./hotel'),
-		interactions: () => import('./interactions'),
+		interaction: () => import('./interaction'),
 		medical: () => import('./medical'),
 		prison: () => import('./prison'),
 		robbery: () => import('./robbery'),

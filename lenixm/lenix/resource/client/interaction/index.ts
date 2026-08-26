@@ -96,7 +96,7 @@ const setCuffs = async () => {
 	entity.playAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8.0)
 }
 
-on('lenix:client:interactions:putInVehicle', () => {
+on('lenix:client:interaction:putInVehicle', () => {
 	const coords = GetPlayer().getCoords() as Vec3
 	const [closestCoords, closestVehicle] = getNearestVehicle(coords)
 	if (!closestCoords || !closestVehicle) {
@@ -119,12 +119,12 @@ on('lenix:client:interactions:putInVehicle', () => {
 
 	for (let seat = 0; seat <= GetVehicleMaxNumberOfPassengers(closestVehicle); seat++) {
 		if (!IsVehicleSeatFree(closestVehicle, seat)) continue
-		emitNet('lenix:server:interactions:setInVehicle', targetId, NetworkGetNetworkIdFromEntity(closestVehicle), seat)
+		emitNet('lenix:server:interaction:setInVehicle', targetId, NetworkGetNetworkIdFromEntity(closestVehicle), seat)
 		break
 	}
 })
 
-on('lenix:client:interactions:takeOutVehicle', () => {
+on('lenix:client:interaction:takeOutVehicle', () => {
 	const coords = GetPlayer().getCoords() as Vec3
 	const [closestCoords, closestVehicle] = getNearestVehicle(coords)
 	if (!closestCoords || !closestVehicle) {
@@ -136,7 +136,7 @@ on('lenix:client:interactions:takeOutVehicle', () => {
 		if (!ped) continue
 
 		emitNet(
-			'lenix:server:interactions:setOutVehicle',
+			'lenix:server:interaction:setOutVehicle',
 			GetPlayerServerId(NetworkGetPlayerIndexFromPed(ped)),
 			NetworkGetNetworkIdFromEntity(closestVehicle),
 			seat,
@@ -147,7 +147,7 @@ on('lenix:client:interactions:takeOutVehicle', () => {
 })
 
 
-on('lenix:client:interactions:escort', () => {
+on('lenix:client:interaction:escort', () => {
 	const nearest = getNearest.player(GetEntityCoords(cache.ped, false) as Vec3, 2.0, false)
 	if (!nearest.playerId) {
 		notify({ title: 'No one nearby!' })
@@ -159,7 +159,7 @@ on('lenix:client:interactions:escort', () => {
 		notify({ title: 'The person is not weak enough to get cuffed' })
 		return
 	}
-	emitNet('lenix:server:interactions:escort', targetId)
+	emitNet('lenix:server:interaction:escort', targetId)
 })
 
 onNet('lenix:client:interaction:getEscorted', (serverId: number, state: boolean) => {
@@ -182,7 +182,7 @@ onNet('lenix:client:interaction:getEscorted', (serverId: number, state: boolean)
 	) : DetachEntity(cache.ped, true, false)
 })
 
-on('lenix:client:interactions:cuff', () => {
+on('lenix:client:interaction:cuff', () => {
 	const nearest = getNearest.player(entity.coords(player.entity(), true))
 	if (!nearest.playerId) {
 		notify({
@@ -190,11 +190,11 @@ on('lenix:client:interactions:cuff', () => {
 		})
 		return
 	}
-	emitNet('lenix:server:interactions:cuff', GetPlayerServerId(nearest.playerId))
+	emitNet('lenix:server:interaction:cuff', GetPlayerServerId(nearest.playerId))
 	cuffingAnimation()
 })
 
-onNet('lenix:client:interactions:getCuffed', async (cuffer: number, state: boolean) => {
+onNet('lenix:client:interaction:getCuffed', async (cuffer: number, state: boolean) => {
 	isCuffed = state
 	disableRadial(state)
 	api.ox_target?.disableTargeting?.(state)
@@ -206,7 +206,7 @@ onNet('lenix:client:interactions:getCuffed', async (cuffer: number, state: boole
 			return
 		}
 
-		emitNet('lenix:server:interactions:cuff', cache.serverId)
+		emitNet('lenix:server:interaction:cuff', cache.serverId)
 	} else {
 		ClearPedTasks(cache.ped)
 		entity.stopAnim(cache.ped, 'mp_arresting')

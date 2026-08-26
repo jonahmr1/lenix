@@ -18,7 +18,7 @@ for (const script of EnabledClientScripts) {
 
 		groups: () => import('./groups'),
 		hotel: () => import('./hotel'),
-		interactions: () => import('./interactions'),
+		interaction: () => import('./interaction'),
 		medical: () => import('./medical'),
 		prison: () => import('./prison'),
 		robbery: () => import('./robbery'),

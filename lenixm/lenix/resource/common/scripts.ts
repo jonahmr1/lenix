@@ -1,11 +1,9 @@
 import type { ClientScript, ServerScript } from 'types/dirs'
 
 const EnabledContextedScripts = [
-	'cuffs',
-	'escort',
 	// 'groups',
 	// 'hotel',
-	'interactions',
+	'interaction',
 	// 'medical',
 	'prison',
 	'robbery',
