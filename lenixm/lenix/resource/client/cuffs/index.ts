@@ -1,4 +1,4 @@
-import { client, getNearest, pool } from 'lenix/client'
+import { entity, getNearest, player, pool } from 'lenix/client'
 import {
 	cache,
 	checkDependency,
@@ -51,12 +51,12 @@ const ALLOWED_CONTROLS = new Set([
 ])
 
 const cuffingAnimation = async () => {
-	await client.entity.playAnim(cache.ped, 'mp_arrest_paired', 'cop_p2_back_right')
+	await entity.playAnim(cache.ped, 'mp_arrest_paired', 'cop_p2_back_right')
 
 	await sleep(3500)
 
-	await client.entity.playAnim(cache.ped, 'mp_arrest_paired', 'exit')
-	client.entity.stopAnim(cache.ped, 'mp_arrest_paired')
+	await entity.playAnim(cache.ped, 'mp_arrest_paired', 'exit')
+	entity.stopAnim(cache.ped, 'mp_arrest_paired')
 }
 
 const gettingCuffedAnimation = async (playerId: number) => {
@@ -66,13 +66,13 @@ const gettingCuffedAnimation = async (playerId: number) => {
 	await requestAnimDict('mp_arrest_paired')
 
 	const offset = GetOffsetFromEntityInWorldCoords(cuffer, 0.0, 0.45, 0.0) as Vector3
-	client.entity.teleport(...offset, heading)
+	entity.teleport(...offset, heading)
 
 	await sleep(100)
-	await client.entity.playAnim(cache.ped, 'mp_arrest_paired', 'crook_p2_back_right')
+	await entity.playAnim(cache.ped, 'mp_arrest_paired', 'crook_p2_back_right')
 	await sleep(2500)
 
-	client.entity.stopAnim(cache.ped, 'mp_arrest_paired')
+	entity.stopAnim(cache.ped, 'mp_arrest_paired')
 }
 
 const setCuffs = async () => {
@@ -88,11 +88,11 @@ const setCuffs = async () => {
 	}
 
 	await requestAnimDict('mp_arresting')
-	client.entity.playAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8.0)
+	entity.playAnim(cache.ped, 'mp_arresting', 'idle', 8.0, -8.0)
 }
 
 on('lenix:client:cuff', () => {
-	const nearest = getNearest.player(client.player.coords(true))
+	const nearest = getNearest.player(entity.coords(player.entity(), true))
 	if (!nearest.playerId) {
 		notify({
 			title: 'No one nearby!',
@@ -118,7 +118,7 @@ onNet('lenix:client:cuffs:toggle', async (cuffer: number, state: boolean) => {
 		emitNet('lenix:server:cuffs:toggle', cache.serverId)
 	} else {
 		ClearPedTasks(cache.ped)
-		client.entity.stopAnim(cache.ped, 'mp_arresting')
+		entity.stopAnim(cache.ped, 'mp_arresting')
 	}
 })
 

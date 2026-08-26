@@ -1,10 +1,9 @@
 import { MISSION_PRICE } from 'common/config'
 import type { Team, Vector4 } from 'types/index'
-import { server } from 'lenix/server'
 import { VEHICLE_MODEL } from 'common/config'
 import { CreateVehicle, type OxVehicle } from '@overextended/ox_core/server'
 import { random } from '@lenix/lenix'
-import { api } from 'lenix/server'
+import { api, entity } from 'lenix/server'
 import { checkDependency } from '@overextended/ox_lib'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -73,7 +72,7 @@ abstract class Teams {
 	static invite(inviter: number, invited: number) {
 		if (this.get(inviter)?.leader !== inviter) throw new Error(`Exploit attempted by player<${inviter}>`)
 
-		if (!server.entity.handleBySource(invited) || invited === inviter) {
+		if (!entity.handleBySource(invited) || invited === inviter) {
 			notify(inviter, {
 				type: 'error',
 				title: 'Unvalid Id',

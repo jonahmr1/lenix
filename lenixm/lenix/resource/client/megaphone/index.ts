@@ -1,7 +1,7 @@
 import { addKeybind, checkDependency, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
 import { MEGAPHONE } from 'common/config'
 import { ResourceName } from 'common/resource'
-import { api, client } from 'lenix/client'
+import { api, player } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
 checkDependency('pma-voice', '6.6.2', true)
@@ -21,7 +21,7 @@ const setState = {
 }
 
 const isEmergencyVehicle = () => {
-	const playerPed = client.player.entity()
+	const playerPed = player.entity()
 	if (!IsPedInAnyVehicle(playerPed, false)) return
 
 	const vehicle = GetVehiclePedIsIn(playerPed, false)

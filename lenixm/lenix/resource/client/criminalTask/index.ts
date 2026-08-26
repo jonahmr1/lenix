@@ -10,7 +10,7 @@ import {
 } from '@overextended/ox_lib/client'
 import { CRIMINIL_TASK } from 'common/config'
 import type { Vec3, Vec4 } from 'lenix'
-import { api, blip, client } from 'lenix/client'
+import { api, blip, entity } from 'lenix/client'
 import type { CriminialApi } from 'types/index'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -102,7 +102,7 @@ const takeThePackage = async () => {
 
 	await requestAnimDict(dict)
 
-	client.entity.playAnim(playerPed, dict, 'pickup_low', 1.5, 1.5, 1000, 49, 0, false, false, false)
+	entity.playAnim(playerPed, dict, 'pickup_low', 1.5, 1.5, 1000, 49, 0, false, false, false)
 
 	if (await progressBar({
 		duration: 1000,
@@ -115,7 +115,7 @@ const takeThePackage = async () => {
 			combat: true,
 		},
 	})) {
-		client.entity.stopAnim(playerPed, dict)
+		entity.stopAnim(playerPed, dict)
 		const re = await triggerServerCallback<CriminialApi>('lenix_criminiltasks:server:receiveItem', null)
 		asserts(re)
 		const { success, response, item, error } = re
@@ -141,7 +141,7 @@ const takeThePackage = async () => {
 		isPlayerFree = true
 		blip.destroy(waypoint)
 	} else {
-		client.entity.stopAnim(playerPed, dict)
+		entity.stopAnim(playerPed, dict)
 		notify({
 			title: locale.canceled,
 			description: locale.description,

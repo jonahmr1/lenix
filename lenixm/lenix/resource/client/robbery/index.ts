@@ -14,7 +14,7 @@ import {
 	requestModel,
 } from '@overextended/ox_lib/client'
 import { MISSION_PRICE, VEHICLE_MODEL } from 'common/config'
-import { client, useTimer, getNearest } from 'lenix/client'
+import { useTimer, getNearest, entity } from 'lenix/client'
 import type { Vector3 } from 'types/index'
 import { api } from 'lenix/client'
 
@@ -226,9 +226,9 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 
 		if (!vehicleDoorsBroken['left'] || !vehicleDoorsBroken['right']) return
 
-		const entity = client.entity.handle(netId)
-		SetVehicleDoorOpen(entity, 2, false, false)
-		SetVehicleDoorOpen(entity, 3, false, false)
+		const veh = entity.handle(netId)
+		SetVehicleDoorOpen(veh, 2, false, false)
+		SetVehicleDoorOpen(veh, 3, false, false)
 
 		api.ox_target?.removeEntity?.(netId, `${side}-door`)
 	}

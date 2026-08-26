@@ -1,5 +1,5 @@
 import { checkDependency, inputDialog, notify } from '@overextended/ox_lib/client'
-import { client } from 'lenix/client'
+import { player } from 'lenix/client'
 import type { PlayerStorage, SyncConfig as ISyncConfig } from 'types/index'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -26,11 +26,11 @@ const weatherTypes: readonly PlayerStorage['weatherType'][] = [
 	'SNOW_HALLOWEEN',
 ]
 
-let timeMode: ISyncConfig = client.player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
+let timeMode: ISyncConfig = player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
 
 const setTime = () => {
 	if (timeMode === 'custom') {
-		const time = client.player.storage.get<PlayerStorage, 'timeValue'>('timeValue')
+		const time = player.storage.get<PlayerStorage, 'timeValue'>('timeValue')
 		NetworkOverrideClockTime(Number(time), 0, 0)
 		return
 	}
@@ -41,11 +41,11 @@ const setTime = () => {
 }
 
 const setWeather = (syncType?: string) => {
-	const weatherConfig = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync')
+	const weatherConfig = player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync')
 	if (weatherConfig !== 'custom') return
 
-	const weatherType = syncType ?? client.player.storage.get<PlayerStorage, 'weatherType'>('weatherType', 'CLEAR')
-	const weatherFreezed = client.player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', false)
+	const weatherType = syncType ?? player.storage.get<PlayerStorage, 'weatherType'>('weatherType', 'CLEAR')
+	const weatherFreezed = player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', false)
 
 	if (weatherFreezed) {
 		SetWeatherTypeNowPersist(weatherType)
@@ -65,21 +65,21 @@ const set = {
 		if (type === 'time') {
 			timeMode = 'server'
 			PauseClock(syncFreezed)
-			client.player.storage.set<PlayerStorage>('timeSync', 'server')
-			client.player.storage.delete<PlayerStorage>('timeValue')
+			player.storage.set<PlayerStorage>('timeSync', 'server')
+			player.storage.delete<PlayerStorage>('timeValue')
 			return
 		}
 		ClearWeatherTypePersist()
-		client.player.storage.set<PlayerStorage>('weatherSync', 'server')
-		client.player.storage.delete<PlayerStorage>('weatherType')
+		player.storage.set<PlayerStorage>('weatherSync', 'server')
+		player.storage.delete<PlayerStorage>('weatherType')
 	},
 	custom: (() => {
 		function custom(weatherType: PlayerStorage['weatherType'], weatherFreezed: boolean): void
 		function custom(hour: number, timeFreezed: boolean): void
 		function custom(syncValue: PlayerStorage['weatherType'] | number, syncFreezed: boolean) {
 			if (typeof syncValue === 'string') {
-				client.player.storage.set<PlayerStorage>('weatherSync', 'custom')
-				client.player.storage.set<PlayerStorage>('weatherType', syncValue)
+				player.storage.set<PlayerStorage>('weatherSync', 'custom')
+				player.storage.set<PlayerStorage>('weatherType', syncValue)
 				setWeather(syncValue)
 				return
 			}
@@ -87,8 +87,8 @@ const set = {
 			timeMode = 'custom'
 			PauseClock(syncFreezed)
 			NetworkOverrideClockTime(syncValue, 0, 0)
-			client.player.storage.set<PlayerStorage>('timeSync', 'custom')
-			client.player.storage.set<PlayerStorage>('timeValue', syncValue)
+			player.storage.set<PlayerStorage>('timeSync', 'custom')
+			player.storage.set<PlayerStorage>('timeValue', syncValue)
 		}
 		return custom
 	})(),
@@ -97,7 +97,7 @@ const set = {
 		PauseClock(timeFreezed)
 
 		setTime()
-		client.player.storage.set<PlayerStorage>('timeSync', 'irl')
+		player.storage.set<PlayerStorage>('timeSync', 'irl')
 	},
 }
 
@@ -105,10 +105,10 @@ const openMenu = async () => {
 	const currentGameWeather = weatherTypes.find(weatherType => GetHashKey(weatherType) === GetPrevWeatherTypeHashName())
 	if (!currentGameWeather) throw new Error('Failed to get current weather type')
 
-	const weatherSyncConfig = client.player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync', 'server')
-	const weatherFreezed = client.player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', false)
-	const timeSyncConfig = client.player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
-	const timeFreezed = client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', false)
+	const weatherSyncConfig = player.storage.get<PlayerStorage, 'weatherSync'>('weatherSync', 'server')
+	const weatherFreezed = player.storage.get<PlayerStorage, 'weatherFreeze'>('weatherFreeze', false)
+	const timeSyncConfig = player.storage.get<PlayerStorage, 'timeSync'>('timeSync', 'server')
+	const timeFreezed = player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', false)
 
 	const input = await inputDialog(
 		'Weather & Time Settings',
@@ -165,8 +165,8 @@ const openMenu = async () => {
 	const hour = input[4] as number
 	const newTimeFreezed = input[5] as boolean
 
-	client.player.storage.set<PlayerStorage>('weatherFreeze', newWeatherFreezed)
-	client.player.storage.set<PlayerStorage>('timeFreeze', newTimeFreezed)
+	player.storage.set<PlayerStorage>('weatherFreeze', newWeatherFreezed)
+	player.storage.set<PlayerStorage>('timeFreeze', newTimeFreezed)
 
 	switch (weatherSyncType) {
 		case 1:
@@ -202,7 +202,7 @@ setInterval(() => {
 
 setImmediate(() => {
 	setWeather()
-	PauseClock(client.player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', false))
+	PauseClock(player.storage.get<PlayerStorage, 'timeFreeze'>('timeFreeze', false))
 	setTime()
 })
 

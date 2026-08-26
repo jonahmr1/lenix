@@ -1,6 +1,5 @@
 import { checkDependency, progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
-import { api } from 'lenix/client'
-import { client } from 'lenix/client'
+import { api, entity } from 'lenix/client'
 import type { Vector4 } from 'types/index'
 
 checkDependency('ox_target', '1.18.1', true)
@@ -55,8 +54,8 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 						})
 						if (!didntCanceled) return
 
-						const playerCoords = client.player.coords()
-						client.player.teleport(playerCoords[0], playerCoords[1], coords[2])
+						const playerCoords = entity.coords()
+						entity.teleport(playerCoords[0], playerCoords[1], coords[2])
 					},
 				})),
 		],

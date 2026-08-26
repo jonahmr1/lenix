@@ -1,5 +1,5 @@
 import { cache, checkDependency, requestAnimDict } from '@overextended/ox_lib/client'
-import { client, control } from 'lenix/client'
+import { control, entity } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
 
@@ -15,7 +15,7 @@ control.on({
 		if (handsUp) {
 			ClearPedTasks(cache.ped)
 		} else {
-			client.entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
+			entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
 		}
 		handsUp = !handsUp
 	},

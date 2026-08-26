@@ -43,7 +43,7 @@ SAFE_ZONES.map(({ coords, distance }) => {
 	SetBlipAlpha(blip, 32)
 
 	const point = new Point({
-		coords,
+		coords: coords,
 		distance,
 		nearby: () => DisablePlayerFiring(cache.ped, true),
 	})

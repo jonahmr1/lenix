@@ -1,6 +1,6 @@
 import { cache, checkDependency, notify, requestAnimDict } from '@overextended/ox_lib/client'
 import type { Events, Requests } from 'types/index'
-import { client, emitNui, onNui } from 'lenix/client'
+import { emitNui, entity, onNui } from 'lenix/client'
 import { api } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
@@ -16,8 +16,8 @@ const toggleRadioAnimation = async () => {
 	await requestAnimDict(dict)
 
 	if (state) {
-		client.entity.playAnim(cache.ped, dict, anim)
-		client.entity.stopAnim(cache.ped, dict)
+		entity.playAnim(cache.ped, dict, anim)
+		entity.stopAnim(cache.ped, dict)
 
 		radioProp = CreateObject(GetHashKey('prop_cs_hand_radio'), 1.0, 1.0, 1.0, true, true, false)
 
