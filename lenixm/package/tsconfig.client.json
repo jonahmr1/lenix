@@ -1,7 +1,13 @@
 {
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
-		"types": ["@citizenfx/client"]
+		"types": [
+			"@citizenfx/client"
+		]
 	},
-	"include": ["client/**/*.ts", "shared/**/*.ts"]
+	"include": [
+		"client/**/*.ts",
+		"shared/**/*.ts",
+		"../../typescript/repeat.ts"
+	]
 }

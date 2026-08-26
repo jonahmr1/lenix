@@ -1,4 +1,7 @@
 import type { NuiFetchGeneric } from '../shared/types.ts'
+import { State } from '@lenix/lenix'
+
+export const state = new State({ nuiReady: false as boolean })
 
 /**
  * Sends an event from the game client to the NUI browser.
@@ -29,8 +32,10 @@ export const onNui = <T extends NuiFetchGeneric>(
 	) => {
 		try {
 			reply(await cb(data))
-		} catch(e) {
+		} catch (e) {
 			throw e
 		}
 	})
 }
+
+export const isNuiReady = () => state.nuiReady

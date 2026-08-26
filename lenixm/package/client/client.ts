@@ -1,5 +1,5 @@
 import type { JsonValue } from '@lenix/lenix'
-import { repeat } from '../shared/repeat.ts'
+import { repeat } from '../../../typescript/repeat.ts'
 import type { Vec3, Vec4 } from '../shared/types.ts'
 
 
@@ -140,8 +140,8 @@ export const player = {
 		set: <Storage>(
 			...[key, value]: {
 				[K in keyof Storage]: Storage[K] extends JsonValue
-					? [key: Extract<K, string>, value: Storage[K]]
-					: never
+				? [key: Extract<K, string>, value: Storage[K]]
+				: never
 			}[keyof Storage]
 		) => SetResourceKvp(key, JSON.stringify(value)),
 

@@ -5,7 +5,7 @@
     "": {
       "name": "npm",
       "dependencies": {
-        "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.16",
+        "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.19",
       },
       "devDependencies": {
         "@citizenfx/client": "^2.0.33230-1",
@@ -22,7 +22,7 @@
 
     "@citizenfx/server": ["@citizenfx/server@2.0.32561-1", "", {}, "sha512-2V76aX67pvB00mCbkMIPsTLWsXRJUHhTCVXuEYKm5jSaVh21ZnNN7t2AzRhNOEovBnllXDDHKcVaNzvzwN1fMA=="],
 
-    "@lenix/lenix": ["@jsr/lenix__lenix@1.8.16", "https://npm.jsr.io/~/11/@jsr/lenix__lenix/1.8.16.tgz", {}, "sha512-88e6pnzXcjXTrEbFF2eYz9RfAoBjR9PO4YZCdebCT8GDbeTqEoBCXQsuVXMLT3wtSEi5RHDDVyjagjF2AZH3+A=="],
+    "@lenix/lenix": ["@jsr/lenix__lenix@1.8.19", "https://npm.jsr.io/~/11/@jsr/lenix__lenix/1.8.19.tgz", {}, "sha512-4j1XJarLkUiE+SPSf083OYJp4nTpOBVWj1sBnQFrQ7rMYeeVYtc7JoSKjVC17o9H297/T+61P58lHO46IXAqug=="],
 
     "@types/bun": ["@types/bun@1.3.14", "", { "dependencies": { "bun-types": "1.3.14" } }, "sha512-h1hFqFVcvAvD9j9K7ZW7vd82aSA+rTdznZa+5bwvCwqSB1jmmfLcbIWhOLx1/+boy/xmjgCs/OMUL8hRJSmnPw=="],
 

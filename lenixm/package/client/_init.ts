@@ -1,6 +1,6 @@
 import { asserts, type JsonValue } from '@lenix/lenix'
 import type { Request } from '../shared/types.ts'
-import { onNui } from './nui.ts'
+import { state, onNui } from './nui.ts'
 
 type Resolve = {
 	success: true,
@@ -22,8 +22,8 @@ onNui<Request<JsonValue, '__nuiServer', {
 	}
 }>>('__nuiServer', async ({ id, data }) => {
 	const { timeout = DEFAULT_TIMEOUT, requestData } = data
-	
-  const response = await new Promise<Resolve>(resolve => {
+
+	const response = await new Promise<Resolve>(resolve => {
 		requestId = requestId + 1
 		const currentRequestId = requestId
 		pendingResolves[currentRequestId] = resolve
@@ -47,7 +47,7 @@ onNui<Request<JsonValue, '__nuiServer', {
 			}
 		}, timeout)
 	})
-	
+
 	asserts(response.success, `server nui<${id}> timed out after ${timeout}ms, possible slow respose or request does not exist`)
 
 	return response.returned
@@ -62,4 +62,9 @@ onNui<Request<true, '__nuiFocus', {
 }) => {
 	SetNuiFocus(keyboard, cursor)
 	return true
+})
+
+onNui<Request<null, '__nuiInit'>>('__nuiInit', () => {
+	state.nuiReady = true
+	return null
 })
