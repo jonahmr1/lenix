@@ -203,7 +203,7 @@ const promptCharacterMenu = async (characters: Character[]): Promise<Character |
 		showContext('char_selection')
 	})
 
-exports('charselect', async (characters: Character[], variant: 'menu' | 'native'): Promise<Character | undefined> => {
+globalThis.exports('charselect', async (characters: Character[], variant: 'menu' | 'native'): Promise<Character | undefined> => {
 	switch (variant) {
 		case 'menu': return await promptCharacterMenu(characters)
 		case 'native': return await charSelect(characters)
