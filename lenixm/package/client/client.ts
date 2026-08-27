@@ -78,14 +78,14 @@ export const entity = {
 		blendIn = 2.0,
 		blendOut = 2.0,
 		duration = -1,
-		flag = 0,
+		flag = 1,
 		playbackFrom = 0.0,
 		x = false,
 		y = false,
 		z = false
 	) => {
 		RequestAnimDict(dict)
-		await repeat(() => HasAnimDictLoaded(dict), true)
+		await repeat(() => HasAnimDictLoaded(dict) ? 1 : -1, 1)
 		TaskPlayAnim(ped, dict, name, blendIn, blendOut, duration, flag, playbackFrom, x, y, z)
 	},
 
