@@ -7,7 +7,7 @@ const EnabledContextedScripts = [
 	// 'medical',
 	'prison',
 	'robbery',
-	// 'roster',
+	'roster',
 	// 'topscore',
 	// 'criminaltask',
 	// 'megaphone',

@@ -1,9 +1,10 @@
+import { DEV } from '@/App'
 import { focus, onNuiEmit, fetchNui } from 'lenix/nui'
 import { useEffect, useState } from 'react'
 import type { Events, Requests } from 'types'
 
 export const Radio = () => {
-	const [display, setDisplay] = useState<boolean>()
+	const [display, setDisplay] = useState<boolean>(DEV)
 	const [frequency, setFreq] = useState<string>('')
 
 	useEffect(() => {

@@ -5,7 +5,7 @@ import { Roster } from './apps/roster'
 import { TopScore } from './apps/topscore'
 import type { ClientScript, WebScript } from 'types/dirs'
 
-export const DEV: boolean = false
+export const DEV = true
 
 const apps = {
 	hud: Hud,

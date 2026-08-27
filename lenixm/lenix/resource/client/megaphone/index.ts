@@ -91,7 +91,7 @@ const toggleMegaphone = () => {
 }
 
 setImmediate(() => {
-	const submix = CreateAudioSubmix('lenix:client:MEGAPHONE')
+	const submix = CreateAudioSubmix('lenix:client:megaphone')
 	setState.micFilter(submix)
 	if (!submix) return
 

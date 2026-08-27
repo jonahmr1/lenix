@@ -43,18 +43,22 @@ const Officer = ({ callsign, name, duty_state, talk_state }: IOfficer) => (
 
 export const Roster = () => {
 	const [display, setDisplay] = useState<boolean>(DEV)
-	const [officers, setOfficers] = useState<Officers>({
-		// 1: {
-		// 	playerId: 1,
-		// 	name: 'Marwan Jonah',
-		// 	callsign: 'D-35',
-		// 	duty_state: 'off',
-		// 	talk_state: 'off'
-		// }
-	})
-	const [playerId, setPlayerId] = useState<number>()
+	const [officers, setOfficers] = useState<Officers>({})
+	const [playerId, setPlayerId] = useState<number>(1)
 
 	useEffect(() => {
+		if (DEV) {
+			setOfficers({
+				1: {
+					playerId: 1,
+					name: 'Marwan Jonah',
+					callsign: 'D-35',
+					duty_state: 'off',
+					talk_state: 'off'
+				}
+			})
+			return
+		}
 		const handler = (event: KeyboardEvent) => {
 			if (event.key !== 'Escape') return
 
@@ -135,7 +139,7 @@ export const Roster = () => {
 					)}
 				</div>
 			</div>
-			{officers[playerId] ? (
+			{officers[playerId] && (
 				<div className='flex'>
 					<Button
 						variant='outline'
@@ -163,8 +167,6 @@ export const Roster = () => {
 						Callsign
 					</Button>
 				</div>
-			) : (
-				<div></div>
 			)}
 		</div>
 	)
