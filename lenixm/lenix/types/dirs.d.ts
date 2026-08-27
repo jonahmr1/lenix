@@ -1,7 +1,6 @@
 /* auto-generated */
 
 export type ClientScript = 
-  | 'carmodes'
   | 'charselect'
   | 'criminaltask'
   | 'elevators'

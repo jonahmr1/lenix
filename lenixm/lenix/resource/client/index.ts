@@ -24,7 +24,6 @@ for (const script of EnabledClientScripts) {
 		topscore: () => import('./topscore'),
 		criminaltask: () => import('./criminaltask'),
 		snipets: () => import('./snipets'),
-		carmodes: () => import('./carmodes'),
 		megaphone: () => import('./megaphone'),
 		charselect: () => import('./charselect'),
 		emotes: () => import('./emotes'),
