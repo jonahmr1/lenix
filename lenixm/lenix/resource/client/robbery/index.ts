@@ -21,6 +21,7 @@ import { api } from 'lenix/client'
 checkDependency('ox_lib', '3.39.0', true)
 checkDependency('ox_inventory', '2.47.9', true)
 checkDependency('ox_target', '1.18.1', true)
+checkDependency('plasma-minigames', '2.2.0', true)
 
 const PEDS_MODEL = 'mp_s_m_armoured_01'
 const DRILL_ITEM = 'drill'
