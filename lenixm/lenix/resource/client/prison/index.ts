@@ -19,6 +19,7 @@ onServerCallback('lenix:imprisonPlayer', async () => {
 		{},
 	)
 	if (!input) return
+	
 	return {
 		id: input[0],
 		period: input[1],

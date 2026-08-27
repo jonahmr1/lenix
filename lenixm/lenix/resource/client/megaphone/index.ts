@@ -103,5 +103,5 @@ setImmediate(() => {
 control.on({
 	event: 'press',
 	key: MEGAPHONE.key,
-	onEvent: () => toggleMegaphone()
+	onEvent: () => toggleMegaphone(),
 })
