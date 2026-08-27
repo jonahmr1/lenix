@@ -22,17 +22,17 @@ const DutyStates: Record<DutyState, string> = {
 
 const Officer = ({ callsign, name, duty_state, talk_state }: IOfficer) => (
 	<div className='w-full min-h-1/10 flex justify-around items-center'>
-		<div className='flex-3 flex gap-3'>
+		<div className='flex-3 flex gap-3 items-center'>
 			<div>
 				<Badge className={`size-3 rounded-full p-0 ${DutyStates[duty_state]}`} />
 			</div>
-			<div className='text-white/70 whitespace-nowrap font-extralight'>{callsign}</div>
+			<div className='text-white/70 whitespace-nowrap font-extralight text-[2vmin]'>{callsign}</div>
 		</div>
-		<div className='py-1 flex-1 flex justify-center'>
+		<div className='p-1 flex-1 flex justify-center'>
 			<Separator orientation='vertical' className='h-4 bg-gray-600' />
 		</div>
 		<div className='flex-8 flex justify-between'>
-			<div className='text-white text-left'>{name}</div>
+			<div className='text-white text-left text-[2vmin] truncate'>{name}</div>
 			<Badge className='hidden'>
 				{/* TODO */}
 				<AudioLines className={`${TalkStates[talk_state]}`} />
@@ -140,17 +140,17 @@ export const Roster = () => {
 				</div>
 			</div>
 			{officers[playerId] && (
-				<div className='flex'>
+				<div className='flex w-full min-w-0 *:flex-1 *:min-w-0 *:overflow-hidden *:rounded-none *:bg-transparent *:text-[1.5vmin] *:border-white/10 *:text-white'>
 					<Button
 						variant='outline'
-						className='flex-1 rounded-none rounded-bl-lg bg-transparent text-white border-white/10'
+						className='rounded-bl-lg'
 						onClick={handleSignin}
 					>
 						{officers[playerId].duty_state === 'off' ? 'Sign-in' : 'Sign-off'}
 					</Button>
 					<Button
 						variant='outline'
-						className='flex-1 rounded-none bg-transparent border-x-0 text-white border-white/10'
+						className='rounded-none border-x-0'
 						onClick={handleBreak}
 					>
 						{officers[playerId].duty_state === 'on'
@@ -161,7 +161,7 @@ export const Roster = () => {
 					</Button>
 					<Button
 						variant='outline'
-						className='flex-1 rounded-none rounded-br-lg bg-transparent text-white border-white/10'
+						className='rounded-br-lg'
 						onClick={handleCallsign}
 					>
 						Callsign
