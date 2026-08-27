@@ -28,7 +28,6 @@ control.on({
 	key: 'LCONTROL',
 	onEvent: () => !cache.vehicle && updateCrouchAnimation(),
 })
-
 control.on({
 	event: 'press',
 	key: 'X',
@@ -36,7 +35,7 @@ control.on({
 		if (Player(cache.ped).state.isCuffed) return
 
 		await requestAnimDict('missminuteman_1ig_2')
-		handsUp ? ClearPedTasks(cache.ped) : entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
+		handsUp ? ClearPedTasks(cache.ped) : await entity.playAnim(cache.ped, 'missminuteman_1ig_2', 'handsup_base')
 		handsUp = !handsUp
 	},
 })
