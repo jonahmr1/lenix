@@ -3,6 +3,7 @@ import { createElement, Fragment, useEffect, useState } from 'react'
 import { entries } from '@lenix/lenix'
 import { onNuiEmit } from 'lenix/nui'
 import type { Events } from 'types'
+import { DEV } from '@/App'
 
 export const TopScore = () => {
 	const [scores, setScores] = useState<Events['updateTopscoreData']['1']['0']>()
@@ -56,6 +57,56 @@ export const TopScore = () => {
 	}
 
 	useEffect(() => {
+		if (DEV) {
+			setScores({
+				'1': {
+					scale: 1,
+					bottom: 250,
+					left: 650,
+					visible: true,
+					name: 'Lenix',
+					avatar: 'https://lenix.dev/icon.png',
+					stats: {
+						kills: 10,
+						deaths: 5,
+						wins: 3,
+						kd: 2,
+					},
+					id: '1'
+				},
+				'2': {
+					scale: 1,
+					bottom: 250,
+					left: 400,
+					visible: true,
+					name: 'Lenix',
+					avatar: 'https://lenix.dev/icon.png',
+					stats: {
+						kills: 10,
+						deaths: 5,
+						wins: 3,
+						kd: 2,
+					},
+					id: '1'
+				},
+				'3': {
+					scale: 1,
+					bottom: 250,
+					left: 150,
+					visible: true,
+					name: 'Lenix',
+					avatar: 'https://lenix.dev/icon.png',
+					stats: {
+						kills: 10,
+						deaths: 5,
+						wins: 3,
+						kd: 2,
+					},
+					id: '1'
+				},
+			})
+			return
+		}
 		const off = onNuiEmit<Events['updateTopscoreData']>('topscore:updateData', setScores)
 
 		return off
@@ -79,13 +130,13 @@ export const TopScore = () => {
 				>
 					<section className='relative size-full overflow-visible bg-black/50 p-[3.1cqw]'>
 						<div
-							className={`absolute -left-[1.2cqw] -top-[1.2cqw] h-[12cqw] w-[12cqw] border-l-[1.1cqw] border-t-[1.1cqw] ${stats.ranks[rank].styles.border}`}
+							className={`absolute left-[-1.2cqw] top-[-1.2cqw] h-[12cqw] w-[12cqw] border-l-[1.1cqw] border-t-[1.1cqw] ${stats.ranks[rank].styles.border}`}
 						/>
 						<div
-							className={`absolute -right-[1.2cqw] -top-[1.2cqw] h-[12cqw] w-[12cqw] border-r-[1.1cqw] border-t-[1.1cqw] ${stats.ranks[rank].styles.border}`}
+							className={`absolute right-[-1.2cqw] top-[-1.2cqw] h-[12cqw] w-[12cqw] border-r-[1.1cqw] border-t-[1.1cqw] ${stats.ranks[rank].styles.border}`}
 						/>
-						<div className='absolute -bottom-[1.2cqw] -left-[1.2cqw] h-[12cqw] w-[12cqw] border-b-[1.1cqw] border-l-[1.1cqw] border-red-600 drop-shadow-[0_0_1cqw_rgb(220_20_38_/_0.75)]' />
-						<div className='absolute -bottom-[1.2cqw] -right-[1.2cqw] h-[12cqw] w-[12cqw] border-b-[1.1cqw] border-r-[1.1cqw] border-red-600 drop-shadow-[0_0_1cqw_rgb(220_20_38_/_0.75)]' />
+						<div className='absolute bottom-[-1.2cqw] left-[-1.2cqw] h-[12cqw] w-[12cqw] border-b-[1.1cqw] border-l-[1.1cqw] border-red-600 drop-shadow-[0_0_1cqw_rgb(220_20_38_/_0.75)]' />
+						<div className='absolute bottom-[-1.2cqw] right-[-1.2cqw] h-[12cqw] w-[12cqw] border-b-[1.1cqw] border-r-[1.1cqw] border-red-600 drop-shadow-[0_0_1cqw_rgb(220_20_38_/_0.75)]' />
 						<div className='relative z-10 flex h-full flex-col pb-2'>
 							<header className='flex h-[17.2%] shrink-0 items-center gap-[3.2cqw] pb-[2.65cqw]'>
 								{createElement(stats.ranks[rank].Icon, {
