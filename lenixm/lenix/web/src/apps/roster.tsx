@@ -63,10 +63,9 @@ export const Roster = () => {
 		window.addEventListener('keydown', handler)
 
 		const disposes = [
-			onNuiEmit<Events['displayRoster']>('roster:display', (state, playerId) => {
-				setDisplay(state)
+			onNuiEmit<Events['displayRoster']>('roster:display', (playerId) => {
+				setDisplay(true)
 				setPlayerId(playerId)
-				console.debug({ state })
 			}),
 			onNuiEmit<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers),
 		]

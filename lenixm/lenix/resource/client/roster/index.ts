@@ -6,20 +6,6 @@ import { MAX_CALLSIGN_LENGTH } from 'common/config'
 
 checkDependency('ox_lib', '3.39.0', true)
 
-let visible: boolean = false
-let group: string
-
-const addOfficer = (groupName: string) => {
-	const player = GetPlayer()
-	if (!player) return
-
-	const grade = player.getGroup('police')
-	if (!grade) return
-
-	group = groupName
-	emitNet('lenix:server:roster:addOfficer', cache.serverId, player.charId)
-}
-
 const changeCallsign = async () => {
 	const input = await inputDialog(
 		'Update Callsgin',
@@ -29,12 +15,11 @@ const changeCallsign = async () => {
 				label: 'Callsign',
 			},
 		],
-		{},
-	)
+	{})
 	if (!input) return
 
 	const callsign = input[0]?.toString()
-	if (!callsign || callsign.length === 0) return
+	if (!callsign?.length) return
 
 	if (callsign.length > MAX_CALLSIGN_LENGTH) {
 		notify({
@@ -51,43 +36,29 @@ const changeCallsign = async () => {
 	} satisfies PartialOfficer)
 }
 
-const toggleDisplay = () => {
-	const newState = !visible
-	if (!group || group !== 'police') return
-
-	emitNui<Events['displayRoster']>('roster:display', newState, cache.serverId)
-	visible = newState
-}
-
-const nuiFocus = () => {
-	if (!visible) return
-	SetNuiFocus(true, true)
-}
-
-control.on({
-	event: 'press',
-	key: 'U',
-	onEvent: nuiFocus
-})
-
 onNui<Requests['updateOfficer']>('roster:updateOfficer', partialData => {
 	emitNet('lenix:server:roster:updateOfficer', partialData)
-	return true
+	return null
 })
 
 onNui<Requests['triggerCallsign']>('roster:callsign', () => {
 	changeCallsign()
-	return true
+	return null
 })
 
 onNet('lenix:client:roster:refreshOfficers', (officers: Officers) => {
 	emitNui<Events['refreshOfficers']>('roster:refreshOfficers', officers)
 })
 
-on('lenix:client:roster:toggleDisplay', toggleDisplay)
+on('lenix:client:roster:toggleDisplay', () => {
+	const player = GetPlayer()
+	if (!player.getGroup('police')) return
 
-on('onResourceStart', (resource: string) => {
-	if (GetCurrentResourceName() !== resource) return
+	emitNui<Events['displayRoster']>('roster:display', cache.serverId)
+})
 
-	addOfficer('police')
+control.on({
+	event: 'press',
+	key: 'U',
+	onEvent: () => emit('lenix:client:roster:toggleDisplay')
 })

@@ -26,7 +26,7 @@
 		"build": "bun-tasks tsd ::: bun webbuild"
 	},
 	"dependencies": {
-		"@lenix/lenix": "npm:@jsr/lenix__lenix",
+		"@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.20",
 		"@overextended/core": "^0.3.1",
 		"@overextended/ox_core": "^1.5.14",
 		"@overextended/ox_lib": "^3.35.0",

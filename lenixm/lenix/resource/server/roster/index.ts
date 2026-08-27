@@ -104,11 +104,11 @@ abstract class Officers {
 }
 
 onNet('lenix:server:roster:updateOfficer', Officers.updateOfficer)
-onNet('lenix:server:roster:addOfficer', Officers.addOfficer)
 
 on('ox:playerLoaded', (playerId: number) => {
 	Officers.addOfficer(playerId)
 })
+
 on('ox:setGroup', (playerId: number, groupName: string) => {
 	if (groupName !== 'police') {
 		Officers.removeOfficer(playerId)
@@ -116,4 +116,5 @@ on('ox:setGroup', (playerId: number, groupName: string) => {
 	}
 	Officers.addOfficer(playerId)
 })
+
 on('ox:playerLogout', Officers.removeOfficer)
