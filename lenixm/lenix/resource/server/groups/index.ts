@@ -18,7 +18,6 @@ addCommand(
 			api.ox_core.CreateGroup(input)
 		} catch(e) {
 			console.log(palette('pink', String(e)))
-			throw e
 		}
 	},
 	{
