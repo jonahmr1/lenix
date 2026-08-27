@@ -14,3 +14,7 @@ export const onEvent = <
 	addEventListener(event, cb, false)
 	return () => removeEventListener(event, cb)
 }
+
+export const emitNetEvent = <Event extends string, Params extends unknown[]>(event: Event, source: number, ...params: Params) => emitNet(event, source, params)
+
+export const emitEvent = <Event extends string, Params extends unknown[]>(event: Event, ...params: Params) => emit(event, params)
