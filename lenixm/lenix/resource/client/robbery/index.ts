@@ -221,7 +221,9 @@ onNet('lenix:client:robbery:startrobbery', async (netId: number) => {
 			return
 		}
 		const success = await api['glitch-minigames']?.StartPlasmaDrilling?.(5)
-		if (!success) return
+		if (!success) return notify({
+			title: 'Failed to drill the door'
+		})
 
 		vehicleDoorsBroken[side] = true
 
