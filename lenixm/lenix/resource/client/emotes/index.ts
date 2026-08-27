@@ -28,6 +28,7 @@ control.on({
 	key: 'LCONTROL',
 	onEvent: () => !cache.vehicle && updateCrouchAnimation(),
 })
+
 control.on({
 	event: 'press',
 	key: 'X',

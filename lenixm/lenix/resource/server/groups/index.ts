@@ -1,4 +1,5 @@
 import { addCommand, checkDependency, triggerClientCallback } from '@overextended/ox_lib/server'
+import { palette } from 'lenix'
 import { api } from 'lenix/server'
 import type { CreateGroup } from 'types/index'
 
@@ -9,11 +10,16 @@ checkDependency('ox_core', '1.5.14', true)
 addCommand(
 	'creategroup',
 	async (source, args) => {
-		const input = await triggerClientCallback<CreateGroup | undefined>('lenix:createGroup', source, args.gradesCount)
-		if (!input) return
+		try {
+			const input = await triggerClientCallback<CreateGroup | undefined>('lenix:createGroup', source, args.gradesCount)
+			if (!input) return
 
-		//@ts-ignore
-		api.ox_core.CreateGroup(input)
+			//@ts-ignore
+			api.ox_core.CreateGroup(input)
+		} catch(e) {
+			console.log(palette('pink', String(e)))
+			throw e
+		}
 	},
 	{
 		help: 'Create new group to the db.',
