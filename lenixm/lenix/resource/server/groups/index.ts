@@ -1,6 +1,6 @@
-import type { OxAccountRole } from '@overextended/ox_core'
 import { addCommand, checkDependency, triggerClientCallback } from '@overextended/ox_lib/server'
 import { api } from 'lenix/server'
+import type { CreateGroup } from 'types/index'
 
 checkDependency('oxmysql', '2.14.1', true)
 checkDependency('ox_lib', '3.39.0', true)
@@ -9,15 +9,7 @@ checkDependency('ox_core', '1.5.14', true)
 addCommand(
 	'creategroup',
 	async (source, args) => {
-		const input = await triggerClientCallback<{
-			name: string
-			label: string
-			hasAccount: string
-			grades: {
-				label: string
-				accountRole: OxAccountRole
-			}[]
-		}>('lenix:createGroup', source, args.gradesCount)
+		const input = await triggerClientCallback<CreateGroup | undefined>('lenix:createGroup', source, args.gradesCount)
 		if (!input) return
 
 		//@ts-ignore

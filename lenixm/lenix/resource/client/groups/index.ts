@@ -1,8 +1,10 @@
+import type { OxAccountRole } from '@overextended/ox_core'
 import { checkDependency, inputDialog, onServerCallback } from '@overextended/ox_lib/client'
+import type { CreateGroup } from 'types'
 
 checkDependency('ox_lib', '3.39.0', true)
 
-onServerCallback('lenix:createGroup', async (count: number) => {
+onServerCallback('lenix:createGroup', async (count: number): Promise<CreateGroup | undefined> => {
 	const input = await inputDialog(
 		'Create new grade',
 		[
@@ -27,7 +29,10 @@ onServerCallback('lenix:createGroup', async (count: number) => {
 						{ value: 'contributor', label: 'Contributor' },
 						{ value: 'manager', label: 'Manager' },
 						{ value: 'owner', label: 'Owner' },
-					],
+					] satisfies {
+						value: OxAccountRole
+						label: string
+					}[],
 				},
 			]).flat(),
 			{
@@ -40,12 +45,12 @@ onServerCallback('lenix:createGroup', async (count: number) => {
 	if (!input) return
 
 	return {
-		name: input[0],
-		label: input[1],
+		name: input[0] as string,
+		label: input[1] as string,
 		grades: Array.from({ length: count }, (_, i) => ({
-			label: input[2 + i * 2],
-			accountRole: input[3 + i * 2],
+			label: input[2 + i * 2] as string,
+			accountRole: input[3 + i * 2] as OxAccountRole,
 		})),
-		hasAccount: input[4],
+		hasAccount: input[4] as string,
 	}
 })

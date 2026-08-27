@@ -1,3 +1,4 @@
+import type { OxAccountRole } from '@overextended/ox_core'
 import type { Vec3, Vec4, Event, Request } from 'lenix'
 
 type AtLeastOne<T> = {
@@ -110,4 +111,14 @@ export interface CriminialApi {
 	item?: string
 	amount?: number
 	response?: string
+}
+
+export interface CreateGroup {
+	name: string
+	label: string
+	hasAccount: string
+	grades: {
+		label: string
+		accountRole: OxAccountRole
+	}[]
 }
