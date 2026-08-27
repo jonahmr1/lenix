@@ -16,9 +16,7 @@ const EnabledContextedScripts = [
 ] as const satisfies readonly (ClientScript & ServerScript)[]
 
 export const EnabledOnlyClientScripts = [
-	'crouch',
 	// 'elevators',
-	'handsup',
 	'hud',
 	'identities',
 	'radialmenu',

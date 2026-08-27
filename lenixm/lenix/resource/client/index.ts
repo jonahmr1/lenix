@@ -4,9 +4,7 @@ import type { ClientScript } from 'types/dirs'
 
 for (const script of EnabledClientScripts) {
 	const modules = {
-		crouch: () => import('./crouch'),
 		elevators: () => import('./elevators'),
-		handsup: () => import('./handsup'),
 		hud: () => import('./hud'),
 		identities: () => import('./identities'),
 		radialmenu: () => import('./radialmenu'),
@@ -29,6 +27,7 @@ for (const script of EnabledClientScripts) {
 		carmodes: () => import('./carmodes'),
 		megaphone: () => import('./megaphone'),
 		charselect: () => import('./charselect'),
+		emotes: () => import('./emotes'),
 	} satisfies Record<ClientScript, () => Promise<unknown>>
 	modules[script]()
 }
