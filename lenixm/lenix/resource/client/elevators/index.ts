@@ -1,4 +1,6 @@
+import { entries } from '@lenix/lenix'
 import { checkDependency, progressBar, registerContext, showContext } from '@overextended/ox_lib/client'
+import type { Vec4 } from 'lenix'
 import { api, entity } from 'lenix/client'
 import type { Vector4 } from 'types/index'
 
@@ -7,7 +9,7 @@ checkDependency('ox_target', '1.18.1', true)
 const COMMANDER_ROTATION = 70
 const WAIT_DURATION = 5
 
-const ELEVATORS: Record<number, Vector4> = {
+const ELEVATORS = {
 	0: [-350.835, -1042.4888, 29.784, 250.4242],
 	1: [-350.835, -1042.4888, 36.784, 250.4242],
 	4: [-350.835, -1042.4888, 45.784, 250.4242],
@@ -35,29 +37,31 @@ const ELEVATORS: Record<number, Vector4> = {
 	26: [-350.835, -1042.4888, 133.784, 250.4242],
 	27: [-350.835, -1042.4888, 137.784, 250.4242],
 	28: [-350.835, -1042.4888, 141.784, 250.4242],
+} as const satisfies Record<number, Vector4>
+
+const elevate = async (coords: Vec4) => {
+	const didntCanceled = await progressBar({
+		label: 'Calling the elevator...',
+		duration: WAIT_DURATION * 1000,
+		canCancel: true,
+	})
+	if (!didntCanceled) return
+
+	const playerCoords = entity.coords()
+	entity.teleport(playerCoords[0], playerCoords[1], coords[2])
 }
 
-for (const [floor, coords] of Object.entries(ELEVATORS)) {
+for (const [floor, coords] of entries(ELEVATORS)) {
 	registerContext({
 		id: `elevator-${floor}`,
 		title: 'Elevator',
 		options: [
-			...Object.entries(ELEVATORS)
-				.filter(([floor_]) => floor_ !== floor)
-				.map(([floor_, coords]) => ({
-					title: `Floor ${floor_}`,
-					onSelect: async () => {
-						const didntCanceled = await progressBar({
-							label: 'Calling the elevator...',
-							duration: WAIT_DURATION * 1000,
-							canCancel: true,
-						})
-						if (!didntCanceled) return
-
-						const playerCoords = entity.coords()
-						entity.teleport(playerCoords[0], playerCoords[1], coords[2])
-					},
-				})),
+			...entries(ELEVATORS)
+			.filter(([floor_]) => floor_ !== floor)
+			.map(([floor_, coords]) => ({
+				title: `Floor ${floor_}`,
+				onSelect: () => elevate(coords),
+			})),
 		],
 	})
 	api.ox_target?.addBoxZone?.({
@@ -67,9 +71,7 @@ for (const [floor, coords] of Object.entries(ELEVATORS)) {
 		options: [
 			{
 				label: 'Use Elevator',
-				onSelect: () => {
-					showContext(`elevator-${floor}`)
-				},
+				onSelect: () => showContext(`elevator-${floor}`)
 			},
 		],
 	})
