@@ -94,9 +94,8 @@ const spawnVehicle = async (model: string, spawn: Vector4) => {
 setImmediate(() => {
 	PEDS.map(async ({ coords, spawn, menu }) => {
 		const entity = await createPed('a_m_m_prolhost_01', ...coords, true)
-		if (!entity) return
 
-		api.ox_target?.addLocalEntity?.(entity, [
+		api.ox_target?.addLocalEntity?.(entity.handle, [
 			{
 				icon: 'fas fa-car',
 				label: 'Take a car',
