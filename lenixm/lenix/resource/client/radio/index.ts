@@ -72,11 +72,11 @@ onNui<Requests['changeFrequency']>('radio:frequency', ({ frequency }) => {
 
 onNui<Requests['leaveRadio']>('radio:leave', () => {
 	leaveChannel()
-	return true
+	return null
 })
 
 onNui<Requests['closeRadio']>('radio:close', () => {
 	state = false
 	toggleRadioAnimation()
-	return true
+	return null
 })

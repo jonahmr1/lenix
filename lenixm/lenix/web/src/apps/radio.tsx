@@ -1,5 +1,5 @@
 import { DEV } from '@/App'
-import { focus, onNuiEmit, fetchNui } from 'lenix/nui'
+import { focus, onNuiEmit, fetchNui, onKeyDown, unFocus } from 'lenix/nui'
 import { useEffect, useState } from 'react'
 import type { Events, Requests } from 'types'
 
@@ -8,23 +8,20 @@ export const Radio = () => {
 	const [frequency, setFreq] = useState<string>('')
 
 	useEffect(() => {
-		const escHandler = (event: KeyboardEvent) => {
-			if (event.key !== 'Escape') return
+		const disposes = [
+			onNuiEmit<Events['displayRadio']>('radio:display', state => {
+				setDisplay(state)
+				focus()
+			}),
+			onKeyDown('Escape', () => {
+				setDisplay(false)
+				unFocus()
+				fetchNui<Requests['closeRadio']>('radio:close', {})
+			})
+		]
 
-			setDisplay(false)
-			focus()
-			fetchNui<Requests['closeRadio']>('radio:close', {})
-		}
-
-		const dispose = onNuiEmit<Events['displayRadio']>('radio:display', state => {
-			setDisplay(state)
-			focus()
-		})
-
-		window.addEventListener('keydown', escHandler)
 		return () => {
-			window.removeEventListener('keydown', escHandler)
-			dispose()
+			for (const dispose of disposes) dispose()
 		}
 	}, [])
 
