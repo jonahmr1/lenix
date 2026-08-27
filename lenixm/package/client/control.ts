@@ -121,8 +121,9 @@ const on = ({
 	key,
 	onEvent,
 	type = 'player',
-}: Bind & {
+}: Pick<Bind, 'key' | 'onEvent'> & {
 	event: Extract<Bind['event'], 'press' | 'hold' | 'release' | 'released' | 'disabledPress' | 'disabledHold' | 'disabledRelease' | 'disabledReleased'>
+	type?: Bind['type']
 }) => {
 	asserts(CONTROLS[key], `Could not find key<${key}>`)
 
