@@ -14,7 +14,7 @@ for (const script of EnabledClientScripts) {
 		settings: () => import('./settings'),
 		weather: () => import('./weather'),
 
-		groups: () => import('./groups'),
+		group: () => import('./group'),
 		hotel: () => import('./hotel'),
 		interaction: () => import('./interaction'),
 		medical: () => import('./medical'),
