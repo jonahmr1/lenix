@@ -17,20 +17,17 @@ const coords: Record<keyof TopscoreContextData, Vec3> = {
 	2: [904.6212, -2108.2192, 30.4594],
 	3: [901.0425, -2107.917, 30.4594],
 }
+const refreshInterval = 60_000
 
-let players: TopscoreContextData | undefined | void
+let players: TopscoreContextData | undefined
 
-const getData = async () =>
-	(players = await triggerServerCallback<TopscoreContextData>('lenix:server:topscore:getData', 60_000))
+const getData = async () => {
+	const data = await triggerServerCallback<TopscoreContextData>('lenix:server:topscore:getData', refreshInterval)
+	players = data ?? undefined
+}
 
-setImmediate(async () => {
-	getData()
-})
-
-setInterval(async () => {
-	getData()
-}, 60_000)
-
+setImmediate(getData)
+setInterval(getData, refreshInterval)
 pool(() => {
 	if (!players) return
 

@@ -15,21 +15,18 @@ const getData = async (): Promise<TopscoreContextData> => {
 		}[]
 	}>('SELECT metadata FROM players')
 
-	const emptyScore = {
-		wins: 0,
-		deaths: 0,
-		kills: 0,
-		kd: 0,
+	const playerFb = {
+		name: 'unknown',
+		avatar: 'https://lenix.dev/icon.png',
+		stats: {
+			wins: 0,
+			deaths: 0,
+			kills: 0,
+			kd: 0,
+		},
 	}
 
-	const emptyPlayer = {
-		stats: emptyScore,
-		id: '0',
-		name: '',
-		avatar: '',
-	}
-
-	const [first = emptyPlayer, second = emptyPlayer, third = emptyPlayer] = players.metadata
+	const [first = playerFb, second = playerFb, third = playerFb] = players.metadata
 		.map(metadata => {
 			const kills = Number(metadata.kills)
 			const deaths = Number(metadata.deaths)
@@ -41,14 +38,8 @@ const getData = async (): Promise<TopscoreContextData> => {
 					kills,
 					kd: deaths > 0 ? kills / deaths : 0,
 				},
-				id: metadata.serverid ?? 'Unknown',
-				name: 'Lenix',
-				avatar:
-					metadata?.serverid === '0'
-						? 'https://i.postimg.cc/mD4GYTDn/IMG-9773.jpg'
-						: metadata?.serverid === '105'
-							? 'https://i.postimg.cc/8ktVvQVL/lqtt-shasht-2026-08-02-210233.png'
-							: 'https://i.postimg.cc/JnxSjJS1/lqtt-shasht-2026-08-02-210330.png',
+				name: playerFb.name,
+				avatar: playerFb.avatar
 			}
 		})
 		.sort((a, b) => b.stats.kills - a.stats.kills)
@@ -60,6 +51,4 @@ const getData = async (): Promise<TopscoreContextData> => {
 	}
 }
 
-onClientCallback('lenix:server:topscore:getData', async () => {
-	return await getData()
-})
+onClientCallback('lenix:server:topscore:getData', getData)

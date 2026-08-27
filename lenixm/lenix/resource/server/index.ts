@@ -7,7 +7,7 @@ for (const script of EnabledServerScripts) {
 		appearance: () => import('./appearance'),
 		db: () => import('./db'),
 
-		groups: () => import('./groups'),
+		groups: () => import('./group'),
 		hotel: () => import('./hotel'),
 		interaction: () => import('./interaction'),
 		medical: () => import('./medical'),

@@ -99,7 +99,6 @@ export type TopscoreData = Record<
 			wins: number
 			kd: number
 		}
-		id: string
 	}
 >
 

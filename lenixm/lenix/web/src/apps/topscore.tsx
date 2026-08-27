@@ -72,7 +72,6 @@ export const TopScore = () => {
 						wins: 3,
 						kd: 2,
 					},
-					id: '1'
 				},
 				'2': {
 					scale: 1,
@@ -87,7 +86,6 @@ export const TopScore = () => {
 						wins: 3,
 						kd: 2,
 					},
-					id: '1'
 				},
 				'3': {
 					scale: 1,
@@ -102,7 +100,6 @@ export const TopScore = () => {
 						wins: 3,
 						kd: 2,
 					},
-					id: '1'
 				},
 			})
 			return
@@ -164,7 +161,6 @@ export const TopScore = () => {
 									<h2 className='truncate text-[7.15cqw] font-black leading-none text-white drop-shadow-[0_0.3cqw_0_rgb(0_0_0_/_0.58)]'>
 										{data.name}
 									</h2>
-									<p className='text-[10px] text-white/66'>ID: {data.id}</p>
 								</div>
 							</div>
 
