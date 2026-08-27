@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import type { Events, Officers, OfficerUpdates, Requests } from 'types'
 import { DEV } from '@/App'
 import { Frown } from 'lucide-react'
-import { focus, onNuiEmit, fetchNui } from 'lenix/nui'
+import { focus, onNuiEmit, fetchNui, onKeyDown, unFocus } from 'lenix/nui'
 import { Badge } from '@/components/ui/badge'
 import { AudioLines } from 'lucide-react'
 import type { DutyState, Officer as IOfficer, TalkState } from 'types'
@@ -59,12 +59,6 @@ export const Roster = () => {
 			})
 			return
 		}
-		const handler = (event: KeyboardEvent) => {
-			if (event.key !== 'Escape') return
-
-			focus()
-		}
-		window.addEventListener('keydown', handler)
 
 		const disposes = [
 			onNuiEmit<Events['displayRoster']>('roster:display', (state, playerId) => {
@@ -72,10 +66,12 @@ export const Roster = () => {
 				setPlayerId(playerId)
 			}),
 			onNuiEmit<Events['refreshOfficers']>('roster:refreshOfficers', setOfficers),
+			onKeyDown('Escape', () => {
+				unFocus()
+			})
 		]
 
 		return () => {
-			window.removeEventListener('keydown', handler)
 			disposes.forEach(dispose => dispose())
 		}
 	}, [])

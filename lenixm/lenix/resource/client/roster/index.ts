@@ -67,3 +67,9 @@ control.on({
 	onEvent: () => emit('lenix:client:roster:toggleDisplay')
 })
 
+control.on({
+	event: 'press',
+	key: 'F11',
+	onEvent: () => SetNuiFocus(true, true)
+})
+
