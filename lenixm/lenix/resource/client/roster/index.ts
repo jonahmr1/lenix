@@ -3,8 +3,11 @@ import type { Events, Officers, PartialOfficer, Requests } from 'types/index'
 import { GetPlayer } from '@overextended/ox_core/client'
 import { control, emitNui, onNui } from 'lenix/client'
 import { MAX_CALLSIGN_LENGTH } from 'common/config'
+import { State } from '@lenix/lenix'
 
 checkDependency('ox_lib', '3.39.0', true)
+
+const state = new State({ display: false as boolean })
 
 const changeCallsign = async () => {
 	const input = await inputDialog(
@@ -52,9 +55,10 @@ onNet('lenix:client:roster:refreshOfficers', (officers: Officers) => {
 
 on('lenix:client:roster:toggleDisplay', () => {
 	const player = GetPlayer()
-	if (!player.getGroup('police')) return
+	if (typeof player.getGroup('police') !== 'number') return
 
-	emitNui<Events['displayRoster']>('roster:display', cache.serverId)
+	emitNui<Events['displayRoster']>('roster:display', state.display, cache.serverId)
+	state.display = !state.display
 })
 
 control.on({
@@ -62,3 +66,4 @@ control.on({
 	key: 'U',
 	onEvent: () => emit('lenix:client:roster:toggleDisplay')
 })
+
