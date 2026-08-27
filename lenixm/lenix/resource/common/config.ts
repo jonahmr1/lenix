@@ -251,9 +251,9 @@ export const CRIMINIL_TASK: {
 		},
 	],
 	items: {
-		['itemName']: {
-			percentage: 0,
-			amount: 0,
+		['money']: {
+			percentage: 100,
+			amount: 1000,
 		},
 	},
 }
