@@ -1,6 +1,6 @@
 import { entries } from '@lenix/lenix'
-import { checkDependency, triggerServerCallback } from '@overextended/ox_lib/client'
-import type { Vec3 } from 'lenix'
+import { checkDependency, createPed, triggerServerCallback } from '@overextended/ox_lib/client'
+import type { Vec3, Vec4 } from 'lenix'
 import { emitNui, entity, player, pool } from 'lenix/client'
 import type { Events, TopscoreContextData, TopscoreData } from 'types/index'
 
@@ -12,10 +12,15 @@ const screenHeight = screenResolution[1] ?? 1080
 const minScale: number = 1.22
 const maxScale = 3
 const maxDistance = 5
+const pedCoords = [
+	[3610.4739, 3718.8015, 28.6894, 323.2233],
+	[3612.9465, 3717.4700, 28.6894, 8.9750],
+	[3607.6973, 3721.4082, 28.6894, 267.9889],
+] as const
 const coords: Record<keyof TopscoreContextData, Vec3> = {
-	1: [902.8286, -2108.0896, 30.4594],
-	2: [904.6212, -2108.2192, 30.4594],
-	3: [901.0425, -2107.917, 30.4594],
+	1: [pedCoords[0][0], pedCoords[0][1], pedCoords[0][2]],
+	2: [pedCoords[1][0], pedCoords[1][1], pedCoords[1][2]],
+	3: [pedCoords[2][0], pedCoords[2][1], pedCoords[2][2]],
 }
 const refreshInterval = 60_000
 
@@ -23,10 +28,44 @@ let players: TopscoreContextData | undefined
 
 const getData = async () => {
 	const data = await triggerServerCallback<TopscoreContextData>('lenix:server:topscore:getData', refreshInterval)
-	players = data ?? undefined
+	players = data ?? {
+		'1': {
+			name: 'Lenix',
+			avatar: 'https://lenix.dev/icon.png',
+			stats: {
+				kills: 10,
+				deaths: 5,
+				wins: 3,
+				kd: 2,
+			},
+		},
+		'2': {
+			name: 'Lenix',
+			avatar: 'https://lenix.dev/icon.png',
+			stats: {
+				kills: 10,
+				deaths: 5,
+				wins: 3,
+				kd: 2,
+			},
+		},
+		'3': {
+			name: 'Lenix',
+			avatar: 'https://lenix.dev/icon.png',
+			stats: {
+				kills: 10,
+				deaths: 5,
+				wins: 3,
+				kd: 2,
+			},
+		},
+	}
 }
 
-setImmediate(getData)
+setImmediate(async () => {
+	await getData()
+	for (const coords of pedCoords) createPed('a_m_m_prolhost_01', ...coords as Vec4)
+})
 setInterval(getData, refreshInterval)
 pool(() => {
 	if (!players) return

@@ -9,12 +9,16 @@ let shown = false
 control.on({
 	event: 'press',
 	key: 'HOME',
-	onEvent: () => !shown,
+	onEvent: () => {
+		shown = !shown
+	},
 })
 control.on({
-	event: 'released',
+	event: 'release',
 	key: 'HOME',
-	onEvent: () => !shown,
+	onEvent: () => {
+		shown = !shown
+	},
 })
 
 // From https://github.com/Qbox-project/qbx_core/blob/main/modules/lib.lua#L441
