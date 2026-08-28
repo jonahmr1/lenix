@@ -14,8 +14,6 @@ const EnabledContextedScripts = [
 
 export const EnabledOnlyClientScripts = [
 	'elevators',
-	'hud',
-	'identities',
 	'radialmenu',
 	'radio',
 	'rent',

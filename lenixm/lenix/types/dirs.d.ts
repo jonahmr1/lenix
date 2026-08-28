@@ -7,8 +7,6 @@ export type ClientScript =
   | 'emotes'
   | 'group'
   | 'hotel'
-  | 'hud'
-  | 'identities'
   | 'interaction'
   | 'medical'
   | 'megaphone'
@@ -36,7 +34,6 @@ export type ServerScript =
   | 'roster'
   | 'topscore'
 export type WebScript = 
-  | 'hud'
   | 'radio'
   | 'roster'
   | 'topscore'

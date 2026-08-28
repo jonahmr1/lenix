@@ -34,9 +34,6 @@ export type PartialOfficer = {
 export interface Events {
 	displayRadio: Event<'radio:display', [true]>
 	displayRoster: Event<'roster:display', [boolean, number]>
-	displayHud: Event<'hud:display', [boolean]>
-	updateHudClip: Event<'hud:update:clip', [string]>
-	updateHudReserve: Event<'hud:update:reserve', [string]>
 	addOfficer: Event<'roster:addOfficer', [Officer]>
 	refreshOfficers: Event<'roster:refreshOfficers', [Officers]>
 	updateTopscoreData: Event<'topscore:updateData', [TopscoreData]>

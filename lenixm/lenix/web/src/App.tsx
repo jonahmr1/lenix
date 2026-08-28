@@ -1,6 +1,5 @@
 import { EnabledClientScripts } from 'scripts'
 import { Radio } from './apps/radio'
-import { Hud } from './apps/hud'
 import { Roster } from './apps/roster'
 import { TopScore } from './apps/topscore'
 import type { ClientScript, WebScript } from 'types/dirs'
@@ -8,7 +7,6 @@ import type { ClientScript, WebScript } from 'types/dirs'
 export const DEV = false
 
 const apps = {
-	hud: Hud,
 	radio: Radio,
 	roster: Roster,
 	topscore: TopScore,

@@ -5,8 +5,6 @@ import type { ClientScript } from 'types/dirs'
 for (const script of EnabledClientScripts) {
 	const modules = {
 		elevators: () => import('./elevators'),
-		hud: () => import('./hud'),
-		identities: () => import('./identities'),
 		radialmenu: () => import('./radialmenu'),
 		radio: () => import('./radio'),
 		rent: () => import('./rent'),
