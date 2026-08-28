@@ -44,6 +44,9 @@ const elevate = async (coords: Vec4) => {
 		label: 'Calling the elevator...',
 		duration: WAIT_DURATION * 1000,
 		canCancel: true,
+		disable: {
+			move: true
+		}
 	})
 	if (!didntCanceled) return
 
