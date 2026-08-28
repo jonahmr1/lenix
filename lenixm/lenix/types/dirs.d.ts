@@ -2,8 +2,6 @@
 
 export type ClientScript = 
   | 'charselect'
-  | 'criminaltask'
-  | 'elevators'
   | 'emotes'
   | 'group'
   | 'hotel'
@@ -12,13 +10,8 @@ export type ClientScript =
   | 'megaphone'
   | 'prison'
   | 'radio'
-  | 'rent'
-  | 'robbery'
-  | 'roster'
-  | 'safezones'
   | 'settings'
   | 'snipets'
-  | 'topscore'
   | 'weather'
 export type ServerScript = 
   | 'appearance'
@@ -34,5 +27,3 @@ export type ServerScript =
   | 'topscore'
 export type WebScript = 
   | 'radio'
-  | 'roster'
-  | 'topscore'

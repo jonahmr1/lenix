@@ -6,17 +6,10 @@ const EnabledContextedScripts = [
 	'interaction',
 	'medical',
 	'prison',
-	'robbery',
-	'roster',
-	'topscore',
-	'criminaltask',
 ] as const satisfies readonly (ClientScript & ServerScript)[]
 
 export const EnabledOnlyClientScripts = [
-	'elevators',
 	'radio',
-	'rent',
-	'safezones',
 	'settings',
 	'weather',
 	'snipets',

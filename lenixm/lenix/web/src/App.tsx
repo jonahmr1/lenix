@@ -1,15 +1,11 @@
 import { EnabledClientScripts } from 'scripts'
 import { Radio } from './apps/radio'
-import { Roster } from './apps/roster'
-import { TopScore } from './apps/topscore'
 import type { ClientScript, WebScript } from 'types/dirs'
 
 export const DEV = false
 
 const apps = {
 	radio: Radio,
-	roster: Roster,
-	topscore: TopScore,
 } satisfies Record<WebScript, React.ComponentType>
 
 export const App = () => {
