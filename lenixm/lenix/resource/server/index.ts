@@ -12,10 +12,6 @@ for (const script of EnabledServerScripts) {
 		interaction: () => import('./interaction'),
 		medical: () => import('./medical'),
 		prison: () => import('./prison'),
-		robbery: () => import('./robbery'),
-		roster: () => import('./roster'),
-		topscore: () => import('./topscore'),
-		criminaltask: () => import('./criminaltask'),
 	} satisfies Record<ServerScript, () => Promise<unknown>>
 	modules[script]()
 }

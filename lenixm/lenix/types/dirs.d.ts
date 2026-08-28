@@ -15,15 +15,11 @@ export type ClientScript =
   | 'weather'
 export type ServerScript = 
   | 'appearance'
-  | 'criminaltask'
   | 'db'
   | 'group'
   | 'hotel'
   | 'interaction'
   | 'medical'
   | 'prison'
-  | 'robbery'
-  | 'roster'
-  | 'topscore'
 export type WebScript = 
   | 'radio'
