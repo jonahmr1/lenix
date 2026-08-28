@@ -14,7 +14,6 @@ const EnabledContextedScripts = [
 
 export const EnabledOnlyClientScripts = [
 	'elevators',
-	'radialmenu',
 	'radio',
 	'rent',
 	'safezones',

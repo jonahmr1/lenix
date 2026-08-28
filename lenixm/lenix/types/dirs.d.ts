@@ -11,7 +11,6 @@ export type ClientScript =
   | 'medical'
   | 'megaphone'
   | 'prison'
-  | 'radialmenu'
   | 'radio'
   | 'rent'
   | 'robbery'
