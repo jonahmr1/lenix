@@ -47,11 +47,6 @@ export interface Requests {
 	triggerCallsign: Request<null, 'roster:callsign'>
 }
 
-export interface Team {
-	leader: number
-	members: number[]
-}
-
 export type SyncConfig = 'irl' | 'custom' | 'server'
 
 export interface PlayerStorage {

@@ -1,15 +1,11 @@
 import { LoadFile } from './utils'
 import type { Vector3 } from 'types/index'
 import type { Vector4 } from 'types'
-import type { Vec3, Vec4 } from 'lenix'
 
 const Config = LoadFile('public/config.json')
 export default Config
 
 export const MAX_CALLSIGN_LENGTH = 6
-
-export const VEHICLE_MODEL: string = 'stockade'
-export const MISSION_PRICE = 2000
 
 export const INSIDE_COORDS: Vector3 = [1680.1442, 2512.8276, 45.5648]
 interface Safe {
