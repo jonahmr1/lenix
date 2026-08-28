@@ -101,14 +101,6 @@ export type TopscoreData = Record<
 
 export type TopscoreContextData = Record<1 | 2 | 3, Omit<TopscoreData[1], 'scale' | 'bottom' | 'left' | 'visible'>>
 
-export interface CriminialApi {
-	success: boolean
-	error?: string
-	item?: string
-	amount?: number
-	response?: string
-}
-
 export interface CreateGroup {
 	name: string
 	label: string
