@@ -64,11 +64,11 @@ const player = (
 /**
  * Finds the nearest vehicle around an entity.
  */
-const vehicle = (entityHandle: number, radialSpace: number): number | undefined => {
+const vehicle = (entityHandle: number, radialSpace: number): number | null => {
 	const coords: Vec3 = entity.coords(entityHandle, true)
 	const vehicles = GetGamePool('CVehicle') as number[]
 
-	let closest: number | undefined
+	let closest: number | null = null
 
 	for (const vehicle of vehicles) {
 		const vehCoords: Vec3 = entity.coords(vehicle, true)
@@ -83,7 +83,7 @@ const vehicle = (entityHandle: number, radialSpace: number): number | undefined 
 		}
 	}
 
-	return closest
+	return closest ?? null
 }
 
 export const getNearest = {
