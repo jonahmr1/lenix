@@ -45,13 +45,10 @@ const player = (
 				? entity.coords(playerPed, true)
 				: GetWorldPositionOfEntityBone(playerPed, 0) as Vec3
 
-			const distance = Vdist(
-				coords[0],
-				coords[1],
-				coords[2],
-				playerCoords[0],
-				playerCoords[1],
-				playerCoords[2]
+			const distance = Math.sqrt(
+				(coords[0] - playerCoords[0]) ** 2 +
+				(coords[1] - playerCoords[1]) ** 2 +
+				(coords[2] - playerCoords[2]) ** 2
 			)
 
 			if (distance < maxDistance) {
