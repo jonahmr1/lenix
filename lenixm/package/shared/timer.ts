@@ -1,7 +1,7 @@
 /**
  * Starts a client timer using FiveM game time.
  */
-export const useTimer = ({
+export const timer = ({
 	duration,
 	updateInterval,
 	onTick,
