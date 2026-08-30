@@ -4,13 +4,13 @@
 export const timer = ({
 	duration,
 	updateInterval,
-	onTick,
+	onInterval,
 	onEnd
 }: {
 	duration: number,
-	updateInterval: number,
-	onTick: (timeLeft: number) => void,
-	onEnd: () => void
+	updateInterval?: number,
+	onInterval: (timeLeft: number) => void,
+	onEnd?: () => void
 }): () => void => {
 	const start = GetGameTimer()
 
@@ -20,11 +20,19 @@ export const timer = ({
 
 		if (elapsed >= duration) {
 			clearInterval(interval)
-			onEnd()
+			try {
+				onEnd?.()
+			} catch(e) {
+				throw e
+			}
 			return
 		}
 
-		onTick(timeLeft)
+		try {
+			onInterval(timeLeft)
+		} catch(e) {
+			throw e
+		}
 	}, updateInterval)
 
 	return () => clearInterval(interval)
