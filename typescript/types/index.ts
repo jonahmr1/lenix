@@ -26,3 +26,7 @@ export type Nestify<T, Prefix extends string = ''> = {
 export type JsonValue = string | number | boolean | null | JsonValue[] | {
 	[key: string]: JsonValue
 }
+
+export type AtLeastOne<T> = {
+	[K in keyof T]-?: { [P in K]: T[P] } & Partial<Omit<T, K>>
+}[keyof T]
