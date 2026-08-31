@@ -86,7 +86,7 @@ const vehicle = (entityHandle: number, radialSpace: number): number | null => {
 	return closest ?? null
 }
 
-export const getNearest = {
+export const nearest = {
 	player,
 	vehicle,
 	coords
