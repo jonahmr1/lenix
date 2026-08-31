@@ -1,4 +1,4 @@
-import type { Vec4 } from '../shared/types.ts'
+import type { Vec2, Vec4 } from '../shared/types.ts'
 
 const cams = new Set<number>()
 
@@ -6,35 +6,36 @@ export interface BaseCamDetails {
 	/**
 	 * Fade-out duration in milliseconds.
 	 */
-	fadeOut?: number
+	fadeOut: number
 	/**
 	 * Fade-in duration in milliseconds.
 	 */
-	fadeIn?: number
+	fadeIn: number
 	/**
 	 * Delay before the camera state changes.
 	 */
-	delay?: number
+	delay: number
 }
 
 export interface CreateCamSettings {
 	/**
-	 * Camera coordinates and heading.
+	 * Camera coordinates and heading (0 - 180)!.
 	 */
 	coords: Vec4
 	/**
+	 * Camera offset from coordinates and heading (0 - 180)!.
+	 */
+	offset?: Vec4
+	/**
 	 * Camera vertical and horizontal rotation.
 	 */
-	rotation: {
-		vertical: number,
-		horizontal: number
-	}
+	rotation?: Vec2
 	/**
 	 * Optional camera field-of-view, rotation order, and fade settings.
 	 */
 	details?: {
-		fov?: number,
-		rotationOrder?: number
+		fov: number,
+		rotationOrder: number
 	} & BaseCamDetails
 }
 
@@ -75,27 +76,31 @@ const toggleCam = ({
  */
 const create = ({
 	coords,
-	rotation: {
-		vertical,
-		horizontal
-	},
-	details
-}: CreateCamSettings): number => {
-	const fov = details?.fov ?? 40.0,
-		fadeOut = details?.fadeOut ?? 0,
-		fadeIn = details?.fadeIn ?? 0,
-		delay = details?.delay ?? 0,
-		rotationOrder = details?.rotationOrder ?? 0
-
+	offset = [0, 0, 0, 0],
+	rotation = [0, 0],
+	details: {
+		fov,
+		fadeOut,
+		fadeIn,
+		delay,
+		rotationOrder
+	} = {
+		fov: 40.0,
+		fadeOut: 0,
+		fadeIn: 0,
+		delay: 0,
+		rotationOrder: 0
+	}
+}: CreateCamSettings): [() => void, number] => {
 	DoScreenFadeOut(fadeOut)
 	const cam = CreateCamWithParams(
 		'DEFAULT_SCRIPTED_CAMERA',
-		coords[0],
-		coords[1],
-		coords[2],
-		vertical,
-		horizontal,
-		coords[3],
+		coords[0] + offset[0],
+		coords[1] + offset[1],
+		coords[2] + offset[2],
+		rotation[0],
+		rotation[1],
+		coords[3] + offset[3],
 		fov,
 		false,
 		rotationOrder
@@ -110,7 +115,10 @@ const create = ({
 		fadeOut
 	})
 
-	return cam
+	return [
+		() => destroy({ cam, details: { delay, fadeIn, fadeOut } }),
+		cam
+	]
 }
 
 /**
@@ -118,11 +126,16 @@ const create = ({
  */
 const destroy = ({
 	cam,
-	details
+	details: {
+		fadeOut,
+		fadeIn,
+		delay
+	} = {
+		fadeOut: 0,
+		fadeIn: 0,
+		delay: 0
+	}
 }: DestroyCamSettings): void => {
-	const fadeOut = details?.fadeOut ?? 0,
-		fadeIn = details?.fadeIn ?? 0,
-		delay = details?.delay ?? 0
 
 	toggleCam({
 		cam,
