@@ -1,1 +1,0 @@
-require 'server/api/index'
