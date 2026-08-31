@@ -13,7 +13,7 @@ export type Vec3 = [number, number, number]
 /**
  * Two-dimensional coordinates.
  */
-export type Vec2 = [number, number, number]
+export type Vec2 = [number, number]
 
 /**
  * Typed event tuple containing an event id and positional parameters.
