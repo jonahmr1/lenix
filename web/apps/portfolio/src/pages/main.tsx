@@ -10,6 +10,8 @@ import { ExternalLink } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { motion } from 'motion/react'
 import { fade } from '@/lib/utils'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 export const Main = () => {
 	const nav = useNavigate()
@@ -24,6 +26,9 @@ export const Main = () => {
 						<motion.div {...fade(0.75)} className='h-full flex items-center justify-center gap-2'>
 							<Button variant='outline' onClick={() => nav('/contact')}>Contact Me</Button>
 							<Button onClick={() => window.open('https://business.lenix.dev', '_blank')}>Explore Business <ExternalLink /></Button>
+							<Button variant='ghost' onClick={() => window.open('https://github.com/jonahmr1', '_blank')}>
+								<FontAwesomeIcon icon={faGithub} />
+							</Button>
 						</motion.div>
 					</div>
 					<div className='min-h-screen flex flex-col justify-evenly'>
@@ -36,7 +41,7 @@ export const Main = () => {
 					</div>
 					<div className='mt-12'>
 						<Footer items={[
-							{ label: 'GitHub', url: 'https://github.com/jonahmr1' },
+							{ label: 'GitHub', url: '' },
 							{
 								label: 'Contact',
 								url: '/contact',
