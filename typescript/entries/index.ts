@@ -17,11 +17,10 @@
  * const value = entries({ name: 'lenix', version: 1 })
  * ```
  */
+type Infer<T> = {
+	[K in keyof T]-?: [K, T[K]]
+}[keyof T][]
+
 export const entries = <T extends Record<string, unknown>>(
 	object: T
-): {
-	[K in keyof T]: [K, T[K]]
-}[keyof T][] =>
-	Object.entries(object) as {
-		[K in keyof T]: [K, T[K]]
-	}[keyof T][]
+): Infer<T> => Object.entries(object) as Infer<T>

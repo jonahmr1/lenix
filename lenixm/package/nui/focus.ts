@@ -12,5 +12,5 @@ export const setFocus = (
 	cursor: boolean
 }>>('__nuiFocus', { keyboard, cursor })
 
-export const focus = () => setFocus(true, true);
-export const unFocus = () => setFocus(false, false);
+export const focusNui = () => setFocus(true, true);
+export const unFocusNui = () => setFocus(false, false);
