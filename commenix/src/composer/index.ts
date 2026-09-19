@@ -22,13 +22,12 @@ const models: readonly string[] = [
 	'openai/gpt-oss-120b',
 	'openai/gpt-oss-20b',
 	'openai/gpt-oss-safeguard-20b',
-	'qwen/qwen3.6-27b',
+	'qwen/qwen3.8-27b',
 	'qwen/qwen3-32b',
 	'whisper-large-v3',
 	'whisper-large-v3-turbo',
 ]
 let constructedInstance: false | Ai = false
-let availableModels: string[] = []
 let modelChecked = false
 
 const updateAiKey = (apiKey: string) => {
@@ -50,8 +49,7 @@ const checkAiModelsRace = async (apiKey: string, bar: vscode.StatusBarItem) => {
 		error: { message: string; code: string }
 	}
 	try {
-		availableModels = data.data.map(m => m.id)
-		const racedList = availableModels.filter(m => !models.includes(m))
+		const racedList = data.data.map(m => m.id).filter(m => !models.includes(m))
 		if (racedList.length > 0) {
 			notify.report(racedList, bar)
 		}

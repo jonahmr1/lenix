@@ -3,7 +3,7 @@
 	"displayName": "Commenix",
 	"publisher": "Lenix",
 	"description": "Fast light weight AI commit message composer/generator",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",
@@ -54,6 +54,7 @@
 						"openai/gpt-oss-120b",
 						"llama-3.1-8b-instant",
 						"qwen/qwen3-32b",
+						"qwen/qwen3.8-27b",
 						"moonshotai/kimi-k2-instruct-0905",
 						"llama-3.3-70b-versatile",
 						"groq/compound",

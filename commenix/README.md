@@ -29,7 +29,7 @@ This extension contributes the following settings:
 - `lenix.aiModel`: Select your suitable AI model.
 
 ## Known Issues
-- None
+- Sometimes when the commit has too much changes context, it hit the model's token limit, which will ask you to reduce the changes size.
 
 ## For more information
 - [Contact Lenix](http://lenix.dev/contact)

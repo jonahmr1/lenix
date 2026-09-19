@@ -21,3 +21,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.13] - 2026-07-10
 
 - Added new model to the list: **qwen/qwen3.6-27b**
+
+## [0.0.15] - 2026-07-10
+
+- Added new model to the list: **qwen/qwen3.8-27b**
