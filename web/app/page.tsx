@@ -4,6 +4,7 @@ import { H1, Lead, Muted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { cache } from "@/lib/cache";
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { connection } from "next/server";
 
 
 const LinkButton = ({ children, link }: { children: React.ReactNode, link: string }) => (
@@ -16,6 +17,7 @@ const LinkButton = ({ children, link }: { children: React.ReactNode, link: strin
 )
 
 export default async function Page() {
+	await connection()
   const state = await cache.github()
 
   return (
