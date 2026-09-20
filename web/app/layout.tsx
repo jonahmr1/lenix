@@ -32,7 +32,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(outfit.variable, oxanium.variable, geistMono.variable)}
     >
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen typeset typeset-docs">
         <ThemeProvider>
 					<RootProvider>
 						{children}
