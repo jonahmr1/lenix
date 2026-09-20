@@ -22,7 +22,7 @@ export default async function Page() {
   return (
 		<Layout className="items-start">
 			<div className="space-y-5">
-				<div className="place-items-start">
+				<div className="flex flex-col items-start">
 					<H1>Lenix</H1>
 					<Lead>Self-taught software engineer</Lead>
 					<Muted>AI & Product Engineer / FiveM Specialist / Technical Consultant</Muted>
