@@ -3,6 +3,7 @@ import 'server-only'
 import { asserts, raise, waste } from '@lenix/lenix'
 import { Octokit } from 'octokit'
 import { CURRENT_USERNAME } from './utils'
+import { Lanauge } from './types'
 
 const octokit = new Octokit({ auth: process.env.GH_TOKEN })
 
@@ -77,7 +78,7 @@ export const fetchGithubStats = async () => {
 		
 		console.debug('moving to getting langs!')
 		/* getLangs */
-		const result: { name: string; bytes: number }[] = []
+		const result: Lanauge[] = []
 		const merged = new Map<string, number>()
 
 		for (const {
