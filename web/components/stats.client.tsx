@@ -1,7 +1,7 @@
 'use client'
 
 import { Pie, PieChart } from "recharts";
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from "./ui/chart";
+import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "./ui/chart";
 import { compact } from "@/lib/utils";
 import { Lanauge } from "@/lib/types";
 
@@ -28,11 +28,14 @@ export const LanguagesChart = ({ langs }: { langs: Lanauge[] }) => {
 	return (
 		<ChartContainer className="size-full" config={chart.config}>
 			<PieChart>
+				<ChartTooltip
+					cursor={false}
+					content={<ChartTooltipContent hideLabel />}
+				/>
 				<Pie
 					data={chart.data}
 					dataKey={data.value}
 					nameKey={data.key}
-					labelLine={false}
 					label={({ payload, ...props }) => (
 						<text
 							cx={props.cx}

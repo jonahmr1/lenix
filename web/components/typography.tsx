@@ -20,8 +20,8 @@ export const H2 = ({ children }: Children) => (
 	</h2>
 )
 
-export const H3 = ({ children }: Children) => (
-	<h3 className='scroll-m-20 text-2xl font-semibold tracking-tight'>
+export const H3 = ({ children, className }: Children & { className?: React.ComponentProps<'h1'>['className']}) => (
+	<h3 className={cn('scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0', className)}>
 		{children}
 	</h3>
 )

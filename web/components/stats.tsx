@@ -4,6 +4,7 @@ import { Suspense } from "react"
 import { cache } from "@/lib/cache"
 import { connection } from "next/server"
 import { LanguagesChart } from './stats.client'
+import { repeat } from '@lenix/lenix'
 
 
 const ignoredLangs = ['MDX', 'CSS']
@@ -27,16 +28,33 @@ const Languages = async () => {
 	return <LanguagesChart langs={langs} />
 }
 
+const Placeholder = async () => {
+	await repeat(() => {})
+	return <></>
+}
+
 export const Stats = () => (
-	<Card className="flex flex-col">
-		<CardHeader className="items-center pb-0">
-			<CardTitle>Language Breakdown</CardTitle>
-			<CardDescription>Live Codes</CardDescription>
-		</CardHeader>
-		<CardContent className="aspect-4/3">
-			<Suspense fallback={<Skeleton className="size-full" />}>
-				<Languages />
+	<div className='flex size-full gap-10'>
+		<Card className="flex flex-col w-full">
+			<CardHeader className="items-center pb-0">
+				<CardTitle>Language Breakdown</CardTitle>
+				<CardDescription>Live Codes (bytes)</CardDescription>
+			</CardHeader>
+			<CardContent className="aspect-4/3">
+				<Suspense fallback={<Skeleton className="size-full" />}>
+					<Languages />
+				</Suspense>
+			</CardContent>
+		</Card>
+		<Card className='w-full px-3.5'>
+			<Suspense fallback={<Skeleton className='size-full' />}>
+				<Placeholder />
 			</Suspense>
-		</CardContent>
-	</Card>
+		</Card>
+		<Card className='w-full px-3.5'>
+			<Suspense fallback={<Skeleton className='size-full' />}>
+				<Placeholder />
+			</Suspense>
+		</Card>
+	</div>
 )
