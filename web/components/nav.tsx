@@ -2,7 +2,7 @@
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { CURRENT_USERNAME } from "@/lib/utils";
-import { ListIcon } from "@phosphor-icons/react";
+import { ArrowUpRightIcon, ListIcon } from "@phosphor-icons/react";
 
 const data = [
 	{
@@ -41,13 +41,15 @@ export const Nav = () => (
 					<ListIcon />
 				</NavigationMenuTrigger>
 				<NavigationMenuContent className="inset-s-0">
-					{data.map(({ link, label }) => (
+					{data.map(({ link, label, external }) => (
 						<NavigationMenuLink
 							key={label}
 							href={link}
 							className="no-underline whitespace-nowrap"
+							target={external ? '_blank' : '_parent'}
 						>
 							{label}
+							{external && <ArrowUpRightIcon />}
 						</NavigationMenuLink>
 					))}
 				</NavigationMenuContent>

@@ -33,7 +33,7 @@ export default async function Legal() {
 						{self.items.map(({ key, value, id }) => (
 							<AccordionItem value={key} key={id}>
 								<AccordionTrigger className="pt-0 -mt-2">{key}</AccordionTrigger>
-								<AccordionContent className='text-muted-foreground h-fit'>{value}</AccordionContent>
+								<AccordionContent style={{ marginBlockStart: 0 }} className='text-muted-foreground h-fit'>{value}</AccordionContent>
 							</AccordionItem>
 						))}
 					</Accordion>
