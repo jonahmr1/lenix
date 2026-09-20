@@ -36,9 +36,9 @@ export const fetchGithubStats = async () => {
 			octokit.rest.repos.listForAuthenticatedUser,
 			{ per_page: 100, type: 'all' },
 		)
+		
+		/* getCommits
 		console.debug('getting commits...')
-
-		/* getCommits */
 		for (const { owner, name } of ownerRepos) {
 			const selfDates: string[] = []
 			const yearBehind = new Date()
@@ -60,21 +60,14 @@ export const fetchGithubStats = async () => {
 							done = true
 							break
 						}
-						if (VALID_NAMES.includes(author.name ?? ''))
-							selfDates.push(
-								new Date(author.date).toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: 'short',
-									day: 'numeric',
-								}),
-							)
+						if (VALID_NAMES.includes(author.name ?? '')) selfDates.push(new Date(author.date).toISOString())
 					}
 				if (done) break
 			}
 
 			commits.push(...selfDates)
 		}
-		console.debug({ commits })
+		console.debug({ commits }) */
 		
 		console.debug('moving to getting langs!')
 		/* getLangs */
@@ -122,7 +115,7 @@ export const fetchGithubStats = async () => {
 
 				for await (const { data } of pages) {
 					for (const { sha: ref, author } of data) {
-						if (author?.login !== 'jonahmr1') continue
+						if (author?.login !== CURRENT_USERNAME) continue
 						if (seenRefs.has(ref)) continue
 						seenRefs.add(ref)
 
@@ -139,7 +132,7 @@ export const fetchGithubStats = async () => {
 			}
 
 			for (const contributor of Array.isArray(data) ? data : []) {
-				if (contributor.author?.login !== 'jonahmr1') continue
+				if (contributor.author?.login !== CURRENT_USERNAME) continue
 				for (const week of contributor.weeks) {
 					lines.added += week.a ?? 0
 					lines.deleted += week.d ?? 0
