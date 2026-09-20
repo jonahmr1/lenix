@@ -6,7 +6,7 @@
 @import "./typeset.css";
 
 .typeset-docs {
-  --typeset-font-body: var(--font-outfit);
+  --typeset-font-body: var(--font-source-sans-3);
   --typeset-font-heading: var(--font-oxanium);
   --typeset-font-mono: var(--font-geist-mono);
   --typeset-size: 14px;
