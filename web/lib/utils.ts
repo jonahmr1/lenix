@@ -7,3 +7,8 @@ export const fade = (delay = 0) => ({
 })
 
 export const CURRENT_USERNAME = 'jonahmr1'
+
+export const compact = new Intl.NumberFormat('en', {
+	notation: 'compact',
+	maximumFractionDigits: 1,
+})
