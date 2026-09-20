@@ -5,3 +5,5 @@ export const fade = (delay = 0) => ({
 	whileInView: { opacity: 1, y: 0 },
 	transition: { duration: 0.5, delay },
 })
+
+export const CURRENT_USERNAME = 'jonahmr1'

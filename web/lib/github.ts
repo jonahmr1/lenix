@@ -1,9 +1,11 @@
+import 'server-only'
+
 import { asserts, raise, waste } from '@lenix/lenix'
 import { Octokit } from 'octokit'
+import { CURRENT_USERNAME } from './utils'
 
 const octokit = new Octokit({ auth: process.env.GH_TOKEN })
 
-export const CURRENT_USERNAME = 'jonahmr1'
 const VALID_NAMES = [
 	'Lenix',
 	'lenixdev',
@@ -26,11 +28,15 @@ export const fetchGithubStats = async () => {
 	}[] = []
 	const lines = { added: 0, deleted: 0 }
 
+	console.debug('new fetch started')
+
 	try {
 		const ownerRepos = await octokit.paginate(
 			octokit.rest.repos.listForAuthenticatedUser,
 			{ per_page: 100, type: 'all' },
 		)
+		console.debug('getting commits...')
+
 		/* getCommits */
 		for (const { owner, name } of ownerRepos) {
 			const selfDates: string[] = []
@@ -67,7 +73,9 @@ export const fetchGithubStats = async () => {
 
 			commits.push(...selfDates)
 		}
-
+		console.debug('done getting commits!')
+		
+		console.debug('moving to getting langs!')
 		/* getLangs */
 		const result: { name: string; bytes: number }[] = []
 		const merged = new Map<string, number>()
@@ -90,6 +98,8 @@ export const fetchGithubStats = async () => {
 		langs = Array.from(merged, ([name, bytes]) => ({ name, bytes })).sort(
 			(a, b) => b.bytes - a.bytes,
 		)
+		console.debug('done getting langs!')
+		console.debug('moving to getting lines!')
 
 		/* getLines */
 		const targets = ownerRepos.filter(({ owner }) => VALID_NAMES.includes(owner.login))
@@ -138,6 +148,8 @@ export const fetchGithubStats = async () => {
 	} catch (err) {
 		raise(err)
 	}
+	console.debug('fetch done!')
+	console.log({ lines, commits, langs })
 
 	return { lines, commits, langs }
 }
