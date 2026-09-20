@@ -73,7 +73,7 @@ export const fetchGithubStats = async () => {
 
 			commits.push(...selfDates)
 		}
-		console.debug('done getting commits!')
+		console.debug({ commits })
 		
 		console.debug('moving to getting langs!')
 		/* getLangs */
@@ -98,7 +98,7 @@ export const fetchGithubStats = async () => {
 		langs = Array.from(merged, ([name, bytes]) => ({ name, bytes })).sort(
 			(a, b) => b.bytes - a.bytes,
 		)
-		console.debug('done getting langs!')
+		console.debug({ langs })
 		console.debug('moving to getting lines!')
 
 		/* getLines */
@@ -148,8 +148,8 @@ export const fetchGithubStats = async () => {
 	} catch (err) {
 		raise(err)
 	}
+	console.debug({ lines })
 	console.debug('fetch done!')
-	console.log({ lines, commits, langs })
 
 	return { lines, commits, langs }
 }
