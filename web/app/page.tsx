@@ -28,13 +28,14 @@ const buttons = [
 
 export default async function Page() {
 	return (
-		<Layout>
+		<Layout className="pt-0">
 			<Nav />
-			<div className="flex flex-col gap-10">
+			<div className="flex flex-col justify-center gap-10 min-h-screen">
 				<div className="flex flex-col items-start">
-					<H1>Lenix</H1>
+					<Muted className="tracking-widest opacity-60 font-light">01 / Introduction</Muted>
+					<H1 className="text-primary">Lenix</H1>
 					<Lead>Self-taught software engineer</Lead>
-					<Muted>AI & Product Engineer / FiveM Specialist / Technical Consultant</Muted>
+					<Muted className="opacity-50">AI & Product Engineer / FiveM Specialist / Technical Consultant</Muted>
 				</div>
 				<ButtonGroup className="justify-center w-full">
 					{buttons.map(button => (
@@ -45,7 +46,7 @@ export default async function Page() {
 					))}
 				</ButtonGroup>
 			</div>
-			<Stats />
+			{/* <Stats /> */}
 		</Layout>
 	)
 }

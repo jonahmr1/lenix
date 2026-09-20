@@ -8,8 +8,8 @@ export const Code = ({ children }: Children) => (
 	</code>
 )
 
-export const H1 = ({ children }: Children) => (
-	<h1 className='scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance'>
+export const H1 = ({ children, className }: Children & { className?: React.ComponentProps<'h1'>['className']}) => (
+	<h1 className={cn('scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance not-first:mt-0', className)}>
 		{children}
 	</h1>
 )
@@ -38,8 +38,8 @@ export const Lead = ({ children }: Children) => (
 	</p>
 )
 
-export const Muted = ({ children }: Children) => (
-	<p className='text-sm text-muted-foreground'>
+export const Muted = ({ children, className }: Children & { className?: React.ComponentProps<'p'>['className'] }) => (
+	<p className={cn('text-sm text-muted-foreground', className)}>
 		{children}
 	</p>
 )
