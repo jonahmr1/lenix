@@ -1,32 +1,51 @@
 import { Layout } from "@/components/layout";
 import { Nav } from "@/components/nav";
+import { Stats } from "@/components/stats";
 import { H1, Lead, Muted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { CURRENT_USERNAME } from "@/lib/utils";
+import { CodeIcon, CreditCardIcon, FileTextIcon } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 
-
-const LinkButton = ({ children, link }: { children: React.ReactNode, link: string }) => (
-	<Button variant='link' asChild>
-		<a href={link} target="_blank" rel="noopener noreferrer">
-			{children}
-			<ArrowUpRightIcon />
-		</a>
-	</Button>
-)
+const buttons = [
+	{
+		label: 'Fund',
+		link: 'https://buy.polar.sh/polar_cl_ihhMVbNL2cuRAKiafieSfHSXpcaGfSNK0sn1N0zqZtx',
+		icon: <CreditCardIcon />
+	},
+	{
+		label: 'Hands On Experience',
+		link: `https://github.com/${CURRENT_USERNAME}`,
+		icon: <CodeIcon />
+	},
+	{
+		label: 'Resume',
+		link: 'resume.pdf',
+		icon: <FileTextIcon />
+	},
+]
 
 export default async function Page() {
 	return (
-		<Layout className="items-start">
+		<Layout>
 			<Nav />
-			<div className="space-y-5">
+			<div className="flex flex-col gap-10">
 				<div className="flex flex-col items-start">
 					<H1>Lenix</H1>
 					<Lead>Self-taught software engineer</Lead>
 					<Muted>AI & Product Engineer / FiveM Specialist / Technical Consultant</Muted>
 				</div>
-				<div>
-				</div>
+				<ButtonGroup className="justify-center w-full">
+					{buttons.map(button => (
+						<Button key={button.label} variant='outline'>
+							<Link className="no-underline" href={button.link}>{button.label}</Link>
+							{button.icon}
+						</Button>
+					))}
+				</ButtonGroup>
 			</div>
+			<Stats />
 		</Layout>
 	)
 }

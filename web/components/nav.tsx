@@ -1,27 +1,12 @@
 'use client'
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { CURRENT_USERNAME } from "@/lib/utils";
-import { ArrowUpRightIcon, ListIcon } from "@phosphor-icons/react";
+import { ListIcon } from "@phosphor-icons/react";
 
 const data = [
 	{
 		link: 'contact',
 		label: 'Contact'
-	},
-	{
-		link: `https://github.com/${CURRENT_USERNAME}`,
-		label: 'Github',
-		external: true,
-	},
-	{
-		link: 'resume.pdf',
-		label: 'Resume'
-	},
-	{
-		link: 'https://buy.polar.sh/polar_cl_ihhMVbNL2cuRAKiafieSfHSXpcaGfSNK0sn1N0zqZtx',
-		label: 'Fund',
-		external: true,
 	},
 	{
 		link: 'docs',
@@ -41,15 +26,13 @@ export const Nav = () => (
 					<ListIcon />
 				</NavigationMenuTrigger>
 				<NavigationMenuContent className="inset-s-0">
-					{data.map(({ link, label, external }) => (
+					{data.map(({ link, label }) => (
 						<NavigationMenuLink
 							key={label}
 							href={link}
 							className="no-underline whitespace-nowrap"
-							target={external ? '_blank' : '_parent'}
 						>
 							{label}
-							{external && <ArrowUpRightIcon />}
 						</NavigationMenuLink>
 					))}
 				</NavigationMenuContent>
