@@ -63,12 +63,13 @@ const Lines = async () => {
 		</div>
   )
 }
-const Placeholder = async () => {
+const LastUpdated = async () => {
   await connection()
 	const states = await cache.github()
 
   return <p>{dayjs(states.updated_at).fromNow()}</p>
 }
+
 export const Stats = () => (
   <div className="flex size-full gap-10 portrait:flex-col">
     <Card className="flex size-full flex-col">
@@ -78,7 +79,7 @@ export const Stats = () => (
 				<CardAction className='flex items-center gap-1 *:mt-0'>
 					<p className='text-foreground'>Last Updated:</p>
 					<Suspense fallback={<Skeleton className='w-20 h-3' />}>
-						<Placeholder />
+						<LastUpdated />
 					</Suspense>
 				</CardAction>
       </CardHeader>
@@ -94,7 +95,7 @@ export const Stats = () => (
 					},
 				].map(({ title, element }) => (
 					<Fragment key={title}>
-						<div className='h-full w-45/100 portrait:w-full portrait:h-45/100'>
+						<div className='h-full w-45/100 min-w-0 portrait:w-full portrait:h-45/100'>
 							<H2>{title}</H2>
 							<div className='h-9/10'>
 								<Suspense fallback={<Skeleton className='size-full' />}>

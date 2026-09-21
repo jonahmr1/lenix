@@ -47,11 +47,11 @@ export default async function Page() {
         </div>
         <ButtonGroup className="w-full justify-center">
           {buttons.map((button) => (
-            <Button key={button.label} variant="outline">
+            <Button key={button.label} variant="outline" asChild>
               <Link className="no-underline" href={button.link}>
                 {button.label}
+								{button.icon}
               </Link>
-              {button.icon}
             </Button>
           ))}
         </ButtonGroup>
