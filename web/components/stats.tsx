@@ -77,7 +77,7 @@ export const Stats = () => (
         <CardTitle>Stats Breakdown</CardTitle>
         <CardDescription>Live Stats</CardDescription>
 				<CardAction className='flex items-center gap-1 *:mt-0'>
-					<p className='text-foreground'>Last Updated:</p>
+					<p className='text-foreground'>Refreshed:</p>
 					<Suspense fallback={<Skeleton className='w-20 h-3' />}>
 						<LastUpdated />
 					</Suspense>
