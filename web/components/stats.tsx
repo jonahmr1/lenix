@@ -98,7 +98,7 @@ export const Stats = () => (
 						<div className='w-45/100 portrait:w-full portrait:h-45/100 flex flex-col'>
 							<H2>{title}</H2>
 							<div className='flex-1 min-h-0'>
-								<Suspense fallback={<Skeleton className='size-full' />}>
+								<Suspense fallback={<Skeleton className='aspect-square' />}>
 									{element}
 								</Suspense>
 							</div>
