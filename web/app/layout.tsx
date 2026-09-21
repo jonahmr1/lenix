@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { RootProvider } from 'fumadocs-ui/provider/next';
 
 import { Source_Sans_3, Oxanium, Geist_Mono } from "next/font/google"
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const oxaniumHeading = Oxanium({subsets:['latin'],variable:'--font-heading'});
 
@@ -37,7 +38,9 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen typeset typeset-docs">
         <ThemeProvider>
 					<RootProvider>
-						{children}
+						<TooltipProvider>
+							{children}
+						</TooltipProvider>
 					</RootProvider>
 				</ThemeProvider>
 				<Toaster />
