@@ -58,7 +58,16 @@ const JourneyTimeline = async () => {
 				const hover = status === 'pending' ? <CircleNotchIcon className="animate-spin" /> : <Icon weight='bold' />
 
 				return (
-					<TimelineItem step={i} key={i}>
+					<TimelineItem
+						step={i}
+						key={i}
+						className='
+							w-[calc(50%-1.5rem)] odd:ms-auto even:me-auto even:text-right even:group-data-[orientation=vertical]/timeline:ms-0 even:group-data-[orientation=vertical]/timeline:me-8
+							even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:-right-6 even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:left-auto
+							even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:translate-x-1/2 even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:-right-6
+							even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:left-auto even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2
+						'
+					>
 						<TimelineHeader>
 							{status !== 'planned' && status !== 'pending' && <TimelineDate>{date}</TimelineDate>}
 							<TimelineTitle>
