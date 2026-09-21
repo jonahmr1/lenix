@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout"
+import { Reveal } from "@/components/reveal";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { cache } from "@/lib/cache";
 import { entries } from "@lenix/lenix";
@@ -24,7 +25,7 @@ export default async function Legal() {
 				</p>
 			</div>
 			{legals.map(self => (
-				<div className="space-y-5" key={self.type}>
+				<Reveal className="space-y-5" key={self.type}>
 					<h2 id="tos" className="text-2xl">
 						{self.type === 'terms' ? 'Terms of Service (ToS)' : self.type === 'privacy' ? 'Privacy Policy' : 'Refund Policy'}
 					</h2>
@@ -36,7 +37,7 @@ export default async function Legal() {
 							</AccordionItem>
 						))}
 					</Accordion>
-				</div>
+				</Reveal>
 			))}
 			<div>
 				<p className="text-sm text-muted-foreground">Last updated: {latest}.</p>

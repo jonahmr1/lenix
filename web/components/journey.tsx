@@ -9,6 +9,7 @@ import { cn } from "cn"
 import type { Icon } from "@phosphor-icons/react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card"
+import { Reveal } from "./reveal"
 
 const statusIcons: Record<Awaited<ReturnType<typeof cache.journey>>[number]['status'], {
 	icon: Icon
@@ -76,24 +77,36 @@ const JourneyTimeline = async () => {
 							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2
 						'
 					>
-						<TimelineHeader>
-							{status !== 'planned' && status !== 'pending' && <TimelineDate>{date}</TimelineDate>}
-							<TimelineTitle>
-								{url ? (
-									<HoverCard openDelay={50} closeDelay={50}>
-										<HoverCardTrigger className='cursor-default'>
-											{title}
-										</HoverCardTrigger>
-										<HoverCardContent side='top' className='w-fit'>
-											<Link href={url} target="_blank" className='flex items-center justify-center gap-2 underline'>
-												<span className="truncate">{url}</span>
-												<ArrowSquareOutIcon />
-											</Link>
-										</HoverCardContent>
-									</HoverCard>
-								) : title}
-							</TimelineTitle>
-						</TimelineHeader>
+						<Reveal>
+							<TimelineHeader>
+								{status !== 'planned' && status !== 'pending' && <TimelineDate>{date}</TimelineDate>}
+								<TimelineTitle>
+									{url ? (
+										<HoverCard openDelay={50} closeDelay={50}>
+											<HoverCardTrigger className='cursor-default'>
+												{title}
+											</HoverCardTrigger>
+											<HoverCardContent side='top' className='w-fit'>
+												<Link href={url} target="_blank" className='flex items-center justify-center gap-2 underline'>
+													<span className="truncate">{url}</span>
+													<ArrowSquareOutIcon />
+												</Link>
+											</HoverCardContent>
+										</HoverCard>
+									) : title}
+								</TimelineTitle>
+							</TimelineHeader>
+							<TimelineContent className="space-y-2">
+								<div>{description}</div>
+								<div className="space-x-1 space-y-px">
+									{tech?.map(self => (
+										<Badge key={self} variant='outline' className="text-accent-foreground">
+											{self}
+										</Badge>
+									))}
+								</div>
+							</TimelineContent>
+						</Reveal>
 						<TimelineIndicator className={cn('bg-foreground text-background ring-0 border-0 p-1 flex items-center justify-center', statusIcons[status].className)}>
 							{statusIcons[status].hover ? (
 								<Tooltip>
@@ -107,16 +120,6 @@ const JourneyTimeline = async () => {
 							) : hover}
 						</TimelineIndicator>
 						<TimelineSeparator />
-						<TimelineContent className="space-y-2">
-							<div>{description}</div>
-							<div className="space-x-1 space-y-px">
-								{tech?.map(self => (
-									<Badge key={self} variant='outline' className="text-accent-foreground">
-										{self}
-									</Badge>
-								))}
-							</div>
-						</TimelineContent>
 					</TimelineItem>
 				)
 			})}
