@@ -1,17 +1,25 @@
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Suspense } from 'react'
+import { Fragment, Suspense } from 'react'
 import { cache } from '@/lib/cache'
 import { connection } from 'next/server'
 import { LanguagesChart } from './stats.client'
-import { repeat } from '@lenix/lenix'
+import { entries, waste } from '@lenix/lenix'
+import { Separator } from './ui/separator'
+import { Code, H2, Muted } from './typography'
+import { MinusIcon, PlusIcon } from '@phosphor-icons/react/dist/ssr'
+import { compact } from '@/lib/utils'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 const ignoredLangs = ['MDX', 'CSS']
 
@@ -34,33 +42,70 @@ const Languages = async () => {
   return <LanguagesChart langs={langs} />
 }
 
-const Placeholder = async () => {
-  await repeat(() => {})
-  return <></>
-}
+const Lines = async () => {
+  await connection()
+  const states = await cache.github()
 
+  return (
+    <div className='size-full flex flex-col items-start justify-start py-10 gap-5'>
+			{entries(states.lines).map(([type, stat]) => (
+				<Fragment key={type}>
+					<div className='flex items-center gap-5'>
+						{type === 'added' ? <PlusIcon className='text-4xl' /> : <MinusIcon className='text-4xl' />}
+						<div>
+							<p className='text-6xl mt-0'>{compact.format(stat)}</p>
+							<Muted className='mt-0'>Lines {type}</Muted>
+						</div>
+					</div>
+					<Separator className='last:hidden' />
+				</Fragment>
+			))}
+		</div>
+  )
+}
+const Placeholder = async () => {
+  await connection()
+	const states = await cache.github()
+
+  return <p>{dayjs(states.updated_at).fromNow()}</p>
+}
 export const Stats = () => (
   <div className="flex size-full gap-10 portrait:flex-col">
-    <Card className="flex w-full flex-col">
+    <Card className="flex size-full flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Language Breakdown</CardTitle>
-        <CardDescription>Live Codes (bytes)</CardDescription>
+        <CardTitle>Stats Breakdown</CardTitle>
+        <CardDescription>Live Stats</CardDescription>
+				<CardAction className='flex items-center gap-1 *:mt-0'>
+					<p className='text-foreground'>Last Updated:</p>
+					<Suspense fallback={<Skeleton className='w-20 h-3' />}>
+						<Placeholder />
+					</Suspense>
+				</CardAction>
       </CardHeader>
-      <CardContent className="aspect-4/3">
-        <Suspense fallback={<Skeleton className="size-full" />}>
-          <Languages />
-        </Suspense>
+      <CardContent className="aspect-2/1 flex portrait:flex-col justify-between px-10 pb-10">
+				{[
+					{
+						title: 'Languages (bytes)',
+						element: <Languages />
+					},
+					{
+						title: 'Lines of codes',
+						element: <Lines />
+					},
+				].map(({ title, element }) => (
+					<Fragment key={title}>
+						<div className='h-full w-45/100 portrait:w-full portrait:h-45/100'>
+							<H2>{title}</H2>
+							<div className='h-9/10'>
+								<Suspense fallback={<Skeleton className='size-full' />}>
+									{element}
+								</Suspense>
+							</div>
+						</div>
+						<Separator orientation='vertical' className='last:hidden' />
+					</Fragment>
+				))}
       </CardContent>
-    </Card>
-    <Card className="w-full px-3.5">
-      <Suspense fallback={<Skeleton className="size-full" />}>
-        <Placeholder />
-      </Suspense>
-    </Card>
-    <Card className="w-full px-3.5">
-      <Suspense fallback={<Skeleton className="size-full" />}>
-        <Placeholder />
-      </Suspense>
     </Card>
   </div>
 )

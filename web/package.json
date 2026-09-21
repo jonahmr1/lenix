@@ -20,6 +20,7 @@
     "@types/mdx": "^2.0.14",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.3.0",
+    "dayjs": "^1.11.23",
     "fumadocs-core": "^16.15.11",
     "fumadocs-mdx": "^15.4.1",
     "fumadocs-ui": "^16.15.11",

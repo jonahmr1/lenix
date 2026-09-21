@@ -27,7 +27,7 @@ export const fetchGithubStats = async () => {
 		name: string
 		bytes: number
 	}[] = []
-	const lines = { added: 0, deleted: 0 }
+	const lines = { added: 0, removed: 0 }
 
 	console.debug('new fetch started')
 
@@ -129,7 +129,7 @@ export const fetchGithubStats = async () => {
 					}
 				}
 				lines.added += added
-				lines.deleted += deleted
+				lines.removed += deleted
 				continue
 			}
 
@@ -137,7 +137,7 @@ export const fetchGithubStats = async () => {
 				if (contributor.author?.login !== CURRENT_USERNAME) continue
 				for (const week of contributor.weeks) {
 					lines.added += week.a ?? 0
-					lines.deleted += week.d ?? 0
+					lines.removed += week.d ?? 0
 				}
 			}
 		}

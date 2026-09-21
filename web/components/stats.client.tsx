@@ -62,7 +62,7 @@ export const LanguagesChart = ({ langs }: { langs: Lanauge[] }) => {
         <ChartLegend
           itemSorter={null}
           content={<ChartLegendContent nameKey={data.key} />}
-          className="flex-wrap gap-1 *:basis-1/4 *:justify-center"
+          className="flex-wrap gap-0.5 *:basis-1/4 *:justify-center"
         />
       </PieChart>
     </ChartContainer>

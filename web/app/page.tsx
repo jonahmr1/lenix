@@ -56,7 +56,7 @@ export default async function Page() {
           ))}
         </ButtonGroup>
       </div>
-      <div className="flex justify-between gap-20 portrait:flex-col">
+      <div className="flex justify-between gap-20 portrait:flex-col min-h-1/2">
         <div className="flex flex-col items-start">
           <Muted className="mt-0 font-light tracking-widest uppercase opacity-60">
             02 / About
@@ -91,7 +91,7 @@ export default async function Page() {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-20">
+      <div className="flex flex-col gap-10">
         <div className="flex flex-col items-start">
           <Muted className="mt-0 font-light tracking-widest uppercase opacity-60">
             03 / Numbers
