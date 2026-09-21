@@ -51,7 +51,7 @@ export default async function Page() {
 					<Muted className="tracking-widest opacity-60 font-light uppercase mt-0">02 / About</Muted>
 					<H1 className="text-primary">Mentality</H1>
 				</div>
-				<div className="flex flex-col gap-10 divide-y-2 w-full">
+				<div className="flex landscape:flex-col gap-10 divide-y-2 w-full">
 					{[
 						{
 							head: 'High-quality only',
@@ -76,7 +76,7 @@ export default async function Page() {
 					))}
 				</div>
 			</div>
-			<div className="min-h-screen flex flex-col gap-20">
+			<div className="flex landscape:flex-col gap-20">
 				<div className="flex flex-col items-start">
 					<Muted className="tracking-widest opacity-60 font-light uppercase mt-0">03 / Numbers</Muted>
 					<H1 className="text-primary">Stats</H1>
