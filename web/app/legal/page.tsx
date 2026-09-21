@@ -20,7 +20,7 @@ export default async function Legal() {
 			<div className="flex flex-col items-center">
 				<h1>Legal Information</h1>
 				<p>
-					Everything you need to know about our terms, privacy practices, and refund policy.
+					Everything you need to know about my terms, privacy practices, and refund policy.
 				</p>
 			</div>
 			{legals.map(self => (
