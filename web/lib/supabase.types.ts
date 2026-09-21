@@ -155,7 +155,7 @@ export type Database = {
         | "error"
         | "paused"
         | "canceled"
-        | "soon"
+        | "planned"
         | "pending"
     }
     CompositeTypes: {
@@ -294,7 +294,14 @@ export const Constants = {
         "ghost",
       ],
       legalType: ["terms", "privacy", "refund"],
-      statusType: ["success", "error", "paused", "canceled", "soon", "pending"],
+      statusType: [
+        "success",
+        "error",
+        "paused",
+        "canceled",
+        "planned",
+        "pending",
+      ],
     },
   },
 } as const
