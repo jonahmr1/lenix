@@ -11,9 +11,9 @@ import { Fragment, Suspense } from 'react'
 import { cache } from '@/lib/cache'
 import { connection } from 'next/server'
 import { LanguagesChart } from './stats.client'
-import { entries, waste } from '@lenix/lenix'
+import { entries } from '@lenix/lenix'
 import { Separator } from './ui/separator'
-import { Code, H2, Muted } from './typography'
+import { Muted } from './typography'
 import { MinusIcon, PlusIcon } from '@phosphor-icons/react/dist/ssr'
 import { compact } from '@/lib/utils'
 
@@ -96,7 +96,7 @@ export const Stats = () => (
 				].map(({ title, element }) => (
 					<Fragment key={title}>
 						<div className='w-45/100 portrait:w-full portrait:h-45/100 flex flex-col'>
-							<H2>{title}</H2>
+							<h2>{title}</h2>
 							<div className='flex-1 min-h-0'>
 								<Suspense fallback={<Skeleton className='aspect-square' />}>
 									{element}

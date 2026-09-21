@@ -2,7 +2,7 @@ import { Journey } from '@/components/journey'
 import { Layout } from '@/components/layout'
 import { Nav } from '@/components/nav'
 import { Stats } from '@/components/stats'
-import { H1, H3, Lead, Muted } from '@/components/typography'
+import { Lead, Muted } from '@/components/typography'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { CURRENT_USERNAME } from '@/lib/utils'
@@ -34,7 +34,7 @@ export default async function Page() {
 			<div className="flex min-h-screen flex-col justify-center gap-10">
 				<div className="flex flex-col items-start">
 					<Muted className="font-light tracking-widest uppercase opacity-60">01 / Introduction</Muted>
-					<H1 className="text-accent-foreground">Lenix</H1>
+					<h1>Lenix</h1>
 					<Lead>Self-taught software engineer</Lead>
 					<Muted className="opacity-50">AI & Product Engineer / FiveM Specialist / Technical Consultant</Muted>
 				</div>
@@ -52,7 +52,7 @@ export default async function Page() {
 			<div className="flex justify-between gap-20 portrait:flex-col min-h-1/2">
 				<div className="flex flex-col items-start">
 					<Muted className="mt-0 font-light tracking-widest uppercase opacity-50">02 / About</Muted>
-					<H1 className="text-accent-foreground">Mentality</H1>
+					<h1>Mentality</h1>
 				</div>
 				<div className="flex w-full flex-col gap-10 divide-y-2">
 					{[
@@ -72,7 +72,7 @@ export default async function Page() {
 						<div key={i} className="flex items-center justify-between not-last:pb-10 gap-5">
 							<div className="flex items-start gap-10">
 								<Muted className="mt-0 font-light tracking-widest opacity-50">0{i + 1}</Muted>
-								<H3 className="mt-0 text-accent-foreground">{head}</H3>
+								<h3 className="mt-0">{head}</h3>
 							</div>
 							<p className="mt-0">{body}</p>
 						</div>
@@ -82,14 +82,14 @@ export default async function Page() {
 			<div className="flex flex-col gap-10">
 				<div className="flex flex-col items-start">
 					<Muted className="mt-0 font-light tracking-widest uppercase opacity-60">03 / Numbers</Muted>
-					<H1 className="text-accent-foreground">Stats</H1>
+					<h1>Stats</h1>
 				</div>
 				<Stats />
 			</div>
 			<div className="flex flex-col gap-10">
 				<div className="flex flex-col items-start">
 					<Muted className="mt-0 font-light tracking-widest uppercase opacity-60">04 / Journey</Muted>
-					<H1 className="text-accent-foreground">Milestones</H1>
+					<h1>Milestones</h1>
 				</div>
 				<Journey />
 			</div>

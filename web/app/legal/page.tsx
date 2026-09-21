@@ -1,5 +1,4 @@
 import { Layout } from "@/components/layout"
-import { P, H1 } from "@/components/typography";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { cache } from "@/lib/cache";
 import { entries } from "@lenix/lenix";
@@ -19,10 +18,10 @@ export default async function Legal() {
 	return (
 		<Layout>
 			<div className="flex flex-col items-center">
-				<H1 className="text-accent-foreground">Legal Information</H1>
-				<P>
+				<h1 className="text-accent-foreground">Legal Information</h1>
+				<p>
 					Everything you need to know about our terms, privacy practices, and refund policy.
-				</P>
+				</p>
 			</div>
 			{legals.map(self => (
 				<div className="space-y-5" key={self.type}>
