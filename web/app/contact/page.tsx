@@ -52,10 +52,10 @@ export default function Contact() {
 					className='flex flex-col gap-10 h-full w-full justify-center flex-1'
 				>
 					<div>
-						<p className='text-[11px] tracking-[3px] text-foreground/30 uppercase mb-5'>
+						<p className='text-[11px] tracking-[3px] text-foreground/30 uppercase'>
 							Get in touch
 						</p>
-						<h1 className='text-5xl font-semibold tracking-tight text-foreground'>
+						<h1 className='text-5xl font-semibold tracking-tight text-accent-foreground mt-0'>
 							Contact
 						</h1>
 					</div>
