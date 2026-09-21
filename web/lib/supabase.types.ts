@@ -46,6 +46,39 @@ export type Database = {
           },
         ]
       }
+      journey: {
+        Row: {
+          created_at: string
+          date: string
+          description: string
+          id: number
+          status: Database["public"]["Enums"]["statusType"]
+          tech: string[] | null
+          title: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          description: string
+          id?: number
+          status: Database["public"]["Enums"]["statusType"]
+          tech?: string[] | null
+          title: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          description?: string
+          id?: number
+          status?: Database["public"]["Enums"]["statusType"]
+          tech?: string[] | null
+          title?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
       legal: {
         Row: {
           created_at: string
@@ -117,6 +150,13 @@ export type Database = {
         | "link"
         | "ghost"
       legalType: "terms" | "privacy" | "refund"
+      statusType:
+        | "success"
+        | "error"
+        | "paused"
+        | "canceled"
+        | "soon"
+        | "pending"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -254,6 +294,7 @@ export const Constants = {
         "ghost",
       ],
       legalType: ["terms", "privacy", "refund"],
+      statusType: ["success", "error", "paused", "canceled", "soon", "pending"],
     },
   },
 } as const

@@ -1,6 +1,6 @@
+import { Journey } from '@/components/journey'
 import { Layout } from '@/components/layout'
 import { Nav } from '@/components/nav'
-import { Projects } from '@/components/projects'
 import { Stats } from '@/components/stats'
 import { H1, H3, Lead, Muted } from '@/components/typography'
 import { Button } from '@/components/ui/button'
@@ -91,7 +91,7 @@ export default async function Page() {
 					<Muted className="mt-0 font-light tracking-widest uppercase opacity-60">04 / Journey</Muted>
 					<H1 className="text-accent-foreground">Milestones</H1>
 				</div>
-				<Projects />
+				<Journey />
 			</div>
 		</Layout>
 	)

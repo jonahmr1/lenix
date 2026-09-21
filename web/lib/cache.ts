@@ -20,6 +20,21 @@ const legal = async () => {
 	return data
 }
 
+const journey = async () => {
+	'use cache'
+	cacheLife('days')
+
+	const supabase = createAnon()
+
+	const { data, error } = await supabase
+		.from('journey')
+		.select('*')
+
+	asserts(!error, JSON.stringify(error))
+
+	return data
+}
+
 const github = async () => {
 	'use cache: remote'
 	const hour = 60 * 60
@@ -36,5 +51,6 @@ const github = async () => {
 
 export const cache = {
 	legal,
-	github
+	github,
+	journey,
 }
