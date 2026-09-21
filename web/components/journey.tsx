@@ -81,8 +81,8 @@ const JourneyTimeline = async () => {
 							<TimelineTitle>
 								{url ? (
 									<HoverCard openDelay={50} closeDelay={50}>
-										<HoverCardTrigger asChild>
-											<Link href={url}>{title}</Link>
+										<HoverCardTrigger className='cursor-default'>
+											{title}
 										</HoverCardTrigger>
 										<HoverCardContent side='top'>
 											<Link href={url} target="_blank" className='flex flex-row items-center gap-2 underline'>
