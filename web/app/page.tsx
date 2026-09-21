@@ -54,7 +54,7 @@ export default async function Page() {
 				<div className="flex landscape:flex-col gap-10 divide-y-2 w-full">
 					{[
 						{
-							head: 'High-quality only',
+							head: 'Focus',
 							body: 'Always quality over quantity, Fewer but better.'
 						},
 						{
@@ -62,7 +62,7 @@ export default async function Page() {
 							body: 'Niche solutions, Clean code, Clear documentation'
 						},
 						{
-							head: 'Focus',
+							head: 'Purpose',
 							body: 'Reliablity & Performance first, Privacy & Security by design.'
 						},
 					].map(({ head, body }, i) => (
