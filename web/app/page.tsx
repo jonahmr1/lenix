@@ -1,6 +1,7 @@
 import { Journey } from '@/components/journey'
 import { Layout } from '@/components/layout'
 import { Nav } from '@/components/nav'
+import { Reveal } from '@/components/reveal'
 import { Stats } from '@/components/stats'
 import { Lead, Muted } from '@/components/typography'
 import { Button } from '@/components/ui/button'
@@ -31,7 +32,7 @@ export default async function Page() {
 	return (
 		<Layout className="pt-0">
 			<Nav />
-			<div className="flex min-h-screen flex-col justify-center gap-10">
+			<Reveal className="flex min-h-screen flex-col justify-center gap-10">
 				<div className="flex flex-col items-start">
 					<Muted className="font-light tracking-widest uppercase opacity-60">01 / Introduction</Muted>
 					<h1>Lenix</h1>
@@ -48,8 +49,8 @@ export default async function Page() {
 						</Button>
 					))}
 				</ButtonGroup>
-			</div>
-			<div className="flex justify-between gap-20 portrait:flex-col min-h-1/2">
+			</Reveal>
+			<Reveal className="flex justify-between gap-20 portrait:flex-col min-h-1/2">
 				<div className="flex flex-col items-start">
 					<Muted className="mt-0 font-light tracking-widest uppercase opacity-50">02 / About</Muted>
 					<h1>Mentality</h1>
@@ -78,21 +79,21 @@ export default async function Page() {
 						</div>
 					))}
 				</div>
-			</div>
-			<div className="flex flex-col gap-10">
+			</Reveal>
+			<Reveal className="flex flex-col gap-10">
 				<div className="flex flex-col items-start">
 					<Muted className="mt-0 font-light tracking-widest uppercase opacity-60">03 / Numbers</Muted>
 					<h1>Stats</h1>
 				</div>
 				<Stats />
-			</div>
-			<div className="flex flex-col gap-10">
+			</Reveal>
+			<Reveal className="flex flex-col gap-10">
 				<div className="flex flex-col items-start">
 					<Muted className="mt-0 font-light tracking-widest uppercase opacity-60">04 / Journey</Muted>
 					<h1>Milestones</h1>
 				</div>
 				<Journey />
-			</div>
+			</Reveal>
 		</Layout>
 	)
 }
