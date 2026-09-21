@@ -114,7 +114,9 @@ export const fetchGithubStats = async () => {
 				})
 
 				for await (const { data } of pages) {
+					console.debug(';')
 					for (const { sha: ref, author } of data) {
+						process.stdout.write('.')
 						if (author?.login !== CURRENT_USERNAME) continue
 						if (seenRefs.has(ref)) continue
 						seenRefs.add(ref)
