@@ -31,6 +31,7 @@ export const Nav = () => (
 							key={label}
 							href={link}
 							className="no-underline whitespace-nowrap"
+							target="_blank"
 						>
 							{label}
 						</NavigationMenuLink>

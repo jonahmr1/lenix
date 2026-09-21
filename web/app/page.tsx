@@ -41,7 +41,7 @@ export default async function Page() {
 				<ButtonGroup className="w-full justify-center">
 					{buttons.map((button) => (
 						<Button key={button.label} variant="outline" asChild>
-							<Link className="no-underline" href={button.link}>
+							<Link className="no-underline" href={button.link} target="_blank">
 								{button.label}
 								{button.icon}
 							</Link>
