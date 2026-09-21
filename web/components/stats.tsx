@@ -1,60 +1,65 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Suspense } from "react"
-import { cache } from "@/lib/cache"
-import { connection } from "next/server"
+import { Suspense } from 'react'
+import { cache } from '@/lib/cache'
+import { connection } from 'next/server'
 import { LanguagesChart } from './stats.client'
 import { repeat } from '@lenix/lenix'
-
 
 const ignoredLangs = ['MDX', 'CSS']
 
 
 const Languages = async () => {
-	await connection()
-	const states = await cache.github()
+  await connection()
+  const states = await cache.github()
 
-	const langs = states.langs
-		.filter(lang => !ignoredLangs.includes(lang.name))
-		.sort((a, b) => b.bytes - a.bytes)
-		.reduce<{ name: string; bytes: number }[]>((result, lang, i) => {
-			if (i < 4) result.push(lang)
-			else if (i === 4) result.push({ name: 'Other', bytes: lang.bytes })
-			else result[4].bytes += lang.bytes
+  const langs = states.langs
+    .filter((lang) => !ignoredLangs.includes(lang.name))
+    .sort((a, b) => b.bytes - a.bytes)
+    .reduce<{ name: string; bytes: number }[]>((result, lang, i) => {
+      if (i < 4) result.push(lang)
+      else if (i === 4) result.push({ name: 'Other', bytes: lang.bytes })
+      else result[4].bytes += lang.bytes
 
-			return result
-		}, [])
+      return result
+    }, [])
 
-	return <LanguagesChart langs={langs} />
+  return <LanguagesChart langs={langs} />
 }
 
 const Placeholder = async () => {
-	await repeat(() => {})
-	return <></>
+  await repeat(() => {})
+  return <></>
 }
 
 export const Stats = () => (
-	<div className='flex size-full gap-10'>
-		<Card className="flex flex-col w-full">
-			<CardHeader className="items-center pb-0">
-				<CardTitle>Language Breakdown</CardTitle>
-				<CardDescription>Live Codes (bytes)</CardDescription>
-			</CardHeader>
-			<CardContent className="aspect-4/3">
-				<Suspense fallback={<Skeleton className="size-full" />}>
-					<Languages />
-				</Suspense>
-			</CardContent>
-		</Card>
-		<Card className='w-full px-3.5'>
-			<Suspense fallback={<Skeleton className='size-full' />}>
-				<Placeholder />
-			</Suspense>
-		</Card>
-		<Card className='w-full px-3.5'>
-			<Suspense fallback={<Skeleton className='size-full' />}>
-				<Placeholder />
-			</Suspense>
-		</Card>
-	</div>
+  <div className="flex size-full gap-10">
+    <Card className="flex w-full flex-col">
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Language Breakdown</CardTitle>
+        <CardDescription>Live Codes (bytes)</CardDescription>
+      </CardHeader>
+      <CardContent className="aspect-4/3">
+        <Suspense fallback={<Skeleton className="size-full" />}>
+          <Languages />
+        </Suspense>
+      </CardContent>
+    </Card>
+    <Card className="w-full px-3.5">
+      <Suspense fallback={<Skeleton className="size-full" />}>
+        <Placeholder />
+      </Suspense>
+    </Card>
+    <Card className="w-full px-3.5">
+      <Suspense fallback={<Skeleton className="size-full" />}>
+        <Placeholder />
+      </Suspense>
+    </Card>
+  </div>
 )
