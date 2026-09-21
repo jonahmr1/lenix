@@ -56,7 +56,7 @@ export default function Contact() {
 						<p className='text-[11px] tracking-[3px] text-foreground/30 uppercase'>
 							Get in touch
 						</p>
-						<h1 className='text-5xl font-semibold tracking-tight text-accent-foreground mt-0'>
+						<h1 className='text-5xl font-semibold tracking-tight mt-0'>
 							Contact
 						</h1>
 					</div>

@@ -18,20 +18,20 @@ export default async function Legal() {
 	return (
 		<Layout>
 			<div className="flex flex-col items-center">
-				<h1 className="text-accent-foreground">Legal Information</h1>
+				<h1>Legal Information</h1>
 				<p>
 					Everything you need to know about our terms, privacy practices, and refund policy.
 				</p>
 			</div>
 			{legals.map(self => (
 				<div className="space-y-5" key={self.type}>
-					<h2 id="tos" className="scroll-m-20 text-accent-foreground border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+					<h2 id="tos" className="text-2xl">
 						{self.type === 'terms' ? 'Terms of Service (ToS)' : self.type === 'privacy' ? 'Privacy Policy' : 'Refund Policy'}
 					</h2>
 					<Accordion type='single' defaultValue={self.items[0].key}>
 						{self.items.map(({ key, value, id }) => (
 							<AccordionItem value={key} key={id}>
-								<AccordionTrigger className="pt-0 -mt-2 text-accent-foreground">{key}</AccordionTrigger>
+								<AccordionTrigger className="pt-0 -mt-2">{key}</AccordionTrigger>
 								<AccordionContent style={{ marginBlockStart: 0 }} className='text-muted-foreground h-fit pb-2'>{value}</AccordionContent>
 							</AccordionItem>
 						))}

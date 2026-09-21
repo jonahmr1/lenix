@@ -53,7 +53,7 @@ const Lines = async () => {
 					<div className='flex items-center gap-5'>
 						{type === 'added' ? <PlusIcon className='text-4xl' /> : <MinusIcon className='text-4xl' />}
 						<div>
-							<p className='text-6xl mt-0'>{compact.format(stat)}</p>
+							<p className='text-6xl mt-0 text-foreground'>{compact.format(stat)}</p>
 							<Muted className='mt-0'>Lines {type}</Muted>
 						</div>
 					</div>
@@ -67,7 +67,7 @@ const LastUpdated = async () => {
   await connection()
 	const states = await cache.github()
 
-  return <p>{dayjs(states.updated_at).fromNow()}</p>
+  return <p className='text-foreground'>{dayjs(states.updated_at).fromNow()}</p>
 }
 
 export const Stats = () => (
@@ -77,7 +77,7 @@ export const Stats = () => (
         <CardTitle>Stats Breakdown</CardTitle>
         <CardDescription>Live Stats</CardDescription>
 				<CardAction className='flex items-center gap-1 *:mt-0'>
-					<p className='text-foreground'>Refreshed:</p>
+					<p className='text-accent-foreground'>Refreshed:</p>
 					<Suspense fallback={<Skeleton className='w-20 h-3' />}>
 						<LastUpdated />
 					</Suspense>
@@ -96,7 +96,7 @@ export const Stats = () => (
 				].map(({ title, element }) => (
 					<Fragment key={title}>
 						<div className='w-45/100 portrait:w-full portrait:h-45/100 flex flex-col'>
-							<h2>{title}</h2>
+							<h3 className='text-accent-foreground'>{title}</h3>
 							<div className='flex-1 min-h-0'>
 								<Suspense fallback={<Skeleton className='aspect-square' />}>
 									{element}

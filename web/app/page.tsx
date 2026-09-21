@@ -72,7 +72,7 @@ export default async function Page() {
 						<div key={i} className="flex items-center justify-between not-last:pb-10 gap-5">
 							<div className="flex items-start gap-10">
 								<Muted className="mt-0 font-light tracking-widest opacity-50">0{i + 1}</Muted>
-								<h3 className="mt-0">{head}</h3>
+								<h2 className="mt-0">{head}</h2>
 							</div>
 							<p className="mt-0">{body}</p>
 						</div>

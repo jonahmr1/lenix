@@ -50,6 +50,7 @@
     &:where(p) {
       margin-block-start: var(--typeset-flow);
       margin-block-end: 0;
+			color: var(--color-accent-foreground)
     }
 
     /* Headings. */
@@ -60,10 +61,14 @@
       margin-block-end: 0;
     }
     &:where(h1) {
-      font-size: 1.75em;
+      font-size: 2.75em;
       line-height: 1.3;
       margin-block-start: var(--typeset-flow);
 			font-weight: 800;
+			
+			&:not(:first-child) {
+				margin-block-start: 0;
+			}
     }
     &:where(h2) {
       font-size: 1.25em;
