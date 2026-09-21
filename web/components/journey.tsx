@@ -62,10 +62,18 @@ const JourneyTimeline = async () => {
 						step={i}
 						key={i}
 						className='
-							w-[calc(50%-1.5rem)] odd:ms-auto even:me-auto even:text-right even:group-data-[orientation=vertical]/timeline:ms-0 even:group-data-[orientation=vertical]/timeline:me-8
-							even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:-right-6 even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:left-auto
-							even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:translate-x-1/2 even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:-right-6
-							even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:left-auto even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2
+							landscape:w-[calc(50%-1.5rem)]
+							landscape:odd:ms-auto
+							landscape:even:me-auto
+							landscape:even:text-right
+							landscape:even:group-data-[orientation=vertical]/timeline:ms-0
+							landscape:even:group-data-[orientation=vertical]/timeline:me-8
+							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:-right-6
+							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:left-auto
+							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:translate-x-1/2
+							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:-right-6
+							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:left-auto
+							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2
 						'
 					>
 						<TimelineHeader>
