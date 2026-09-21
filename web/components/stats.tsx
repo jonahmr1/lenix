@@ -47,7 +47,7 @@ const Lines = async () => {
   const states = await cache.github()
 
   return (
-    <div className='size-full flex flex-col items-start justify-start py-10 gap-5'>
+    <div className='size-full flex flex-col items-start portrait:items-center justify-start py-10 gap-5'>
 			{entries(states.lines).map(([type, stat]) => (
 				<Fragment key={type}>
 					<div className='flex items-center gap-5'>
