@@ -69,7 +69,7 @@ export default async function Page() {
 							body: 'Reliablity & Performance first, Privacy & Security by design.',
 						},
 					].map(({ head, body }, i) => (
-						<div key={i} className="flex items-center justify-between not-last:pb-10 portrait:gap-5">
+						<div key={i} className="flex items-center justify-between not-last:pb-10 gap-5">
 							<div className="flex items-start gap-10">
 								<Muted className="mt-0 font-light tracking-widest opacity-50">0{i + 1}</Muted>
 								<H3 className="mt-0 text-accent-foreground">{head}</H3>
