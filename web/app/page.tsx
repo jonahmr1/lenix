@@ -46,12 +46,12 @@ export default async function Page() {
 					))}
 				</ButtonGroup>
 			</div>
-			<div className="flex justify-between gap-20">
+			<div className="flex portrait:flex-col justify-between gap-20">
 				<div className="flex flex-col items-start">
 					<Muted className="tracking-widest opacity-60 font-light uppercase mt-0">02 / About</Muted>
 					<H1 className="text-primary">Mentality</H1>
 				</div>
-				<div className="flex landscape:flex-col gap-10 divide-y-2 w-full">
+				<div className="flex flex-col landscape:flex-row gap-10 divide-y-2 w-full">
 					{[
 						{
 							head: 'Focus',
@@ -66,7 +66,7 @@ export default async function Page() {
 							body: 'Reliablity & Performance first, Privacy & Security by design.'
 						},
 					].map(({ head, body }, i) => (
-						<div key={i} className="flex items-center justify-between not-last:pb-10">
+						<div key={i} className="flex items-center justify-between not-last:pb-10 portrait:gap-5">
 							<div className="flex gap-10 items-start">
 								<p className="mt-0">0{i + 1}</p>
 								<H3 className="text-primary mt-0">{head}</H3>
@@ -76,7 +76,7 @@ export default async function Page() {
 					))}
 				</div>
 			</div>
-			<div className="flex landscape:flex-col gap-20">
+			<div className="flex portrait:flex-col gap-20">
 				<div className="flex flex-col items-start">
 					<Muted className="tracking-widest opacity-60 font-light uppercase mt-0">03 / Numbers</Muted>
 					<H1 className="text-primary">Stats</H1>

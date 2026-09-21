@@ -39,7 +39,7 @@ const Placeholder = async () => {
 }
 
 export const Stats = () => (
-  <div className="flex size-full gap-10">
+  <div className="flex size-full gap-10 portrait:flex-col">
     <Card className="flex w-full flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Language Breakdown</CardTitle>
