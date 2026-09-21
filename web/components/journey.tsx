@@ -53,14 +53,14 @@ const JourneyTimeline = async () => {
 
 	return (
 		<Timeline defaultValue={sortedJourney.length - 1}>
-			{sortedJourney.map(({ date, description, status, tech, url, title }, i) => {
+			{sortedJourney.map(({ date, description, status, tech, url, title, id }, i) => {
 				const Icon = statusIcons[status].icon
 				const hover = status === 'pending' ? <CircleNotchIcon className="animate-spin" /> : <Icon weight='bold' />
 
 				return (
 					<TimelineItem
 						step={i}
-						key={i}
+						key={id}
 						className='
 							landscape:w-[calc(50%-1.5rem)]
 							landscape:odd:ms-auto
