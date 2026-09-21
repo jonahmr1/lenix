@@ -12,6 +12,7 @@ import { connection } from 'next/server'
 import { LanguagesChart } from './stats.client'
 import { repeat } from '@lenix/lenix'
 
+
 const ignoredLangs = ['MDX', 'CSS']
 
 

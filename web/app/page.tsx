@@ -5,7 +5,7 @@ import { H1, H3, Lead, Muted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { CURRENT_USERNAME } from "@/lib/utils";
-import { CodeIcon, CreditCardIcon, FileTextIcon } from "@phosphor-icons/react/dist/ssr";
+import { GithubLogoIcon, CreditCardIcon, FileTextIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
 const buttons = [
@@ -15,9 +15,9 @@ const buttons = [
 		icon: <CreditCardIcon />
 	},
 	{
-		label: 'Hands On Experience',
+		label: 'GitHub',
 		link: `https://github.com/${CURRENT_USERNAME}`,
-		icon: <CodeIcon />
+		icon: <GithubLogoIcon />
 	},
 	{
 		label: 'Resume',
@@ -51,7 +51,7 @@ export default async function Page() {
 					<Muted className="tracking-widest opacity-60 font-light uppercase mt-0">02 / About</Muted>
 					<H1 className="text-primary">Mentality</H1>
 				</div>
-				<div className="flex flex-col landscape:flex-row gap-10 divide-y-2 w-full">
+				<div className="flex flex-col gap-10 divide-y-2 w-full">
 					{[
 						{
 							head: 'Focus',
@@ -76,7 +76,7 @@ export default async function Page() {
 					))}
 				</div>
 			</div>
-			<div className="flex portrait:flex-col gap-20">
+			<div className="flex flex-col gap-20">
 				<div className="flex flex-col items-start">
 					<Muted className="tracking-widest opacity-60 font-light uppercase mt-0">03 / Numbers</Muted>
 					<H1 className="text-primary">Stats</H1>
