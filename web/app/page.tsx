@@ -58,7 +58,7 @@ export default async function Page() {
       </div>
       <div className="flex justify-between gap-20 portrait:flex-col min-h-1/2">
         <div className="flex flex-col items-start">
-          <Muted className="mt-0 font-light tracking-widest uppercase opacity-60">
+          <Muted className="mt-0 font-light tracking-widest uppercase opacity-50">
             02 / About
           </Muted>
           <H1 className="text-primary">Mentality</H1>
@@ -83,7 +83,7 @@ export default async function Page() {
               className="flex items-center justify-between not-last:pb-10 portrait:gap-5"
             >
               <div className="flex items-start gap-10">
-                <p className="mt-0">0{i + 1}</p>
+                <Muted className="mt-0 font-light tracking-widest opacity-50">0{i + 1}</Muted>
                 <H3 className="mt-0 text-primary">{head}</H3>
               </div>
               <p className="mt-0">{body}</p>

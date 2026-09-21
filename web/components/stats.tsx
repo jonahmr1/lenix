@@ -83,7 +83,7 @@ export const Stats = () => (
 					</Suspense>
 				</CardAction>
       </CardHeader>
-      <CardContent className="aspect-2/1 flex portrait:flex-col justify-between px-10 pb-10">
+      <CardContent className="flex portrait:flex-col justify-between portrait:gap-10 px-10 pb-10">
 				{[
 					{
 						title: 'Languages (bytes)',
@@ -95,9 +95,9 @@ export const Stats = () => (
 					},
 				].map(({ title, element }) => (
 					<Fragment key={title}>
-						<div className='h-full w-45/100 min-w-0 portrait:w-full portrait:h-45/100'>
+						<div className='w-45/100 portrait:w-full portrait:h-45/100 flex flex-col'>
 							<H2>{title}</H2>
-							<div className='h-9/10'>
+							<div className='flex-1 min-h-0'>
 								<Suspense fallback={<Skeleton className='size-full' />}>
 									{element}
 								</Suspense>
