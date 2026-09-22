@@ -28,6 +28,10 @@ const buttons = [
 	},
 ]
 
+export const metadata = {
+	alternates: { canonical: 'https://lenix.dev' },
+}
+
 export default async function Page() {
 	return (
 		<Layout className="pt-0">
