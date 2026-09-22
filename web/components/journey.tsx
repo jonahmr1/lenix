@@ -53,7 +53,7 @@ const JourneyTimeline = async () => {
 	const sortedJourney = journey.toSorted((a, b) => order(a.status) - order(b.status) || new Date(a.date).getTime() - new Date(b.date).getTime())
 
 	return (
-		<Timeline defaultValue={sortedJourney.length - 1}>
+		<Timeline defaultValue={sortedJourney.findIndex(self => self.status === 'pending')}>
 			{sortedJourney.map(({ date, description, status, tech, url, title, id }, i) => {
 				const Icon = statusIcons[status].icon
 				const hover = status === 'pending' ? <CircleNotchIcon className="animate-spin" /> : <Icon weight='bold' />
