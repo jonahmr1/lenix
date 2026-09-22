@@ -3,7 +3,7 @@
 	"displayName": "Commenix",
 	"publisher": "Lenix",
 	"description": "Fast light weight AI commit message composer/generator",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",
