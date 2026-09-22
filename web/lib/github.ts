@@ -3,21 +3,11 @@ import 'server-only'
 import { asserts, raise, waste } from '@lenix/lenix'
 import { Octokit } from 'octokit'
 import { CURRENT_USERNAME } from './utils'
-import { Lanauge } from './types'
+import { Language } from './types'
 
 const octokit = new Octokit({ auth: process.env.GH_TOKEN })
 
-const VALID_NAMES = [
-	'Lenix',
-	'lenixdev',
-	'LenixDev',
-	'Lenixx',
-	'tripplerscripts',
-	'lenix',
-
-	'TripplerScripts',
-	CURRENT_USERNAME,
-]
+const VALID_NAMES = ['Lenix', 'lenixdev', 'LenixDev', 'Lenixx', 'tripplerscripts', 'lenix', 'TripplerScripts', CURRENT_USERNAME]
 
 asserts(process.env.GH_TOKEN?.length, 'GH_TOKEN missing')
 
@@ -32,11 +22,8 @@ export const fetchGithubStats = async () => {
 	console.debug('new fetch started')
 
 	try {
-		const ownerRepos = await octokit.paginate(
-			octokit.rest.repos.listForAuthenticatedUser,
-			{ per_page: 100, type: 'all' },
-		)
-		
+		const ownerRepos = await octokit.paginate(octokit.rest.repos.listForAuthenticatedUser, { per_page: 100, type: 'all' })
+
 		/* getCommits
 		console.debug('getting commits...')
 		for (const { owner, name } of ownerRepos) {
@@ -68,10 +55,10 @@ export const fetchGithubStats = async () => {
 			commits.push(...selfDates)
 		}
 		console.debug({ commits }) */
-		
+
 		console.debug('moving to getting langs!')
 		/* getLangs */
-		const result: Lanauge[] = []
+		const result: Language[] = []
 		const merged = new Map<string, number>()
 
 		for (const {
@@ -89,16 +76,17 @@ export const fetchGithubStats = async () => {
 		}
 		for (const { name, bytes } of result) merged.set(name, (merged.get(name) ?? 0) + bytes)
 
-		langs = Array.from(merged, ([name, bytes]) => ({ name, bytes })).sort(
-			(a, b) => b.bytes - a.bytes,
-		)
+		langs = Array.from(merged, ([name, bytes]) => ({ name, bytes })).sort((a, b) => b.bytes - a.bytes)
 		console.debug({ langs })
 		console.debug('moving to getting lines!')
 
 		/* getLines */
 		const targets = ownerRepos.filter(({ owner }) => VALID_NAMES.includes(owner.login))
 
-		for (const { owner: { login: owner }, name: repo } of targets) {
+		for (const {
+			owner: { login: owner },
+			name: repo,
+		} of targets) {
 			const { data, status } = await octokit.rest.repos.getContributorsStats({ owner, repo })
 			if (status === 202) {
 				console.warn(`github has an error with: ${owner}/${repo}, falling back...`)

@@ -19,7 +19,9 @@ import { compact } from '@/lib/utils'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { Language } from '@/lib/types'
 dayjs.extend(relativeTime)
+
 
 const ignoredLangs = ['MDX', 'CSS']
 
@@ -31,7 +33,7 @@ const Languages = async () => {
   const langs = states.langs
     .filter((lang) => !ignoredLangs.includes(lang.name))
     .sort((a, b) => b.bytes - a.bytes)
-    .reduce<{ name: string; bytes: number }[]>((result, lang, i) => {
+    .reduce<Language[]>((result, lang, i) => {
       if (i < 4) result.push(lang)
       else if (i === 4) result.push({ name: 'Other', bytes: lang.bytes })
       else result[4].bytes += lang.bytes

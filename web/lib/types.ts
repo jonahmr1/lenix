@@ -1,4 +1,4 @@
-export type Lanauge = {
+export type Language = {
 	name: string
 	bytes: number
 }

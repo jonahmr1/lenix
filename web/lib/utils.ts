@@ -8,7 +8,7 @@ export const compact = new Intl.NumberFormat('en', {
 })
 
 export const anim = {
-	initial: { opacity: 0, scale: 0.985 },
+	initial: { opacity: 0, scale: 0.98 },
 	whileInView: { opacity: 1, scale: 1 },
-	transition: { duration: 1 }
+	transition: { duration: 1.5 }
 }
