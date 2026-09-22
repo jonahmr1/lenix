@@ -24,4 +24,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.15] - 2026-09-18
 
-- Added new model to the list: **qwen/qwen3.8-27b**
+- Added new model: **qwen/qwen3.8-27b**
+
+## [0.0.16] - 2026-09-22
+
+- Fixed an issue where the Lenix Output panel was automatically selected when VS Code started.
