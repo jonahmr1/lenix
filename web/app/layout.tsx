@@ -7,20 +7,18 @@ import { RootProvider } from 'fumadocs-ui/provider/next';
 import { Source_Sans_3, Oxanium, Geist_Mono } from "next/font/google"
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next";
 
 const oxaniumHeading = Oxanium({subsets:['latin'],variable:'--font-heading'});
-
 const sourceSans3 = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-source-sans-3",
 })
-
 const oxanium = Oxanium({
   subsets: ["latin"],
   variable: "--font-oxanium",
 })
-
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
@@ -52,6 +50,7 @@ export default function RootLayout({
 						<TooltipProvider>
 							{children}
 							<Analytics />
+							<SpeedInsights />
 						</TooltipProvider>
 					</RootProvider>
 				</ThemeProvider>
