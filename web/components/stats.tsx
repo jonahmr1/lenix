@@ -83,7 +83,7 @@ export const Stats = () => (
 					</Suspense>
 				</CardAction>
       </CardHeader>
-      <CardContent className="flex portrait:flex-col justify-between portrait:gap-10 px-10 pb-10">
+      <CardContent className="flex portrait:flex-col justify-between portrait:gap-10 px-5 pb-5">
 				{[
 					{
 						title: 'Languages (bytes)',
