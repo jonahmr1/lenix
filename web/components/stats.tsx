@@ -23,7 +23,7 @@ import { Language } from '@/lib/types'
 dayjs.extend(relativeTime)
 
 
-const ignoredLangs = ['MDX', 'CSS']
+const ignoredLangs = ['MDX', 'CSS', 'JavaScript']
 
 
 const Languages = async () => {
