@@ -9,7 +9,6 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Fragment, Suspense } from 'react'
 import { cache } from '@/lib/cache'
-import { connection } from 'next/server'
 import { LanguagesChart } from './stats.client'
 import { entries } from '@lenix/lenix'
 import { Separator } from './ui/separator'
@@ -27,7 +26,6 @@ const ignoredLangs = ['MDX', 'CSS', 'JavaScript']
 
 
 const Languages = async () => {
-  await connection()
   const states = await cache.github()
 
   const langs = states.langs
@@ -45,7 +43,6 @@ const Languages = async () => {
 }
 
 const Lines = async () => {
-  await connection()
   const states = await cache.github()
 
   return (
@@ -66,7 +63,6 @@ const Lines = async () => {
   )
 }
 const LastUpdated = async () => {
-  await connection()
 	const states = await cache.github()
 
   return <p className='text-foreground'>{dayjs(states.updated_at).fromNow()}</p>
