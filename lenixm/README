@@ -1,4 +1,1 @@
-mklink /D WHERE_TO_BE WHERE_IS_IT
-
-- Example
-mklink /D resources\lenix "C:\Users\Administrator\Desktop\lenix\lenixm\lenix"
+ln -s CURRENT TO
