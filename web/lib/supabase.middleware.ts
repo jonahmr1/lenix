@@ -1,4 +1,3 @@
-import { asserts } from "@lenix/lenix";
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { supabaseKey, supabaseUrl } from "./supabase";

@@ -1,10 +1,9 @@
 import 'server-only'
 
 import { asserts } from '@lenix/lenix'
-import { cacheLife } from 'next/cache'
+import { cacheLife, cacheTag } from 'next/cache'
 import { createAnon } from './supabase'
 import { fetchGithubStats } from './github'
-// import { fetchGithubStats } from './github'
 
 const legal = async () => {
 	'use cache'
@@ -35,6 +34,7 @@ const journey = async () => {
 const github = async () => {
 	'use cache'
 	cacheLife('days')
+	cacheTag('github-stats')
 
 	const supabase = createAnon()
 	const { data, error } = await supabase
