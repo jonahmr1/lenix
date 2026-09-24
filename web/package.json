@@ -19,7 +19,6 @@
     "@supabase/supabase-js": "^2.116.0",
     "@types/mdx": "^2.0.14",
     "@vercel/analytics": "^2.0.1",
-    "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.3.0",
     "dayjs": "^1.11.23",
