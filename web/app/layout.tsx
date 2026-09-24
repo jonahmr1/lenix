@@ -44,18 +44,20 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(sourceSans3.variable, oxanium.variable, geistMono.variable, oxaniumHeading.variable)}
     >
-      <body className="flex flex-col min-h-screen typeset typeset-docs">
-        <ThemeProvider>
-					<RootProvider
-						theme={{ hotKey: false }}
-					>
-						<TooltipProvider>
-							{children}
-							<Analytics />
-							<SpeedInsights />
-						</TooltipProvider>
-					</RootProvider>
-				</ThemeProvider>
+      <body className="flex flex-col min-h-screen typeset typeset-docs bg-[#a0ffed]">
+        <div className="bg-background">
+					<ThemeProvider>
+						<RootProvider
+							theme={{ hotKey: false }}
+						>
+							<TooltipProvider>
+								{children}
+								<Analytics />
+								<SpeedInsights />
+							</TooltipProvider>
+						</RootProvider>
+					</ThemeProvider>
+				</div>
 				<Toaster />
       </body>
     </html>
