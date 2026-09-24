@@ -12,7 +12,7 @@ const VALID_NAMES = ['Lenix', 'lenixdev', 'LenixDev', 'Lenixx', 'tripplerscripts
 asserts(process.env.GH_TOKEN?.length, 'GH_TOKEN missing')
 
 export const fetchGithubStats = async () => {
-	const commits: string[] = []
+	// const commits: string[] = []
 	let langs: {
 		name: string
 		bytes: number
@@ -135,5 +135,5 @@ export const fetchGithubStats = async () => {
 	console.debug({ lines })
 	console.debug('fetch done!')
 
-	return { lines, commits, langs }
+	return { lines,/*  commits, */ langs }
 }

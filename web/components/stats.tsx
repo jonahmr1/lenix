@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Fragment, Suspense } from 'react'
 import { cache } from '@/lib/cache'
 import { LanguagesChart } from './stats.client'
-import { entries } from '@lenix/lenix'
+import { asserts, entries } from '@lenix/lenix'
 import { Separator } from './ui/separator'
 import { Muted } from './typography'
 import { MinusIcon, PlusIcon } from '@phosphor-icons/react/dist/ssr'
@@ -28,8 +28,9 @@ const ignoredLangs = ['MDX', 'CSS', 'JavaScript']
 
 const Languages = async () => {
   const states = await cache.github()
+	asserts(states.data)
 
-  const langs = states.langs
+  const langs = states.data.langs
     .filter((lang) => !ignoredLangs.includes(lang.name))
     .sort((a, b) => b.bytes - a.bytes)
     .reduce<Language[]>((result, lang, i) => {
@@ -48,7 +49,7 @@ const Lines = async () => {
 
   return (
     <div className='size-full flex flex-col items-start portrait:items-center justify-start py-10 gap-5'>
-			{entries(states.lines).map(([type, stat]) => (
+			{entries(states.data.lines).map(([type, stat]) => (
 				<Fragment key={type}>
 					<div className='flex items-center gap-5'>
 						{type === 'added' ? <PlusIcon className='text-4xl' /> : <MinusIcon className='text-4xl' />}

@@ -133,6 +133,27 @@ export type Database = {
         }
         Relationships: []
       }
+      stats: {
+        Row: {
+          created_at: string
+          data: Json
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data: Json
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
