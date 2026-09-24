@@ -3,7 +3,7 @@ import 'server-only'
 import { asserts } from '@lenix/lenix'
 import { cacheLife } from 'next/cache'
 import { createAnon } from './supabase'
-import { fetchGithubStats } from './github'
+// import { fetchGithubStats } from './github'
 
 const TEMPORARY = {
 	lines: {
@@ -76,6 +76,7 @@ const TEMPORARY = {
 			bytes: 67,
 		},
 	],
+	updated_at: '2026-09-24T00:00:00.000Z'
 }
 
 const legal = async () => {
@@ -108,8 +109,7 @@ const github = async () => {
 	'use cache'
 	cacheLife('days')
 
-	const stats = TEMPORARY
-	return { ...stats, updated_at: new Date().toISOString() }
+	return TEMPORARY
 }
 
 export const cache = {
