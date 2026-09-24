@@ -19,6 +19,7 @@ import { compact } from '@/lib/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { Language } from '@/lib/types'
+import { connection } from 'next/server'
 dayjs.extend(relativeTime)
 
 
@@ -63,6 +64,7 @@ const Lines = async () => {
   )
 }
 const LastUpdated = async () => {
+	await connection()
 	const states = await cache.github()
 
   return <p className='text-foreground'>{dayjs(states.updated_at).fromNow()}</p>
