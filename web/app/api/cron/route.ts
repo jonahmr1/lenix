@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 	}
 
 	const key = process.env.SUPABASE_SECRET_KEY
-	asserts(supabaseUrl && key, 'Supabase credentials missing')
+	asserts(supabaseUrl && key, 'SUPABASE_SECRET_KEY missing')
 
 	const supabase = createClient<Database>(supabaseUrl, key, {
 		auth: {
