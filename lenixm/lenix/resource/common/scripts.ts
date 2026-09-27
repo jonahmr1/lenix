@@ -2,9 +2,9 @@ import type { ClientScript, ServerScript } from 'types/dirs'
 
 const EnabledContextedScripts = [
 	'group',
-	'hotel',
+	// 'hotel',
 	'interaction',
-	'medical',
+	// 'medical',
 	'prison',
 ] as const satisfies readonly (ClientScript & ServerScript)[]
 

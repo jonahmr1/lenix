@@ -1,9 +1,24 @@
 import { checkDependency, hideTextUI, notify, showTextUI } from '@overextended/ox_lib/client'
-import { MEGAPHONE } from 'common/config'
 import { api, control, player } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
 checkDependency('pma-voice', '6.6.2', true)
+
+export const CONFIG = {
+	range: 30.0,
+	command: 'togglemic',
+	key: 'K',
+	description: "Toggle Patrol's Mic",
+	locales: {
+		on: 'Activated',
+		off: 'Deactivated',
+		left: 'You left the emergency vehicle, mic turned off!',
+		refused: 'You must be in an emergency vehicle to use the patrol mic!',
+		unavailable: 'Patrol mic is not available right now!',
+	},
+	vehicleClass: [18],
+	vehicleModels: ['ambulance', 'firetruck', 'police', 'police2', 'police3'],
+} as const
 
 const getState = {
 	micNotBusy: true,
@@ -27,11 +42,11 @@ const isEmergencyVehicle = () => {
 	const vehicleClass = GetVehicleClass(vehicle)
 	const vehicleModel = GetEntityModel(vehicle)
 
-	if (MEGAPHONE.vehicleModels[vehicleModel]) {
+	if (CONFIG.vehicleModels[vehicleModel]) {
 		setState.micNotBusy(true)
 		return true
 	}
-	return MEGAPHONE.vehicleClass[vehicleClass] || false
+	return CONFIG.vehicleClass[vehicleClass] || false
 }
 
 const deactivateMic = () => {
@@ -39,7 +54,7 @@ const deactivateMic = () => {
 	api['pma-voice']?.clearProximityOverride?.()
 	setState.micBusy(false)
 	setState.micCurrentlyBusy(false)
-	showTextUI(MEGAPHONE.locales.off)
+	showTextUI(CONFIG.locales.off)
 	setTimeout(() => {
 		hideTextUI()
 	}, 1000)
@@ -52,7 +67,7 @@ const vehicleCheckLoop = () => {
 			setState.micNotBusy(false)
 			setState.micBusy(false)
 			notify({
-				title: MEGAPHONE.locales.left,
+				title: CONFIG.locales.left,
 				type: 'warning',
 				duration: 7500,
 			})
@@ -65,7 +80,7 @@ const vehicleCheckLoop = () => {
 const toggleMegaphone = () => {
 	if (!isEmergencyVehicle()) {
 		notify({
-			title: MEGAPHONE.locales.refused,
+			title: CONFIG.locales.refused,
 			type: 'error',
 			duration: 5000,
 		})
@@ -77,14 +92,14 @@ const toggleMegaphone = () => {
 		if (getState.micCurrentlyBusy) {
 			if (getState.micFilter) MumbleSetSubmixForServerId(PlayerId(), getState.micFilter)
 
-			api['pma-voice']?.overrideProximityRange?.(MEGAPHONE.range, true)
+			api['pma-voice']?.overrideProximityRange?.(CONFIG.range, true)
 			setState.micBusy(true)
-			showTextUI(`J - ${MEGAPHONE.locales.on}`)
+			showTextUI(`J - ${CONFIG.locales.on}`)
 			vehicleCheckLoop()
 		} else deactivateMic()
 	} else
 		notify({
-			title: MEGAPHONE.locales.unavailable,
+			title: CONFIG.locales.unavailable,
 			type: 'error',
 			duration: 3000,
 		})
@@ -102,6 +117,6 @@ setImmediate(() => {
 
 control.on({
 	event: 'press',
-	key: MEGAPHONE.key,
+	key: CONFIG.key,
 	onEvent: () => toggleMegaphone(),
 })
