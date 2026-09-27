@@ -54,9 +54,8 @@ export const fetchGithubStats = async () => {
 
 			commits.push(...selfDates)
 		}
-		console.debug({ commits }) */
-
-		console.debug('moving to getting langs!')
+		console.debug({ commits })
+		console.debug('moving to getting langs!') */
 		/* getLangs */
 		const result: Language[] = []
 		const merged = new Map<string, number>()
@@ -89,6 +88,7 @@ export const fetchGithubStats = async () => {
 		} of targets) {
 			const { data, status } = await octokit.rest.repos.getContributorsStats({ owner, repo })
 			if (status === 202) {
+				console.debug(',')
 				console.warn(`github has an error with: ${owner}/${repo}, falling back...`)
 
 				let added = 0
