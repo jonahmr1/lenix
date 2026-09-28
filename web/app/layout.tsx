@@ -2,7 +2,6 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
-import { RootProvider } from 'fumadocs-ui/provider/next';
 
 import { Source_Sans_3, Oxanium, Geist_Mono } from "next/font/google"
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -45,15 +44,11 @@ export default function RootLayout({
     >
       <body className="flex flex-col min-h-screen typeset typeset-docs bg-[#a0ffed]">
         <div className="bg-background">
-					<ThemeProvider>
-						<RootProvider
-							theme={{ hotKey: false }}
-						>
-							<TooltipProvider>
-								{children}
-								<Analytics />
-							</TooltipProvider>
-						</RootProvider>
+					<ThemeProvider enableSystem>
+						<TooltipProvider>
+							{children}
+							<Analytics />
+						</TooltipProvider>
 					</ThemeProvider>
 				</div>
 				<Toaster />
