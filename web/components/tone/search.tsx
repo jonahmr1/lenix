@@ -52,7 +52,7 @@ export const Search = ({
 			setVideos(items)
 		} catch (e: any) {
 			toast.error('Error', {
-				description: e
+				description: JSON.stringify(e)
 			})
 			throw e
 		} finally {
