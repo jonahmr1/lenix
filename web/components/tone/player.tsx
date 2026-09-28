@@ -27,6 +27,7 @@ import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { ButtonGroup } from '../ui/button-group'
 import { Thumbnail } from '../thumbnail'
+import { Skeleton } from '../ui/skeleton'
 
 dayjs.extend(duration)
 
@@ -189,15 +190,18 @@ export const Player = ({
 
 	return (
 		<>
-			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-foreground/10 rounded-full px-[1vh] py-[0.5vh]">
+			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-chart-5 rounded-full px-[1vh] py-[0.5vh]">
 				<div className="flex-1 size-full flex items-center gap-[0.5vw]">
 					<Thumbnail src={thumbnail} />
-					{video && (
-						<div className="*:text-foreground *:tracking-wide text-[0.8vw] font-light">
+					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.8vw] font-light">
+						{video?.title && video?.channelTitle ? <>
 							<p className="font-bold">{he.decode(video.title)}</p>
 							<p>{he.decode(video.channelTitle)}</p>
-						</div>
-					)}
+						</> : <div className='flex flex-col gap-[0.5vh]'>
+							<Skeleton className='w-full h-[2vh] bg-chart-4' />
+							<Skeleton className='w-2/3 h-[2vh] bg-chart-4' />
+						</div>}
+					</div>
 				</div>
 				<div className='flex-1 flex flex-col items-center'>
 					<ButtonGroup className='*:size-10vh!'>
