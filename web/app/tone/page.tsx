@@ -20,9 +20,13 @@ import type {
   YoutubeVideoSearch,
 } from "youtube.ts/dist/types/SearchTypes"
 import { Button } from "@/components/ui/button"
-import { MagnifyingGlassIcon, PauseIcon, PlayIcon, SmileySadIcon } from "@phosphor-icons/react"
+import { MagnifyingGlassIcon, PauseIcon, PlayIcon, SmileySadIcon, SpeakerSimpleNoneIcon } from "@phosphor-icons/react"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Slider } from "@/components/ui/slider"
+import he from "he"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { Progress } from "@/components/ui/progress"
 
 /* TODO: conceal */
 const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
@@ -78,33 +82,51 @@ export default function Page() {
 					{/* input will be here in portrait mode */}
 				</div>
 			</div>
-			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center justify-between w-[50vw] bg-foreground/10 rounded-full px-[2vw] py-[1vh]">
-				{selectedVideo ? <>
+			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-foreground/10 rounded-full p-[1vh]">
+				<div className="flex-1 size-full flex justify-start ">
 					<Button
+						className="size-10vh!"
 						variant='ghost'
-						disabled={!player}
+						disabled={!selectedVideo || !player}
 						onClick={() =>
 							isPlaying ? player?.pauseVideo() : player?.playVideo()
 						}
 					>
-						{isPlaying ? <PauseIcon /> : <PlayIcon />}
+						{isPlaying ? <PauseIcon weight='fill' /> : <PlayIcon weight='fill' />}
 					</Button>
+				</div>
+				<div className="flex flex-col flex-3">
 					<div className="flex gap-[0.5vw]">
 						<Avatar size='lg' className="after:border-0 rounded-md overflow-hidden">
-							<AvatarImage className="rounded-md scale-135" src={selectedVideo.snippet.thumbnails.high.url} />
+							<AvatarImage
+								className="rounded-md scale-135"
+								src={selectedVideo ? selectedVideo.snippet.thumbnails.high.url : 'https://lenix.dev/favicon.svg'}
+							/>
 							<AvatarFallback>
 								<SmileySadIcon className="size-2/3 text-destructive" />
 							</AvatarFallback>
 						</Avatar>
-						<div className="*:text-foreground *:tracking-wide">
-							<p className="font-bold">{selectedVideo.snippet.title}</p>
-							<p>{selectedVideo.snippet.channelTitle}</p>
-						</div>
+						{selectedVideo && (
+							<div className="*:text-foreground *:tracking-wide">
+								<p className="font-bold">{he.decode(selectedVideo.snippet.title)}</p>
+								<p>{he.decode(selectedVideo.snippet.channelTitle)}</p>
+							</div>
+						)}
 					</div>
-					<div>
-
-					</div>
-				</> : 'No Tone selected'}
+					<Progress value={10} />
+				</div>
+				<div className="flex-1 flex justify-end">
+					<Tooltip>
+						<TooltipTrigger>
+							<Button size='icon-lg' variant='ghost'>
+								<SpeakerSimpleNoneIcon className="size-full" />
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							<Slider orientation='vertical' defaultValue={[10]} max={100} step={1} className="invert **:data-[slot=slider-track]:bg-foreground/20" />
+						</TooltipContent>
+					</Tooltip>
+				</div>
 			</div>
 			<CommandDialog open={cmdOpen} onOpenChange={setOpen}>
 				<Command className="border" shouldFilter={false}>
@@ -124,7 +146,7 @@ export default function Page() {
 						<CommandEmpty className="flex justify-center">
 							{searchLoading ? <>
 								Searching <Spinner />
-							</> : "No results found."}
+							</> : "No results."}
 						</CommandEmpty>
 						{videosFound.length > 0 && (
 							<CommandGroup heading="Results found">
@@ -137,7 +159,7 @@ export default function Page() {
 											setOpen(false)
 										}}
 									>
-										{video.snippet.title}
+										{he.decode(video.snippet.title)}
 									</CommandItem>
 								))}
 							</CommandGroup>
