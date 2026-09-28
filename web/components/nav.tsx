@@ -13,6 +13,10 @@ const data = [
 		label: 'Documentations'
 	},
 	{
+		label: 'Fund',
+		link: 'https://buy.polar.sh/polar_cl_ihhMVbNL2cuRAKiafieSfHSXpcaGfSNK0sn1N0zqZtx',
+	},
+	{
 		link: 'legal',
 		label: 'Legal'
 	},

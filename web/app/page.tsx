@@ -7,14 +7,21 @@ import { Lead, Muted } from '@/components/typography'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { CURRENT_USERNAME } from '@/lib/utils'
-import { GithubLogoIcon, CreditCardIcon, FileTextIcon } from '@phosphor-icons/react/dist/ssr'
+import { GithubLogoIcon, CreditCardIcon, FileTextIcon, MusicNoteSimpleIcon } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
+import { ComponentProps } from 'react'
 
-const buttons = [
+const buttons: {
+	label: string
+	link: string
+	icon: React.ReactNode
+	variant?: ComponentProps<typeof Button>['variant']
+}[] = [
 	{
-		label: 'Fund',
-		link: 'https://buy.polar.sh/polar_cl_ihhMVbNL2cuRAKiafieSfHSXpcaGfSNK0sn1N0zqZtx',
-		icon: <CreditCardIcon />,
+		label: 'Try Tonelix',
+		link: 'tone',
+		icon: <MusicNoteSimpleIcon />,
+		variant: 'default'
 	},
 	{
 		label: 'GitHub',
@@ -45,7 +52,12 @@ export default async function Page() {
 				</div>
 				<ButtonGroup className="w-full justify-center">
 					{buttons.map((button) => (
-						<Button key={button.label} variant="outline" asChild>
+						<Button
+							key={button.label}
+							variant={button?.variant ?? "outline"}
+							className='border border-border'
+							asChild
+						>
 							<Link className="no-underline" href={button.link} target="_blank">
 								{button.label}
 								{button.icon}
