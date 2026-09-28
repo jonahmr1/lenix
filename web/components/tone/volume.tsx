@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { SpeakerSimpleHighIcon, SpeakerSimpleLowIcon, SpeakerSimpleNoneIcon, SpeakerSimpleSlashIcon } from '@phosphor-icons/react'
 import { storage } from '@lenix/lenix'
+import { YouTubePlayer } from 'react-youtube'
 
 interface Volume {
 	value: number
 	isMuted: boolean
 }
 
-export const Volume = () => {
+export const Volume = ({ setVolume }: { setVolume: undefined | YouTubePlayer['setVolume'] }) => {
 	const [state, setState] = useState<Volume>()
 
 	useEffect(() => {
@@ -23,6 +24,9 @@ export const Volume = () => {
 			})
 			return
 		}
+		
+		setVolume && setVolume(state.isMuted ? 0 : state.value)
+
 		let last = state
 		const timeout = setTimeout(() => {
 			if (last !== state) return

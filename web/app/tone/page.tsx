@@ -1,6 +1,14 @@
 'use client'
 
-import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import {
+	Command,
+	CommandDialog,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from '@/components/ui/command'
 import { Spinner } from '@/components/ui/spinner'
 import { asserts } from '@lenix/lenix'
 import { useState } from 'react'
@@ -69,14 +77,24 @@ export default function Page() {
 			</div>
 			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-foreground/10 rounded-full px-[1vh] py-[0.5vh]">
 				<div className="flex-1 size-full flex justify-start ">
-					<Button className="size-10vh!" variant="ghost" disabled={!selectedVideo || !player} onClick={() => (isPlaying ? player?.pauseVideo() : player?.playVideo())}>
+					<Button
+						className="size-10vh!"
+						variant="ghost"
+						disabled={!selectedVideo || !player}
+						onClick={() => (isPlaying ? player?.pauseVideo() : player?.playVideo())}
+					>
 						{isPlaying ? <PauseIcon weight="fill" /> : <PlayIcon weight="fill" />}
 					</Button>
 				</div>
 				<div className="flex flex-col flex-3">
 					<div className={`flex gap-[0.5vw] ${!selectedVideo && 'justify-center'}`}>
 						<Avatar size="lg" className="after:border-0 rounded-md overflow-hidden">
-							<AvatarImage className="rounded-md scale-135" src={selectedVideo ? selectedVideo.snippet.thumbnails.high.url : 'https://lenix.dev/favicon.svg'} />
+							<AvatarImage
+								className="rounded-md scale-135"
+								src={
+									selectedVideo ? selectedVideo.snippet.thumbnails.high.url : 'https://lenix.dev/favicon.svg'
+								}
+							/>
 							<AvatarFallback>
 								<SmileySadIcon className="size-2/3 text-destructive" />
 							</AvatarFallback>
@@ -91,7 +109,7 @@ export default function Page() {
 					{selectedVideo && <Progress value={10} />}
 				</div>
 				<div className="flex-1 flex justify-end">
-					<Volume />
+					<Volume setVolume={selectedVideo ? player?.setVolume : undefined} />
 				</div>
 			</div>
 			<CommandDialog open={cmdOpen} onOpenChange={setOpen}>
@@ -137,7 +155,14 @@ export default function Page() {
 					</CommandList>
 				</Command>
 			</CommandDialog>
-			<YouTube videoId={selectedVideo?.id.videoId} onReady={(e) => setPlayer(e.target)} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnd={() => setPlaying(false)} iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none" />
+			<YouTube
+				videoId={selectedVideo?.id.videoId}
+				onReady={(e) => setPlayer(e.target)}
+				onPlay={() => setPlaying(true)}
+				onPause={() => setPlaying(false)}
+				onEnd={() => setPlaying(false)}
+				iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
+			/>
 		</div>
 	)
 }
