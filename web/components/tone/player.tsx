@@ -15,10 +15,16 @@ import {
 import { S, storage } from '@lenix/lenix'
 import { PauseIcon, PlayIcon, SmileySadIcon } from '@phosphor-icons/react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { cn } from '@/lib/utils'
 import he from 'he'
 import YouTube, { type YouTubePlayer } from 'react-youtube'
 import { YoutubeVideoSearch } from 'youtube.ts/dist/types'
+
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+
+dayjs.extend(duration)
+
+const format = (value: number) => dayjs.duration(value, 'seconds').format('m:ss')
 
 const usePlayer = (
 	player: YouTubePlayer | null,
@@ -182,7 +188,7 @@ export const Player = ({
 						<PlaybackIcon weight="fill" />
 					</Button>
 					<div className='flex gap-[0.5vw]'>
-						<p>10</p>
+						<p>{format(player.currentTime)}</p>
 						{videoId && (
 							<Slider
 								value={[player.currentTime]}
@@ -193,7 +199,7 @@ export const Player = ({
 								className='**:data-[slot=slider-track]:bg-foreground/20'
 							/>
 						)}
-						<p>5</p>
+						<p>{format(player.duration)}</p>
 					</div>
 				</div>
 				<div className="flex-1 flex justify-end">
