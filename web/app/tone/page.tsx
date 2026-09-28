@@ -9,7 +9,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
-import { Input } from "@/components/ui/input"
 import { Spinner } from "@/components/ui/spinner"
 import { asserts } from "@lenix/lenix"
 import { useState } from "react"
@@ -21,9 +20,11 @@ import type {
   YoutubeVideoSearch,
 } from "youtube.ts/dist/types/SearchTypes"
 import { Button } from "@/components/ui/button"
-import { MagnifyingGlassIcon, PauseIcon, PlayIcon } from "@phosphor-icons/react"
+import { MagnifyingGlassIcon, PauseIcon, PlayIcon, SmileySadIcon } from "@phosphor-icons/react"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
+/* TODO: conceal */
 const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 asserts(apiKey, "YOUTUBE_API_KEY missing")
 
@@ -33,7 +34,7 @@ export default function Page() {
   const [searchInput, setInput] = useState("")
   const [videosFound, setVideos] = useState<YoutubeVideoSearch["items"]>([])
   const [cmdOpen, setOpen] = useState(false)
-  const [selectedVideo, setSelected] = useState("")
+  const [selectedVideo, setSelected] = useState<YoutubeVideoSearch["items"][number] | null>(null)
   const [searchLoading, setLoading] = useState(false)
   const [player, setPlayer] = useState<YouTubePlayer | null>(null)
   const [isPlaying, setPlaying] = useState(false)
@@ -41,7 +42,7 @@ export default function Page() {
   const search = async () => {
     setVideos([])
     setLoading(true)
-    setSelected("")
+    setSelected(null)
     try {
       const { items }: YoutubeVideoSearch = await youtube.get("search", {
         q: searchInput,
@@ -76,9 +77,11 @@ export default function Page() {
 					</div>
 					{/* input will be here in portrait mode */}
 				</div>
-				<div>
+			</div>
+			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center justify-between w-[50vw] bg-foreground/10 rounded-full px-[2vw] py-[1vh]">
+				{selectedVideo ? <>
 					<Button
-						className="w-full"
+						variant='ghost'
 						disabled={!player}
 						onClick={() =>
 							isPlaying ? player?.pauseVideo() : player?.playVideo()
@@ -86,7 +89,22 @@ export default function Page() {
 					>
 						{isPlaying ? <PauseIcon /> : <PlayIcon />}
 					</Button>
-				</div>
+					<div className="flex gap-[0.5vw]">
+						<Avatar size='lg' className="after:border-0 rounded-md overflow-hidden">
+							<AvatarImage className="rounded-md scale-135" src={selectedVideo.snippet.thumbnails.high.url} />
+							<AvatarFallback>
+								<SmileySadIcon className="size-2/3 text-destructive" />
+							</AvatarFallback>
+						</Avatar>
+						<div className="*:text-foreground *:tracking-wide">
+							<p className="font-bold">{selectedVideo.snippet.title}</p>
+							<p>{selectedVideo.snippet.channelTitle}</p>
+						</div>
+					</div>
+					<div>
+
+					</div>
+				</> : 'No Tone selected'}
 			</div>
 			<CommandDialog open={cmdOpen} onOpenChange={setOpen}>
 				<Command className="border" shouldFilter={false}>
@@ -115,7 +133,7 @@ export default function Page() {
 										key={video.etag}
 										onSelect={() => {
 											setPlayer(null)
-											setSelected(video.id.videoId)
+											setSelected(video)
 											setOpen(false)
 										}}
 									>
@@ -128,7 +146,7 @@ export default function Page() {
 				</Command>
 			</CommandDialog>
 			<YouTube
-				videoId={selectedVideo}
+				videoId={selectedVideo?.id.videoId}
 				onReady={(e) => setPlayer(e.target)}
 				onPlay={() => setPlaying(true)}
 				onPause={() => setPlaying(false)}
