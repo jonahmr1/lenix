@@ -1,76 +1,29 @@
 'use client'
-
-import {
-	Command,
-	CommandDialog,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-} from '@/components/ui/command'
-import { Spinner } from '@/components/ui/spinner'
-import { asserts } from '@lenix/lenix'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import YouTube, { type YouTubePlayer } from 'react-youtube'
-import YoutubeAPI from 'youtube.ts/dist/API'
 import type {
-	YoutubeSearchParams,
 	YoutubeVideoSearch,
 } from 'youtube.ts/dist/types/SearchTypes'
 import { Button } from '@/components/ui/button'
 import {
-	MagnifyingGlassIcon,
 	PauseIcon,
 	PlayIcon,
 	SmileySadIcon,
 } from '@phosphor-icons/react'
-import {
-	InputGroup,
-	InputGroupAddon,
-	InputGroupInput,
-} from '@/components/ui/input-group'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import he from 'he'
 import { Progress } from '@/components/ui/progress'
 import { Volume } from '@/components/tone/volume'
+import { Search } from '@/components/tone/search'
 
-/* TODO: conceal */
-const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
-asserts(apiKey, 'YOUTUBE_API_KEY missing')
-
-const youtube = new YoutubeAPI(apiKey)
 
 export default function Page() {
-	const [searchInput, setInput] = useState('')
-	const [videosFound, setVideos] = useState<YoutubeVideoSearch['items']>([])
-	const [cmdOpen, setOpen] = useState(false)
 	const [selectedVideo, setSelected] = useState<
 		YoutubeVideoSearch['items'][number] | null
 	>(null)
-	const [searchLoading, setLoading] = useState(false)
 	const [player, setPlayer] = useState<YouTubePlayer | null>(null)
 	const [isPlaying, setPlaying] = useState(false)
-
-	const search = async () => {
-		setVideos([])
-		setLoading(true)
-		setSelected(null)
-		try {
-			const { items }: YoutubeVideoSearch = await youtube.get('search', {
-				q: searchInput,
-				type: 'video',
-				videoEmbeddable: 'true',
-			} satisfies YoutubeSearchParams)
-			setVideos(items)
-		} catch (e) {
-			toast.error('Error')
-			throw e
-		} finally {
-			setLoading(false)
-		}
-	}
 
 	return (
 		<div className="h-screen w-full">
@@ -78,15 +31,9 @@ export default function Page() {
 				<div className="flex flex-col portrait:items-center">
 					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw]">
 						<h1>Tonelix</h1>
-						<InputGroup className="max-w-1/3 portrait:max-w-none portrait:order-1">
-							<InputGroupInput
-								placeholder="Type what do you wanna play"
-								onClick={() => setOpen(true)}
-							/>
-							<InputGroupAddon>
-								<MagnifyingGlassIcon />
-							</InputGroupAddon>
-						</InputGroup>
+						<div className='portrait:order-1 w-1/2 portrait:w-full flex justify-center'>
+							<Search {...{ setPlayer, setSelected}} />
+						</div>
 						<Button onClick={() => toast.warning('Unavailable')}>
 							Continue with Goggle
 						</Button>
@@ -133,49 +80,6 @@ export default function Page() {
 					<Volume player={selectedVideo ? player : null} />
 				</div>
 			</div>
-			<CommandDialog open={cmdOpen} onOpenChange={setOpen}>
-				<Command className="border" shouldFilter={false}>
-					<CommandInput
-						placeholder="Search..."
-						value={searchInput}
-						onValueChange={setInput}
-						onKeyDown={(e) => {
-							if (e.key === 'Enter') {
-								e.preventDefault()
-								e.stopPropagation()
-								search()
-							}
-						}}
-					/>
-					<CommandList>
-						<CommandEmpty className="flex justify-center">
-							{searchLoading ? (
-								<>
-									Searching <Spinner />
-								</>
-							) : (
-								'No results.'
-							)}
-						</CommandEmpty>
-						{videosFound.length > 0 && (
-							<CommandGroup heading="Results found">
-								{videosFound.map((video) => (
-									<CommandItem
-										key={video.etag}
-										onSelect={() => {
-											setPlayer(null)
-											setSelected(video)
-											setOpen(false)
-										}}
-									>
-										{he.decode(video.snippet.title)}
-									</CommandItem>
-								))}
-							</CommandGroup>
-						)}
-					</CommandList>
-				</Command>
-			</CommandDialog>
 			<YouTube
 				videoId={selectedVideo?.id.videoId}
 				onReady={(e) => setPlayer(e.target)}
