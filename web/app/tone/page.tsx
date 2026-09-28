@@ -9,57 +9,18 @@ import YouTube, { type YouTubePlayer } from 'react-youtube'
 import YoutubeAPI from 'youtube.ts/dist/API'
 import type { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types/SearchTypes'
 import { Button } from '@/components/ui/button'
-import { MagnifyingGlassIcon, PauseIcon, PlayIcon, SmileySadIcon, SpeakerSimpleHighIcon, SpeakerSimpleLowIcon, SpeakerSimpleNoneIcon, SpeakerSimpleSlashIcon } from '@phosphor-icons/react'
+import { MagnifyingGlassIcon, PauseIcon, PlayIcon, SmileySadIcon } from '@phosphor-icons/react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Slider } from '@/components/ui/slider'
 import he from 'he'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Progress } from '@/components/ui/progress'
+import { Volume } from '@/components/tone/volume'
 
 /* TODO: conceal */
 const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 asserts(apiKey, 'YOUTUBE_API_KEY missing')
 
 const youtube = new YoutubeAPI(apiKey)
-
-const Volume = () => {
-	const [state, setState] = useState({
-		value: 10,
-		isMuted: false
-	})
-
-	return (
-		<Tooltip>
-			<TooltipTrigger className='flex items-center'>
-				<Button
-					size="icon-sm"
-					variant="ghost"
-					className='*:size-full'
-					onClick={() => setState(prev => ({ ...prev, isMuted: !state.isMuted }))}
-				>
-					{state.isMuted
-					? <SpeakerSimpleSlashIcon />
-					: state.value === 0
-					? <SpeakerSimpleNoneIcon />
-					: state.value < 50
-					? <SpeakerSimpleLowIcon />
-					: <SpeakerSimpleHighIcon />}
-				</Button>
-			</TooltipTrigger>
-			<TooltipContent>
-				<Slider
-					orientation="vertical"
-					defaultValue={[state.value]}
-					onValueChange={value => setState(prev => ({ ...prev, value: value[0] }))}
-					max={100}
-					step={1}
-					className="invert **:data-[slot=slider-track]:bg-foreground/20"
-				/>
-			</TooltipContent>
-		</Tooltip>
-	)
-}
 
 export default function Page() {
 	const [searchInput, setInput] = useState('')

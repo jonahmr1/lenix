@@ -13,7 +13,7 @@
     "types": "bunx supabase gen types typescript --project-id mezvgmfypkdvbnzvyxfz > lib/supabase.types.ts"
   },
   "dependencies": {
-    "@lenix/lenix": "^1.8.22",
+    "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.24",
     "@phosphor-icons/react": "^2.1.10",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",

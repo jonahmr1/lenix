@@ -5,7 +5,7 @@
     "": {
       "name": "next-app",
       "dependencies": {
-        "@lenix/lenix": "^1.8.22",
+        "@lenix/lenix": "npm:@jsr/lenix__lenix@1.8.24",
         "@phosphor-icons/react": "^2.1.10",
         "@supabase/ssr": "^0.12.7",
         "@supabase/supabase-js": "^2.116.0",
@@ -285,7 +285,7 @@
 
     "@keyv/serialize": ["@keyv/serialize@1.1.1", "", {}, "sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA=="],
 
-    "@lenix/lenix": ["@jsr/lenix__lenix@1.8.22", "https://npm.jsr.io/~/11/@jsr/lenix__lenix/1.8.22.tgz", {}, "sha512-f1rSQNjoxdisNFXXAULZXcZkkFgclcL1YIRo4b7jEY8/OA0jeWKcv8AENDVTc4U/do0n8Kl4JlXr2ZfsP/+FXw=="],
+    "@lenix/lenix": ["@jsr/lenix__lenix@1.8.24", "https://npm.jsr.io/~/11/@jsr/lenix__lenix/1.8.24.tgz", {}, "sha512-DPFEdN2B9B+VYCfb91m+I4GN4e+W2NMZy8oSTPjO/zLnycsxe0xwxwJXz+9XryRgqTEoD0uJUJ/xZDoCiv/M4w=="],
 
     "@mdx-js/mdx": ["@mdx-js/mdx@3.1.1", "", { "dependencies": { "@types/estree": "^1.0.0", "@types/estree-jsx": "^1.0.0", "@types/hast": "^3.0.0", "@types/mdx": "^2.0.0", "acorn": "^8.0.0", "collapse-white-space": "^2.0.0", "devlop": "^1.0.0", "estree-util-is-identifier-name": "^3.0.0", "estree-util-scope": "^1.0.0", "estree-walker": "^3.0.0", "hast-util-to-jsx-runtime": "^2.0.0", "markdown-extensions": "^2.0.0", "recma-build-jsx": "^1.0.0", "recma-jsx": "^1.0.0", "recma-stringify": "^1.0.0", "rehype-recma": "^1.0.0", "remark-mdx": "^3.0.0", "remark-parse": "^11.0.0", "remark-rehype": "^11.0.0", "source-map": "^0.7.0", "unified": "^11.0.0", "unist-util-position-from-estree": "^2.0.0", "unist-util-stringify-position": "^4.0.0", "unist-util-visit": "^5.0.0", "vfile": "^6.0.0" } }, "sha512-f6ZO2ifpwAQIpzGWaBQT2TXxPv6z3RBzQKpVftEWN78Vl/YweF1uwussDx8ECAXVtr3Rs89fKyG9YlzUs9DyGQ=="],
 
