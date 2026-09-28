@@ -20,6 +20,7 @@ import { toast } from 'sonner'
 import { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types'
 import YoutubeAPI from 'youtube.ts/dist/API'
 import he from 'he'
+import { Thumbnail } from '../thumbnail'
 
 
 /* TODO: conceal */
@@ -96,11 +97,13 @@ export const Search = ({
 							{videosFound.map((video) => (
 								<CommandItem
 									key={video.etag}
+									value={video.etag}
 									onSelect={() => {
 										setSelected(video)
 										setOpen(false)
 									}}
 								>
+									<Thumbnail src={video.snippet.thumbnails.high.url} />
 									{he.decode(video.snippet.title)}
 								</CommandItem>
 							))}

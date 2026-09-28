@@ -7,6 +7,10 @@ import {
 import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import {
+	FastForwardIcon,
+	RewindIcon,
+	SkipBackIcon,
+	SkipForwardIcon,
 	SpeakerSimpleHighIcon,
 	SpeakerSimpleLowIcon,
 	SpeakerSimpleNoneIcon,
@@ -21,6 +25,8 @@ import { YoutubeVideoSearch } from 'youtube.ts/dist/types'
 
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
+import { ButtonGroup } from '../ui/button-group'
+import { Thumbnail } from '../thumbnail'
 
 dayjs.extend(duration)
 
@@ -158,16 +164,34 @@ export const Player = ({
 
 	const onStop = () => player.setPlaying(false)
 
+	const playerButtons = [
+		{
+			onClick: () => {},
+			children: <RewindIcon />,
+		},
+		{
+			onClick: () => {},
+			children: <SkipBackIcon weight='fill' />,
+		},
+		{
+			onClick: player.togglePlay,
+			children: <PlaybackIcon weight="fill" />,
+		},
+		{
+			onClick: () => {},
+			children: <SkipForwardIcon weight="fill" />,
+		},
+		{
+			onClick: () => {},
+			children: <FastForwardIcon />,
+		},
+	]
+
 	return (
 		<>
 			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-foreground/10 rounded-full px-[1vh] py-[0.5vh]">
 				<div className="flex-1 size-full flex items-center gap-[0.5vw]">
-					<Avatar size="lg" className="after:border-0 overflow-hidden">
-						<AvatarImage className=" scale-135" src={thumbnail} />
-						<AvatarFallback>
-							<SmileySadIcon className="size-2/3 text-destructive" />
-						</AvatarFallback>
-					</Avatar>
+					<Thumbnail src={thumbnail} />
 					{video && (
 						<div className="*:text-foreground *:tracking-wide text-[0.8vw] font-light">
 							<p className="font-bold">{he.decode(video.title)}</p>
@@ -175,16 +199,21 @@ export const Player = ({
 						</div>
 					)}
 				</div>
-				<div className='flex-1 flex flex-col'>
-					<Button
-						className="size-10vh!"
-						variant="outline"
-						disabled={!videoId}
-						onClick={player.togglePlay}
-					>
-						<PlaybackIcon weight="fill" />
-					</Button>
-					<div className='flex gap-[0.5vw]'>
+				<div className='flex-1 flex flex-col items-center'>
+					<ButtonGroup className='*:size-10vh!'>
+						{playerButtons.map((button, i) => (
+							<Button
+								key={i}
+								className="size-10vh!"
+								variant="outline"
+								disabled={!videoId}
+								onClick={button.onClick}
+							>
+								{button.children}
+							</Button>
+						))}
+					</ButtonGroup>
+					<div className='flex gap-[0.5vw] w-full'>
 						<p>{format(player.currentTime)}</p>
 						{videoId && (
 							<Slider
