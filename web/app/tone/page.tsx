@@ -21,7 +21,8 @@ import type {
   YoutubeVideoSearch,
 } from "youtube.ts/dist/types/SearchTypes"
 import { Button } from "@/components/ui/button"
-import { PauseIcon, PlayIcon } from "@phosphor-icons/react"
+import { MagnifyingGlassIcon, PauseIcon, PlayIcon } from "@phosphor-icons/react"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 
 const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 asserts(apiKey, "YOUTUBE_API_KEY missing")
@@ -59,14 +60,18 @@ export default function Page() {
   return (
 		<div className="h-screen w-full">
 			<div className="size-full flex flex-col justify-between px-[5vw] py-[5vh]">
-				<div className="flex flex-col">
+				<div className="flex flex-col portrait:items-center">
 					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw]">
 						<h1>Tonelix</h1>
-						<Input
-							className="max-w-2/3 portrait:max-w-none portrait:order-1"
-							placeholder="Search..."
-							onClick={() => setOpen(true)}
-						/>
+						<InputGroup className="max-w-1/3 portrait:max-w-none portrait:order-1">
+							<InputGroupInput
+								placeholder="Type what do you wanna play"
+								onClick={() => setOpen(true)}
+							/>
+							<InputGroupAddon>
+								<MagnifyingGlassIcon />
+							</InputGroupAddon>
+						</InputGroup>
 						<Button onClick={() => toast.warning('Unavailable')}>Continue with Goggle</Button>
 					</div>
 					{/* input will be here in portrait mode */}
@@ -128,7 +133,7 @@ export default function Page() {
 				onPlay={() => setPlaying(true)}
 				onPause={() => setPlaying(false)}
 				onEnd={() => setPlaying(false)}
-				iframeClassName="absolute -top-full min-w-50 min-h-50"
+				iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
 			/>
 		</div>
   )
