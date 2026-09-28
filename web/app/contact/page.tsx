@@ -44,7 +44,7 @@ export default function Contact() {
 				<Reveal className="flex flex-col gap-10 h-full w-full justify-center flex-1">
 					<div>
 						<p className="text-[11px] tracking-[3px] text-foreground/30 uppercase">Get in touch</p>
-						<h1 className="text-5xl font-semibold tracking-tight mt-0">Contact</h1>
+						<h1 className="text-5xl font-semibold tracking-tight">Contact</h1>
 					</div>
 					<form action={action}>
 						<FieldSet>

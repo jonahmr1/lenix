@@ -54,8 +54,8 @@ const Lines = async () => {
 					<div className='flex items-center gap-5'>
 						{type === 'added' ? <PlusIcon className='text-4xl' /> : <MinusIcon className='text-4xl' />}
 						<div>
-							<p className='text-6xl mt-0 text-foreground'>{compact.format(stat)}</p>
-							<Muted className='mt-0'>Lines {type}</Muted>
+							<p className='text-6xl text-foreground'>{compact.format(stat)}</p>
+							<Muted>Lines {type}</Muted>
 						</div>
 					</div>
 					<Separator className='last:hidden' />
@@ -77,7 +77,7 @@ export const Stats = () => (
       <CardHeader className="items-center pb-0">
         <CardTitle>Stats Breakdown</CardTitle>
         <CardDescription>Live Stats</CardDescription>
-				<CardAction className='flex items-center gap-1 *:mt-0'>
+				<CardAction className='flex items-center gap-1'>
 					<p className='text-accent-foreground'>Refreshed:</p>
 					<Suspense fallback={<Skeleton className='w-20 h-3' />}>
 						<LastUpdated />

@@ -68,7 +68,7 @@ export default async function Page() {
 			</Reveal>
 			<Reveal className="flex justify-between gap-20 portrait:flex-col min-h-1/2">
 				<div className="flex flex-col items-start">
-					<Muted className="mt-0 font-light tracking-widest uppercase opacity-50">02 / About</Muted>
+					<Muted className="font-light tracking-widest uppercase opacity-50">02 / About</Muted>
 					<h1>Mentality</h1>
 				</div>
 				<div className="flex w-full flex-col gap-10 divide-y-2">
@@ -88,24 +88,24 @@ export default async function Page() {
 					].map(({ head, body }, i) => (
 						<div key={i} className="flex items-center justify-between not-last:pb-10 gap-5">
 							<div className="flex items-start gap-10">
-								<Muted className="mt-0 font-light tracking-widest opacity-50">0{i + 1}</Muted>
-								<h2 className="mt-0">{head}</h2>
+								<Muted className="font-light tracking-widest opacity-50">0{i + 1}</Muted>
+								<h2>{head}</h2>
 							</div>
-							<p className="mt-0">{body}</p>
+							<p>{body}</p>
 						</div>
 					))}
 				</div>
 			</Reveal>
 			<Reveal className="flex flex-col gap-10">
 				<div className="flex flex-col items-start">
-					<Muted className="mt-0 font-light tracking-widest uppercase opacity-60">03 / Numbers</Muted>
+					<Muted className="font-light tracking-widest uppercase opacity-60">03 / Numbers</Muted>
 					<h1>Stats</h1>
 				</div>
 				<Stats />
 			</Reveal>
 			<Reveal className="flex flex-col gap-10">
 				<div className="flex flex-col items-start">
-					<Muted className="mt-0 font-light tracking-widest uppercase opacity-60">04 / Journey</Muted>
+					<Muted className="font-light tracking-widest uppercase opacity-60">04 / Journey</Muted>
 					<h1>Milestones</h1>
 				</div>
 				<Journey />

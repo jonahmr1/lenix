@@ -11,7 +11,7 @@
 	--typeset-font-mono: var(--font-geist-mono);
 	--typeset-size: 14px;
 	--typeset-leading: 1.6;
-	--typeset-flow: 1em;
+	--typeset-flow: 0em;
 }
 
 @custom-variant dark (&:is(.dark *));

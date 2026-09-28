@@ -23,7 +23,7 @@ const data = [
 ]
 
 export const Nav = () => (
-	<NavigationMenu className="absolute left-0 top-0" viewport={false}>
+	<NavigationMenu className="absolute left-0 top-[2vh]" viewport={false}>
 		<NavigationMenuList>
 			<NavigationMenuItem>
 				<NavigationMenuTrigger>
