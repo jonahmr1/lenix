@@ -1,7 +1,7 @@
 'use client'
 
 import { Pie, PieChart } from 'recharts'
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from './ui/chart'
+import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '../ui/chart'
 import { compact } from '@/lib/utils'
 import { Language } from '@/lib/types'
 
@@ -27,7 +27,7 @@ export const LanguagesChart = ({ langs }: { langs: Language[] }) => {
 			]),
 		) satisfies ChartConfig,
 	}
-	
+
 	return (
 		<ChartContainer className="mx-auto w-full max-w-sm aspect-square" config={chart.config}>
 			<PieChart>
