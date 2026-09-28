@@ -130,7 +130,7 @@ export default function Page() {
 					{selectedVideo && <Progress value={10} />}
 				</div>
 				<div className="flex-1 flex justify-end">
-					<Volume setVolume={player ? value => player.setVolume(value) : undefined} />
+					<Volume player={selectedVideo ? player : null} />
 				</div>
 			</div>
 			<CommandDialog open={cmdOpen} onOpenChange={setOpen}>

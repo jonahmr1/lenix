@@ -11,7 +11,7 @@ interface Volume {
 	isMuted: boolean
 }
 
-export const Volume = ({ setVolume }: { setVolume: undefined | YouTubePlayer['setVolume'] }) => {
+export const Volume = ({ player }: { player: YouTubePlayer | null }) => {
 	const [state, setState] = useState<Volume>()
 
 	useEffect(() => {
@@ -25,7 +25,7 @@ export const Volume = ({ setVolume }: { setVolume: undefined | YouTubePlayer['se
 			return
 		}
 		
-		setVolume && setVolume(state.isMuted ? 0 : state.value)
+		player?.setVolume(state.isMuted ? 0 : state.value)
 
 		let last = state
 		const timeout = setTimeout(() => {
@@ -36,7 +36,7 @@ export const Volume = ({ setVolume }: { setVolume: undefined | YouTubePlayer['se
 		}, 1000)
 
 		return () => clearTimeout(timeout)
-	}, [state])
+	}, [state, player])
 
 	if (!state) return null
 
