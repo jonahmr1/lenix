@@ -1,8 +1,8 @@
-import { Journey } from '@/components/journey'
+import { Journey } from '@/components/portfolio/journey'
 import { Layout } from '@/components/layout'
-import { Nav } from '@/components/nav'
+import { Nav } from '@/components/portfolio/nav'
 import { Reveal } from '@/components/reveal'
-import { Stats } from '@/components/stats'
+import { Stats } from '@/components/portfolio/stats'
 import { Lead, Muted } from '@/components/typography'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
@@ -21,7 +21,7 @@ const buttons: {
 		label: 'Try Tonelix',
 		link: 'tone',
 		icon: <MusicNoteSimpleIcon />,
-		variant: 'default'
+		variant: 'default',
 	},
 	{
 		label: 'GitHub',
@@ -52,12 +52,7 @@ export default async function Page() {
 				</div>
 				<ButtonGroup className="w-full justify-center">
 					{buttons.map((button) => (
-						<Button
-							key={button.label}
-							variant={button?.variant ?? "outline"}
-							className='border border-border'
-							asChild
-						>
+						<Button key={button.label} variant={button?.variant ?? 'outline'} className="border border-border" asChild>
 							<Link className="no-underline" href={button.link} target="_blank">
 								{button.label}
 								{button.icon}
