@@ -15,10 +15,22 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import YouTube, { type YouTubePlayer } from 'react-youtube'
 import YoutubeAPI from 'youtube.ts/dist/API'
-import type { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types/SearchTypes'
+import type {
+	YoutubeSearchParams,
+	YoutubeVideoSearch,
+} from 'youtube.ts/dist/types/SearchTypes'
 import { Button } from '@/components/ui/button'
-import { MagnifyingGlassIcon, PauseIcon, PlayIcon, SmileySadIcon } from '@phosphor-icons/react'
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
+import {
+	MagnifyingGlassIcon,
+	PauseIcon,
+	PlayIcon,
+	SmileySadIcon,
+} from '@phosphor-icons/react'
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+} from '@/components/ui/input-group'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import he from 'he'
 import { Progress } from '@/components/ui/progress'
@@ -34,7 +46,9 @@ export default function Page() {
 	const [searchInput, setInput] = useState('')
 	const [videosFound, setVideos] = useState<YoutubeVideoSearch['items']>([])
 	const [cmdOpen, setOpen] = useState(false)
-	const [selectedVideo, setSelected] = useState<YoutubeVideoSearch['items'][number] | null>(null)
+	const [selectedVideo, setSelected] = useState<
+		YoutubeVideoSearch['items'][number] | null
+	>(null)
 	const [searchLoading, setLoading] = useState(false)
 	const [player, setPlayer] = useState<YouTubePlayer | null>(null)
 	const [isPlaying, setPlaying] = useState(false)
@@ -65,12 +79,17 @@ export default function Page() {
 					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw]">
 						<h1>Tonelix</h1>
 						<InputGroup className="max-w-1/3 portrait:max-w-none portrait:order-1">
-							<InputGroupInput placeholder="Type what do you wanna play" onClick={() => setOpen(true)} />
+							<InputGroupInput
+								placeholder="Type what do you wanna play"
+								onClick={() => setOpen(true)}
+							/>
 							<InputGroupAddon>
 								<MagnifyingGlassIcon />
 							</InputGroupAddon>
 						</InputGroup>
-						<Button onClick={() => toast.warning('Unavailable')}>Continue with Goggle</Button>
+						<Button onClick={() => toast.warning('Unavailable')}>
+							Continue with Goggle
+						</Button>
 					</div>
 					{/* input will be here in portrait mode */}
 				</div>
@@ -92,7 +111,9 @@ export default function Page() {
 							<AvatarImage
 								className="rounded-md scale-135"
 								src={
-									selectedVideo ? selectedVideo.snippet.thumbnails.high.url : 'https://lenix.dev/favicon.svg'
+									selectedVideo
+										? selectedVideo.snippet.thumbnails.high.url
+										: 'https://lenix.dev/favicon.svg'
 								}
 							/>
 							<AvatarFallback>
@@ -100,7 +121,7 @@ export default function Page() {
 							</AvatarFallback>
 						</Avatar>
 						{selectedVideo && (
-							<div className="*:text-foreground *:tracking-wide">
+							<div className="*:text-foreground *:tracking-wide text-[0.8vw] font-light">
 								<p className="font-bold">{he.decode(selectedVideo.snippet.title)}</p>
 								<p>{he.decode(selectedVideo.snippet.channelTitle)}</p>
 							</div>
@@ -109,7 +130,7 @@ export default function Page() {
 					{selectedVideo && <Progress value={10} />}
 				</div>
 				<div className="flex-1 flex justify-end">
-					<Volume setVolume={selectedVideo ? player?.setVolume : undefined} />
+					<Volume setVolume={player ? value => player.setVolume(value) : undefined} />
 				</div>
 			</div>
 			<CommandDialog open={cmdOpen} onOpenChange={setOpen}>
