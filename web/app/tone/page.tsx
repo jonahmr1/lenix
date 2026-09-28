@@ -57,69 +57,76 @@ export default function Page() {
   }
 
   return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <div>
-        <h1>Tonelix</h1>
-        <Input placeholder="Search..." onFocus={() => setOpen(true)} />
-        {selectedVideo && (
-          <>
-            <Button
-              className="w-full"
-              disabled={!player}
-              onClick={() =>
-                isPlaying ? player?.pauseVideo() : player?.playVideo()
-              }
-            >
-              {isPlaying ? <PauseIcon /> : <PlayIcon />}
-            </Button>
-          </>
-        )}
-      </div>
-      <CommandDialog open={cmdOpen} onOpenChange={setOpen}>
-        <Command className="border" shouldFilter={false}>
-          <CommandInput
-            placeholder="Search..."
-            value={searchInput}
-            onValueChange={setInput}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault()
-                e.stopPropagation()
-                search()
-              }
-            }}
-          />
-          <CommandList>
-            <CommandEmpty className="flex justify-center">
-              {searchLoading ? <Spinner /> : "No results found."}
-            </CommandEmpty>
-            {videosFound.length > 0 && (
-              <CommandGroup heading="Results found">
-                {videosFound.map((video) => (
-                  <CommandItem
-                    key={video.etag}
-                    onSelect={() => {
-                      setPlayer(null)
-                      setSelected(video.id.videoId)
-                      setOpen(false)
-                    }}
-                  >
-                    {video.snippet.title}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-          </CommandList>
-        </Command>
-      </CommandDialog>
+		<div className="h-screen w-full">
+			<div className="h-full flex flex-col justify-between px-[5vw] py-[5vh]">
+				<div className="flex items-center justify-between portrait:flex-col *:mt-0">
+					<h1>Tonelix</h1>
+					<Input
+						className="max-w-2/3"
+						placeholder="Search..."
+						onClick={() => setOpen(true)}
+					/>
+					<Button>Continue with Goggle</Button>
+				</div>
+				<div>
+					<Button
+						className="w-full"
+						disabled={!player}
+						onClick={() =>
+							isPlaying ? player?.pauseVideo() : player?.playVideo()
+						}
+					>
+						{isPlaying ? <PauseIcon /> : <PlayIcon />}
+					</Button>
+				</div>
+			</div>
+			<CommandDialog open={cmdOpen} onOpenChange={setOpen}>
+				<Command className="border" shouldFilter={false}>
+					<CommandInput
+						placeholder="Search..."
+						value={searchInput}
+						onValueChange={setInput}
+						onKeyDown={(e) => {
+							if (e.key === "Enter") {
+								e.preventDefault()
+								e.stopPropagation()
+								search()
+							}
+						}}
+					/>
+					<CommandList>
+						<CommandEmpty className="flex justify-center">
+							{searchLoading ? <>
+								Searching <Spinner />
+							</> : "No results found."}
+						</CommandEmpty>
+						{videosFound.length > 0 && (
+							<CommandGroup heading="Results found">
+								{videosFound.map((video) => (
+									<CommandItem
+										key={video.etag}
+										onSelect={() => {
+											setPlayer(null)
+											setSelected(video.id.videoId)
+											setOpen(false)
+										}}
+									>
+										{video.snippet.title}
+									</CommandItem>
+								))}
+							</CommandGroup>
+						)}
+					</CommandList>
+				</Command>
+			</CommandDialog>
 			<YouTube
 				videoId={selectedVideo}
 				onReady={(e) => setPlayer(e.target)}
 				onPlay={() => setPlaying(true)}
 				onPause={() => setPlaying(false)}
 				onEnd={() => setPlaying(false)}
-				iframeClassName="absolute -bottom-full min-w-50 min-h-50"
+				iframeClassName="absolute -top-full min-w-50 min-h-50"
 			/>
-    </div>
+		</div>
   )
 }
