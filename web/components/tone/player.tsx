@@ -158,51 +158,51 @@ export const Player = ({
 	return (
 		<>
 			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-foreground/10 rounded-full px-[1vh] py-[0.5vh]">
-				<div className="flex-1 size-full flex justify-start ">
+				<div className="flex-1 size-full flex items-center gap-[0.5vw]">
+					<Avatar size="lg" className="after:border-0 overflow-hidden">
+						<AvatarImage className=" scale-135" src={thumbnail} />
+						<AvatarFallback>
+							<SmileySadIcon className="size-2/3 text-destructive" />
+						</AvatarFallback>
+					</Avatar>
+					{video && (
+						<div className="*:text-foreground *:tracking-wide text-[0.8vw] font-light">
+							<p className="font-bold">{he.decode(video.title)}</p>
+							<p>{he.decode(video.channelTitle)}</p>
+						</div>
+					)}
+				</div>
+				<div className='flex-1 flex flex-col'>
 					<Button
 						className="size-10vh!"
-						variant="ghost"
+						variant="outline"
 						disabled={!videoId}
 						onClick={player.togglePlay}
 					>
 						<PlaybackIcon weight="fill" />
 					</Button>
-				</div>
-				<div className="flex flex-col flex-3">
-					<div
-						className={cn('flex gap-[0.5vw]', !videoId && 'justify-center')}
-					>
-						<Avatar size="lg" className="after:border-0 rounded-md overflow-hidden">
-							<AvatarImage className="rounded-md scale-135" src={thumbnail} />
-							<AvatarFallback>
-								<SmileySadIcon className="size-2/3 text-destructive" />
-							</AvatarFallback>
-						</Avatar>
-						{video && (
-							<div className="*:text-foreground *:tracking-wide text-[0.8vw] font-light">
-								<p className="font-bold">{he.decode(video.title)}</p>
-								<p>{he.decode(video.channelTitle)}</p>
-							</div>
+					<div className='flex gap-[0.5vw]'>
+						<p>10</p>
+						{videoId && (
+							<Slider
+								value={[player.currentTime]}
+								onValueChange={player.previewSeek}
+								onValueCommit={player.seek}
+								max={player.duration || 1}
+								disabled={!player.duration}
+								className='**:data-[slot=slider-track]:bg-foreground/20'
+							/>
 						)}
+						<p>5</p>
 					</div>
-					{videoId && (
-						<Slider
-							value={[player.currentTime]}
-							onValueChange={player.previewSeek}
-							onValueCommit={player.seek}
-							max={player.duration || 1}
-							disabled={!player.duration}
-							className="invert **:data-[slot=slider-track]:bg-foreground/20"
-						/>
-					)}
 				</div>
 				<div className="flex-1 flex justify-end">
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Button
-								size="icon-sm"
-								variant="ghost"
-								className="*:size-full"
+								size="icon-lg"
+								variant="outline"
+								className="*:size-full rounded-full"
 								onClick={player.toggleMute}
 							>
 								<VolumeIcon />
