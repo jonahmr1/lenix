@@ -58,15 +58,18 @@ export default function Page() {
 
   return (
 		<div className="h-screen w-full">
-			<div className="h-full flex flex-col justify-between px-[5vw] py-[5vh]">
-				<div className="flex items-center justify-between portrait:flex-col *:mt-0">
-					<h1>Tonelix</h1>
-					<Input
-						className="max-w-2/3"
-						placeholder="Search..."
-						onClick={() => setOpen(true)}
-					/>
-					<Button>Continue with Goggle</Button>
+			<div className="size-full flex flex-col justify-between px-[5vw] py-[5vh]">
+				<div className="flex flex-col">
+					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw]">
+						<h1>Tonelix</h1>
+						<Input
+							className="max-w-2/3 portrait:max-w-none portrait:order-1"
+							placeholder="Search..."
+							onClick={() => setOpen(true)}
+						/>
+						<Button onClick={() => toast.warning('Unavailable')}>Continue with Goggle</Button>
+					</div>
+					{/* input will be here in portrait mode */}
 				</div>
 				<div>
 					<Button
