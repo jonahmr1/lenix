@@ -35,11 +35,14 @@ export const get = <
  * setStorage('theme', 'dark')
  * ```
  */
-export const set = <T extends object>(
-	key: Extract<keyof T, string>,
-	value: Extract<T[keyof T], string>
+export const set = <
+	T extends object,
+	K extends Extract<keyof T, string>
+>(
+	key: K,
+	value: T[K]
 ): void => {
-	localStorage.setItem(key, value)
+	localStorage.setItem(key, JSON.stringify(value))
 }
 
 /**
