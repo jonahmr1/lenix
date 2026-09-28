@@ -80,7 +80,7 @@ const usePlayer = (
 					)
 				}
 			} catch {
-				// Player can be replaced while a seek request is in flight.
+				// Player may be replaced while a request is in flight.
 			}
 		}
 
@@ -114,9 +114,6 @@ const usePlayer = (
 				if (state.isMuted) player?.mute()
 				else player?.unMute()
 			}
-		},
-		previewSeek: (time: number[]) => {
-			setState((prev) => (prev ? { ...prev, currentTime: time[0] } : prev))
 		},
 		seek: (time: number[]) => {
 			setState((prev) => (prev ? { ...prev, currentTime: time[0] } : prev))
@@ -192,8 +189,7 @@ export const Player = ({
 						{videoId && (
 							<Slider
 								value={[player.currentTime]}
-								onValueChange={player.previewSeek}
-								onValueCommit={player.seek}
+								onValueChange={player.seek}
 								max={player.duration || 1}
 								disabled={!player.duration}
 								className='**:data-[slot=slider-track]:bg-foreground/20'
