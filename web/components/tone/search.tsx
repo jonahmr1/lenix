@@ -50,8 +50,10 @@ export const Search = ({
 				videoEmbeddable: 'true',
 			} satisfies YoutubeSearchParams)
 			setVideos(items)
-		} catch (e) {
-			toast.error('Error')
+		} catch (e: any) {
+			toast.error('Error', {
+				description: e
+			})
 			throw e
 		} finally {
 			setLoading(false)

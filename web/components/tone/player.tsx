@@ -152,7 +152,7 @@ export const Player = ({
 	if (!player) return null
 
 	const video = selectedVideo?.snippet
-	const thumbnail = video?.thumbnails.high.url ?? 'https://lenix.dev/favicon.svg'
+	const thumbnail = video?.thumbnails.high.url
 	const PlaybackIcon = player.isPlaying ? PauseIcon : PlayIcon
 	const VolumeIcon = player.isMuted
 		? SpeakerSimpleSlashIcon
