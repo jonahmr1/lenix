@@ -44,8 +44,6 @@ export const Player = ({ player, selectedVideo, setPlayer }: {
 			return
 		}
 
-		player?.setVolume(volume.isMuted ? 0 : volume.value)
-
 		let last = volume
 		const timeout = setTimeout(() => {
 			if (last !== volume) return
@@ -55,7 +53,7 @@ export const Player = ({ player, selectedVideo, setPlayer }: {
 		}, 1000)
 
 		return () => clearTimeout(timeout)
-	}, [volume, player])
+	}, [volume])
 
 	if (!volume) return null
 
@@ -102,9 +100,11 @@ export const Player = ({ player, selectedVideo, setPlayer }: {
 							size="icon-sm"
 							variant="ghost"
 							className="*:size-full"
-							onClick={() =>
-								setVolume((prev) => (prev ? { ...prev, isMuted: !volume.isMuted } : prev))
-							}
+							onClick={() => {
+								const isMuted = !volume.isMuted
+								setVolume({ ...volume, isMuted })
+								player?.setVolume(isMuted ? 0 : volume.value)
+							}}
 						>
 							{volume.isMuted ? (
 								<SpeakerSimpleSlashIcon />
@@ -121,9 +121,10 @@ export const Player = ({ player, selectedVideo, setPlayer }: {
 						<Slider
 							orientation="vertical"
 							defaultValue={[volume.value]}
-							onValueChange={(value) =>
+							onValueChange={value => {
 								setVolume((prev) => (prev ? { ...prev, value: value[0] } : prev))
-							}
+								player?.setVolume(value[0])
+							}}
 							max={100}
 							step={1}
 							className="invert **:data-[slot=slider-track]:bg-foreground/20"
@@ -132,13 +133,18 @@ export const Player = ({ player, selectedVideo, setPlayer }: {
 				</Tooltip>
 			</div>
 		</div>
-		<YouTube
-			videoId={selectedVideo?.id.videoId}
-			onReady={(e) => setPlayer(e.target)}
-			onPlay={() => setPlaying(true)}
-			onPause={() => setPlaying(false)}
-			onEnd={() => setPlaying(false)}
-			iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
-		/>
+		{selectedVideo && (
+			<YouTube
+				videoId={selectedVideo.id.videoId}
+				onReady={(e) => setPlayer(e.target)}
+				onPlay={(e) => {
+					setPlaying(true)
+					e.target.setVolume(volume.isMuted ? 0 : volume.value)
+				}}
+				onPause={() => setPlaying(false)}
+				onEnd={() => setPlaying(false)}
+				iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
+			/>
+		)}
 	</>
 }
