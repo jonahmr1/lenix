@@ -20,7 +20,6 @@ import { toast } from 'sonner'
 import { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types'
 import YoutubeAPI from 'youtube.ts/dist/API'
 import he from 'he'
-import { YouTubePlayer } from 'react-youtube'
 
 
 /* TODO: conceal */
@@ -31,10 +30,9 @@ const youtube = new YoutubeAPI(apiKey)
 
 
 export const Search = ({
-	setSelected, setPlayer
+	setSelected,
 }: {
 	setSelected: S<YoutubeVideoSearch['items'][number] | null>
-	setPlayer: S<YouTubePlayer | null>
 }) => {
 	const [searchInput, setInput] = useState('')
 	const [cmdOpen, setOpen] = useState(false)
@@ -44,7 +42,6 @@ export const Search = ({
 	const search = async () => {
 		setVideos([])
 		setLoading(true)
-		setSelected(null)
 		try {
 			const { items }: YoutubeVideoSearch = await youtube.get('search', {
 				q: searchInput,
@@ -100,7 +97,6 @@ export const Search = ({
 								<CommandItem
 									key={video.etag}
 									onSelect={() => {
-										setPlayer(null)
 										setSelected(video)
 										setOpen(false)
 									}}

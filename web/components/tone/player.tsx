@@ -15,136 +15,224 @@ import {
 import { S, storage } from '@lenix/lenix'
 import { PauseIcon, PlayIcon, SmileySadIcon } from '@phosphor-icons/react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
 import he from 'he'
-import { Progress } from '@/components/ui/progress'
 import YouTube, { type YouTubePlayer } from 'react-youtube'
 import { YoutubeVideoSearch } from 'youtube.ts/dist/types'
 
-interface Volume {
-	value: number
-	isMuted: boolean
+const usePlayer = (
+	player: YouTubePlayer | null,
+	videoId: string | undefined,
+) => {
+	const [state, setState] = useState<{
+		volume: number
+		isMuted: boolean
+		isPlaying: boolean
+	currentTime: number
+	duration: number
+	} | null>(null)
+
+	const isPlaying = state?.isPlaying ?? false
+
+	useEffect(() => {
+		const storedVolume = storage.get<{ volume: number }, 'volume'>('volume')
+		const storageIsMuted = storage.get<{ isMuted: boolean }, 'isMuted'>('isMuted')
+
+		setState({
+			volume: storedVolume === null ? 20 : Number(storedVolume),
+			isMuted: storageIsMuted === null ? false : storageIsMuted === 'true',
+			isPlaying: false,
+			currentTime: 0,
+			duration: 0,
+		})
+	}, [])
+	useEffect(() => {
+		setState((prev) =>
+			prev ? { ...prev, currentTime: 0, duration: 0 } : prev,
+		)
+	}, [videoId])
+
+	useEffect(() => {
+		if (!player || !isPlaying) return
+
+		let active = true
+		const updateTime = async () => {
+			try {
+				const [currentTime, duration] = await Promise.all([
+					player.getCurrentTime(),
+					player.getDuration(),
+				])
+				if (active) {
+					setState((prev) =>
+						prev
+							? {
+								...prev,
+								duration,
+								currentTime,
+							}
+							: prev,
+					)
+				}
+			} catch {
+				// Player can be replaced while a seek request is in flight.
+			}
+		}
+
+		void updateTime()
+		const interval = setInterval(() => void updateTime(), 500)
+		return () => {
+			active = false
+			clearInterval(interval)
+		}
+	}, [player, isPlaying])
+
+	useEffect(() => {
+		if (!state) return
+
+		storage.set<{ volume: number }, 'volume'>('volume', state.volume)
+	}, [state?.volume])
+
+	if (!state) return null
+
+	return {
+		isPlaying,
+		volume: state.volume,
+		isMuted: state.isMuted,
+		setVolume: (volume: number[]) => {
+			setState((prev) => (prev ? { ...prev, volume: volume[0] } : prev))
+			player?.setVolume(volume[0])
+		},
+		setPlaying: (isPlaying: boolean) => {
+			setState((prev) => (prev ? { ...prev, isPlaying } : prev))
+			if (isPlaying) {
+				if (state.isMuted) player?.mute()
+				else player?.unMute()
+			}
+		},
+		previewSeek: (time: number[]) => {
+			setState((prev) => (prev ? { ...prev, currentTime: time[0] } : prev))
+		},
+		seek: (time: number[]) => {
+			setState((prev) => (prev ? { ...prev, currentTime: time[0] } : prev))
+			player?.seekTo(time[0], true)
+		},
+		toggleMute: async () => {
+			const isMuted = !state.isMuted
+			setState((prev) => (prev ? { ...prev, isMuted } : prev))
+			storage.set<{ isMuted: boolean }, 'isMuted'>('isMuted', isMuted)
+			if (isMuted) await player?.mute()
+			else await player?.unMute()
+		},
+		togglePlay: () => (isPlaying ? player?.pauseVideo() : player?.playVideo()),
+		currentTime: state.currentTime,
+		duration: state.duration,
+	}
 }
 
-export const Player = ({ player, selectedVideo, setPlayer }: {
+export const Player = ({
+	player: ytPlayer,
+	selectedVideo,
+	setPlayer,
+}: {
 	player: YouTubePlayer | null
 	selectedVideo: YoutubeVideoSearch['items'][number] | null
 	setPlayer: S<YouTubePlayer | null>
 }) => {
-	const [isPlaying, setPlaying] = useState(false)
-	const [volume, setVolume] = useState<Volume>()
+	const videoId = selectedVideo?.id.videoId
+	const player = usePlayer(ytPlayer, videoId)
+	if (!player) return null
 
-	useEffect(() => {
-		if (!volume) {
-			const value = storage.get<Volume, 'value'>('value')
-			const isMuted = storage.get<Volume, 'isMuted'>('isMuted')
-			setVolume({
-				value: value === null ? 20 : Number(value),
-				isMuted: isMuted === null ? false : isMuted === 'true',
-			})
-			return
-		}
+	const video = selectedVideo?.snippet
+	const thumbnail = video?.thumbnails.high.url ?? 'https://lenix.dev/favicon.svg'
+	const PlaybackIcon = player.isPlaying ? PauseIcon : PlayIcon
+	const VolumeIcon = player.isMuted
+		? SpeakerSimpleSlashIcon
+		: player.volume === 0
+			? SpeakerSimpleNoneIcon
+			: player.volume < 50
+				? SpeakerSimpleLowIcon
+				: SpeakerSimpleHighIcon
 
-		let last = volume
-		const timeout = setTimeout(() => {
-			if (last !== volume) return
+	const onStop = () => player.setPlaying(false)
 
-			storage.set<Volume, 'value'>('value', volume.value)
-			storage.set<Volume, 'isMuted'>('isMuted', volume.isMuted)
-		}, 1000)
-
-		return () => clearTimeout(timeout)
-	}, [volume])
-
-	if (!volume) return null
-
-	return <>
-		<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-foreground/10 rounded-full px-[1vh] py-[0.5vh]">
-			<div className="flex-1 size-full flex justify-start ">
-				<Button
-					className="size-10vh!"
-					variant="ghost"
-					disabled={!selectedVideo || !player}
-					onClick={() => (isPlaying ? player?.pauseVideo() : player?.playVideo())}
-				>
-					{isPlaying ? <PauseIcon weight="fill" /> : <PlayIcon weight="fill" />}
-				</Button>
-			</div>
-			<div className="flex flex-col flex-3">
-				<div className={`flex gap-[0.5vw] ${!selectedVideo && 'justify-center'}`}>
-					<Avatar size="lg" className="after:border-0 rounded-md overflow-hidden">
-						<AvatarImage
-							className="rounded-md scale-135"
-							src={
-								selectedVideo
-									? selectedVideo.snippet.thumbnails.high.url
-									: 'https://lenix.dev/favicon.svg'
-							}
-						/>
-						<AvatarFallback>
-							<SmileySadIcon className="size-2/3 text-destructive" />
-						</AvatarFallback>
-					</Avatar>
-					{selectedVideo && (
-						<div className="*:text-foreground *:tracking-wide text-[0.8vw] font-light">
-							<p className="font-bold">{he.decode(selectedVideo.snippet.title)}</p>
-							<p>{he.decode(selectedVideo.snippet.channelTitle)}</p>
-						</div>
-					)}
+	return (
+		<>
+			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-foreground/10 rounded-full px-[1vh] py-[0.5vh]">
+				<div className="flex-1 size-full flex justify-start ">
+					<Button
+						className="size-10vh!"
+						variant="ghost"
+						disabled={!videoId}
+						onClick={player.togglePlay}
+					>
+						<PlaybackIcon weight="fill" />
+					</Button>
 				</div>
-				{selectedVideo && <Progress value={10} />}
-			</div>
-			<div className="flex-1 flex justify-end">
-				<Tooltip>
-					<TooltipTrigger className="flex items-center" asChild>
-						<Button
-							size="icon-sm"
-							variant="ghost"
-							className="*:size-full"
-							onClick={() => {
-								const isMuted = !volume.isMuted
-								setVolume({ ...volume, isMuted })
-								player?.setVolume(isMuted ? 0 : volume.value)
-							}}
-						>
-							{volume.isMuted ? (
-								<SpeakerSimpleSlashIcon />
-							) : volume.value === 0 ? (
-								<SpeakerSimpleNoneIcon />
-							) : volume.value < 50 ? (
-								<SpeakerSimpleLowIcon />
-							) : (
-								<SpeakerSimpleHighIcon />
-							)}
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
+				<div className="flex flex-col flex-3">
+					<div
+						className={cn('flex gap-[0.5vw]', !videoId && 'justify-center')}
+					>
+						<Avatar size="lg" className="after:border-0 rounded-md overflow-hidden">
+							<AvatarImage className="rounded-md scale-135" src={thumbnail} />
+							<AvatarFallback>
+								<SmileySadIcon className="size-2/3 text-destructive" />
+							</AvatarFallback>
+						</Avatar>
+						{video && (
+							<div className="*:text-foreground *:tracking-wide text-[0.8vw] font-light">
+								<p className="font-bold">{he.decode(video.title)}</p>
+								<p>{he.decode(video.channelTitle)}</p>
+							</div>
+						)}
+					</div>
+					{videoId && (
 						<Slider
-							orientation="vertical"
-							defaultValue={[volume.value]}
-							onValueChange={value => {
-								setVolume((prev) => (prev ? { ...prev, value: value[0] } : prev))
-								player?.setVolume(value[0])
-							}}
-							max={100}
-							step={1}
+							value={[player.currentTime]}
+							onValueChange={player.previewSeek}
+							onValueCommit={player.seek}
+							max={player.duration || 1}
+							disabled={!player.duration}
 							className="invert **:data-[slot=slider-track]:bg-foreground/20"
 						/>
-					</TooltipContent>
-				</Tooltip>
+					)}
+				</div>
+				<div className="flex-1 flex justify-end">
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Button
+								size="icon-sm"
+								variant="ghost"
+								className="*:size-full"
+								onClick={player.toggleMute}
+							>
+								<VolumeIcon />
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							<Slider
+								orientation="vertical"
+								defaultValue={[player.volume]}
+								onValueChange={player.setVolume}
+								className="invert **:data-[slot=slider-track]:bg-foreground/20"
+							/>
+						</TooltipContent>
+					</Tooltip>
+				</div>
 			</div>
-		</div>
-		{selectedVideo && (
-			<YouTube
-				videoId={selectedVideo.id.videoId}
-				onReady={(e) => setPlayer(e.target)}
-				onPlay={(e) => {
-					setPlaying(true)
-					e.target.setVolume(volume.isMuted ? 0 : volume.value)
-				}}
-				onPause={() => setPlaying(false)}
-				onEnd={() => setPlaying(false)}
-				iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
-			/>
-		)}
-	</>
+			{videoId && (
+				<YouTube
+					videoId={videoId}
+						onReady={(e) => {
+							setPlayer(e.target)
+							void e.target.setVolume(player.volume)
+						}}
+						onPlay={() => player.setPlaying(true)}
+						onPause={onStop}
+						onEnd={onStop}
+						opts={{ playerVars: { autoplay: 1 } }}
+						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
+				/>
+			)}
+		</>
+	)
 }

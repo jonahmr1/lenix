@@ -20,7 +20,7 @@ export default function Page() {
 					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw]">
 						<h1>Tonelix</h1>
 						<div className="portrait:order-1 w-1/2 portrait:w-full flex justify-center">
-							<Search {...{ setPlayer, setSelected }} />
+							<Search setSelected={setSelected} />
 						</div>
 						<Button onClick={() => toast.warning('Unavailable')}>
 							Continue with Goggle
