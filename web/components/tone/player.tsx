@@ -215,15 +215,13 @@ export const Player = ({
 					</ButtonGroup>
 					<div className='flex gap-[0.5vw] w-full'>
 						<p>{format(player.currentTime)}</p>
-						{videoId && (
-							<Slider
-								value={[player.currentTime]}
-								onValueChange={player.seek}
-								max={player.duration || 1}
-								disabled={!player.duration}
-								className='**:data-[slot=slider-track]:bg-foreground/20'
-							/>
-						)}
+						<Slider
+							value={[player.currentTime]}
+							onValueChange={player.seek}
+							max={player.duration || 1}
+							disabled={!player.duration}
+							className='**:data-[slot=slider-track]:bg-foreground/20'
+						/>
 						<p>{format(player.duration)}</p>
 					</div>
 				</div>
