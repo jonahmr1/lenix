@@ -16,7 +16,7 @@ import {
 	SpeakerSimpleNoneIcon,
 	SpeakerSimpleSlashIcon,
 } from '@phosphor-icons/react'
-import { S, storage } from '@lenix/lenix'
+import { storage } from '@lenix/lenix'
 import { PauseIcon, PlayIcon, SmileySadIcon } from '@phosphor-icons/react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import he from 'he'
@@ -140,15 +140,12 @@ const usePlayer = (
 }
 
 export const Player = ({
-	player: ytPlayer,
 	selectedVideo,
-	setPlayer,
 }: {
-	player: YouTubePlayer | null
 	selectedVideo: YoutubeVideoSearch['items'][number] | null
-	setPlayer: S<YouTubePlayer | null>
 }) => {
 	const videoId = selectedVideo?.id.videoId
+	const [ytPlayer, setYtPlayer] = useState<YouTubePlayer | null>(null)
 	const player = usePlayer(ytPlayer, videoId)
 	if (!player) return null
 
@@ -256,7 +253,7 @@ export const Player = ({
 				<YouTube
 					videoId={videoId}
 						onReady={(e) => {
-							setPlayer(e.target)
+							setYtPlayer(e.target)
 							void e.target.setVolume(player.volume)
 						}}
 						onPlay={() => player.setPlaying(true)}

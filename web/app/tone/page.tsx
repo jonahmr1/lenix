@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import YouTube, { type YouTubePlayer } from 'react-youtube'
 import type { YoutubeVideoSearch } from 'youtube.ts/dist/types/SearchTypes'
 import { Button } from '@/components/ui/button'
 import { Player } from '@/components/tone/player'
@@ -11,7 +10,6 @@ export default function Page() {
 	const [selectedVideo, setSelected] = useState<
 		YoutubeVideoSearch['items'][number] | null
 	>(null)
-	const [player, setPlayer] = useState<YouTubePlayer | null>(null)
 
 	return (
 		<div className="h-screen w-full">
@@ -29,7 +27,7 @@ export default function Page() {
 					{/* input will be here in portrait mode */}
 				</div>
 			</div>
-			<Player {...{ player, selectedVideo, setPlayer }} />
+			<Player selectedVideo={selectedVideo} />
 		</div>
 	)
 }
