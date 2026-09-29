@@ -21,6 +21,7 @@ import { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types'
 import YoutubeAPI from 'youtube.ts/dist/API'
 import he from 'he'
 import { Thumbnail } from '../thumbnail'
+import { Live } from './live'
 
 
 /* TODO: conceal */
@@ -88,7 +89,7 @@ export const Search = ({
 					<CommandEmpty className="flex justify-center">
 						{searchLoading ? (
 							<>
-								Searching <Spinner />
+								Searching &nbps; <Spinner />
 							</>
 						) : (
 							'No results.'
@@ -106,7 +107,10 @@ export const Search = ({
 									}}
 								>
 									<Thumbnail src={video.snippet.thumbnails.high.url} />
-									{he.decode(video.snippet.title)}
+									<div className='flex items-start gap-[0.5vw]'>
+										{he.decode(video.snippet.title)}
+										{video.snippet.liveBroadcastContent !== 'none' && <Live>{video.snippet.liveBroadcastContent}</Live>}
+									</div>
 								</CommandItem>
 							))}
 						</CommandGroup>

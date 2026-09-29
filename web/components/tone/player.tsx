@@ -29,6 +29,8 @@ import { Skeleton } from '../ui/skeleton'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import Link from 'next/link'
 import { usePlayer } from '@/hooks/usePlayer'
+import { Badge } from '../ui/badge'
+import { Live } from './live'
 
 dayjs.extend(duration)
 
@@ -80,7 +82,6 @@ export const Player = ({
 			children: <FastForwardIcon />,
 		},
 	]
-	console.log(video?.description)
 
 	return (
 		<>
@@ -93,11 +94,13 @@ export const Player = ({
 						<DialogContent>
 							<DialogHeader>
 								<DialogTitle>
-									<Link href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
-										{video?.title}
-									</Link> - {dayjs(video?.publishedAt).format("MMMM D, YYYY")}</DialogTitle>
+									<p>{video?.title}</p>
+									<p className='font-thin'>{dayjs(video?.publishedAt).format("MMMM D, YYYY")}</p>
+								</DialogTitle>
 								<DialogDescription>
-									{video?.channelTitle}
+									<Link href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
+										{video?.channelTitle}
+									</Link> 
 								</DialogDescription>
 							</DialogHeader>
 							{video?.description}
@@ -120,7 +123,7 @@ export const Player = ({
 								key={i}
 								className="size-10vh!"
 								variant="outline"
-								disabled={!videoId}
+								disabled={!videoId || video?.liveBroadcastContent !== 'none' && button.onClick !== player.togglePlay}
 								onClick={button.onClick}
 							>
 								{button.children}
@@ -133,10 +136,14 @@ export const Player = ({
 							value={[player.currentTime]}
 							onValueChange={player.seek}
 							max={player.duration || 1}
-							disabled={!player.duration}
+							disabled={!player.duration || !!video?.liveBroadcastContent}
 							className='**:data-[slot=slider-track]:bg-foreground/20'
 						/>
-						<p>{format(player.duration)}</p>
+						<div>
+							{video?.liveBroadcastContent !== 'none' ? (
+								<Live>{video?.liveBroadcastContent}</Live>
+							) : format(player.duration)}
+						</div>
 					</div>
 				</div>
 				<div className="flex-1 flex justify-end">
