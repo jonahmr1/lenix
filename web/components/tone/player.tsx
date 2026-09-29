@@ -187,7 +187,7 @@ export const Player = ({
 
 	return (
 		<>
-			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-chart-5 rounded-full px-[1vh] py-[0.5vh]">
+			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-muted rounded-full px-[1vh] py-[0.5vh]">
 				<div className="flex-1 size-full flex items-center gap-[0.5vw]">
 					<Thumbnail src={thumbnail} />
 					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.8vw] font-light">
@@ -195,8 +195,8 @@ export const Player = ({
 							<p className="font-bold">{he.decode(video.title)}</p>
 							<p>{he.decode(video.channelTitle)}</p>
 						</> : <div className='flex flex-col gap-[0.5vh]'>
-							<Skeleton className='w-full h-[2vh] bg-chart-4' />
-							<Skeleton className='w-2/3 h-[2vh] bg-chart-4' />
+							<Skeleton className='w-full h-[2vh] bg-ring' />
+							<Skeleton className='w-2/3 h-[2vh] bg-ring' />
 						</div>}
 					</div>
 				</div>

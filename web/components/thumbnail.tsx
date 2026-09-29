@@ -10,7 +10,7 @@ export const Thumbnail = ({ src, ...props }: { src: string | undefined } & Omit<
 	>
 		<AvatarImage className="scale-135" src={src} />
 		<AvatarFallback>
-			<Skeleton className="size-full bg-chart-4" />
+			<Skeleton className="size-full bg-ring" />
 		</AvatarFallback>
 	</Avatar>
 )
