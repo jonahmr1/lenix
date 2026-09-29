@@ -164,7 +164,7 @@ export const Player = ({
 
 	const playerButtons = [
 		{
-			onClick: () => {},
+			onClick: () => player.seek([Math.max(0, player.currentTime - 5)]),
 			children: <RewindIcon />,
 		},
 		{
@@ -180,7 +180,7 @@ export const Player = ({
 			children: <SkipForwardIcon weight="fill" />,
 		},
 		{
-			onClick: () => {},
+			onClick: () => player.seek([Math.max(0, player.currentTime + 5)]),
 			children: <FastForwardIcon />,
 		},
 	]
