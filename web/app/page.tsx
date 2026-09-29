@@ -78,7 +78,7 @@ export default async function Page() {
 						},
 						{
 							head: 'Purpose',
-							body: 'Reliablity & Performance first, Privacy & Security by design.',
+							body: 'Reliability & Performance first, Privacy & Security by design.',
 						},
 					].map(({ head, body }, i) => (
 						<div key={i} className="flex items-center justify-between not-last:pb-10 gap-5">
