@@ -88,9 +88,9 @@ export const Search = ({
 				<CommandList>
 					<CommandEmpty className="flex justify-center">
 						{searchLoading ? (
-							<>
-								Searching &nbps; <Spinner />
-							</>
+							<div className='flex gap-[0.5vw]'>
+								<span>Searching</span> <Spinner />
+							</div>
 						) : (
 							'No results.'
 						)}

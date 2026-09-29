@@ -140,7 +140,7 @@ export const Player = ({
 							className='**:data-[slot=slider-track]:bg-foreground/20'
 						/>
 						<div>
-							{video?.liveBroadcastContent !== 'none' ? (
+							{video?.liveBroadcastContent && video.liveBroadcastContent !== 'none' ? (
 								<Live>{video?.liveBroadcastContent}</Live>
 							) : format(player.duration)}
 						</div>
