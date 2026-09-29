@@ -17,8 +17,7 @@ import {
 	SpeakerSimpleSlashIcon,
 } from '@phosphor-icons/react'
 import { storage } from '@lenix/lenix'
-import { PauseIcon, PlayIcon, SmileySadIcon } from '@phosphor-icons/react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { PauseIcon, PlayIcon } from '@phosphor-icons/react'
 import he from 'he'
 import YouTube, { type YouTubePlayer } from 'react-youtube'
 import { YoutubeVideoSearch } from 'youtube.ts/dist/types'
@@ -28,6 +27,8 @@ import duration from 'dayjs/plugin/duration'
 import { ButtonGroup } from '../ui/button-group'
 import { Thumbnail } from '../thumbnail'
 import { Skeleton } from '../ui/skeleton'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import Link from 'next/link'
 
 dayjs.extend(duration)
 
@@ -184,12 +185,29 @@ export const Player = ({
 			children: <FastForwardIcon />,
 		},
 	]
+	console.log(video?.description)
 
 	return (
 		<>
 			<div className="absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-muted rounded-full px-[1vh] py-[0.5vh]">
 				<div className="flex-1 size-full flex items-center gap-[0.5vw]">
-					<Thumbnail src={thumbnail} />
+					<Dialog>
+						<DialogTrigger disabled={!video} className={video ? 'cursor-pointer' : 'cursor-not-allowed'}>
+							<Thumbnail src={thumbnail} />
+						</DialogTrigger>
+						<DialogContent>
+							<DialogHeader>
+								<DialogTitle>
+									<Link href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
+										{video?.title}
+									</Link> - {dayjs(video?.publishedAt).format("MMMM D, YYYY")}</DialogTitle>
+								<DialogDescription>
+									{video?.channelTitle}
+								</DialogDescription>
+							</DialogHeader>
+							{video?.description}
+						</DialogContent>
+					</Dialog>
 					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.8vw] font-light">
 						{video?.title && video?.channelTitle ? <>
 							<p className="font-bold">{he.decode(video.title)}</p>
