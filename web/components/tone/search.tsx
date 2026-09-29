@@ -17,11 +17,12 @@ import { asserts, S } from '@lenix/lenix'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types'
+import type { YoutubeSearchParams, YoutubeVideo, YoutubeVideoSearch } from 'youtube.ts/dist/types'
 import YoutubeAPI from 'youtube.ts/dist/API'
 import he from 'he'
 import { Thumbnail } from '../thumbnail'
 import { Live } from './live'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
 
 
 /* TODO: conceal */
@@ -50,7 +51,21 @@ export const Search = ({
 				type: 'video',
 				videoEmbeddable: 'true',
 			} satisfies YoutubeSearchParams)
-			setVideos(items)
+			if (!items.length) return setVideos(items)
+
+			const { items: fullVideos } = await youtube.get('video', {
+				id: items.map(({ id }) => id.videoId).join(','),
+				part: 'snippet',
+			}) as { items: YoutubeVideo[] }
+			const descriptions = new Map(fullVideos.map(({ id, snippet }) => [id, snippet.description]))
+
+			setVideos(items.map((video) => ({
+				...video,
+				snippet: {
+					...video.snippet,
+					description: descriptions.get(video.id.videoId) ?? video.snippet.description,
+				},
+			})))
 		} catch (e: any) {
 			toast.error('Error', {
 				description: JSON.stringify(e)
@@ -98,20 +113,26 @@ export const Search = ({
 					{videosFound.length > 0 && (
 						<CommandGroup heading="Results found">
 							{videosFound.map((video) => (
-								<CommandItem
-									key={video.etag}
-									value={video.etag}
-									onSelect={() => {
-										setSelected(video)
-										setOpen(false)
-									}}
-								>
-									<Thumbnail src={video.snippet.thumbnails.high.url} />
-									<div className='flex items-start gap-[0.5vw]'>
-										{he.decode(video.snippet.title)}
-										{video.snippet.liveBroadcastContent !== 'none' && <Live>{video.snippet.liveBroadcastContent}</Live>}
-									</div>
-								</CommandItem>
+								<HoverCard key={video.etag}>
+									<HoverCardTrigger asChild>
+										<CommandItem
+											value={video.etag}
+											onSelect={() => {
+												setSelected(video)
+												setOpen(false)
+											}}
+										>
+											<Thumbnail src={video.snippet.thumbnails.high.url} />
+											<div className='flex items-start gap-[0.5vw]'>
+												{he.decode(video.snippet.title)}
+												{video.snippet.liveBroadcastContent !== 'none' && <Live>{video.snippet.liveBroadcastContent}</Live>}
+											</div>
+										</CommandItem>
+									</HoverCardTrigger>
+									<HoverCardContent side='right' className='max-h-[50vh] overflow-y-auto'>
+										{video.snippet.description}
+									</HoverCardContent>
+								</HoverCard>
 							))}
 						</CommandGroup>
 					)}
