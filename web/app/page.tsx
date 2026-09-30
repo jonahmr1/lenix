@@ -48,7 +48,7 @@ export default async function Page() {
 					<Muted className="font-light tracking-widest uppercase opacity-60">01 / Introduction</Muted>
 					<h1>Lenix</h1>
 					<Lead>Self-taught software engineer</Lead>
-					<Muted className="opacity-50">AI & Product Engineer / FiveM Specialist / Technical Consultant</Muted>
+					<Muted className="opacity-50">Full-Stack AI Engineer</Muted>
 				</div>
 				<ButtonGroup className="w-full justify-center">
 					{buttons.map((button) => (
