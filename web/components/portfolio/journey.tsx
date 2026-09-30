@@ -57,7 +57,7 @@ const JourneyTimeline = async () => {
 
 	return (
 		<Timeline defaultValue={sortedJourney.findIndex((self) => self.status === 'pending')}>
-			{sortedJourney.map(({ date, description, status, tech, url, title, id }, i) => {
+			{sortedJourney.map(({ date, description, status, tech, sources, title, id, achievements }, i) => {
 				const Icon = statusIcons[status].icon
 				const hover = status === 'pending' ? <CircleNotchIcon className="animate-spin" /> : <Icon weight="bold" />
 
@@ -84,23 +84,30 @@ const JourneyTimeline = async () => {
 							<TimelineHeader>
 								{status !== 'planned' && status !== 'pending' && <TimelineDate>{date}</TimelineDate>}
 								<TimelineTitle>
-									{url ? (
-										<HoverCard openDelay={50} closeDelay={50}>
-											<HoverCardTrigger className="cursor-default">{title}</HoverCardTrigger>
-											<HoverCardContent side="top" className="w-fit">
-												<Link href={url} target="_blank" className="flex items-center justify-center gap-2 underline">
-													<span className="truncate">{url}</span>
-													<ArrowSquareOutIcon />
-												</Link>
-											</HoverCardContent>
-										</HoverCard>
-									) : (
-										title
-									)}
+									<HoverCard openDelay={50} closeDelay={50}>
+										<HoverCardTrigger className="cursor-default">{title}</HoverCardTrigger>
+										<HoverCardContent side="top" className="w-fit">
+											<Link href={sources[0]} target="_blank" className="flex items-center justify-center gap-2">
+												<span className="truncate">{sources[0]}</span>
+												<ArrowSquareOutIcon />
+											</Link>
+										</HoverCardContent>
+									</HoverCard>
 								</TimelineTitle>
 							</TimelineHeader>
 							<TimelineContent className="space-y-2">
 								<div>{description}</div>
+								{achievements.length > 1 && <ul className={`text-[1.5vh] ${i % 2 && 'list-none'}`}>
+									{achievements.map((achievement, it) => (
+										<li key={achievement} className='text-left'>
+											{sources[it + 1] ? <Link href={sources[it + 1]} target= '_blank' className='flex items-center gap-2'>
+												<span>{achievement}</span>
+												<ArrowSquareOutIcon className='min-h-[1vh] min-w-[1vw]' />
+												{i % 2 ? <span>•</span> : ''}
+											</Link> : <span>{achievement}</span>}
+										</li>
+									))}
+								</ul>}
 								<div className="space-x-1 space-y-px">
 									{tech?.map((self) => (
 										<Badge key={self} variant="outline" className="text-accent-foreground">

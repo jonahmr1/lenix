@@ -48,34 +48,37 @@ export type Database = {
       }
       journey: {
         Row: {
+          achievements: string[]
           created_at: string
           date: string
           description: string
           id: number
+          sources: string[]
           status: Database["public"]["Enums"]["statusType"]
-          tech: string[] | null
+          tech: string[]
           title: string
-          url: string | null
         }
         Insert: {
+          achievements: string[]
           created_at?: string
           date?: string
           description: string
           id?: number
+          sources: string[]
           status: Database["public"]["Enums"]["statusType"]
-          tech?: string[] | null
+          tech: string[]
           title: string
-          url?: string | null
         }
         Update: {
+          achievements?: string[]
           created_at?: string
           date?: string
           description?: string
           id?: number
+          sources?: string[]
           status?: Database["public"]["Enums"]["statusType"]
-          tech?: string[] | null
+          tech?: string[]
           title?: string
-          url?: string | null
         }
         Relationships: []
       }
