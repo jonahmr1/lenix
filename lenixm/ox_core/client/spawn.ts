@@ -53,8 +53,10 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 
 	if (!CHARACTER_SELECT) return;
 
-	await waitFor(() => GetResourceState('lenix_premiums') === 'started', '<lenix_premiums> did not started after 10,000ms', 10000)
-	const character = await globalThis.exports.lenix_premiums.charselect(<Character[]>characters) as Character | undefined
+	// await waitFor(() => GetResourceState('lenix_premiums') === 'started', '<lenix_premiums> did not started after 10,000ms', 10000)
+	// const character = await globalThis.exports.lenix_premiums.charselect(<Character[]>characters) as Character | undefined
+	await waitFor(() => GetResourceState('lenix') === 'started', '<lenix> did not started after 10,000ms', 10000)
+	const character = await globalThis.exports.lenix.charselect(<Character[]>characters, 'native') as Character | undefined
 
 	const [x, y, z] = [
 		character?.x || SPAWN_LOCATION[0],
