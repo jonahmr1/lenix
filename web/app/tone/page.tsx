@@ -1,15 +1,34 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import type { YoutubeVideoSearch } from 'youtube.ts/dist/types/SearchTypes'
 import { Button } from '@/components/ui/button'
 import { Player } from '@/components/tone/player'
 import { Search } from '@/components/tone/search'
+import { createClient } from '@/lib/supabase.client'
+import { User } from '@supabase/supabase-js'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function Page() {
 	const [selectedVideo, setSelected] = useState<
 		YoutubeVideoSearch['items'][number] | null
 	>(null)
+	const [user, setUser] = useState<User | null>()
+
+	useEffect(() => {
+		const timeout = setTimeout(async () => {
+			const { data, error } = await createClient().auth.getUser()
+			if (error && error.name !== 'AuthSessionMissingError') {
+				toast.error('Error', {
+					description: JSON.stringify(error)
+				})
+			}
+			setUser(data.user)
+		})
+
+		return () => clearTimeout(timeout)
+	}, [])
 
 	return (
 		<div className="h-screen w-full">
@@ -20,9 +39,25 @@ export default function Page() {
 						<div className="portrait:order-1 w-1/2 portrait:w-full flex justify-center">
 							<Search setSelected={setSelected} />
 						</div>
-						<Button onClick={() => toast.warning('Unavailable')}>
-							Continue with Goggle
-						</Button>
+						{user === undefined ? (
+							<Skeleton className='h-[5vh] w-[5vh] rounded-full' />
+						) : user ? (
+							<Avatar>
+								<AvatarImage src={user.user_metadata.avatar_url} />
+								<AvatarFallback>??</AvatarFallback>
+							</Avatar>
+						) : (
+							<Button onClick={() => {
+								createClient().auth.signInWithOAuth({
+									provider: 'google',
+									options: {
+										redirectTo: `${window.location.origin}/auth/callback`
+									}
+								})
+							}}>
+								Continue with Goggle
+							</Button>
+						)}
 					</div>
 					{/* input will be here in portrait mode */}
 				</div>
