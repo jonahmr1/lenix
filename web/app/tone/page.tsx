@@ -41,30 +41,32 @@ export default function Page() {
 		<div className="h-screen w-full">
 			<div className="size-full flex flex-col justify-between px-[5vw] py-[5vh]">
 				<div className="flex flex-col portrait:items-center">
-					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw]">
+					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw] *:flex-1">
 						<h1>Tonelix</h1>
 						<div className="portrait:order-1 w-1/2 portrait:w-full flex justify-center">
 							<Search setSelected={setSelected} />
 						</div>
-						{user === undefined ? (
-							<Skeleton className='h-[5vh] w-[5vh] rounded-full' />
-						) : user ? (
-							<Avatar>
-								<AvatarImage src={user.user_metadata.avatar_url} />
-								<AvatarFallback>??</AvatarFallback>
-							</Avatar>
-						) : (
-							<Button onClick={() => {
-								createClient().auth.signInWithOAuth({
-									provider: 'google',
-									options: {
-										redirectTo: `${window.location.origin}/auth/callback`
-									}
-								})
-							}}>
-								Continue with Goggle
-							</Button>
-						)}
+						<div className='flex justify-end'>
+							{user === undefined ? (
+								<Skeleton className='h-[5vh] w-[5vh] rounded-full' />
+							) : user ? (
+								<Avatar>
+									<AvatarImage src={user.user_metadata.avatar_url} />
+									<AvatarFallback>??</AvatarFallback>
+								</Avatar>
+							) : (
+								<Button onClick={() => {
+									createClient().auth.signInWithOAuth({
+										provider: 'google',
+										options: {
+											redirectTo: `${window.location.origin}/auth/callback`
+										}
+									})
+								}}>
+									Continue with Goggle
+								</Button>
+							)}
+						</div>
 					</div>
 					{/* input will be here in portrait mode */}
 				</div>
