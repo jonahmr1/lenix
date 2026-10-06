@@ -29,7 +29,6 @@ import { Skeleton } from '../ui/skeleton'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import Link from 'next/link'
 import { usePlayer } from '@/hooks/usePlayer'
-import { Badge } from '../ui/badge'
 import { Live } from './live'
 
 dayjs.extend(duration)
@@ -66,7 +65,7 @@ export const Player = ({
 			children: <RewindIcon />,
 		},
 		{
-			onClick: () => {},
+			onClick: null,
 			children: <SkipBackIcon weight='fill' />,
 		},
 		{
@@ -74,7 +73,7 @@ export const Player = ({
 			children: <PlaybackIcon weight="fill" />,
 		},
 		{
-			onClick: () => {},
+			onClick: null,
 			children: <SkipForwardIcon weight="fill" />,
 		},
 		{
@@ -123,8 +122,8 @@ export const Player = ({
 								key={i}
 								className="size-10vh!"
 								variant="outline"
-								disabled={!videoId || video?.liveBroadcastContent !== 'none' && button.onClick !== player.togglePlay}
-								onClick={button.onClick}
+								disabled={!videoId || !button.onClick || video?.liveBroadcastContent !== 'none' && button.onClick !== player.togglePlay}
+								onClick={() => button.onClick?.()}
 							>
 								{button.children}
 							</Button>
