@@ -9,12 +9,16 @@ import { createClient } from '@/lib/supabase.client'
 import { User } from '@supabase/supabase-js'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { usePlayer } from '@/hooks/usePlayer'
+import { YouTubePlayer } from 'react-youtube'
 
 export default function Page() {
 	const [selectedVideo, setSelected] = useState<
 		YoutubeVideoSearch['items'][number] | null
 	>(null)
 	const [user, setUser] = useState<User | null>()
+	const [ytPlayer, setYtPlayer] = useState<YouTubePlayer | null>(null)
+	const player = usePlayer(ytPlayer, selectedVideo?.id.videoId)
 
 	useEffect(() => {
 		const timeout = setTimeout(async () => {
@@ -25,9 +29,12 @@ export default function Page() {
 				})
 			}
 			setUser(data.user)
+			console.log(data.user)
 		})
 
-		return () => clearTimeout(timeout)
+		return () => {
+			clearTimeout(timeout)
+		}
 	}, [])
 
 	return (
@@ -62,7 +69,7 @@ export default function Page() {
 					{/* input will be here in portrait mode */}
 				</div>
 			</div>
-			<Player selectedVideo={selectedVideo} />
+			<Player selectedVideo={selectedVideo} player={player} setYtPlayer={setYtPlayer} />
 		</div>
 	)
 }
