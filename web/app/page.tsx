@@ -47,7 +47,7 @@ export default async function Page() {
 				<div className="flex flex-col items-start">
 					<Muted className="font-light tracking-widest uppercase opacity-60">01 / Introduction</Muted>
 					<h1>Lenix</h1>
-					<Lead>Self-taught software engineer since 2008-04-06</Lead>
+					<Lead>Self-taught software engineer</Lead>
 					<Muted className="opacity-50">Full-Stack AI Engineer</Muted>
 				</div>
 				<ButtonGroup className="w-full justify-center">
