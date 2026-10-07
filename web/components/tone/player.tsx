@@ -32,6 +32,7 @@ import { usePlayer } from '@/hooks/usePlayer'
 import { Live } from './live'
 import { S } from '@lenix/lenix'
 import { cn } from 'cn'
+import { toast } from 'sonner'
 
 dayjs.extend(duration)
 
@@ -210,16 +211,16 @@ export const Player = ({
 						))}
 					</ButtonGroup>
 					<div className='flex gap-[0.5vw] w-full'>
-						<p>{format(player.currentTime)}</p>
+						<p className='text-foreground'>{format(player.currentTime)}</p>
 						<Slider
 							value={[player.currentTime]}
 							onValueChange={player.seek}
 							max={player.duration || 1}
-							disabled={!player.duration || !!video?.liveBroadcastContent}
+							disabled={!player.duration || video.liveBroadcastContent !== 'none'}
 							className='**:data-[slot=slider-track]:bg-foreground/20'
 						/>
 						<div>
-							{video?.liveBroadcastContent && video.liveBroadcastContent !== 'none' ? (
+							{video.liveBroadcastContent !== 'none' ? (
 								<Live>{video?.liveBroadcastContent}</Live>
 							) : format(player.duration)}
 						</div>
@@ -258,8 +259,12 @@ export const Player = ({
 						onPlay={() => player.setPlaying(true)}
 						onPause={onStop}
 						onEnd={onStop}
-						opts={{ playerVars: { autoplay: 1 } }}
+						opts={{ playerVars: { autoplay: 0 } }}
 						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
+						onError={() => {
+							player.setPlaying(false)
+							toast.error('This video cannot play here. Please choose another music.')
+						}}
 				/>
 			)}
 		</>
