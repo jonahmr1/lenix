@@ -109,6 +109,30 @@ export type Database = {
         }
         Relationships: []
       }
+      player: {
+        Row: {
+          created_at: string
+          id: string
+          playing: boolean
+          time: number
+          video_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          playing: boolean
+          time: number
+          video_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          playing?: boolean
+          time?: number
+          video_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           created_at: string
