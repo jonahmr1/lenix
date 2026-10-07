@@ -13,35 +13,29 @@ import {
 	InputGroupInput,
 } from '@/components/ui/input-group'
 import { Spinner } from '@/components/ui/spinner'
-import { asserts, S } from '@lenix/lenix'
+import { S } from '@lenix/lenix'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import type { YoutubeSearchParams, YoutubeVideo, YoutubeVideoSearch } from 'youtube.ts/dist/types'
-import YoutubeAPI from 'youtube.ts/dist/API'
 import he from 'he'
 import { Thumbnail } from '../thumbnail'
 import { Live } from './live'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
-
-
-/* TODO: conceal */
-const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
-asserts(apiKey, 'YOUTUBE_API_KEY missing')
-
-const youtube = new YoutubeAPI(apiKey)
-
+import YoutubeAPI from 'youtube.ts/dist/API'
 
 export const Search = ({
 	setSelected,
+	youtube
 }: {
 	setSelected: S<YoutubeVideoSearch['items'][number] | null>
+	youtube: YoutubeAPI
 }) => {
 	const [searchInput, setInput] = useState('')
 	const [cmdOpen, setOpen] = useState(false)
 	const [videosFound, setVideos] = useState<YoutubeVideoSearch['items']>([])
 	const [searchLoading, setLoading] = useState(false)
-	
+
 	const search = async () => {
 		setVideos([])
 		setLoading(true)
@@ -80,7 +74,7 @@ export const Search = ({
 		<InputGroup className="max-w-2/3 portrait:max-w-none">
 			<InputGroupInput
 				placeholder="Type what do you wanna play"
-				onClick={() => setOpen(true)}
+				onFocus={() => setOpen(true)}
 			/>
 			<InputGroupAddon>
 				<MagnifyingGlassIcon />
