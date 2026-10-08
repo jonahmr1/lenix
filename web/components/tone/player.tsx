@@ -189,7 +189,12 @@ export const Player = () => {
 								key={i}
 								className="size-10vh!"
 								variant="outline"
-								disabled={!videoId || !button.onClick || video?.liveBroadcastContent !== 'none' && button.onClick !== togglePlay}
+								disabled={
+									!states.ytPlayer ||
+									!videoId ||
+									!button.onClick ||
+									video?.liveBroadcastContent !== 'none' && button.onClick !== togglePlay
+								}
 								onClick={() => button.onClick?.()}
 							>
 								{button.children}
