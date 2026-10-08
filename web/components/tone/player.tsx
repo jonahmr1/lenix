@@ -247,9 +247,7 @@ export const Player = () => {
 						onEnd={() => setPlaying(false)}
 						onStateChange={async state => {
 							const duration = await state.target.getDuration()
-							const currentTime = await state.target.getCurrentTime()
-							
-							setStates(prev => ({ ...prev, duration, currentTime }))
+							setStates(prev => ({ ...prev, duration }))
 						}}
 						opts={{ playerVars: { autoplay: 0 } }}
 						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"

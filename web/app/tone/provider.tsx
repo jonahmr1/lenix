@@ -118,6 +118,18 @@ export default function StatesProvider({
 			})
 	}, [states?.currentTime, states?.video?.id.videoId])
 
+	useEffect(() => {
+		const ytPlayer = states?.ytPlayer
+		if (!ytPlayer || !states.isPlaying) return
+
+		const interval = setInterval(async () => {
+      const currentTime = await ytPlayer.getCurrentTime()
+      setStates(prev => prev ? ({ ...prev, currentTime }) : prev)
+    }, 1000)
+
+    return () => clearInterval(interval)
+	}, [states?.ytPlayer, states?.isPlaying])
+
 	if (!states) return <Loading />
 
 	return (
