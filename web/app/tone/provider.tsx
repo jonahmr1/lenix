@@ -126,7 +126,7 @@ export default function StatesProvider({
 	}, [])
 
 	useEffect(() => {
-		if (!states?.video) return
+		if (!states?.video || !states.user) return
 
 		createClient()
 			.from('player')
