@@ -29,6 +29,9 @@ interface States {
 	volume: number
 	isMuted: boolean
 	isPlaying: boolean
+}
+
+interface Setters {
 	seek: (value: number) => Promise<void>
 	setPlaying: (value: boolean) => Promise<void>
 	setVolume: (value: number) => void
@@ -39,7 +42,7 @@ interface States {
 export const StatesContext = createContext<{
 	states: States
 	setStates: S<States>
-} | null>(null)
+} & Setters | null>(null)
 
 export default function StatesProvider({
 	children,
@@ -76,7 +79,8 @@ export default function StatesProvider({
 				: null
 
 			const video = re$ ? re$.items[0] : null
-			setStates(prev => prev ?? ({
+
+			setStates({
 				youtube,
 				video: video ? {
 					kind: 'youtube#searchResult',
@@ -91,42 +95,14 @@ export default function StatesProvider({
 				volume: storedVolume === null ? 20 : Number(storedVolume),
 				isMuted: storageIsMuted === null ? false : storageIsMuted === 'true',
 				isPlaying: false,
-				seek: async (time: number) => {
-					setStates(prev => (prev ? { ...prev, currentTime: time } : prev))
-					await states?.ytPlayer?.seekTo(time, true)
-				},
-				togglePlay: async () => {
-					const isPlaying = await states?.ytPlayer?.getPlayerState()
-
-					isPlaying === 1 ? states?.ytPlayer?.pauseVideo() : states?.ytPlayer?.playVideo()
-				},
-				setPlaying: async (isPlaying: boolean) => {
-					setStates(prev => (prev ? { ...prev, isPlaying } : prev))
-					if (isPlaying) {
-						if (await states?.ytPlayer?.isMuted()) await states?.ytPlayer?.mute()
-						else await states?.ytPlayer?.unMute()
-					}
-				},
-				toggleMute: async () => {
-					const isUnMuted = !await states?.ytPlayer?.isMuted()
-					setStates((prev) => (prev ? { ...prev, isMuted: isUnMuted } : prev))
-					storage.set<{ isMuted: boolean }, 'isMuted'>('isMuted', isUnMuted)
-					if (isUnMuted) await states?.ytPlayer?.mute()
-					else await states?.ytPlayer?.unMute()
-				},
-				setVolume: (volume: number) => {
-					setStates(prev => (prev ? { ...prev, volume } : prev))
-					states?.ytPlayer?.setVolume(volume)
-					storage.set<{ volume: number }, 'volume'>('volume', volume)
-				},
-			}))
+			})
 		})
 
 		return () => clearTimeout(timeout)
 	}, [])
 
 	useEffect(() => {
-		if (!states?.video || !states.user) return
+		if (!states?.video || !states?.user) return
 
 		createClient()
 			.from('player')
@@ -145,7 +121,40 @@ export default function StatesProvider({
 	if (!states) return <Loading />
 
 	return (
-		<StatesContext.Provider value={{ states, setStates: setStates as S<States> }}>
+		<StatesContext.Provider value={{
+			states,
+			setStates: setStates as S<States>,
+			seek: async (time: number) => {
+				setStates(prev => (prev ? { ...prev, currentTime: time } : prev))
+				await states.ytPlayer?.seekTo(time, true)
+			},
+			togglePlay: async () => {
+				if (!states.ytPlayer) return
+				
+				const status = await states.ytPlayer.getPlayerState()
+
+				status === 1 ? states.ytPlayer.pauseVideo() : states.ytPlayer.playVideo()
+			},
+			setPlaying: async (isPlaying: boolean) => {
+				setStates(prev => (prev ? { ...prev, isPlaying } : prev))
+				if (isPlaying) {
+					if (await states.ytPlayer?.isMuted()) await states.ytPlayer?.mute()
+					else await states.ytPlayer?.unMute()
+				}
+			},
+			toggleMute: async () => {
+				const isUnMuted = !await states.ytPlayer?.isMuted()
+				setStates((prev) => (prev ? { ...prev, isMuted: isUnMuted } : prev))
+				storage.set<{ isMuted: boolean }, 'isMuted'>('isMuted', isUnMuted)
+				if (isUnMuted) await states.ytPlayer?.mute()
+				else await states.ytPlayer?.unMute()
+			},
+			setVolume: (volume: number) => {
+				setStates(prev => (prev ? { ...prev, volume } : prev))
+				states.ytPlayer?.setVolume(volume)
+				storage.set<{ volume: number }, 'volume'>('volume', volume)
+			},
+		}}>
 			{children}
 		</StatesContext.Provider>
 	)

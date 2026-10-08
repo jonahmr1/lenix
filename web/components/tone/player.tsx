@@ -52,7 +52,7 @@ const Body = ({ children, className, ...props }: {
 )
 
 export const Player = () => {
-	const { states, setStates } = useStates()
+	const { states, setStates, seek, setPlaying, togglePlay, toggleMute, setVolume } = useStates()
 	
 	const videoId = states.video?.id.videoId
 
@@ -62,7 +62,7 @@ export const Player = () => {
 	const PlaybackIcon = states.isPlaying ? PauseIcon : PlayIcon
 	const playerButtons = [
 		{
-			onClick: () => states.seek(Math.max(0, states.currentTime - 5)),
+			onClick: () => seek(Math.max(0, states.currentTime - 5)),
 			children: <RewindIcon />,
 		},
 		{
@@ -70,7 +70,7 @@ export const Player = () => {
 			children: <SkipBackIcon weight='fill' />,
 		},
 		{
-			onClick: states.togglePlay,
+			onClick: togglePlay,
 			children: <PlaybackIcon weight="fill" />,
 		},
 		{
@@ -78,7 +78,7 @@ export const Player = () => {
 			children: <SkipForwardIcon weight="fill" />,
 		},
 		{
-			onClick: () => states?.seek(Math.max(0, states.currentTime + 5)),
+			onClick: () => seek(Math.max(0, states.currentTime + 5)),
 			children: <FastForwardIcon />,
 		},
 	]
@@ -154,8 +154,6 @@ export const Player = () => {
 		</Body>
 	)
 
-	const onStop = () => states.setPlaying(false)
-
 	return (
 		<>
 			<Body>
@@ -191,7 +189,7 @@ export const Player = () => {
 								key={i}
 								className="size-10vh!"
 								variant="outline"
-								disabled={!videoId || !button.onClick || video?.liveBroadcastContent !== 'none' && button.onClick !== states.togglePlay}
+								disabled={!videoId || !button.onClick || video?.liveBroadcastContent !== 'none' && button.onClick !== togglePlay}
 								onClick={() => button.onClick?.()}
 							>
 								{button.children}
@@ -202,7 +200,7 @@ export const Player = () => {
 						<p className='text-foreground'>{format(states.currentTime)}</p>
 						<Slider
 							value={[states.currentTime]}
-							onValueChange={values => states.seek(values[0])}
+							onValueChange={values => seek(values[0])}
 							max={states.duration || 1}
 							disabled={!states.duration || video.liveBroadcastContent !== 'none'}
 							className='**:data-[slot=slider-track]:bg-foreground/20'
@@ -221,7 +219,7 @@ export const Player = () => {
 								size="icon-lg"
 								variant="outline"
 								className="*:size-full rounded-full"
-								onClick={states.toggleMute}
+								onClick={toggleMute}
 							>
 								<VolumeIcon />
 							</Button>
@@ -230,7 +228,7 @@ export const Player = () => {
 							<Slider
 								orientation="vertical"
 								defaultValue={[states.volume]}
-								onValueChange={values => states.setVolume(values[0])}
+								onValueChange={values => setVolume(values[0])}
 								className="invert **:data-[slot=slider-track]:bg-foreground/20"
 							/>
 						</TooltipContent>
@@ -244,9 +242,9 @@ export const Player = () => {
 							setStates(prev => ({ ...prev, ytPlayer: e.target }))
 							void e.target.setVolume(states.volume)
 						}}
-						onPlay={() => states.setPlaying(true)}
-						onPause={onStop}
-						onEnd={onStop}
+						onPlay={() => setPlaying(true)}
+						onPause={() => setPlaying(false)}
+						onEnd={() => setPlaying(false)}
 						onStateChange={async state => {
 							const duration = await state.target.getDuration()
 							const currentTime = await state.target.getCurrentTime()
@@ -256,7 +254,7 @@ export const Player = () => {
 						opts={{ playerVars: { autoplay: 0 } }}
 						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
 						onError={() => {
-							states.setPlaying(false)
+							setPlaying(false)
 							toast.error('This video cannot play here. Please choose another music.')
 						}}
 				/>
