@@ -42,7 +42,7 @@ const Body = ({ children, className, ...props }: {
 } & React.ComponentProps<'div'>) => (
 	<div
 		className={cn(
-			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[50vw] bg-muted rounded-full px-[1vh] py-[0.5vh]',
+			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[1vh] py-[0.5vh]',
 			className
 		)}
 		{...props}
@@ -177,7 +177,7 @@ export const Player = () => {
 							{video?.description}
 						</DialogContent>
 					</Dialog>
-					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.8vw]">
+					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.7vw]">
 						<p className="font-bold">{he.decode(video.title)}</p>
 						<p>{he.decode(video.channelTitle)}</p>
 					</div>
@@ -239,7 +239,12 @@ export const Player = () => {
 				<YouTube
 					videoId={videoId}
 						onReady={async e => {
-							await e.target.seekTo(states.currentTime, true)
+							if (!states.autoplay) {
+								await e.target.cueVideoById({
+									videoId,
+									startSeconds: states.currentTime,
+								})
+							}
 							await e.target.setVolume(states.volume)
 
 							setStates(prev => ({ ...prev, ytPlayer: e.target }))
@@ -251,7 +256,7 @@ export const Player = () => {
 							const duration = await state.target.getDuration()
 							setStates(prev => ({ ...prev, duration }))
 						}}
-						opts={{ playerVars: { autoplay: 0 } }}
+						opts={{ playerVars: { autoplay: states.autoplay ? 1 : 0 } }}
 						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
 						onError={() => {
 							setPlaying(false)

@@ -29,6 +29,7 @@ interface States {
 	volume: number
 	isMuted: boolean
 	isPlaying: boolean
+	autoplay: boolean
 }
 
 interface Setters {
@@ -95,6 +96,7 @@ export default function StatesProvider({
 				volume: storedVolume === null ? 20 : Number(storedVolume),
 				isMuted: storageIsMuted === null ? false : storageIsMuted === 'true',
 				isPlaying: false,
+				autoplay: false,
 			})
 		})
 
