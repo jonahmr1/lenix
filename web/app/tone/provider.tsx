@@ -90,7 +90,7 @@ export default function StatesProvider({
 				} : video,
 				user: session ? session.user : null,
 				ytPlayer: null,
-				currentTime: 0,
+				currentTime: re?.data?.time ?? 0,
 				duration: 0,
 				volume: storedVolume === null ? 20 : Number(storedVolume),
 				isMuted: storageIsMuted === null ? false : storageIsMuted === 'true',

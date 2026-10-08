@@ -238,9 +238,11 @@ export const Player = () => {
 			{videoId && (
 				<YouTube
 					videoId={videoId}
-						onReady={(e) => {
+						onReady={async e => {
+							await e.target.seekTo(states.currentTime, true)
+							await e.target.setVolume(states.volume)
+
 							setStates(prev => ({ ...prev, ytPlayer: e.target }))
-							void e.target.setVolume(states.volume)
 						}}
 						onPlay={() => setPlaying(true)}
 						onPause={() => setPlaying(false)}

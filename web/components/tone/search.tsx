@@ -107,7 +107,7 @@ export const Search = () => {
 										<CommandItem
 											value={video.etag}
 											onSelect={() => {
-												setStates(prev => ({ ...prev, video }))
+												setStates(prev => ({ ...prev, video, currentTime: 0 }))
 												setOpen(false)
 											}}
 										>
