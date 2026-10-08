@@ -4,6 +4,7 @@ import { emitNui, entity, onNui } from 'lenix/client'
 import { api } from 'lenix/client'
 
 checkDependency('ox_lib', '3.39.0', true)
+checkDependency('pma-voice', '6.6.2', true)
 
 const dict = 'cellphone@'
 const anim = 'cellphone_text_read_base'

@@ -9,11 +9,11 @@ const EnabledContextedScripts = [
 ] as const satisfies readonly (ClientScript & ServerScript)[]
 
 export const EnabledOnlyClientScripts = [
-	'radio',
+	// 'radio',
 	'settings',
 	'weather',
 	'snipets',
-	'megaphone',
+	// 'megaphone',
 	'charselect',
 	'emotes'
 ] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
