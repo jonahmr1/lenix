@@ -127,7 +127,7 @@ export const Player = () => {
 			</div>
 			<div className="flex-1 flex justify-end portrait:justify-start gap-[1vw]">
 				<Slider
-					defaultValue={[0]}
+					defaultValue={[states.volume]}
 					className="w-1/2 portrait:w-full **:data-[slot=slider-track]:bg-foreground/20"
 				/>
 				<Button
