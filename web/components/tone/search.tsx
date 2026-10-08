@@ -13,7 +13,6 @@ import {
 	InputGroupInput,
 } from '@/components/ui/input-group'
 import { Spinner } from '@/components/ui/spinner'
-import { S } from '@lenix/lenix'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -22,15 +21,11 @@ import he from 'he'
 import { Thumbnail } from '../thumbnail'
 import { Live } from './live'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
-import YoutubeAPI from 'youtube.ts/dist/API'
+import { useStates } from '@/hooks/useStates'
 
-export const Search = ({
-	setSelected,
-	youtube
-}: {
-	setSelected: S<YoutubeVideoSearch['items'][number] | null>
-	youtube: YoutubeAPI
-}) => {
+export const Search = () => {
+	const { states, setStates } = useStates()
+
 	const [searchInput, setInput] = useState('')
 	const [cmdOpen, setOpen] = useState(false)
 	const [videosFound, setVideos] = useState<YoutubeVideoSearch['items']>([])
@@ -40,14 +35,14 @@ export const Search = ({
 		setVideos([])
 		setLoading(true)
 		try {
-			const { items }: YoutubeVideoSearch = await youtube.get('search', {
+			const { items }: YoutubeVideoSearch = await states.youtube.get('search', {
 				q: searchInput,
 				type: 'video',
 				videoEmbeddable: 'true',
 			} satisfies YoutubeSearchParams)
 			if (!items.length) return setVideos(items)
 
-			const { items: fullVideos } = await youtube.get('video', {
+			const { items: fullVideos } = await states.youtube.get('video', {
 				id: items.map(({ id }) => id.videoId).join(','),
 				part: 'snippet',
 			}) as { items: YoutubeVideo[] }
@@ -112,7 +107,7 @@ export const Search = ({
 										<CommandItem
 											value={video.etag}
 											onSelect={() => {
-												setSelected(video)
+												setStates(prev => ({ ...prev, video }))
 												setOpen(false)
 											}}
 										>

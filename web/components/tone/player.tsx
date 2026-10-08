@@ -18,8 +18,7 @@ import {
 } from '@phosphor-icons/react'
 import { PauseIcon, PlayIcon } from '@phosphor-icons/react'
 import he from 'he'
-import YouTube, { type YouTubePlayer } from 'react-youtube'
-import { YoutubeVideoSearch } from 'youtube.ts/dist/types'
+import YouTube from 'react-youtube'
 
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
@@ -28,11 +27,10 @@ import { Thumbnail } from '../thumbnail'
 import { Skeleton } from '../ui/skeleton'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import Link from 'next/link'
-import { usePlayer } from '@/hooks/usePlayer'
 import { Live } from './live'
-import { S } from '@lenix/lenix'
 import { cn } from 'cn'
 import { toast } from 'sonner'
+import { useStates } from '@/hooks/useStates'
 
 dayjs.extend(duration)
 
@@ -53,24 +51,18 @@ const Body = ({ children, className, ...props }: {
 	</div>
 )
 
-export const Player = ({
-	selectedVideo,
-	player,
-	setYtPlayer
-}: {
-	selectedVideo: YoutubeVideoSearch['items'][number] | null
-	player: ReturnType<typeof usePlayer>
-	setYtPlayer: S<YouTubePlayer | null>
-}) => {
-	const videoId = selectedVideo?.id.videoId
+export const Player = () => {
+	const { states, setStates } = useStates()
+	
+	const videoId = states.video?.id.videoId
 
-	const video = selectedVideo?.snippet
+	const video = states.video?.snippet
 	const thumbnail = video?.thumbnails.high.url
 
-	const PlaybackIcon = player?.isPlaying ? PauseIcon : PlayIcon
+	const PlaybackIcon = states.isPlaying ? PauseIcon : PlayIcon
 	const playerButtons = [
 		{
-			onClick: () => player?.seek([Math.max(0, player.currentTime - 5)]),
+			onClick: () => states.seek(Math.max(0, states.currentTime - 5)),
 			children: <RewindIcon />,
 		},
 		{
@@ -78,7 +70,7 @@ export const Player = ({
 			children: <SkipBackIcon weight='fill' />,
 		},
 		{
-			onClick: player?.togglePlay,
+			onClick: states.togglePlay,
 			children: <PlaybackIcon weight="fill" />,
 		},
 		{
@@ -86,20 +78,20 @@ export const Player = ({
 			children: <SkipForwardIcon weight="fill" />,
 		},
 		{
-			onClick: () => player?.seek([Math.max(0, player.currentTime + 5)]),
+			onClick: () => states?.seek(Math.max(0, states.currentTime + 5)),
 			children: <FastForwardIcon />,
 		},
 	]
 
-	const VolumeIcon = player?.isMuted
+	const VolumeIcon = states.isMuted
 		? SpeakerSimpleSlashIcon
-		: player?.volume === 0
+		: states.volume === 0
 			? SpeakerSimpleNoneIcon
-			: player?.volume ?? 0 < 50
+			: states.volume ?? 0 < 50
 				? SpeakerSimpleLowIcon
 				: SpeakerSimpleHighIcon
 
-	if (!player || !video) return (
+	if (!video) return (
 		<Body>
 			<div className="flex-1 size-full flex items-center gap-[0.5vw]">
 				<Dialog>
@@ -136,11 +128,7 @@ export const Player = ({
 						disabled
 						className='**:data-[slot=slider-track]:bg-foreground/20'
 					/>
-					<div className='whitespace-nowrap'>
-						{video?.liveBroadcastContent && video.liveBroadcastContent !== 'none' ? (
-							<Live>{video?.liveBroadcastContent}</Live>
-						) : '--'}
-					</div>
+					<span className='whitespace-nowrap'>--</span>
 				</div>
 			</div>
 			<div className="flex-1 flex justify-end">
@@ -166,7 +154,7 @@ export const Player = ({
 		</Body>
 	)
 
-	const onStop = () => player.setPlaying(false)
+	const onStop = () => states.setPlaying(false)
 
 	return (
 		<>
@@ -203,7 +191,7 @@ export const Player = ({
 								key={i}
 								className="size-10vh!"
 								variant="outline"
-								disabled={!videoId || !button.onClick || video?.liveBroadcastContent !== 'none' && button.onClick !== player.togglePlay}
+								disabled={!videoId || !button.onClick || video?.liveBroadcastContent !== 'none' && button.onClick !== states.togglePlay}
 								onClick={() => button.onClick?.()}
 							>
 								{button.children}
@@ -211,18 +199,18 @@ export const Player = ({
 						))}
 					</ButtonGroup>
 					<div className='flex gap-[0.5vw] w-full'>
-						<p className='text-foreground'>{format(player.currentTime)}</p>
+						<p className='text-foreground'>{format(states.currentTime)}</p>
 						<Slider
-							value={[player.currentTime]}
-							onValueChange={player.seek}
-							max={player.duration || 1}
-							disabled={!player.duration || video.liveBroadcastContent !== 'none'}
+							value={[states.currentTime]}
+							onValueChange={values => states.seek(values[0])}
+							max={states.duration || 1}
+							disabled={!states.duration || video.liveBroadcastContent !== 'none'}
 							className='**:data-[slot=slider-track]:bg-foreground/20'
 						/>
 						<div>
 							{video.liveBroadcastContent !== 'none' ? (
 								<Live>{video?.liveBroadcastContent}</Live>
-							) : format(player.duration)}
+							) : format(states.duration)}
 						</div>
 					</div>
 				</div>
@@ -233,7 +221,7 @@ export const Player = ({
 								size="icon-lg"
 								variant="outline"
 								className="*:size-full rounded-full"
-								onClick={player.toggleMute}
+								onClick={states.toggleMute}
 							>
 								<VolumeIcon />
 							</Button>
@@ -241,8 +229,8 @@ export const Player = ({
 						<TooltipContent>
 							<Slider
 								orientation="vertical"
-								defaultValue={[player.volume]}
-								onValueChange={player.setVolume}
+								defaultValue={[states.volume]}
+								onValueChange={values => states.setVolume(values[0])}
 								className="invert **:data-[slot=slider-track]:bg-foreground/20"
 							/>
 						</TooltipContent>
@@ -253,16 +241,22 @@ export const Player = ({
 				<YouTube
 					videoId={videoId}
 						onReady={(e) => {
-							setYtPlayer(e.target)
-							void e.target.setVolume(player.volume)
+							setStates(prev => ({ ...prev, ytPlayer: e.target }))
+							void e.target.setVolume(states.volume)
 						}}
-						onPlay={() => player.setPlaying(true)}
+						onPlay={() => states.setPlaying(true)}
 						onPause={onStop}
 						onEnd={onStop}
+						onStateChange={async state => {
+							const duration = await state.target.getDuration()
+							const currentTime = await state.target.getCurrentTime()
+							
+							setStates(prev => ({ ...prev, duration, currentTime }))
+						}}
 						opts={{ playerVars: { autoplay: 0 } }}
 						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
 						onError={() => {
-							player.setPlaying(false)
+							states.setPlaying(false)
 							toast.error('This video cannot play here. Please choose another music.')
 						}}
 				/>
