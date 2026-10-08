@@ -1,10 +1,4 @@
 import { Slider } from '@/components/ui/slider'
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import {
 	FastForwardIcon,
@@ -42,7 +36,7 @@ const Body = ({ children, className, ...props }: {
 } & React.ComponentProps<'div'>) => (
 	<div
 		className={cn(
-			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[1vh] py-[0.5vh]',
+			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[1vh] py-[0.5vh] portrait:flex-col portrait:rounded-none portrait:gap-[1vh] portrait:w-full portrait:items-stretch portrait:px-[3vw] portrait:py-[3vh]',
 			className
 		)}
 		{...props}
@@ -131,25 +125,18 @@ export const Player = () => {
 					<span className='whitespace-nowrap'>--</span>
 				</div>
 			</div>
-			<div className="flex-1 flex justify-end">
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Button
-							size="icon-lg"
-							variant="outline"
-							className="*:size-full rounded-full"
-						>
-							<VolumeIcon />
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
-						<Slider
-							orientation="vertical"
-							defaultValue={[0]}
-							className="invert **:data-[slot=slider-track]:bg-foreground/20"
-						/>
-					</TooltipContent>
-				</Tooltip>
+			<div className="flex-1 flex justify-end portrait:justify-start gap-[1vw]">
+				<Slider
+					defaultValue={[0]}
+					className="w-1/2 **:data-[slot=slider-track]:bg-foreground/20"
+				/>
+				<Button
+					size="icon-lg"
+					variant="outline"
+					className="*:size-full rounded-full"
+				>
+					<VolumeIcon />
+				</Button>
 			</div>
 		</Body>
 	)
@@ -157,7 +144,7 @@ export const Player = () => {
 	return (
 		<>
 			<Body>
-				<div className="flex-1 size-full flex items-center gap-[0.5vw]">
+				<div className="flex-1 size-full flex items-center gap-[1vw]">
 					<Dialog>
 						<DialogTrigger className='cursor-pointer'>
 							<Thumbnail src={thumbnail} />
@@ -177,7 +164,7 @@ export const Player = () => {
 							{video?.description}
 						</DialogContent>
 					</Dialog>
-					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.7vw]">
+					<div className="*:text-foreground w-2/3 *:tracking-wide text-sm">
 						<p className="font-bold">{he.decode(video.title)}</p>
 						<p>{he.decode(video.channelTitle)}</p>
 					</div>
@@ -217,27 +204,20 @@ export const Player = () => {
 						</div>
 					</div>
 				</div>
-				<div className="flex-1 flex justify-end">
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Button
-								size="icon-lg"
-								variant="outline"
-								className="*:size-full rounded-full"
-								onClick={toggleMute}
-							>
-								<VolumeIcon />
-							</Button>
-						</TooltipTrigger>
-						<TooltipContent>
-							<Slider
-								orientation="vertical"
-								defaultValue={[states.volume]}
-								onValueChange={values => setVolume(values[0])}
-								className="invert **:data-[slot=slider-track]:bg-foreground/20"
-							/>
-						</TooltipContent>
-					</Tooltip>
+				<div className="flex-1 flex justify-end portrait:justify-start gap-[2vw]">
+					<Slider
+						defaultValue={[states.volume]}
+						onValueChange={values => setVolume(values[0])}
+						className="w-1/2 **:data-[slot=slider-track]:bg-foreground/20"
+					/>
+					<Button
+						size="icon-lg"
+						variant="outline"
+						className="*:size-full rounded-full"
+						onClick={toggleMute}
+					>
+						<VolumeIcon />
+					</Button>
 				</div>
 			</Body>
 			{videoId && (
