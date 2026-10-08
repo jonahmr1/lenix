@@ -177,7 +177,7 @@ export const Player = () => {
 							{video?.description}
 						</DialogContent>
 					</Dialog>
-					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.8vw] font-light">
+					<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.8vw]">
 						<p className="font-bold">{he.decode(video.title)}</p>
 						<p>{he.decode(video.channelTitle)}</p>
 					</div>
