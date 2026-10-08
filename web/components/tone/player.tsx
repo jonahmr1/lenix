@@ -36,7 +36,7 @@ const Body = ({ children, className, ...props }: {
 } & React.ComponentProps<'div'>) => (
 	<div
 		className={cn(
-			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[1vh] py-[0.5vh] portrait:flex-col portrait:rounded-none portrait:gap-[1vh] portrait:w-full portrait:items-stretch portrait:px-[3vw] portrait:py-[3vh]',
+			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[1vh] py-[0.5vh] portrait:flex-col portrait:rounded-none portrait:gap-[1vh] portrait:w-full portrait:items-stretch portrait:px-[5vw] portrait:py-[3vh]',
 			className
 		)}
 		{...props}
@@ -128,7 +128,7 @@ export const Player = () => {
 			<div className="flex-1 flex justify-end portrait:justify-start gap-[1vw]">
 				<Slider
 					defaultValue={[0]}
-					className="w-1/2 **:data-[slot=slider-track]:bg-foreground/20"
+					className="w-1/2 portrait:w-full **:data-[slot=slider-track]:bg-foreground/20"
 				/>
 				<Button
 					size="icon-lg"
@@ -208,7 +208,7 @@ export const Player = () => {
 					<Slider
 						defaultValue={[states.volume]}
 						onValueChange={values => setVolume(values[0])}
-						className="w-1/2 **:data-[slot=slider-track]:bg-foreground/20"
+						className="w-1/2 portrait:w-full **:data-[slot=slider-track]:bg-foreground/20"
 					/>
 					<Button
 						size="icon-lg"
@@ -243,9 +243,11 @@ export const Player = () => {
 						}}
 						opts={{ playerVars: { autoplay: states.autoplay ? 1 : 0 } }}
 						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
-						onError={() => {
+						onError={e => {
 							setPlaying(false)
-							toast.error('This video cannot play here. Please choose another music.')
+							toast.error('This video cannot play here. Please choose another music.', {
+								description: JSON.stringify(e.data)
+							})
 						}}
 				/>
 			)}
