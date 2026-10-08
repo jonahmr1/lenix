@@ -152,7 +152,7 @@ export default function StatesProvider({
 			setPlaying: async (isPlaying: boolean) => {
 				setStates(prev => (prev ? { ...prev, isPlaying } : prev))
 				if (isPlaying) {
-					if (await states.ytPlayer?.isMuted()) await states.ytPlayer?.mute()
+					if (states.isMuted) await states.ytPlayer?.mute()
 					else await states.ytPlayer?.unMute()
 				}
 			},
