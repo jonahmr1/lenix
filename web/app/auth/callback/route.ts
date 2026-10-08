@@ -30,5 +30,5 @@ export async function GET(request: Request) {
   }
 
   // return the user to an error page with instructions
-  return new Response('Google sign-in failed. Please try again.', { status: 400 })
+  return NextResponse.redirect(`${origin}/tone?auth-code-error=sign_in`)
 }

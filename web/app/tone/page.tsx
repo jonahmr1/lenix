@@ -5,10 +5,12 @@ import { Player } from '@/components/tone/player'
 import { Search } from '@/components/tone/search'
 import { createClient } from '@/lib/supabase.client'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useStates } from '@/hooks/useStates'
 import StatesProvider from './provider'
 import { Thumbnail } from '@/components/thumbnail'
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card'
+import { toast } from 'sonner'
+import { useEffect } from 'react'
 
 export default function Page() {
 	return (
@@ -19,7 +21,15 @@ export default function Page() {
 }
 
 const Tone = () => {
-	const { states } = useStates()
+	const { states, setStates } = useStates()
+
+	useEffect(() => {
+    if (new URLSearchParams(location.search).get('auth-code-error') === 'sign_in') {
+      toast.error('Google sign-in failed. Please try again.', {
+        id: 'sign-in-error',
+      })
+    }
+  }, [])
 
 	return (
 		<div className="h-screen w-full">
@@ -34,7 +44,31 @@ const Tone = () => {
 							{states.user === undefined ? (
 								<Skeleton className="h-[5vh] w-[5vh] rounded-full" />
 							) : states.user ? (
-								<Thumbnail src={states.user.user_metadata.avatar_url} />
+								<HoverCard openDelay={20} closeDelay={20}>
+									<HoverCardTrigger>
+										<Thumbnail src={states.user.user_metadata.avatar_url} />
+									</HoverCardTrigger>
+									<HoverCardContent className='w-fit'>
+										<Button
+											variant='destructive'
+											onClick={async () => {
+												toast.promise(
+													async () => {
+														const { error } = await createClient().auth.signOut({ scope: 'local' })
+														if (error) throw error
+
+														setStates(prev => ({ ...prev, user: null }))
+													},
+													{
+														loading: 'Signing out...',
+														error: error => error,
+														success: 'Signed out'
+													}
+												)
+											}}
+										>Sign out</Button>
+									</HoverCardContent>
+								</HoverCard>
 							) : (
 								<Button
 									onClick={() => {
