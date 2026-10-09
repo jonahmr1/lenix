@@ -34,9 +34,9 @@ export interface CreateCamSettings {
 	 * Optional camera field-of-view, rotation order, and fade settings.
 	 */
 	details?: {
-		fov: number,
-		rotationOrder: number
-	} & BaseCamDetails
+		fov?: number,
+		rotationOrder?: number
+	} & Partial<BaseCamDetails>
 }
 
 export interface DestroyCamSettings {
@@ -47,7 +47,7 @@ export interface DestroyCamSettings {
 	/**
 	 * Optional fade settings.
 	 */
-	details?: BaseCamDetails
+	details?: Partial<BaseCamDetails>
 }
 
 const toggleCam = ({
@@ -84,15 +84,9 @@ const create = ({
 		fadeIn,
 		delay,
 		rotationOrder
-	} = {
-		fov: 40.0,
-		fadeOut: 0,
-		fadeIn: 0,
-		delay: 0,
-		rotationOrder: 0
-	}
+	} = {}
 }: CreateCamSettings): [() => void, number] => {
-	DoScreenFadeOut(fadeOut)
+	DoScreenFadeOut(fadeOut ?? 0)
 	const cam = CreateCamWithParams(
 		'DEFAULT_SCRIPTED_CAMERA',
 		coords[0] + offset[0],
@@ -101,22 +95,22 @@ const create = ({
 		rotation[0],
 		rotation[1],
 		coords[3] + offset[3],
-		fov,
+		fov ?? 40.0,
 		false,
-		rotationOrder
+		rotationOrder ?? 0
 	)
 	cams.add(cam)
 
 	toggleCam({
 		cam,
 		state: true,
-		delay,
-		fadeIn,
-		fadeOut
+		delay: delay ?? 0,
+		fadeIn: fadeIn ?? 0,
+		fadeOut: fadeOut ?? 0
 	})
 
 	return [
-		() => destroy({ cam, details: { delay, fadeIn, fadeOut } }),
+		() => destroy({ cam, details: { delay: delay ?? 0, fadeIn: fadeIn ?? 0, fadeOut: fadeOut ?? 0 } }),
 		cam
 	]
 }
@@ -130,19 +124,15 @@ const destroy = ({
 		fadeOut,
 		fadeIn,
 		delay
-	} = {
-		fadeOut: 0,
-		fadeIn: 0,
-		delay: 0
-	}
+	} = {}
 }: DestroyCamSettings): void => {
 
 	toggleCam({
 		cam,
 		state: false,
-		delay,
-		fadeIn,
-		fadeOut
+		delay: delay ?? 0,
+		fadeIn: fadeIn ?? 0,
+		fadeOut: fadeOut ?? 0
 	})
 	cams.delete(cam)
 }

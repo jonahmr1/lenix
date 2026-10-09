@@ -64,9 +64,10 @@ export const entity = {
 		h?: number,
 		keepTasks = false,
 		keepIK = false,
-		doWarp = false
+		doWarp = false,
+		clearArea = false
 	) => {
-		SetEntityCoordsNoOffset(handle, x, y, z, keepTasks, keepIK, doWarp)
+		SetEntityCoords(handle, x, y, z, keepTasks, keepIK, doWarp, clearArea)
 		h && SetEntityHeading(handle, h)
 	},
 
