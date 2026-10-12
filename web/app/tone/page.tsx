@@ -28,6 +28,7 @@ const Tone = () => {
       toast.error('Google sign-in failed. Please try again.', {
         id: 'sign-in-error',
       })
+			history.replaceState(history.state, '', location.pathname + location.hash)
     }
   }, [])
 
