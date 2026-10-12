@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/input-group'
 import { Spinner } from '@/components/ui/spinner'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import type { YoutubeSearchParams, YoutubeVideo, YoutubeVideoSearch } from 'youtube.ts/dist/types'
 import he from 'he'
@@ -30,6 +30,18 @@ export const Search = () => {
 	const [cmdOpen, setOpen] = useState(false)
 	const [videosFound, setVideos] = useState<YoutubeVideoSearch['items']>([])
 	const [searchLoading, setLoading] = useState(false)
+
+	useEffect(() => {
+		const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setOpen(open => !open)
+      }
+    }
+
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+	}, [])
 
 	const search = async () => {
 		setVideos([])
