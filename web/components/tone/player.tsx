@@ -19,10 +19,8 @@ import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { ButtonGroup } from '../ui/button-group'
 import { Thumbnail } from '../thumbnail'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import Link from 'next/link'
 import { Live } from './live'
-import { cn } from 'cn'
 import { toast } from 'sonner'
 import { useStates } from '@/hooks/useStates'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
@@ -123,7 +121,7 @@ export const Player = () => {
 							className='**:data-[slot=slider-track]:bg-foreground/20 test'
 						/>
 						<div className='leading-none'>
-							{states.duration ? (
+							{video && states.duration ? (
 								video.liveBroadcastContent !== 'none' ? (
 									<Live>{video?.liveBroadcastContent}</Live>
 								) : format(states.duration)
