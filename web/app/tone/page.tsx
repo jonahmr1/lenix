@@ -1,16 +1,12 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Player } from '@/components/tone/player'
 import { Search } from '@/components/tone/search'
-import { createClient } from '@/lib/supabase.client'
-import { Skeleton } from '@/components/ui/skeleton'
-import { useStates } from '@/hooks/useStates'
 import StatesProvider from './provider'
-import { Thumbnail } from '@/components/thumbnail'
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card'
 import { toast } from 'sonner'
 import { useEffect } from 'react'
+import { AppSidebar } from '@/components/tone/sidebard'
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 
 export default function Page() {
 	return (
@@ -21,8 +17,6 @@ export default function Page() {
 }
 
 const Tone = () => {
-	const { states, setStates } = useStates()
-
 	useEffect(() => {
     if (new URLSearchParams(location.search).get('auth-code-error') === 'sign_in') {
       toast.error('Google sign-in failed. Please try again.', {
@@ -33,63 +27,24 @@ const Tone = () => {
   }, [])
 
 	return (
-		<div className="h-screen w-full">
-			<div className="size-full flex flex-col justify-between px-[5vw] py-[5vh]">
-				<div className="flex flex-col portrait:items-center">
-					<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw] *:flex-1">
-						<h1>Tonelix</h1>
-						<div className="portrait:order-1 w-1/2 portrait:w-full flex justify-center">
-							<Search />
+		<SidebarProvider>
+			<AppSidebar />
+			<SidebarInset className='relative'>
+				<div className="size-full flex flex-col justify-between px-[5vw] py-[5vh]">
+					<div className="flex flex-col portrait:items-center">
+						<div className="flex portrait:flex-wrap items-center justify-between *:mt-0 gap-[3vw] *:flex-1">
+							<div className='flex items-center gap-[2vw]'>
+								<h1>Tonelix</h1>
+							</div>
+							<div className="portrait:order-1 w-1/2 portrait:w-full flex justify-center">
+								<Search />
+							</div>
 						</div>
-						<div className="flex justify-end">
-							{states.user === undefined ? (
-								<Skeleton className="h-[5vh] w-[5vh] rounded-full" />
-							) : states.user ? (
-								<HoverCard openDelay={20} closeDelay={20}>
-									<HoverCardTrigger>
-										<Thumbnail src={states.user.user_metadata.avatar_url} />
-									</HoverCardTrigger>
-									<HoverCardContent className='w-fit'>
-										<Button
-											variant='destructive'
-											onClick={async () => {
-												toast.promise(
-													async () => {
-														const { error } = await createClient().auth.signOut({ scope: 'local' })
-														if (error) throw error
-
-														setStates(prev => ({ ...prev, user: null }))
-													},
-													{
-														loading: 'Signing out...',
-														error: error => error,
-														success: 'Signed out'
-													}
-												)
-											}}
-										>Sign out</Button>
-									</HoverCardContent>
-								</HoverCard>
-							) : (
-								<Button
-									onClick={() => {
-										createClient().auth.signInWithOAuth({
-											provider: 'google',
-											options: {
-												redirectTo: `${window.location.origin}/auth/callback`,
-											},
-										})
-									}}
-								>
-									Continue with Goggle
-								</Button>
-							)}
-						</div>
+						{/* input will be here in portrait mode */}
 					</div>
-					{/* input will be here in portrait mode */}
 				</div>
-			</div>
-			<Player />
-		</div>
+				<Player />
+			</SidebarInset>
+		</SidebarProvider>
 	)
 }
