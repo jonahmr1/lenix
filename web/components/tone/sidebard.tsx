@@ -12,13 +12,21 @@ import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase.client'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Thumbnail } from '@/components/thumbnail'
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card'
 import { useStates } from '@/hooks/useStates'
 import { toast } from 'sonner'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import dayjs from 'dayjs'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
+import { EnvelopeSimpleIcon, InfoIcon } from '@phosphor-icons/react'
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
+const format = (value: string | undefined, accurate?: true) => dayjs(value).format(`${accurate ? 'H:M ' : ''}MMMM D, YYYY`)
 
 export const AppSidebar = () => {
 	const { states, setStates } = useStates()
-	
+
 	return (
 		<Sidebar variant='inset'>
 			<SidebarHeader>Playlists</SidebarHeader>
@@ -27,11 +35,51 @@ export const AppSidebar = () => {
 				{states.user === undefined ? (
 					<Skeleton className="h-[5vh] w-[5vh] rounded-full" />
 				) : states.user ? (
-					<HoverCard openDelay={20} closeDelay={20}>
-						<HoverCardTrigger>
-							<Thumbnail src={states.user.user_metadata.avatar_url} />
-						</HoverCardTrigger>
-						<HoverCardContent className="w-fit">
+					<Popover>
+						<PopoverTrigger asChild>
+							<Button variant="outline" size='lg' className='justify-start'>
+								<Thumbnail size='sm' src={states.user.user_metadata.avatar_url} />
+								<p className='text-foreground'>{states.user.user_metadata.name}</p>
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent align='start'>
+							<Item variant='muted'>
+								<ItemMedia>
+									<Thumbnail size='sm' src={states.user.user_metadata.avatar_url} />
+								</ItemMedia>
+								<ItemContent>
+									<ItemTitle>{states.user.user_metadata.full_name}</ItemTitle>
+									<ItemDescription>
+										<span className='font-bold'>User Since: </span>
+										<span>{format(states.user.created_at)}</span>
+									</ItemDescription>
+								</ItemContent>
+							</Item>
+							<Item variant='outline'>
+								<ItemMedia variant='icon'>
+									<EnvelopeSimpleIcon />
+								</ItemMedia>
+								<ItemContent>
+									<ItemTitle>Email</ItemTitle>
+									<ItemDescription>{states.user.email}</ItemDescription>
+								</ItemContent>
+								<ItemActions>
+									<HoverCard>
+										<HoverCardTrigger>
+											<InfoIcon />
+										</HoverCardTrigger>
+										<HoverCardContent side='right'>
+											<p>Registered using <b>{states.user.app_metadata.provider}</b></p>
+										</HoverCardContent>
+									</HoverCard>
+								</ItemActions>
+							</Item>
+							{states.user.last_sign_in_at && (
+								<p>
+									<span className='font-bold'>Last sign in: </span>
+									<span>{dayjs(states.user.last_sign_in_at).fromNow()} ({format(states.user.last_sign_in_at, true)})</span>
+								</p>
+							)}
 							<Button
 								variant="destructive"
 								onClick={async () => {
@@ -54,8 +102,8 @@ export const AppSidebar = () => {
 							>
 								Sign out
 							</Button>
-						</HoverCardContent>
-					</HoverCard>
+						</PopoverContent>
+					</Popover>
 				) : (
 					<Button
 						onClick={() => {
