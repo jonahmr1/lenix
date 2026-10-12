@@ -19,7 +19,6 @@ import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { ButtonGroup } from '../ui/button-group'
 import { Thumbnail } from '../thumbnail'
-import { Skeleton } from '../ui/skeleton'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import Link from 'next/link'
 import { Live } from './live'
@@ -37,7 +36,7 @@ const Body = ({ children, className, ...props }: {
 } & React.ComponentProps<'div'>) => (
 	<div
 		className={cn(
-			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[1vh] py-[0.5vh] portrait:flex-col portrait:rounded-none portrait:gap-[1vh] portrait:w-full portrait:items-stretch portrait:px-[5vw] portrait:py-[3vh]',
+			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[3vh] portrait:flex-col portrait:rounded-none gap-[2vw] portrait:w-full portrait:items-stretch portrait:px-[5vw] portrait:py-[3vh]',
 			className
 		)}
 		{...props}
@@ -86,122 +85,71 @@ export const Player = () => {
 				? SpeakerSimpleLowIcon
 				: SpeakerSimpleHighIcon
 
-	if (!video) return (
-		<Body>
-			<div className="flex-1 size-full flex items-center gap-[0.5vw]">
-				<Dialog>
-					<DialogTrigger disabled className='cursor-not-allowed'>
-						<Thumbnail src={thumbnail} />
-					</DialogTrigger>
-					<DialogContent>
-					</DialogContent>
-				</Dialog>
-				<div className="*:text-foreground w-2/3 *:tracking-wide text-[0.8vw] font-light">
-					<div className='flex flex-col gap-[0.5vh]'>
-						<Skeleton className='w-full h-[2vh] bg-ring' />
-						<Skeleton className='w-2/3 h-[2vh] bg-ring' />
-					</div>
-				</div>
-			</div>
-			<div className='flex-1 flex flex-col items-center'>
-				<ButtonGroup className='*:size-10vh!'>
+	return (
+		<>
+			<Body>
+				<ButtonGroup className='flex-1 *:size-10vh!'>
 					{playerButtons.map((button, i) => (
 						<Button
 							key={i}
 							className="size-10vh!"
 							variant="outline"
-							disabled
+							size='icon-lg'
+							disabled={
+								!states.ytPlayer ||
+								!videoId ||
+								!button.onClick ||
+								video?.liveBroadcastContent !== 'none' && button.onClick !== togglePlay
+							}
+							onClick={() => button.onClick?.()}
 						>
 							{button.children}
 						</Button>
 					))}
 				</ButtonGroup>
-				<div className='flex gap-[0.5vw] w-full items-center'>
-					<span className='whitespace-nowrap'>--</span>
-					<Slider
-						value={[0]}
-						disabled
-						className='**:data-[slot=slider-track]:bg-foreground/20'
-					/>
-					<span className='whitespace-nowrap'>--</span>
-				</div>
-			</div>
-			<div className="flex-1 flex justify-end portrait:justify-start gap-[1vw]">
-				<Slider
-					defaultValue={[states.volume]}
-					className="w-1/2 portrait:w-full **:data-[slot=slider-track]:bg-foreground/20"
-				/>
-				<Button
-					size="icon-lg"
-					variant="outline"
-					className="*:size-full rounded-full"
-				>
-					<VolumeIcon />
-				</Button>
-			</div>
-		</Body>
-	)
-
-	return (
-		<>
-			<Body>
-				<div className="flex-1 size-full flex items-center gap-[1vw]">
-					<Dialog>
-						<DialogTrigger className='cursor-pointer'>
-							<Thumbnail src={thumbnail} />
-						</DialogTrigger>
-						<DialogContent>
-							<DialogHeader>
-								<DialogTitle>
-									<p>{video?.title}</p>
-									<p className='font-thin'>{dayjs(video?.publishedAt).format("MMMM D, YYYY")}</p>
-								</DialogTitle>
-								<DialogDescription>
-									<Link href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
-										{video?.channelTitle}
-									</Link> 
-								</DialogDescription>
-							</DialogHeader>
-							{video?.description}
-						</DialogContent>
-					</Dialog>
-					<div className="*:text-foreground w-2/3 *:tracking-wide text-sm">
-						<p className="font-bold">{he.decode(video.title)}</p>
-						<p>{he.decode(video.channelTitle)}</p>
+				<div className='flex-2 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh]'>
+					<div className="size-full flex items-center gap-[1vw]">
+						<Dialog>
+							<DialogTrigger className='cursor-pointer'>
+								<Thumbnail src={thumbnail} className='rounded-none' />
+							</DialogTrigger>
+							<DialogContent>
+								<DialogHeader>
+									<DialogTitle>
+										<p>{video?.title}</p>
+										<p className='font-thin'>{dayjs(video?.publishedAt).format("MMMM D, YYYY")}</p>
+									</DialogTitle>
+									<DialogDescription>
+										<Link href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
+											{video?.channelTitle}
+										</Link> 
+									</DialogDescription>
+								</DialogHeader>
+								{video?.description}
+							</DialogContent>
+						</Dialog>
+						<div className="*:text-foreground w-2/3 *:tracking-wide text-sm">
+							<p className="font-bold">{video ? he.decode(video.title) : 'Not Playing'}</p>
+							{video && <p>{he.decode(video.channelTitle)}</p>}
+						</div>
 					</div>
-				</div>
-				<div className='flex-1 flex flex-col items-center'>
-					<ButtonGroup className='*:size-10vh!'>
-						{playerButtons.map((button, i) => (
-							<Button
-								key={i}
-								className="size-10vh!"
-								variant="outline"
-								disabled={
-									!states.ytPlayer ||
-									!videoId ||
-									!button.onClick ||
-									video?.liveBroadcastContent !== 'none' && button.onClick !== togglePlay
-								}
-								onClick={() => button.onClick?.()}
-							>
-								{button.children}
-							</Button>
-						))}
-					</ButtonGroup>
-					<div className='flex gap-[0.5vw] w-full'>
-						<p className='text-foreground'>{format(states.currentTime)}</p>
+					<div className='flex gap-[0.5vw] w-full items-center'>
+						<p className='text-foreground whitespace-nowrap leading-none'>{video ? format(states.currentTime) : '--:--'}</p>
 						<Slider
 							value={[states.currentTime]}
 							onValueChange={values => seek(values[0])}
 							max={states.duration || 1}
-							disabled={!states.duration || video.liveBroadcastContent !== 'none'}
-							className='**:data-[slot=slider-track]:bg-foreground/20'
+							disabled={!states.duration || (video ? video.liveBroadcastContent !== 'none' : true)}
+							className='**:data-[slot=slider-track]:bg-foreground/20 test'
 						/>
-						<div>
-							{video.liveBroadcastContent !== 'none' ? (
-								<Live>{video?.liveBroadcastContent}</Live>
-							) : format(states.duration)}
+						<div className='leading-none'>
+							{video ? (
+								video.liveBroadcastContent !== 'none' ? (
+									<Live>{video?.liveBroadcastContent}</Live>
+								) : format(states.duration)
+							) : (
+								<span className='truncate flex'>--:--</span>
+							)}
 						</div>
 					</div>
 				</div>
