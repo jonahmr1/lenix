@@ -30,21 +30,6 @@ dayjs.extend(duration)
 
 const format = (value: number) => dayjs.duration(value, 'seconds').format('m:ss')
 
-const Body = ({ children, className, ...props }: {
-	children: React.ReactNode
-	className?: string
-} & React.ComponentProps<'div'>) => (
-	<div
-		className={cn(
-			'absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[3vh] portrait:flex-col portrait:rounded-none gap-[2vw] portrait:w-full portrait:items-stretch portrait:px-[5vw] portrait:py-[3vh]',
-			className
-		)}
-		{...props}
-	>
-		{children}
-	</div>
-)
-
 export const Player = () => {
 	const { states, setStates, seek, setPlaying, togglePlay, toggleMute, setVolume } = useStates()
 	
@@ -53,7 +38,7 @@ export const Player = () => {
 	const video = states.video?.snippet
 	const thumbnail = video?.thumbnails.high.url
 
-	const PlaybackIcon = states.isPlaying ? PauseIcon : states.currentTime.toFixed(0) === states.duration.toFixed(0) ? ArrowClockwiseIcon : PlayIcon
+	const PlaybackIcon = states.isPlaying ? PauseIcon : states.currentTime.toFixed(0) === states.duration.toFixed(0) && states.duration > 0 ? ArrowClockwiseIcon : PlayIcon
 	const playerButtons = [
 		{
 			onClick: () => seek(Math.max(0, states.currentTime - 5)),
@@ -87,8 +72,8 @@ export const Player = () => {
 
 	return (
 		<>
-			<Body>
-				<ButtonGroup className='flex-1 *:size-10vh!'>
+			<div className='absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[3vh] portrait:flex-col portrait:rounded-none gap-[2vw] portrait:w-full portrait:items-stretch portrait:px-[5vw] portrait:py-[3vh]'>
+				<ButtonGroup className='flex-1 *:size-10vh! portrait:order-1 w-full portrait:justify-center'>
 					{playerButtons.map((button, i) => (
 						<Button
 							key={i}
@@ -99,7 +84,8 @@ export const Player = () => {
 								!states.ytPlayer ||
 								!videoId ||
 								!button.onClick ||
-								video?.liveBroadcastContent !== 'none' && button.onClick !== togglePlay
+								video?.liveBroadcastContent !== 'none' && button.onClick !== togglePlay ||
+								!states.duration
 							}
 							onClick={() => button.onClick?.()}
 						>
@@ -107,7 +93,7 @@ export const Player = () => {
 						</Button>
 					))}
 				</ButtonGroup>
-				<div className='flex-2 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh]'>
+				<div className='flex-2 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh] order-0'>
 					<div className="size-full flex items-center gap-[1vw]">
 						<Dialog>
 							<DialogTrigger className='cursor-pointer'>
@@ -153,7 +139,7 @@ export const Player = () => {
 						</div>
 					</div>
 				</div>
-				<div className="flex-1 flex justify-end portrait:justify-start gap-[2vw]">
+				<div className="flex-1 flex justify-end portrait:justify-start gap-[2vw] order-1">
 					<Slider
 						defaultValue={[states.volume]}
 						onValueChange={values => setVolume(values[0])}
@@ -168,7 +154,7 @@ export const Player = () => {
 						<VolumeIcon />
 					</Button>
 				</div>
-			</Body>
+			</div>
 			{videoId && (
 				<YouTube
 					videoId={videoId}
