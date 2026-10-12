@@ -5,7 +5,7 @@ import { Skeleton } from "./ui/skeleton";
 export const Thumbnail = ({ src, className, ...props }: {
 	src: string | undefined
 	className?: React.ComponentProps<typeof Avatar>['className']
-} & Omit<React.ComponentProps<typeof Avatar>, 'size' | 'className'>) => (
+} & Omit<React.ComponentProps<typeof Avatar>, 'className'>) => (
 	<Avatar
 		className={cn('after:border-0 overflow-hidden', className)}
 		{...props}
