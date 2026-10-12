@@ -1,6 +1,7 @@
 import { Slider } from '@/components/ui/slider'
 import { Button } from '../ui/button'
 import {
+	ArrowClockwiseIcon,
 	FastForwardIcon,
 	RewindIcon,
 	SkipBackIcon,
@@ -53,7 +54,7 @@ export const Player = () => {
 	const video = states.video?.snippet
 	const thumbnail = video?.thumbnails.high.url
 
-	const PlaybackIcon = states.isPlaying ? PauseIcon : PlayIcon
+	const PlaybackIcon = states.isPlaying ? PauseIcon : states.currentTime.toFixed(0) === states.duration.toFixed(0) ? ArrowClockwiseIcon : PlayIcon
 	const playerButtons = [
 		{
 			onClick: () => seek(Math.max(0, states.currentTime - 5)),
