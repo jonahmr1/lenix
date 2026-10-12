@@ -52,21 +52,7 @@ export const Search = () => {
 				type: 'video',
 				videoEmbeddable: 'true',
 			} satisfies YoutubeSearchParams)
-			if (!items.length) return setVideos(items)
-
-			const { items: fullVideos } = await states.youtube.get('video', {
-				id: items.map(({ id }) => id.videoId).join(','),
-				part: 'snippet',
-			}) as { items: YoutubeVideo[] }
-			const descriptions = new Map(fullVideos.map(({ id, snippet }) => [id, snippet.description]))
-
-			setVideos(items.map((video) => ({
-				...video,
-				snippet: {
-					...video.snippet,
-					description: descriptions.get(video.id.videoId) ?? video.snippet.description,
-				},
-			})))
+			setVideos(items)
 		} catch (e: any) {
 			toast.error('Error', {
 				description: JSON.stringify(e)

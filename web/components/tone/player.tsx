@@ -25,6 +25,7 @@ import { Live } from './live'
 import { cn } from 'cn'
 import { toast } from 'sonner'
 import { useStates } from '@/hooks/useStates'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
 dayjs.extend(duration)
 
@@ -72,7 +73,7 @@ export const Player = () => {
 
 	return (
 		<>
-			<div className='absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[67vw] bg-muted rounded-full px-[3vh] portrait:flex-col portrait:rounded-none gap-[2vw] portrait:w-full portrait:items-stretch portrait:px-[5vw] portrait:py-[3vh]'>
+			<div className='absolute bottom-[3vh] left-1/2 -translate-x-1/2 flex items-center w-[70vw] bg-muted rounded-full px-[3vh] portrait:flex-col portrait:rounded-none gap-[2vw] portrait:w-full portrait:items-stretch portrait:px-[5vw] portrait:py-[3vh]'>
 				<ButtonGroup className='flex-1 *:size-10vh! portrait:order-1 w-full portrait:justify-center'>
 					{playerButtons.map((button, i) => (
 						<Button
@@ -93,34 +94,27 @@ export const Player = () => {
 						</Button>
 					))}
 				</ButtonGroup>
-				<div className='flex-2 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh] order-0'>
+				<div className='flex-2 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh] order-0 **:leading-none'>
 					<div className="size-full flex items-center gap-[1vw]">
-						<Dialog>
-							<DialogTrigger className='cursor-pointer'>
+						<Tooltip delayDuration={500}>
+							<TooltipTrigger asChild>
 								<Thumbnail src={thumbnail} className='rounded-none' />
-							</DialogTrigger>
-							<DialogContent>
-								<DialogHeader>
-									<DialogTitle>
-										<p>{video?.title}</p>
-										<p className='font-thin'>{dayjs(video?.publishedAt).format("MMMM D, YYYY")}</p>
-									</DialogTitle>
-									<DialogDescription>
-										<Link href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
-											{video?.channelTitle}
-										</Link> 
-									</DialogDescription>
-								</DialogHeader>
-								{video?.description}
-							</DialogContent>
-						</Dialog>
-						<div className="*:text-foreground w-2/3 *:tracking-wide text-sm">
-							<p className="font-bold">{video ? he.decode(video.title) : 'Not Playing'}</p>
-							{video && <p>{he.decode(video.channelTitle)}</p>}
+							</TooltipTrigger>
+							<TooltipContent>
+								<p className='text-background'>Published at: {dayjs(video?.publishedAt).format("MMMM D, YYYY")}</p>
+							</TooltipContent>
+						</Tooltip>
+						<div className="w-2/3 *:tracking-wide flex flex-col gap-[0.5vh]">
+							<p className="font-bold text-foreground truncate">{video ? he.decode(video.title) : 'Not Playing'}</p>
+							{video && (
+								<Link className='text-xs font-normal no-underline hover:underline' href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
+									{he.decode(video.channelTitle)}
+								</Link>
+							)}
 						</div>
 					</div>
-					<div className='flex gap-[0.5vw] w-full items-center'>
-						<p className='text-foreground whitespace-nowrap leading-none'>{video ? format(states.currentTime) : '--:--'}</p>
+					<div className='flex gap-[0.5vw] w-full items-center text-xs'>
+						<p className='text-foreground whitespace-nowrap leading-none'>{states.duration ? format(states.currentTime) : '--:--'}</p>
 						<Slider
 							value={[states.currentTime]}
 							onValueChange={values => seek(values[0])}
@@ -129,7 +123,7 @@ export const Player = () => {
 							className='**:data-[slot=slider-track]:bg-foreground/20 test'
 						/>
 						<div className='leading-none'>
-							{video ? (
+							{states.duration ? (
 								video.liveBroadcastContent !== 'none' ? (
 									<Live>{video?.liveBroadcastContent}</Live>
 								) : format(states.duration)

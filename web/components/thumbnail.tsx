@@ -7,7 +7,6 @@ export const Thumbnail = ({ src, className, ...props }: {
 	className?: React.ComponentProps<typeof Avatar>['className']
 } & Omit<React.ComponentProps<typeof Avatar>, 'size' | 'className'>) => (
 	<Avatar
-		size="lg"
 		className={cn('after:border-0 overflow-hidden', className)}
 		{...props}
 	>
