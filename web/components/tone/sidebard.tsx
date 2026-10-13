@@ -37,9 +37,12 @@ export const AppSidebar = () => {
 				) : states.user ? (
 					<Popover>
 						<PopoverTrigger asChild>
-							<Button variant="outline" size='lg' className='justify-start'>
+							<Button variant="outline" size='lg' className='justify-between py-[2.5vh]'>
+								<div className='flex gap-[0.5vw] items-center'>
 								<Thumbnail size='sm' src={states.user.user_metadata.avatar_url} />
 								<p className='text-foreground'>{states.user.user_metadata.name}</p>
+								</div>
+								<CaretUpDownIcon />
 							</Button>
 						</PopoverTrigger>
 						<PopoverContent align='start'>
