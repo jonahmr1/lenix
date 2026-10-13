@@ -104,7 +104,7 @@ export const Player = () => {
 							</TooltipContent>
 						</Tooltip>
 						<div className="w-2/3 *:tracking-wide flex flex-col gap-[0.5vh]">
-							<Marquee onlyOnOverflow speed={10} className='font-bold text-foreground'>
+							<Marquee speed={10} className='font-bold text-foreground'>
 								{video ? he.decode(video.title) : 'Not Playing'}
 							</Marquee>
 							{video && (

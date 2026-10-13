@@ -1,9 +1,7 @@
 import {
 	Command,
-	CommandDialog,
 	CommandEmpty,
 	CommandGroup,
-	CommandInput,
 	CommandItem,
 	CommandList,
 } from '@/components/ui/command'
@@ -16,12 +14,13 @@ import { Spinner } from '@/components/ui/spinner'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import type { YoutubeSearchParams, YoutubeVideo, YoutubeVideoSearch } from 'youtube.ts/dist/types'
+import type { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types'
 import he from 'he'
 import { Thumbnail } from '../thumbnail'
 import { Live } from './live'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
 import { useStates } from '@/hooks/useStates'
+import { Kbd } from '../ui/kbd'
 
 export const Search = () => {
 	const { states, setStates } = useStates()
@@ -64,29 +63,37 @@ export const Search = () => {
 	}
 
 	return <>
-		<InputGroup className="max-w-2/3 portrait:max-w-none">
-			<InputGroupInput
-				placeholder="Type what do you wanna play"
-				onFocus={() => setOpen(true)}
-			/>
-			<InputGroupAddon>
-				<MagnifyingGlassIcon />
-			</InputGroupAddon>
-		</InputGroup>
-		<CommandDialog open={cmdOpen} onOpenChange={setOpen}>
-			<Command className="border" shouldFilter={false}>
-				<CommandInput
-					placeholder="Search..."
+		<Command className={`w-1/3 h-fit border ${!cmdOpen && 'w-1/5 border-transparent bg-transparent'}`} shouldFilter={false}>
+			<InputGroup>
+				<InputGroupAddon>
+					<MagnifyingGlassIcon />
+				</InputGroupAddon>
+				<InputGroupInput
+					placeholder="Type what do you wanna play"
 					value={searchInput}
-					onValueChange={setInput}
-					onKeyDown={(e) => {
+					onChange={e => setInput(e.target.value)}
+					onFocus={() => setOpen(true)}
+					onBlur={() => setOpen(false)}
+					onKeyDown={e => {
 						if (e.key === 'Enter') {
 							e.preventDefault()
 							e.stopPropagation()
 							search()
+							return
 						}
+						if (e.key === 'Escape') e.currentTarget.blur()
 					}}
 				/>
+				<InputGroupAddon align='inline-end'>
+					{cmdOpen ? <>
+						<Kbd>⏎</Kbd>
+					</> : <>
+						<Kbd>⌘</Kbd>
+						<Kbd>K</Kbd>
+					</>}
+				</InputGroupAddon>
+			</InputGroup>
+			{cmdOpen && (
 				<CommandList>
 					<CommandEmpty className="flex justify-center">
 						{searchLoading ? (
@@ -124,7 +131,7 @@ export const Search = () => {
 						</CommandGroup>
 					)}
 				</CommandList>
-			</Command>
-		</CommandDialog>
+			)}
+		</Command>
 	</>
 }
