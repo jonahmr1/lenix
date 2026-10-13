@@ -95,18 +95,18 @@ export const Player = () => {
 				</ButtonGroup>
 				<div className='flex-2 min-w-0 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh] order-0 **:leading-none'>
 					<div className="size-full flex items-center gap-[1vw]">
-						<Tooltip delayDuration={500}>
-							<TooltipTrigger asChild>
-								<Thumbnail src={thumbnail} className='rounded-none' />
-							</TooltipTrigger>
-							<TooltipContent>
-								<p className='text-background'>Published at: {dayjs(video?.publishedAt).format("MMMM D, YYYY")}</p>
-							</TooltipContent>
-						</Tooltip>
+						<Thumbnail src={thumbnail} className='rounded-none' />
 						<div className="w-2/3 *:tracking-wide flex flex-col gap-[0.5vh]">
-							<Marquee speed={10} className='font-bold text-foreground'>
-								{video ? he.decode(video.title) : 'Not Playing'}
-							</Marquee>
+							<Tooltip delayDuration={500}>
+								<TooltipTrigger asChild>
+									<Marquee speed={10} className='font-bold text-foreground'>
+										{video ? he.decode(video.title) : 'Not Playing'}
+									</Marquee>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p className='text-background'>{dayjs(video?.publishedAt).format("MMMM D, YYYY")}</p>
+								</TooltipContent>
+							</Tooltip>
 							{video && (
 								<Link className='text-xs font-normal no-underline hover:underline' href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
 									{he.decode(video.channelTitle)}
