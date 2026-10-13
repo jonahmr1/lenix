@@ -144,7 +144,7 @@ export const AppSidebar = () => {
 											})
 											return
 										}
-
+										toast.success('Playlist Created.')
 										setPlaylists(prev => [...(prev ?? []), ...data])
 									}}
 								>{creationLoading ? <Spinner /> : 'Create'}</Button>
