@@ -80,7 +80,13 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 		return emitNet('ox:setActiveCharacter', character.charId);
 	}
 
-	const input = await inputDialog(
+	// @ts-ignore
+	const input = [
+		'Firstname',
+		'LastName',
+		'male',
+		1136073600000
+	] ?? await inputDialog(
 		locale('create_character'),
 		[
 			{
