@@ -9,7 +9,6 @@ import YoutubeAPI from 'youtube.ts/dist/API'
 import { YoutubeVideo } from 'youtube.ts/dist/types'
 import { createClient } from '@/lib/supabase.client'
 import { toast } from 'sonner'
-import { Spinner } from '@/components/ui/spinner'
 import Loading from '../loading'
 
 /* TODO: conceal */

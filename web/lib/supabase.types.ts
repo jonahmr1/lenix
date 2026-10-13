@@ -133,6 +133,30 @@ export type Database = {
         }
         Relationships: []
       }
+      playlists: {
+        Row: {
+          created_at: string
+          id: number
+          label: string
+          tracks: string[]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          label: string
+          tracks: string[]
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          label?: string
+          tracks?: string[]
+          user_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           created_at: string
