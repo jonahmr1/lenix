@@ -65,7 +65,7 @@ export const Search = () => {
 
 	return <>
 		<Command
-			className={`w-1/3 portrait:w-full h-fit border transition-all ${!cmdOpen && 'w-2/5 portrait:w-full border-transparent bg-transparent'}`}
+			className={`w-1/3 portrait:w-full h-fit border transition-all ${!cmdOpen && 'w-1/4 portrait:w-4/5 border-transparent bg-transparent'}`}
 			shouldFilter={false}
 		>
 			<InputGroup>
@@ -77,7 +77,7 @@ export const Search = () => {
 					ref={searchInput}
 					onFocus={() => setOpen(true)}
 					onBlur={() => setOpen(false)}
-					className='text-base'
+					className='text-xs landscape:transition-all focus:text-base'
 					onKeyDown={e => {
 						if (e.key === 'Enter') {
 							e.preventDefault()
