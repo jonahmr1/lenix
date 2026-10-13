@@ -38,7 +38,7 @@ const Tone = () => {
 			<AppSidebar />
 			<SidebarInset className="relative overflow-hidden">
 				<div className="size-full flex flex-col *:flex-1 *:min-h-0">
-					<SidebarTrigger className='absolute left-1/50 top-1/50' />
+					<SidebarTrigger className='absolute z-2 left-1/100 top-1/50' />
 					<div className="flex justify-center z-1 pt-[5vh]">
 						<Search />
 					</div>
