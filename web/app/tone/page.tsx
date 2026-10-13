@@ -12,6 +12,7 @@ import {
 	SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { MusicNotesSimpleIcon } from '@phosphor-icons/react'
+import { Kbd } from '@/components/ui/kbd'
 
 export default function Page() {
 	return (
@@ -37,19 +38,34 @@ const Tone = () => {
 		<SidebarProvider>
 			<AppSidebar />
 			<SidebarInset className="relative overflow-hidden">
-				<div className="size-full flex flex-col *:flex-1 *:min-h-0">
-					<SidebarTrigger className='absolute z-2 left-1/100 top-1/50' />
-					<div className="flex justify-center z-1 pt-[5vh]">
-						<Search />
+				<div className="w-full h-screen flex flex-col *:flex-1 *:min-h-0">
+					<div className='flex items-start pt-[2vh] px-[2vw]'>
+						<div className='flex flex-1 items-center *:flex-1'>
+							<div>
+								<SidebarTrigger />
+							</div>
+							<div className="flex flex-5! justify-center z-1">
+								<Search />
+							</div>
+							<div></div>
+						</div>
 					</div>
 					<div className="flex size-full flex-col items-center">
 						<div className="relative min-h-0 w-full flex-1">
 							<MusicNotesSimpleIcon className="absolute inset-0 size-full opacity-10" />
 						</div>
-						<p>
-							Nothing to show here, <b>Play</b> from your playlists or <b>search</b>{' '}
-							for what you want to play
-						</p>
+						<div className='px-[5vw]'>
+							<div className='flex gap-[0.5vw]'>
+								<p><b>Play</b> from your playlists</p>
+								<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
+								<Kbd>B</Kbd>
+							</div>
+							<div className='flex gap-[0.5vw]'>
+								<p><b>Search</b> for what you want to play</p>
+								<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
+								<Kbd>K</Kbd>
+							</div>
+						</div>
 					</div>
 					<div></div>
 				</div>
