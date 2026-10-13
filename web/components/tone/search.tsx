@@ -35,13 +35,13 @@ export const Search = () => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         setOpen(open => !open)
-				searchInput.current?.focus()
+				cmdOpen ? searchInput.current?.blur() : searchInput.current?.focus()
       }
     }
 
     document.addEventListener('keydown', down)
     return () => document.removeEventListener('keydown', down)
-	}, [])
+	}, [cmdOpen])
 
 	const search = async () => {
 		setVideos([])
