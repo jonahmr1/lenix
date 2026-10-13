@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/input-group'
 import { Spinner } from '@/components/ui/spinner'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import type { YoutubeSearchParams, YoutubeVideoSearch } from 'youtube.ts/dist/types'
 import he from 'he'
@@ -25,7 +25,7 @@ import { Kbd } from '../ui/kbd'
 export const Search = () => {
 	const { states, setStates } = useStates()
 
-	const [searchInput, setInput] = useState('')
+	const searchInput = useRef<HTMLInputElement>(null)
 	const [cmdOpen, setOpen] = useState(false)
 	const [videosFound, setVideos] = useState<YoutubeVideoSearch['items']>([])
 	const [searchLoading, setLoading] = useState(false)
@@ -47,7 +47,7 @@ export const Search = () => {
 		setLoading(true)
 		try {
 			const { items }: YoutubeVideoSearch = await states.youtube.get('search', {
-				q: searchInput,
+				q: searchInput.current?.value ?? '',
 				type: 'video',
 				videoEmbeddable: 'true',
 			} satisfies YoutubeSearchParams)
@@ -73,8 +73,7 @@ export const Search = () => {
 				</InputGroupAddon>
 				<InputGroupInput
 					placeholder="Type what do you wanna play"
-					value={searchInput}
-					onChange={e => setInput(e.target.value)}
+					ref={searchInput}
 					onFocus={() => setOpen(true)}
 					onBlur={() => setOpen(false)}
 					onKeyDown={e => {
@@ -113,9 +112,11 @@ export const Search = () => {
 								<HoverCardTrigger asChild>
 									<CommandItem
 										value={video.etag}
-										onSelect={() => {
+										onMouseDown={e => {
+											e.preventDefault()
 											setStates(prev => ({ ...prev, video, currentTime: 0, autoplay: true }))
 											setOpen(false)
+											searchInput.current?.blur()
 										}}
 									>
 										<Thumbnail src={video.snippet.thumbnails.high.url} />
