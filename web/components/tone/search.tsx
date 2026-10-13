@@ -91,7 +91,7 @@ export const Search = () => {
 					{cmdOpen ? <>
 						<Kbd>⏎</Kbd>
 					</> : <>
-						<Kbd>⌘</Kbd>
+						<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
 						<Kbd>K</Kbd>
 					</>}
 				</InputGroupAddon>
