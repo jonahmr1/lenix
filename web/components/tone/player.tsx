@@ -24,6 +24,7 @@ import { Live } from './live'
 import { toast } from 'sonner'
 import { useStates } from '@/hooks/useStates'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import { Marquee } from '../ui/marquee'
 
 dayjs.extend(duration)
 
@@ -92,7 +93,7 @@ export const Player = () => {
 						</Button>
 					))}
 				</ButtonGroup>
-				<div className='flex-2 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh] order-0 **:leading-none'>
+				<div className='flex-2 min-w-0 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh] order-0 **:leading-none'>
 					<div className="size-full flex items-center gap-[1vw]">
 						<Tooltip delayDuration={500}>
 							<TooltipTrigger asChild>
@@ -103,7 +104,9 @@ export const Player = () => {
 							</TooltipContent>
 						</Tooltip>
 						<div className="w-2/3 *:tracking-wide flex flex-col gap-[0.5vh]">
-							<p className="font-bold text-foreground truncate">{video ? he.decode(video.title) : 'Not Playing'}</p>
+							<Marquee onlyOnOverflow speed={10} className='font-bold text-foreground'>
+								{video ? he.decode(video.title) : 'Not Playing'}
+							</Marquee>
 							{video && (
 								<Link className='text-xs font-normal no-underline hover:underline' href={`https://www.youtube.com/channel/${video?.channelId}`} target='_blank'>
 									{he.decode(video.channelTitle)}
