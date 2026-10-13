@@ -63,7 +63,10 @@ export const Search = () => {
 	}
 
 	return <>
-		<Command className={`w-1/3 h-fit border ${!cmdOpen && 'w-1/5 border-transparent bg-transparent'}`} shouldFilter={false}>
+		<Command
+			className={`w-1/3 h-fit border transition-all ${!cmdOpen && 'w-1/5 border-transparent bg-transparent'}`}
+			shouldFilter={false}
+		>
 			<InputGroup>
 				<InputGroupAddon>
 					<MagnifyingGlassIcon />
@@ -93,45 +96,43 @@ export const Search = () => {
 					</>}
 				</InputGroupAddon>
 			</InputGroup>
-			{cmdOpen && (
-				<CommandList>
-					<CommandEmpty className="flex justify-center">
-						{searchLoading ? (
-							<div className='flex gap-[0.5vw]'>
-								<span>Searching</span> <Spinner />
-							</div>
-						) : (
-							'No results.'
-						)}
-					</CommandEmpty>
-					{videosFound.length > 0 && (
-						<CommandGroup heading="Results found">
-							{videosFound.map((video) => (
-								<HoverCard key={video.etag}>
-									<HoverCardTrigger asChild>
-										<CommandItem
-											value={video.etag}
-											onSelect={() => {
-												setStates(prev => ({ ...prev, video, currentTime: 0, autoplay: true }))
-												setOpen(false)
-											}}
-										>
-											<Thumbnail src={video.snippet.thumbnails.high.url} />
-											<div className='flex items-start gap-[0.5vw]'>
-												{he.decode(video.snippet.title)}
-												{video.snippet.liveBroadcastContent !== 'none' && <Live>{video.snippet.liveBroadcastContent}</Live>}
-											</div>
-										</CommandItem>
-									</HoverCardTrigger>
-									<HoverCardContent side='right' className='max-h-[50vh] overflow-y-auto'>
-										{video.snippet.description}
-									</HoverCardContent>
-								</HoverCard>
-							))}
-						</CommandGroup>
+			<CommandList className={`${!cmdOpen && 'hidden'}`}>
+				<CommandEmpty className="flex justify-center">
+					{searchLoading ? (
+						<div className='flex gap-[0.5vw]'>
+							<span>Searching</span> <Spinner />
+						</div>
+					) : (
+						'No results.'
 					)}
-				</CommandList>
-			)}
+				</CommandEmpty>
+				{videosFound.length > 0 && (
+					<CommandGroup heading="Results found">
+						{videosFound.map((video) => (
+							<HoverCard key={video.etag}>
+								<HoverCardTrigger asChild>
+									<CommandItem
+										value={video.etag}
+										onSelect={() => {
+											setStates(prev => ({ ...prev, video, currentTime: 0, autoplay: true }))
+											setOpen(false)
+										}}
+									>
+										<Thumbnail src={video.snippet.thumbnails.high.url} />
+										<div className='flex items-start gap-[0.5vw]'>
+											{he.decode(video.snippet.title)}
+											{video.snippet.liveBroadcastContent !== 'none' && <Live>{video.snippet.liveBroadcastContent}</Live>}
+										</div>
+									</CommandItem>
+								</HoverCardTrigger>
+								<HoverCardContent side='right' className='max-h-[50vh] overflow-y-auto'>
+									{video.snippet.description}
+								</HoverCardContent>
+							</HoverCard>
+						))}
+					</CommandGroup>
+				)}
+			</CommandList>
 		</Command>
 	</>
 }
