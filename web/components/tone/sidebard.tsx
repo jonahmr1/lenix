@@ -60,13 +60,14 @@ import { Database } from '@/lib/supabase.types'
 
 dayjs.extend(relativeTime)
 const format = (value: string | undefined, accurate?: true) =>
-	dayjs(value).format(`${accurate ? 'H:M ' : ''}MMMM D, YYYY`)
+	dayjs(value).format(`${accurate ? 'H:mm ' : ''}MMMM D, YYYY`)
 
 export const AppSidebar = () => {
 	const { states, setStates } = useStates()
 	const [playlists, setPlaylists] = useState<Database['public']['Tables']['playlists']['Row'][]>()
 	const [dialogOpen, setDialog] = useState(false)
 	const playlistInput = useRef<HTMLInputElement>(null)
+	const [creationLoading, setLoading] = useState(false)
 
 	useEffect(() => {
 		const timeout = setTimeout(async () => {
@@ -114,9 +115,10 @@ export const AppSidebar = () => {
 							<DialogFooter>
 								<Button
 									className="w-full"
+									disabled={creationLoading}
 									onClick={async () => {
 										const label = playlistInput.current?.value
-										if (!label || label.length < 3) {
+										if (!label || label.trim().length < 3) {
 											toast.warning('Warning', {
 												description: 'Playlist name must be at least 3 characters long.'
 											})
@@ -125,28 +127,27 @@ export const AppSidebar = () => {
 										if (!states.user) {
 											return
 										}
-										try {
-											const { error, data } = await createClient()
-											.from('playlists')
-											.insert({
-												label,
-												tracks: []
-											})
-											.select('*')
-											
-											if (error) {
-												toast.error('Error', {
-													description: JSON.stringify(error)
-												})
-												return
-											}
+										setLoading(true)
+										const { error, data } = await createClient()
+										.from('playlists')
+										.insert({
+											label,
+											tracks: []
+										})
+										.select('*')
 
-											setPlaylists(data)
-										} finally {
-											setDialog(false)
+										setDialog(false)
+										setLoading(false)
+										if (error) {
+											toast.error('Error', {
+												description: JSON.stringify(error)
+											})
+											return
 										}
+
+										setPlaylists(prev => [...(prev ?? []), ...data])
 									}}
-								>Create</Button>
+								>{creationLoading ? <Spinner /> : 'Create'}</Button>
 							</DialogFooter>
 						</DialogContent>
 					</Dialog>
