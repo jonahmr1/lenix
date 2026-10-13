@@ -40,14 +40,9 @@ const Tone = () => {
 			<SidebarInset className="relative overflow-hidden">
 				<div className="w-full h-screen flex flex-col *:flex-1 *:min-h-0">
 					<div className='flex items-start pt-[2vh] px-[2vw]'>
-						<div className='flex flex-1 items-center *:flex-1'>
-							<div>
-								<SidebarTrigger />
-							</div>
-							<div className="flex flex-5! justify-center z-1">
-								<Search />
-							</div>
-							<div></div>
+						<SidebarTrigger />
+						<div className="flex w-full justify-center z-1">
+							<Search />
 						</div>
 					</div>
 					<div className="flex size-full flex-col items-center">
