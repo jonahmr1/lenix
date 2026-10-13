@@ -35,6 +35,7 @@ export const Search = () => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         setOpen(open => !open)
+				searchInput.current?.focus()
       }
     }
 
