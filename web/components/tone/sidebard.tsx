@@ -4,6 +4,7 @@ import {
 	SidebarFooter,
 	SidebarGroup,
 	SidebarHeader,
+	SidebarMenuAction,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarRail,
@@ -19,6 +20,7 @@ import dayjs from 'dayjs'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
 import {
 	CaretUpDownIcon,
+	DotsThreeIcon,
 	EnvelopeSimpleIcon,
 	InfoIcon,
 	PlaylistIcon,
@@ -57,6 +59,7 @@ import {
 	Empty,
 } from '../ui/empty'
 import { Database } from '@/lib/supabase.types'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
 dayjs.extend(relativeTime)
 const format = (value: string | undefined, accurate?: true) =>
@@ -64,10 +67,8 @@ const format = (value: string | undefined, accurate?: true) =>
 
 export const AppSidebar = () => {
 	const { states, setStates } = useStates()
-	const [playlists, setPlaylists] = useState<Database['public']['Tables']['playlists']['Row'][]>()
-	const [dialogOpen, setDialog] = useState(false)
 	const playlistInput = useRef<HTMLInputElement>(null)
-	const [creationLoading, setLoading] = useState(false)
+	const renamePlaylistInput = useRef<HTMLInputElement>(null)
 
 	useEffect(() => {
 		const timeout = setTimeout(async () => {
@@ -80,7 +81,7 @@ export const AppSidebar = () => {
 				return
 			}
 
-			setPlaylists(data)
+			setStates(prev => ({ ...prev, playlists: data }))
 		})
 
 		return () => clearTimeout(timeout)
@@ -89,9 +90,12 @@ export const AppSidebar = () => {
 	return (
 		<Fragment>
 			<Sidebar variant="inset">
-				<SidebarHeader className="flex-row justify-between">
+				<SidebarHeader className="flex-row justify-between items-center">
 					<Lead>Playlists</Lead>
-					<Dialog open={dialogOpen} onOpenChange={setDialog}>
+					<Dialog
+						open={states.createPlaylistDialog}
+						onOpenChange={createPlaylistDialog => setStates(prev => ({ ...prev, createPlaylistDialog }))}
+					>
 						<DialogTrigger asChild>
 							<Button
 								variant="ghost"
@@ -104,9 +108,9 @@ export const AppSidebar = () => {
 							<DialogHeader>
 								<DialogTitle>Create new playlist</DialogTitle>
 								<DialogDescription className="flex flex-col gap-[1vh]">
-									<Label htmlFor="playlist_name">Playlist name</Label>
+									<Label htmlFor="id">Playlist name</Label>
 									<Input
-										id="playlist_name"
+										id="id"
 										defaultValue="My Playlist"
 										ref={playlistInput}
 									/>
@@ -115,29 +119,25 @@ export const AppSidebar = () => {
 							<DialogFooter>
 								<Button
 									className="w-full"
-									disabled={creationLoading}
+									disabled={states.creatingPlaylist}
 									onClick={async () => {
 										const label = playlistInput.current?.value
 										if (!label || label.trim().length < 3) {
-											toast.warning('Warning', {
-												description: 'Playlist name must be at least 3 characters long.'
-											})
+											toast.warning('Playlist name must be at least 3 characters long.')
 											return
 										}
 										if (!states.user) {
+											toast.warning('Creating playlists are available only for the registered users atm.')
 											return
 										}
-										setLoading(true)
+										setStates(prev => ({ ...prev, creatingPlaylist: true }))
 										const { error, data } = await createClient()
 										.from('playlists')
-										.insert({
-											label,
-											tracks: []
-										})
+										.insert({ label, tracks: [] })
 										.select('*')
 
-										setDialog(false)
-										setLoading(false)
+										setStates(prev => ({ ...prev, createPlaylistDialog: false }))
+										setStates(prev => ({ ...prev, creatingPlaylist: false }))
 										if (error) {
 											toast.error('Error', {
 												description: JSON.stringify(error)
@@ -145,22 +145,131 @@ export const AppSidebar = () => {
 											return
 										}
 										toast.success('Playlist Created.')
-										setPlaylists(prev => [...(prev ?? []), ...data])
+										setStates(prev => ({ ...prev, playlists: [...(prev.playlists ?? []), ...data] }))
 									}}
-								>{creationLoading ? <Spinner /> : 'Create'}</Button>
+								>{states.creatingPlaylist ? <Spinner /> : 'Create'}</Button>
 							</DialogFooter>
 						</DialogContent>
 					</Dialog>
 				</SidebarHeader>
 				<SidebarContent>
-					{playlists ? (
-						playlists.length ? (
+					{states.playlists ? (
+						states.playlists.length ? (
 							<SidebarGroup>
-								{playlists.map(playlist => (
+								{states.playlists.map(playlist => (
 									<SidebarMenuItem key={playlist.id}>
 										<SidebarMenuButton variant="outline">
 											{playlist.label}
 										</SidebarMenuButton>
+										<DropdownMenu>
+											<DropdownMenuTrigger asChild>
+												<SidebarMenuAction>
+													<DotsThreeIcon />
+												</SidebarMenuAction>
+											</DropdownMenuTrigger>
+											<DropdownMenuContent>
+												<DropdownMenuGroup>
+													<Dialog>
+														<DialogTrigger asChild>
+															<DropdownMenuItem onSelect={e => e.preventDefault()}>
+																Rename
+															</DropdownMenuItem>
+														</DialogTrigger>
+														<DialogContent>
+															<DialogHeader>
+																<DialogTitle>Rename playlist</DialogTitle>
+																<DialogDescription className="flex flex-col gap-[1vh]">
+																	<Label htmlFor="id">Playlist name</Label>
+																	<Input
+																		id="id"
+																		defaultValue={playlist.label}
+																		ref={renamePlaylistInput}
+																	/>
+																</DialogDescription>
+															</DialogHeader>
+															<DialogFooter>
+																<Button
+																	className="w-full"
+																	disabled={states.renamingPlaylist}
+																	onClick={async () => {
+																		const label = renamePlaylistInput.current?.value
+																		if (!label || label.trim().length < 3) {
+																			toast.warning('Playlist name must be at least 3 characters long.')
+																			return
+																		}
+
+																		setStates(prev => ({ ...prev, renamingPlaylist: true }))
+																		const { error, data } = await createClient()
+																		.from('playlists')
+																		.update({ label })
+																		.eq('id', playlist.id)
+																		.select('*')
+																		.single()
+
+																		setStates(prev => ({ ...prev, renamingPlaylist: false }))
+																		if (error) {
+																			toast.error('Error', {
+																				description: JSON.stringify(error)
+																			})
+																			return
+																		}
+																		toast.success('Playlist renamed.')
+																		setStates((prev) => ({
+																			...prev,
+																			playlists: (prev.playlists ?? []).map(p =>
+																				data.id === p.id ? data : p,
+																			),
+																		}))
+																	}}
+																>{states.renamingPlaylist ? <Spinner /> : 'Rename'}</Button>
+															</DialogFooter>
+														</DialogContent>
+													</Dialog>
+													<Dialog>
+														<DialogTrigger asChild>
+															<DropdownMenuItem variant="destructive" onSelect={e => e.preventDefault()}>
+																Delete
+															</DropdownMenuItem>
+														</DialogTrigger>
+														<DialogContent>
+															<DialogHeader>
+																<DialogTitle>Are you sure you want to delete <b>{playlist.label}</b> playlist?</DialogTitle>
+																<DialogDescription>This action can not be undone</DialogDescription>
+															</DialogHeader>
+															<DialogFooter>
+																<Button
+																	variant='destructive'
+																	className="w-full"
+																	disabled={states.deletingPlaylist}
+																	onClick={async () => {
+																		setStates(prev => ({ ...prev, deletingPlaylist: true }))
+																		const { error, data } = await createClient()
+																		.from('playlists')
+																		.delete()
+																		.eq('id', playlist.id)
+																		.select('*')
+																		.single()
+
+																		setStates(prev => ({ ...prev, deletingPlaylist: false }))
+																		if (error) {
+																			toast.error('Error', {
+																				description: JSON.stringify(error)
+																			})
+																			return
+																		}
+																		toast.success('Playlist deleted.')
+																		setStates((prev) => ({
+																			...prev,
+																			playlists: (prev.playlists ?? []).filter(p => p.id !== data.id),
+																		}))
+																	}}
+																>{states.deletingPlaylist ? <Spinner /> : 'Delete'}</Button>
+															</DialogFooter>
+														</DialogContent>
+													</Dialog>
+												</DropdownMenuGroup>
+											</DropdownMenuContent>
+										</DropdownMenu>
 									</SidebarMenuItem>
 								))}
 							</SidebarGroup>
@@ -178,7 +287,7 @@ export const AppSidebar = () => {
 										</EmptyDescription>
 									</EmptyHeader>
 									<EmptyContent>
-										<Button onClick={() => setDialog(true)}>Create playlist</Button>
+										<Button onClick={() => setStates(prev => ({ ...prev, createPlaylistDialog: true }))}>Create playlist</Button>
 									</EmptyContent>
 								</Empty>
 							</div>

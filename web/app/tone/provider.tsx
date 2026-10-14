@@ -10,6 +10,7 @@ import { YoutubeVideo } from 'youtube.ts/dist/types'
 import { createClient } from '@/lib/supabase.client'
 import { toast } from 'sonner'
 import Loading from '../loading'
+import { Database } from '@/lib/supabase.types'
 
 /* TODO: conceal */
 const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
@@ -29,6 +30,11 @@ interface States {
 	isMuted: boolean
 	isPlaying: boolean
 	autoplay: boolean
+	playlists: Database['public']['Tables']['playlists']['Row'][] | null
+	createPlaylistDialog: boolean
+	creatingPlaylist: boolean
+	renamingPlaylist: boolean
+	deletingPlaylist: boolean
 }
 
 interface Setters {
@@ -96,6 +102,11 @@ export default function StatesProvider({
 				isMuted: storageIsMuted === null ? false : storageIsMuted === 'true',
 				isPlaying: false,
 				autoplay: false,
+				playlists: null,
+				createPlaylistDialog: false,
+				creatingPlaylist: false,
+				renamingPlaylist: false,
+				deletingPlaylist: false
 			})
 		})
 
