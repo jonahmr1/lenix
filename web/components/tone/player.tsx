@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 import {
 	ArrowClockwiseIcon,
 	FastForwardIcon,
+	PlusIcon,
 	RewindIcon,
 	SkipBackIcon,
 	SkipForwardIcon,
@@ -27,6 +28,9 @@ import { toast } from 'sonner'
 import { useStates } from '@/hooks/useStates'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { Marquee } from '../ui/marquee'
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { createClient } from '@/lib/supabase.client'
+import { asserts } from '@lenix/lenix'
 
 dayjs.extend(duration)
 
@@ -98,7 +102,7 @@ export const Player = () => {
 				<div className='flex-2 min-w-0 size-full pt-[1vh] pb-[0.5vh] flex flex-col gap-[0.5vh] order-0 **:leading-none'>
 					<div className="size-full flex items-center gap-[1vw]">
 						<Thumbnail src={thumbnail} className='rounded-none' />
-						<div className="w-2/3 *:tracking-wide flex flex-col gap-[0.5vh]">
+						<div className="w-full *:tracking-wide flex flex-col gap-[0.5vh] overflow-hidden">
 							<Tooltip delayDuration={500}>
 								<TooltipTrigger asChild>
 									<Marquee speed={10} className='font-bold text-foreground'>
@@ -115,6 +119,50 @@ export const Player = () => {
 								</Link>
 							)}
 						</div>
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant='secondary'>
+									<PlusIcon />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent>
+								<DropdownMenuGroup>
+									<DropdownMenuLabel>Add to</DropdownMenuLabel>
+									{states.playlists?.map(playlist => (
+										<DropdownMenuCheckboxItem
+											key={playlist.id}
+											onSelect={e => e.preventDefault()}
+											checked={videoId ? playlist.tracks.includes(videoId) : false}
+											onCheckedChange={async (checked) => {
+												asserts(videoId)
+
+												const tracks = checked ? [...playlist.tracks, videoId] : playlist.tracks.filter(self => self !== videoId)
+
+												const { error, data } = await createClient()
+													.from('playlists')
+													.update({ tracks })
+													.eq('id', playlist.id)
+													.select()
+													.single()
+
+												if (error) {
+													toast.error('Error', {
+														description: JSON.stringify(error)
+													})
+													return
+												}
+
+												toast.success(checked ? 'Added to playlist.' : 'Removed from playlist.')
+												setStates((prev) => ({
+													...prev,
+													playlists: prev.playlists?.map((p) => (p.id === data.id ? data : p)) ?? null,
+												}))
+											}}
+										>{playlist.label}</DropdownMenuCheckboxItem>
+									))}
+								</DropdownMenuGroup>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					</div>
 					<div className='flex gap-[0.5vw] w-full items-center text-xs'>
 						<p className='text-foreground whitespace-nowrap leading-none'>{states.duration ? format(states.currentTime) : '--:--'}</p>
