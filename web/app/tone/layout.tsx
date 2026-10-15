@@ -6,6 +6,8 @@ export const metadata = {
 	alternates: { canonical: 'https://lenix.dev/tone' },
 }
 
+/* Broadcast */
+
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<StatesProvider>

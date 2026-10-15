@@ -127,7 +127,7 @@ export const Player = () => {
 							</DropdownMenuTrigger>
 							<DropdownMenuContent>
 								<DropdownMenuGroup>
-									<DropdownMenuLabel>Add to</DropdownMenuLabel>
+									<DropdownMenuLabel>Add to playlist</DropdownMenuLabel>
 									{states.playlists?.map(playlist => (
 										<DropdownMenuCheckboxItem
 											key={playlist.id}

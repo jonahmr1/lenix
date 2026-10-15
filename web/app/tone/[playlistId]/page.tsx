@@ -2,7 +2,7 @@
 
 import Loading from '@/app/loading'
 import { useStates } from '@/hooks/useStates'
-import { SmileyXEyesIcon } from '@phosphor-icons/react'
+import { MusicNoteSimpleIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
 import { useParams } from 'next/navigation'
 
 export default function Page() {
@@ -23,7 +23,7 @@ export default function Page() {
 	)
 
 	return (
-		<div>
+		<div className='size-full px-[10vw]'>
 			<h1>{playlist.label}</h1>
 			{playlist.tracks.length ? (
 				<ul>
@@ -32,7 +32,10 @@ export default function Page() {
 					))}
 				</ul>
 			) : (
-				<p>No tracks yet.</p>
+				<div className='size-full flex flex-col items-center justify-center'>
+					<MusicNoteSimpleIcon className='size-full opacity-10' />
+					<p>Added tracks to this playlist with show up here</p>
+				</div>
 			)}
 		</div>
 	)
