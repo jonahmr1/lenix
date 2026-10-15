@@ -1,35 +1,76 @@
 'use client'
+
 import { Player } from "@/components/tone/player"
 import { Search } from "@/components/tone/search"
 import { AppSidebar } from "@/components/tone/sidebard"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { StatesContext } from "./provider"
-import { useContext } from "react"
+import { useStates } from "@/hooks/useStates"
+import Link from "next/link"
+import { useParams } from "next/navigation"
+
+const Breadcrumbs = () => {
+	const { playlistId } = useParams<{ playlistId?: string }>()
+	const { states } = useStates()
+	const playlist = states.playlists?.find(p => p.id === playlistId)
+
+	return (
+		<Breadcrumb>
+			<BreadcrumbList className="list-none">
+				<BreadcrumbItem>
+					{playlistId ? (
+						<BreadcrumbLink asChild>
+							<Link href="/tone">Home</Link>
+						</BreadcrumbLink>
+					) : (
+						<BreadcrumbPage>Home</BreadcrumbPage>
+					)}
+				</BreadcrumbItem>
+
+				{playlistId && (
+					<>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<BreadcrumbPage>
+								{playlist?.label ??
+									(states.playlists ? 'Playlist not found' : 'Loading…')}
+							</BreadcrumbPage>
+						</BreadcrumbItem>
+					</>
+				)}
+			</BreadcrumbList>
+		</Breadcrumb>
+	)
+}
 
 export default function Structure({
 	children
 }: {
 	children: React.ReactNode
 }) {
-	const context = useContext(StatesContext)
+	const { states, loading } = useStates()
 
-	if (!context) return children
+	if (loading) return children
 
 	return (
-		<SidebarProvider className='min-h-screen'>
+		<SidebarProvider className='h-screen'>
 			<AppSidebar />
 			<SidebarInset className="relative overflow-hidden">
 				<div className="size-full flex flex-col *:flex-1 *:min-h-0">
 					<div className='flex items-start pt-[2vh] px-[2vw]'>
-						<SidebarTrigger />
-						<div className="flex w-full justify-center z-1">
+						<div className="flex-1 flex items-end">
+							<SidebarTrigger />
+							<Breadcrumbs />
+						</div>
+						<div className="flex flex-1 w-full justify-center z-1">
 							<Search />
 						</div>
+						<div className="flex-1" />
 					</div>
 					<div className="flex size-full flex-col items-center">
 						{children}
 					</div>
-					<div></div>
+					<div />
 				</div>
 				<Player />
 			</SidebarInset>

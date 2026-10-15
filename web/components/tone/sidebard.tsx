@@ -62,6 +62,7 @@ import {
 } from '../ui/empty'
 import { Database } from '@/lib/supabase.types'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import Link from 'next/link'
 
 dayjs.extend(relativeTime)
 const format = (value: string | undefined, accurate?: true) =>
@@ -160,8 +161,8 @@ export const AppSidebar = () => {
 							<SidebarGroup>
 								{states.playlists.map(playlist => (
 									<SidebarMenuItem key={playlist.id}>
-										<SidebarMenuButton variant="outline">
-											{playlist.label}
+										<SidebarMenuButton variant="outline" asChild>
+											<Link href={`/tone/${playlist.id}`}>{playlist.label}</Link>
 										</SidebarMenuButton>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>

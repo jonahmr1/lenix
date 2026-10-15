@@ -67,7 +67,7 @@ export const Search = () => {
 
 	return <>
 		<Command
-			className={`w-1/3 portrait:w-full h-fit border transition-all ${!cmdOpen && 'w-1/4 portrait:w-4/5 border-transparent bg-transparent'}`}
+			className={`w-full h-fit border transition-all ${!cmdOpen && 'w-2/3 border-transparent bg-transparent'}`}
 			shouldFilter={false}
 		>
 			<InputGroup>
