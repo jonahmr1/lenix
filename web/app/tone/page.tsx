@@ -1,28 +1,15 @@
 'use client'
 
-import { Player } from '@/components/tone/player'
-import { Search } from '@/components/tone/search'
-import StatesProvider from './provider'
 import { toast } from 'sonner'
-import { useEffect } from 'react'
-import { AppSidebar } from '@/components/tone/sidebard'
-import {
-	SidebarInset,
-	SidebarProvider,
-	SidebarTrigger,
-} from '@/components/ui/sidebar'
+import { useContext, useEffect } from 'react'
 import { MusicNotesSimpleIcon } from '@phosphor-icons/react'
 import { Kbd } from '@/components/ui/kbd'
+import { StatesContext } from './provider'
+import Loading from '../loading'
 
 export default function Page() {
-	return (
-		<StatesProvider>
-			<Tone />
-		</StatesProvider>
-	)
-}
-
-const Tone = () => {
+	const context = useContext(StatesContext)
+	
 	useEffect(() => {
 		if (
 			new URLSearchParams(location.search).get('auth-code-error') === 'sign_in'
@@ -34,38 +21,25 @@ const Tone = () => {
 		}
 	}, [])
 
+  if (!context) return <Loading />
+
 	return (
-		<SidebarProvider className='min-h-screen'>
-			<AppSidebar />
-			<SidebarInset className="relative overflow-hidden">
-				<div className="size-full flex flex-col *:flex-1 *:min-h-0">
-					<div className='flex items-start pt-[2vh] px-[2vw]'>
-						<SidebarTrigger />
-						<div className="flex w-full justify-center z-1">
-							<Search />
-						</div>
-					</div>
-					<div className="flex size-full flex-col items-center">
-						<div className="relative min-h-0 w-full flex-1">
-							<MusicNotesSimpleIcon className="absolute inset-0 size-full opacity-10" />
-						</div>
-						<div className='px-[5vw]'>
-							<div className='flex gap-[0.5vw]'>
-								<p><b>Play</b> from your playlists</p>
-								<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
-								<Kbd>B</Kbd>
-							</div>
-							<div className='flex gap-[0.5vw]'>
-								<p><b>Search</b> for what you want to play</p>
-								<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
-								<Kbd>K</Kbd>
-							</div>
-						</div>
-					</div>
-					<div></div>
+		<>
+			<div className="relative min-h-0 w-full flex-1">
+				<MusicNotesSimpleIcon className="absolute inset-0 size-full opacity-10" />
+			</div>
+			<div className='px-[5vw]'>
+				<div className='flex gap-[0.5vw]'>
+					<p><b>Play</b> from your playlists</p>
+					<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
+					<Kbd>B</Kbd>
 				</div>
-				<Player />
-			</SidebarInset>
-		</SidebarProvider>
+				<div className='flex gap-[0.5vw]'>
+					<p><b>Search</b> for what you want to play</p>
+					<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
+					<Kbd>K</Kbd>
+				</div>
+			</div>
+		</>
 	)
 }

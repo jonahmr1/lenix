@@ -9,7 +9,6 @@ import YoutubeAPI from 'youtube.ts/dist/API'
 import { YoutubeVideo } from 'youtube.ts/dist/types'
 import { createClient } from '@/lib/supabase.client'
 import { toast } from 'sonner'
-import Loading from '../loading'
 import { Database } from '@/lib/supabase.types'
 
 /* TODO: conceal */
@@ -142,10 +141,8 @@ export default function StatesProvider({
     return () => clearInterval(interval)
 	}, [states?.ytPlayer, states?.isPlaying])
 
-	if (!states) return <Loading />
-
 	return (
-		<StatesContext.Provider value={{
+		<StatesContext.Provider value={states ? {
 			states,
 			setStates: setStates as S<States>,
 			seek: async (time: number) => {
@@ -178,7 +175,7 @@ export default function StatesProvider({
 				states.ytPlayer?.setVolume(volume)
 				storage.set<{ volume: number }, 'volume'>('volume', volume)
 			},
-		}}>
+		} : null}>
 			{children}
 		</StatesContext.Provider>
 	)

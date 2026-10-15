@@ -3,7 +3,7 @@ import { useContext } from "react"
 
 export const useStates = () => {
 	const context = useContext(StatesContext);
-  if (!context) throw new Error("StatesProvider is missing");
+  if (!context) throw "StatesProvider is missing"
 
 	return context
 }

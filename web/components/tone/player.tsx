@@ -1,3 +1,5 @@
+'use client'
+
 import { Slider } from '@/components/ui/slider'
 import { Button } from '../ui/button'
 import {
