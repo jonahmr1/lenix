@@ -54,9 +54,8 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 	if (!CHARACTER_SELECT) return;
 
 	await waitFor(() => GetResourceState('lenix_premiums') === 'started', '<lenix_premiums> did not started after 10,000ms', 10000)
-	const character = await globalThis.exports.lenix_premiums.charselect(<Character[]>characters) as Character | undefined
-	// await waitFor(() => GetResourceState('lenix') === 'started', '<lenix> did not started after 10,000ms', 10000)
-	// const character = await globalThis.exports.lenix.charselect(<Character[]>characters, 'native') as Character | undefined
+	const [character, newChar] = await globalThis.exports.lenix_premiums.charselect(<Character[]>characters) as |
+	[Character, null] | [null, [string, string, string, number]]
 
 	const [x, y, z] = [
 		character?.x || SPAWN_LOCATION[0],
@@ -81,12 +80,7 @@ netEvent('ox:startCharacterSelect', async (_userId: number, characters: Characte
 	}
 
 	// @ts-ignore
-	const input = [
-		'Firstname',
-		'LastName',
-		'male',
-		1136073600000
-	] ?? await inputDialog(
+	const input = newChar ?? await inputDialog(
 		locale('create_character'),
 		[
 			{
