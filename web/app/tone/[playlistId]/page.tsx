@@ -1,19 +1,41 @@
 'use client'
 
 import Loading from '@/app/loading'
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import { useStates } from '@/hooks/useStates'
-import { MusicNoteSimpleIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
+import { DotsThreeIcon, MusicNoteSimpleIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
 import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { YoutubeVideo } from 'youtube.ts/dist/types'
 
 export default function Page() {
 	const { playlistId } = useParams<{ playlistId: string }>()
 	const { states, loading } = useStates()
+	const [tracks, setTracks] = useState<YoutubeVideo[]>()
 
-	if (loading || !states.playlists) return <Loading />
-
-	const playlist = states.playlists.find(
+	const playlist = states.playlists?.find(
 		(self) => self.id === playlistId,
 	)
+
+	useEffect(() => {
+		if (!playlist?.tracks.length) return
+
+		const timeout = setTimeout(async () => {
+			const { items } = await states.youtube.get('video', {
+				id: playlist.tracks.join(','),
+				part: 'snippet,contentDetails',
+			})
+
+			setTracks(items)
+		})
+		return () => clearTimeout(timeout)
+	}, [playlist])
+
+	if (loading || !states.playlists) return <Loading />
 
 	if (!playlist) return (
 		<div className='size-full flex flex-col items-center justify-center'>
@@ -23,20 +45,63 @@ export default function Page() {
 	)
 
 	return (
-		<div className='size-full px-[10vw]'>
-			<h1>{playlist.label}</h1>
-			{playlist.tracks.length ? (
-				<ul>
-					{playlist.tracks.map((track, index) => (
-						<li key={index}>{track}</li>
-					))}
-				</ul>
-			) : (
-				<div className='size-full flex flex-col items-center justify-center'>
-					<MusicNoteSimpleIcon className='size-full opacity-10' />
-					<p>Added tracks to this playlist with show up here</p>
-				</div>
-			)}
+		<div className='size-full px-[3vw]'>
+			<div className='h-3/10 flex flex-col justify-center'>
+				<h1 className='text-7xl'>{playlist.label}</h1>
+				<p>{playlist.tracks.length} Track</p>
+			</div>
+			<Separator />
+			<div className='h-7/10'>
+				{playlist.tracks.length ? (
+					<Table className=''>
+						<TableCaption>No more tracks on this playlist.</TableCaption>
+						<TableHeader>
+							<TableRow>
+								<TableHead className='w-0 text-center'>#</TableHead>
+								<TableHead>Title</TableHead>
+								<TableHead>Artist</TableHead>
+								<TableHead className='w-12' />
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{playlist.tracks.map((trackId, i) => {
+								const track = tracks?.find(track => track.id === trackId)
+								return (
+									<TableRow key={trackId} className='group'>
+										<TableCell>
+											<Button variant='ghost' className='w-7'>
+												<span className='group-hover:hidden'>{i + 1}</span>
+												<PlayIcon className='hidden group-hover:block' weight='fill' />
+											</Button>
+										</TableCell>
+										<TableCell>{track ? track.snippet.title : <Skeleton className='w-full h-[2.5vh]' />}</TableCell>
+										<TableCell>{track ? track.snippet.channelTitle : <Skeleton className='w-[5vw] h-[2.5vh]' />}</TableCell>
+										<TableCell>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<Button variant="ghost">
+														<DotsThreeIcon />
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent side='left'>
+													<DropdownMenuGroup>
+														<DropdownMenuItem variant='destructive'>Remove</DropdownMenuItem>
+													</DropdownMenuGroup>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</TableCell>
+									</TableRow>
+								)
+							})}
+						</TableBody>
+					</Table>
+				) : (
+					<div className='size-full flex flex-col items-center justify-center'>
+						<MusicNoteSimpleIcon className='size-1/2 opacity-10' />
+						<p>Added tracks to this playlist with show up here</p>
+					</div>
+				)}
+			</div>
 		</div>
 	)
 }

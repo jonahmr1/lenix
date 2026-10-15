@@ -62,7 +62,7 @@ export default function Structure({
 							<SidebarTrigger />
 							<Breadcrumbs />
 						</div>
-						<div className="flex flex-1 w-full justify-center z-1">
+						<div className="relative flex flex-1 w-full justify-center z-1">
 							<Search />
 						</div>
 						<div className="flex-1" />
