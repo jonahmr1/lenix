@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import { useStates } from '@/hooks/useStates'
-import { DotsThreeIcon, MusicNoteSimpleIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
+import { CircleIcon, DotIcon, DotsThreeIcon, MusicNoteSimpleIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { YoutubeVideo } from 'youtube.ts/dist/types'
@@ -48,7 +48,13 @@ export default function Page() {
 		<div className='size-full px-[3vw]'>
 			<div className='h-3/10 flex flex-col justify-center'>
 				<h1 className='text-7xl'>{playlist.label}</h1>
-				<p>{playlist.tracks.length} Track</p>
+				<div className='flex items-center gap-[0.5vw]'>
+					<Button size='icon-lg' className='rounded-full size-10'>
+						<PlayIcon className='size-1/2' weight='fill' />
+					</Button>
+					<DotIcon />
+					<p>{playlist.tracks.length} Track</p>
+				</div>
 			</div>
 			<Separator />
 			<div className='h-7/10'>
