@@ -161,13 +161,17 @@ export const AppSidebar = () => {
 						states.playlists.length ? (
 							<SidebarGroup>
 								{states.playlists.map(playlist => (
-									<SidebarMenuItem key={playlist.id}>
-										<SidebarMenuButton variant="outline" isActive={playlistId === playlist.id} asChild>
+									<SidebarMenuItem key={playlist.id} className='group/playlist'>
+										<SidebarMenuButton
+											variant="outline"
+											isActive={playlistId === playlist.id}
+											asChild
+										>
 											<Link className='no-underline' href={`/tone/${playlist.id}`}>{playlist.label}</Link>
 										</SidebarMenuButton>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
-												<SidebarMenuAction>
+												<SidebarMenuAction className='invisible group-hover/playlist:visible'>
 													<DotsThreeIcon />
 												</SidebarMenuAction>
 											</DropdownMenuTrigger>
