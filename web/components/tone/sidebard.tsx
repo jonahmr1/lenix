@@ -60,9 +60,9 @@ import {
 	EmptyContent,
 	Empty,
 } from '../ui/empty'
-import { Database } from '@/lib/supabase.types'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 dayjs.extend(relativeTime)
 const format = (value: string | undefined, accurate?: true) =>
@@ -72,6 +72,7 @@ export const AppSidebar = () => {
 	const { states, setStates } = useStates()
 	const playlistInput = useRef<HTMLInputElement>(null)
 	const renamePlaylistInput = useRef<HTMLInputElement>(null)
+	const { playlistId } = useParams<{ playlistId: string }>()
 
 	useEffect(() => {
 		const timeout = setTimeout(async () => {
@@ -161,8 +162,8 @@ export const AppSidebar = () => {
 							<SidebarGroup>
 								{states.playlists.map(playlist => (
 									<SidebarMenuItem key={playlist.id}>
-										<SidebarMenuButton variant="outline" asChild>
-											<Link href={`/tone/${playlist.id}`}>{playlist.label}</Link>
+										<SidebarMenuButton variant="outline" isActive={playlistId === playlist.id} asChild>
+											<Link className='no-underline' href={`/tone/${playlist.id}`}>{playlist.label}</Link>
 										</SidebarMenuButton>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
