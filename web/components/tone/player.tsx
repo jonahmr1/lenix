@@ -121,7 +121,7 @@ export const Player = () => {
 						</div>
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button variant='secondary'>
+								<Button variant='secondary' size='icon'>
 									<PlusIcon />
 								</Button>
 							</DropdownMenuTrigger>

@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import { useStates } from '@/hooks/useStates'
-import { CircleIcon, DotIcon, DotsThreeIcon, MusicNoteSimpleIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
+import { DotIcon, DotsThreeIcon, MusicNoteSimpleIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { YoutubeVideo } from 'youtube.ts/dist/types'
@@ -89,7 +89,7 @@ export default function Page() {
 														<DotsThreeIcon />
 													</Button>
 												</DropdownMenuTrigger>
-												<DropdownMenuContent side='left'>
+												<DropdownMenuContent>
 													<DropdownMenuGroup>
 														<DropdownMenuItem variant='destructive'>Remove</DropdownMenuItem>
 													</DropdownMenuGroup>
