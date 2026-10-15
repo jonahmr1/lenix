@@ -48,7 +48,7 @@ export default function Structure({
 }: {
 	children: React.ReactNode
 }) {
-	const { states, loading } = useStates()
+	const { loading } = useStates()
 
 	if (loading) return children
 
@@ -56,7 +56,7 @@ export default function Structure({
 		<SidebarProvider className='h-screen'>
 			<AppSidebar />
 			<SidebarInset className="relative overflow-hidden">
-				<div className="size-full flex flex-col *:flex-1 *:min-h-0">
+				<div className="size-full flex flex-col *:min-h-0">
 					<div className='flex items-start pt-[2vh] px-[2vw]'>
 						<div className="flex-1 flex items-end">
 							<SidebarTrigger />
@@ -67,10 +67,10 @@ export default function Structure({
 						</div>
 						<div className="flex-1" />
 					</div>
-					<div className="flex size-full flex-col items-center">
+					<div className="flex-5 flex size-full flex-col items-center">
 						{children}
 					</div>
-					<div />
+					<div className="flex-1" />
 				</div>
 				<Player />
 			</SidebarInset>
