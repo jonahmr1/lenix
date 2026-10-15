@@ -81,7 +81,24 @@ export default function Page() {
 												variant='ghost'
 												className='w-7'
 												onClick={() => {
-													
+													if (!track) return
+
+													if (states.video?.id.videoId === track.id) {
+														states.ytPlayer?.playVideo()
+														return
+													}
+
+													setStates((prev) => ({
+														...prev,
+														video: {
+															kind: 'youtube#searchResult',
+															etag: track.etag,
+															id: { kind: 'youtube#video', videoId: track.id },
+															snippet: track.snippet,
+														},
+														currentTime: 0,
+														autoplay: true,
+													}))
 												}}
 											>
 												<span className='group-hover:hidden'>{i + 1}</span>
