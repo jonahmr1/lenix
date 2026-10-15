@@ -1,14 +1,14 @@
 'use client'
 
 import { toast } from 'sonner'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { MusicNotesSimpleIcon } from '@phosphor-icons/react'
 import { Kbd } from '@/components/ui/kbd'
-import { StatesContext } from './provider'
+import { useStates } from '@/hooks/useStates'
 import Loading from '../loading'
 
 export default function Page() {
-	const context = useContext(StatesContext)
+	const { loading } = useStates()
 	
 	useEffect(() => {
 		if (
@@ -21,7 +21,7 @@ export default function Page() {
 		}
 	}, [])
 
-  if (!context) return <Loading />
+	if (loading) return <Loading />
 
 	return (
 		<>

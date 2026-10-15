@@ -136,21 +136,21 @@ export type Database = {
       playlists: {
         Row: {
           created_at: string
-          id: number
+          id: string
           label: string
           tracks: string[]
           user_id: string
         }
         Insert: {
           created_at?: string
-          id?: number
+          id?: string
           label: string
           tracks: string[]
           user_id?: string
         }
         Update: {
           created_at?: string
-          id?: number
+          id?: string
           label?: string
           tracks?: string[]
           user_id?: string
