@@ -7,14 +7,16 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import { useStates } from '@/hooks/useStates'
+import { createClient } from '@/lib/supabase.client'
 import { DotIcon, DotsThreeIcon, MusicNoteSimpleIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { YoutubeVideo } from 'youtube.ts/dist/types'
 
 export default function Page() {
 	const { playlistId } = useParams<{ playlistId: string }>()
-	const { states, loading } = useStates()
+	const { states, loading, setStates } = useStates()
 	const [tracks, setTracks] = useState<YoutubeVideo[]>()
 
 	const playlist = states.playlists?.find(
@@ -81,7 +83,7 @@ export default function Page() {
 											</Button>
 										</TableCell>
 										<TableCell>{track ? track.snippet.title : <Skeleton className='w-full h-[2.5vh]' />}</TableCell>
-										<TableCell>{track ? track.snippet.channelTitle : <Skeleton className='w-[5vw] h-[2.5vh]' />}</TableCell>
+										<TableCell>{track ? track.snippet.channelTitle : <Skeleton className='w-full h-[2.5vh]' />}</TableCell>
 										<TableCell>
 											<DropdownMenu>
 												<DropdownMenuTrigger asChild>
@@ -91,7 +93,38 @@ export default function Page() {
 												</DropdownMenuTrigger>
 												<DropdownMenuContent>
 													<DropdownMenuGroup>
-														<DropdownMenuItem variant='destructive'>Remove</DropdownMenuItem>
+														<DropdownMenuItem
+															variant='destructive'
+															onClick={() => {
+																const tracks = playlist.tracks.filter(self => self !== trackId)
+																
+																toast.promise(
+																	async () => {
+																		const { error } = await createClient()
+																			.from('playlists')
+																			.update({ tracks })
+																			.eq('id', playlist.id)
+																		
+																		if (error) throw error
+
+																		setStates((prev) => ({
+																			...prev,
+																			playlists: prev.playlists?.map((p) =>
+																				p.id === playlist.id ? { ...p, tracks } : p,
+																			) ?? null,
+																		}))
+																	},
+																	{
+																		loading: 'Removing...',
+																		error: error => ({
+																			message: 'Error',
+																			description: JSON.stringify(error)
+																		}),
+																		success: 'Removed from playlist.'
+																	}
+																)
+															}}
+														>Remove</DropdownMenuItem>
 													</DropdownMenuGroup>
 												</DropdownMenuContent>
 											</DropdownMenu>
