@@ -24,10 +24,8 @@ export default function Page() {
 	if (loading) return <Loading />
 
 	return (
-		<>
-			<div className="relative min-h-0 w-full flex-1">
-				<MusicNotesSimpleIcon className="absolute inset-0 size-full opacity-10" />
-			</div>
+		<div className='size-full flex flex-col items-center justify-center'>
+			<MusicNotesSimpleIcon className="size-1/2 opacity-10" />
 			<div className='px-[5vw]'>
 				<div className='flex gap-[0.5vw]'>
 					<p><b>Play</b> from your playlists</p>
@@ -40,6 +38,6 @@ export default function Page() {
 					<Kbd>K</Kbd>
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }

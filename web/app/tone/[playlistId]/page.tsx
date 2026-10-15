@@ -51,7 +51,7 @@ export default function Page() {
 			<div className='h-3/10 flex flex-col justify-center'>
 				<h1 className='text-7xl'>{playlist.label}</h1>
 				<div className='flex items-center gap-[0.5vw]'>
-					<Button size='icon-lg' className='rounded-full size-10'>
+					<Button size='icon-lg' className='rounded-full size-10' disabled={!playlist.tracks.length}>
 						<PlayIcon className='size-1/2' weight='fill' />
 					</Button>
 					<DotIcon />
@@ -77,7 +77,13 @@ export default function Page() {
 								return (
 									<TableRow key={trackId} className='group'>
 										<TableCell>
-											<Button variant='ghost' className='w-7'>
+											<Button
+												variant='ghost'
+												className='w-7'
+												onClick={() => {
+													
+												}}
+											>
 												<span className='group-hover:hidden'>{i + 1}</span>
 												<PlayIcon className='hidden group-hover:block' weight='fill' />
 											</Button>

@@ -67,7 +67,7 @@ export default function Structure({
 						</div>
 						<div className="flex-1" />
 					</div>
-					<div className="flex-5 flex size-full flex-col items-center">
+					<div className="flex-5 size-full">
 						{children}
 					</div>
 					<div className="flex-1" />
