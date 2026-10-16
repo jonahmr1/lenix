@@ -48,7 +48,7 @@ export default function Page() {
 
 	return (
 		<div className='size-full px-[3vw]'>
-			<div className='h-3/10 flex flex-col justify-center'>
+			<div className='min-h-3/10 flex flex-col justify-center'>
 				<h1 className='text-7xl'>{playlist.label}</h1>
 				<div className='flex items-center gap-[0.5vw]'>
 					<Button size='icon-lg' className='rounded-full size-10' disabled={!playlist.tracks.length}>
@@ -59,7 +59,7 @@ export default function Page() {
 				</div>
 			</div>
 			<Separator />
-			<div className='h-7/10'>
+			<div className=''>
 				{playlist.tracks.length ? (
 					<Table className=''>
 						<TableCaption>No more tracks on this playlist.</TableCaption>
