@@ -1,20 +1,24 @@
+import { JsonValue } from "@lenix/lenix"
+
 export const onNetEvent = <
-	Event extends string,
-	Params extends unknown[]
->(event: Event, cb: (source: number, ...params: Params) => void) => {
-	const handler = (...params: Params) => cb(source, ...params)
+	T extends [string, JsonValue[]]
+>(event: T[0], cb: (source: number, ...params: T[1]) => void) => {
+	const handler = (...params: T[1]) => cb(source, ...params)
 	addNetEventListener(event, handler)
 	return () => removeEventListener(event, handler)
 }
 
 export const onEvent = <
-	Event extends string,
-	Params extends unknown[]
->(event: Event, cb: (...params: Params) => void) => {
+	T extends [string, JsonValue[]]
+>(event: T[0], cb: (...params: T[1]) => void) => {
 	addEventListener(event, cb, false)
 	return () => removeEventListener(event, cb)
 }
 
-export const emitNetEvent = <Event extends string, Params extends unknown[]>(event: Event, source: number, ...params: Params) => emitNet(event, source, params)
+export const emitNetEvent = <
+	T extends [string, JsonValue[]]
+>(event: T[0], source: number, ...params: T[1]) => emitNet(event, source, params)
 
-export const emitEvent = <Event extends string, Params extends unknown[]>(event: Event, ...params: Params) => emit(event, params)
+export const emitEvent = <
+	T extends [string, JsonValue[]]
+>(event: T[0], ...params: T[1]) => emit(event, params)
