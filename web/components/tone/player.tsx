@@ -228,7 +228,7 @@ export const Player = () => {
 							setStates(prev => ({ ...prev, duration }))
 						}}
 						opts={{ playerVars: { autoplay: states.autoplay ? 1 : 0 } }}
-						iframeClassName="absolute -top-full min-w-50 min-h-50 pointer-events-none"
+						iframeClassName="absolute min-w-50 min-h-50 pointer-events-none"
 						onError={e => {
 							setPlaying(false)
 							toast.error('This video cannot play here. Please choose another music.', {
