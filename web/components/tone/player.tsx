@@ -130,86 +130,88 @@ export const Player = () => {
 								</Link>
 							)}
 						</div>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<Button variant="secondary" size="icon">
-									<PlusIcon />
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent side='top'>
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>Smart Actions</DropdownMenuLabel>
-									<DropdownMenuItem asChild>
-										<Tooltip delayDuration={700}>
-											<TooltipTrigger asChild>
-												<ShimmerButton
-													className='w-full flex justify-evenly text-background py-1 rounded-xl' borderRadius='var(--radius-md)'
-													shimmerColor='var(--background)'
-													background={resolvedTheme === 'dark' ? 'var(--chart-1)' : 'var(--chart-5)'}
-												>
-													<SparkleIcon />
-													Auto-Place
-													<span className='text-background text-xs px-1 py-[0.1vh] rounded-md outline outline-background'>AI</span>
-												</ShimmerButton>
-											</TooltipTrigger>
-											<TooltipContent>
-												<span>AI picks a matching playlist or creates a new one.</span>
-											</TooltipContent>
-										</Tooltip>
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>Add to playlist</DropdownMenuLabel>
-									{states.playlists?.map((playlist) => (
-										<DropdownMenuCheckboxItem
-											key={playlist.id}
-											onSelect={(e) => e.preventDefault()}
-											checked={videoId ? playlist.tracks.includes(videoId) : false}
-											onCheckedChange={(checked) => {
-												asserts(videoId)
+						{video && (
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button variant="secondary" size="icon">
+										<PlusIcon />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent side='top'>
+									<DropdownMenuGroup>
+										<DropdownMenuLabel>Smart Actions</DropdownMenuLabel>
+										<DropdownMenuItem asChild>
+											<Tooltip delayDuration={700}>
+												<TooltipTrigger asChild>
+													<ShimmerButton
+														className='w-full flex justify-evenly text-background py-1 rounded-xl' borderRadius='var(--radius-md)'
+														shimmerColor='var(--background)'
+														background={resolvedTheme === 'dark' ? 'var(--chart-1)' : 'var(--chart-5)'}
+													>
+														<SparkleIcon />
+														Auto-Place
+														<span className='text-background text-xs px-1 py-[0.1vh] rounded-md outline outline-background'>AI</span>
+													</ShimmerButton>
+												</TooltipTrigger>
+												<TooltipContent>
+													<span>AI picks a matching playlist or creates a new one.</span>
+												</TooltipContent>
+											</Tooltip>
+										</DropdownMenuItem>
+									</DropdownMenuGroup>
+									<DropdownMenuSeparator />
+									<DropdownMenuGroup>
+										<DropdownMenuLabel>Add to playlist</DropdownMenuLabel>
+										{states.playlists?.map((playlist) => (
+											<DropdownMenuCheckboxItem
+												key={playlist.id}
+												onSelect={(e) => e.preventDefault()}
+												checked={videoId ? playlist.tracks.includes(videoId) : false}
+												onCheckedChange={(checked) => {
+													asserts(videoId)
 
-												const tracks = checked
-													? [...playlist.tracks, videoId]
-													: playlist.tracks.filter((self) => self !== videoId)
+													const tracks = checked
+														? [...playlist.tracks, videoId]
+														: playlist.tracks.filter((self) => self !== videoId)
 
-												toast.promise(
-													async () => {
-														const { error, data } = await createClient()
-															.from('playlists')
-															.update({ tracks })
-															.eq('id', playlist.id)
-															.select()
-															.single()
+													toast.promise(
+														async () => {
+															const { error, data } = await createClient()
+																.from('playlists')
+																.update({ tracks })
+																.eq('id', playlist.id)
+																.select()
+																.single()
 
-														if (error) throw error
+															if (error) throw error
 
-														setStates((prev) => ({
-															...prev,
-															playlists:
-																prev.playlists?.map((p) => (p.id === data.id ? data : p)) ??
-																null,
-														}))
-													},
-													{
-														loading: checked ? 'Removing...' : 'Adding...',
-														error: (error) => ({
-															message: 'Error',
-															description: JSON.stringify(error),
-														}),
-														success: checked
-															? 'Added to playlist.'
-															: 'Removed from playlist.',
-													},
-												)
-											}}
-										>
-											{playlist.label}
-										</DropdownMenuCheckboxItem>
-									))}
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
+															setStates((prev) => ({
+																...prev,
+																playlists:
+																	prev.playlists?.map((p) => (p.id === data.id ? data : p)) ??
+																	null,
+															}))
+														},
+														{
+															loading: checked ? 'Removing...' : 'Adding...',
+															error: (error) => ({
+																message: 'Error',
+																description: JSON.stringify(error),
+															}),
+															success: checked
+																? 'Added to playlist.'
+																: 'Removed from playlist.',
+														},
+													)
+												}}
+											>
+												{playlist.label}
+											</DropdownMenuCheckboxItem>
+										))}
+									</DropdownMenuGroup>
+								</DropdownMenuContent>
+							</DropdownMenu>
+						)}
 					</div>
 					<div className="flex gap-[0.5vw] w-full items-center text-xs">
 						<p className="text-foreground whitespace-nowrap leading-none">
