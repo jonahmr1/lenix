@@ -58,7 +58,7 @@ export default function Structure({
 			<SidebarInset className="relative overflow-hidden">
 				<div className="size-full flex flex-col *:min-h-0 gap-[2vh]">
 					<div className='z-1 flex flex-1 portrait:flex-col items-start pt-[2vh] px-[2vw]'>
-						<div className="flex">
+						<div className="flex shrink-0">
 							<SidebarTrigger />
 							<Breadcrumbs />
 						</div>
