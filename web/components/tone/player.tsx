@@ -154,7 +154,7 @@ export const Player = () => {
 													</ShimmerButton>
 												</TooltipTrigger>
 												<TooltipContent>
-													<span>AI picks a matching playlist or creates a new one.</span>
+													<span>AI add it to a matching playlist or creates a new one.</span>
 												</TooltipContent>
 											</Tooltip>
 										</DropdownMenuItem>
