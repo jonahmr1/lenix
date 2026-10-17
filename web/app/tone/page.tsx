@@ -25,23 +25,26 @@ export default function Page() {
 
 	return (
 		<div className='size-full flex flex-col items-center justify-center'>
-			<MusicNotesSimpleIcon className="size-1/2 opacity-10" />
-			<div className='px-[5vw] flex gap-[3vw]'>
-				<div className='flex flex-col gap-[0.5vw]'>
-					<p><b>Play</b> from your playlists</p>
-					<p><b>Search</b> for what you want to play</p>
-				</div>
-				<div className='flex flex-col gap-[0.5vw] *:space-x-[0.5vw]'>
-					<div>
-						<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
-						<Kbd>B</Kbd>
+			<div>
+				<MusicNotesSimpleIcon className="flex-1 size-full opacity-10" />
+				<div className='px-[5vw] flex gap-[3vw]'>
+					<div className='flex flex-col gap-[0.5vw]'>
+						<p><b>Play</b> from your playlists</p>
+						<p><b>Search</b> for what you want to play</p>
 					</div>
-					<div>
-						<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
-						<Kbd>K</Kbd>
+					<div className='flex flex-col gap-[0.5vw] *:space-x-[0.5vw]'>
+						<div>
+							<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
+							<Kbd>B</Kbd>
+						</div>
+						<div>
+							<Kbd>{navigator.platform.startsWith('Mac') ? '⌘' : 'Ctrl'}</Kbd>
+							<Kbd>K</Kbd>
+						</div>
 					</div>
 				</div>
 			</div>
+			<div className='flex-1' />
 		</div>
 	)
 }

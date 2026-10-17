@@ -67,9 +67,9 @@ export default function Page() {
 				</div>
 			</div>
 			<Separator />
-			<div className="">
+			<div>
 				{playlist.tracks.length ? (
-					<Table className="">
+					<Table>
 						<TableCaption>No more tracks on this playlist.</TableCaption>
 						<TableHeader>
 							<TableRow>
