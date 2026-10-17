@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
 import { useStates } from '@/hooks/useStates'
 import { createClient } from '@/lib/supabase.client'
-import { DotIcon, DotsThreeIcon, MusicNoteSimpleIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
+import { DotIcon, DotsThreeIcon, MusicNoteSimpleIcon, PauseIcon, PlayIcon, SmileyXEyesIcon } from '@phosphor-icons/react'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -58,9 +58,10 @@ export default function Page() {
 						onClick={() => {
 							setStates(prev => ({ ...prev, queue: playlist.tracks }))
 							play(playlist.tracks[0])
+							setStates(prev => ({ ...prev, playlistIdPlaying: playlist.id }))
 						}}
 					>
-						<PlayIcon className="size-1/2" weight="fill" />
+						{playlist.id === states.playlistIdPlaying ? <PauseIcon className="size-1/2" weight="fill" /> : <PlayIcon className="size-1/2" weight="fill" />}
 					</Button>
 					<DotIcon />
 					<p>{playlist.tracks.length} Track</p>

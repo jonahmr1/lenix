@@ -11,6 +11,8 @@ import { createClient } from '@/lib/supabase.client'
 import { toast } from 'sonner'
 import { Database } from '@/lib/supabase.types'
 
+/* TODO: save, load queue, save, load playing playlist */
+
 /* TODO: conceal */
 const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 asserts(apiKey, 'YOUTUBE_API_KEY missing')
@@ -35,6 +37,7 @@ interface States {
 	renamingPlaylist: boolean
 	deletingPlaylist: boolean
 	queue: string[] | null
+	playlistIdPlaying: string | null
 }
 
 interface Setters {
@@ -74,7 +77,8 @@ export default function StatesProvider({
 		creatingPlaylist: false,
 		renamingPlaylist: false,
 		deletingPlaylist: false,
-		queue: null
+		queue: null,
+		playlistIdPlaying: null
 	})
 
 	useEffect(() => {
