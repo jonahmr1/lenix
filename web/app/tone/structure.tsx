@@ -56,20 +56,19 @@ export default function Structure({
 		<SidebarProvider className='h-screen'>
 			<AppSidebar />
 			<SidebarInset className="relative overflow-hidden">
-				<div className="size-full flex flex-col *:min-h-0">
-					<div className='flex items-start pt-[2vh] px-[2vw]'>
-						<div className="flex-1 flex items-end">
+				<div className="size-full flex flex-col *:min-h-0 gap-[2vh]">
+					<div className='flex portrait:flex-col items-start pt-[2vh] px-[2vw]'>
+						<div className="flex">
 							<SidebarTrigger />
 							<Breadcrumbs />
 						</div>
-						<div className="relative flex flex-2 w-full justify-center z-1">
+						<div className="w-full flex justify-center">
 							<Search />
 						</div>
 					</div>
 					<div className="flex-5 size-full">
 						{children}
 					</div>
-					<div className="flex-1" />
 				</div>
 				<Player />
 			</SidebarInset>

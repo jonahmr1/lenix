@@ -130,13 +130,13 @@ export const Player = () => {
 								</Link>
 							)}
 						</div>
-						<DropdownMenu open>
+						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button variant="secondary" size="icon">
 									<PlusIcon />
 								</Button>
 							</DropdownMenuTrigger>
-							<DropdownMenuContent>
+							<DropdownMenuContent side='top'>
 								<DropdownMenuGroup>
 									<DropdownMenuLabel>Smart Actions</DropdownMenuLabel>
 									<DropdownMenuItem asChild>
@@ -149,7 +149,7 @@ export const Player = () => {
 												>
 													<SparkleIcon />
 													Auto-Place
-													<span className='text-background text-xs px-[0.2vw] py-[0.1vh] rounded-md outline outline-background'>AI</span>
+													<span className='text-background text-xs px-1 py-[0.1vh] rounded-md outline outline-background'>AI</span>
 												</ShimmerButton>
 											</TooltipTrigger>
 											<TooltipContent>

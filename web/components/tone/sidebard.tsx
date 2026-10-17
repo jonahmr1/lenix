@@ -161,7 +161,7 @@ export const AppSidebar = () => {
 						states.playlists.length ? (
 							<SidebarGroup>
 								{states.playlists.map(playlist => (
-									<SidebarMenuItem key={playlist.id} className='group/playlist'>
+									<SidebarMenuItem key={playlist.id}>
 										<SidebarMenuButton
 											variant="outline"
 											isActive={playlistId === playlist.id}
@@ -171,7 +171,7 @@ export const AppSidebar = () => {
 										</SidebarMenuButton>
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
-												<SidebarMenuAction className='invisible group-hover/playlist:visible'>
+												<SidebarMenuAction>
 													<DotsThreeIcon />
 												</SidebarMenuAction>
 											</DropdownMenuTrigger>
@@ -288,7 +288,7 @@ export const AppSidebar = () => {
 										<EmptyMedia variant="icon">
 											<PlaylistIcon />
 										</EmptyMedia>
-										<EmptyTitle>No playlists</EmptyTitle>
+										<EmptyTitle>No playlist</EmptyTitle>
 										<EmptyDescription>
 											You haven't created any playlist yet. Get started by creating your
 											first playlist
