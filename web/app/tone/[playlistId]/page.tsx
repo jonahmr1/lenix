@@ -54,7 +54,7 @@ export default function Page() {
 					<Button
 						size="icon-lg"
 						className="rounded-full size-10"
-						disabled={!playlist.tracks.length}
+						disabled={!playlist.tracks.length || playlist.id === states.playlistIdPlaying}
 						onClick={() => {
 							setStates(prev => ({ ...prev, queue: playlist.tracks }))
 							play(playlist.tracks[0])
