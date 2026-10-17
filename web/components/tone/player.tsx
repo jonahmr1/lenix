@@ -40,7 +40,7 @@ dayjs.extend(duration)
 const format = (value: number) => dayjs.duration(value, 'seconds').format('m:ss')
 
 export const Player = () => {
-	const { states, setStates, seek, setPlaying, togglePlay, toggleMute, setVolume } = useStates()
+	const { states, setStates, seek, setPlaying, togglePlay, toggleMute, setVolume, play } = useStates()
 	const { resolvedTheme } = useTheme()
 	
 	const videoId = states.video?.id.videoId
@@ -272,7 +272,14 @@ export const Player = () => {
 					}}
 					onPlay={() => setPlaying(true)}
 					onPause={() => setPlaying(false)}
-					onEnd={() => setPlaying(false)}
+					onEnd={() => {
+						setPlaying(false)
+						const queue = states.queue?.slice(1)
+						if (queue?.length) {
+							setStates(prev => ({ ...prev, queue }))
+							play(queue[0])
+						}
+					}}
 					onStateChange={async (state) => {
 						const duration = await state.target.getDuration()
 						setStates((prev) => ({ ...prev, duration }))

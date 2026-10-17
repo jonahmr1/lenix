@@ -34,11 +34,13 @@ interface States {
 	creatingPlaylist: boolean
 	renamingPlaylist: boolean
 	deletingPlaylist: boolean
+	queue: string[] | null
 }
 
 interface Setters {
 	seek: (value: number) => Promise<void>
 	setPlaying: (value: boolean) => Promise<void>
+	play: (videoId: string) => Promise<void>
 	setVolume: (value: number) => void
 	togglePlay: () => Promise<void>
 	toggleMute: () => Promise<void>
@@ -72,6 +74,7 @@ export default function StatesProvider({
 		creatingPlaylist: false,
 		renamingPlaylist: false,
 		deletingPlaylist: false,
+		queue: null
 	})
 
 	useEffect(() => {
@@ -124,7 +127,7 @@ export default function StatesProvider({
 
 	useEffect(() => {
 		if (!states.video || !states.user) return
-
+		
 		createClient()
 			.from('player')
 			.upsert({
@@ -152,41 +155,67 @@ export default function StatesProvider({
 	}, [states.ytPlayer, states.isPlaying])
 
 	return (
-		<StatesContext.Provider value={{
-			states,
-			setStates,
-			loading,
-			seek: async (time: number) => {
-				setStates(prev => ({ ...prev, currentTime: time }))
-				await states.ytPlayer?.seekTo(time, true)
-			},
-			togglePlay: async () => {
-				if (!states.ytPlayer) return
-				
-				const status = await states.ytPlayer.getPlayerState()
+		<StatesContext.Provider
+			value={{
+				states,
+				setStates,
+				loading,
+				seek: async (time: number) => {
+					setStates((prev) => ({ ...prev, currentTime: time }))
+					await states.ytPlayer?.seekTo(time, true)
+				},
+				togglePlay: async () => {
+					if (!states.ytPlayer) return
 
-				status === 1 ? states.ytPlayer.pauseVideo() : states.ytPlayer.playVideo()
-			},
-			setPlaying: async (isPlaying: boolean) => {
-				setStates(prev => ({ ...prev, isPlaying }))
-				if (isPlaying) {
-					if (states.isMuted) await states.ytPlayer?.mute()
+					const status = await states.ytPlayer.getPlayerState()
+
+					status === 1 ? states.ytPlayer.pauseVideo() : states.ytPlayer.playVideo()
+				},
+				setPlaying: async (isPlaying: boolean) => {
+					setStates((prev) => ({ ...prev, isPlaying }))
+					if (isPlaying) {
+						if (states.isMuted) await states.ytPlayer?.mute()
+						else await states.ytPlayer?.unMute()
+					}
+				},
+				toggleMute: async () => {
+					const isUnMuted = !(await states.ytPlayer?.isMuted())
+					setStates((prev) => ({ ...prev, isMuted: isUnMuted }))
+					storage.set<{ isMuted: boolean }, 'isMuted'>('isMuted', isUnMuted)
+					if (isUnMuted) await states.ytPlayer?.mute()
 					else await states.ytPlayer?.unMute()
-				}
-			},
-			toggleMute: async () => {
-				const isUnMuted = !await states.ytPlayer?.isMuted()
-				setStates(prev => ({ ...prev, isMuted: isUnMuted }))
-				storage.set<{ isMuted: boolean }, 'isMuted'>('isMuted', isUnMuted)
-				if (isUnMuted) await states.ytPlayer?.mute()
-				else await states.ytPlayer?.unMute()
-			},
-			setVolume: (volume: number) => {
-				setStates(prev => ({ ...prev, volume }))
-				states.ytPlayer?.setVolume(volume)
-				storage.set<{ volume: number }, 'volume'>('volume', volume)
-			},
-		}}>
+				},
+				setVolume: (volume: number) => {
+					setStates((prev) => ({ ...prev, volume }))
+					states.ytPlayer?.setVolume(volume)
+					storage.set<{ volume: number }, 'volume'>('volume', volume)
+				},
+				play: async (videoId: string) => {
+					if (states.video?.id.videoId === videoId) {
+						await states.ytPlayer?.playVideo()
+						return
+					}
+					const { items } = await youtube.get('video', {
+						id: videoId,
+						part: 'snippet',
+					})
+					const track = items[0]
+					if (!track) return
+
+					setStates((prev) => ({
+						...prev,
+						video: {
+							kind: 'youtube#searchResult',
+							etag: track.etag,
+							id: { kind: 'youtube#video', videoId },
+							snippet: track.snippet,
+						},
+						currentTime: 0,
+						autoplay: true,
+					}))
+				},
+			}}
+		>
 			{children}
 		</StatesContext.Provider>
 	)
