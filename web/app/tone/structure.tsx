@@ -57,7 +57,7 @@ export default function Structure({
 			<AppSidebar />
 			<SidebarInset className="relative overflow-hidden">
 				<div className="size-full flex flex-col *:min-h-0 gap-[2vh]">
-					<div className='flex portrait:flex-col items-start pt-[2vh] px-[2vw]'>
+					<div className='z-1 flex flex-1 portrait:flex-col items-start pt-[2vh] px-[2vw]'>
 						<div className="flex">
 							<SidebarTrigger />
 							<Breadcrumbs />
@@ -66,7 +66,7 @@ export default function Structure({
 							<Search />
 						</div>
 					</div>
-					<div className="flex-5 size-full">
+					<div className="flex-7 size-full">
 						{children}
 					</div>
 				</div>
