@@ -1,8 +1,19 @@
-import { cn } from "@/lib/utils";
-import type { ReactNode } from "react";
+import { cn } from '@/lib/utils'
+import type { ReactNode } from 'react'
 
-export const Layout = ({ children, className }: { children: ReactNode, className?: HTMLDivElement['className'] }) => (
-	<div className={cn("bg-background px-[15vw] portrait:px-[5vw] py-[15vh] space-y-[15vh] min-h-screen flex flex-col justify-center", className)}>
-		{children}
-	</div>
+export const Layout = ({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: HTMLDivElement['className']
+}) => (
+  <div
+    className={cn(
+      'flex min-h-screen flex-col justify-center space-y-[15vh] bg-background px-[15vw] py-[15vh] portrait:px-[5vw]',
+      className
+    )}
+  >
+    {children}
+  </div>
 )

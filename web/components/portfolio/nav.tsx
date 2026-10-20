@@ -1,47 +1,54 @@
 'use client'
 
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { ListIcon } from "@phosphor-icons/react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu'
+import { ListIcon } from '@phosphor-icons/react'
 
 const data = [
-	{
-		link: 'contact',
-		label: 'Contact'
-	},
-	{
-		link: 'docs',
-		label: 'Documentations'
-	},
-	// {
-	// 	label: 'Fund',
-	// 	link: 'https://buy.polar.sh/polar_cl_ihhMVbNL2cuRAKiafieSfHSXpcaGfSNK0sn1N0zqZtx',
-	// },
-	{
-		link: 'legal',
-		label: 'Legal'
-	},
+  {
+    link: 'contact',
+    label: 'Contact',
+  },
+  {
+    link: 'docs',
+    label: 'Documentations',
+  },
+  // {
+  // 	label: 'Fund',
+  // 	link: 'https://buy.polar.sh/polar_cl_ihhMVbNL2cuRAKiafieSfHSXpcaGfSNK0sn1N0zqZtx',
+  // },
+  {
+    link: 'legal',
+    label: 'Legal',
+  },
 ]
 
 export const Nav = () => (
-	<NavigationMenu className="absolute left-0 top-[2vh]" viewport={false}>
-		<NavigationMenuList>
-			<NavigationMenuItem>
-				<NavigationMenuTrigger>
-					<ListIcon />
-				</NavigationMenuTrigger>
-				<NavigationMenuContent className="inset-s-0">
-					{data.map(({ link, label }) => (
-						<NavigationMenuLink
-							key={label}
-							href={link}
-							className="no-underline whitespace-nowrap"
-							target="_blank"
-						>
-							{label}
-						</NavigationMenuLink>
-					))}
-				</NavigationMenuContent>
-			</NavigationMenuItem>
-		</NavigationMenuList>
-	</NavigationMenu>
+  <NavigationMenu className="absolute top-[2vh] left-0" viewport={false}>
+    <NavigationMenuList>
+      <NavigationMenuItem>
+        <NavigationMenuTrigger>
+          <ListIcon />
+        </NavigationMenuTrigger>
+        <NavigationMenuContent className="inset-s-0">
+          {data.map(({ link, label }) => (
+            <NavigationMenuLink
+              key={label}
+              href={link}
+              className="whitespace-nowrap no-underline"
+              target="_blank"
+            >
+              {label}
+            </NavigationMenuLink>
+          ))}
+        </NavigationMenuContent>
+      </NavigationMenuItem>
+    </NavigationMenuList>
+  </NavigationMenu>
 )

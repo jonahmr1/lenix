@@ -1,9 +1,27 @@
 import { cache } from '@/lib/cache'
 import { Suspense } from 'react'
 import { Skeleton } from '../ui/skeleton'
-import { Timeline, TimelineItem, TimelineHeader, TimelineDate, TimelineTitle, TimelineIndicator, TimelineSeparator, TimelineContent } from '../reui/timeline'
+import {
+  Timeline,
+  TimelineItem,
+  TimelineHeader,
+  TimelineDate,
+  TimelineTitle,
+  TimelineIndicator,
+  TimelineSeparator,
+  TimelineContent,
+} from '../reui/timeline'
 import { Badge } from '../ui/badge'
-import { ArrowSquareOutIcon, CheckIcon, CircleNotchIcon, ClockIcon, HourglassIcon, PauseIcon, ProhibitIcon, XIcon } from '@phosphor-icons/react/dist/ssr'
+import {
+  ArrowSquareOutIcon,
+  CheckIcon,
+  CircleNotchIcon,
+  ClockIcon,
+  HourglassIcon,
+  PauseIcon,
+  ProhibitIcon,
+  XIcon,
+} from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 import { cn } from 'cn'
 import type { Icon } from '@phosphor-icons/react'
@@ -12,133 +30,164 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
 import { Reveal } from '../reveal'
 
 const statusIcons: Record<
-	Awaited<ReturnType<typeof cache.journey>>[number]['status'],
-	{
-		icon: Icon
-		className: React.ComponentProps<typeof TimelineIndicator>['className']
-		hover?: string
-	}
+  Awaited<ReturnType<typeof cache.journey>>[number]['status'],
+  {
+    icon: Icon
+    className: React.ComponentProps<typeof TimelineIndicator>['className']
+    hover?: string
+  }
 > = {
-	success: {
-		icon: CheckIcon,
-		className: '',
-	},
-	error: {
-		icon: XIcon,
-		className: 'bg-red-900 text-red-500',
-	},
-	paused: {
-		icon: PauseIcon,
-		className: 'bg-amber-900 text-amber-500',
-		hover: 'Paused',
-	},
-	canceled: {
-		icon: ProhibitIcon,
-		className: 'bg-muted text-muted-foreground',
-		hover: 'Abandoned',
-	},
-	planned: {
-		icon: ClockIcon,
-		className: 'bg-sky-900 text-sky-500',
-		hover: 'Planned',
-	},
-	pending: {
-		icon: HourglassIcon,
-		className: 'bg-accent text-accent-foreground',
-		hover: 'In Progress',
-	},
+  success: {
+    icon: CheckIcon,
+    className: '',
+  },
+  error: {
+    icon: XIcon,
+    className: 'bg-red-900 text-red-500',
+  },
+  paused: {
+    icon: PauseIcon,
+    className: 'bg-amber-900 text-amber-500',
+    hover: 'Paused',
+  },
+  canceled: {
+    icon: ProhibitIcon,
+    className: 'bg-muted text-muted-foreground',
+    hover: 'Abandoned',
+  },
+  planned: {
+    icon: ClockIcon,
+    className: 'bg-sky-900 text-sky-500',
+    hover: 'Planned',
+  },
+  pending: {
+    icon: HourglassIcon,
+    className: 'bg-accent text-accent-foreground',
+    hover: 'In Progress',
+  },
 }
 
 const JourneyTimeline = async () => {
-	const journey = await cache.journey()
+  const journey = await cache.journey()
 
-	const order = (status: string) => (status === 'planned' ? 2 : status === 'pending' ? 1 : 0)
-	const sortedJourney = journey.toSorted((a, b) => order(a.status) - order(b.status) || new Date(a.date).getTime() - new Date(b.date).getTime())
+  const order = (status: string) =>
+    status === 'planned' ? 2 : status === 'pending' ? 1 : 0
+  const sortedJourney = journey.toSorted(
+    (a, b) =>
+      order(a.status) - order(b.status) ||
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
 
-	return (
-		<Timeline defaultValue={sortedJourney.findIndex((self) => self.status === 'pending')}>
-			{sortedJourney.map(({ date, description, status, tech, sources, title, id, achievements }, i) => {
-				const Icon = statusIcons[status].icon
-				const hover = status === 'pending' ? <CircleNotchIcon className="animate-spin" /> : <Icon weight="bold" />
+  return (
+    <Timeline
+      defaultValue={sortedJourney.findIndex(self => self.status === 'pending')}
+    >
+      {sortedJourney.map(
+        (
+          { date, description, status, tech, sources, title, id, achievements },
+          i
+        ) => {
+          const Icon = statusIcons[status].icon
+          const hover =
+            status === 'pending' ? (
+              <CircleNotchIcon className="animate-spin" />
+            ) : (
+              <Icon weight="bold" />
+            )
 
-				return (
-					<TimelineItem
-						step={i}
-						key={id}
-						className="
-							landscape:w-[calc(50%-1.5rem)]
-							landscape:odd:ms-auto
-							landscape:even:me-auto
-							landscape:even:text-right
-							landscape:even:group-data-[orientation=vertical]/timeline:ms-0
-							landscape:even:group-data-[orientation=vertical]/timeline:me-8
-							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:-right-6
-							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:left-auto
-							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:translate-x-1/2
-							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:-right-6
-							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:left-auto
-							landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2
-						"
-					>
-						<Reveal>
-							<TimelineHeader>
-								{status !== 'planned' && status !== 'pending' && <TimelineDate>{date}</TimelineDate>}
-								<TimelineTitle>
-									<HoverCard openDelay={50} closeDelay={50}>
-										<HoverCardTrigger className="cursor-default">{title}</HoverCardTrigger>
-										<HoverCardContent side="top" className="w-fit">
-											<Link href={sources[0]} target="_blank" className="flex items-center justify-center gap-2">
-												<span className="truncate">{sources[0]}</span>
-												<ArrowSquareOutIcon />
-											</Link>
-										</HoverCardContent>
-									</HoverCard>
-								</TimelineTitle>
-							</TimelineHeader>
-							<TimelineContent className="space-y-2">
-								<div>{description}</div>
-								{achievements.length > 1 && <ul className={`text-[1.5vh] ${i % 2 && 'list-none'}`}>
-									{achievements.map((achievement, it) => (
-										<li key={achievement} className='text-left'>
-											{sources[it + 1] ? <Link href={sources[it + 1]} target= '_blank' className='flex items-center gap-2'>
-												<span>{achievement}</span>
-												<ArrowSquareOutIcon className='min-h-[1vh] min-w-[1vw]' />
-												{i % 2 ? <span>•</span> : ''}
-											</Link> : <span>{achievement}</span>}
-										</li>
-									))}
-								</ul>}
-								<div className="space-x-1 space-y-px">
-									{tech?.map((self) => (
-										<Badge key={self} variant="outline" className="text-accent-foreground">
-											{self}
-										</Badge>
-									))}
-								</div>
-							</TimelineContent>
-						</Reveal>
-						<TimelineIndicator className={cn('bg-foreground text-background ring-0 border-0 p-1 flex items-center justify-center', statusIcons[status].className)}>
-							{statusIcons[status].hover ? (
-								<Tooltip>
-									<TooltipTrigger asChild>{hover}</TooltipTrigger>
-									<TooltipContent>{statusIcons[status].hover}</TooltipContent>
-								</Tooltip>
-							) : (
-								hover
-							)}
-						</TimelineIndicator>
-						<TimelineSeparator />
-					</TimelineItem>
-				)
-			})}
-		</Timeline>
-	)
+          return (
+            <TimelineItem
+              step={i}
+              key={id}
+              className="landscape:w-[calc(50%-1.5rem)] landscape:odd:ms-auto landscape:even:me-auto landscape:even:text-right landscape:even:group-data-[orientation=vertical]/timeline:ms-0 landscape:even:group-data-[orientation=vertical]/timeline:me-8 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:-right-6 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:left-auto landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:translate-x-1/2 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:-right-6 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:left-auto landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2"
+            >
+              <Reveal>
+                <TimelineHeader>
+                  {status !== 'planned' && status !== 'pending' && (
+                    <TimelineDate>{date}</TimelineDate>
+                  )}
+                  <TimelineTitle>
+                    <HoverCard openDelay={50} closeDelay={50}>
+                      <HoverCardTrigger className="cursor-default">
+                        {title}
+                      </HoverCardTrigger>
+                      <HoverCardContent side="top" className="w-fit">
+                        <Link
+                          href={sources[0]}
+                          target="_blank"
+                          className="flex items-center justify-center gap-2"
+                        >
+                          <span className="truncate">{sources[0]}</span>
+                          <ArrowSquareOutIcon />
+                        </Link>
+                      </HoverCardContent>
+                    </HoverCard>
+                  </TimelineTitle>
+                </TimelineHeader>
+                <TimelineContent className="space-y-2">
+                  <div>{description}</div>
+                  {achievements.length > 1 && (
+                    <ul className={`text-[1.5vh] ${i % 2 && 'list-none'}`}>
+                      {achievements.map((achievement, it) => (
+                        <li key={achievement} className="text-left">
+                          {sources[it + 1] ? (
+                            <Link
+                              href={sources[it + 1]}
+                              target="_blank"
+                              className="flex items-center gap-2"
+                            >
+                              <span>{achievement}</span>
+                              <ArrowSquareOutIcon className="min-h-[1vh] min-w-[1vw]" />
+                              {i % 2 ? <span>•</span> : ''}
+                            </Link>
+                          ) : (
+                            <span>{achievement}</span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <div className="space-y-px space-x-1">
+                    {tech?.map(self => (
+                      <Badge
+                        key={self}
+                        variant="outline"
+                        className="text-accent-foreground"
+                      >
+                        {self}
+                      </Badge>
+                    ))}
+                  </div>
+                </TimelineContent>
+              </Reveal>
+              <TimelineIndicator
+                className={cn(
+                  'flex items-center justify-center border-0 bg-foreground p-1 text-background ring-0',
+                  statusIcons[status].className
+                )}
+              >
+                {statusIcons[status].hover ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>{hover}</TooltipTrigger>
+                    <TooltipContent>{statusIcons[status].hover}</TooltipContent>
+                  </Tooltip>
+                ) : (
+                  hover
+                )}
+              </TimelineIndicator>
+              <TimelineSeparator />
+            </TimelineItem>
+          )
+        }
+      )}
+    </Timeline>
+  )
 }
 
 export const Journey = () => {
-	return (
-		<Suspense fallback={<Skeleton />}>
-			<JourneyTimeline />
-		</Suspense>
-	)
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <JourneyTimeline />
+    </Suspense>
+  )
 }

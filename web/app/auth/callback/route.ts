@@ -4,8 +4,12 @@ import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
   const { searchParams, host, protocol } = new URL(request.url)
-  const forwardedHost = request.headers.get('x-forwarded-host') ?? request.headers.get('host') ?? host
-  const forwardedProtocol = request.headers.get('x-forwarded-proto') ?? protocol.slice(0, -1)
+  const forwardedHost =
+    request.headers.get('x-forwarded-host') ??
+    request.headers.get('host') ??
+    host
+  const forwardedProtocol =
+    request.headers.get('x-forwarded-proto') ?? protocol.slice(0, -1)
   const origin = `${forwardedProtocol}://${forwardedHost}`
   const code = searchParams.get('code')
   // if "next" is in param, use it as the redirect URL
