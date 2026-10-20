@@ -1,6 +1,6 @@
 'use server'
 
-import { asserts, waste } from '@lenix/lenix'
+import { asserts } from '@lenix/lenix'
 import { Resend } from 'resend'
 
 const key = process.env.RESEND_API_KEY

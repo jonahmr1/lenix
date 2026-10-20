@@ -9,7 +9,6 @@ import { ButtonGroup } from '@/components/ui/button-group'
 import { CURRENT_USERNAME } from '@/lib/utils'
 import {
   GithubLogoIcon,
-  CreditCardIcon,
   FileTextIcon,
   MusicNoteSimpleIcon,
 } from '@phosphor-icons/react/dist/ssr'

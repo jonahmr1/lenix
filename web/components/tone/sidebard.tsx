@@ -51,7 +51,7 @@ import {
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Spinner } from '../ui/spinner'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   EmptyHeader,
   EmptyMedia,
@@ -65,8 +65,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import Link from 'next/link'
