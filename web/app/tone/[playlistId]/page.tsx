@@ -1,6 +1,7 @@
 'use client'
 
 import Loading from '@/app/loading'
+import { Thumbnail } from '@/components/thumbnail'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -99,13 +100,13 @@ function Playlist() {
             )}
           </Button>
           <DotIcon />
-          <p>{playlist.tracks.length} Track</p>
+          <p>{playlist.tracks.length} Tracks</p>
         </div>
       </div>
       <Separator />
       <div>
         {playlist.tracks.length ? (
-          <Table>
+          <Table className='text-md'>
             <TableCaption>No more tracks on this playlist.</TableCaption>
             <TableHeader>
               <TableRow>
@@ -137,16 +138,19 @@ function Playlist() {
                         />
                       </Button>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className='flex items-center gap-[0.5vw]'>
                       {track ? (
-                        track.snippet.title
+                        <>
+													<Thumbnail className='rounded-none' src={track.snippet.thumbnails.high.url} />
+													<span>{track.snippet.title}</span>
+												</>
                       ) : (
                         <Skeleton className="h-[2.5vh] w-full" />
                       )}
                     </TableCell>
                     <TableCell>
                       {track ? (
-                        track.snippet.channelTitle
+												track.snippet.channelTitle
                       ) : (
                         <Skeleton className="h-[2.5vh] w-full" />
                       )}
