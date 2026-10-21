@@ -31,6 +31,7 @@ import {
   PlayIcon,
   SmileyXEyesIcon,
 } from '@phosphor-icons/react'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -57,7 +58,7 @@ function Playlist() {
     const timeout = setTimeout(async () => {
       const { items } = await states.youtube.get('video', {
         id: playlist.tracks.join(','),
-        part: 'snippet,contentDetails',
+        part: 'snippet,contentDetails,status,player,statistics',
       })
 
       setTracks(items)
@@ -142,7 +143,7 @@ function Playlist() {
                       {track ? (
                         <>
 													<Thumbnail className='rounded-none' src={track.snippet.thumbnails.high.url} />
-													<span>{track.snippet.title}</span>
+													<Link href={`https://www.youtube.com/watch?v=${track.id}`}>{track.snippet.title}</Link>
 												</>
                       ) : (
                         <Skeleton className="h-[2.5vh] w-full" />
@@ -150,7 +151,7 @@ function Playlist() {
                     </TableCell>
                     <TableCell>
                       {track ? (
-												track.snippet.channelTitle
+												<Link href={`https://www.youtube.com/channel/${track.snippet.channelId}`}>{track.snippet.channelTitle}</Link>
                       ) : (
                         <Skeleton className="h-[2.5vh] w-full" />
                       )}
