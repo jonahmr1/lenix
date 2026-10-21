@@ -31,11 +31,19 @@ import {
   SmileyXEyesIcon,
 } from '@phosphor-icons/react'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { YoutubeVideo } from 'youtube.ts/dist/types'
 
 export default function Page() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Playlist />
+    </Suspense>
+  )
+}
+
+function Playlist() {
   const { playlistId } = useParams<{ playlistId: string }>()
   const { states, loading, setStates, play } = useStates()
   const [tracks, setTracks] = useState<YoutubeVideo[]>()
