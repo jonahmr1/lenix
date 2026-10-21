@@ -53,7 +53,7 @@ export default async function Page() {
             01 / Introduction
           </Muted>
           <h1>Lenix</h1>
-          <Lead>Self-taught software engineer</Lead>
+          <Lead>Self-taught traditional software engineer</Lead>
           <Muted className="opacity-50">Full-Stack AI Engineer</Muted>
         </div>
         <ButtonGroup className="w-full justify-center">
