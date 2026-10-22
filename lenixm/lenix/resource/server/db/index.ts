@@ -1,6 +1,6 @@
 import { checkDependency } from '@overextended/ox_lib'
 import { oxmysql } from '@overextended/oxmysql'
-import { MAX_CALLSIGN_LENGTH } from 'common/config'
+import { EnabledServerScripts } from 'common/scripts'
 
 checkDependency('oxmysql', '2.14.1', true)
 checkDependency('ox_lib', '3.39.0', true)
@@ -9,9 +9,8 @@ setImmediate(async () => {
 	const table = await oxmysql.query(`
 		CREATE TABLE IF NOT EXISTS lenix (
 			charId INT UNSIGNED NOT NULL PRIMARY KEY,
-			jail_period INT NOT NULL DEFAULT 0,
-			hotel_room INT NOT NULL DEFAULT 0,
-			callsign VARCHAR(${MAX_CALLSIGN_LENGTH}) DEFAULT NULL UNIQUE,
+			${EnabledServerScripts.includes('prison') ? 'jail_period INT NOT NULL DEFAULT 0,' : ''}
+			${EnabledServerScripts.includes('hotel') ? 'hotel_room INT NOT NULL DEFAULT 0,' : ''}			
 			FOREIGN KEY (charId)
 				REFERENCES characters(charId)
 				ON DELETE CASCADE

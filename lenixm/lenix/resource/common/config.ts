@@ -5,9 +5,6 @@ import type { Vector4 } from 'types'
 const Config = LoadFile('public/config.json')
 export default Config
 
-/* Roster */
-export const MAX_CALLSIGN_LENGTH = 6
-
 /* Prison */
 export const INSIDE_COORDS: Vector3 = [1680.1442, 2512.8276, 45.5648]
 interface Safe {
