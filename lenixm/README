@@ -1,1 +1,5 @@
-ln -s CURRENT TO
+- Ubuntu
+> ln -s CURRENT TO
+
+- Win10
+> mklink /D "TO" "CURRENT"
