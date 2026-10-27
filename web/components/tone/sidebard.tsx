@@ -481,7 +481,7 @@ export const AppSidebar = () => {
                 })
               }}
             >
-              Continue with Goggle
+              Continue with Google
             </Button>
           )}
         </SidebarFooter>
