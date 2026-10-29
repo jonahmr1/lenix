@@ -17,12 +17,12 @@ async function StartSession() {
 
 	if (GetIsLoadingScreenActive()) {
 		SendLoadingScreenMessage('{"fullyLoaded": true}');
-		ShutdownLoadingScreenNui();
+		// ShutdownLoadingScreenNui();
 	}
 
 	NetworkStartSoloTutorialSession();
 	DoScreenFadeOut(0);
-	ShutdownLoadingScreen();
+	// ShutdownLoadingScreen();
 	SetPlayerControl(cache.playerId, false, 0);
 	SetPlayerInvincible(cache.playerId, true);
 
