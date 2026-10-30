@@ -1,7 +1,7 @@
 const keyHandlers = new Map<string, Set<() => void>>()
 
 window.addEventListener("keydown", (event) => {
-	keyHandlers.get(event.key)?.forEach((handler) => handler())
+	keyHandlers.get(event.code)?.forEach((handler) => handler())
 })
 
 export const onKeyDown = (
