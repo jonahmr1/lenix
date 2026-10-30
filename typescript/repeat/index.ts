@@ -1,33 +1,25 @@
-export function repeat<T>(check: () => T): Promise<T>
-export function repeat<T, C extends T>(
-	check: () => T,
-	untilOrEqual: C | ((checked: T) => checked is C),
-	each?: number
-): Promise<C>
-export function repeat<T>(
-	check: () => T,
-	untilOrEqual?: T | ((checked: T) => boolean),
-	each?: number
-): Promise<T> {
-	const hasCondition = arguments.length > 1
-	const predicate = typeof untilOrEqual === 'function'
-		? untilOrEqual as (checked: T) => boolean
-		: undefined
+/**
+ * Polls `check` on an interval until a condition is met, then resolves with the checked value.
+ *
+ * - With no condition, resolves on the first truthy value.
+ * @param read Function called on every tick to get the current value.
+ * @param untilOrEqual Value to match with `===`, or a predicate that decides when to stop.
+ */
+export const repeat = <T>(
+  read: () => T,
+  untilOrEqual?: T | ((checked: T) => boolean),
+  each?: number
+): Promise<T> => new Promise(resolve => {
+  const check: (checked: T) => boolean =
+    untilOrEqual === undefined ? checked => !!checked
+    : typeof untilOrEqual === 'function' ? untilOrEqual as (checked: T) => boolean
+    : checked => checked === untilOrEqual
 
-	return new Promise((resolve) => {
-		const interval = setInterval(() => {
-			const checked = check()
+  const interval = setInterval(() => {
+    const readValue = read()
+    if (!check(readValue)) return
 
-			const met = predicate
-				? predicate(checked)
-				: hasCondition
-				? checked === untilOrEqual
-				: checked !== undefined && checked !== null
-
-			if (!met) return
-
-			clearInterval(interval)
-			resolve(checked)
-		}, each)
-	})
-}
+    clearInterval(interval)
+    resolve(readValue)
+  }, each)
+})
