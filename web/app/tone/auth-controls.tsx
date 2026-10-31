@@ -23,9 +23,11 @@ export function AuthLoading() {
 export function AuthControls({
   account,
   initialMessage,
+  compact = false,
 }: {
   account: Account | null
   initialMessage: string | null
+  compact?: boolean
 }) {
   const [pending, setPending] = useState(false)
   useEffect(() => {
@@ -44,7 +46,7 @@ export function AuthControls({
       const { data, error } = await createClient().auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=/tone`,
+          redirectTo: `${window.location.origin}/auth/callback`,
           skipBrowserRedirect: true,
         },
       })
@@ -76,13 +78,15 @@ export function AuthControls({
 
   return (
     <div className="space-y-8">
-      <div className="space-y-3 text-center">
-        <h1 className="text-3xl font-normal tracking-tight sm:text-4xl">
-          {account ? 'Your account' : 'Welcome to Tone'}
-        </h1>
-      </div>
+      {!compact && (
+        <div className="space-y-3 text-center">
+          <h1 className="text-3xl font-normal tracking-tight sm:text-4xl">
+            {account ? 'Your account' : 'Welcome to Tone'}
+          </h1>
+        </div>
+      )}
 
-      {account && (
+      {account && !compact && (
         <div className="rounded-md border border-border px-4 py-3">
           <p className="text-xs text-muted-foreground">Signed in as</p>
           <p className="mt-1 text-sm font-medium break-all">
@@ -94,7 +98,9 @@ export function AuthControls({
       <Button
         type="button"
         variant={account ? 'outline' : 'default'}
-        className="h-12 w-full gap-3 text-base"
+        className={
+          compact ? 'h-10 gap-2 px-3 text-sm' : 'h-12 w-full gap-3 text-base'
+        }
         disabled={pending}
         aria-busy={pending}
         onClick={account ? signOut : signIn}

@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { isAuthSessionMissingError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase.server'
 import { AuthControls, AuthLoading } from './auth-controls'
+import { AppShell } from './app-shell'
 
 export const metadata: Metadata = {
   title: 'Tone',
@@ -33,7 +34,9 @@ async function Account({ searchParams }: { searchParams: SearchParams }) {
     message = 'We couldn’t reach the sign-in service. Please try again.'
   }
 
-  return <AuthControls account={account} initialMessage={message} />
+  if (account) return <AppShell email={account.email} />
+
+  return <SignIn initialMessage={message} />
 }
 
 export default function TonePage({
@@ -42,15 +45,21 @@ export default function TonePage({
   searchParams: SearchParams
 }) {
   return (
+    <Suspense fallback={<AuthLoading />}>
+      <Account searchParams={searchParams} />
+    </Suspense>
+  )
+}
+
+function SignIn({ initialMessage }: { initialMessage: string | null }) {
+  return (
     <main className="not-typeset flex h-screen bg-background text-foreground portrait:flex-col portrait:flex-col-reverse">
       <section
         aria-label="Tone account"
         className="flex flex-1 items-center justify-center p-6"
       >
         <div className="w-full max-w-sm">
-          <Suspense fallback={<AuthLoading />}>
-            <Account searchParams={searchParams} />
-          </Suspense>
+          <AuthControls account={null} initialMessage={initialMessage} />
         </div>
       </section>
 
@@ -64,10 +73,10 @@ export default function TonePage({
           className="object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/40" />
-        <p className="absolute top-7 left-6 text-3xl font-medium tracking-tight sm:left-10 lg:top-10">
+        <p className="absolute top-7 right-6 text-3xl font-medium tracking-tight sm:right-10 lg:top-10">
           Tone
         </p>
-        <p className="absolute right-10 bottom-10 left-10 text-3xl font-light tracking-tight text-white/90 lg:block xl:text-4xl">
+        <p className="absolute right-10 bottom-10 text-3xl font-light tracking-tight text-white/90 lg:block xl:text-4xl">
           Find your rhythm.
         </p>
       </div>
