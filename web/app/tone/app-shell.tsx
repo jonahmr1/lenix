@@ -10,9 +10,18 @@ import {
   SidebarIcon,
   SkipBackIcon,
   SkipForwardIcon,
+  UserCircleIcon,
 } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverDescription,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Sidebar,
   SidebarContent,
@@ -99,7 +108,7 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
               {!(isMobile ? openMobile : open) && (
                 <Button
                   variant="ghost"
-                  className="group/toggle mr-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:mr-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/playlists-control:mr-3 [@media(hover:hover)]:group-hover/playlists-control:w-11 [@media(hover:hover)]:group-hover/playlists-control:opacity-100 [@media(hover:hover)]:group-focus-within/playlists-control:mr-3 [@media(hover:hover)]:group-focus-within/playlists-control:w-11 [@media(hover:hover)]:group-focus-within/playlists-control:opacity-100"
+                  className="group/toggle mr-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:mr-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/playlists-control:mr-3 [@media(hover:hover)]:group-focus-within/playlists-control:w-11 [@media(hover:hover)]:group-focus-within/playlists-control:opacity-100 [@media(hover:hover)]:group-hover/playlists-control:mr-3 [@media(hover:hover)]:group-hover/playlists-control:w-11 [@media(hover:hover)]:group-hover/playlists-control:opacity-100"
                   aria-label="Toggle playlists"
                   onClick={toggleSidebar}
                 >
@@ -118,10 +127,34 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
               </span>
             </div>
             <div className="group/queue-control ml-auto flex items-center pl-3">
-              <span className="mr-3 hidden max-w-56 truncate text-sm text-muted-foreground xl:block">
-                {email}
-              </span>
-              <AuthControls account={{ email }} initialMessage={null} compact />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="size-11"
+                    aria-label="Open account menu"
+                  >
+                    <UserCircleIcon aria-hidden="true" className="size-5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="end"
+                  className="not-typeset p-4"
+                  aria-label="Your account"
+                >
+                  <PopoverHeader>
+                    <PopoverTitle>Your account</PopoverTitle>
+                    <PopoverDescription className="break-all">
+                      {email ?? 'Signed in with Google'}
+                    </PopoverDescription>
+                  </PopoverHeader>
+                  <AuthControls
+                    account={{ email }}
+                    initialMessage={null}
+                    compact
+                  />
+                </PopoverContent>
+              </Popover>
               <QueueTrigger />
             </div>
           </header>
@@ -196,8 +229,8 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
         </div>
         <Sidebar side="right" className="h-dvh" aria-label="Queue">
           <SidebarHeader className="not-typeset flex-row items-center justify-between p-4">
-            <h2 className="text-sm font-medium">Queue</h2>
             <SidebarTrigger className="size-11" aria-label="Toggle queue" />
+            <h2 className="text-sm font-medium">Queue</h2>
           </SidebarHeader>
           <SidebarContent className="not-typeset">
             <Queue />
@@ -213,7 +246,7 @@ function QueueTrigger() {
   if (isMobile ? openMobile : open) return null
   return (
     <SidebarTrigger
-      className="group/toggle ml-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:ml-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/queue-control:ml-3 [@media(hover:hover)]:group-hover/queue-control:w-11 [@media(hover:hover)]:group-hover/queue-control:opacity-100 [@media(hover:hover)]:group-focus-within/queue-control:ml-3 [@media(hover:hover)]:group-focus-within/queue-control:w-11 [@media(hover:hover)]:group-focus-within/queue-control:opacity-100"
+      className="group/toggle ml-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:ml-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/queue-control:ml-3 [@media(hover:hover)]:group-focus-within/queue-control:w-11 [@media(hover:hover)]:group-focus-within/queue-control:opacity-100 [@media(hover:hover)]:group-hover/queue-control:ml-3 [@media(hover:hover)]:group-hover/queue-control:w-11 [@media(hover:hover)]:group-hover/queue-control:opacity-100"
       aria-label="Toggle queue"
     >
       <QueueIcon aria-hidden="true" className="group-hover/toggle:hidden" />
