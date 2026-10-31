@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase.server'
 import { AuthControls, AuthLoading } from './auth-controls'
 import { AppShell } from './app-shell'
 import { readPlaylists } from './playlist-data'
+import artwork from './assets/sign-in-artwork.webp'
 
 export const metadata: Metadata = {
   title: 'Tonelix',
@@ -75,7 +76,7 @@ function SignIn({ initialMessage }: { initialMessage: string | null }) {
 
       <div className="relative flex-1 overflow-hidden bg-neutral-950 text-white">
         <Image
-          src="/tone/sign-in-artwork.webp"
+          src={artwork}
           alt=""
           fill
           preload
