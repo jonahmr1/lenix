@@ -64,7 +64,7 @@ export default function TonePage({
 
 function SignIn({ initialMessage }: { initialMessage: string | null }) {
   return (
-    <main className="not-typeset flex h-screen bg-background text-foreground portrait:flex-col portrait:flex-col-reverse">
+    <main className="not-typeset flex h-screen bg-background text-foreground portrait:flex-col-reverse">
       <section
         aria-label="Tonelix account"
         className="flex flex-1 items-center justify-center p-6"
