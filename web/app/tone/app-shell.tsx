@@ -7,6 +7,7 @@ import {
   MusicNotesIcon,
   PlayIcon,
   QueueIcon,
+  SidebarIcon,
   SkipBackIcon,
   SkipForwardIcon,
 } from '@phosphor-icons/react'
@@ -92,24 +93,47 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
         className="min-h-0 min-w-0 flex-1"
       >
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="flex shrink-0 flex-wrap items-center gap-3 border-b p-4">
-            <Button
-              variant="ghost"
-              className="size-11"
-              aria-label="Toggle playlists"
-              onClick={toggleSidebar}
-            >
-              <MusicNotesIcon aria-hidden="true" />
-            </Button>
+          <header className="group/app-header flex shrink-0 flex-wrap items-center gap-y-3 border-b p-4">
+            <div className="w-14 shrink-0 overflow-hidden transition-[width,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/app-header:w-14 [@media(hover:hover)]:group-focus-within/app-header:opacity-100 [@media(hover:hover)]:group-hover/app-header:w-14 [@media(hover:hover)]:group-hover/app-header:opacity-100">
+              <Button
+                variant="ghost"
+                className="group/toggle size-11"
+                aria-label="Toggle playlists"
+                onClick={toggleSidebar}
+              >
+                <MusicNotesIcon
+                  aria-hidden="true"
+                  className="group-hover/toggle:hidden"
+                />
+                <SidebarIcon
+                  aria-hidden="true"
+                  className="hidden group-hover/toggle:block"
+                />
+              </Button>
+            </div>
             <span className="text-2xl font-medium tracking-tight">Tonelix</span>
-            <div className="ml-auto flex items-center gap-3">
-              <span className="hidden max-w-56 truncate text-sm text-muted-foreground xl:block">
+            <div className="ml-auto flex items-center pl-3">
+              <span className="mr-3 hidden max-w-56 truncate text-sm text-muted-foreground xl:block">
                 {email}
               </span>
               <AuthControls account={{ email }} initialMessage={null} compact />
-              <SidebarTrigger className="size-11" aria-label="Toggle queue">
-                <QueueIcon aria-hidden="true" />
-              </SidebarTrigger>
+              <div className="w-14 shrink-0 overflow-hidden transition-[width,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/app-header:w-14 [@media(hover:hover)]:group-focus-within/app-header:opacity-100 [@media(hover:hover)]:group-hover/app-header:w-14 [@media(hover:hover)]:group-hover/app-header:opacity-100">
+                <div className="flex w-14 justify-end">
+                  <SidebarTrigger
+                    className="group/toggle size-11"
+                    aria-label="Toggle queue"
+                  >
+                    <QueueIcon
+                      aria-hidden="true"
+                      className="group-hover/toggle:hidden"
+                    />
+                    <SidebarIcon
+                      aria-hidden="true"
+                      className="hidden group-hover/toggle:block"
+                    />
+                  </SidebarTrigger>
+                </div>
+              </div>
             </div>
           </header>
 
@@ -184,9 +208,7 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
         <Sidebar side="right" className="h-dvh" aria-label="Queue">
           <SidebarHeader className="not-typeset flex-row items-center justify-between p-4">
             <h2 className="text-sm font-medium">Queue</h2>
-            <SidebarTrigger className="size-11" aria-label="Toggle queue">
-              <QueueIcon aria-hidden="true" />
-            </SidebarTrigger>
+            <SidebarTrigger className="size-11" aria-label="Toggle queue" />
           </SidebarHeader>
           <SidebarContent className="not-typeset">
             <Queue />
