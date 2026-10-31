@@ -13,7 +13,7 @@ export async function readPlaylist(
   supabase: SupabaseClient<Database>,
   userId: string,
   playlistId: string
-): Promise<Playlist | null> {
+): Promise<(Playlist & { tracks: string[] }) | null> {
   if (
     !/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(
       playlistId
@@ -30,7 +30,12 @@ export async function readPlaylist(
 
   if (error) throw new Error('Couldn’t load this playlist. Please try again.')
   return data
-    ? { id: data.id, label: data.label, trackCount: data.tracks?.length ?? 0 }
+    ? {
+        id: data.id,
+        label: data.label,
+        trackCount: data.tracks?.length ?? 0,
+        tracks: data.tracks ?? [],
+      }
     : null
 }
 

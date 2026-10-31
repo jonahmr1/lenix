@@ -10,17 +10,6 @@ import { createClient } from '@/lib/supabase.client'
 
 type Account = { email: string | null }
 
-export function AuthLoading() {
-  useEffect(() => {
-    const id = toast.loading('Checking your session…')
-    return () => {
-      toast.dismiss(id)
-    }
-  }, [])
-
-  return null
-}
-
 export function AuthControls({
   account,
   initialMessage,

@@ -4,7 +4,7 @@ import { test } from 'node:test'
 import vm from 'node:vm'
 import ts from 'typescript'
 
-function load(file, mocks) {
+function load(file, mocks, globals = {}) {
   const { outputText } = ts.transpileModule(
     readFileSync(new URL(file, import.meta.url), 'utf8'),
     {
@@ -16,6 +16,7 @@ function load(file, mocks) {
   )
   const module = { exports: {} }
   vm.runInNewContext(outputText, {
+    ...globals,
     exports: module.exports,
     module,
     require(name) {
@@ -33,7 +34,7 @@ function setup({
   throws = false,
 } = {}) {
   const calls = { inserts: [], refreshes: [], auth: 0 }
-  const create = load('./playlist-actions.ts', {
+  const create = load('../../lib/tone/playlist-actions.ts', {
     'next/headers': { cookies: async () => ({}) },
     'next/cache': { revalidatePath: (...args) => calls.refreshes.push(args) },
     '@/lib/supabase.server': {
@@ -251,4 +252,203 @@ test('playlist database errors are retryable, not misreported as missing', async
     error: { message: 'private database details' },
   })
   await assert.rejects(read(playlistId), /Couldn’t load this playlist/)
+})
+
+const videoId = 'dQw4w9WgXcQ'
+
+function trackWriter({
+  user = { id: 'owner' },
+  missing = false,
+  initial = [],
+  conflict = false,
+  dbError = false,
+} = {}) {
+  let tracks = [...initial]
+  let firstUpdate = true
+  const calls = { writes: 0, refreshes: 0, filters: [] }
+  const { addTrack } = load('../../lib/tone/track-actions.ts', {
+    'next/headers': { cookies: async () => ({}) },
+    'next/cache': { revalidatePath: () => calls.refreshes++ },
+    '@/app/tone/youtube': {
+      isVideoId: value =>
+        typeof value === 'string' && /^[\w-]{11}$/.test(value),
+    },
+    '@/lib/supabase.server': {
+      createClient: () => ({
+        auth: { getUser: async () => ({ data: { user }, error: null }) },
+        from: () => {
+          let update
+          let expected
+          const filters = []
+          const query = {
+            select: () => query,
+            eq: (key, value) => {
+              filters.push([key, value])
+              return query
+            },
+            filter: (key, operator, value) => {
+              assert.equal(key, 'tracks')
+              assert.equal(operator, 'eq')
+              expected = value
+              return query
+            },
+            update: value => {
+              update = value
+              return query
+            },
+            maybeSingle: async () => {
+              calls.filters.push(filters)
+              assert.deepEqual(filters, [
+                ['id', playlistId],
+                ['user_id', 'owner'],
+              ])
+              if (dbError)
+                return {
+                  data: null,
+                  error: { message: 'private database failure' },
+                }
+              if (missing) return { data: null, error: null }
+              if (!update)
+                return {
+                  data: { label: 'Test', tracks: [...tracks] },
+                  error: null,
+                }
+              if (conflict && firstUpdate) {
+                tracks.push('abcdefghijk')
+                firstUpdate = false
+              }
+              const actual = `{${tracks.map(id => JSON.stringify(id)).join(',')}}`
+              if (expected !== actual) return { data: null, error: null }
+              tracks = [...update.tracks]
+              calls.writes++
+              return { data: { id: playlistId }, error: null }
+            },
+          }
+          return query
+        },
+      }),
+    },
+  })
+  return { addTrack, calls, tracks: () => tracks }
+}
+
+test('adding requires a valid session and valid identifiers', async () => {
+  const anonymous = trackWriter({ user: null })
+  assert.ok((await anonymous.addTrack(playlistId, videoId)).error)
+  assert.equal(anonymous.calls.filters.length, 0)
+  const valid = trackWriter()
+  for (const [playlist, video] of [
+    ['bad', videoId],
+    [playlistId, 'bad'],
+    [null, videoId],
+  ])
+    assert.ok((await valid.addTrack(playlist, video)).error)
+  assert.equal(valid.calls.filters.length, 0)
+})
+
+test('missing or other-user playlist cannot be updated', async () => {
+  const writer = trackWriter({ missing: true })
+  assert.ok((await writer.addTrack(playlistId, videoId)).error)
+  assert.equal(writer.calls.writes, 0)
+})
+
+test('adding preserves existing tracks and duplicate additions are idempotent', async () => {
+  const writer = trackWriter({ initial: ['abcdefghijk'] })
+  assert.equal((await writer.addTrack(playlistId, videoId)).added, true)
+  assert.equal((await writer.addTrack(playlistId, videoId)).added, false)
+  assert.deepEqual(writer.tracks(), ['abcdefghijk', videoId])
+  assert.equal(writer.calls.writes, 1)
+  assert.equal(writer.calls.refreshes, 1)
+})
+
+test('simultaneous additions preserve both tracks by retrying the changed array', async () => {
+  const writer = trackWriter({ conflict: true })
+  assert.equal((await writer.addTrack(playlistId, videoId)).added, true)
+  assert.deepEqual(writer.tracks(), ['abcdefghijk', videoId])
+  assert.equal(writer.calls.filters.length, 4)
+})
+
+test('failed track writes never claim success or leak database details', async () => {
+  const writer = trackWriter({ dbError: true })
+  const result = await writer.addTrack(playlistId, videoId)
+  assert.ok(result.error)
+  assert.equal(result.error.includes('private database'), false)
+  assert.equal(writer.calls.refreshes, 0)
+})
+
+function youtube(fetch) {
+  return load(
+    './youtube.ts',
+    {
+      'server-only': {},
+      he: { decode: value => value.replaceAll('&amp;', '&') },
+    },
+    {
+      URL,
+      URLSearchParams,
+      AbortSignal,
+      fetch,
+      process: { env: { NEXT_PUBLIC_YOUTUBE_API_KEY: 'test-key' } },
+    }
+  )
+}
+
+test('YouTube search validates queries and requests embeddable music videos', async () => {
+  let calls = 0
+  const { searchTracks } = youtube(async url => {
+    calls++
+    assert.equal(url.searchParams.get('q'), 'song')
+    assert.equal(url.searchParams.get('type'), 'video')
+    assert.equal(url.searchParams.get('videoEmbeddable'), 'true')
+    assert.equal(url.searchParams.get('videoCategoryId'), '10')
+    return {
+      ok: true,
+      json: async () => ({
+        items: [
+          {
+            id: { videoId },
+            snippet: { title: 'A &amp; B', channelTitle: 'Artist' },
+          },
+        ],
+        nextPageToken: 'NEXT',
+      }),
+    }
+  })
+  for (const query of ['', '   ', 'x'.repeat(201)])
+    await assert.rejects(searchTracks(query))
+  await assert.rejects(searchTracks('song', 'bad/token'))
+  assert.equal(calls, 0)
+  const result = await searchTracks(' song ')
+  assert.equal(result.tracks[0].title, 'A & B')
+  assert.equal(result.nextPageToken, 'NEXT')
+})
+
+test('track lookup preserves playlist ordering and unavailable entries', async () => {
+  const { readTracks } = youtube(async () => ({
+    ok: true,
+    json: async () => ({
+      items: [
+        { id: 'abcdefghijk', snippet: { title: 'Second' } },
+        { id: videoId, snippet: { title: 'First' } },
+      ],
+    }),
+  }))
+  const result = await readTracks([videoId, 'abcdefghijk', 'missing1234'])
+  assert.deepEqual(
+    Array.from(result, item => item.title),
+    ['First', 'Second', 'Unavailable YouTube track']
+  )
+})
+
+test('quota and network failures produce safe actionable errors', async () => {
+  await assert.rejects(
+    youtube(async () => ({ ok: false, status: 403 })).searchTracks('song'),
+    /limiting requests/
+  )
+  await assert.rejects(
+    youtube(async () => {
+      throw new Error('secret URL')
+    }).searchTracks('song'),
+    /Couldn’t reach YouTube/
+  )
 })
