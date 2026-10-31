@@ -1,11 +1,12 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import {
   ListIcon,
   MagnifyingGlassIcon,
   MusicNotesIcon,
   PlayIcon,
-  PlusIcon,
   QueueIcon,
   SkipBackIcon,
   SkipForwardIcon,
@@ -21,20 +22,8 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { AuthControls } from './auth-controls'
-
-function Playlists() {
-  return (
-    <div className="space-y-6 p-5">
-      <Button disabled variant="outline" className="h-10 w-full gap-2 text-sm">
-        <PlusIcon aria-hidden="true" />
-        Create playlist
-      </Button>
-      <p className="text-sm text-muted-foreground">
-        Your playlists will appear here.
-      </p>
-    </div>
-  )
-}
+import { Playlists } from './playlists'
+import type { Playlist } from './playlist-data'
 
 function Queue() {
   return (
@@ -45,11 +34,45 @@ function Queue() {
   )
 }
 
-export function AppShell({ email }: { email: string | null }) {
+export function AppShell({
+  email,
+  playlists,
+  playlistError,
+}: {
+  email: string | null
+  playlists: Playlist[]
+  playlistError: string | null
+}) {
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [playlistsOpen, setPlaylistsOpen] = useState(false)
+  const selected = playlists.find(playlist => playlist.id === selectedId)
+
+  useEffect(() => {
+    if (!playlistError) return
+    const id = toast.error(playlistError, { id: 'tone-playlists-error' })
+    return () => {
+      toast.dismiss(id)
+    }
+  }, [playlistError])
+
+  function selectPlaylist(id: string) {
+    setSelectedId(id)
+    setPlaylistsOpen(false)
+  }
+
+  const playlistList = (
+    <Playlists
+      playlists={playlists}
+      error={playlistError}
+      selectedId={selectedId}
+      onSelect={selectPlaylist}
+    />
+  )
+
   return (
     <div className="not-typeset flex h-dvh flex-col bg-background text-foreground">
       <header className="flex shrink-0 items-center gap-3 border-b p-4">
-        <Sheet>
+        <Sheet open={playlistsOpen} onOpenChange={setPlaylistsOpen}>
           <SheetTrigger asChild>
             <Button
               variant="ghost"
@@ -64,7 +87,7 @@ export function AppShell({ email }: { email: string | null }) {
               <SheetTitle>Playlists</SheetTitle>
               <SheetDescription>Your music, organized by you.</SheetDescription>
             </SheetHeader>
-            <Playlists />
+            {playlistList}
           </SheetContent>
         </Sheet>
         <span className="text-2xl font-medium tracking-tight">Tone</span>
@@ -102,7 +125,7 @@ export function AppShell({ email }: { email: string | null }) {
           className="hidden w-60 shrink-0 overflow-y-auto border-r lg:block"
         >
           <h2 className="px-5 pt-6 text-sm font-medium">Playlists</h2>
-          <Playlists />
+          {playlistList}
         </aside>
 
         <main className="flex min-w-0 flex-1 flex-col overflow-y-auto p-6">
@@ -126,10 +149,12 @@ export function AppShell({ email }: { email: string | null }) {
               />
             </div>
             <h1 className="text-2xl font-medium tracking-tight">
-              Your space for music
+              {selected ? selected.label : 'Your space for music'}
             </h1>
             <p className="max-w-xs text-sm text-muted-foreground">
-              Your playlists and tracks will live here.
+              {selected
+                ? `${selected.trackCount} ${selected.trackCount === 1 ? 'track' : 'tracks'}`
+                : 'Choose a playlist or create one to get started.'}
             </p>
           </div>
         </main>

@@ -6,6 +6,7 @@ import { isAuthSessionMissingError } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase.server'
 import { AuthControls, AuthLoading } from './auth-controls'
 import { AppShell } from './app-shell'
+import { readPlaylists } from './playlist-data'
 
 export const metadata: Metadata = {
   title: 'Tone',
@@ -17,7 +18,7 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>
 async function Account({ searchParams }: { searchParams: SearchParams }) {
   const supabase = createClient(await cookies())
   const params = await searchParams
-  let account: { email: string | null } | null = null
+  let account: { id: string; email: string | null } | null = null
   let message = params['auth-code-error']
     ? 'Sign-in wasn’t completed. Please try again.'
     : null
@@ -25,7 +26,7 @@ async function Account({ searchParams }: { searchParams: SearchParams }) {
   try {
     const { data, error } = await supabase.auth.getUser()
     if (data.user) {
-      account = { email: data.user.email ?? null }
+      account = { id: data.user.id, email: data.user.email ?? null }
       message = null
     } else if (error && !isAuthSessionMissingError(error)) {
       message = 'We couldn’t verify your session. Please try signing in again.'
@@ -34,7 +35,16 @@ async function Account({ searchParams }: { searchParams: SearchParams }) {
     message = 'We couldn’t reach the sign-in service. Please try again.'
   }
 
-  if (account) return <AppShell email={account.email} />
+  if (account) {
+    const { playlists, error } = await readPlaylists(supabase, account.id)
+    return (
+      <AppShell
+        email={account.email}
+        playlists={playlists}
+        playlistError={error}
+      />
+    )
+  }
 
   return <SignIn initialMessage={message} />
 }

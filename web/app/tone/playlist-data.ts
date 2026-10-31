@@ -1,0 +1,39 @@
+import 'server-only'
+
+import type { SupabaseClient } from '@supabase/supabase-js'
+import type { Database } from '@/lib/supabase.types'
+
+export type Playlist = {
+  id: string
+  label: string
+  trackCount: number
+}
+
+export async function readPlaylists(
+  supabase: SupabaseClient<Database>,
+  userId: string
+): Promise<{ playlists: Playlist[]; error: string | null }> {
+  try {
+    const { data, error } = await supabase
+      .from('playlists')
+      .select('id, label, tracks')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: false })
+
+    if (error) throw error
+    return {
+      playlists: (data ?? []).map(({ id, label, tracks }) => ({
+        id,
+        label,
+        trackCount: tracks?.length ?? 0,
+      })),
+      error: null,
+    }
+  } catch {
+    return {
+      playlists: [],
+      error: 'Couldn’t load your playlists. Please try again.',
+    }
+  }
+}
