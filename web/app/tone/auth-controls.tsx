@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { GoogleLogoIcon, SignOutIcon } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
@@ -30,13 +31,19 @@ export function AuthControls({
   compact?: boolean
 }) {
   const [pending, setPending] = useState(false)
+  const searchParams = useSearchParams()
+  const message =
+    initialMessage ??
+    (!account && searchParams.has('auth-code-error')
+      ? 'Sign-in wasn’t completed. Please try again.'
+      : null)
   useEffect(() => {
-    if (!initialMessage) return
-    const id = toast.error(initialMessage, { id: 'tone-auth-error' })
+    if (!message) return
+    const id = toast.error(message, { id: 'tone-auth-error' })
     return () => {
       toast.dismiss(id)
     }
-  }, [initialMessage])
+  }, [message])
 
   async function signIn() {
     if (pending) return
@@ -51,6 +58,8 @@ export function AuthControls({
         },
       })
       if (error || !data.url) throw new Error('Sign-in unavailable')
+      const returnTo = window.location.pathname
+      document.cookie = `tone_return_to=${returnTo}; Path=/auth/callback; Max-Age=600; SameSite=Lax${window.location.protocol === 'https:' ? '; Secure' : ''}`
       window.location.assign(data.url)
     } catch {
       toast.error('Couldn’t open Google sign-in. Please try again.', {
@@ -99,7 +108,9 @@ export function AuthControls({
         type="button"
         variant={account ? 'destructive' : 'default'}
         className={
-          compact ? 'h-10 w-full gap-2 px-3 text-sm' : 'h-12 w-full gap-3 text-base'
+          compact
+            ? 'h-10 w-full gap-2 px-3 text-sm'
+            : 'h-12 w-full gap-3 text-base'
         }
         disabled={pending}
         aria-busy={pending}

@@ -35,7 +35,7 @@ function setup({
   const calls = { inserts: [], refreshes: [], auth: 0 }
   const create = load('./playlist-actions.ts', {
     'next/headers': { cookies: async () => ({}) },
-    'next/cache': { revalidatePath: path => calls.refreshes.push(path) },
+    'next/cache': { revalidatePath: (...args) => calls.refreshes.push(args) },
     '@/lib/supabase.server': {
       createClient: () => ({
         auth: {
@@ -84,7 +84,7 @@ test('creation trims the name and uses verified ownership, ignoring a forged own
   assert.deepEqual(JSON.parse(JSON.stringify(calls.inserts)), [
     { label: 'Night music', tracks: [], user_id: 'owner' },
   ])
-  assert.deepEqual(calls.refreshes, ['/tone'])
+  assert.deepEqual(calls.refreshes, [['/tone', 'layout']])
 })
 
 for (const name of [
@@ -180,4 +180,75 @@ test('listing failure remains distinguishable from an empty library', async () =
   )
   assert.ok(result.error)
   assert.equal(result.playlists.length, 0)
+})
+
+const playlistId = '11111111-2222-4333-8444-555555555555'
+
+function playlistReader(result) {
+  const filters = []
+  const query = {
+    select: () => query,
+    eq: (column, value) => {
+      filters.push([column, value])
+      return query
+    },
+    maybeSingle: async () => result,
+  }
+  const { readPlaylist } = load('./playlist-data.ts', { 'server-only': {} })
+  return {
+    read: id =>
+      readPlaylist(
+        {
+          from: table => {
+            assert.equal(table, 'playlists')
+            return query
+          },
+        },
+        'owner',
+        id
+      ),
+    filters,
+  }
+}
+
+test('direct playlist lookup requires both the requested ID and verified owner', async () => {
+  const { read, filters } = playlistReader({
+    data: { id: playlistId, label: 'Night music', tracks: ['a'] },
+    error: null,
+  })
+  const result = await read(playlistId)
+  assert.deepEqual(filters, [
+    ['user_id', 'owner'],
+    ['id', playlistId],
+  ])
+  assert.equal(result.label, 'Night music')
+  assert.equal(result.trackCount, 1)
+})
+
+test('missing or inaccessible playlist is unavailable without leaking its name', async () => {
+  const { read, filters } = playlistReader({ data: null, error: null })
+  assert.equal(await read(playlistId), null)
+  assert.deepEqual(filters, [
+    ['user_id', 'owner'],
+    ['id', playlistId],
+  ])
+})
+
+test('invalid playlist URL never reaches the database', async () => {
+  const { readPlaylist } = load('./playlist-data.ts', { 'server-only': {} })
+  const client = {
+    from: () => {
+      throw new Error('must not query')
+    },
+  }
+  assert.equal(await readPlaylist(client, 'owner', 'not-a-uuid'), null)
+  assert.equal(await readPlaylist(client, 'owner', '../another-user'), null)
+})
+
+test('playlist database errors are retryable, not misreported as missing', async () => {
+  const { read } = playlistReader({
+    data: null,
+    error: { message: 'private database details' },
+  })
+  await assert.rejects(read(playlistId), /Couldn’t load this playlist/)
 })

@@ -9,6 +9,31 @@ export type Playlist = {
   trackCount: number
 }
 
+export async function readPlaylist(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  playlistId: string
+): Promise<Playlist | null> {
+  if (
+    !/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(
+      playlistId
+    )
+  )
+    return null
+
+  const { data, error } = await supabase
+    .from('playlists')
+    .select('id, label, tracks')
+    .eq('user_id', userId)
+    .eq('id', playlistId)
+    .maybeSingle()
+
+  if (error) throw new Error('Couldn’t load this playlist. Please try again.')
+  return data
+    ? { id: data.id, label: data.label, trackCount: data.tracks?.length ?? 0 }
+    : null
+}
+
 export async function readPlaylists(
   supabase: SupabaseClient<Database>,
   userId: string

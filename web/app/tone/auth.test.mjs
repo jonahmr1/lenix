@@ -29,12 +29,20 @@ function load(file, mocks) {
   return module.exports
 }
 
-function callback(exchange) {
+function callback(exchange, savedPath, cleared = []) {
   return load('../auth/callback/route.ts', {
     '@/lib/supabase.server': {
       createClient: () => ({ auth: { exchangeCodeForSession: exchange } }),
     },
-    'next/headers': { cookies: async () => ({}) },
+    'next/headers': {
+      cookies: async () => ({
+        get: name =>
+          name === 'tone_return_to' && savedPath
+            ? { value: savedPath }
+            : undefined,
+        set: (...args) => cleared.push(args),
+      }),
+    },
     'next/server': { NextResponse },
   }).GET
 }
@@ -170,3 +178,31 @@ test('refresh outage keeps the sign-in page reachable', async () => {
   assert.equal(result.status, 200)
   assert.equal(result.headers.get('cache-control'), 'private, no-store')
 })
+
+test('Google callback resumes the playlist link and clears its short-lived cookie', async () => {
+  const path = '/tone/playlist/11111111-2222-4333-8444-555555555555'
+  const cleared = []
+  const GET = callback(async () => ({ error: null }), path, cleared)
+  const result = await GET(
+    new Request('http://localhost:3000/auth/callback?code=test')
+  )
+  assert.equal(result.headers.get('location'), `http://localhost:3000${path}`)
+  assert.equal(cleared[0][0], 'tone_return_to')
+  assert.equal(cleared[0][1], '')
+  assert.equal(cleared[0][2].maxAge, 0)
+  assert.equal(cleared[0][2].path, '/auth/callback')
+})
+
+for (const path of [
+  'https://example.org',
+  '//example.org',
+  '/tone/playlist/not-an-id',
+]) {
+  test(`invalid saved playlist destination is ignored: ${path}`, async () => {
+    const GET = callback(async () => ({ error: null }), path)
+    const result = await GET(
+      new Request('http://localhost:3000/auth/callback?code=test')
+    )
+    assert.equal(result.headers.get('location'), 'http://localhost:3000/tone')
+  })
+}

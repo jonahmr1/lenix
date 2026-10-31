@@ -31,7 +31,7 @@ export async function createPlaylist(
     if (error || !data)
       return { error: 'Couldn’t create your playlist. Please try again.' }
 
-    revalidatePath('/tone')
+    revalidatePath('/tone', 'layout')
     return { id: data.id }
   } catch {
     return { error: 'Couldn’t create your playlist. Please try again.' }

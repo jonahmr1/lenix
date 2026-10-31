@@ -2,6 +2,7 @@
 
 import { useId, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { MusicNotesIcon, PlusIcon } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -35,7 +36,7 @@ export function Playlists({
   playlists: Playlist[]
   error: string | null
   selectedId: string | null
-  onSelect: (id: string) => void
+  onSelect: () => void
 }) {
   const inputId = useId()
   const router = useRouter()
@@ -56,7 +57,8 @@ export function Playlists({
         }
         setName('')
         setCreating(false)
-        onSelect(result.id)
+        onSelect()
+        router.push(`/tone/playlist/${result.id}`)
         toast.success('Playlist created.')
       } catch {
         toast.error('Couldn’t reach the server. Please try again.')
@@ -137,18 +139,23 @@ export function Playlists({
           {playlists.map(playlist => (
             <SidebarMenuItem key={playlist.id}>
               <SidebarMenuButton
+                asChild
                 isActive={selectedId === playlist.id}
-                aria-current={selectedId === playlist.id ? 'true' : undefined}
-                onClick={() => onSelect(playlist.id)}
                 className="h-auto min-h-11 w-full justify-start gap-3 px-3 py-2 text-left text-sm"
               >
-                <MusicNotesIcon aria-hidden="true" />
-                <span className="min-w-0 flex-1 truncate">
-                  {playlist.label}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  {playlist.trackCount}
-                </span>
+                <Link
+                  href={`/tone/playlist/${playlist.id}`}
+                  onClick={onSelect}
+                  aria-current={selectedId === playlist.id ? 'page' : undefined}
+                >
+                  <MusicNotesIcon aria-hidden="true" />
+                  <span className="min-w-0 flex-1 truncate">
+                    {playlist.label}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {playlist.trackCount}
+                  </span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

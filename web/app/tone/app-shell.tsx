@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import {
   MagnifyingGlassIcon,
@@ -37,7 +39,7 @@ import type { Playlist } from './playlist-data'
 
 function Queue() {
   return (
-    <div className="space-y-3 p-5 flex justify-evenly text-sm text-muted-foreground">
+    <div className="flex justify-evenly space-y-3 p-5 text-sm text-muted-foreground">
       <QueueIcon className="size-6" aria-hidden="true" />
       <p>Nothing queued yet.</p>
     </div>
@@ -45,6 +47,7 @@ function Queue() {
 }
 
 type AppShellProps = {
+  children: React.ReactNode
   email: string | null
   name: string | null
   avatarUrl: string | null
@@ -64,16 +67,16 @@ export function AppShell(props: AppShellProps) {
 }
 
 function PlaylistShell({
+  children,
   email,
   name,
   avatarUrl,
   playlists,
   playlistError,
 }: AppShellProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const { playlistId } = useParams<{ playlistId?: string }>()
   const { toggleSidebar, setOpenMobile, open, openMobile, isMobile } =
     useSidebar()
-  const selected = playlists.find(playlist => playlist.id === selectedId)
   const initials = name
     ? name
         .split(/\s+/)
@@ -99,8 +102,7 @@ function PlaylistShell({
     }
   }, [playlistError])
 
-  function selectPlaylist(id: string) {
-    setSelectedId(id)
+  function selectPlaylist() {
     setOpenMobile(false)
   }
 
@@ -108,7 +110,7 @@ function PlaylistShell({
     <Playlists
       playlists={playlists}
       error={playlistError}
-      selectedId={selectedId}
+      selectedId={playlistId ?? null}
       onSelect={selectPlaylist}
     />
   )
@@ -147,9 +149,12 @@ function PlaylistShell({
                   />
                 </Button>
               )}
-              <span className="text-2xl font-medium tracking-tight">
+              <Link
+                href="/tone"
+                className="text-2xl font-medium tracking-tight"
+              >
                 Tonelix
-              </span>
+              </Link>
             </div>
             <div className="group/queue-control ml-auto flex items-center pl-3">
               <Popover>
@@ -202,22 +207,7 @@ function PlaylistShell({
                 className="h-11 pl-10 text-sm"
               />
             </div>
-            <div className="flex flex-1 flex-col items-center justify-center gap-4 py-16 text-center">
-              <div className="rounded-full bg-muted p-5">
-                <MusicNotesIcon
-                  aria-hidden="true"
-                  className="size-8 text-muted-foreground"
-                />
-              </div>
-              <h1 className="text-2xl font-medium tracking-tight">
-                {selected ? selected.label : 'Your space for music'}
-              </h1>
-              <p className="max-w-xs text-sm text-muted-foreground">
-                {selected
-                  ? `${selected.trackCount} ${selected.trackCount === 1 ? 'track' : 'tracks'}`
-                  : 'Choose a playlist or create one to get started.'}
-              </p>
-            </div>
+            {children}
           </main>
 
           <footer
