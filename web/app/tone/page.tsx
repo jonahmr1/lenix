@@ -42,28 +42,10 @@ export default function TonePage({
   searchParams: SearchParams
 }) {
   return (
-    <main className="not-typeset flex min-h-svh flex-col bg-background text-foreground lg:grid lg:grid-cols-[11fr_9fr]">
-      <div className="relative isolate h-[44svh] min-h-64 overflow-hidden bg-neutral-950 text-white lg:h-auto lg:min-h-svh lg:border-r lg:border-border">
-        <Image
-          src="/tone/sign-in-artwork.webp"
-          alt=""
-          fill
-          preload
-          sizes="(min-width: 1024px) 55vw, 100vw"
-          className="object-cover object-[center_40%] lg:object-center"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/40" />
-        <p className="absolute top-7 left-6 text-3xl font-medium tracking-tight sm:left-10 lg:top-10">
-          Tone
-        </p>
-        <p className="absolute right-10 bottom-10 left-10 hidden text-3xl font-light tracking-tight text-white/90 lg:block xl:text-4xl">
-          Find your rhythm.
-        </p>
-      </div>
-
+    <main className="not-typeset flex h-screen bg-background text-foreground portrait:flex-col portrait:flex-col-reverse">
       <section
         aria-label="Tone account"
-        className="flex flex-1 items-center justify-center px-6 py-12 sm:px-10 lg:py-20"
+        className="flex flex-1 items-center justify-center p-6"
       >
         <div className="w-full max-w-sm">
           <Suspense fallback={<AuthLoading />}>
@@ -71,6 +53,24 @@ export default function TonePage({
           </Suspense>
         </div>
       </section>
+
+      <div className="relative flex-1 overflow-hidden bg-neutral-950 text-white">
+        <Image
+          src="/tone/sign-in-artwork.webp"
+          alt=""
+          fill
+          preload
+          sizes="(orientation: portrait) 100vw, 50vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/40" />
+        <p className="absolute top-7 left-6 text-3xl font-medium tracking-tight sm:left-10 lg:top-10">
+          Tone
+        </p>
+        <p className="absolute right-10 bottom-10 left-10 text-3xl font-light tracking-tight text-white/90 lg:block xl:text-4xl">
+          Find your rhythm.
+        </p>
+      </div>
     </main>
   )
 }
