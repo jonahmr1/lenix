@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { Suspense } from 'react'
 import { cookies } from 'next/headers'
 import { isAuthSessionMissingError } from '@supabase/supabase-js'
@@ -41,12 +42,34 @@ export default function TonePage({
   searchParams: SearchParams
 }) {
   return (
-    <main className="not-typeset flex min-h-svh items-center justify-center bg-background px-6 py-12 text-foreground">
-      <section aria-label="Tone account" className="w-full max-w-sm">
-        <h1 className="mb-10 text-2xl font-semibold tracking-tight">Tone</h1>
-        <Suspense fallback={<AuthLoading />}>
-          <Account searchParams={searchParams} />
-        </Suspense>
+    <main className="not-typeset flex min-h-svh flex-col bg-background text-foreground lg:grid lg:grid-cols-[11fr_9fr]">
+      <div className="relative isolate h-[44svh] min-h-64 overflow-hidden bg-neutral-950 text-white lg:h-auto lg:min-h-svh lg:border-r lg:border-border">
+        <Image
+          src="/tone/sign-in-artwork.webp"
+          alt=""
+          fill
+          preload
+          sizes="(min-width: 1024px) 55vw, 100vw"
+          className="object-cover object-[center_40%] lg:object-center"
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-transparent to-black/40" />
+        <p className="absolute top-7 left-6 text-3xl font-medium tracking-tight sm:left-10 lg:top-10">
+          Tone
+        </p>
+        <p className="absolute right-10 bottom-10 left-10 hidden text-3xl font-light tracking-tight text-white/90 lg:block xl:text-4xl">
+          Find your rhythm.
+        </p>
+      </div>
+
+      <section
+        aria-label="Tone account"
+        className="flex flex-1 items-center justify-center px-6 py-12 sm:px-10 lg:py-20"
+      >
+        <div className="w-full max-w-sm">
+          <Suspense fallback={<AuthLoading />}>
+            <Account searchParams={searchParams} />
+          </Suspense>
+        </div>
       </section>
     </main>
   )

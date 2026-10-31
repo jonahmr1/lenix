@@ -75,7 +75,13 @@ export function AuthControls({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      <div className="space-y-3 text-center">
+        <h1 className="text-3xl font-normal tracking-tight sm:text-4xl">
+          {account ? 'Your account' : 'Welcome to Tone'}
+        </h1>
+      </div>
+
       {account && (
         <div className="rounded-md border border-border px-4 py-3">
           <p className="text-xs text-muted-foreground">Signed in as</p>
@@ -88,7 +94,7 @@ export function AuthControls({
       <Button
         type="button"
         variant={account ? 'outline' : 'default'}
-        className="h-11 w-full gap-2 text-sm"
+        className="h-12 w-full gap-3 text-base"
         disabled={pending}
         aria-busy={pending}
         onClick={account ? signOut : signIn}
