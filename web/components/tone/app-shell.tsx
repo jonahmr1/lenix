@@ -8,6 +8,7 @@ import { AccountMenu } from './account-menu'
 import { PlaybackBar } from './playback-bar'
 import { PlaylistSidebar } from './playlist-sidebar'
 import { QueueSidebar, QueueTrigger } from './queue-sidebar'
+import { DevelopmentNotice } from './development-notice'
 
 type AppShellProps = {
   children: React.ReactNode
@@ -20,12 +21,15 @@ type AppShellProps = {
 
 export function AppShell(props: AppShellProps) {
   return (
-    <SidebarProvider
-      cookieName="tone_playlists_sidebar"
-      className="not-typeset h-dvh min-h-0 bg-background text-foreground"
-    >
-      <PlaylistShell {...props} />
-    </SidebarProvider>
+    <div className="not-typeset flex h-dvh flex-col bg-background text-foreground">
+      <DevelopmentNotice />
+      <SidebarProvider
+        cookieName="tone_playlists_sidebar"
+        className="relative min-h-0 flex-1 overflow-hidden"
+      >
+        <PlaylistShell {...props} />
+      </SidebarProvider>
+    </div>
   )
 }
 

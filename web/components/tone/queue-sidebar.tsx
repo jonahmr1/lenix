@@ -19,7 +19,7 @@ function Queue() {
 
 export function QueueSidebar() {
   return (
-    <Sidebar side="right" className="h-dvh" aria-label="Queue">
+    <Sidebar side="right" className="absolute h-full" aria-label="Queue">
       <SidebarHeader className="not-typeset flex-row items-center p-4">
         <SidebarTrigger className="size-11" aria-label="Toggle queue" />
         <h2 className="text-sm font-medium">Queue</h2>
