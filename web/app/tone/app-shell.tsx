@@ -14,6 +14,7 @@ import {
 } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   Popover,
   PopoverContent,
@@ -36,7 +37,7 @@ import type { Playlist } from './playlist-data'
 
 function Queue() {
   return (
-    <div className="space-y-3 p-5 text-sm text-muted-foreground">
+    <div className="space-y-3 p-5 flex justify-evenly text-sm text-muted-foreground">
       <QueueIcon className="size-6" aria-hidden="true" />
       <p>Nothing queued yet.</p>
     </div>
@@ -45,6 +46,8 @@ function Queue() {
 
 type AppShellProps = {
   email: string | null
+  name: string | null
+  avatarUrl: string | null
   playlists: Playlist[]
   playlistError: string | null
 }
@@ -60,11 +63,33 @@ export function AppShell(props: AppShellProps) {
   )
 }
 
-function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
+function PlaylistShell({
+  email,
+  name,
+  avatarUrl,
+  playlists,
+  playlistError,
+}: AppShellProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const { toggleSidebar, setOpenMobile, open, openMobile, isMobile } =
     useSidebar()
   const selected = playlists.find(playlist => playlist.id === selectedId)
+  const initials = name
+    ? name
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(part => part[0])
+        .join('')
+        .toUpperCase()
+    : email?.[0]?.toUpperCase()
+  const accountAvatar = (
+    <Avatar>
+      <AvatarImage src={avatarUrl ?? undefined} alt="" />
+      <AvatarFallback>
+        {initials || <UserCircleIcon aria-hidden="true" className="size-5" />}
+      </AvatarFallback>
+    </Avatar>
+  )
 
   useEffect(() => {
     if (!playlistError) return
@@ -134,7 +159,7 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
                     className="size-11"
                     aria-label="Open account menu"
                   >
-                    <UserCircleIcon aria-hidden="true" className="size-5" />
+                    {accountAvatar}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
@@ -142,12 +167,17 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
                   className="not-typeset p-4"
                   aria-label="Your account"
                 >
-                  <PopoverHeader>
-                    <PopoverTitle>Your account</PopoverTitle>
-                    <PopoverDescription className="break-all">
-                      {email ?? 'Signed in with Google'}
-                    </PopoverDescription>
-                  </PopoverHeader>
+                  <div className="flex items-center gap-3">
+                    {accountAvatar}
+                    <PopoverHeader className="min-w-0">
+                      <PopoverTitle className="break-words">
+                        {name ?? 'Your account'}
+                      </PopoverTitle>
+                      <PopoverDescription className="break-all">
+                        {email ?? 'Signed in with Google'}
+                      </PopoverDescription>
+                    </PopoverHeader>
+                  </div>
                   <AuthControls
                     account={{ email }}
                     initialMessage={null}

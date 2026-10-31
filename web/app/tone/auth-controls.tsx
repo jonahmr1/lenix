@@ -97,9 +97,9 @@ export function AuthControls({
 
       <Button
         type="button"
-        variant={account ? 'outline' : 'default'}
+        variant={account ? 'destructive' : 'default'}
         className={
-          compact ? 'h-10 gap-2 px-3 text-sm' : 'h-12 w-full gap-3 text-base'
+          compact ? 'h-10 w-full gap-2 px-3 text-sm' : 'h-12 w-full gap-3 text-base'
         }
         disabled={pending}
         aria-busy={pending}

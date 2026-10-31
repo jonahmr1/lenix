@@ -19,7 +19,12 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>
 async function Account({ searchParams }: { searchParams: SearchParams }) {
   const supabase = createClient(await cookies())
   const params = await searchParams
-  let account: { id: string; email: string | null } | null = null
+  let account: {
+    id: string
+    email: string | null
+    name: string | null
+    avatarUrl: string | null
+  } | null = null
   let message = params['auth-code-error']
     ? 'Sign-in wasn’t completed. Please try again.'
     : null
@@ -27,7 +32,15 @@ async function Account({ searchParams }: { searchParams: SearchParams }) {
   try {
     const { data, error } = await supabase.auth.getUser()
     if (data.user) {
-      account = { id: data.user.id, email: data.user.email ?? null }
+      const metadata = data.user.user_metadata
+      const name = metadata.full_name ?? metadata.name
+      const avatarUrl = metadata.avatar_url ?? metadata.picture
+      account = {
+        id: data.user.id,
+        email: data.user.email ?? null,
+        name: typeof name === 'string' ? name.trim() || null : null,
+        avatarUrl: typeof avatarUrl === 'string' ? avatarUrl : null,
+      }
       message = null
     } else if (error && !isAuthSessionMissingError(error)) {
       message = 'We couldn’t verify your session. Please try signing in again.'
@@ -41,6 +54,8 @@ async function Account({ searchParams }: { searchParams: SearchParams }) {
     return (
       <AppShell
         email={account.email}
+        name={account.name}
+        avatarUrl={account.avatarUrl}
         playlists={playlists}
         playlistError={error}
       />
