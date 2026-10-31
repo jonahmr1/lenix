@@ -53,7 +53,8 @@ export function AppShell(props: AppShellProps) {
 
 function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const { toggleSidebar, setOpenMobile } = useSidebar()
+  const { toggleSidebar, setOpenMobile, open, openMobile, isMobile } =
+    useSidebar()
   const selected = playlists.find(playlist => playlist.id === selectedId)
 
   useEffect(() => {
@@ -95,21 +96,23 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="flex shrink-0 flex-wrap items-center gap-y-3 border-b p-4">
             <div className="group/playlists-control flex items-center">
-              <Button
-                variant="ghost"
-                className="group/toggle mr-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:mr-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/playlists-control:mr-3 [@media(hover:hover)]:group-focus-within/playlists-control:w-11 [@media(hover:hover)]:group-focus-within/playlists-control:opacity-100 [@media(hover:hover)]:group-hover/playlists-control:mr-3 [@media(hover:hover)]:group-hover/playlists-control:w-11 [@media(hover:hover)]:group-hover/playlists-control:opacity-100"
-                aria-label="Toggle playlists"
-                onClick={toggleSidebar}
-              >
-                <MusicNotesIcon
-                  aria-hidden="true"
-                  className="group-hover/toggle:hidden"
-                />
-                <SidebarIcon
-                  aria-hidden="true"
-                  className="hidden group-hover/toggle:block"
-                />
-              </Button>
+              {!(isMobile ? openMobile : open) && (
+                <Button
+                  variant="ghost"
+                  className="group/toggle mr-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:mr-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/playlists-control:mr-3 [@media(hover:hover)]:group-hover/playlists-control:w-11 [@media(hover:hover)]:group-hover/playlists-control:opacity-100 [@media(hover:hover)]:group-focus-within/playlists-control:mr-3 [@media(hover:hover)]:group-focus-within/playlists-control:w-11 [@media(hover:hover)]:group-focus-within/playlists-control:opacity-100"
+                  aria-label="Toggle playlists"
+                  onClick={toggleSidebar}
+                >
+                  <MusicNotesIcon
+                    aria-hidden="true"
+                    className="group-hover/toggle:hidden"
+                  />
+                  <SidebarIcon
+                    aria-hidden="true"
+                    className="hidden group-hover/toggle:block"
+                  />
+                </Button>
+              )}
               <span className="text-2xl font-medium tracking-tight">
                 Tonelix
               </span>
@@ -119,19 +122,7 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
                 {email}
               </span>
               <AuthControls account={{ email }} initialMessage={null} compact />
-              <SidebarTrigger
-                className="group/toggle ml-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:ml-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/queue-control:ml-3 [@media(hover:hover)]:group-focus-within/queue-control:w-11 [@media(hover:hover)]:group-focus-within/queue-control:opacity-100 [@media(hover:hover)]:group-hover/queue-control:ml-3 [@media(hover:hover)]:group-hover/queue-control:w-11 [@media(hover:hover)]:group-hover/queue-control:opacity-100"
-                aria-label="Toggle queue"
-              >
-                <QueueIcon
-                  aria-hidden="true"
-                  className="group-hover/toggle:hidden"
-                />
-                <SidebarIcon
-                  aria-hidden="true"
-                  className="hidden group-hover/toggle:block"
-                />
-              </SidebarTrigger>
+              <QueueTrigger />
             </div>
           </header>
 
@@ -214,5 +205,22 @@ function PlaylistShell({ email, playlists, playlistError }: AppShellProps) {
         </Sidebar>
       </SidebarProvider>
     </>
+  )
+}
+
+function QueueTrigger() {
+  const { open, openMobile, isMobile } = useSidebar()
+  if (isMobile ? openMobile : open) return null
+  return (
+    <SidebarTrigger
+      className="group/toggle ml-3 h-11 w-11 overflow-hidden border-0 p-0 transition-[width,margin,opacity] duration-200 ease-out motion-reduce:transition-none [@media(hover:hover)]:ml-0 [@media(hover:hover)]:w-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/queue-control:ml-3 [@media(hover:hover)]:group-hover/queue-control:w-11 [@media(hover:hover)]:group-hover/queue-control:opacity-100 [@media(hover:hover)]:group-focus-within/queue-control:ml-3 [@media(hover:hover)]:group-focus-within/queue-control:w-11 [@media(hover:hover)]:group-focus-within/queue-control:opacity-100"
+      aria-label="Toggle queue"
+    >
+      <QueueIcon aria-hidden="true" className="group-hover/toggle:hidden" />
+      <SidebarIcon
+        aria-hidden="true"
+        className="hidden group-hover/toggle:block"
+      />
+    </SidebarTrigger>
   )
 }
