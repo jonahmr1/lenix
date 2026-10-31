@@ -9,6 +9,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Spinner } from '@/components/ui/spinner'
 import {
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+} from '@/components/ui/sidebar'
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -128,11 +133,11 @@ export function Playlists({
           {pending ? 'Loading…' : 'Retry loading playlists'}
         </Button>
       ) : playlists.length ? (
-        <ul className="space-y-1" aria-label="Your playlists">
+        <SidebarMenu aria-label="Your playlists">
           {playlists.map(playlist => (
-            <li key={playlist.id}>
-              <Button
-                variant={selectedId === playlist.id ? 'secondary' : 'ghost'}
+            <SidebarMenuItem key={playlist.id}>
+              <SidebarMenuButton
+                isActive={selectedId === playlist.id}
                 aria-current={selectedId === playlist.id ? 'true' : undefined}
                 onClick={() => onSelect(playlist.id)}
                 className="h-auto min-h-11 w-full justify-start gap-3 px-3 py-2 text-left text-sm"
@@ -144,10 +149,10 @@ export function Playlists({
                 <span className="text-xs text-muted-foreground">
                   {playlist.trackCount}
                 </span>
-              </Button>
-            </li>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           ))}
-        </ul>
+        </SidebarMenu>
       ) : (
         <p className="text-sm text-muted-foreground">
           No playlists yet. Create your first one.

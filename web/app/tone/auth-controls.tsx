@@ -81,7 +81,7 @@ export function AuthControls({
       {!compact && (
         <div className="space-y-3 text-center">
           <h1 className="text-3xl font-normal tracking-tight sm:text-4xl">
-            {account ? 'Your account' : 'Welcome to Tone'}
+            {account ? 'Your account' : 'Welcome to Tonelix'}
           </h1>
         </div>
       )}
