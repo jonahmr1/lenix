@@ -18,7 +18,7 @@ export const EnabledOnlyClientScripts = [
 	'emotes'
 ] as const satisfies readonly Exclude<ClientScript, ServerScript>[]
 export const EnabledOnlyServerScripts = [
-	'appearance',
+	// 'appearance',
 	'db'
 ] as const satisfies readonly Exclude<ServerScript, ClientScript>[]
 
