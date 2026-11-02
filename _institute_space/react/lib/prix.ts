@@ -1,0 +1,1 @@
+export const formaterPrix = (montant: number) => montant.toFixed(2) + " $"

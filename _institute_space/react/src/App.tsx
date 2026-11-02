@@ -3,9 +3,15 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
+import { Boutique } from './pages/boutique'
+
+const boutiquePath = 'boutique'
 
 function App() {
   const [count, setCount] = useState(0)
+	const pathName = window.location.pathname
+
+	if (pathName === `/${boutiquePath}`) return <Boutique />
 
   return (
     <>
@@ -28,6 +34,7 @@ function App() {
         >
           Count is {count}
         </button>
+				<a href={`/${boutiquePath}`}>Boutique {pathName}</a>
       </section>
 
       <div className="ticks"></div>
