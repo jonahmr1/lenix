@@ -1,4 +1,19 @@
 import Image from "next/image";
+import { readdirSync } from "node:fs";
+import path from "node:path";
+
+const routes = readdirSync(path.join(process.cwd(), "app"), {
+    recursive: true,
+    encoding: "utf8",
+  })
+    .filter((file) => /(^|[/\\])page\.(tsx|ts|jsx|js)$/.test(file))
+    .filter((file) => !file.split(path.sep).some((segment) => segment.startsWith("_")))
+    .map((file) => {
+      const segments = file.split(path.sep).slice(0, -1);
+      return "/" + segments
+        .filter((segment) => !/^\(.*\)$/.test(segment) && !segment.startsWith("@"))
+        .join("/");
+    });
 
 export default function Home() {
   return (
@@ -63,6 +78,13 @@ export default function Home() {
             Documentation
           </a>
         </div>
+				<ul>
+					{routes.map(route => (
+						<li key={route}>
+							<a href={route}>{route}</a>
+						</li>
+					))}
+				</ul>
       </main>
     </div>
   );
