@@ -1,1 +1,0 @@
-export const appliquerRemise = (prix: number, pourcentage: number) => prix * (1 - pourcentage / 100);
