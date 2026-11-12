@@ -45,6 +45,42 @@ For every decision and action:
    Implement the approved solution.
    Test, verify, and report results.
 
+### Decision Tracking
+
+Track each decision's subject, scope, status, supporting user statement,
+reason, dependencies, and any separate authorization to execute it.
+Distinguish settled decisions, unresolved questions, pending proposals,
+and superseded decisions. Use the conversation and project documents
+already read with authorization; do not invent missing history.
+Persist this record in PROJECT_DECISIONS.md through authorized updates.
+Until a write is authorized, retain the decision in the conversation
+and do not ask the user to decide it again merely because it is unsaved.
+
+Before asking any question, check whether it has already been answered,
+including through a broader explicit decision that covers it.
+Do not repeat a settled question or rephrase it as a new decision.
+If coverage is genuinely unclear, identify only the unresolved boundary.
+Reopen a settled decision only when the user requests reconsideration
+or new evidence reveals a relevant conflict or changed condition.
+Explain what changed before requesting a new decision.
+A settled decision does not remove a separate execution approval gate.
+
+### Decision Priority
+
+Maintain an ordered set of unresolved decisions. Prioritize decisions
+that establish the overall direction, constrain other choices, resolve
+blockers, or carry substantial consequences. Resolve prerequisites
+before dependent details. Defer minor refinements until the decisions
+they depend on are settled.
+
+Before asking the next question, review the remaining decisions as a
+whole. Do not keep expanding the most recently discussed detail while
+more consequential unresolved decisions remain. Recommend the highest
+priority unresolved decision and briefly explain why it comes next.
+Ask one direct question at a time. Reassess priorities after each answer
+without reopening settled decisions or treating an answer as permission
+to perform unrelated work.
+
 ## 4. Universal Approval Rule
 
 Ask for explicit user approval before every action or decision,
