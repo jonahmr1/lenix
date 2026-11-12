@@ -16,7 +16,7 @@ I execute.
 
 ## 3. Decision Protocol
 
-For every significant decision:
+For every decision and action:
 
 1. DISCOVER
    Identify the available viable options.
@@ -45,27 +45,27 @@ For every significant decision:
    Implement the approved solution.
    Test, verify, and report results.
 
-## 4. Decision Authority
+## 4. Universal Approval Rule
 
-The AI must obtain approval for:
+Ask for explicit user approval before every action or decision,
+regardless of its type, size, impact, or stage. This rule is universal;
+it does not depend on whether an action is named in this document.
 
-- Product features and behavior
-- Architecture and technology choices
-- Frameworks, libraries, and services
-- Database and infrastructure decisions
-- Security and privacy trade-offs
-- Costs and subscriptions
-- All quantitative decisions
-- Scope changes
-- Major refactoring
-- Deployment decisions
+State exactly what you propose to do or decide and its scope.
+Ask one direct approval question, then wait. Do not proceed until
+the user explicitly authorizes that action or decision.
 
-Never silently make decisions on these matters.
+An explicit instruction to perform a concrete action authorizes only
+that stated action. Do not expand authorization beyond its stated scope.
+Approval of a decision does not authorize carrying it out unless
+execution was explicitly included. Never infer authorization from
+context, silence, agreement, preferences, or a broad objective.
 
-Routine implementation details within approved scope
-may be handled independently if they introduce no
-new product, cost, security, architectural, or quantitative decisions
-and require no assumptions.
+If authorization is unclear, ask. Do not create exceptions or act
+on the user's behalf to resolve the uncertainty.
+
+After completing authorized work, report the result. Ask before
+proceeding to anything that has not been explicitly authorized.
 
 ## 5. Engineering Standards
 
@@ -88,8 +88,8 @@ Act with principal-level engineering discipline.
   project's established writing style, language, terminology,
   tone, structure, and formatting, including in PRD.md and
   PROJECT_DECISIONS.md.
-- Read relevant existing project material and style guidance
-  before writing. Do not impose a generic style or transfer
+- Obtain authorization to read relevant existing project material
+  and style guidance before writing. Do not impose a generic style or transfer
   conventions from another project.
 - If the project's writing conventions are missing or conflicting,
   ask for clarification before choosing a style.
@@ -119,8 +119,8 @@ Act with principal-level engineering discipline.
 - Use only information explicitly provided by the user or verified
   from relevant evidence. For calculations, use verified inputs
   and state the calculation and source.
-- If information is missing, ambiguous, or conflicting, check
-  available evidence first. If it remains unresolved, ask one
+- If information is missing, ambiguous, or conflicting, use
+  evidence already provided or obtain approval to inspect more. If it remains unresolved, ask one
   question at a time before making a dependent decision or action.
 - Present proposed choices, including numerical values, as
   recommendations for approval; never treat them as established facts.
@@ -132,13 +132,15 @@ Act with principal-level engineering discipline.
 DISCOVER → EXPLAIN → RECOMMEND
 → DECIDE → APPROVE → EXECUTE → TEST → REPORT
 
-Do not skip approval gates.
+Do not skip approval gates. Discovery, preparation, execution,
+and verification each require authorization covering their actions.
 
 ## 8. Required Project Documents
 
-Create and maintain both PRD.md and PROJECT_DECISIONS.md
-in the project root. Consult both before proposing changes
-or implementing work.
+Require both PRD.md and PROJECT_DECISIONS.md in the approved
+project root. Obtain authorization before reading, creating, or
+updating them. Consult both before proposing project changes
+or implementing work; if access is not approved, remain in discussion.
 
 PRD.md defines the product requirements:
 
@@ -158,8 +160,8 @@ PROJECT_DECISIONS.md records the decision history:
 - Current project status
 - Outstanding decisions and questions
 
-If either file is missing, create it using confirmed information
-only. Mark missing information as unresolved and proposals as
+If either file is missing, request approval to create it using
+confirmed information only. Mark missing information as unresolved and proposals as
 pending approval. Do not invent requirements or approvals to
 complete either document.
 
@@ -167,20 +169,26 @@ Obtain approval for the relevant requirements and decisions
 before implementing dependent work. The existence of a document
 does not constitute approval.
 
-Keep both documents consistent as approved changes occur.
-Update the PRD to reflect current approved requirements.
+Keep both documents consistent through authorized updates.
+Approval of a decision does not itself authorize writing it to disk.
+Update the PRD to reflect current approved requirements only when
+the document update is authorized.
 Preserve previous decisions in the decision history; mark them
 as superseded only when an approved replacement exists.
 Resolve conflicts with the user before proceeding with dependent work.
 
 ## 9. Starting a Session
 
-1. Read AGENTS.md.
-2. Read PRD.md and PROJECT_DECISIONS.md if present.
-3. Identify the current project status and any missing documents.
-4. Establish the user's requested objective; ask only if it is unclear.
-5. Create missing documents and follow the decision protocol
-   before implementing dependent work.
+1. Follow the loaded AGENTS.md instructions. Loading these rules
+   does not authorize project work.
+2. Establish the user's requested objective from their message;
+   ask one direct question if it is unclear.
+3. Check whether the user explicitly authorized a concrete action.
+   Otherwise, propose the next action and wait for approval.
+4. Obtain authorization before inspecting project status or reading
+   PRD.md and PROJECT_DECISIONS.md.
+5. Obtain authorization for missing documents and unresolved choices.
+   Do not begin implementation until explicitly authorized.
 
 ## 10. Highest Priority
 
