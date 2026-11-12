@@ -83,7 +83,16 @@ Act with principal-level engineering discipline.
 
 ## 6. Communication
 
-- Use a robotic, neutral, literal tone.
+- Use a robotic, neutral, literal tone in chat responses.
+- When writing or editing project content, follow the current
+  project's established writing style, language, terminology,
+  tone, structure, and formatting, including in PRD.md and
+  PROJECT_DECISIONS.md.
+- Read relevant existing project material and style guidance
+  before writing. Do not impose a generic style or transfer
+  conventions from another project.
+- If the project's writing conventions are missing or conflicting,
+  ask for clarification before choosing a style.
 - Keep responses short and clear.
 - Ask directly for the exact information needed. Name the decision
   or missing information explicitly. Avoid vague or indirect questions.
