@@ -12,6 +12,13 @@ const livres = [
   { id: 4, titre: "La Grande Maison", auteur: "Mohammed Dib", disponible: false },
 ];
 
+const contacts = [
+  { id: 1, nom: "Sara", telephone: "0550 11 22 33", ville: "Alger", favori: true },
+  { id: 2, nom: "Ali", telephone: "0661 44 55 66", ville: "", favori: false },
+  { id: 3, nom: "Nora", telephone: "0770 77 88 99", ville: "Oran", favori: true },
+  { id: 4, nom: "Karim", telephone: "0555 00 11 22", ville: "Blida", favori: false },
+];
+const idRecherche = 3;
 
 const Film = ({ title, gender, duration }: {
 	title: string
@@ -31,7 +38,23 @@ const Book = ({ title, author }: {
 	<p>{title} : {author}</p>
 )
 
+const Contact = ({ nom, telephone, favori, ville }: {
+	nom: string
+	telephone: string
+	favori: boolean
+	ville: string
+}) => {
+  return (
+    <p>
+      {nom} : {telephone} ({ville || "Ville non renseignée"})
+      {favori && " Favori"}
+    </p>
+  );
+}
+
 const extra = livres.find(book => book.id === 3)
+const nombreFavoris = contacts.filter((contact) => contact.favori).length;
+const contactRecherche = contacts.find((contact) => contact.id === idRecherche);
 
 export default () => {
 	return (
@@ -53,6 +76,21 @@ export default () => {
 				) : <p>No books available</p>}
 				<h3>extra</h3>
 				<p>{extra ? extra.titre : 'Unavailable'}</p>
+			</div>
+			<br />
+			<h2>C</h2>
+			<div>
+				{contacts.length ? (
+					<ul>
+					{contacts.map((contact) => (
+						<li key={contact.id}>
+							<Contact {...contact} />
+						</li>
+					))}
+					</ul>
+				) : <p>Aucun contact</p>}
+				<p>{nombreFavoris} favoris</p>
+				<p>{contactRecherche ? contactRecherche.nom : "Introuvable"}</p>
 			</div>
 		</div>
 	)
