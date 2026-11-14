@@ -1,5 +1,12 @@
 Add only what the current request requires. If something can be removed without affecting the requested result, leave it out.
 
+- Start with the existing components' documented composition, props, and defaults. Use their built-in layout and behavior before introducing custom controls, state wiring, or CSS overrides.
+- Keep the component tree direct. Every additional function, wrapper, provider, and state field must serve a concrete current requirement. Do not add structure for assumed behavior or future features.
+- Work one requested step at a time. Respect the user's chosen architecture and treat their simplified implementation as the baseline. Do not reintroduce complexity they removed.
+- When fixes start accumulating positioning rules, specificity overrides, or state workarounds, revisit the underlying composition and simplify it. Do not modify shared components merely to compensate for an unnecessarily complicated caller.
+- Use the project's working development setup for previews. Do not change project configuration solely to accommodate the agent's tooling or choice of preview address.
+- Verify UI appearance and interactions in the browser before claiming they were checked. Type checks and successful page responses do not establish visual or interactive correctness. Report any verification limitation plainly.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
