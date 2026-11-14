@@ -1,3 +1,5 @@
+Add only what the current request requires. If something can be removed without affecting the requested result, leave it out.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
