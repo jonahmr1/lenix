@@ -32,7 +32,7 @@ function PlaylistsLayout({ children }: { children: ReactNode }) {
         setState(previous => ({ ...previous, playlistsOpen }))
       }
       cookieName="tone_playlists_sidebar"
-      className="not-typeset dark grid h-dvh min-h-0 grid-cols-[auto_minmax(0,1fr)_auto] grid-rows-[2rem_3rem_minmax(0,1fr)] overflow-hidden bg-sidebar text-neutral-100 [&_[data-slot=sidebar]]:relative"
+      className="not-typeset dark grid h-dvh min-h-0 grid-cols-[auto_minmax(0,1fr)_auto] grid-rows-[2rem_2.5rem_minmax(0,1fr)] overflow-hidden bg-sidebar text-neutral-100 [&_[data-slot=sidebar]]:relative"
     >
       <header className="col-span-full row-start-1 flex items-center justify-center border-b border-amber-900/60 bg-amber-950 text-xs font-medium text-amber-200">
         Tonelix is still being built. Features may change.
@@ -75,7 +75,7 @@ function QueueLayout({ children }: { children: ReactNode }) {
         >
           <SidebarIcon aria-hidden="true" />
         </Button>
-        <h1 className="text-2xl font-semibold tracking-tight">Tonelix</h1>
+        <h1 className="text-lg font-semibold tracking-tight">Tonelix</h1>
         <SidebarTrigger aria-label="Toggle queue" className="ml-auto" />
       </header>
 
@@ -92,7 +92,7 @@ function QueueLayout({ children }: { children: ReactNode }) {
       </Sidebar>
 
       <SidebarInset
-        className={`col-start-2 row-start-3 min-h-0 w-auto min-w-0 overflow-hidden bg-neutral-950 ${state.playlistsOpen ? 'md:ms-0!' : 'md:ms-2!'}`}
+        className={`col-start-2 row-start-3 mt-0! min-h-0 w-auto min-w-0 overflow-hidden bg-neutral-950 ${state.playlistsOpen ? 'md:ms-0!' : 'md:ms-2!'}`}
       >
         <div className="px-6 pt-6">
           <Input
