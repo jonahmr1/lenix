@@ -28,5 +28,4 @@ void C() {
 }
 
 void main() {
-  B();
 }
