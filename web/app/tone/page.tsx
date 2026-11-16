@@ -50,7 +50,7 @@ export default function TonePage() {
 	const queueHeader = (
 		<SidebarHeader className='flex-row items-center justify-between'>
 			Queue
-			<KbdGroup className='not-typeset' aria-label='Control + M'>
+			<KbdGroup className='p-1' aria-label='Control + M'>
 				<Kbd>Ctrl</Kbd><Kbd>M</Kbd>
 			</KbdGroup>
 		</SidebarHeader>
