@@ -11,6 +11,8 @@ import {
 import { SidebarProvider } from '@/components/ui/sidebar'
 
 type AppState = {
+  newPlaylistOpen: boolean
+  playlists: { id: string; name: string }[]
   playlistsOpen: boolean
   queueOpen: boolean
   queueMobileOpen: boolean
@@ -23,6 +25,8 @@ const AppContext = createContext<{
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>({
+    newPlaylistOpen: false,
+    playlists: [],
     playlistsOpen: true,
     queueOpen: true,
     queueMobileOpen: false,
