@@ -12,6 +12,8 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 
 type AppState = {
   newPlaylistOpen: boolean
+  playlistSaving: boolean
+  playlistError: string
   playlists: { id: string; name: string }[]
   playlistsOpen: boolean
   queueOpen: boolean
@@ -23,10 +25,15 @@ const AppContext = createContext<{
   setState: Dispatch<SetStateAction<AppState>>
 } | null>(null)
 
-export function AppProvider({ children }: { children: ReactNode }) {
+export function AppProvider({ children, playlists }: {
+  children: ReactNode
+  playlists: AppState['playlists']
+}) {
   const [state, setState] = useState<AppState>({
     newPlaylistOpen: false,
-    playlists: [],
+    playlists,
+    playlistSaving: false,
+    playlistError: '',
     playlistsOpen: true,
     queueOpen: true,
     queueMobileOpen: false,
@@ -35,6 +42,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   return (
     <AppContext.Provider value={{ state, setState }}>
       <SidebarProvider
+        keyboardShortcut={null}
         open={state.playlistsOpen}
         onOpenChange={playlistsOpen => setState(previous => ({ ...previous, playlistsOpen }))}
       >

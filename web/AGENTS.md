@@ -7,7 +7,7 @@ Add only what the current request requires. If something can be removed without 
 - Work one requested step at a time. Respect the user's chosen architecture and treat their simplified implementation as the baseline. Do not reintroduce complexity they removed.
 - When fixes start accumulating positioning rules, specificity overrides, or state workarounds, revisit the underlying composition and simplify it. Do not modify shared components merely to compensate for an unnecessarily complicated caller.
 - Use the project's working development setup for previews. Do not change project configuration solely to accommodate the agent's tooling or choice of preview address.
-- Verify UI appearance and interactions in the browser before claiming they were checked. Type checks and successful page responses do not establish visual or interactive correctness. Report any verification limitation plainly.
+- Always verify UI issues and changes in the browser: inspect the rendered appearance and exercise the relevant interactions before giving a definitive diagnosis or reporting a fix as complete. Code inspection, screenshots supplied by the user, type checks, and successful page responses alone do not establish current visual or interactive correctness. If browser verification is blocked, report the blocker and distinguish what was confirmed from what remains unverified.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

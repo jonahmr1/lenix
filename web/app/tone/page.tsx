@@ -23,30 +23,34 @@ import { useApp } from './provider'
 
 export default function TonePage() {
 	const { state, setState } = useApp()
-	const { isMobile } = useSidebar()
+	const { isMobile, toggleSidebar } = useSidebar()
 
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (
-				event.key.toLowerCase() !== 'm' ||
+				!['b', 'm'].includes(event.key.toLowerCase()) ||
 				!event.ctrlKey ||
 				event.metaKey || event.altKey || event.shiftKey || event.repeat ||
 				(event.target instanceof HTMLElement && event.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])'))
 			) return
 
 			event.preventDefault()
+			if (event.key.toLowerCase() === 'b') {
+				toggleSidebar()
+				return
+			}
 			const key = isMobile ? 'queueMobileOpen' : 'queueOpen'
 			setState(previous => ({ ...previous, [key]: !previous[key] }))
 		}
 
 		window.addEventListener('keydown', handleKeyDown)
 		return () => window.removeEventListener('keydown', handleKeyDown)
-	}, [isMobile, setState])
+	}, [isMobile, setState, toggleSidebar])
 
 	const queueHeader = (
 		<SidebarHeader className='flex-row items-center justify-between'>
 			Queue
-			<KbdGroup className='p-1' aria-label='Control + M'>
+			<KbdGroup className='not-typeset' aria-label='Control + M'>
 				<Kbd>Ctrl</Kbd><Kbd>M</Kbd>
 			</KbdGroup>
 		</SidebarHeader>
@@ -60,7 +64,7 @@ export default function TonePage() {
 					<div className='flex items-center gap-2'>
 						<Dialog open={state.newPlaylistOpen} onOpenChange={newPlaylistOpen => setState(previous => ({ ...previous, newPlaylistOpen }))}>
 							<DialogTrigger asChild>
-								<Button variant='ghost' size='icon-xs' aria-label='Create playlist' className='opacity-0 group-hover/playlists-header:opacity-100 focus-visible:opacity-100'>
+								<Button variant='ghost' size='icon-lg' aria-label='Create playlist' className='opacity-0 group-hover/playlists-header:opacity-100 focus-visible:opacity-100'>
 									<PlusIcon />
 								</Button>
 							</DialogTrigger>
@@ -87,8 +91,8 @@ export default function TonePage() {
 								</form>
 							</DialogContent>
 						</Dialog>
-						<KbdGroup className='p-1' aria-label='Command or Control + B'>
-							<Kbd>⌘/Ctrl</Kbd><Kbd>B</Kbd>
+						<KbdGroup className='p-1' aria-label='Control + B'>
+							<Kbd>Ctrl</Kbd><Kbd>B</Kbd>
 						</KbdGroup>
 					</div>
 				</SidebarHeader>
@@ -103,7 +107,7 @@ export default function TonePage() {
 						</SidebarMenu>
 					</SidebarGroup>
 				</SidebarContent>
-				<SidebarRail aria-label='Toggle playlists' title='Toggle playlists (⌘/Ctrl+B)' aria-keyshortcuts='Meta+b Control+b' className='after:inset-y-2 after:w-4 after:rounded-l-xl after:border-y-2 after:border-l-2 after:border-transparent hover:after:border-sidebar-border hover:after:bg-transparent' />
+				<SidebarRail aria-label='Toggle playlists' title='Toggle playlists (Ctrl+B)' aria-keyshortcuts='Control+b' className='after:inset-y-2 after:w-4 after:rounded-l-xl after:border-y-2 after:border-l-2 after:border-transparent hover:after:border-sidebar-border hover:after:bg-transparent' />
 			</Sidebar>
 			<SidebarInset>
 
