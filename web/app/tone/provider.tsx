@@ -8,10 +8,12 @@ import {
   type ReactNode,
   type SetStateAction,
 } from 'react'
+import { SidebarProvider } from '@/components/ui/sidebar'
 
 type AppState = {
   playlistsOpen: boolean
   queueOpen: boolean
+  queueMobileOpen: boolean
 }
 
 const AppContext = createContext<{
@@ -23,11 +25,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>({
     playlistsOpen: true,
     queueOpen: true,
+    queueMobileOpen: false,
   })
 
   return (
     <AppContext.Provider value={{ state, setState }}>
-      {children}
+      <SidebarProvider
+        open={state.playlistsOpen}
+        onOpenChange={playlistsOpen => setState(previous => ({ ...previous, playlistsOpen }))}
+      >
+        {children}
+      </SidebarProvider>
     </AppContext.Provider>
   )
 }
