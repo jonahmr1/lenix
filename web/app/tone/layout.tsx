@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { SignIn } from '@/components/tone/sign-in'
 import { createClient } from '@/lib/supabase.server'
 import { AppProvider } from './provider'
+import { AppShell } from './app-shell'
 
 export default async function ToneLayout({ children }: { children: ReactNode }) {
 	const supabase = createClient(await cookies())
@@ -16,7 +17,7 @@ export default async function ToneLayout({ children }: { children: ReactNode }) 
 
 	return (
 		<AppProvider key={user.id} playlists={playlists ?? []}>
-			{children}
+			<AppShell>{children}</AppShell>
 		</AppProvider>
 	)
 }
