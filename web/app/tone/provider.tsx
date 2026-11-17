@@ -9,8 +9,12 @@ import {
   type SetStateAction,
 } from 'react'
 import { SidebarProvider } from '@/components/ui/sidebar'
+import type { SearchTrack } from '@/lib/tone/search-actions'
 
 type AppState = {
+  searchQuery: string
+  searchResults: SearchTrack[] | null
+  searchLoading: boolean
   playlistAction: { type: 'rename' | 'delete'; id: string; name: string } | null
   newPlaylistOpen: boolean
   playlistSaving: boolean
@@ -33,6 +37,9 @@ export function AppProvider({
   playlists: AppState['playlists']
 }) {
   const [state, setState] = useState<AppState>({
+    searchQuery: '',
+    searchResults: null,
+    searchLoading: false,
     playlistAction: null,
     newPlaylistOpen: false,
     playlists,
