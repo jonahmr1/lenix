@@ -14,7 +14,6 @@ type AppState = {
   playlistAction: { type: 'rename' | 'delete'; id: string; name: string } | null
   newPlaylistOpen: boolean
   playlistSaving: boolean
-  playlistError: string
   playlists: { id: string; name: string }[]
   playlistsOpen: boolean
   queueOpen: boolean
@@ -38,7 +37,6 @@ export function AppProvider({
     newPlaylistOpen: false,
     playlists,
     playlistSaving: false,
-    playlistError: '',
     playlistsOpen: true,
     queueOpen: true,
     queueMobileOpen: false,

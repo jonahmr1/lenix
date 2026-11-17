@@ -2,6 +2,7 @@
 
 import { startTransition, useEffect, type ReactNode } from 'react'
 import Link, { useLinkStatus } from 'next/link'
+import { toast } from 'sonner'
 import { useParams, useRouter } from 'next/navigation'
 import {
   ContextMenu,
@@ -125,6 +126,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <DialogTitle>Create a new playlist</DialogTitle>
                 </DialogHeader>
                 <form
+                  noValidate
                   className='grid gap-4'
                   onSubmit={event => {
                     event.preventDefault()
@@ -132,7 +134,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                     const name = String(
                       new FormData(form).get('name') ?? ''
                     ).trim()
-                    if (!name) return
+                    if (!name) {
+                      toast.error('Enter a playlist name.')
+                      return
+                    }
                     const playlist = { id: crypto.randomUUID(), name }
                     setState(previous => ({
                       ...previous,
@@ -235,7 +240,6 @@ export function AppShell({ children }: { children: ReactNode }) {
             setState(previous => ({
               ...previous,
               playlistAction: null,
-              playlistError: '',
             }))
         }}
       >
@@ -255,6 +259,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
           </DialogHeader>
           <form
+            noValidate
             className='grid gap-4'
             onSubmit={async event => {
               event.preventDefault()
@@ -263,11 +268,13 @@ export function AppShell({ children }: { children: ReactNode }) {
               const name = String(
                 new FormData(event.currentTarget).get('name') ?? ''
               ).trim()
-              if (action.type === 'rename' && !name) return
+              if (action.type === 'rename' && !name) {
+                toast.error('Enter a playlist name.')
+                return
+              }
               setState(previous => ({
                 ...previous,
                 playlistSaving: true,
-                playlistError: '',
               }))
               try {
                 const supabase = createClient()
@@ -290,13 +297,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                     `Couldn’t ${action.type} your playlist. Please try again.`
                   )
               } catch (error) {
+                toast.error(
+                  error instanceof Error
+                    ? error.message
+                    : 'Something went wrong. Please try again.'
+                )
                 setState(previous => ({
                   ...previous,
                   playlistSaving: false,
-                  playlistError:
-                    error instanceof Error
-                      ? error.message
-                      : 'Something went wrong. Please try again.',
                 }))
                 return
               }
@@ -334,11 +342,6 @@ export function AppShell({ children }: { children: ReactNode }) {
                   pattern='.*\S.*'
                 />
               </Field>
-            )}
-            {state.playlistError && (
-              <p role='alert' className='text-sm text-destructive'>
-                {state.playlistError}
-              </p>
             )}
             <DialogFooter>
               <Button
