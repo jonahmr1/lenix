@@ -46,6 +46,7 @@ import {
 } from '@/components/ui/sidebar'
 import { useApp } from './provider'
 import { createClient } from '@/lib/supabase.client'
+import { createPlaylist } from '@/lib/tone.v2/playlist-actions'
 
 function PlaylistLinkLabel({ children }: { children: ReactNode }) {
   const { pending } = useLinkStatus()
@@ -128,8 +129,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <form
                   noValidate
                   className='grid gap-4'
-                  onSubmit={event => {
+                  onSubmit={async event => {
                     event.preventDefault()
+                    if (state.playlistSaving) return
                     const form = event.currentTarget
                     const name = String(
                       new FormData(form).get('name') ?? ''
@@ -138,11 +140,37 @@ export function AppShell({ children }: { children: ReactNode }) {
                       toast.error('Enter a playlist name.')
                       return
                     }
-                    const playlist = { id: crypto.randomUUID(), name }
+                    setState(previous => ({
+                      ...previous,
+                      playlistSaving: true,
+                    }))
+                    let result
+                    try {
+                      result = await createPlaylist(new FormData(form))
+                    } catch {
+                      toast.error(
+                        'Couldn’t create your playlist. Please try again.'
+                      )
+                      setState(previous => ({
+                        ...previous,
+                        playlistSaving: false,
+                      }))
+                      return
+                    }
+                    if ('error' in result) {
+                      toast.error(result.error)
+                      setState(previous => ({
+                        ...previous,
+                        playlistSaving: false,
+                      }))
+                      return
+                    }
+                    const playlist = { id: result.id, name }
                     setState(previous => ({
                       ...previous,
                       playlists: [...previous.playlists, playlist],
                       newPlaylistOpen: false,
+                      playlistSaving: false,
                     }))
                     form.reset()
                   }}
@@ -159,8 +187,12 @@ export function AppShell({ children }: { children: ReactNode }) {
                     />
                   </Field>
                   <DialogFooter>
-                    <Button className='w-full' type='submit'>
-                      Create playlist
+                    <Button
+                      className='w-full'
+                      type='submit'
+                      disabled={state.playlistSaving}
+                    >
+                      {state.playlistSaving ? 'Creating…' : 'Create playlist'}
                     </Button>
                   </DialogFooter>
                 </form>
@@ -291,10 +323,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                   .eq('id', action.id)
                   .eq('user_id', user.id)
                   .select('id')
-                  .single()
-                if (error || !data)
+                  .maybeSingle()
+                if (error)
                   throw new Error(
                     `Couldn’t ${action.type} your playlist. Please try again.`
+                  )
+                if (!data)
+                  throw new Error(
+                    'Playlist not found or you don’t have permission to change it. Refresh and try again.'
                   )
               } catch (error) {
                 toast.error(
