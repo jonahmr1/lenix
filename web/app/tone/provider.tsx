@@ -52,6 +52,7 @@ export function AppProvider({
   return (
     <AppContext.Provider value={{ state, setState }}>
       <SidebarProvider
+        className='min-h-dvh'
         keyboardShortcut={null}
         open={state.playlistsOpen}
         onOpenChange={playlistsOpen =>
