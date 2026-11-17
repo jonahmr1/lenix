@@ -62,7 +62,7 @@ export function CreatePlaylistDialog() {
               }))
               return
             }
-            const playlist = { id: result.id, name }
+            const playlist = { id: result.id, name, tracks: [] }
             setState(previous => ({
               ...previous,
               playlists: [...previous.playlists, playlist],

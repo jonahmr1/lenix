@@ -21,7 +21,7 @@ type AppState = {
   playlistAction: { type: 'rename' | 'delete'; id: string; name: string } | null
   newPlaylistOpen: boolean
   playlistSaving: boolean
-  playlists: { id: string; name: string }[]
+  playlists: { id: string; name: string; tracks: string[] }[]
   playlistsOpen: boolean
   queueOpen: boolean
   queueMobileOpen: boolean

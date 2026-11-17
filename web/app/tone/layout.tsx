@@ -22,7 +22,7 @@ export default async function ToneLayout({
 
   const { data: playlists, error } = await supabase
     .from('playlists')
-    .select('id, name:label')
+    .select('id, name:label, tracks')
     .eq('user_id', user.id)
     .order('created_at')
 
