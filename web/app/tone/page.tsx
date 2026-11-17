@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import {
@@ -26,9 +27,35 @@ import {
 import { searchTracks } from '@/lib/tone/search-actions'
 import { useApp } from './provider'
 import { Kbd, KbdGroup } from '@/components/ui/kbd'
+import { useSidebar } from '@/components/ui/sidebar'
 
 export default function TonePage() {
   const { state, setState } = useApp()
+  const searchInput = useRef<HTMLInputElement>(null)
+	const { isMobile } = useSidebar()
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key.toLowerCase() !== 'k' ||
+        !event.ctrlKey ||
+        event.metaKey ||
+        event.altKey ||
+        event.shiftKey ||
+        event.repeat
+      )
+        return
+      if (
+        event.target instanceof HTMLElement &&
+        event.target.closest('[role="dialog"]')
+      )
+        return
+      event.preventDefault()
+      searchInput.current?.focus()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
   return (
     <div className='not-typeset flex min-w-0 flex-1 flex-col gap-6 p-4 md:p-6'>
       <form
@@ -61,10 +88,13 @@ export default function TonePage() {
       >
         <InputGroup>
           <InputGroupInput
+            ref={searchInput}
+            aria-keyshortcuts='Control+k'
             aria-label='Search YouTube'
             placeholder='Search songs or artists on YouTube'
             value={state.searchQuery}
             disabled={state.searchLoading}
+						className='text-base'
             onChange={event =>
               setState(previous => ({
                 ...previous,
@@ -76,16 +106,18 @@ export default function TonePage() {
             <MagnifyingGlassIcon />
           </InputGroupAddon>
           <InputGroupAddon align='inline-end' className='gap-2'>
-            <KbdGroup>
-							<Kbd>Ctrl</Kbd>
-							<Kbd>K</Kbd>
-						</KbdGroup>
-						<InputGroupButton
+            {!isMobile && (
+							<KbdGroup>
+								<Kbd>Ctrl</Kbd>
+								<Kbd>K</Kbd>
+							</KbdGroup>
+						)}
+            <InputGroupButton
               type='submit'
               disabled={state.searchLoading}
               aria-label='Search'
-							variant='secondary'
-							className='rounded-sm border-0'
+              variant='secondary'
+              className='rounded-sm border-0'
             >
               {state.searchLoading ? <Spinner /> : 'Search'}
             </InputGroupButton>
@@ -102,24 +134,28 @@ export default function TonePage() {
         </div>
       ) : state.searchResults?.length ? (
         <Table>
-          <TableHeader>
+          <TableHeader className='[&_tr]:border-0'>
             <TableRow>
+              <TableHead className='w-10'>#</TableHead>
               <TableHead>Track</TableHead>
               <TableHead className='hidden sm:table-cell'>Channel</TableHead>
               <TableHead className='text-right'>Duration</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {state.searchResults.map(track => (
-              <TableRow key={track.id}>
+            {state.searchResults.map((track, index) => (
+              <TableRow key={track.id} className='border-0'>
+                <TableCell className='text-muted-foreground tabular-nums'>
+                  {index + 1}
+                </TableCell>
                 <TableCell>
                   <div className='flex items-center gap-3'>
                     <img
                       src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
                       alt=''
-                      width={80}
-                      height={45}
-                      className='aspect-video w-20 shrink-0 rounded-md object-cover'
+                      width={32}
+                      height={32}
+                      className='size-8 shrink-0 rounded-md object-cover'
                     />
                     <div className='min-w-0'>
                       <p className='font-medium whitespace-normal'>

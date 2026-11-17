@@ -123,7 +123,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   variant='ghost'
                   size='icon-lg'
                   aria-label='Create playlist'
-                  className='opacity-0 group-hover/playlists-header:opacity-100 focus-visible:opacity-100'
+                  className='md:opacity-0 md:group-hover/playlists-header:opacity-100 md:focus-visible:opacity-100'
                 >
                   <PlusIcon />
                 </Button>
@@ -190,6 +190,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                       autoComplete='off'
                       required
                       pattern='.*\S.*'
+											className='text-base'
                     />
                   </Field>
                   <DialogFooter>
@@ -397,6 +398,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   autoComplete='off'
                   required
                   pattern='.*\S.*'
+									className='text-base'
                 />
               </Field>
             )}
