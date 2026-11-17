@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, type ReactNode } from 'react'
-import Link from 'next/link'
+import Link, { useLinkStatus } from 'next/link'
 import { useParams } from 'next/navigation'
 import { PlusIcon, SidebarIcon } from '@phosphor-icons/react'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -24,6 +24,11 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { useApp } from './provider'
+
+function PlaylistLinkLabel({ children }: { children: ReactNode }) {
+	const { pending } = useLinkStatus()
+	return <span data-pending={pending}>{children}</span>
+}
 
 export function AppShell({ children }: { children: ReactNode }) {
 	const { playlistId } = useParams<{ playlistId?: string }>()
@@ -111,8 +116,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 							{state.playlists.map(playlist => (
 								<SidebarMenuItem key={playlist.id}>
 									<SidebarMenuButton asChild isActive={playlistId === playlist.id}>
-										<Link href={`/tone/playlist/${playlist.id}`} aria-current={playlistId === playlist.id ? 'page' : undefined} onClick={() => setOpenMobile(false)}>
-											<span>{playlist.name}</span>
+										<Link href={`/tone/playlist/${playlist.id}`} className='has-[[data-pending=true]]:cursor-progress' aria-current={playlistId === playlist.id ? 'page' : undefined} onClick={() => setOpenMobile(false)}>
+											<PlaylistLinkLabel>{playlist.name}</PlaylistLinkLabel>
 										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
