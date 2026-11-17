@@ -44,8 +44,27 @@ export async function searchTracks(
       `https://www.googleapis.com/youtube/v3/search?${params}`,
       { next: { revalidate: 300 }, signal: AbortSignal.timeout(10000) }
     )
-    if (!response.ok)
+    if (!response.ok) {
+      const failure = await response.json().catch(() => null)
+      const quotaExceeded =
+        failure?.error?.errors?.some(
+          (error: { reason?: string }) => error.reason === 'quotaExceeded'
+        ) ||
+        failure?.error?.details?.some(
+          (detail: { metadata?: { quota_unit?: string } }) =>
+            detail.metadata?.quota_unit?.includes('/d/')
+        )
+      if (quotaExceeded)
+        return {
+          error:
+            'YouTube’s daily search quota has been reached. Try again after the quota resets.',
+        }
+      if (response.status === 429)
+        return {
+          error: 'YouTube is limiting search requests. Please try again later.',
+        }
       return { error: 'Couldn’t search YouTube. Please try again later.' }
+    }
     const data: {
       nextPageToken?: string
       items?: {

@@ -9,6 +9,7 @@ import {
   type SetStateAction,
 } from 'react'
 import { SidebarProvider } from '@/components/ui/sidebar'
+import type { SpotifyImportResult } from '@/lib/tone/spotify-actions'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 
 type AppState = {
@@ -20,6 +21,10 @@ type AppState = {
   searchNextPageToken: string | null
   playlistAction: { type: 'rename' | 'delete'; id: string; name: string } | null
   newPlaylistOpen: boolean
+  spotifyImportOpen: boolean
+  spotifyImportResult: SpotifyImportResult | null
+  spotifyImportStep: number
+  spotifyPlaylistUrl: string
   playlistSaving: boolean
   playlists: { id: string; name: string; tracks: string[] }[]
   playlistsOpen: boolean
@@ -48,6 +53,10 @@ export function AppProvider({
     searchNextPageToken: null,
     playlistAction: null,
     newPlaylistOpen: false,
+    spotifyImportOpen: false,
+    spotifyPlaylistUrl: '',
+    spotifyImportResult: null,
+    spotifyImportStep: 0,
     playlists,
     playlistSaving: false,
     playlistsOpen: true,

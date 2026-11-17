@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/sidebar'
 import { AccountMenu, type Account } from './account-menu'
 import { CreatePlaylistDialog } from './create-playlist-dialog'
+import { ImportSpotifySheet } from './import-spotify-sheet'
 
 function PlaylistLinkLabel({ children }: { children: ReactNode }) {
 	const { pending } = useLinkStatus()
@@ -136,10 +137,18 @@ export function PlaylistsSidebar({ account }: { account: Account }) {
 						>
 							Create new playlist
 						</ContextMenuItem>
+						<ContextMenuItem
+							onSelect={() =>
+								setState(previous => ({ ...previous, spotifyImportOpen: true }))
+							}
+						>
+							Import from Spotify
+						</ContextMenuItem>
 					</ContextMenuContent>
 				</ContextMenu>
 			</SidebarContent>
 			<CreatePlaylistDialog />
+			<ImportSpotifySheet />
 			<AccountMenu account={account} />
 			<SidebarRail
 				aria-label='Toggle playlists'
