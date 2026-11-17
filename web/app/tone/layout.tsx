@@ -29,7 +29,15 @@ export default async function ToneLayout({
 
   return (
     <AppProvider key={user.id} playlists={playlists ?? []}>
-      <AppShell>{children}</AppShell>
+      <AppShell
+        account={{
+          name: user.user_metadata.full_name || user.email || 'Account',
+          email: user.email ?? '',
+          avatar: user.user_metadata.avatar_url,
+        }}
+      >
+        {children}
+      </AppShell>
     </AppProvider>
   )
 }

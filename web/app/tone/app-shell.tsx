@@ -21,6 +21,15 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Empty,
   EmptyHeader,
@@ -45,6 +54,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarHeader,
+  SidebarFooter,
   SidebarInset,
   SidebarTrigger,
   SidebarRail,
@@ -59,7 +69,13 @@ function PlaylistLinkLabel({ children }: { children: ReactNode }) {
   return <span data-pending={pending}>{children}</span>
 }
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  account,
+}: {
+  children: ReactNode
+  account: { name: string; email: string; avatar?: string }
+}) {
   const { playlistId } = useParams<{ playlistId?: string }>()
   const { state, setState } = useApp()
   const router = useRouter()
@@ -285,6 +301,47 @@ export function AppShell({ children }: { children: ReactNode }) {
               )}
             </SidebarGroup>
           </SidebarContent>
+          <SidebarFooter>
+            <SidebarMenu className='not-typeset'>
+              <SidebarMenuItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton size='lg' aria-label='Open account menu'>
+                      <Avatar>
+                        <AvatarImage src={account.avatar} alt='' />
+                        <AvatarFallback>
+                          {account.name.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className='truncate'>{account.name}</span>
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent side='top' align='start'>
+                    <DropdownMenuLabel className='break-all'>
+                      {account.email}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onSelect={async () => {
+                        try {
+                          const { error } = await createClient().auth.signOut({
+                            scope: 'local',
+                          })
+                          if (error) throw error
+                          router.refresh()
+                        } catch {
+                          toast.error('Couldn’t sign out. Please try again.')
+                        }
+                      }}
+											variant='destructive'
+                    >
+                      Sign out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
           <SidebarRail
             aria-label='Toggle playlists'
             title='Toggle playlists (Ctrl+B)'
