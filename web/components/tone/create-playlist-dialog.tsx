@@ -7,13 +7,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Field, FieldLabel } from '@/components/ui/field'
 import { toast } from 'sonner'
-import { PlusIcon } from '@phosphor-icons/react'
 import { createPlaylist } from '@/lib/tone/playlist-actions'
 
 export function CreatePlaylistDialog() {
@@ -25,16 +23,6 @@ export function CreatePlaylistDialog() {
         setState(previous => ({ ...previous, newPlaylistOpen }))
       }
     >
-      <DialogTrigger asChild>
-        <Button
-          variant='ghost'
-          size='icon-lg'
-          aria-label='Create playlist'
-          className='md:opacity-0 md:group-hover/playlists-header:opacity-100 md:focus-visible:opacity-100'
-        >
-          <PlusIcon />
-        </Button>
-      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create a new playlist</DialogTitle>
