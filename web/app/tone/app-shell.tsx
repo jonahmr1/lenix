@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, type ReactNode } from 'react'
+import { startTransition, useEffect, type ReactNode } from 'react'
 import Link, { useLinkStatus } from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import { ContextMenu } from 'radix-ui'
 import { PlusIcon, SidebarIcon } from '@phosphor-icons/react'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -48,6 +48,7 @@ function PlaylistLinkLabel({ children }: { children: ReactNode }) {
 export function AppShell({ children }: { children: ReactNode }) {
   const { playlistId } = useParams<{ playlistId?: string }>()
   const { state, setState } = useApp()
+  const router = useRouter()
   const { isMobile, toggleSidebar, setOpenMobile } = useSidebar()
 
   useEffect(() => {
@@ -167,21 +168,51 @@ export function AppShell({ children }: { children: ReactNode }) {
             <SidebarMenu className='not-typeset'>
               {state.playlists.map(playlist => (
                 <SidebarMenuItem key={playlist.id}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={playlistId === playlist.id}
-                  >
-                    <Link
-                      href={`/tone/playlist/${playlist.id}`}
-                      className='has-[[data-pending=true]]:cursor-progress'
-                      aria-current={
-                        playlistId === playlist.id ? 'page' : undefined
-                      }
-                      onClick={() => setOpenMobile(false)}
-                    >
-                      <PlaylistLinkLabel>{playlist.name}</PlaylistLinkLabel>
-                    </Link>
-                  </SidebarMenuButton>
+                  <ContextMenu.Root>
+                    <ContextMenu.Trigger asChild>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={playlistId === playlist.id}
+                      >
+                        <Link
+                          href={`/tone/playlist/${playlist.id}`}
+                          className='has-[[data-pending=true]]:cursor-progress'
+                          aria-current={
+                            playlistId === playlist.id ? 'page' : undefined
+                          }
+                          onClick={() => setOpenMobile(false)}
+                        >
+                          <PlaylistLinkLabel>{playlist.name}</PlaylistLinkLabel>
+                        </Link>
+                      </SidebarMenuButton>
+                    </ContextMenu.Trigger>
+                    <ContextMenu.Portal>
+                      <ContextMenu.Content className='z-50 min-w-32 rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10'>
+                        <ContextMenu.Item
+                          className='flex min-h-7 cursor-default items-center rounded-md px-2 py-1 text-xs outline-hidden select-none focus:bg-accent focus:text-accent-foreground'
+                          onSelect={() =>
+                            setState(previous => ({
+                              ...previous,
+                              playlistAction: { type: 'rename', ...playlist },
+                            }))
+                          }
+                        >
+                          Rename
+                        </ContextMenu.Item>
+                        <ContextMenu.Item
+                          className='flex min-h-7 cursor-default items-center rounded-md px-2 py-1 text-xs text-destructive outline-hidden select-none focus:bg-destructive/10'
+                          onSelect={() =>
+                            setState(previous => ({
+                              ...previous,
+                              playlistAction: { type: 'delete', ...playlist },
+                            }))
+                          }
+                        >
+                          Delete
+                        </ContextMenu.Item>
+                      </ContextMenu.Content>
+                    </ContextMenu.Portal>
+                  </ContextMenu.Root>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -194,6 +225,85 @@ export function AppShell({ children }: { children: ReactNode }) {
           className='after:inset-y-2 after:w-4 after:rounded-l-xl after:border-y-2 after:border-l-2 after:border-transparent hover:after:border-sidebar-border hover:after:bg-transparent'
         />
       </Sidebar>
+      <Dialog
+        open={state.playlistAction !== null}
+        onOpenChange={open => {
+          if (!open)
+            setState(previous => ({ ...previous, playlistAction: null }))
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {state.playlistAction?.type === 'rename'
+                ? 'Rename playlist'
+                : 'Delete playlist?'}
+            </DialogTitle>
+            {state.playlistAction?.type === 'delete' && (
+							<DialogDescription>
+								Delete <b className='font-black'>{state.playlistAction?.name}</b>? This cannot be undone
+							</DialogDescription>
+						)}
+          </DialogHeader>
+          <form
+            className='grid gap-4'
+            onSubmit={event => {
+              event.preventDefault()
+              const action = state.playlistAction
+              if (!action) return
+              const name = String(
+                new FormData(event.currentTarget).get('name') ?? ''
+              ).trim()
+              if (action.type === 'rename' && !name) return
+              startTransition(() => {
+                if (action.type === 'delete' && playlistId === action.id)
+                  router.replace('/tone')
+                setState(previous => ({
+                  ...previous,
+                  playlists:
+                    action.type === 'rename'
+                      ? previous.playlists.map(playlist =>
+                          playlist.id === action.id
+                            ? { ...playlist, name }
+                            : playlist
+                        )
+                      : previous.playlists.filter(
+                          playlist => playlist.id !== action.id
+                        ),
+                  playlistAction: null,
+                }))
+              })
+            }}
+          >
+            {state.playlistAction?.type === 'rename' && (
+              <Field>
+                <FieldLabel htmlFor='rename-playlist-name'>Name</FieldLabel>
+                <Input
+                  id='rename-playlist-name'
+                  name='name'
+                  defaultValue={state.playlistAction.name}
+                  autoComplete='off'
+                  required
+                  pattern='.*\S.*'
+                />
+              </Field>
+            )}
+            <DialogFooter>
+              <Button
+                className='w-full'
+                type='submit'
+                variant={
+                  state.playlistAction?.type === 'delete'
+                    ? 'destructive'
+                    : 'default'
+                }
+              >
+                {state.playlistAction?.type === 'rename' ? 'Save' : 'Delete'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
       <SidebarInset>
         <header className='flex items-center justify-between border-b p-2 md:hidden'>
           <SidebarTrigger aria-label='Open playlists' />

@@ -11,6 +11,7 @@ import {
 import { SidebarProvider } from '@/components/ui/sidebar'
 
 type AppState = {
+  playlistAction: { type: 'rename' | 'delete'; id: string; name: string } | null
   newPlaylistOpen: boolean
   playlistSaving: boolean
   playlistError: string
@@ -33,6 +34,7 @@ export function AppProvider({
   playlists: AppState['playlists']
 }) {
   const [state, setState] = useState<AppState>({
+    playlistAction: null,
     newPlaylistOpen: false,
     playlists,
     playlistSaving: false,
