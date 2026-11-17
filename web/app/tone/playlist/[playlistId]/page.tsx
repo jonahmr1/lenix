@@ -23,7 +23,7 @@ export default function PlaylistPage() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href='/tone'>Tonelix</Link>
+            <Link href='/tone'>Home</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
