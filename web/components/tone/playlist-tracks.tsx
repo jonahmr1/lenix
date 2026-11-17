@@ -23,6 +23,13 @@ import { ArrowLeftIcon, DotIcon } from '@phosphor-icons/react'
 import { notFound, useParams } from 'next/navigation'
 import { useApp } from '@/app/tone/provider'
 import { Separator } from '../ui/separator'
+import { setTrackInPlaylist } from '@/lib/tone/track-actions'
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+} from './context-menu'
 
 export function PlaylistTracks({
   tracks,
@@ -31,15 +38,17 @@ export function PlaylistTracks({
   tracks: SearchTrack[]
   error?: string
 }) {
-	const { playlistId } = useParams<{ playlistId: string }>()
-  const { state } = useApp()
+  const { playlistId } = useParams<{ playlistId: string }>()
+  const { state, setState } = useApp()
   const playlist = state.playlists.find(playlist => playlist.id === playlistId)
-	
-  if (!playlist) notFound()
-		
+
   useEffect(() => {
     if (error) toast.error(error)
   }, [error])
+  if (!playlist) notFound()
+  const visibleTracks = tracks.filter(track =>
+    playlist.tracks.includes(track.id)
+  )
 
   return (
     <div className='not-typeset flex flex-1 flex-col gap-6 p-4 md:p-6'>
@@ -48,13 +57,13 @@ export function PlaylistTracks({
           <ArrowLeftIcon />
         </Link>
       </Button>
-			<div className='flex items-center'>
-				<h1 className='text-8xl font-semibold'>{playlist.name}</h1>
-				<DotIcon className='text-6xl' />
-				<p>{tracks.length} Track</p>
-			</div>
-			<Separator />
-      {tracks.length ? (
+      <div className='flex items-center'>
+        <h1 className='text-8xl font-semibold'>{playlist.name}</h1>
+        <DotIcon className='text-6xl' />
+        <p>{visibleTracks.length} Track</p>
+      </div>
+      <Separator />
+      {visibleTracks.length ? (
         <Table>
           <TableHeader>
             <TableRow>
@@ -65,37 +74,82 @@ export function PlaylistTracks({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {tracks.map((track, index) => (
-              <TableRow key={track.id} className='border-0'>
-                <TableCell className='text-muted-foreground tabular-nums'>
-                  {index + 1}
-                </TableCell>
-                <TableCell>
-                  <div className='flex items-center gap-3'>
-                    <img
-                      src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-                      alt=''
-                      width={32}
-                      height={32}
-                      className='size-8 shrink-0 rounded-md object-cover'
-                    />
-                    <div className='min-w-0'>
-                      <p className='font-medium whitespace-normal'>
-                        {track.title}
-                      </p>
-                      <p className='mt-1 whitespace-normal text-muted-foreground sm:hidden'>
-                        {track.channel}
-                      </p>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className='hidden whitespace-normal text-muted-foreground sm:table-cell'>
-                  {track.channel}
-                </TableCell>
-                <TableCell className='text-right text-muted-foreground tabular-nums'>
-                  {track.duration}
-                </TableCell>
-              </TableRow>
+            {visibleTracks.map((track, index) => (
+              <ContextMenu key={track.id}>
+                <ContextMenuTrigger asChild>
+                  <TableRow className='border-0' tabIndex={0}>
+                    <TableCell className='text-muted-foreground tabular-nums'>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>
+                      <div className='flex items-center gap-3'>
+                        <img
+                          src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+                          alt=''
+                          width={32}
+                          height={32}
+                          className='size-8 shrink-0 rounded-md object-cover'
+                        />
+                        <div className='min-w-0'>
+                          <p className='font-medium whitespace-normal'>
+                            {track.title}
+                          </p>
+                          <p className='mt-1 whitespace-normal text-muted-foreground sm:hidden'>
+                            {track.channel}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className='hidden whitespace-normal text-muted-foreground sm:table-cell'>
+                      {track.channel}
+                    </TableCell>
+                    <TableCell className='text-right text-muted-foreground tabular-nums'>
+                      {track.duration}
+                    </TableCell>
+                  </TableRow>
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  <ContextMenuItem
+                    variant='destructive'
+                    onSelect={async () => {
+                      const saving = toast.loading('Removing track…')
+                      try {
+                        const result = await setTrackInPlaylist(
+                          playlist.id,
+                          track.id,
+                          false
+                        )
+                        if ('error' in result) throw new Error(result.error)
+                        setState(previous => ({
+                          ...previous,
+                          playlists: previous.playlists.map(item =>
+                            item.id === playlist.id
+                              ? {
+                                  ...item,
+                                  tracks: item.tracks.filter(
+                                    id => id !== track.id
+                                  ),
+                                }
+                              : item
+                          ),
+                        }))
+                        toast.success(`Removed from ${result.playlistName}`, {
+                          id: saving,
+                        })
+                      } catch (error) {
+                        toast.error(
+                          error instanceof Error
+                            ? error.message
+                            : 'Couldn’t remove this track. Please try again.',
+                          { id: saving }
+                        )
+                      }
+                    }}
+                  >
+                    Remove from playlist
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             ))}
           </TableBody>
         </Table>

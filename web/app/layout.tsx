@@ -27,10 +27,21 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Lenix',
-  description: 'AI & Product Engineer, FiveM Specialist',
+  description: 'AI Engineer',
   metadataBase: new URL('https://lenix.dev'),
+	openGraph: {
+    title: "Discover more about the unique",
+    description: "Step into a space shaped by curiosity and a different way of thinking.",
+    url: "https://lenix.dev/",
+    siteName: "Lenix",
+    images: [{ url: "https://lenix.dev/og.png", width: 1200, height: 630, alt: "Discover more about the unique" }],
+    type: "website",
+  },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
+    title: "Discover more about the unique",
+    description: "Step into a space shaped by curiosity and a different way of thinking.",
+    images: ["https://lenix.dev/og.png"],
   },
 }
 
