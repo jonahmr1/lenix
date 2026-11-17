@@ -32,7 +32,8 @@ import { useSidebar } from '@/components/ui/sidebar'
 export default function TonePage() {
   const { state, setState } = useApp()
   const searchInput = useRef<HTMLInputElement>(null)
-	const { isMobile } = useSidebar()
+  const loadMoreTarget = useRef<HTMLDivElement>(null)
+  const { isMobile } = useSidebar()
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -56,13 +57,79 @@ export default function TonePage() {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
+  useEffect(() => {
+    const target = loadMoreTarget.current
+    const token = state.searchNextPageToken
+    const query = state.searchActiveQuery
+    if (!target || !token || state.searchLoading || state.searchMoreLoading)
+      return
+    let requested = false
+    const observer = new IntersectionObserver(
+      async entries => {
+        if (requested || !entries.some(entry => entry.isIntersecting)) return
+        requested = true
+        observer.disconnect()
+        setState(previous => ({ ...previous, searchMoreLoading: true }))
+        try {
+          const result = await searchTracks(query, token)
+          if ('error' in result) throw new Error(result.error)
+          setState(previous => {
+            if (
+              previous.searchActiveQuery !== query ||
+              previous.searchNextPageToken !== token
+            )
+              return previous
+            const tracks = new Map(
+              (previous.searchResults ?? []).map(track => [track.id, track])
+            )
+            result.tracks.forEach(track => tracks.set(track.id, track))
+            return {
+              ...previous,
+              searchResults: [...tracks.values()],
+              searchNextPageToken:
+                result.nextPageToken === token ? null : result.nextPageToken,
+            }
+          })
+        } catch (error) {
+          setState(previous => ({ ...previous, searchNextPageToken: null }))
+          toast.error(
+            error instanceof Error
+              ? error.message
+              : 'Couldn’t load more tracks. Please try again.',
+            {
+              action: {
+                label: 'Retry',
+                onClick: () =>
+                  setState(previous =>
+                    previous.searchActiveQuery === query
+                      ? { ...previous, searchNextPageToken: token }
+                      : previous
+                  ),
+              },
+            }
+          )
+        } finally {
+          setState(previous => ({ ...previous, searchMoreLoading: false }))
+        }
+      },
+      { rootMargin: '300px' }
+    )
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [
+    state.searchNextPageToken,
+    state.searchActiveQuery,
+    state.searchLoading,
+    state.searchMoreLoading,
+    setState,
+  ])
   return (
     <div className='not-typeset flex min-w-0 flex-1 flex-col gap-6 p-4 md:p-6'>
       <form
         role='search'
         onSubmit={async event => {
           event.preventDefault()
-          if (state.searchLoading) return
+          if (state.searchLoading || state.searchMoreLoading) return
           const query = state.searchQuery.trim()
           if (!query) {
             toast.error('Enter a song or artist.')
@@ -78,6 +145,8 @@ export default function TonePage() {
             setState(previous => ({
               ...previous,
               searchResults: result.tracks,
+              searchActiveQuery: query,
+              searchNextPageToken: result.nextPageToken,
             }))
           } catch {
             toast.error('Couldn’t search YouTube. Please try again.')
@@ -93,8 +162,8 @@ export default function TonePage() {
             aria-label='Search YouTube'
             placeholder='Search songs or artists on YouTube'
             value={state.searchQuery}
-            disabled={state.searchLoading}
-						className='text-base'
+            disabled={state.searchLoading || state.searchMoreLoading}
+            className='text-base'
             onChange={event =>
               setState(previous => ({
                 ...previous,
@@ -107,14 +176,14 @@ export default function TonePage() {
           </InputGroupAddon>
           <InputGroupAddon align='inline-end' className='gap-2'>
             {!isMobile && (
-							<KbdGroup>
-								<Kbd>Ctrl</Kbd>
-								<Kbd>K</Kbd>
-							</KbdGroup>
-						)}
+              <KbdGroup>
+                <Kbd>Ctrl</Kbd>
+                <Kbd>K</Kbd>
+              </KbdGroup>
+            )}
             <InputGroupButton
               type='submit'
-              disabled={state.searchLoading}
+              disabled={state.searchLoading || state.searchMoreLoading}
               aria-label='Search'
               variant='secondary'
               className='rounded-sm border-0'
@@ -190,6 +259,18 @@ export default function TonePage() {
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
+      )}
+      {state.searchNextPageToken && !state.searchLoading && (
+        <div
+          ref={loadMoreTarget}
+          className='flex min-h-10 justify-center'
+          role='status'
+          aria-label={
+            state.searchMoreLoading ? 'Loading more tracks' : undefined
+          }
+        >
+          {state.searchMoreLoading && <Spinner />}
+        </div>
       )}
     </div>
   )

@@ -12,10 +12,13 @@ export type SearchTrack = {
 }
 
 export async function searchTracks(
-  query: string
-): Promise<{ tracks: SearchTrack[] } | { error: string }> {
+  query: string,
+  pageToken = ''
+): Promise<
+  { tracks: SearchTrack[]; nextPageToken: string | null } | { error: string }
+> {
   const q = query.trim()
-  if (!q || q.length > 200)
+  if (!q || q.length > 200 || !/^[\w=-]{0,512}$/.test(pageToken))
     return { error: 'Enter a search of 1–200 characters.' }
   try {
     const supabase = createClient(await cookies())
@@ -32,9 +35,10 @@ export async function searchTracks(
       part: 'snippet',
       type: 'video',
       q,
-      maxResults: '20',
+      maxResults: '50',
       videoCategoryId: '10',
       videoEmbeddable: 'true',
+      ...(pageToken ? { pageToken } : {}),
     })
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/search?${params}`,
@@ -43,6 +47,7 @@ export async function searchTracks(
     if (!response.ok)
       return { error: 'Couldn’t search YouTube. Please try again later.' }
     const data: {
+      nextPageToken?: string
       items?: {
         id: { videoId?: string }
         snippet: { title: string; channelTitle: string }
@@ -51,7 +56,8 @@ export async function searchTracks(
     const items = (data.items ?? []).filter(
       item => item.id.videoId && /^[\w-]{11}$/.test(item.id.videoId)
     )
-    if (!items.length) return { tracks: [] }
+    if (!items.length)
+      return { tracks: [], nextPageToken: data.nextPageToken ?? null }
     const detailsParams = new URLSearchParams({
       key,
       part: 'contentDetails',
@@ -82,6 +88,7 @@ export async function searchTracks(
       })
     )
     return {
+      nextPageToken: data.nextPageToken ?? null,
       tracks: items.map(item => ({
         id: item.id.videoId!,
         title: decode(item.snippet.title),

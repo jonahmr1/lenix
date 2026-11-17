@@ -15,6 +15,9 @@ type AppState = {
   searchQuery: string
   searchResults: SearchTrack[] | null
   searchLoading: boolean
+  searchMoreLoading: boolean
+  searchActiveQuery: string
+  searchNextPageToken: string | null
   playlistAction: { type: 'rename' | 'delete'; id: string; name: string } | null
   newPlaylistOpen: boolean
   playlistSaving: boolean
@@ -40,6 +43,9 @@ export function AppProvider({
     searchQuery: '',
     searchResults: null,
     searchLoading: false,
+    searchMoreLoading: false,
+    searchActiveQuery: '',
+    searchNextPageToken: null,
     playlistAction: null,
     newPlaylistOpen: false,
     playlists,
