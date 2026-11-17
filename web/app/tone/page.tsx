@@ -222,8 +222,8 @@ export default function TonePage() {
           <TableHeader>
             <TableRow>
               <TableHead className='w-10'>#</TableHead>
-              <TableHead>Track</TableHead>
-              <TableHead className='hidden sm:table-cell'>Channel</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead className='hidden sm:table-cell'>Author</TableHead>
               <TableHead className='text-right'>Duration</TableHead>
             </TableRow>
           </TableHeader>
