@@ -7,8 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "format": "oxfmt --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "types": "bunx supabase gen types typescript --project-id mezvgmfypkdvbnzvyxfz > lib/supabase.types.ts"
   },
@@ -49,10 +48,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/youtube-player": "^5.5.11",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.4",
-    "prettier": "^3.9.6",
-    "prettier-plugin-tailwindcss": "^0.8.1",
+    "oxfmt": "^0.79.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
