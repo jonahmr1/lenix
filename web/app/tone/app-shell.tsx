@@ -46,7 +46,7 @@ import {
 } from '@/components/ui/sidebar'
 import { useApp } from './provider'
 import { createClient } from '@/lib/supabase.client'
-import { createPlaylist } from '@/lib/tone.v2/playlist-actions'
+import { createPlaylist } from '@/lib/tone/playlist-actions'
 
 function PlaylistLinkLabel({ children }: { children: ReactNode }) {
   const { pending } = useLinkStatus()
