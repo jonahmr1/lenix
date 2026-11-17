@@ -425,7 +425,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </form>
         </DialogContent>
       </Dialog>
-      <SidebarInset>
+      <SidebarInset className='min-h-0 min-w-0 overflow-y-auto'>
         <header className='flex items-center justify-between border-b p-2 md:hidden'>
           <SidebarTrigger aria-label='Open playlists' />
           <Button
