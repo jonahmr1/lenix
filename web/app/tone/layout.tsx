@@ -3,7 +3,11 @@ import { cookies } from 'next/headers'
 import { SignIn } from '@/components/tone/sign-in'
 import { createClient } from '@/lib/supabase.server'
 import { AppProvider } from './provider'
-import { AppShell } from './app-shell'
+import { AppHeader } from '@/components/tone/app-header'
+import { PlaylistsSidebar } from '@/components/tone/playlists-sidebar'
+import { PlaylistActionDialog } from '@/components/tone/playlist-action-dialog'
+import { QueueSidebar } from '@/components/tone/queue-sidebar'
+import { SidebarInset } from '@/components/ui/sidebar'
 
 export default async function ToneLayout({
   children,
@@ -29,15 +33,24 @@ export default async function ToneLayout({
 
   return (
     <AppProvider key={user.id} playlists={playlists ?? []}>
-      <AppShell
-        account={{
-          name: user.user_metadata.full_name || user.email || 'Account',
-          email: user.email ?? '',
-          avatar: user.user_metadata.avatar_url,
-        }}
-      >
-        {children}
-      </AppShell>
+      <div className='flex min-h-0 flex-1'>
+        <PlaylistsSidebar
+          account={{
+            name: user.user_metadata.full_name || user.email || 'Account',
+            email: user.email ?? '',
+            avatar: user.user_metadata.avatar_url,
+          }}
+        />
+        <PlaylistActionDialog />
+        <SidebarInset className='min-h-0 min-w-0 overflow-hidden'>
+          <AppHeader />
+          <div className='flex min-h-0 flex-1 flex-col overflow-y-auto'>
+            {children}
+          </div>
+        </SidebarInset>
+        <QueueSidebar />
+      </div>
+      <footer aria-label='Player' className='h-20 shrink-0 bg-sidebar' />
     </AppProvider>
   )
 }

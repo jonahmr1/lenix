@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import artwork from '@/app/tone/assets/sign-in-artwork.webp'
+import artwork from '@/app/assets/sign-in-artwork.webp'
 import { AuthControls } from './auth-controls'
 
 export function SignIn({ initialMessage }: { initialMessage: string | null }) {
