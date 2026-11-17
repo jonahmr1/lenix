@@ -11,6 +11,12 @@ import {
 } from '@/components/ui/input-group'
 import { Spinner } from '@/components/ui/spinner'
 import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+} from '@/components/tone/context-menu'
+import {
   Empty,
   EmptyHeader,
   EmptyTitle,
@@ -218,36 +224,44 @@ export default function TonePage() {
           </TableHeader>
           <TableBody>
             {state.searchResults.map((track, index) => (
-              <TableRow key={track.id} className='border-0'>
-                <TableCell className='text-muted-foreground tabular-nums'>
-                  {index + 1}
-                </TableCell>
-                <TableCell>
-                  <div className='flex items-center gap-3'>
-                    <img
-                      src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-                      alt=''
-                      width={32}
-                      height={32}
-                      className='size-8 shrink-0 rounded-md object-cover'
-                    />
-                    <div className='min-w-0'>
-                      <p className='font-medium whitespace-normal'>
-                        {track.title}
-                      </p>
-                      <p className='mt-1 whitespace-normal text-muted-foreground sm:hidden'>
-                        {track.channel}
-                      </p>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className='hidden whitespace-normal text-muted-foreground sm:table-cell'>
-                  {track.channel}
-                </TableCell>
-                <TableCell className='text-right text-muted-foreground tabular-nums'>
-                  {track.duration}
-                </TableCell>
-              </TableRow>
+              <ContextMenu key={track.id}>
+                <ContextMenuTrigger asChild>
+                  <TableRow className='border-0' tabIndex={0}>
+                    <TableCell className='text-muted-foreground tabular-nums'>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>
+                      <div className='flex items-center gap-3'>
+                        <img
+                          src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+                          alt=''
+                          width={32}
+                          height={32}
+                          className='size-8 shrink-0 rounded-md object-cover'
+                        />
+                        <div className='min-w-0'>
+                          <p className='font-medium whitespace-normal'>
+                            {track.title}
+                          </p>
+                          <p className='mt-1 whitespace-normal text-muted-foreground sm:hidden'>
+                            {track.channel}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className='hidden whitespace-normal text-muted-foreground sm:table-cell'>
+                      {track.channel}
+                    </TableCell>
+                    <TableCell className='text-right text-muted-foreground tabular-nums'>
+                      {track.duration}
+                    </TableCell>
+                  </TableRow>
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  <ContextMenuItem>Add to playlist</ContextMenuItem>
+                  <ContextMenuItem>Auto-fit</ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             ))}
           </TableBody>
         </Table>
