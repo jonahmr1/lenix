@@ -21,6 +21,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+} from '@/components/ui/empty'
 import { Input } from '@/components/ui/input'
 import { Field, FieldLabel } from '@/components/ui/field'
 import { Kbd, KbdGroup } from '@/components/ui/kbd'
@@ -207,55 +213,70 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarMenu className='not-typeset'>
-              {state.playlists.map(playlist => (
-                <SidebarMenuItem key={playlist.id}>
-                  <ContextMenu>
-                    <ContextMenuTrigger asChild>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={playlistId === playlist.id}
-                      >
-                        <Link
-                          href={`/tone/playlist/${playlist.id}`}
-                          className='has-[[data-pending=true]]:cursor-progress'
-                          aria-current={
-                            playlistId === playlist.id ? 'page' : undefined
-                          }
-                          onClick={() => setOpenMobile(false)}
+          <SidebarGroup
+            className={state.playlists.length === 0 ? 'flex-1' : undefined}
+          >
+            {state.playlists.length === 0 ? (
+              <Empty>
+                <EmptyHeader>
+                  <EmptyTitle>No playlists yet</EmptyTitle>
+                  <EmptyDescription>
+                    Create your first playlist using the + above.
+                  </EmptyDescription>
+                </EmptyHeader>
+              </Empty>
+            ) : (
+              <SidebarMenu className='not-typeset'>
+                {state.playlists.map(playlist => (
+                  <SidebarMenuItem key={playlist.id}>
+                    <ContextMenu>
+                      <ContextMenuTrigger asChild>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={playlistId === playlist.id}
                         >
-                          <PlaylistLinkLabel>{playlist.name}</PlaylistLinkLabel>
-                        </Link>
-                      </SidebarMenuButton>
-                    </ContextMenuTrigger>
-                    <ContextMenuContent>
-                      <ContextMenuItem
-                        onSelect={() =>
-                          setState(previous => ({
-                            ...previous,
-                            playlistAction: { type: 'rename', ...playlist },
-                          }))
-                        }
-                      >
-                        Rename
-                      </ContextMenuItem>
-                      <ContextMenuItem
-                        variant='destructive'
-                        onSelect={() =>
-                          setState(previous => ({
-                            ...previous,
-                            playlistAction: { type: 'delete', ...playlist },
-                          }))
-                        }
-                      >
-                        Delete
-                      </ContextMenuItem>
-                    </ContextMenuContent>
-                  </ContextMenu>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+                          <Link
+                            href={`/tone/playlist/${playlist.id}`}
+                            className='has-[[data-pending=true]]:cursor-progress'
+                            aria-current={
+                              playlistId === playlist.id ? 'page' : undefined
+                            }
+                            onClick={() => setOpenMobile(false)}
+                          >
+                            <PlaylistLinkLabel>
+                              {playlist.name}
+                            </PlaylistLinkLabel>
+                          </Link>
+                        </SidebarMenuButton>
+                      </ContextMenuTrigger>
+                      <ContextMenuContent>
+                        <ContextMenuItem
+                          onSelect={() =>
+                            setState(previous => ({
+                              ...previous,
+                              playlistAction: { type: 'rename', ...playlist },
+                            }))
+                          }
+                        >
+                          Rename
+                        </ContextMenuItem>
+                        <ContextMenuItem
+                          variant='destructive'
+                          onSelect={() =>
+                            setState(previous => ({
+                              ...previous,
+                              playlistAction: { type: 'delete', ...playlist },
+                            }))
+                          }
+                        >
+                          Delete
+                        </ContextMenuItem>
+                      </ContextMenuContent>
+                    </ContextMenu>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            )}
           </SidebarGroup>
         </SidebarContent>
         <SidebarRail
