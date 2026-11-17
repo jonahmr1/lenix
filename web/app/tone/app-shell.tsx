@@ -3,7 +3,12 @@
 import { startTransition, useEffect, type ReactNode } from 'react'
 import Link, { useLinkStatus } from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { ContextMenu } from 'radix-ui'
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+} from '@/components/tone/context-menu'
 import { PlusIcon, SidebarIcon } from '@phosphor-icons/react'
 import {
   Dialog,
@@ -39,6 +44,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { useApp } from './provider'
+import { createClient } from '@/lib/supabase.client'
 
 function PlaylistLinkLabel({ children }: { children: ReactNode }) {
   const { pending } = useLinkStatus()
@@ -168,8 +174,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <SidebarMenu className='not-typeset'>
               {state.playlists.map(playlist => (
                 <SidebarMenuItem key={playlist.id}>
-                  <ContextMenu.Root>
-                    <ContextMenu.Trigger asChild>
+                  <ContextMenu>
+                    <ContextMenuTrigger asChild>
                       <SidebarMenuButton
                         asChild
                         isActive={playlistId === playlist.id}
@@ -185,34 +191,31 @@ export function AppShell({ children }: { children: ReactNode }) {
                           <PlaylistLinkLabel>{playlist.name}</PlaylistLinkLabel>
                         </Link>
                       </SidebarMenuButton>
-                    </ContextMenu.Trigger>
-                    <ContextMenu.Portal>
-                      <ContextMenu.Content className='z-50 min-w-32 rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10'>
-                        <ContextMenu.Item
-                          className='flex min-h-7 cursor-default items-center rounded-md px-2 py-1 text-xs outline-hidden select-none focus:bg-accent focus:text-accent-foreground'
-                          onSelect={() =>
-                            setState(previous => ({
-                              ...previous,
-                              playlistAction: { type: 'rename', ...playlist },
-                            }))
-                          }
-                        >
-                          Rename
-                        </ContextMenu.Item>
-                        <ContextMenu.Item
-                          className='flex min-h-7 cursor-default items-center rounded-md px-2 py-1 text-xs text-destructive outline-hidden select-none focus:bg-destructive/10'
-                          onSelect={() =>
-                            setState(previous => ({
-                              ...previous,
-                              playlistAction: { type: 'delete', ...playlist },
-                            }))
-                          }
-                        >
-                          Delete
-                        </ContextMenu.Item>
-                      </ContextMenu.Content>
-                    </ContextMenu.Portal>
-                  </ContextMenu.Root>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent>
+                      <ContextMenuItem
+                        onSelect={() =>
+                          setState(previous => ({
+                            ...previous,
+                            playlistAction: { type: 'rename', ...playlist },
+                          }))
+                        }
+                      >
+                        Rename
+                      </ContextMenuItem>
+                      <ContextMenuItem
+                        variant='destructive'
+                        onSelect={() =>
+                          setState(previous => ({
+                            ...previous,
+                            playlistAction: { type: 'delete', ...playlist },
+                          }))
+                        }
+                      >
+                        Delete
+                      </ContextMenuItem>
+                    </ContextMenuContent>
+                  </ContextMenu>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -228,8 +231,12 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Dialog
         open={state.playlistAction !== null}
         onOpenChange={open => {
-          if (!open)
-            setState(previous => ({ ...previous, playlistAction: null }))
+          if (!open && !state.playlistSaving)
+            setState(previous => ({
+              ...previous,
+              playlistAction: null,
+              playlistError: '',
+            }))
         }}
       >
         <DialogContent>
@@ -240,21 +247,59 @@ export function AppShell({ children }: { children: ReactNode }) {
                 : 'Delete playlist?'}
             </DialogTitle>
             {state.playlistAction?.type === 'delete' && (
-							<DialogDescription>
-								Delete <b className='font-black'>{state.playlistAction?.name}</b>? This cannot be undone
-							</DialogDescription>
-						)}
+              <DialogDescription>
+                Delete{' '}
+                <b className='font-black'>{state.playlistAction?.name}</b>? This
+                cannot be undone
+              </DialogDescription>
+            )}
           </DialogHeader>
           <form
             className='grid gap-4'
-            onSubmit={event => {
+            onSubmit={async event => {
               event.preventDefault()
               const action = state.playlistAction
-              if (!action) return
+              if (!action || state.playlistSaving) return
               const name = String(
                 new FormData(event.currentTarget).get('name') ?? ''
               ).trim()
               if (action.type === 'rename' && !name) return
+              setState(previous => ({
+                ...previous,
+                playlistSaving: true,
+                playlistError: '',
+              }))
+              try {
+                const supabase = createClient()
+                const {
+                  data: { user },
+                  error: authError,
+                } = await supabase.auth.getUser()
+                if (authError || !user) throw new Error('Please sign in again.')
+                const query =
+                  action.type === 'rename'
+                    ? supabase.from('playlists').update({ label: name })
+                    : supabase.from('playlists').delete()
+                const { data, error } = await query
+                  .eq('id', action.id)
+                  .eq('user_id', user.id)
+                  .select('id')
+                  .single()
+                if (error || !data)
+                  throw new Error(
+                    `Couldn’t ${action.type} your playlist. Please try again.`
+                  )
+              } catch (error) {
+                setState(previous => ({
+                  ...previous,
+                  playlistSaving: false,
+                  playlistError:
+                    error instanceof Error
+                      ? error.message
+                      : 'Something went wrong. Please try again.',
+                }))
+                return
+              }
               startTransition(() => {
                 if (action.type === 'delete' && playlistId === action.id)
                   router.replace('/tone')
@@ -271,6 +316,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                           playlist => playlist.id !== action.id
                         ),
                   playlistAction: null,
+                  playlistSaving: false,
                 }))
               })
             }}
@@ -279,6 +325,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Field>
                 <FieldLabel htmlFor='rename-playlist-name'>Name</FieldLabel>
                 <Input
+                  disabled={state.playlistSaving}
                   id='rename-playlist-name'
                   name='name'
                   defaultValue={state.playlistAction.name}
@@ -288,8 +335,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                 />
               </Field>
             )}
+            {state.playlistError && (
+              <p role='alert' className='text-sm text-destructive'>
+                {state.playlistError}
+              </p>
+            )}
             <DialogFooter>
               <Button
+                disabled={state.playlistSaving}
                 className='w-full'
                 type='submit'
                 variant={
@@ -298,7 +351,13 @@ export function AppShell({ children }: { children: ReactNode }) {
                     : 'default'
                 }
               >
-                {state.playlistAction?.type === 'rename' ? 'Save' : 'Delete'}
+                {state.playlistSaving
+                  ? state.playlistAction?.type === 'rename'
+                    ? 'Saving…'
+                    : 'Deleting…'
+                  : state.playlistAction?.type === 'rename'
+                    ? 'Save'
+                    : 'Delete'}
               </Button>
             </DialogFooter>
           </form>
