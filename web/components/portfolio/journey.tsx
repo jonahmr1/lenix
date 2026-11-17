@@ -90,16 +90,16 @@ const JourneyTimeline = async () => {
           const Icon = statusIcons[status].icon
           const hover =
             status === 'pending' ? (
-              <CircleNotchIcon className="animate-spin" />
+              <CircleNotchIcon className='animate-spin' />
             ) : (
-              <Icon weight="bold" />
+              <Icon weight='bold' />
             )
 
           return (
             <TimelineItem
               step={i}
               key={id}
-              className="landscape:w-[calc(50%-1.5rem)] landscape:odd:ms-auto landscape:even:me-auto landscape:even:text-right landscape:even:group-data-[orientation=vertical]/timeline:ms-0 landscape:even:group-data-[orientation=vertical]/timeline:me-8 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:-right-6 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:left-auto landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:translate-x-1/2 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:-right-6 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:left-auto landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2"
+              className='landscape:w-[calc(50%-1.5rem)] landscape:odd:ms-auto landscape:even:me-auto landscape:even:text-right landscape:even:group-data-[orientation=vertical]/timeline:ms-0 landscape:even:group-data-[orientation=vertical]/timeline:me-8 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:-right-6 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:left-auto landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-indicator]:translate-x-1/2 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:-right-6 landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:left-auto landscape:even:group-data-[orientation=vertical]/timeline:**:data-[slot=timeline-separator]:translate-x-1/2'
             >
               <Reveal>
                 <TimelineHeader>
@@ -108,36 +108,36 @@ const JourneyTimeline = async () => {
                   )}
                   <TimelineTitle>
                     <HoverCard openDelay={50} closeDelay={50}>
-                      <HoverCardTrigger className="cursor-default">
+                      <HoverCardTrigger className='cursor-default'>
                         {title}
                       </HoverCardTrigger>
-                      <HoverCardContent side="top" className="w-fit">
+                      <HoverCardContent side='top' className='w-fit'>
                         <Link
                           href={sources[0]}
-                          target="_blank"
-                          className="flex items-center justify-center gap-2"
+                          target='_blank'
+                          className='flex items-center justify-center gap-2'
                         >
-                          <span className="truncate">{sources[0]}</span>
+                          <span className='truncate'>{sources[0]}</span>
                           <ArrowSquareOutIcon />
                         </Link>
                       </HoverCardContent>
                     </HoverCard>
                   </TimelineTitle>
                 </TimelineHeader>
-                <TimelineContent className="space-y-2">
+                <TimelineContent className='space-y-2'>
                   <div>{description}</div>
                   {achievements.length > 1 && (
                     <ul className={`text-[1.5vh] ${i % 2 && 'list-none'}`}>
                       {achievements.map((achievement, it) => (
-                        <li key={achievement} className="text-left">
+                        <li key={achievement} className='text-left'>
                           {sources[it + 1] ? (
                             <Link
                               href={sources[it + 1]}
-                              target="_blank"
-                              className="flex items-center gap-2"
+                              target='_blank'
+                              className='flex items-center gap-2'
                             >
                               <span>{achievement}</span>
-                              <ArrowSquareOutIcon className="min-h-[1vh] min-w-[1vw]" />
+                              <ArrowSquareOutIcon className='min-h-[1vh] min-w-[1vw]' />
                               {i % 2 ? <span>•</span> : ''}
                             </Link>
                           ) : (
@@ -147,12 +147,12 @@ const JourneyTimeline = async () => {
                       ))}
                     </ul>
                   )}
-                  <div className="space-y-px space-x-1">
+                  <div className='space-y-px space-x-1'>
                     {tech?.map(self => (
                       <Badge
                         key={self}
-                        variant="outline"
-                        className="text-accent-foreground"
+                        variant='outline'
+                        className='text-accent-foreground'
                       >
                         {self}
                       </Badge>

@@ -75,26 +75,26 @@ export function AuthControls({
   }
 
   return (
-    <div className="space-y-8">
+    <div className='space-y-8'>
       {!compact && (
-        <div className="space-y-3 text-center">
-          <h1 className="text-3xl font-normal tracking-tight sm:text-4xl">
+        <div className='space-y-3 text-center'>
+          <h1 className='text-3xl font-normal tracking-tight sm:text-4xl'>
             {account ? 'Your account' : 'Welcome to Tonelix'}
           </h1>
         </div>
       )}
 
       {account && !compact && (
-        <div className="rounded-md border border-border px-4 py-3">
-          <p className="text-xs text-muted-foreground">Signed in as</p>
-          <p className="mt-1 text-sm font-medium break-all">
+        <div className='rounded-md border border-border px-4 py-3'>
+          <p className='text-xs text-muted-foreground'>Signed in as</p>
+          <p className='mt-1 text-sm font-medium break-all'>
             {account.email ?? 'Your Google account'}
           </p>
         </div>
       )}
 
       <Button
-        type="button"
+        type='button'
         variant={account ? 'destructive' : 'default'}
         className={
           compact
@@ -106,11 +106,11 @@ export function AuthControls({
         onClick={account ? signOut : signIn}
       >
         {pending ? (
-          <Spinner aria-hidden="true" />
+          <Spinner aria-hidden='true' />
         ) : account ? (
-          <SignOutIcon aria-hidden="true" />
+          <SignOutIcon aria-hidden='true' />
         ) : (
-          <GoogleLogoIcon aria-hidden="true" />
+          <GoogleLogoIcon aria-hidden='true' />
         )}
         {pending
           ? account

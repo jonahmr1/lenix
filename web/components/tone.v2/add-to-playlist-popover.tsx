@@ -57,17 +57,17 @@ export function AddToPlaylistPopover({
     >
       <PopoverTrigger asChild>
         <Button
-          variant="ghost"
-          className="size-11 shrink-0"
+          variant='ghost'
+          className='size-11 shrink-0'
           aria-label={`Add ${track.title} to a playlist`}
         >
-          <PlusIcon aria-hidden="true" />
+          <PlusIcon aria-hidden='true' />
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align="end"
-        className="not-typeset max-w-[calc(100vw-2rem)]"
-        aria-label="Add to playlist"
+        align='end'
+        className='not-typeset max-w-[calc(100vw-2rem)]'
+        aria-label='Add to playlist'
       >
         <PopoverHeader>
           <PopoverTitle>Add to playlist</PopoverTitle>
@@ -76,33 +76,33 @@ export function AddToPlaylistPopover({
           <Command
             aria-busy={pending}
             tabIndex={0}
-            aria-label="Choose a playlist"
+            aria-label='Choose a playlist'
           >
-            <CommandList aria-label="Choose a playlist">
+            <CommandList aria-label='Choose a playlist'>
               {playlists.map(playlist => (
                 <CommandItem
                   key={playlist.id}
                   value={playlist.id}
                   disabled={pending}
                   onSelect={() => save(playlist)}
-                  className="min-h-11 text-sm"
+                  className='min-h-11 text-sm'
                 >
-                  <MusicNotesIcon aria-hidden="true" />
-                  <span className="min-w-0 flex-1 truncate">
+                  <MusicNotesIcon aria-hidden='true' />
+                  <span className='min-w-0 flex-1 truncate'>
                     {playlist.label}
                   </span>
-                  <span className="text-muted-foreground">
+                  <span className='text-muted-foreground'>
                     {playlist.trackCount}
                   </span>
                 </CommandItem>
               ))}
             </CommandList>
             {pending && (
-              <Spinner className="mx-auto my-2" aria-label="Adding track" />
+              <Spinner className='mx-auto my-2' aria-label='Adding track' />
             )}
           </Command>
         ) : (
-          <p className="text-sm text-muted-foreground">
+          <p className='text-sm text-muted-foreground'>
             Create a playlist from the Playlists sidebar first.
           </p>
         )}

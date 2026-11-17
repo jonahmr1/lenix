@@ -46,21 +46,21 @@ const Lines = async () => {
   const states = await cache.github()
 
   return (
-    <div className="flex size-full flex-col items-start justify-start gap-5 py-10 portrait:items-center">
+    <div className='flex size-full flex-col items-start justify-start gap-5 py-10 portrait:items-center'>
       {entries(states.data.lines).map(([type, stat]) => (
         <Fragment key={type}>
-          <div className="flex items-center gap-5">
+          <div className='flex items-center gap-5'>
             {type === 'added' ? (
-              <PlusIcon className="text-4xl" />
+              <PlusIcon className='text-4xl' />
             ) : (
-              <MinusIcon className="text-4xl" />
+              <MinusIcon className='text-4xl' />
             )}
             <div>
-              <p className="text-6xl text-foreground">{compact.format(stat)}</p>
+              <p className='text-6xl text-foreground'>{compact.format(stat)}</p>
               <Muted>Lines {type}</Muted>
             </div>
           </div>
-          <Separator className="last:hidden" />
+          <Separator className='last:hidden' />
         </Fragment>
       ))}
     </div>
@@ -70,23 +70,23 @@ const LastUpdated = async () => {
   await connection()
   const states = await cache.github()
 
-  return <p className="text-foreground">{dayjs(states.updated_at).fromNow()}</p>
+  return <p className='text-foreground'>{dayjs(states.updated_at).fromNow()}</p>
 }
 
 export const Stats = () => (
-  <div className="flex size-full gap-10 portrait:flex-col">
-    <Card className="flex size-full flex-col">
-      <CardHeader className="items-center pb-0">
+  <div className='flex size-full gap-10 portrait:flex-col'>
+    <Card className='flex size-full flex-col'>
+      <CardHeader className='items-center pb-0'>
         <CardTitle>Stats Breakdown</CardTitle>
         <CardDescription>Live Stats</CardDescription>
-        <CardAction className="flex items-center gap-1">
-          <p className="text-accent-foreground">Refreshed:</p>
-          <Suspense fallback={<Skeleton className="h-3 w-20" />}>
+        <CardAction className='flex items-center gap-1'>
+          <p className='text-accent-foreground'>Refreshed:</p>
+          <Suspense fallback={<Skeleton className='h-3 w-20' />}>
             <LastUpdated />
           </Suspense>
         </CardAction>
       </CardHeader>
-      <CardContent className="flex justify-between px-5 pb-5 portrait:flex-col portrait:gap-10">
+      <CardContent className='flex justify-between px-5 pb-5 portrait:flex-col portrait:gap-10'>
         {[
           {
             title: 'Languages (bytes)',
@@ -98,15 +98,15 @@ export const Stats = () => (
           },
         ].map(({ title, element }) => (
           <Fragment key={title}>
-            <div className="flex w-45/100 flex-col portrait:h-45/100 portrait:w-full">
-              <h3 className="text-accent-foreground">{title}</h3>
-              <div className="min-h-0 flex-1">
-                <Suspense fallback={<Skeleton className="aspect-square" />}>
+            <div className='flex w-45/100 flex-col portrait:h-45/100 portrait:w-full'>
+              <h3 className='text-accent-foreground'>{title}</h3>
+              <div className='min-h-0 flex-1'>
+                <Suspense fallback={<Skeleton className='aspect-square' />}>
                   {element}
                 </Suspense>
               </div>
             </div>
-            <Separator orientation="vertical" className="last:hidden" />
+            <Separator orientation='vertical' className='last:hidden' />
           </Fragment>
         ))}
       </CardContent>

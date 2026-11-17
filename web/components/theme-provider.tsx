@@ -10,8 +10,8 @@ function ThemeProvider({
 }: React.ComponentProps<typeof NextThemesProvider> & { enableHotkey?: true }) {
   return (
     <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
+      attribute='class'
+      defaultTheme='system'
       enableSystem
       disableTransitionOnChange
       {...props}

@@ -30,19 +30,19 @@ const data = [
 ]
 
 export const Nav = () => (
-  <NavigationMenu className="absolute top-[2vh] left-0" viewport={false}>
+  <NavigationMenu className='absolute top-[2vh] left-0' viewport={false}>
     <NavigationMenuList>
       <NavigationMenuItem>
         <NavigationMenuTrigger>
           <ListIcon />
         </NavigationMenuTrigger>
-        <NavigationMenuContent className="inset-s-0">
+        <NavigationMenuContent className='inset-s-0'>
           {data.map(({ link, label }) => (
             <NavigationMenuLink
               key={label}
               href={link}
-              className="whitespace-nowrap no-underline"
-              target="_blank"
+              className='whitespace-nowrap no-underline'
+              target='_blank'
             >
               {label}
             </NavigationMenuLink>

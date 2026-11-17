@@ -13,6 +13,7 @@ export default defineConfig({
     stylesheet: 'app/globals.css',
     functions: ['cn', 'cva'],
   },
+  jsxSingleQuote: true,
   ignorePatterns: [
     'dist/',
     'node_modules/',
@@ -21,5 +22,6 @@ export default defineConfig({
     'coverage/',
     'pnpm-lock.yaml',
     '.pnpm-store/',
+    'components/ui',
   ],
 })

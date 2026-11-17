@@ -44,15 +44,15 @@ export function PlaylistSidebar({
   )
 
   return (
-    <Sidebar side="left" className="absolute h-full" aria-label="Playlists">
-      <SidebarHeader className="not-typeset flex-row items-center justify-between p-4">
-				<h2 className="text-sm font-medium">Playlists</h2>
-        <div className="group/create-playlist flex items-center gap-1">
+    <Sidebar side='left' className='absolute h-full' aria-label='Playlists'>
+      <SidebarHeader className='not-typeset flex-row items-center justify-between p-4'>
+        <h2 className='text-sm font-medium'>Playlists</h2>
+        <div className='group/create-playlist flex items-center gap-1'>
           <CreatePlaylistDialog onCreated={selectPlaylist} />
-					<SidebarTrigger className="size-11" aria-label="Toggle playlists" />
+          <SidebarTrigger className='size-11' aria-label='Toggle playlists' />
         </div>
       </SidebarHeader>
-      <SidebarContent className="not-typeset">{playlistList}</SidebarContent>
+      <SidebarContent className='not-typeset'>{playlistList}</SidebarContent>
     </Sidebar>
   )
 }

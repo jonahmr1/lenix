@@ -5,17 +5,17 @@ interface Children {
 }
 
 export const Code = ({ children }: Children) => (
-  <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+  <code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold'>
     {children}
   </code>
 )
 
 export const Large = ({ children }: Children) => (
-  <div className="text-lg font-semibold">{children}</div>
+  <div className='text-lg font-semibold'>{children}</div>
 )
 
 export const Lead = ({ children }: Children) => (
-  <p className="text-xl text-foreground">{children}</p>
+  <p className='text-xl text-foreground'>{children}</p>
 )
 
 export const Muted = ({
@@ -25,4 +25,4 @@ export const Muted = ({
   <p className={cn('text-sm text-muted-foreground', className)}>{children}</p>
 )
 
-export const Required = () => <span className="text-destructive">*</span>
+export const Required = () => <span className='text-destructive'>*</span>

@@ -4,7 +4,7 @@ import { Spinner } from '@/components/ui/spinner'
 
 export default function Loading() {
   return (
-    <Layout className="items-center">
+    <Layout className='items-center'>
       <Spinner />
     </Layout>
   )

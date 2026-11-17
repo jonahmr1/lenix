@@ -4,7 +4,7 @@ import { createMDX } from 'fumadocs-mdx/next'
 const nextConfig: NextConfig = {
   cacheComponents: true,
   allowedDevOrigins: ['192.168.100.202', 'macbook-air-lenix.local'],
-	images: {
+  images: {
     remotePatterns: [
       {
         protocol: 'https',

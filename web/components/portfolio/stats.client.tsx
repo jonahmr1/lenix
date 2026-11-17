@@ -37,7 +37,7 @@ export const LanguagesChart = ({ langs }: { langs: Language[] }) => {
 
   return (
     <ChartContainer
-      className="mx-auto aspect-square w-full max-w-sm"
+      className='mx-auto aspect-square w-full max-w-sm'
       config={chart.config}
     >
       <PieChart>
@@ -57,7 +57,7 @@ export const LanguagesChart = ({ langs }: { langs: Language[] }) => {
               y={props.y}
               textAnchor={props.textAnchor}
               dominantBaseline={props.dominantBaseline}
-              fill="var(--foreground)"
+              fill='var(--foreground)'
             >
               {compact.format(payload[data.value])}
             </text>
@@ -66,7 +66,7 @@ export const LanguagesChart = ({ langs }: { langs: Language[] }) => {
         <ChartLegend
           itemSorter={null}
           content={<ChartLegendContent nameKey={data.key} />}
-          className="flex-wrap gap-0.5 *:basis-1/4 *:justify-center"
+          className='flex-wrap gap-0.5 *:basis-1/4 *:justify-center'
         />
       </PieChart>
     </ChartContainer>

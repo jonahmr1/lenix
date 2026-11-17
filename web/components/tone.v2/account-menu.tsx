@@ -31,9 +31,9 @@ export function AccountMenu({
     : email?.[0]?.toUpperCase()
   const accountAvatar = (
     <Avatar>
-      <AvatarImage src={avatarUrl ?? undefined} alt="" />
+      <AvatarImage src={avatarUrl ?? undefined} alt='' />
       <AvatarFallback>
-        {initials || <UserCircleIcon aria-hidden="true" className="size-5" />}
+        {initials || <UserCircleIcon aria-hidden='true' className='size-5' />}
       </AvatarFallback>
     </Avatar>
   )
@@ -42,25 +42,25 @@ export function AccountMenu({
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant="ghost"
-          className="size-11"
-          aria-label="Open account menu"
+          variant='ghost'
+          className='size-11'
+          aria-label='Open account menu'
         >
           {accountAvatar}
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align="end"
-        className="not-typeset p-4"
-        aria-label="Your account"
+        align='end'
+        className='not-typeset p-4'
+        aria-label='Your account'
       >
-        <div className="flex items-center gap-3">
+        <div className='flex items-center gap-3'>
           {accountAvatar}
-          <PopoverHeader className="min-w-0">
-            <PopoverTitle className="break-words">
+          <PopoverHeader className='min-w-0'>
+            <PopoverTitle className='break-words'>
               {name ?? 'Your account'}
             </PopoverTitle>
-            <PopoverDescription className="break-all">
+            <PopoverDescription className='break-all'>
               {email ?? 'Signed in with Google'}
             </PopoverDescription>
           </PopoverHeader>

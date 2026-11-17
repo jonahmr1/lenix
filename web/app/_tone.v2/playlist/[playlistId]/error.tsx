@@ -15,8 +15,8 @@ export default function PlaylistError({ retry }: { retry: () => void }) {
   }, [])
 
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <Button variant="outline" className="h-10" onClick={retry}>
+    <div className='flex flex-1 items-center justify-center'>
+      <Button variant='outline' className='h-10' onClick={retry}>
         Retry loading playlist
       </Button>
     </div>

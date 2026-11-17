@@ -17,7 +17,7 @@ import { asserts } from '@lenix/lenix'
 import { Layout } from '@/components/layout'
 import { Reveal } from '@/components/reveal'
 
-const Required = () => <span className="text-destructive">*</span>
+const Required = () => <span className='text-destructive'>*</span>
 
 export default function Contact() {
   const [, action, pending] = useActionState(
@@ -44,74 +44,74 @@ export default function Contact() {
   )
 
   return (
-    <Layout className="flex flex-col items-center bg-background">
-      <div className="flex w-2/3 flex-col items-center justify-between portrait:w-full">
-        <Reveal className="flex h-full w-full flex-1 flex-col justify-center gap-10">
+    <Layout className='flex flex-col items-center bg-background'>
+      <div className='flex w-2/3 flex-col items-center justify-between portrait:w-full'>
+        <Reveal className='flex h-full w-full flex-1 flex-col justify-center gap-10'>
           <div>
-            <p className="text-[11px] tracking-[3px] text-foreground/30 uppercase">
+            <p className='text-[11px] tracking-[3px] text-foreground/30 uppercase'>
               Get in touch
             </p>
-            <h1 className="text-5xl font-semibold tracking-tight">Contact</h1>
+            <h1 className='text-5xl font-semibold tracking-tight'>Contact</h1>
           </div>
           <form action={action}>
             <FieldSet>
               <FieldGroup>
-                <FieldGroup className="flex flex-row">
+                <FieldGroup className='flex flex-row'>
                   <Field>
-                    <FieldLabel htmlFor="name" className="text-foreground/40">
+                    <FieldLabel htmlFor='name' className='text-foreground/40'>
                       Name <Required />
                     </FieldLabel>
                     <Input
                       required
-                      id="name"
-                      name="name"
-                      autoComplete="off"
-                      placeholder="Lenix Dev"
-                      defaultValue="An Anonymous"
+                      id='name'
+                      name='name'
+                      autoComplete='off'
+                      placeholder='Jonah Marwan'
+                      defaultValue='An Anonymous'
                     />
                   </Field>
                   <Field>
-                    <FieldLabel htmlFor="email" className="text-foreground/40">
+                    <FieldLabel htmlFor='email' className='text-foreground/40'>
                       Email <Required />
                     </FieldLabel>
                     <Input
                       required
-                      name="email"
-                      type="email"
-                      id="email"
-                      placeholder="contact@lenix.dev"
+                      name='email'
+                      type='email'
+                      id='email'
+                      placeholder='contact@lenix.dev'
                     />
                   </Field>
                 </FieldGroup>
                 <Field>
-                  <FieldLabel htmlFor="subject" className="text-foreground/40">
+                  <FieldLabel htmlFor='subject' className='text-foreground/40'>
                     Subject <Required />
                   </FieldLabel>
                   <Input
                     required
-                    name="subject"
-                    type="text"
-                    id="subject"
-                    placeholder="Interest"
-                    defaultValue="Unsubjected message"
+                    name='subject'
+                    type='text'
+                    id='subject'
+                    placeholder='Interest'
+                    defaultValue='Unsubjected message'
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="message" className="text-foreground/40">
+                  <FieldLabel htmlFor='message' className='text-foreground/40'>
                     Message <Required />
                   </FieldLabel>
                   <InputGroup>
                     <InputGroupTextarea
                       required
-                      id="message"
-                      name="message"
-                      placeholder="Write a message..."
+                      id='message'
+                      name='message'
+                      placeholder='Write a message...'
                     />
-                    <InputGroupAddon align="block-end" className="justify-end">
+                    <InputGroupAddon align='block-end' className='justify-end'>
                       <InputGroupButton
-                        type="submit"
-                        variant="default"
-                        size="sm"
+                        type='submit'
+                        variant='default'
+                        size='sm'
                         disabled={pending}
                       >
                         Send <ArrowRightIcon />

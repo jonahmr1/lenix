@@ -25,12 +25,12 @@ async function Results({ searchParams }: { searchParams: SearchParams }) {
     return (
       <AuthControls
         account={null}
-        initialMessage="Please sign in again to search."
+        initialMessage='Please sign in again to search.'
       />
     )
   if (!q)
     return (
-      <p className="py-8 text-sm text-muted-foreground">
+      <p className='py-8 text-sm text-muted-foreground'>
         Search for a song or artist on the Tonelix home page.
       </p>
     )
@@ -47,7 +47,7 @@ async function Results({ searchParams }: { searchParams: SearchParams }) {
     playlists = library.playlists
   } catch (error) {
     return (
-      <div className="py-8">
+      <div className='py-8'>
         <TrackError
           message={
             error instanceof Error
@@ -59,19 +59,19 @@ async function Results({ searchParams }: { searchParams: SearchParams }) {
     )
   }
   return (
-    <section className="w-full py-8">
-      <h1 className="text-xl font-medium break-words">Results for “{q}”</h1>
-      <p className="mt-1 mb-4 text-xs text-muted-foreground">From YouTube</p>
+    <section className='w-full py-8'>
+      <h1 className='text-xl font-medium break-words'>Results for “{q}”</h1>
+      <p className='mt-1 mb-4 text-xs text-muted-foreground'>From YouTube</p>
       {result.tracks.length ? (
         <TrackTable tracks={result.tracks} playlists={playlists} />
       ) : (
-        <p className="text-sm text-muted-foreground">
+        <p className='text-sm text-muted-foreground'>
           No tracks found. Try another song or artist.
         </p>
       )}
-      <div className="mt-4 flex justify-between gap-3">
+      <div className='mt-4 flex justify-between gap-3'>
         {page && (
-          <Button variant="outline" asChild>
+          <Button variant='outline' asChild>
             <Link
               prefetch={false}
               href={`/tone/search?${new URLSearchParams({ q })}`}
@@ -81,7 +81,7 @@ async function Results({ searchParams }: { searchParams: SearchParams }) {
           </Button>
         )}
         {result.nextPageToken && (
-          <Button variant="outline" asChild className="ml-auto">
+          <Button variant='outline' asChild className='ml-auto'>
             <Link
               prefetch={false}
               href={`/tone/search?${new URLSearchParams({ q, page: result.nextPageToken })}`}
@@ -104,9 +104,9 @@ export default function SearchPage({
     <Suspense
       fallback={
         <SpinnerIcon
-          role="status"
-          aria-label="Searching YouTube"
-          className="mx-auto my-8 size-5 animate-spin"
+          role='status'
+          aria-label='Searching YouTube'
+          className='mx-auto my-8 size-5 animate-spin'
         />
       }
     >

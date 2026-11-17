@@ -25,35 +25,35 @@ export function PlaylistList({
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   return (
-    <div className="space-y-5 p-5">
+    <div className='space-y-5 p-5'>
       {error ? (
         <Button
-          variant="outline"
-          className="h-10 w-full text-sm"
+          variant='outline'
+          className='h-10 w-full text-sm'
           disabled={pending}
           onClick={() => startTransition(() => router.refresh())}
         >
           {pending ? 'Loading…' : 'Retry loading playlists'}
         </Button>
       ) : playlists.length ? (
-        <SidebarMenu aria-label="Your playlists">
+        <SidebarMenu aria-label='Your playlists'>
           {playlists.map(playlist => (
             <SidebarMenuItem key={playlist.id}>
               <SidebarMenuButton
                 asChild
                 isActive={selectedId === playlist.id}
-                className="h-auto min-h-11 w-full justify-start gap-3 px-3 py-2 text-left text-sm"
+                className='h-auto min-h-11 w-full justify-start gap-3 px-3 py-2 text-left text-sm'
               >
                 <Link
                   href={`/tone/playlist/${playlist.id}`}
                   onClick={onSelect}
                   aria-current={selectedId === playlist.id ? 'page' : undefined}
                 >
-                  <MusicNotesIcon aria-hidden="true" />
-                  <span className="min-w-0 flex-1 truncate">
+                  <MusicNotesIcon aria-hidden='true' />
+                  <span className='min-w-0 flex-1 truncate'>
                     {playlist.label}
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className='text-xs text-muted-foreground'>
                     {playlist.trackCount}
                   </span>
                 </Link>
@@ -62,7 +62,7 @@ export function PlaylistList({
           ))}
         </SidebarMenu>
       ) : (
-        <p className="text-sm text-muted-foreground">
+        <p className='text-sm text-muted-foreground'>
           No playlists yet. Create your first one.
         </p>
       )}

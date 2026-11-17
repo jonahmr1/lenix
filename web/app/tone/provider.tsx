@@ -25,7 +25,10 @@ const AppContext = createContext<{
   setState: Dispatch<SetStateAction<AppState>>
 } | null>(null)
 
-export function AppProvider({ children, playlists }: {
+export function AppProvider({
+  children,
+  playlists,
+}: {
   children: ReactNode
   playlists: AppState['playlists']
 }) {
@@ -44,7 +47,9 @@ export function AppProvider({ children, playlists }: {
       <SidebarProvider
         keyboardShortcut={null}
         open={state.playlistsOpen}
-        onOpenChange={playlistsOpen => setState(previous => ({ ...previous, playlistsOpen }))}
+        onOpenChange={playlistsOpen =>
+          setState(previous => ({ ...previous, playlistsOpen }))
+        }
       >
         {children}
       </SidebarProvider>

@@ -10,25 +10,25 @@ export default function TonePage() {
         fallback={
           <Input
             disabled
-            aria-label="Loading search"
-            placeholder="Search YouTube tracks"
-            className="h-11 w-full"
+            aria-label='Loading search'
+            placeholder='Search YouTube tracks'
+            className='h-11 w-full'
           />
         }
       >
         <TrackSearchForm />
       </Suspense>
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 py-16 text-center">
-        <div className="rounded-full bg-muted p-5">
+      <div className='flex flex-1 flex-col items-center justify-center gap-4 py-16 text-center'>
+        <div className='rounded-full bg-muted p-5'>
           <MusicNotesIcon
-            aria-hidden="true"
-            className="size-8 text-muted-foreground"
+            aria-hidden='true'
+            className='size-8 text-muted-foreground'
           />
         </div>
-        <h1 className="text-2xl font-medium tracking-tight">
+        <h1 className='text-2xl font-medium tracking-tight'>
           Your space for music
         </h1>
-        <p className="max-w-xs text-sm text-muted-foreground">
+        <p className='max-w-xs text-sm text-muted-foreground'>
           Choose a playlist or create one to get started.
         </p>
       </div>

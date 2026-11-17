@@ -13,7 +13,7 @@ export function TrackError({ message }: { message: string }) {
   }, [message])
   return (
     <Button
-      variant="outline"
+      variant='outline'
       disabled={pending}
       onClick={() => startTransition(() => router.refresh())}
     >

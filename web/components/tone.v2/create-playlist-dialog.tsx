@@ -59,49 +59,49 @@ export function CreatePlaylistDialog({ onCreated }: { onCreated: () => void }) {
     >
       <DialogTrigger asChild>
         <Button
-          variant="ghost"
-          aria-label="Create playlist"
-          className="size-11 transition-opacity duration-200 motion-reduce:transition-none [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/create-playlist:opacity-100 [@media(hover:hover)]:group-focus-within/create-playlist:opacity-100 data-[state=open]:opacity-100"
+          variant='ghost'
+          aria-label='Create playlist'
+          className='size-11 transition-opacity duration-200 data-[state=open]:opacity-100 motion-reduce:transition-none [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/create-playlist:opacity-100 [@media(hover:hover)]:group-hover/create-playlist:opacity-100'
         >
-          <PlusIcon aria-hidden="true" />
+          <PlusIcon aria-hidden='true' />
         </Button>
       </DialogTrigger>
-      <DialogContent className="not-typeset" showCloseButton={!pending}>
+      <DialogContent className='not-typeset' showCloseButton={!pending}>
         <DialogHeader>
           <DialogTitle>Create playlist</DialogTitle>
           <DialogDescription>Give your playlist a name.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={submit} className="space-y-3" aria-busy={pending}>
+        <form onSubmit={submit} className='space-y-3' aria-busy={pending}>
           <Label htmlFor={inputId}>Playlist name</Label>
           <Input
             id={inputId}
-            name="name"
+            name='name'
             autoFocus
             required
             maxLength={100}
             value={name}
             onChange={event => setName(event.target.value)}
             disabled={pending}
-            placeholder="Give it a name"
-            className="h-10 text-base"
+            placeholder='Give it a name'
+            className='h-10 text-base'
           />
           <DialogFooter>
             <DialogClose asChild>
               <Button
-                type="button"
-                variant="ghost"
+                type='button'
+                variant='ghost'
                 disabled={pending}
-                className="h-10 text-sm"
+                className='h-10 text-sm'
               >
                 Cancel
               </Button>
             </DialogClose>
             <Button
-              type="submit"
+              type='submit'
               disabled={pending || !name.trim()}
-              className="h-10 gap-2 text-sm"
+              className='h-10 gap-2 text-sm'
             >
-              {pending && <Spinner aria-hidden="true" />}
+              {pending && <Spinner aria-hidden='true' />}
               {pending ? 'Creating…' : 'Create'}
             </Button>
           </DialogFooter>

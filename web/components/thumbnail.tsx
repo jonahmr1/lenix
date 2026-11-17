@@ -14,9 +14,9 @@ export const Thumbnail = ({
     className={cn('overflow-hidden after:border-0', className)}
     {...props}
   >
-    <AvatarImage className="scale-135" src={src} />
+    <AvatarImage className='scale-135' src={src} />
     <AvatarFallback>
-      <Skeleton className="size-full bg-ring" />
+      <Skeleton className='size-full bg-ring' />
     </AvatarFallback>
   </Avatar>
 )

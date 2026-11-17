@@ -215,10 +215,20 @@ export type Database = {
     Enums: {
       BadgeAlignment: 'left' | 'right'
       BadgeVariant:
-        'default' | 'secondary' | 'outline' | 'destructive' | 'link' | 'ghost'
+        | 'default'
+        | 'secondary'
+        | 'outline'
+        | 'destructive'
+        | 'link'
+        | 'ghost'
       legalType: 'terms' | 'privacy' | 'refund'
       statusType:
-        'success' | 'error' | 'paused' | 'canceled' | 'planned' | 'pending'
+        | 'success'
+        | 'error'
+        | 'paused'
+        | 'canceled'
+        | 'planned'
+        | 'pending'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -261,7 +271,8 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema['Tables'] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema['Tables']
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
@@ -285,7 +296,8 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema['Tables'] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema['Tables']
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
@@ -309,7 +321,8 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    keyof DefaultSchema['Enums'] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema['Enums']
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }

@@ -41,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang='en'
       suppressHydrationWarning
       className={cn(
         sourceSans3.variable,
@@ -50,8 +50,8 @@ export default function RootLayout({
         oxaniumHeading.variable
       )}
     >
-      <body className="typeset typeset-docs flex min-h-screen flex-col bg-[#a0ffed]">
-        <div className="bg-background">
+      <body className='typeset typeset-docs flex min-h-screen flex-col bg-[#a0ffed]'>
+        <div className='bg-background'>
           <ThemeProvider enableSystem>
             <TooltipProvider>
               {children}
