@@ -134,7 +134,7 @@ export default function TonePage() {
         </div>
       ) : state.searchResults?.length ? (
         <Table>
-          <TableHeader className='[&_tr]:border-0'>
+          <TableHeader>
             <TableRow>
               <TableHead className='w-10'>#</TableHead>
               <TableHead>Track</TableHead>
