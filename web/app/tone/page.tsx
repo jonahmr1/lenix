@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
-import { MagnifyingGlassIcon } from '@phosphor-icons/react'
+import { MagnifyingGlassIcon, SparkleIcon } from '@phosphor-icons/react'
 import {
   InputGroup,
   InputGroupAddon,
@@ -15,6 +15,10 @@ import {
   ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
+	ContextMenuSeparator,
+	ContextMenuGroup,
+	ContextMenuLabel,
+	ContextMenuCheckboxItem,
 } from '@/components/tone/context-menu'
 import {
   Empty,
@@ -258,8 +262,22 @@ export default function TonePage() {
                   </TableRow>
                 </ContextMenuTrigger>
                 <ContextMenuContent>
-                  <ContextMenuItem>Add to playlist</ContextMenuItem>
-                  <ContextMenuItem>Auto-fit</ContextMenuItem>
+									<ContextMenuGroup>
+										<ContextMenuItem>
+											<SparkleIcon />
+											<span>Auto-fit</span>
+										</ContextMenuItem>
+									</ContextMenuGroup>
+									<ContextMenuSeparator />
+									<ContextMenuGroup>
+										<ContextMenuLabel>Add to playlist</ContextMenuLabel>
+										{state.playlists.map(playlist => (
+											<ContextMenuCheckboxItem
+												key={playlist.id}
+												checked={playlist.id === track.id}
+											>{playlist.name}</ContextMenuCheckboxItem>
+										))}
+									</ContextMenuGroup>
                 </ContextMenuContent>
               </ContextMenu>
             ))}
