@@ -193,6 +193,11 @@ export default function TonePage() {
           </InputGroupAddon>
         </InputGroup>
       </form>
+      {state.searchResults !== null && !state.searchLoading && (
+        <h1 className='text-2xl font-semibold break-words md:text-3xl'>
+          Results for “{state.searchActiveQuery}”
+        </h1>
+      )}
       {state.searchLoading ? (
         <div
           role='status'
