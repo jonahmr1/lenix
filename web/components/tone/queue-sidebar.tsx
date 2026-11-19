@@ -22,12 +22,6 @@ export function QueueSidebar() {
   const queueHeader = (
     <SidebarHeader className='flex-row items-center justify-between'>
       Queue
-      {!isMobile && (
-        <KbdGroup className='p-1' aria-label='Control + M'>
-          <Kbd>Ctrl</Kbd>
-          <Kbd>M</Kbd>
-        </KbdGroup>
-      )}
     </SidebarHeader>
   )
 

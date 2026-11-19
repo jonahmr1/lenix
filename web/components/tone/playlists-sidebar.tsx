@@ -49,12 +49,6 @@ export function PlaylistsSidebar({ account }: { account: Account }) {
 		>
 			<SidebarHeader className='flex-row items-center justify-between'>
 				Playlists
-				{!isMobile && (
-					<KbdGroup className='p-1' aria-label='Control + B'>
-						<Kbd>Ctrl</Kbd>
-						<Kbd>B</Kbd>
-					</KbdGroup>
-				)}
 			</SidebarHeader>
 			<SidebarContent>
 				<ContextMenu>
