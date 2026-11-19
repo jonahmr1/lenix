@@ -202,7 +202,9 @@ export function ImportSpotifySheet() {
                   <WarningCircleIcon />
                 </MarkerIcon>
                 <MarkerContent>
-                  {result.skipped.length} tracks not imported
+                  {result.skipped.length}{' '}
+                  {result.skipped.length === 1 ? 'track' : 'tracks'} not
+                  imported
                 </MarkerContent>
               </Marker>
               <ul className='grid gap-3'>
@@ -211,6 +213,7 @@ export function ImportSpotifySheet() {
                     <Marker>
                       <MarkerContent>
                         {track.title} — {track.artist}
+                        {track.reason && ` · ${track.reason}`}
                       </MarkerContent>
                     </Marker>
                   </li>

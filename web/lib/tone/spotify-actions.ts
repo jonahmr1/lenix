@@ -11,7 +11,7 @@ type SpotifyTrack = {
   duration: number
   entityType: string
 }
-type SkippedTrack = { title: string; artist: string }
+type SkippedTrack = { title: string; artist: string; reason?: string }
 export type SpotifyImportResult =
   | { error: string; skipped?: SkippedTrack[] }
   | {
@@ -197,7 +197,13 @@ export async function matchSpotifyTracks(
         })
         .filter(track => track.eligible)
         .sort((a, b) => b.score - a.score)
-      if (ranked[0]) tracks.push(ranked[0].id)
+      if (ranked[0] && tracks.includes(ranked[0].id))
+        skipped.push({
+          title: song.title,
+          artist: song.subtitle,
+          reason: 'Matched a YouTube track already added',
+        })
+      else if (ranked[0]) tracks.push(ranked[0].id)
       else skipped.push({ title: song.title, artist: song.subtitle })
     }
     if (!tracks.length)
@@ -206,7 +212,7 @@ export async function matchSpotifyTracks(
           'No YouTube tracks were found for this playlist. No playlist was created.',
         skipped,
       }
-    return { tracks: [...new Set(tracks)], skipped }
+    return { tracks, skipped }
   } catch {
     return { error: 'Couldn’t match Spotify tracks. Please try again.' }
   }
