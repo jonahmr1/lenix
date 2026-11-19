@@ -3,12 +3,14 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useState,
   type Dispatch,
   type ReactNode,
   type SetStateAction,
 } from 'react'
 import { SidebarProvider } from '@/components/ui/sidebar'
+import { storage } from '@lenix/lenix'
 import type { SpotifyImportResult } from '@/lib/tone/spotify-actions'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 
@@ -28,6 +30,7 @@ type AppState = {
   playlistSaving: boolean
   playlists: { id: string; name: string; tracks: string[] }[]
   playlistsOpen: boolean
+  sidebarsRestored: boolean
   queueOpen: boolean
   queueMobileOpen: boolean
 }
@@ -60,9 +63,45 @@ export function AppProvider({
     playlists,
     playlistSaving: false,
     playlistsOpen: true,
+    sidebarsRestored: false,
     queueOpen: true,
     queueMobileOpen: false,
   })
+
+  useEffect(() => {
+    let playlistsOpen = true
+    let queueOpen = true
+    try {
+      playlistsOpen =
+        storage.get<Record<string, boolean>, string>('tone.playlistsOpen') !==
+        'false'
+      queueOpen =
+        storage.get<Record<string, boolean>, string>('tone.queueOpen') !==
+        'false'
+    } catch {}
+    setState(previous => ({
+      ...previous,
+      playlistsOpen,
+      queueOpen,
+      sidebarsRestored: true,
+    }))
+  }, [])
+
+  useEffect(() => {
+    if (!state.sidebarsRestored) return
+    try {
+      storage.set<Record<string, boolean>, string>(
+        'tone.playlistsOpen',
+        state.playlistsOpen
+      )
+      storage.set<Record<string, boolean>, string>(
+        'tone.queueOpen',
+        state.queueOpen
+      )
+    } catch {}
+  }, [state.sidebarsRestored, state.playlistsOpen, state.queueOpen])
+
+  if (!state.sidebarsRestored) return null
 
   return (
     <AppContext.Provider value={{ state, setState }}>

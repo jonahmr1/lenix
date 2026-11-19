@@ -335,7 +335,7 @@ export default function TonePage() {
 			) : (
 				<Empty>
 					<EmptyHeader>
-						<EmptyTitle>
+						<EmptyTitle>{/* Show history */}
 							{state.searchResults ? 'No results found' : 'Find your music'}
 						</EmptyTitle>
 						<EmptyDescription>
