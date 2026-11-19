@@ -1,6 +1,7 @@
 'use client'
 
 import Loading from '@/app/loading'
+
 import { Thumbnail } from '@/components/thumbnail'
 import { Button } from '@/components/ui/button'
 import {

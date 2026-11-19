@@ -19,7 +19,7 @@ import {
 	EmptyDescription,
 } from '@/components/ui/empty'
 import { Button } from '@/components/ui/button'
-import { ArrowLeftIcon, DotIcon } from '@phosphor-icons/react'
+import { ArrowLeftIcon, DotIcon, PlayIcon } from '@phosphor-icons/react'
 import { notFound, useParams } from 'next/navigation'
 import { useApp } from '@/app/tone/provider'
 import { Separator } from '../ui/separator'
@@ -57,12 +57,15 @@ export function PlaylistTracks({
 					<ArrowLeftIcon />
 				</Link>
 			</Button>
+			<h1 className='text-8xl font-bold'>{playlist.name}</h1>
+			<Separator />
 			<div className='flex items-center'>
-				<h1 className='text-8xl font-bold'>{playlist.name}</h1>
-				<DotIcon className='text-6xl' />
+				<Button className='size-12 rounded-full' size='icon-lg' aria-label='Play playlist'>
+					<PlayIcon className='size-2/3' weight='fill' />
+				</Button>
+				<DotIcon className='text-5xl' />
 				<p>{visibleTracks.length} Track</p>
 			</div>
-			<Separator />
 			{visibleTracks.length ? (
 				<Table>
 					<TableHeader>
