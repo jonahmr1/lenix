@@ -12,9 +12,21 @@ import {
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { storage } from '@lenix/lenix'
 import type { SpotifyImportResult } from '@/lib/tone/spotify-actions'
+import type { YouTubePlayer } from 'react-youtube'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 
 type AppState = {
+  player: YouTubePlayer | null
+  playback: {
+    playing: boolean
+    time: number
+    duration: number
+    volume: number
+    muted: boolean
+    rate: number
+    rates: number[]
+  }
+  currentTrack: SearchTrack | null
   searchQuery: string
   searchResults: SearchTrack[] | null
   searchLoading: boolean
@@ -48,6 +60,17 @@ export function AppProvider({
   playlists: AppState['playlists']
 }) {
   const [state, setState] = useState<AppState>({
+    player: null,
+    playback: {
+      playing: false,
+      time: 0,
+      duration: 0,
+      volume: 100,
+      muted: false,
+      rate: 1,
+      rates: [1],
+    },
+    currentTrack: null,
     searchQuery: '',
     searchResults: null,
     searchLoading: false,

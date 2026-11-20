@@ -7,6 +7,7 @@ import { AppHeader } from '@/components/tone/app-header'
 import { PlaylistsSidebar } from '@/components/tone/playlists-sidebar'
 import { PlaylistActionDialog } from '@/components/tone/playlist-action-dialog'
 import { QueueSidebar } from '@/components/tone/queue-sidebar'
+import { Player } from '@/components/tone/player'
 import { SidebarInset } from '@/components/ui/sidebar'
 
 export default async function ToneLayout({
@@ -50,7 +51,7 @@ export default async function ToneLayout({
         </SidebarInset>
         <QueueSidebar />
       </div>
-      <footer aria-label='Player' className='h-20 shrink-0 bg-sidebar' />
+      <Player />
     </AppProvider>
   )
 }

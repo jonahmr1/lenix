@@ -60,8 +60,19 @@ export function PlaylistTracks({
 			<h1 className='text-8xl font-bold'>{playlist.name}</h1>
 			<Separator />
 			<div className='flex items-center'>
-				<Button className='size-12 rounded-full' size='icon-lg' aria-label='Play playlist'>
-					<PlayIcon className='size-2/3' weight='fill' />
+				<Button
+					className='size-12 rounded-full'
+					size='icon-lg'
+					aria-label='Play playlist'
+					disabled={!visibleTracks.length}
+					onClick={() =>
+						setState(previous => ({
+							...previous,
+							currentTrack: visibleTracks[0],
+						}))
+					}
+				>
+					<PlayIcon className='size-1/2' weight='fill' />
 				</Button>
 				<DotIcon className='text-5xl' />
 				<p>{visibleTracks.length} Track</p>
@@ -80,7 +91,32 @@ export function PlaylistTracks({
 						{visibleTracks.map((track, index) => (
 							<ContextMenu key={track.id}>
 								<ContextMenuTrigger asChild>
-									<TableRow className='border-0' tabIndex={0}>
+									<TableRow
+										className='cursor-pointer border-0'
+										tabIndex={0}
+										aria-label={`Play ${track.title}`}
+										data-state={
+											state.currentTrack?.id === track.id
+												? 'selected'
+												: undefined
+										}
+										onClick={() =>
+											setState(previous => ({
+												...previous,
+												currentTrack: track,
+											}))
+										}
+										onKeyDown={event => {
+											if (event.target !== event.currentTarget) return
+											if (event.key === 'Enter' || event.key === ' ') {
+												event.preventDefault()
+												setState(previous => ({
+													...previous,
+													currentTrack: track,
+												}))
+											}
+										}}
+									>
 										<TableCell className='text-muted-foreground tabular-nums'>
 											{index + 1}
 										</TableCell>
@@ -128,11 +164,11 @@ export function PlaylistTracks({
 													playlists: previous.playlists.map(item =>
 														item.id === playlist.id
 															? {
-																...item,
-																tracks: item.tracks.filter(
-																	id => id !== track.id
-																),
-															}
+																	...item,
+																	tracks: item.tracks.filter(
+																		id => id !== track.id
+																	),
+																}
 															: item
 													),
 												}))

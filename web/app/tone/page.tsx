@@ -231,7 +231,32 @@ export default function TonePage() {
 						{state.searchResults.map((track, index) => (
 							<ContextMenu key={track.id}>
 								<ContextMenuTrigger asChild>
-									<TableRow className='border-0' tabIndex={0}>
+									<TableRow
+										className='cursor-pointer border-0'
+										tabIndex={0}
+										aria-label={`Play ${track.title}`}
+										data-state={
+											state.currentTrack?.id === track.id
+												? 'selected'
+												: undefined
+										}
+										onClick={() =>
+											setState(previous => ({
+												...previous,
+												currentTrack: track,
+											}))
+										}
+										onKeyDown={event => {
+											if (event.target !== event.currentTarget) return
+											if (event.key === 'Enter' || event.key === ' ') {
+												event.preventDefault()
+												setState(previous => ({
+													...previous,
+													currentTrack: track,
+												}))
+											}
+										}}
+									>
 										<TableCell className='text-muted-foreground tabular-nums'>
 											{index + 1}
 										</TableCell>
@@ -264,7 +289,9 @@ export default function TonePage() {
 								</ContextMenuTrigger>
 								<ContextMenuContent>
 									<ContextMenuGroup>
-										<ContextMenuItem onClick={() => toast.warning('Not available yet')}>
+										<ContextMenuItem
+											onClick={() => toast.warning('Not available yet')}
+										>
 											<SparkleIcon />
 											<span>Auto-fit</span>
 										</ContextMenuItem>
@@ -292,18 +319,18 @@ export default function TonePage() {
 															playlists: previous.playlists.map(item =>
 																item.id === playlist.id
 																	? {
-																		...item,
-																		tracks: checked
-																			? [
-																				...new Set([
-																					...item.tracks,
-																					track.id,
-																				]),
-																			]
-																			: item.tracks.filter(
-																				id => id !== track.id
-																			),
-																	}
+																			...item,
+																			tracks: checked
+																				? [
+																						...new Set([
+																							...item.tracks,
+																							track.id,
+																						]),
+																					]
+																				: item.tracks.filter(
+																						id => id !== track.id
+																					),
+																		}
 																	: item
 															),
 														}))
@@ -335,7 +362,8 @@ export default function TonePage() {
 			) : (
 				<Empty>
 					<EmptyHeader>
-						<EmptyTitle>{/* Show history */}
+						<EmptyTitle>
+							{/* Show history */}
 							{state.searchResults ? 'No results found' : 'Find your music'}
 						</EmptyTitle>
 						<EmptyDescription>

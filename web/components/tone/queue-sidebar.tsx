@@ -1,7 +1,8 @@
 'use client'
 
 import { useApp } from '@/app/tone/provider'
-import { Kbd, KbdGroup } from '@/components/ui/kbd'
+import YouTube from 'react-youtube'
+import { toast } from 'sonner'
 import {
   Sheet,
   SheetContent,
@@ -19,6 +20,44 @@ import {
 export function QueueSidebar() {
   const { state, setState } = useApp()
   const { isMobile } = useSidebar()
+  const track = state.currentTrack
+  const video = track ? (
+    <div
+      inert
+      className='mt-auto h-50 w-full shrink-0 overflow-hidden rounded-md bg-black'
+    >
+      <YouTube
+        videoId={track.id}
+        title={`Playing ${track.title}`}
+        className='h-full w-full'
+        iframeClassName='pointer-events-none block'
+        opts={{
+          width: '100%',
+          height: '200',
+          playerVars: {
+            autoplay: 1,
+            playsinline: 1,
+            controls: 0,
+            disablekb: 1,
+          },
+        }}
+        onReady={async event => {
+          const iframe = await event.target.getIframe()
+          iframe.tabIndex = -1
+          setState(previous => ({ ...previous, player: event.target }))
+        }}
+        onStateChange={event =>
+          setState(previous => ({
+            ...previous,
+            playback: { ...previous.playback, playing: event.data === 1 },
+          }))
+        }
+        onError={() =>
+          toast.error('YouTube couldn’t play this track. Try another track.')
+        }
+      />
+    </div>
+  ) : null
   const queueHeader = (
     <SidebarHeader className='flex-row items-center justify-between'>
       Queue
@@ -41,6 +80,7 @@ export function QueueSidebar() {
           <SheetDescription>Upcoming tracks.</SheetDescription>
         </SheetHeader>
         {queueHeader}
+        {video}
       </SheetContent>
     </Sheet>
   ) : (
@@ -59,6 +99,7 @@ export function QueueSidebar() {
         className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
       >
         {queueHeader}
+        {video}
         <SidebarRail
           onClick={() =>
             setState(previous => ({
