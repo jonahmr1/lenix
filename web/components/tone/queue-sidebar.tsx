@@ -29,6 +29,9 @@ export function QueueSidebar() {
   const { state, setState } = useApp()
   const { isMobile } = useSidebar()
   const track = state.currentTrack
+  const upcomingTracks = state.queue.slice(state.queueIndex + 1).concat(
+    state.repeatQueue ? state.queue.slice(0, Math.max(0, state.queueIndex)) : []
+  )
   const video = track ? (
     <div
       inert
@@ -110,10 +113,10 @@ export function QueueSidebar() {
           </div>
         </div>
       )}
-      {state.queueIndex + 1 < state.queue.length && (
+      {upcomingTracks.length > 0 && (
         <p className='text-xs font-medium'>Up next</p>
       )}
-      {state.queueIndex + 1 >= state.queue.length && (
+      {upcomingTracks.length === 0 && (
         <Empty>
           <EmptyHeader>
             <EmptyTitle>No tracks queued</EmptyTitle>
@@ -124,7 +127,7 @@ export function QueueSidebar() {
         </Empty>
       )}
       <ol aria-label='Queued tracks' className='space-y-1 px-0 py-2 pr-2'>
-        {state.queue.slice(state.queueIndex + 1).map((track, index) => (
+        {upcomingTracks.map(track => (
           <li key={track.id} className='flex items-center gap-2 py-1 text-xs'>
             <img
               src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
@@ -186,7 +189,7 @@ export function QueueSidebar() {
         className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
       >
         {queueHeader}
-        {state.queueIndex + 1 < state.queue.length ? (
+        {upcomingTracks.length > 0 ? (
           <ScrollFade className='m-0'>{queue}</ScrollFade>
         ) : (
           queue
