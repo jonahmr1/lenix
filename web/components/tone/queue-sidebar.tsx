@@ -104,8 +104,10 @@ export function QueueSidebar() {
           </div>
         </div>
       )}
-      <p className='text-xs font-medium'>Up next</p>
-      {state.queueIndex + 1 >= state.queue.length && (
+      {state.queueIndex + 1 < state.queue.length && (
+        <p className='text-xs font-medium'>Up next</p>
+      )}
+      {state.queue.length > 0 && state.queueIndex + 1 >= state.queue.length && (
         <p className='py-2 text-xs'>
           No tracks remaining.
         </p>
@@ -154,7 +156,9 @@ export function QueueSidebar() {
         </SheetHeader>
         {queueHeader}
         {queue}
-        {video}
+        <div className='-z-100'>
+					{video}
+				</div>
       </SheetContent>
     </Sheet>
   ) : (
