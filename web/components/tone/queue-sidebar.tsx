@@ -3,6 +3,7 @@
 import { useApp } from '@/app/tone/provider'
 import YouTube from 'react-youtube'
 import { toast } from 'sonner'
+import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty'
 import {
   Sheet,
   SheetContent,
@@ -107,10 +108,13 @@ export function QueueSidebar() {
       {state.queueIndex + 1 < state.queue.length && (
         <p className='text-xs font-medium'>Up next</p>
       )}
-      {state.queue.length > 0 && state.queueIndex + 1 >= state.queue.length && (
-        <p className='py-2 text-xs'>
-          No tracks remaining.
-        </p>
+      {state.queueIndex + 1 >= state.queue.length && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyTitle>No tracks queued</EmptyTitle>
+            <EmptyDescription>Play a playlist to start a queue.</EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       )}
       <ol aria-label='Queued tracks' className='space-y-1 px-0 py-2 pr-2'>
         {state.queue.slice(state.queueIndex + 1).map((track, index) => (
@@ -177,7 +181,9 @@ export function QueueSidebar() {
         className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
       >
         {queueHeader}
-        <ScrollFade className='m-0'>{queue}</ScrollFade>
+        {state.queueIndex + 1 < state.queue.length ? (
+          <ScrollFade className='m-0'>{queue}</ScrollFade>
+        ) : queue}
         <br />
         {video}
         <SidebarRail
