@@ -83,7 +83,7 @@ export function Player() {
             {track?.title ?? 'Nothing playing'}
           </p>
           {track && (
-            <p className='truncate text-xs'>
+            <p className='truncate text-xs text-muted-foreground!'>
               {track.channel}
             </p>
           )}

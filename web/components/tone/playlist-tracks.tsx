@@ -73,6 +73,7 @@ export function PlaylistTracks({
 						setState(previous => ({
 							...previous,
 							queue: visibleTracks,
+							queueIndex: 0,
 							currentTrack: visibleTracks[0],
 						}))
 					}}

@@ -54,6 +54,18 @@ export function QueueSidebar() {
             playback: { ...previous.playback, playing: event.data === 1 },
           }))
         }
+        onEnd={event => {
+          const nextIndex = state.queueIndex + 1
+          const nextTrack = state.queue[nextIndex]
+          if (!nextTrack) return
+          if (nextTrack.id === track.id)
+            event.target.loadVideoById(nextTrack.id)
+          setState(previous => ({
+            ...previous,
+            queueIndex: nextIndex,
+            currentTrack: nextTrack,
+          }))
+        }}
         onError={() =>
           toast.error('YouTube couldn’t play this track. Try another track.')
         }
@@ -67,25 +79,53 @@ export function QueueSidebar() {
   )
   const queue = (
     <SidebarContent>
-      <ol aria-label='Queued tracks' className='space-y-1 px-0 pr-2 py-2'>
-        {state.queue.map((track, index) => (
-          <li key={track.id} className='flex items-center gap-3 py-2 text-sm'>
-            <span className='text-muted-foreground tabular-nums'>
-              {index + 1}
-            </span>
+      {track && (
+        <div className='py-2 pr-2'>
+          <p className='mb-2 text-xs font-medium'>Now playing</p>
+          <div className='flex items-center gap-2 rounded-md bg-sidebar-accent p-2 text-xs'>
             <img
               src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
               alt=''
-              width={32}
-              height={32}
-              className='size-8 shrink-0 rounded-md object-cover'
+              width={28}
+              height={28}
+              className='size-7 shrink-0 rounded-md object-cover'
             />
             <div className='min-w-0'>
-              <p className='truncate' title={track.title}>
+              <p className='truncate text-foreground' title={track.title}>
                 {track.title}
               </p>
               <p
-                className='truncate text-xs text-muted-foreground'
+                className='truncate text-[11px]'
+                title={track.channel}
+              >
+                {track.channel}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      <p className='text-xs font-medium'>Up next</p>
+      {state.queueIndex + 1 >= state.queue.length && (
+        <p className='py-2 text-xs'>
+          No tracks remaining.
+        </p>
+      )}
+      <ol aria-label='Queued tracks' className='space-y-1 px-0 py-2 pr-2'>
+        {state.queue.slice(state.queueIndex + 1).map((track, index) => (
+          <li key={track.id} className='flex items-center gap-2 py-1 text-xs'>
+            <img
+              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+              alt=''
+              width={28}
+              height={28}
+              className='size-7 shrink-0 rounded-md object-cover'
+            />
+            <div className='min-w-0'>
+              <p className='truncate text-foreground' title={track.title}>
+                {track.title}
+              </p>
+              <p
+                className='truncate text-[11px] text-muted-foreground'
                 title={track.channel}
               >
                 {track.channel}
@@ -133,10 +173,8 @@ export function QueueSidebar() {
         className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
       >
         {queueHeader}
-        <ScrollFade className='m-0'>
-					{queue}
-				</ScrollFade>
-				<br />
+        <ScrollFade className='m-0'>{queue}</ScrollFade>
+        <br />
         {video}
         <SidebarRail
           onClick={() =>
