@@ -1,6 +1,7 @@
 'use client'
 
 import { useApp } from '@/app/tone/provider'
+import { AudioLines } from '@/components/animate-ui/icons/hugeicons/audio-lines'
 import type { ReactNode } from 'react'
 import Link, { useLinkStatus } from 'next/link'
 import { useParams } from 'next/navigation'
@@ -88,8 +89,11 @@ export function PlaylistsSidebar({ account }: { account: Account }) {
 															onClick={() => setOpenMobile(false)}
 														>
 															<PlaylistLinkLabel>
-																{playlist.name}
+																<span className={state.queuePlaylistId === playlist.id && state.playback.playing ? 'font-bold' : ''}>{playlist.name}</span>
 															</PlaylistLinkLabel>
+															{state.queuePlaylistId === playlist.id && state.playback.playing && (
+																<AudioLines animate className='ml-auto size-4 shrink-0' aria-label='Playing' />
+															)}
 														</Link>
 													</SidebarMenuButton>
 												</ContextMenuTrigger>

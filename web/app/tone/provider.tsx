@@ -29,6 +29,7 @@ type AppState = {
   currentTrack: SearchTrack | null
   queue: SearchTrack[]
   queueIndex: number
+  queuePlaylistId: string | null
   repeatQueue: boolean
   searchQuery: string
   searchResults: SearchTrack[] | null
@@ -76,6 +77,7 @@ export function AppProvider({
     currentTrack: null,
     queue: [],
     queueIndex: -1,
+    queuePlaylistId: null,
     repeatQueue: false,
     searchQuery: '',
     searchResults: null,

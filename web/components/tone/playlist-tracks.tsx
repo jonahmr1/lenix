@@ -74,6 +74,7 @@ export function PlaylistTracks({
 							...previous,
 							queue: visibleTracks,
 							queueIndex: 0,
+							queuePlaylistId: playlist.id,
 							currentTrack: visibleTracks[0],
 						}))
 					}}
