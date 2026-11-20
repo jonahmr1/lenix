@@ -101,30 +101,21 @@ export function Player() {
       </div>
       <div className='flex min-w-0 flex-[2] flex-col gap-2'>
         <div className='flex items-center justify-center gap-1'>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant='ghost'
-                size='sm'
-                disabled={!player}
-                aria-label='Playback speed'
-              >
-                {playback.rate}×
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuRadioGroup
-                value={String(playback.rate)}
-                onValueChange={value => player?.setPlaybackRate(Number(value))}
-              >
-                {playback.rates.map(rate => (
-                  <DropdownMenuRadioItem key={rate} value={String(rate)}>
-                    {rate}×
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button
+            size='icon-sm'
+            variant={state.repeatQueue ? 'secondary' : 'ghost'}
+            aria-label='Repeat queue'
+            title='Repeat queue'
+            aria-pressed={state.repeatQueue}
+            onClick={() =>
+              setState(previous => ({
+                ...previous,
+                repeatQueue: !previous.repeatQueue,
+              }))
+            }
+          >
+            <RepeatIcon />
+          </Button>
           <Button
             variant='ghost'
             size='icon-sm'
@@ -204,21 +195,6 @@ export function Player() {
           </Button>
           <Button
             size='icon-sm'
-            variant={state.repeatQueue ? 'secondary' : 'ghost'}
-            aria-label='Repeat queue'
-            title='Repeat queue'
-            aria-pressed={state.repeatQueue}
-            onClick={() =>
-              setState(previous => ({
-                ...previous,
-                repeatQueue: !previous.repeatQueue,
-              }))
-            }
-          >
-            <RepeatIcon />
-          </Button>
-          <Button
-            size='icon-sm'
             variant={state.repeatTrack ? 'secondary' : 'ghost'}
             aria-label='Loop current track'
             title='Loop current track'
@@ -254,6 +230,30 @@ export function Player() {
         </div>
       </div>
       <div className='flex items-center gap-2 sm:flex-1 sm:justify-end'>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							variant='ghost'
+							size='sm'
+							disabled={!player}
+							aria-label='Playback speed'
+						>
+							{playback.rate}×
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuRadioGroup
+							value={String(playback.rate)}
+							onValueChange={value => player?.setPlaybackRate(Number(value))}
+						>
+							{playback.rates.map(rate => (
+								<DropdownMenuRadioItem key={rate} value={String(rate)}>
+									{rate}×
+								</DropdownMenuRadioItem>
+							))}
+						</DropdownMenuRadioGroup>
+					</DropdownMenuContent>
+				</DropdownMenu>
         <Button
           variant='ghost'
           size='icon-sm'
