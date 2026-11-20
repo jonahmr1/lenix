@@ -91,8 +91,8 @@ export function PlaylistsSidebar({ account }: { account: Account }) {
 															<PlaylistLinkLabel>
 																<span className={state.queuePlaylistId === playlist.id && state.playback.playing ? 'font-bold' : ''}>{playlist.name}</span>
 															</PlaylistLinkLabel>
-															{state.queuePlaylistId === playlist.id && state.playback.playing && (
-																<AudioLines animate className='ml-auto size-4 shrink-0' aria-label='Playing' />
+															{state.queuePlaylistId === playlist.id && (
+																<AudioLines animate={state.playback.playing} className='ml-auto size-4 shrink-0' aria-label='Playing' />
 															)}
 														</Link>
 													</SidebarMenuButton>
