@@ -31,6 +31,7 @@ type AppState = {
   queueIndex: number
   queuePlaylistId: string | null
   repeatQueue: boolean
+  repeatTrack: boolean
   searchQuery: string
   searchResults: SearchTrack[] | null
   searchLoading: boolean
@@ -79,6 +80,7 @@ export function AppProvider({
     queueIndex: -1,
     queuePlaylistId: null,
     repeatQueue: false,
+    repeatTrack: false,
     searchQuery: '',
     searchResults: null,
     searchLoading: false,

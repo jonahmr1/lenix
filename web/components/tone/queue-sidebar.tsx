@@ -64,6 +64,10 @@ export function QueueSidebar() {
           }))
         }
         onEnd={event => {
+          if (state.repeatTrack) {
+            event.target.loadVideoById(track.id)
+            return
+          }
           const nextIndex =
             state.repeatQueue && state.queueIndex + 1 >= state.queue.length
               ? 0

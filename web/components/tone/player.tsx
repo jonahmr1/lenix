@@ -19,6 +19,9 @@ import {
   ArrowCounterClockwiseIcon,
   ArrowClockwiseIcon,
   RepeatIcon,
+  RepeatOnceIcon,
+  SkipBackIcon,
+  SkipForwardIcon,
 } from '@phosphor-icons/react'
 
 function timestamp(seconds: number) {
@@ -29,6 +32,12 @@ function timestamp(seconds: number) {
 export function Player() {
   const { state, setState } = useApp()
   const { currentTrack: track, player, playback } = state
+  const previousIndex = state.queueIndex > 0
+    ? state.queueIndex - 1
+    : state.repeatQueue ? state.queue.length - 1 : -1
+  const nextIndex = state.queueIndex + 1 < state.queue.length
+    ? state.queueIndex + 1
+    : state.repeatQueue ? 0 : -1
 
   useEffect(() => {
     if (!player) return
@@ -92,6 +101,49 @@ export function Player() {
       </div>
       <div className='flex min-w-0 flex-[2] flex-col gap-2'>
         <div className='flex items-center justify-center gap-1'>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant='ghost'
+                size='sm'
+                disabled={!player}
+                aria-label='Playback speed'
+              >
+                {playback.rate}×
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuRadioGroup
+                value={String(playback.rate)}
+                onValueChange={value => player?.setPlaybackRate(Number(value))}
+              >
+                {playback.rates.map(rate => (
+                  <DropdownMenuRadioItem key={rate} value={String(rate)}>
+                    {rate}×
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button
+            variant='ghost'
+            size='icon-sm'
+            disabled={!state.queue[previousIndex]}
+            aria-label='Previous track'
+            title='Previous track'
+            onClick={() => {
+              const previousTrack = state.queue[previousIndex]
+              if (!previousTrack) return
+              if (previousTrack.id === track?.id) player?.loadVideoById(previousTrack.id)
+              setState(previous => ({
+                ...previous,
+                queueIndex: previousIndex,
+                currentTrack: previousTrack,
+              }))
+            }}
+          >
+            <SkipBackIcon weight='fill' />
+          </Button>
           <Button
             variant='ghost'
             size='icon-sm'
@@ -132,6 +184,25 @@ export function Player() {
             <ArrowClockwiseIcon />
           </Button>
           <Button
+            variant='ghost'
+            size='icon-sm'
+            disabled={!state.queue[nextIndex]}
+            aria-label='Next track'
+            title='Next track'
+            onClick={() => {
+              const nextTrack = state.queue[nextIndex]
+              if (!nextTrack) return
+              if (nextTrack.id === track?.id) player?.loadVideoById(nextTrack.id)
+              setState(previous => ({
+                ...previous,
+                queueIndex: nextIndex,
+                currentTrack: nextTrack,
+              }))
+            }}
+          >
+            <SkipForwardIcon weight='fill' />
+          </Button>
+          <Button
             size='icon-sm'
             variant={state.repeatQueue ? 'secondary' : 'ghost'}
             aria-label='Repeat queue'
@@ -146,30 +217,21 @@ export function Player() {
           >
             <RepeatIcon />
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant='ghost'
-                size='sm'
-                disabled={!player}
-                aria-label='Playback speed'
-              >
-                {playback.rate}×
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuRadioGroup
-                value={String(playback.rate)}
-                onValueChange={value => player?.setPlaybackRate(Number(value))}
-              >
-                {playback.rates.map(rate => (
-                  <DropdownMenuRadioItem key={rate} value={String(rate)}>
-                    {rate}×
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button
+            size='icon-sm'
+            variant={state.repeatTrack ? 'secondary' : 'ghost'}
+            aria-label='Loop current track'
+            title='Loop current track'
+            aria-pressed={state.repeatTrack}
+            onClick={() =>
+              setState(previous => ({
+                ...previous,
+                repeatTrack: !previous.repeatTrack,
+              }))
+            }
+          >
+            <RepeatOnceIcon />
+          </Button>
         </div>
         <div className='flex items-center gap-2 text-xs text-muted-foreground tabular-nums'>
           <span>{timestamp(playback.time)}</span>
