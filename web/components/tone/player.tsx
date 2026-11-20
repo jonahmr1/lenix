@@ -18,6 +18,7 @@ import {
   SpeakerSlashIcon,
   ArrowCounterClockwiseIcon,
   ArrowClockwiseIcon,
+  RepeatIcon,
 } from '@phosphor-icons/react'
 
 function timestamp(seconds: number) {
@@ -129,6 +130,21 @@ export function Player() {
             }
           >
             <ArrowClockwiseIcon />
+          </Button>
+          <Button
+            size='icon-sm'
+            variant={state.repeatQueue ? 'secondary' : 'ghost'}
+            aria-label='Repeat queue'
+            title='Repeat queue'
+            aria-pressed={state.repeatQueue}
+            onClick={() =>
+              setState(previous => ({
+                ...previous,
+                repeatQueue: !previous.repeatQueue,
+              }))
+            }
+          >
+            <RepeatIcon />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

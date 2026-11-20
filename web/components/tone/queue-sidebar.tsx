@@ -3,7 +3,12 @@
 import { useApp } from '@/app/tone/provider'
 import YouTube from 'react-youtube'
 import { toast } from 'sonner'
-import { Empty, EmptyHeader, EmptyTitle, EmptyDescription } from '@/components/ui/empty'
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+} from '@/components/ui/empty'
 import {
   Sheet,
   SheetContent,
@@ -56,7 +61,10 @@ export function QueueSidebar() {
           }))
         }
         onEnd={event => {
-          const nextIndex = state.queueIndex + 1
+          const nextIndex =
+            state.repeatQueue && state.queueIndex + 1 >= state.queue.length
+              ? 0
+              : state.queueIndex + 1
           const nextTrack = state.queue[nextIndex]
           if (!nextTrack) return
           if (nextTrack.id === track.id)
@@ -95,10 +103,7 @@ export function QueueSidebar() {
               <p className='truncate text-foreground' title={track.title}>
                 {track.title}
               </p>
-              <p
-                className='truncate text-[11px]'
-                title={track.channel}
-              >
+              <p className='truncate text-[11px]' title={track.channel}>
                 {track.channel}
               </p>
             </div>
@@ -112,7 +117,9 @@ export function QueueSidebar() {
         <Empty>
           <EmptyHeader>
             <EmptyTitle>No tracks queued</EmptyTitle>
-            <EmptyDescription>Play a playlist to start a queue.</EmptyDescription>
+            <EmptyDescription>
+              Play a playlist to start a queue.
+            </EmptyDescription>
           </EmptyHeader>
         </Empty>
       )}
@@ -160,9 +167,7 @@ export function QueueSidebar() {
         </SheetHeader>
         {queueHeader}
         {queue}
-        <div className='-z-100'>
-					{video}
-				</div>
+        <div className='-z-100'>{video}</div>
       </SheetContent>
     </Sheet>
   ) : (
@@ -183,7 +188,9 @@ export function QueueSidebar() {
         {queueHeader}
         {state.queueIndex + 1 < state.queue.length ? (
           <ScrollFade className='m-0'>{queue}</ScrollFade>
-        ) : queue}
+        ) : (
+          queue
+        )}
         <br />
         {video}
         <SidebarRail
