@@ -76,7 +76,7 @@ export function Player() {
   return (
     <footer
       aria-label='Player'
-      className='flex h-20 shrink-0 items-center gap-3 bg-sidebar px-4'
+      className='flex h-15 shrink-0 items-center gap-3 bg-sidebar px-2'
     >
       <div className='hidden min-w-0 flex-1 items-center gap-3 sm:flex'>
         {track && (
@@ -85,7 +85,7 @@ export function Player() {
             alt=''
             width={48}
             height={48}
-            className='size-12 shrink-0 rounded-md object-cover'
+            className='size-10 shrink-0 rounded-md object-cover'
           />
         )}
         <div className='min-w-0 *:text-foreground'>
