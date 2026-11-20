@@ -65,12 +65,17 @@ export function PlaylistTracks({
 					size='icon-lg'
 					aria-label='Play playlist'
 					disabled={!visibleTracks.length}
-					onClick={() =>
+					onClick={() => {
+						if (state.currentTrack?.id === visibleTracks[0].id) {
+							state.player?.seekTo(0, true)
+							state.player?.playVideo()
+						}
 						setState(previous => ({
 							...previous,
+							queue: visibleTracks,
 							currentTrack: visibleTracks[0],
 						}))
-					}
+					}}
 				>
 					<PlayIcon className='size-1/2' weight='fill' />
 				</Button>

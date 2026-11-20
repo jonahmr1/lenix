@@ -27,6 +27,7 @@ type AppState = {
     rates: number[]
   }
   currentTrack: SearchTrack | null
+  queue: SearchTrack[]
   searchQuery: string
   searchResults: SearchTrack[] | null
   searchLoading: boolean
@@ -71,6 +72,7 @@ export function AppProvider({
       rates: [1],
     },
     currentTrack: null,
+    queue: [],
     searchQuery: '',
     searchResults: null,
     searchLoading: false,

@@ -12,10 +12,12 @@ import {
 } from '@/components/ui/sheet'
 import {
   Sidebar,
+  SidebarContent,
   SidebarHeader,
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar'
+import ScrollFade from '../scroll-fade'
 
 export function QueueSidebar() {
   const { state, setState } = useApp()
@@ -63,6 +65,37 @@ export function QueueSidebar() {
       Queue
     </SidebarHeader>
   )
+  const queue = (
+    <SidebarContent>
+      <ol aria-label='Queued tracks' className='space-y-1 px-0 pr-2 py-2'>
+        {state.queue.map((track, index) => (
+          <li key={track.id} className='flex items-center gap-3 py-2 text-sm'>
+            <span className='text-muted-foreground tabular-nums'>
+              {index + 1}
+            </span>
+            <img
+              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+              alt=''
+              width={32}
+              height={32}
+              className='size-8 shrink-0 rounded-md object-cover'
+            />
+            <div className='min-w-0'>
+              <p className='truncate' title={track.title}>
+                {track.title}
+              </p>
+              <p
+                className='truncate text-xs text-muted-foreground'
+                title={track.channel}
+              >
+                {track.channel}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </SidebarContent>
+  )
 
   return isMobile ? (
     <Sheet
@@ -80,6 +113,7 @@ export function QueueSidebar() {
           <SheetDescription>Upcoming tracks.</SheetDescription>
         </SheetHeader>
         {queueHeader}
+        {queue}
         {video}
       </SheetContent>
     </Sheet>
@@ -99,6 +133,10 @@ export function QueueSidebar() {
         className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
       >
         {queueHeader}
+        <ScrollFade className='m-0'>
+					{queue}
+				</ScrollFade>
+				<br />
         {video}
         <SidebarRail
           onClick={() =>

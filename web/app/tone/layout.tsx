@@ -43,7 +43,7 @@ export default async function ToneLayout({
           }}
         />
         <PlaylistActionDialog />
-        <SidebarInset className='min-h-0 min-w-0 overflow-hidden'>
+        <SidebarInset className='min-h-0 min-w-0 mx-0 overflow-hidden'>
           <AppHeader />
           <div className='flex min-h-0 flex-1 flex-col overflow-y-auto'>
             {children}
