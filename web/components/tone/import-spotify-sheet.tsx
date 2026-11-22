@@ -1,6 +1,7 @@
 'use client'
 
 import Link from './navigation-link'
+import { resumeSpotifyMatches } from '@/lib/tone/spotify-import'
 import {
   CheckCircleIcon,
   CircleIcon,
@@ -22,7 +23,6 @@ import {
 } from '@/components/ui/sheet'
 import {
   readSpotifyPlaylist,
-  matchSpotifyTracks,
   saveSpotifyPlaylist,
 } from '@/lib/tone/spotify-actions'
 
@@ -58,6 +58,7 @@ export function ImportSpotifySheet() {
               playlistSaving: true,
               spotifyImportResult: null,
               spotifyImportStep: 1,
+              spotifyImportProgress: null,
             }))
             try {
               const source = await readSpotifyPlaylist(
@@ -71,7 +72,11 @@ export function ImportSpotifySheet() {
                 return
               }
               setState(previous => ({ ...previous, spotifyImportStep: 2 }))
-              const matches = await matchSpotifyTracks(source.songs)
+              const matches = await resumeSpotifyMatches(
+                source.songs,
+                spotifyImportProgress =>
+                  setState(previous => ({ ...previous, spotifyImportProgress }))
+              )
               if ('error' in matches) {
                 setState(previous => ({
                   ...previous,
@@ -101,7 +106,8 @@ export function ImportSpotifySheet() {
               setState(previous => ({
                 ...previous,
                 spotifyImportResult: {
-                  error: 'Couldn’t import your playlist. Please try again.',
+                  error:
+                    'Couldn’t finish the import. Saved matches will be reused when you try again.',
                 },
               }))
             } finally {
@@ -128,6 +134,7 @@ export function ImportSpotifySheet() {
                   spotifyPlaylistUrl: event.target.value,
                   spotifyImportResult: null,
                   spotifyImportStep: 0,
+                  spotifyImportProgress: null,
                 }))
               }
             />
@@ -167,10 +174,19 @@ export function ImportSpotifySheet() {
                     {complete
                       ? ' · Done'
                       : failed
-                        ? ' · Failed'
+                        ? step === 2
+                          ? ' · Paused'
+                          : ' · Failed'
                         : active && state.playlistSaving
                           ? '…'
                           : ''}
+                    {step === 2 && state.spotifyImportProgress && (
+                      <span className='block'>
+                        {state.spotifyImportProgress.checked} of{' '}
+                        {state.spotifyImportProgress.total} checked ·{' '}
+                        {state.spotifyImportProgress.matched} matched
+                      </span>
+                    )}
                   </MarkerContent>
                 </Marker>
               )
@@ -244,7 +260,11 @@ export function ImportSpotifySheet() {
               className='w-full'
               disabled={state.playlistSaving}
             >
-              {state.playlistSaving ? 'Importing…' : 'Import playlist'}
+              {state.playlistSaving
+                ? 'Importing…'
+                : state.spotifyImportStep === 2 && result && 'error' in result
+                  ? 'Resume import'
+                  : 'Import playlist'}
             </Button>
           )}
         </SheetFooter>

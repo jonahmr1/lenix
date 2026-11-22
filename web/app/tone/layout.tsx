@@ -32,8 +32,21 @@ export default async function ToneLayout({
       'Couldn’t load your playlists. Please refresh to try again.'
     )
 
+  const { data: savedImport, error: importError } = await supabase
+    .from('spotify_imports')
+    .select('playlist_url')
+    .eq('user_id', user.id)
+    .maybeSingle()
+  if (importError)
+    throw new Error(
+      'Couldn’t load saved import progress. Please refresh to try again.'
+    )
   return (
-    <AppProvider key={user.id} playlists={playlists ?? []}>
+    <AppProvider
+      key={user.id}
+      playlists={playlists ?? []}
+      spotifyPlaylistUrl={savedImport?.playlist_url ?? ''}
+    >
       <div className='flex min-h-0 flex-1'>
         <PlaylistsSidebar
           account={{
@@ -43,7 +56,7 @@ export default async function ToneLayout({
           }}
         />
         <PlaylistActionDialog />
-        <SidebarInset className='min-h-0 min-w-0 mx-0 overflow-hidden'>
+        <SidebarInset className='mx-0 min-h-0 min-w-0 overflow-hidden'>
           <AppHeader />
           <div className='flex min-h-0 flex-1 flex-col overflow-y-auto'>
             {children}

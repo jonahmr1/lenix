@@ -1,16 +1,15 @@
 'use server'
 
+import { spotifySongKey } from './spotify-song-key'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase.server'
 import { searchTracks } from './search-actions'
+import {
+  fetchSpotifyPlaylistTracks,
+  type SpotifyTrack,
+} from './spotify-playlist'
 
-type SpotifyTrack = {
-  title: string
-  subtitle: string
-  duration: number
-  entityType: string
-}
 type SkippedTrack = { title: string; artist: string; reason?: string }
 export type SpotifyImportResult =
   | { error: string; skipped?: SkippedTrack[] }
@@ -59,6 +58,10 @@ export async function readSpotifyPlaylist(
       fetch(`https://open.spotify.com/playlist/${playlistId}`, {
         cache: 'no-store',
         signal: AbortSignal.timeout(15000),
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        },
       }),
     ])
     if (responses.some(response => !response.ok))
@@ -76,8 +79,8 @@ export async function readSpotifyPlaylist(
         error:
           'Spotify did not provide this playlist’s tracks. Please try again later.',
       }
-    const entity = JSON.parse(embeddedData)?.props?.pageProps?.state?.data
-      ?.entity as
+    const state = JSON.parse(embeddedData)?.props?.pageProps?.state
+    const entity = state?.data?.entity as
       | {
           name?: string
           trackList?: {
@@ -99,29 +102,76 @@ export async function readSpotifyPlaylist(
       typeof description === 'string'
         ? /([\d,]+) items?/.exec(description)?.[1]
         : undefined
-    if (
-      !entity?.name ||
-      !Array.isArray(entity.trackList) ||
-      !total ||
-      Number(total.replaceAll(',', '')) !== entity.trackList.length
-    )
+    if (!entity?.name || !Array.isArray(entity.trackList))
       return {
         error:
           'Spotify didn’t expose the complete playlist. No playlist was created.',
       }
-    const songs = entity.trackList.filter(
+    const count = total ? Number(total.replaceAll(',', '')) : undefined
+    const tracks =
+      count === entity.trackList.length
+        ? entity.trackList
+        : await fetchSpotifyPlaylistTracks(
+            playlistId,
+            page,
+            state?.settings?.session?.accessToken,
+            count
+          )
+    const songs = tracks.filter(
       track => track.entityType === 'track' && track.title && track.subtitle
     )
-    const skipped = entity.trackList
+    const skipped = tracks
       .filter(track => !songs.includes(track))
       .map(track => ({
         title: track.title || 'Unavailable track',
         artist: track.subtitle || 'Unknown artist',
       }))
 
+    const { error: progressError } = await supabase
+      .from('spotify_imports')
+      .upsert({
+        user_id: user.id,
+        playlist_url: `https://open.spotify.com/playlist/${playlistId}`,
+      })
+    if (progressError)
+      return {
+        error:
+          'Couldn’t save import progress to your account. Please try again.',
+      }
     return { name: entity.name, songs, skipped }
   } catch {
     return { error: 'Couldn’t read your Spotify playlist. Please try again.' }
+  }
+}
+
+export async function getSavedSpotifyMatches(): Promise<
+  { matches: Record<string, string | null> } | { error: string }
+> {
+  try {
+    const supabase = createClient(await cookies())
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser()
+    if (error || !user)
+      return { error: 'Please sign in again to resume your import.' }
+    const matches: Record<string, string | null> = {}
+    for (let offset = 0; ; offset += 1000) {
+      const { data, error: readError } = await supabase
+        .from('spotify_matches')
+        .select('song_key, video_id')
+        .eq('user_id', user.id)
+        .order('song_key')
+        .range(offset, offset + 999)
+      if (readError) throw readError
+      for (const row of data) matches[row.song_key] = row.video_id
+      if (data.length < 1000) break
+    }
+    return { matches }
+  } catch {
+    return {
+      error: 'Couldn’t load saved matches from your account. Please try again.',
+    }
   }
 }
 
@@ -143,14 +193,42 @@ export async function matchSpotifyTracks(
   )
     return { error: 'Invalid Spotify tracks. Please try again.' }
   try {
+    const supabase = createClient(await cookies())
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+    if (authError || !user)
+      return { error: 'Please sign in again to import tracks.' }
     const skipped: SkippedTrack[] = []
     const tracks: string[] = []
     for (const song of songs) {
+      const key = spotifySongKey(song)
+      const { data: cached, error: cacheError } = await supabase
+        .from('spotify_matches')
+        .select('video_id')
+        .eq('user_id', user.id)
+        .eq('song_key', key)
+        .maybeSingle()
+      if (cacheError)
+        return { error: 'Couldn’t load saved matches. Please try again.' }
+      if (cached) {
+        if (cached.video_id && !tracks.includes(cached.video_id))
+          tracks.push(cached.video_id)
+        else
+          skipped.push({
+            title: song.title,
+            artist: song.subtitle,
+            ...(cached.video_id
+              ? { reason: 'Matched a YouTube track already added' }
+              : {}),
+          })
+        continue
+      }
       const result = await searchTracks(
         `${song.title} ${song.subtitle}`.slice(0, 200)
       )
-      if ('error' in result)
-        return { error: `${result.error} No playlist was created.` }
+      if ('error' in result) return { error: result.error }
       const normalize = (value: string) =>
         value
           .normalize('NFKD')
@@ -197,6 +275,17 @@ export async function matchSpotifyTracks(
         })
         .filter(track => track.eligible)
         .sort((a, b) => b.score - a.score)
+      const { error: saveError } = await supabase
+        .from('spotify_matches')
+        .upsert({
+          user_id: user.id,
+          song_key: key,
+          video_id: ranked[0]?.id ?? null,
+        })
+      if (saveError)
+        return {
+          error: 'Couldn’t save the match to your account. Please try again.',
+        }
       if (ranked[0] && tracks.includes(ranked[0].id))
         skipped.push({
           title: song.title,
@@ -206,12 +295,6 @@ export async function matchSpotifyTracks(
       else if (ranked[0]) tracks.push(ranked[0].id)
       else skipped.push({ title: song.title, artist: song.subtitle })
     }
-    if (!tracks.length)
-      return {
-        error:
-          'No YouTube tracks were found for this playlist. No playlist was created.',
-        skipped,
-      }
     return { tracks, skipped }
   } catch {
     return { error: 'Couldn’t match Spotify tracks. Please try again.' }

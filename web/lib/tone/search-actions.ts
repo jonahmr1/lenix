@@ -1,6 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers'
+import { setTimeout as delay } from 'node:timers/promises'
 import { decode } from 'he'
 import { createClient } from '@/lib/supabase.server'
 
@@ -40,26 +41,57 @@ export async function searchTracks(
       videoEmbeddable: 'true',
       ...(pageToken ? { pageToken } : {}),
     })
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?${params}`,
-      { next: { revalidate: 300 }, signal: AbortSignal.timeout(10000) }
-    )
-    if (!response.ok) {
+    let response: Response
+    for (let attempt = 0; ; attempt++) {
+      response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?${params}`,
+        {
+          ...(attempt
+            ? { cache: 'no-store' as const }
+            : { next: { revalidate: 300 } }),
+          signal: AbortSignal.timeout(10000),
+        }
+      )
+      if (response.ok) break
       const failure = await response.json().catch(() => null)
       const quotaExceeded =
         failure?.error?.errors?.some(
-          (error: { reason?: string }) => error.reason === 'quotaExceeded'
+          (error: { reason?: string }) =>
+            error.reason === 'quotaExceeded' ||
+            error.reason === 'dailyLimitExceeded'
         ) ||
         failure?.error?.details?.some(
-          (detail: { metadata?: { quota_unit?: string } }) =>
-            detail.metadata?.quota_unit?.includes('/d/')
+          (detail: {
+            metadata?: { quota_unit?: string; quota_limit?: string }
+          }) =>
+            /\/d(?:\/|$)/.test(detail.metadata?.quota_unit ?? '') ||
+            /perday/i.test(detail.metadata?.quota_limit ?? '')
         )
       if (quotaExceeded)
         return {
           error:
             'YouTube’s daily search quota has been reached. Try again after the quota resets.',
         }
-      if (response.status === 429)
+      const rateLimited =
+        response.status === 429 ||
+        failure?.error?.errors?.some(
+          (error: { reason?: string }) =>
+            error.reason === 'rateLimitExceeded' ||
+            error.reason === 'userRateLimitExceeded'
+        )
+      if (rateLimited && attempt < 3) {
+        const retryAfter = response.headers.get('retry-after')
+        const wait = retryAfter
+          ? /^\d+$/.test(retryAfter)
+            ? Number(retryAfter) * 1000
+            : Date.parse(retryAfter) - Date.now()
+          : 1000 * 2 ** attempt
+        if (Number.isFinite(wait) && wait <= 10000) {
+          await delay(Math.max(1000 * 2 ** attempt, wait))
+          continue
+        }
+      }
+      if (rateLimited)
         return {
           error: 'YouTube is limiting search requests. Please try again later.',
         }

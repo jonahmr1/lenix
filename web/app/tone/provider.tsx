@@ -42,6 +42,11 @@ type AppState = {
   newPlaylistOpen: boolean
   spotifyImportOpen: boolean
   spotifyImportResult: SpotifyImportResult | null
+  spotifyImportProgress: {
+    checked: number
+    total: number
+    matched: number
+  } | null
   spotifyImportStep: number
   spotifyPlaylistUrl: string
   playlistSaving: boolean
@@ -60,12 +65,14 @@ const AppContext = createContext<{
 export function AppProvider({
   children,
   playlists,
+  spotifyPlaylistUrl,
 }: {
   children: ReactNode
   playlists: AppState['playlists']
+  spotifyPlaylistUrl: string
 }) {
   const [state, setState] = useState<AppState>({
-    player: null,
+      player: null,
     playback: {
       playing: false,
       time: 0,
@@ -90,9 +97,10 @@ export function AppProvider({
     playlistAction: null,
     newPlaylistOpen: false,
     spotifyImportOpen: false,
-    spotifyPlaylistUrl: '',
+    spotifyPlaylistUrl,
     spotifyImportResult: null,
     spotifyImportStep: 0,
+    spotifyImportProgress: null,
     playlists,
     playlistSaving: false,
     playlistsOpen: true,
