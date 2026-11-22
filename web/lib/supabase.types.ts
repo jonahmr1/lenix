@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      spotify_imports: {
+        Row: {
+          playlist_url: string
+          user_id: string
+        }
+        Insert: {
+          playlist_url: string
+          user_id?: string
+        }
+        Update: {
+          playlist_url?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      spotify_matches: {
+        Row: {
+          song_key: string
+          user_id: string
+          video_id: string | null
+        }
+        Insert: {
+          song_key: string
+          user_id?: string
+          video_id?: string | null
+        }
+        Update: {
+          song_key?: string
+          user_id?: string
+          video_id?: string | null
+        }
+        Relationships: []
+      }
       badges: {
         Row: {
           align: Database['public']['Enums']['BadgeAlignment']
@@ -138,6 +171,7 @@ export type Database = {
           created_at: string
           id: string
           label: string
+          track_tiers: Json
           tracks: string[]
           user_id: string
         }
@@ -145,6 +179,7 @@ export type Database = {
           created_at?: string
           id?: string
           label: string
+          track_tiers?: Json
           tracks: string[]
           user_id?: string
         }
@@ -152,6 +187,7 @@ export type Database = {
           created_at?: string
           id?: string
           label?: string
+          track_tiers?: Json
           tracks?: string[]
           user_id?: string
         }
