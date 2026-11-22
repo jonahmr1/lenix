@@ -2,7 +2,7 @@
 
 import Link from './navigation-link'
 import { createPriorityQueue, normalizeTiers } from '@/lib/tone/priority-queue'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { setTrackTier } from '@/lib/tone/tier-actions'
 import { toast } from 'sonner'
 import type { SearchTrack } from '@/lib/tone/search-actions'
@@ -98,6 +98,7 @@ export function PlaylistTracks({
   }
   const visibleTracks = tracks
     .filter(track => playlist.tracks.includes(track.id))
+    .sort((a, b) => tiers[a.id] - tiers[b.id])
 
   return (
     <div className='not-typeset flex flex-1 flex-col gap-6 p-4 md:p-6'>
@@ -158,7 +159,14 @@ export function PlaylistTracks({
           </TableHeader>
           <TableBody>
             {visibleTracks.map((track, index) => (
-              <ContextMenu key={track.id}>
+              <Fragment key={track.id}>
+                {(index === 0 ||
+                  tiers[visibleTracks[index - 1].id] !== tiers[track.id]) && (
+                  <TableRow className='bg-muted/50 hover:bg-muted/50'>
+                    <TableHead colSpan={5}>Tier {tiers[track.id]}</TableHead>
+                  </TableRow>
+                )}
+                <ContextMenu>
                   <ContextMenuTrigger asChild>
                     <TableRow
                       className='cursor-pointer border-0'
@@ -298,6 +306,7 @@ export function PlaylistTracks({
                     </ContextMenuItem>
                   </ContextMenuContent>
                 </ContextMenu>
+              </Fragment>
             ))}
           </TableBody>
         </Table>

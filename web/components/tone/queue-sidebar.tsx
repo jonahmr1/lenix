@@ -1,6 +1,6 @@
 'use client'
 
-import { advancePriorityQueue } from '@/lib/tone/priority-queue'
+import { advancePriorityQueue, normalizeTiers } from '@/lib/tone/priority-queue'
 import { useApp } from '@/app/tone/provider'
 import YouTube from 'react-youtube'
 import { toast } from 'sonner'
@@ -30,9 +30,18 @@ export function QueueSidebar() {
   const { state, setState } = useApp()
   const { isMobile } = useSidebar()
   const track = state.currentTrack
-  const upcomingTracks = state.queue.slice(state.queueIndex + 1).concat(
-    state.repeatQueue ? state.nextQueue : []
+  const tiers = normalizeTiers(
+    state.queue.map(track => track.id),
+    Object.fromEntries(
+      state.queue.map(track => [
+        track.id,
+        state.trackTiers[`${state.queuePlaylistId}:${track.id}`] ?? 1,
+      ])
+    )
   )
+  const upcomingTracks = state.queue
+    .slice(state.queueIndex + 1)
+    .concat(state.repeatQueue ? state.nextQueue : [])
   const video = track ? (
     <div
       inert
@@ -123,26 +132,34 @@ export function QueueSidebar() {
           </EmptyHeader>
         </Empty>
       )}
-      <ol aria-label='Queued tracks' className='space-y-1 px-0 py-2 pr-2'>
+      <ol aria-label='Queued tracks' className='list-none space-y-1 px-0 py-2 pr-2'>
         {upcomingTracks.map((track, index) => (
-          <li key={`${index}:${track.id}`} className='flex items-center gap-2 py-1 text-xs'>
-            <img
-              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-              alt=''
-              width={28}
-              height={28}
-              className='size-7 shrink-0 rounded-md object-cover'
-            />
-            <div className='min-w-0'>
-              <p className='truncate text-foreground' title={track.title}>
-                {track.title}
+          <li key={`${index}:${track.id}`} className='text-xs'>
+            {(index === 0 ||
+              tiers[upcomingTracks[index - 1].id] !== tiers[track.id]) && (
+              <p className='border-b py-2 font-medium text-muted-foreground'>
+                Tier {tiers[track.id]}
               </p>
-              <p
-                className='truncate text-[11px] text-muted-foreground'
-                title={track.channel}
-              >
-                {track.channel}
-              </p>
+            )}
+            <div className='flex items-center gap-2 py-1'>
+              <img
+                src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+                alt=''
+                width={28}
+                height={28}
+                className='size-7 shrink-0 rounded-md object-cover'
+              />
+              <div className='min-w-0'>
+                <p className='truncate text-foreground' title={track.title}>
+                  {track.title}
+                </p>
+                <p
+                  className='truncate text-[11px] text-muted-foreground'
+                  title={track.channel}
+                >
+                  {track.channel}
+                </p>
+              </div>
             </div>
           </li>
         ))}
