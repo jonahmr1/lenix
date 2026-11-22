@@ -153,7 +153,6 @@ export function PlaylistTracks({
               <TableHead className='w-10'>#</TableHead>
               <TableHead>Title</TableHead>
               <TableHead className='hidden sm:table-cell'>Author</TableHead>
-              <TableHead>Tier</TableHead>
               <TableHead className='text-right'>Duration</TableHead>
             </TableRow>
           </TableHeader>
@@ -163,7 +162,7 @@ export function PlaylistTracks({
                 {(index === 0 ||
                   tiers[visibleTracks[index - 1].id] !== tiers[track.id]) && (
                   <TableRow className='bg-muted/50 hover:bg-muted/50'>
-                    <TableHead colSpan={5}>Tier {tiers[track.id]}</TableHead>
+                    <TableHead colSpan={4}>Tier {tiers[track.id]}</TableHead>
                   </TableRow>
                 )}
                 <ContextMenu>
@@ -218,9 +217,6 @@ export function PlaylistTracks({
                       </TableCell>
                       <TableCell className='hidden whitespace-normal text-muted-foreground sm:table-cell'>
                         {track.channel}
-                      </TableCell>
-                      <TableCell className='text-muted-foreground'>
-                        Tier {tiers[track.id]}
                       </TableCell>
                       <TableCell className='text-right text-muted-foreground tabular-nums'>
                         {track.duration}
