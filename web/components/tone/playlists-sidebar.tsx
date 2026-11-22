@@ -2,8 +2,7 @@
 
 import { useApp } from '@/app/tone/provider'
 import { AudioLines } from '@/components/animate-ui/icons/hugeicons/audio-lines'
-import type { ReactNode } from 'react'
-import Link, { useLinkStatus } from 'next/link'
+import Link from './navigation-link'
 import { useParams } from 'next/navigation'
 import {
 	ContextMenu,
@@ -17,7 +16,6 @@ import {
 	EmptyTitle,
 	EmptyDescription,
 } from '@/components/ui/empty'
-import { Kbd, KbdGroup } from '@/components/ui/kbd'
 import {
 	Sidebar,
 	SidebarContent,
@@ -32,11 +30,6 @@ import {
 import { AccountMenu, type Account } from './account-menu'
 import { CreatePlaylistDialog } from './create-playlist-dialog'
 import { ImportSpotifySheet } from './import-spotify-sheet'
-
-function PlaylistLinkLabel({ children }: { children: ReactNode }) {
-	const { pending } = useLinkStatus()
-	return <span data-pending={pending}>{children}</span>
-}
 
 export function PlaylistsSidebar({ account }: { account: Account }) {
 	const { state, setState } = useApp()
@@ -82,17 +75,27 @@ export function PlaylistsSidebar({ account }: { account: Account }) {
 													>
 														<Link
 															href={`/tone/playlist/${playlist.id}`}
-															className='has-[[data-pending=true]]:cursor-progress'
 															aria-current={
 																playlistId === playlist.id ? 'page' : undefined
 															}
 															onClick={() => setOpenMobile(false)}
 														>
-															<PlaylistLinkLabel>
-																<span className={state.queuePlaylistId === playlist.id && state.playback.playing ? 'font-bold' : ''}>{playlist.name}</span>
-															</PlaylistLinkLabel>
+															<span
+																className={
+																	state.queuePlaylistId === playlist.id &&
+																	state.playback.playing
+																		? 'font-bold'
+																		: ''
+																}
+															>
+																{playlist.name}
+															</span>
 															{state.queuePlaylistId === playlist.id && (
-																<AudioLines animate={state.playback.playing} className='ml-auto size-4 shrink-0' aria-label='Playing' />
+																<AudioLines
+																	animate={state.playback.playing}
+																	className='ml-auto size-4 shrink-0'
+																	aria-label='Playing'
+																/>
 															)}
 														</Link>
 													</SidebarMenuButton>

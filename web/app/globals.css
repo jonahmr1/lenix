@@ -164,3 +164,8 @@
 		@apply font-sans;
 	}
 }
+/* Navigation feedback covers the document, including portalled menus. */
+html:has([data-navigation-pending="true"]),
+html:has([data-navigation-pending="true"]) * {
+  cursor: progress !important;
+}
