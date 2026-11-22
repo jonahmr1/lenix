@@ -1,5 +1,6 @@
 'use server'
 
+import { normalizeTiers } from './priority-queue'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase.server'
@@ -31,7 +32,7 @@ export async function setTrackInPlaylist(
     for (let attempt = 0; attempt < 3; attempt++) {
       const { data: playlist, error } = await supabase
         .from('playlists')
-        .select('label, tracks')
+        .select('label, tracks, track_tiers')
         .eq('id', playlistId)
         .eq('user_id', user.id)
         .maybeSingle()
@@ -45,6 +46,12 @@ export async function setTrackInPlaylist(
       const { data: updated, error: updateError } = await supabase
         .from('playlists')
         .update({
+          track_tiers: normalizeTiers(
+            included
+              ? [...playlist.tracks, videoId]
+              : playlist.tracks.filter(id => id !== videoId),
+            playlist.track_tiers as Record<string, number>
+          ),
           tracks: included
             ? [...playlist.tracks, videoId]
             : playlist.tracks.filter(id => id !== videoId),
@@ -52,6 +59,7 @@ export async function setTrackInPlaylist(
         .eq('id', playlistId)
         .eq('user_id', user.id)
         .filter('tracks', 'eq', previous)
+        .eq('track_tiers', JSON.stringify(playlist.track_tiers))
         .select('id')
         .maybeSingle()
       if (updateError) throw updateError

@@ -1,5 +1,6 @@
 'use client'
 
+import { advancePriorityQueue } from '@/lib/tone/priority-queue'
 import { useApp } from '@/app/tone/provider'
 import YouTube from 'react-youtube'
 import { toast } from 'sonner'
@@ -30,7 +31,7 @@ export function QueueSidebar() {
   const { isMobile } = useSidebar()
   const track = state.currentTrack
   const upcomingTracks = state.queue.slice(state.queueIndex + 1).concat(
-    state.repeatQueue ? state.queue.slice(0, Math.max(0, state.queueIndex)) : []
+    state.repeatQueue ? state.nextQueue : []
   )
   const video = track ? (
     <div
@@ -68,19 +69,11 @@ export function QueueSidebar() {
             event.target.loadVideoById(track.id)
             return
           }
-          const nextIndex =
-            state.repeatQueue && state.queueIndex + 1 >= state.queue.length
-              ? 0
-              : state.queueIndex + 1
-          const nextTrack = state.queue[nextIndex]
-          if (!nextTrack) return
-          if (nextTrack.id === track.id)
-            event.target.loadVideoById(nextTrack.id)
-          setState(previous => ({
-            ...previous,
-            queueIndex: nextIndex,
-            currentTrack: nextTrack,
-          }))
+          const next = advancePriorityQueue(state)
+          if (!next) return
+          if (next.currentTrack.id === track.id)
+            event.target.loadVideoById(next.currentTrack.id)
+          setState(previous => ({ ...previous, ...next }))
         }}
         onError={() =>
           toast.error('YouTube couldn’t play this track. Try another track.')
@@ -131,8 +124,8 @@ export function QueueSidebar() {
         </Empty>
       )}
       <ol aria-label='Queued tracks' className='space-y-1 px-0 py-2 pr-2'>
-        {upcomingTracks.map(track => (
-          <li key={track.id} className='flex items-center gap-2 py-1 text-xs'>
+        {upcomingTracks.map((track, index) => (
+          <li key={`${index}:${track.id}`} className='flex items-center gap-2 py-1 text-xs'>
             <img
               src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
               alt=''

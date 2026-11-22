@@ -1,6 +1,10 @@
 'use client'
 
 import { useEffect } from 'react'
+import {
+  advancePriorityQueue,
+  createPriorityQueue,
+} from '@/lib/tone/priority-queue'
 import { useApp } from '@/app/tone/provider'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
@@ -32,12 +36,18 @@ function timestamp(seconds: number) {
 export function Player() {
   const { state, setState } = useApp()
   const { currentTrack: track, player, playback } = state
-  const previousIndex = state.queueIndex > 0
-    ? state.queueIndex - 1
-    : state.repeatQueue ? state.queue.length - 1 : -1
-  const nextIndex = state.queueIndex + 1 < state.queue.length
-    ? state.queueIndex + 1
-    : state.repeatQueue ? 0 : -1
+  const previousIndex =
+    state.queueIndex > 0
+      ? state.queueIndex - 1
+      : state.repeatQueue
+        ? state.queue.length - 1
+        : -1
+  const nextIndex =
+    state.queueIndex + 1 < state.queue.length
+      ? state.queueIndex + 1
+      : state.repeatQueue
+        ? 0
+        : -1
 
   useEffect(() => {
     if (!player) return
@@ -111,6 +121,13 @@ export function Player() {
               setState(previous => ({
                 ...previous,
                 repeatQueue: !previous.repeatQueue,
+                nextQueue: previous.repeatQueue
+                  ? []
+                  : createPriorityQueue(
+                      previous.queue,
+                      previous.queuePlaylistId ?? '',
+                      previous.trackTiers
+                    ),
               }))
             }
           >
@@ -125,7 +142,8 @@ export function Player() {
             onClick={() => {
               const previousTrack = state.queue[previousIndex]
               if (!previousTrack) return
-              if (previousTrack.id === track?.id) player?.loadVideoById(previousTrack.id)
+              if (previousTrack.id === track?.id)
+                player?.loadVideoById(previousTrack.id)
               setState(previous => ({
                 ...previous,
                 queueIndex: previousIndex,
@@ -181,14 +199,11 @@ export function Player() {
             aria-label='Next track'
             title='Next track'
             onClick={() => {
-              const nextTrack = state.queue[nextIndex]
-              if (!nextTrack) return
-              if (nextTrack.id === track?.id) player?.loadVideoById(nextTrack.id)
-              setState(previous => ({
-                ...previous,
-                queueIndex: nextIndex,
-                currentTrack: nextTrack,
-              }))
+              const next = advancePriorityQueue(state)
+              if (!next) return
+              if (next.currentTrack.id === track?.id)
+                player?.loadVideoById(next.currentTrack.id)
+              setState(previous => ({ ...previous, ...next }))
             }}
           >
             <SkipForwardIcon weight='fill' />
@@ -230,30 +245,30 @@ export function Player() {
         </div>
       </div>
       <div className='flex items-center gap-2 sm:flex-1 sm:justify-end'>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							variant='ghost'
-							size='sm'
-							disabled={!player}
-							aria-label='Playback speed'
-						>
-							{playback.rate}×
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuRadioGroup
-							value={String(playback.rate)}
-							onValueChange={value => player?.setPlaybackRate(Number(value))}
-						>
-							{playback.rates.map(rate => (
-								<DropdownMenuRadioItem key={rate} value={String(rate)}>
-									{rate}×
-								</DropdownMenuRadioItem>
-							))}
-						</DropdownMenuRadioGroup>
-					</DropdownMenuContent>
-				</DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant='ghost'
+              size='sm'
+              disabled={!player}
+              aria-label='Playback speed'
+            >
+              {playback.rate}×
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuRadioGroup
+              value={String(playback.rate)}
+              onValueChange={value => player?.setPlaybackRate(Number(value))}
+            >
+              {playback.rates.map(rate => (
+                <DropdownMenuRadioItem key={rate} value={String(rate)}>
+                  {rate}×
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Button
           variant='ghost'
           size='icon-sm'

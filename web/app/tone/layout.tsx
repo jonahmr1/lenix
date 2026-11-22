@@ -23,7 +23,7 @@ export default async function ToneLayout({
 
   const { data: playlists, error } = await supabase
     .from('playlists')
-    .select('id, name:label, tracks')
+    .select('id, name:label, tracks, track_tiers')
     .eq('user_id', user.id)
     .order('created_at')
 
@@ -41,10 +41,18 @@ export default async function ToneLayout({
     throw new Error(
       'Couldn’t load saved import progress. Please refresh to try again.'
     )
+  const trackTiers = Object.fromEntries(
+    (playlists ?? []).flatMap(playlist =>
+      Object.entries(playlist.track_tiers as Record<string, number>).map(
+        ([id, tier]) => [`${playlist.id}:${id}`, tier]
+      )
+    )
+  )
   return (
     <AppProvider
       key={user.id}
       playlists={playlists ?? []}
+      trackTiers={trackTiers}
       spotifyPlaylistUrl={savedImport?.playlist_url ?? ''}
     >
       <div className='flex min-h-0 flex-1'>

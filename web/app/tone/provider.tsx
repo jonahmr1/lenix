@@ -13,9 +13,11 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import { storage } from '@lenix/lenix'
 import type { SpotifyImportResult } from '@/lib/tone/spotify-actions'
 import type { YouTubePlayer } from 'react-youtube'
+import type { PriorityTier } from '@/lib/tone/priority-queue'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 
 type AppState = {
+  trackTiers: Record<string, PriorityTier>
   player: YouTubePlayer | null
   playback: {
     playing: boolean
@@ -27,6 +29,7 @@ type AppState = {
     rates: number[]
   }
   currentTrack: SearchTrack | null
+  nextQueue: SearchTrack[]
   queue: SearchTrack[]
   queueIndex: number
   queuePlaylistId: string | null
@@ -65,14 +68,17 @@ const AppContext = createContext<{
 export function AppProvider({
   children,
   playlists,
+  trackTiers,
   spotifyPlaylistUrl,
 }: {
   children: ReactNode
   playlists: AppState['playlists']
+  trackTiers: AppState['trackTiers']
   spotifyPlaylistUrl: string
 }) {
   const [state, setState] = useState<AppState>({
-      player: null,
+    trackTiers,
+    player: null,
     playback: {
       playing: false,
       time: 0,
@@ -84,6 +90,7 @@ export function AppProvider({
     },
     currentTrack: null,
     queue: [],
+    nextQueue: [],
     queueIndex: -1,
     queuePlaylistId: null,
     repeatQueue: false,
