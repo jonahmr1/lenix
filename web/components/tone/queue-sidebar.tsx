@@ -42,6 +42,9 @@ export function QueueSidebar() {
   const upcomingTracks = state.queue
     .slice(state.queueIndex + 1)
     .concat(state.repeatQueue ? state.nextQueue : [])
+    .filter((track, index, tracks) =>
+      tracks.findIndex(item => item.id === track.id) === index
+    )
   const video = track ? (
     <div
       inert
