@@ -171,25 +171,33 @@ export function QueueSidebar() {
   )
 
   return isMobile ? (
-    <Sheet
-      open={state.queueMobileOpen}
-      onOpenChange={queueMobileOpen =>
-        setState(previous => ({ ...previous, queueMobileOpen }))
-      }
-    >
-      <SheetContent
-        side='right'
-        className='w-72 bg-sidebar p-2 [&>button]:hidden'
+    <>
+      <Sheet
+        open={state.queueMobileOpen}
+        onOpenChange={queueMobileOpen =>
+          setState(previous => ({ ...previous, queueMobileOpen }))
+        }
       >
-        <SheetHeader className='sr-only'>
-          <SheetTitle>Queue</SheetTitle>
-          <SheetDescription>Upcoming tracks.</SheetDescription>
-        </SheetHeader>
-        {queueHeader}
-        {queue}
-        <div className='-z-100'>{video}</div>
-      </SheetContent>
-    </Sheet>
+        <SheetContent
+          side='right'
+          className='w-72 bg-sidebar p-2 [&>button]:hidden'
+        >
+          <SheetHeader className='sr-only'>
+            <SheetTitle>Queue</SheetTitle>
+            <SheetDescription>Upcoming tracks.</SheetDescription>
+          </SheetHeader>
+          {queueHeader}
+          {queue}
+          {track && <div className='h-50 shrink-0' aria-hidden />}
+        </SheetContent>
+      </Sheet>
+      {/* Keep playback mounted when the mobile sheet closes. */}
+      <div
+        className={`fixed right-2 bottom-2 z-51 w-68 ${state.queueMobileOpen ? '' : 'invisible'}`}
+      >
+        {video}
+      </div>
+    </>
   ) : (
     <div
       className='group peer hidden md:block'
