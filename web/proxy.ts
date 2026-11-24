@@ -1,10 +1,10 @@
 import type { NextRequest } from 'next/server'
-import { createClient } from '@/lib/supabase.middleware'
+import { createClient } from '@/supabase/middleware'
 
 export async function proxy(request: NextRequest) {
-  return createClient(request)
+	return createClient(request)
 }
 
 export const config = {
-  matcher: ['/tone/:path*'],
+	matcher: ['/tone/:path*'],
 }

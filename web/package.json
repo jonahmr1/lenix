@@ -9,7 +9,7 @@
     "start": "next start",
     "format": "oxfmt --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "types": "bunx supabase gen types typescript --project-id mezvgmfypkdvbnzvyxfz > lib/supabase.types.ts"
+    "types": "bunx supabase gen types typescript --project-id mezvgmfypkdvbnzvyxfz > supabase/types.ts"
   },
   "dependencies": {
     "@animate-ui/react": "^2.4.6",
