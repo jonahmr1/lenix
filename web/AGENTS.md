@@ -1,6 +1,6 @@
 Add only what the current request requires. If something can be removed without affecting the requested result, leave it out.
 
-- Never modify files in `components/ui/`. Use their public props and composition, and keep app-specific behavior outside that directory.
+- Never modify existing component implementations in `components/ui/`. Adding unmodified official shadcn components when needed is allowed, as is staging and committing those additions. Use their public props and composition, and keep app-specific behavior outside that directory.
 - Consult the official shadcn MCP before implementing UI. Prefer existing components and their documented composition and defaults. If MCP is unavailable, consult the official documentation and installed component source.
 - Start with the existing components' documented composition, props, and defaults. Use their built-in layout and behavior before introducing custom controls, state wiring, or CSS overrides.
 - Keep the component tree direct. Every additional function, wrapper, provider, and state field must serve a concrete current requirement. Do not add structure for assumed behavior or future features.
