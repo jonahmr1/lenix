@@ -121,10 +121,7 @@ export function PlaylistTracks({
               playlist.id,
               state.trackTiers
             )
-            if (state.currentTrack?.id === queue[0].id) {
-              state.player?.seekTo(0, true)
-              state.player?.playVideo()
-            }
+            state.player?.loadVideoById(queue[0].id)
             setState(previous => ({
               ...previous,
               queue,
@@ -176,16 +173,18 @@ export function PlaylistTracks({
                           ? 'selected'
                           : undefined
                       }
-                      onClick={() =>
+                      onClick={() => {
+                        state.player?.loadVideoById(track.id)
                         setState(previous => ({
                           ...previous,
                           currentTrack: track,
                         }))
-                      }
+                      }}
                       onKeyDown={event => {
                         if (event.target !== event.currentTarget) return
                         if (event.key === 'Enter' || event.key === ' ') {
                           event.preventDefault()
+                          state.player?.loadVideoById(track.id)
                           setState(previous => ({
                             ...previous,
                             currentTrack: track,

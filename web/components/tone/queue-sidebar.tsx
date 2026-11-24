@@ -42,33 +42,34 @@ export function QueueSidebar() {
   const upcomingTracks = state.queue
     .slice(state.queueIndex + 1)
     .concat(state.repeatQueue ? state.nextQueue : [])
-    .filter((track, index, tracks) =>
-      tracks.findIndex(item => item.id === track.id) === index
+    .filter(
+      (track, index, tracks) =>
+        tracks.findIndex(item => item.id === track.id) === index
     )
-  const video = track ? (
+  const video = (
     <div
       inert
       className='mt-auto h-50 w-full shrink-0 overflow-hidden rounded-md bg-black'
     >
       <YouTube
-        videoId={track.id}
-        title={`Playing ${track.title}`}
+        title={track ? `Playing ${track.title}` : 'YouTube player'}
         className='h-full w-full'
         iframeClassName='pointer-events-none block'
         opts={{
           width: '100%',
           height: '200',
           playerVars: {
-            autoplay: 1,
+            autoplay: 0,
             playsinline: 1,
             controls: 0,
             disablekb: 1,
           },
         }}
         onReady={async event => {
+          setState(previous => ({ ...previous, player: event.target }))
+          if (track) event.target.loadVideoById(track.id)
           const iframe = await event.target.getIframe()
           iframe.tabIndex = -1
-          setState(previous => ({ ...previous, player: event.target }))
         }}
         onStateChange={event =>
           setState(previous => ({
@@ -77,14 +78,14 @@ export function QueueSidebar() {
           }))
         }
         onEnd={event => {
+          if (!track) return
           if (state.repeatTrack) {
             event.target.loadVideoById(track.id)
             return
           }
           const next = advancePriorityQueue(state)
           if (!next) return
-          if (next.currentTrack.id === track.id)
-            event.target.loadVideoById(next.currentTrack.id)
+          event.target.loadVideoById(next.currentTrack.id)
           setState(previous => ({ ...previous, ...next }))
         }}
         onError={() =>
@@ -92,7 +93,7 @@ export function QueueSidebar() {
         }
       />
     </div>
-  ) : null
+  )
   const queueHeader = (
     <SidebarHeader className='flex-row items-center justify-between'>
       Queue
@@ -135,7 +136,10 @@ export function QueueSidebar() {
           </EmptyHeader>
         </Empty>
       )}
-      <ol aria-label='Queued tracks' className='list-none space-y-1 px-0 py-2 pr-2'>
+      <ol
+        aria-label='Queued tracks'
+        className='list-none space-y-1 px-0 py-2 pr-2'
+      >
         {upcomingTracks.map((track, index) => (
           <li key={`${index}:${track.id}`} className='text-xs'>
             {(index === 0 ||
@@ -170,70 +174,72 @@ export function QueueSidebar() {
     </SidebarContent>
   )
 
-  return isMobile ? (
+  return (
     <>
-      <Sheet
-        open={state.queueMobileOpen}
-        onOpenChange={queueMobileOpen =>
-          setState(previous => ({ ...previous, queueMobileOpen }))
-        }
-      >
-        <SheetContent
-          side='right'
-          className='w-72 bg-sidebar p-2 [&>button]:hidden'
+      {isMobile ? (
+        <Sheet
+          open={state.queueMobileOpen}
+          onOpenChange={queueMobileOpen =>
+            setState(previous => ({ ...previous, queueMobileOpen }))
+          }
         >
-          <SheetHeader className='sr-only'>
-            <SheetTitle>Queue</SheetTitle>
-            <SheetDescription>Upcoming tracks.</SheetDescription>
-          </SheetHeader>
-          {queueHeader}
-          {queue}
-          {track && <div className='h-50 shrink-0' aria-hidden />}
-        </SheetContent>
-      </Sheet>
-      {/* Keep playback mounted when the mobile sheet closes. */}
+          <SheetContent
+            side='right'
+            className='w-72 bg-sidebar p-2 [&>button]:hidden'
+          >
+            <SheetHeader className='sr-only'>
+              <SheetTitle>Queue</SheetTitle>
+              <SheetDescription>Upcoming tracks.</SheetDescription>
+            </SheetHeader>
+            {queueHeader}
+            {queue}
+            {track && <div className='h-50 shrink-0' aria-hidden />}
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <div
+          className='group peer hidden md:block'
+          data-side='right'
+          data-variant='inset'
+          data-state={state.queueOpen ? 'expanded' : 'collapsed'}
+          data-collapsible={state.queueOpen ? '' : 'offcanvas'}
+        >
+          <div className='w-(--sidebar-width) transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0' />
+          <Sidebar
+            collapsible='none'
+            side='right'
+            aria-label='Queue'
+            className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
+          >
+            {queueHeader}
+            {upcomingTracks.length > 0 ? (
+              <ScrollFade className='m-0'>{queue}</ScrollFade>
+            ) : (
+              queue
+            )}
+            <br />
+            {track && <div className='h-50 shrink-0' aria-hidden />}
+            <SidebarRail
+              onClick={() =>
+                setState(previous => ({
+                  ...previous,
+                  queueOpen: !previous.queueOpen,
+                }))
+              }
+              aria-label='Toggle queue'
+              title='Toggle queue (Ctrl+M)'
+              aria-keyshortcuts='Control+m'
+              className='group-data-[side=right]:-left-2 after:inset-y-2 after:w-4 after:-translate-x-full after:rounded-r-xl after:border-y-2 after:border-r-2 after:border-transparent group-data-[collapsible=offcanvas]:after:start-0 hover:after:border-sidebar-border hover:after:bg-transparent'
+            />
+          </Sidebar>
+        </div>
+      )}
+      {/* One player instance survives both responsive layouts. */}
       <div
-        className={`fixed right-2 bottom-2 z-51 w-68 ${state.queueMobileOpen ? '' : 'invisible'}`}
+        className={`fixed right-2 ${isMobile ? 'bottom-2 z-51 w-68' : 'bottom-[calc(5rem+0.5rem)] z-10 w-[calc(var(--sidebar-width)-1rem)]'} ${track && (isMobile ? state.queueMobileOpen : state.queueOpen) ? '' : 'invisible'}`}
       >
         {video}
       </div>
     </>
-  ) : (
-    <div
-      className='group peer hidden md:block'
-      data-side='right'
-      data-variant='inset'
-      data-state={state.queueOpen ? 'expanded' : 'collapsed'}
-      data-collapsible={state.queueOpen ? '' : 'offcanvas'}
-    >
-      <div className='w-(--sidebar-width) transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0' />
-      <Sidebar
-        collapsible='none'
-        side='right'
-        aria-label='Queue'
-        className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
-      >
-        {queueHeader}
-        {upcomingTracks.length > 0 ? (
-          <ScrollFade className='m-0'>{queue}</ScrollFade>
-        ) : (
-          queue
-        )}
-        <br />
-        {video}
-        <SidebarRail
-          onClick={() =>
-            setState(previous => ({
-              ...previous,
-              queueOpen: !previous.queueOpen,
-            }))
-          }
-          aria-label='Toggle queue'
-          title='Toggle queue (Ctrl+M)'
-          aria-keyshortcuts='Control+m'
-          className='group-data-[side=right]:-left-2 after:inset-y-2 after:w-4 after:-translate-x-full after:rounded-r-xl after:border-y-2 after:border-r-2 after:border-transparent group-data-[collapsible=offcanvas]:after:start-0 hover:after:border-sidebar-border hover:after:bg-transparent'
-        />
-      </Sidebar>
-    </div>
   )
 }

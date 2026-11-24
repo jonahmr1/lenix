@@ -240,16 +240,18 @@ export default function TonePage() {
 												? 'selected'
 												: undefined
 										}
-										onClick={() =>
+										onClick={() => {
+											state.player?.loadVideoById(track.id)
 											setState(previous => ({
 												...previous,
 												currentTrack: track,
 											}))
-										}
+										}}
 										onKeyDown={event => {
 											if (event.target !== event.currentTarget) return
 											if (event.key === 'Enter' || event.key === ' ') {
 												event.preventDefault()
+												state.player?.loadVideoById(track.id)
 												setState(previous => ({
 													...previous,
 													currentTrack: track,
