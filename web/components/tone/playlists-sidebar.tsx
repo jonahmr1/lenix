@@ -39,7 +39,7 @@ export function PlaylistsSidebar({ account }: { account: Account }) {
 		<Sidebar
 			variant='inset'
 			aria-label='Playlists'
-			className='h-[calc(100dvh-5rem)]'
+			className='h-[calc(100dvh-3.75rem)]'
 		>
 			<SidebarHeader className='flex-row items-center justify-between'>
 				Playlists

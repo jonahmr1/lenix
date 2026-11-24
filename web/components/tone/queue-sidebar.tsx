@@ -209,7 +209,7 @@ export function QueueSidebar() {
             collapsible='none'
             side='right'
             aria-label='Queue'
-            className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-5rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
+            className='fixed inset-y-0 right-0 z-10 h-[calc(100dvh-3.75rem)] p-2 transition-[right] duration-200 ease-linear group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]'
           >
             {queueHeader}
             {upcomingTracks.length > 0 ? (
