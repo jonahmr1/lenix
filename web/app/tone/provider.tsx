@@ -57,6 +57,7 @@ type AppState = {
   playlistsOpen: boolean
   sidebarsRestored: boolean
   queueOpen: boolean
+  playerExpanded: boolean
   queueMobileOpen: boolean
 }
 
@@ -113,6 +114,7 @@ export function AppProvider({
     playlistsOpen: true,
     sidebarsRestored: false,
     queueOpen: true,
+    playerExpanded: false,
     queueMobileOpen: false,
   })
 

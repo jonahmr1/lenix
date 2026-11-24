@@ -8,6 +8,16 @@ import {
 import { useApp } from '@/app/tone/provider'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
+import { useSidebar } from '@/components/ui/sidebar'
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+} from '@/components/ui/drawer'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -16,6 +26,8 @@ import {
   DropdownMenuRadioItem,
 } from '@/components/ui/dropdown-menu'
 import {
+  MusicNotesIcon,
+  XIcon,
   PlayIcon,
   PauseIcon,
   SpeakerHighIcon,
@@ -35,6 +47,7 @@ function timestamp(seconds: number) {
 
 export function Player() {
   const { state, setState } = useApp()
+  const { isMobile } = useSidebar()
   const { currentTrack: track, player, playback } = state
   const previousIndex =
     state.queueIndex > 0
@@ -83,7 +96,328 @@ export function Player() {
     }
   }, [player, setState])
 
-  return (
+  const playButton = (
+    <Button
+      size='icon-sm'
+      className={
+        isMobile && state.playerExpanded
+          ? 'size-14 shrink-0 rounded-full [&_svg]:size-7!'
+          : 'rounded-full'
+      }
+      disabled={!player}
+      aria-label={playback.playing ? 'Pause' : 'Play'}
+      onClick={() =>
+        playback.playing ? player?.pauseVideo() : player?.playVideo()
+      }
+    >
+      {playback.playing ? (
+        <PauseIcon weight='fill' />
+      ) : (
+        <PlayIcon weight='fill' />
+      )}
+    </Button>
+  )
+  const muteButton = (
+    <Button
+      variant='ghost'
+      size='icon-sm'
+      className={
+        isMobile && state.playerExpanded
+          ? 'size-10 shrink-0 [&_svg]:size-5!'
+          : undefined
+      }
+      disabled={!player}
+      aria-label={playback.muted ? 'Unmute' : 'Mute'}
+      onClick={() => (playback.muted ? player?.unMute() : player?.mute())}
+    >
+      {playback.muted ? <SpeakerSlashIcon /> : <SpeakerHighIcon />}
+    </Button>
+  )
+  const controls = (
+    <div className='flex flex-wrap items-center justify-center gap-1'>
+      <Button
+        size='icon-sm'
+        className={
+          isMobile && state.playerExpanded
+            ? 'size-10 shrink-0 [&_svg]:size-5!'
+            : undefined
+        }
+        variant={state.repeatQueue ? 'secondary' : 'ghost'}
+        aria-label='Repeat queue'
+        title='Repeat queue'
+        aria-pressed={state.repeatQueue}
+        onClick={() =>
+          setState(previous => ({
+            ...previous,
+            repeatQueue: !previous.repeatQueue,
+            nextQueue: previous.repeatQueue
+              ? []
+              : createPriorityQueue(
+                  previous.queue,
+                  previous.queuePlaylistId ?? '',
+                  previous.trackTiers
+                ),
+          }))
+        }
+      >
+        <RepeatIcon />
+      </Button>
+      <Button
+        variant='ghost'
+        size='icon-sm'
+        className={
+          isMobile && state.playerExpanded
+            ? 'size-10 shrink-0 [&_svg]:size-5!'
+            : undefined
+        }
+        disabled={!state.queue[previousIndex]}
+        aria-label='Previous track'
+        title='Previous track'
+        onClick={() => {
+          const previousTrack = state.queue[previousIndex]
+          if (!previousTrack) return
+          player?.loadVideoById(previousTrack.id)
+          setState(previous => ({
+            ...previous,
+            queueIndex: previousIndex,
+            currentTrack: previousTrack,
+          }))
+        }}
+      >
+        <SkipBackIcon weight='fill' />
+      </Button>
+      <Button
+        variant='ghost'
+        size='icon-sm'
+        className={
+          isMobile && state.playerExpanded
+            ? 'size-10 shrink-0 [&_svg]:size-5!'
+            : undefined
+        }
+        disabled={!player}
+        aria-label='Rewind 10 seconds'
+        onClick={() => player?.seekTo(Math.max(0, playback.time - 10), true)}
+      >
+        <ArrowCounterClockwiseIcon />
+      </Button>
+      {playButton}
+      <Button
+        variant='ghost'
+        size='icon-sm'
+        className={
+          isMobile && state.playerExpanded
+            ? 'size-10 shrink-0 [&_svg]:size-5!'
+            : undefined
+        }
+        disabled={!player}
+        aria-label='Forward 10 seconds'
+        onClick={() =>
+          player?.seekTo(Math.min(playback.duration, playback.time + 10), true)
+        }
+      >
+        <ArrowClockwiseIcon />
+      </Button>
+      <Button
+        variant='ghost'
+        size='icon-sm'
+        className={
+          isMobile && state.playerExpanded
+            ? 'size-10 shrink-0 [&_svg]:size-5!'
+            : undefined
+        }
+        disabled={!state.queue[nextIndex]}
+        aria-label='Next track'
+        title='Next track'
+        onClick={() => {
+          const next = advancePriorityQueue(state)
+          if (!next) return
+          player?.loadVideoById(next.currentTrack.id)
+          setState(previous => ({ ...previous, ...next }))
+        }}
+      >
+        <SkipForwardIcon weight='fill' />
+      </Button>
+      <Button
+        size='icon-sm'
+        className={
+          isMobile && state.playerExpanded
+            ? 'size-10 shrink-0 [&_svg]:size-5!'
+            : undefined
+        }
+        variant={state.repeatTrack ? 'secondary' : 'ghost'}
+        aria-label='Loop current track'
+        title='Loop current track'
+        aria-pressed={state.repeatTrack}
+        onClick={() =>
+          setState(previous => ({
+            ...previous,
+            repeatTrack: !previous.repeatTrack,
+          }))
+        }
+      >
+        <RepeatOnceIcon />
+      </Button>
+    </div>
+  )
+  const timeline = (
+    <div
+      className={`${isMobile && state.playerExpanded ? 'grid grid-cols-2' : 'flex items-center'} gap-2 text-xs text-muted-foreground tabular-nums`}
+    >
+      <span>{timestamp(playback.time)}</span>
+      <Slider
+        className={`${isMobile && state.playerExpanded ? 'col-span-2 row-start-1' : ''} [&_[data-slot=slider-track]]:bg-muted-foreground/25`}
+        aria-label='Seek'
+        value={[playback.time]}
+        max={playback.duration || 1}
+        step={1}
+        disabled={!player || !playback.duration}
+        onValueChange={([time]) => {
+          setState(previous => ({
+            ...previous,
+            playback: { ...previous.playback, time },
+          }))
+          player?.seekTo(time, true)
+        }}
+      />
+      <span className='text-right'>{timestamp(playback.duration)}</span>
+    </div>
+  )
+  const volumeControls = (
+    <div className='flex items-center gap-2 sm:flex-1 sm:justify-end'>
+      {muteButton}
+      <Slider
+        className={`${isMobile ? 'min-w-0 flex-1' : 'w-24'} [&_[data-slot=slider-track]]:bg-muted-foreground/25`}
+        aria-label='Volume'
+        value={[playback.muted ? 0 : playback.volume]}
+        max={100}
+        step={1}
+        disabled={!player}
+        onValueChange={([volume]) => {
+          player?.unMute()
+          player?.setVolume(volume)
+          setState(previous => ({
+            ...previous,
+            playback: { ...previous.playback, volume, muted: false },
+          }))
+        }}
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant='ghost'
+            size='sm'
+            disabled={!player}
+            aria-label='Playback speed'
+          >
+            {playback.rate}×
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuRadioGroup
+            value={String(playback.rate)}
+            onValueChange={value => player?.setPlaybackRate(Number(value))}
+          >
+            {playback.rates.map(rate => (
+              <DropdownMenuRadioItem key={rate} value={String(rate)}>
+                {rate}×
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  )
+
+  return isMobile ? (
+    <Drawer
+      open={state.playerExpanded}
+      onOpenChange={playerExpanded =>
+        setState(previous => ({ ...previous, playerExpanded }))
+      }
+    >
+      <footer
+        aria-label='Player'
+        className='shrink-0 space-y-2 bg-sidebar px-3 py-2'
+      >
+        <div className='flex items-center gap-3'>
+          {track && (
+            <img
+              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+              alt=''
+              width={40}
+              height={40}
+              className='size-10 shrink-0 rounded-md object-cover'
+            />
+          )}
+          <DrawerTrigger asChild>
+            <button
+              className='min-w-0 flex-1 text-left'
+              aria-label='Expand player'
+            >
+              <span className='block truncate text-sm font-medium'>
+                {track?.title ?? 'Nothing playing'}
+              </span>
+              {track && (
+                <span className='block truncate text-xs text-muted-foreground'>
+                  {track.channel}
+                </span>
+              )}
+            </button>
+          </DrawerTrigger>
+          {playButton}
+        </div>
+        {timeline}
+      </footer>
+      <DrawerContent className='mt-0! h-dvh! max-h-dvh! overflow-y-auto p-0 before:inset-0 before:rounded-none before:border-0'>
+        <DrawerClose asChild>
+          <Button
+            variant='ghost'
+            size='icon-sm'
+            className='absolute top-4 right-4'
+            aria-label='Collapse player'
+          >
+            <XIcon />
+          </Button>
+        </DrawerClose>
+        <DrawerHeader>
+          <DrawerTitle>Now playing</DrawerTitle>
+          <DrawerDescription className='sr-only'>
+            Track details and playback controls.
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className='flex min-h-0 flex-1 flex-col justify-center gap-6 px-6 pb-8'>
+          {track ? (
+            <img
+              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+              alt=''
+              width={320}
+              height={320}
+              className='aspect-square w-full shrink-0 self-center rounded-xl object-cover'
+            />
+          ) : (
+            <div className='flex aspect-square w-full shrink-0 items-center justify-center rounded-xl bg-muted'>
+              <MusicNotesIcon
+                className='size-16 text-muted-foreground'
+                aria-hidden='true'
+              />
+            </div>
+          )}
+          <div>
+            <p className='text-xl font-semibold wrap-break-word text-foreground'>
+              {track?.title ?? 'Nothing playing'}
+            </p>
+            <p className='mt-1 text-sm text-muted-foreground'>
+              {track?.channel ??
+                'Choose a track or playlist to start listening.'}
+            </p>
+          </div>
+          {timeline}
+          {controls}
+          {volumeControls}
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ) : (
     <footer
       aria-label='Player'
       className='flex h-15 shrink-0 items-center gap-3 bg-sidebar px-2'
@@ -109,192 +443,12 @@ export function Player() {
           )}
         </div>
       </div>
+
       <div className='flex min-w-0 flex-[2] flex-col gap-2'>
-        <div className='flex items-center justify-center gap-1'>
-          <Button
-            size='icon-sm'
-            variant={state.repeatQueue ? 'secondary' : 'ghost'}
-            aria-label='Repeat queue'
-            title='Repeat queue'
-            aria-pressed={state.repeatQueue}
-            onClick={() =>
-              setState(previous => ({
-                ...previous,
-                repeatQueue: !previous.repeatQueue,
-                nextQueue: previous.repeatQueue
-                  ? []
-                  : createPriorityQueue(
-                      previous.queue,
-                      previous.queuePlaylistId ?? '',
-                      previous.trackTiers
-                    ),
-              }))
-            }
-          >
-            <RepeatIcon />
-          </Button>
-          <Button
-            variant='ghost'
-            size='icon-sm'
-            disabled={!state.queue[previousIndex]}
-            aria-label='Previous track'
-            title='Previous track'
-            onClick={() => {
-              const previousTrack = state.queue[previousIndex]
-              if (!previousTrack) return
-              if (previousTrack.id === track?.id)
-                player?.loadVideoById(previousTrack.id)
-              setState(previous => ({
-                ...previous,
-                queueIndex: previousIndex,
-                currentTrack: previousTrack,
-              }))
-            }}
-          >
-            <SkipBackIcon weight='fill' />
-          </Button>
-          <Button
-            variant='ghost'
-            size='icon-sm'
-            disabled={!player}
-            aria-label='Rewind 10 seconds'
-            onClick={() =>
-              player?.seekTo(Math.max(0, playback.time - 10), true)
-            }
-          >
-            <ArrowCounterClockwiseIcon />
-          </Button>
-          <Button
-            size='icon-sm'
-            disabled={!player}
-            aria-label={playback.playing ? 'Pause' : 'Play'}
-            onClick={() =>
-              playback.playing ? player?.pauseVideo() : player?.playVideo()
-            }
-          >
-            {playback.playing ? (
-              <PauseIcon weight='fill' />
-            ) : (
-              <PlayIcon weight='fill' />
-            )}
-          </Button>
-          <Button
-            variant='ghost'
-            size='icon-sm'
-            disabled={!player}
-            aria-label='Forward 10 seconds'
-            onClick={() =>
-              player?.seekTo(
-                Math.min(playback.duration, playback.time + 10),
-                true
-              )
-            }
-          >
-            <ArrowClockwiseIcon />
-          </Button>
-          <Button
-            variant='ghost'
-            size='icon-sm'
-            disabled={!state.queue[nextIndex]}
-            aria-label='Next track'
-            title='Next track'
-            onClick={() => {
-              const next = advancePriorityQueue(state)
-              if (!next) return
-              if (next.currentTrack.id === track?.id)
-                player?.loadVideoById(next.currentTrack.id)
-              setState(previous => ({ ...previous, ...next }))
-            }}
-          >
-            <SkipForwardIcon weight='fill' />
-          </Button>
-          <Button
-            size='icon-sm'
-            variant={state.repeatTrack ? 'secondary' : 'ghost'}
-            aria-label='Loop current track'
-            title='Loop current track'
-            aria-pressed={state.repeatTrack}
-            onClick={() =>
-              setState(previous => ({
-                ...previous,
-                repeatTrack: !previous.repeatTrack,
-              }))
-            }
-          >
-            <RepeatOnceIcon />
-          </Button>
-        </div>
-        <div className='flex items-center gap-2 text-xs text-muted-foreground tabular-nums'>
-          <span>{timestamp(playback.time)}</span>
-          <Slider
-            className='[&_[data-slot=slider-track]]:bg-muted-foreground/25'
-            aria-label='Seek'
-            value={[playback.time]}
-            max={playback.duration || 1}
-            step={1}
-            disabled={!player || !playback.duration}
-            onValueChange={([time]) => {
-              setState(previous => ({
-                ...previous,
-                playback: { ...previous.playback, time },
-              }))
-              player?.seekTo(time, true)
-            }}
-          />
-          <span>{timestamp(playback.duration)}</span>
-        </div>
+        {controls}
+        {timeline}
       </div>
-      <div className='flex items-center gap-2 sm:flex-1 sm:justify-end'>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant='ghost'
-              size='sm'
-              disabled={!player}
-              aria-label='Playback speed'
-            >
-              {playback.rate}×
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuRadioGroup
-              value={String(playback.rate)}
-              onValueChange={value => player?.setPlaybackRate(Number(value))}
-            >
-              {playback.rates.map(rate => (
-                <DropdownMenuRadioItem key={rate} value={String(rate)}>
-                  {rate}×
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <Button
-          variant='ghost'
-          size='icon-sm'
-          disabled={!player}
-          aria-label={playback.muted ? 'Unmute' : 'Mute'}
-          onClick={() => (playback.muted ? player?.unMute() : player?.mute())}
-        >
-          {playback.muted ? <SpeakerSlashIcon /> : <SpeakerHighIcon />}
-        </Button>
-        <Slider
-          className='w-12 sm:w-24 [&_[data-slot=slider-track]]:bg-muted-foreground/25'
-          aria-label='Volume'
-          value={[playback.muted ? 0 : playback.volume]}
-          max={100}
-          step={1}
-          disabled={!player}
-          onValueChange={([volume]) => {
-            player?.unMute()
-            player?.setVolume(volume)
-            setState(previous => ({
-              ...previous,
-              playback: { ...previous.playback, volume, muted: false },
-            }))
-          }}
-        />
-      </div>
+      {volumeControls}
     </footer>
   )
 }
