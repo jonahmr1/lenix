@@ -1,11 +1,21 @@
 'use client'
 
 import Link, { useLinkStatus } from 'next/link'
-import type { ComponentProps } from 'react'
+import { useLayoutEffect, useRef, type ComponentProps } from 'react'
 
 function NavigationPending() {
   const { pending } = useLinkStatus()
-  return <span hidden data-navigation-pending={pending} />
+  const marker = useRef<HTMLSpanElement>(null)
+
+  useLayoutEffect(() => {
+    const element = marker.current
+    if (!pending || !element) return
+    element.dataset.navigationPending = 'true'
+    // Cached pages remain in the DOM, but their effects clean up when hidden.
+    return () => element.removeAttribute('data-navigation-pending')
+  }, [pending])
+
+  return <span hidden ref={marker} />
 }
 
 export default function NavigationLink({
