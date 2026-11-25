@@ -2,6 +2,7 @@
 
 import { advancePriorityQueue, normalizeTiers } from '@/lib/tone/priority-queue'
 import { useApp } from '@/app/tone/provider'
+import { useRef } from 'react'
 import YouTube from 'react-youtube'
 import { toast } from 'sonner'
 import {
@@ -30,6 +31,7 @@ export function QueueSidebar() {
   const { state, setState } = useApp()
   const { isMobile } = useSidebar()
   const track = state.currentTrack
+  const restoredTrack = useRef(track)
   const tiers = normalizeTiers(
     state.queue.map(track => track.id),
     Object.fromEntries(
@@ -67,7 +69,12 @@ export function QueueSidebar() {
         }}
         onReady={async event => {
           setState(previous => ({ ...previous, player: event.target }))
-          if (track) event.target.loadVideoById(track.id)
+          if (track && track.id === restoredTrack.current?.id)
+            event.target.cueVideoById({videoId: track.id, startSeconds: state.playback.time})
+          else if (track) event.target.loadVideoById(track.id)
+          event.target.setVolume(state.playback.volume)
+          if (state.playback.muted) event.target.mute()
+          event.target.setPlaybackRate(state.playback.rate)
           const iframe = await event.target.getIframe()
           iframe.tabIndex = -1
         }}

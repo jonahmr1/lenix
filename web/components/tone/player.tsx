@@ -67,25 +67,26 @@ export function Player() {
     let cancelled = false
     const timer = window.setInterval(async () => {
       try {
-        const [time, duration, volume, muted, rate, rates] = await Promise.all([
+        const [time, duration, volume, muted, rate, rates, playerState] = await Promise.all([
           player.getCurrentTime(),
           player.getDuration(),
           player.getVolume(),
           player.isMuted(),
           player.getPlaybackRate(),
           player.getAvailablePlaybackRates(),
+          player.getPlayerState(),
         ])
         if (!cancelled)
           setState(previous => ({
             ...previous,
             playback: {
               ...previous.playback,
-              time,
-              duration,
-              volume,
-              muted,
-              rate,
-              rates: [...rates],
+              time: playerState === 5 || playerState === -1 ? previous.playback.time : time ?? previous.playback.time,
+              duration: duration || previous.playback.duration,
+              volume: volume ?? previous.playback.volume,
+              muted: muted ?? previous.playback.muted,
+              rate: rate || previous.playback.rate,
+              rates: rates?.length ? [...rates] : previous.playback.rates,
             },
           }))
       } catch {}

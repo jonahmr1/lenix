@@ -1,3 +1,4 @@
+import { getTrackDetails } from '@/lib/tone/track-details'
 import type { ReactNode } from 'react'
 import { cookies } from 'next/headers'
 import { SignIn } from '@/components/tone/sign-in'
@@ -41,6 +42,17 @@ export default async function ToneLayout({
     throw new Error(
       'Couldn’t load saved import progress. Please refresh to try again.'
     )
+  const { data: playerSession, error: sessionError } = await supabase
+    .from('player')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle()
+  let cloudSession = playerSession?.session ?? null
+  if (!cloudSession && playerSession?.video_id) {
+    const [currentTrack] = await getTrackDetails([playerSession.video_id])
+    cloudSession = { currentTrack: { ...currentTrack }, time: playerSession.time, duration: 0,
+      queue: [], nextQueue: [], queueIndex: -1, queuePlaylistId: null, repeatTrack: false, repeatQueue: false }
+  }
   const trackTiers = Object.fromEntries(
     (playlists ?? []).flatMap(playlist =>
       Object.entries(playlist.track_tiers as Record<string, number>).map(
@@ -51,6 +63,8 @@ export default async function ToneLayout({
   return (
     <AppProvider
       key={user.id}
+      userId={user.id}
+      cloudSession={sessionError ? undefined : cloudSession}
       playlists={playlists ?? []}
       trackTiers={trackTiers}
       spotifyPlaylistUrl={savedImport?.playlist_url ?? ''}

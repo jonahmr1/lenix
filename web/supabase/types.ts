@@ -144,6 +144,8 @@ export type Database = {
       }
       player: {
         Row: {
+          session: Json | null
+          saved_at: string | null
           created_at: string
           id: string
           playing: boolean
@@ -151,6 +153,8 @@ export type Database = {
           video_id: string
         }
         Insert: {
+          session?: Json | null
+          saved_at?: string | null
           created_at?: string
           id?: string
           playing: boolean
@@ -158,6 +162,8 @@ export type Database = {
           video_id: string
         }
         Update: {
+          session?: Json | null
+          saved_at?: string | null
           created_at?: string
           id?: string
           playing?: boolean
