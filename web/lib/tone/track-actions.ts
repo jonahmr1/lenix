@@ -1,5 +1,6 @@
 'use server'
 
+import { trackMembershipSchema } from './validation'
 import { normalizeTiers } from './priority-queue'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
@@ -11,13 +12,7 @@ export async function setTrackInPlaylist(
 	included: boolean
 ): Promise<{ playlistName: string } | { error: string }> {
 	if (
-		typeof included !== 'boolean' ||
-		typeof playlistId !== 'string' ||
-		!/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(
-			playlistId
-		) ||
-		typeof videoId !== 'string' ||
-		!/^[a-zA-Z0-9_-]{11}$/.test(videoId)
+		!trackMembershipSchema.safeParse({ playlistId, videoId, included }).success
 	)
 		return { error: 'Choose a valid track and playlist.' }
 	try {

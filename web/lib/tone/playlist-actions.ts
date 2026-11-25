@@ -1,5 +1,6 @@
 'use server'
 
+import { playlistNameSchema } from './validation'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/supabase/server'
@@ -9,8 +10,8 @@ export async function createPlaylist(
 ): Promise<{ id: string } | { error: string }> {
 	const value = formData.get('name')
 	const name = typeof value === 'string' ? value.trim() : ''
-	if (!name || name.length > 100) {
-		return { error: 'Enter a playlist name between 1 and 100 characters.' }
+	if (!playlistNameSchema.safeParse(name).success) {
+		return { error: 'Enter a playlist name.' }
 	}
 
 	try {

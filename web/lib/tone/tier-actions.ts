@@ -1,5 +1,6 @@
 'use server'
 
+import { trackTierSchema } from './validation'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/supabase/server'
@@ -10,13 +11,7 @@ export async function setTrackTier(
 	videoId: string,
 	target: number | 'ascend' | 'descend'
 ) {
-	if (
-		!/^[\da-f-]{36}$/i.test(playlistId) ||
-		!/^[\w-]{11}$/.test(videoId) ||
-		(target !== 'ascend' &&
-			target !== 'descend' &&
-			(!Number.isSafeInteger(target) || target < 1))
-	)
+	if (!trackTierSchema.safeParse({ playlistId, videoId, target }).success)
 		return { error: 'Choose a valid track and tier.' }
 	try {
 		const supabase = createClient(await cookies())

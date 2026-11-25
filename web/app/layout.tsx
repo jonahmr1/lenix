@@ -61,6 +61,13 @@ export default function RootLayout({
         oxaniumHeading.variable
       )}
     >
+			<head>
+				<script
+          async
+          crossOrigin="anonymous"
+          src="https://tweakcn.com/live-preview.min.js"
+        />
+			</head>
       <body className='typeset typeset-docs flex min-h-screen flex-col bg-[#a0ffed]'>
         <div className='bg-background'>
           <ThemeProvider enableSystem>

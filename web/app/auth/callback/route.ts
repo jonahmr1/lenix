@@ -1,3 +1,4 @@
+import { playlistPathSchema } from '@/lib/tone/validation'
 import { createClient } from '@/supabase/server'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -14,13 +15,7 @@ export async function GET(request: Request) {
 	const code = searchParams.get('code')
 	const cookieStore = await cookies()
 	const savedPath = cookieStore.get('tone_return_to')?.value
-	const returnTo =
-		savedPath &&
-			/^\/tone\/playlist\/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(
-				savedPath
-			)
-			? savedPath
-			: '/tone'
+	const returnTo = playlistPathSchema.safeParse(savedPath).data ?? '/tone'
 	cookieStore.set('tone_return_to', '', { path: '/auth/callback', maxAge: 0 })
 	// if "next" is in param, use it as the redirect URL
 	let next = searchParams.get('next') ?? returnTo

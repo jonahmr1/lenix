@@ -1,5 +1,7 @@
 'use server'
 
+import { videoIdSchema } from './validation'
+
 import { spotifySongKey } from './spotify-song-key'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
@@ -226,7 +228,7 @@ export async function matchSpotifyTracks(
 				continue
 			}
 			const result = await searchTracks(
-				`${song.title} ${song.subtitle}`.slice(0, 200)
+				`${song.title} ${song.subtitle}`
 			)
 			if ('error' in result) return { error: result.error }
 			const normalize = (value: string) =>
@@ -311,10 +313,9 @@ export async function saveSpotifyPlaylist(
 	if (
 		typeof name !== 'string' ||
 		!name.trim() ||
-		name.length > 200 ||
 		!Array.isArray(tracks) ||
 		!tracks.length ||
-		tracks.some(id => typeof id !== 'string' || !/^[\w-]{11}$/.test(id))
+		tracks.some(id => !videoIdSchema.safeParse(id).success)
 	)
 		return { error: 'Invalid playlist. Please try importing again.' }
 	try {

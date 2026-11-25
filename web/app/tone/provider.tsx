@@ -16,7 +16,7 @@ import type { YouTubePlayer } from 'react-youtube'
 import type { PriorityTier } from '@/lib/tone/priority-queue'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 
-type AppState = {
+interface AppState {
   trackTiers: Record<string, PriorityTier>
   player: YouTubePlayer | null
   playback: {
@@ -38,6 +38,7 @@ type AppState = {
   searchQuery: string
   searchResults: SearchTrack[] | null
   searchLoading: boolean
+  autoFitPending: boolean
   searchMoreLoading: boolean
   searchActiveQuery: string
   searchNextPageToken: string | null
@@ -99,6 +100,7 @@ export function AppProvider({
     searchQuery: '',
     searchResults: null,
     searchLoading: false,
+    autoFitPending: false,
     searchMoreLoading: false,
     searchActiveQuery: '',
     searchNextPageToken: null,
