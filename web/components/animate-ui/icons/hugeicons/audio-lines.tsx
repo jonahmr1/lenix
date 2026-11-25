@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import { motion, type Variants } from 'motion/react';
+import * as React from 'react'
+import { motion, type Variants } from 'motion/react'
 
 import {
   getVariants,
   useAnimateIconContext,
   IconWrapper,
   type IconProps,
-} from '@animate-ui/react/icons';
+} from '@animate-ui/react/icons'
 
-type AudioLinesProps = IconProps<keyof typeof animations>;
+type AudioLinesProps = IconProps<keyof typeof animations>
 
 const animations = {
   default: {
@@ -68,69 +68,69 @@ const animations = {
       },
     },
   } satisfies Record<string, Variants>,
-} as const;
+} as const
 
 function IconComponent({ size, ...props }: AudioLinesProps) {
-  const { controls } = useAnimateIconContext();
-  const variants = getVariants(animations);
+  const { controls } = useAnimateIconContext()
+  const variants = getVariants(animations)
 
   return (
     <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns='http://www.w3.org/2000/svg'
       width={size}
       height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
       strokeWidth={2}
       {...props}
     >
       <motion.path
-        d="M4 11V13"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d='M4 11V13'
+        strokeLinecap='round'
+        strokeLinejoin='round'
         variants={variants.line1}
-        initial="initial"
+        initial='initial'
         animate={controls}
       />
       <motion.path
-        d="M8 7V17"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d='M8 7V17'
+        strokeLinecap='round'
+        strokeLinejoin='round'
         variants={variants.line2}
-        initial="initial"
+        initial='initial'
         animate={controls}
       />
       <motion.path
-        d="M12 3V21"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d='M12 3V21'
+        strokeLinecap='round'
+        strokeLinejoin='round'
         variants={variants.line3}
-        initial="initial"
+        initial='initial'
         animate={controls}
       />
       <motion.path
-        d="M16 7V17"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d='M16 7V17'
+        strokeLinecap='round'
+        strokeLinejoin='round'
         variants={variants.line4}
-        initial="initial"
+        initial='initial'
         animate={controls}
       />
       <motion.path
-        d="M20 11V13"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d='M20 11V13'
+        strokeLinecap='round'
+        strokeLinejoin='round'
         variants={variants.line5}
-        initial="initial"
+        initial='initial'
         animate={controls}
       />
     </motion.svg>
-  );
+  )
 }
 
 function AudioLines(props: AudioLinesProps) {
-  return <IconWrapper icon={IconComponent} {...props} />;
+  return <IconWrapper icon={IconComponent} {...props} />
 }
 
 export {
@@ -139,4 +139,4 @@ export {
   AudioLines as AudioLinesIcon,
   type AudioLinesProps,
   type AudioLinesProps as AudioLinesIconProps,
-};
+}

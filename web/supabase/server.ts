@@ -4,24 +4,24 @@ import { Database } from './types'
 import { supabaseKey, supabaseUrl } from './common'
 
 export const createClient = (
-	cookieStore: Awaited<ReturnType<typeof cookies>>
+  cookieStore: Awaited<ReturnType<typeof cookies>>
 ) => {
-	return createServerClient<Database>(supabaseUrl!, supabaseKey!, {
-		cookies: {
-			getAll() {
-				return cookieStore.getAll()
-			},
-			setAll(cookiesToSet) {
-				try {
-					cookiesToSet.forEach(({ name, value, options }) =>
-						cookieStore.set(name, value, options)
-					)
-				} catch {
-					// The `setAll` method was called from a Server Component.
-					// This can be ignored if you have middleware refreshing
-					// user sessions.
-				}
-			},
-		},
-	})
+  return createServerClient<Database>(supabaseUrl!, supabaseKey!, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll()
+      },
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          )
+        } catch {
+          // The `setAll` method was called from a Server Component.
+          // This can be ignored if you have middleware refreshing
+          // user sessions.
+        }
+      },
+    },
+  })
 }

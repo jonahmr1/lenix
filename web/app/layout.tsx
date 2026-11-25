@@ -29,19 +29,28 @@ export const metadata: Metadata = {
   title: 'Lenix',
   description: 'AI Engineer',
   metadataBase: new URL('https://lenix.dev'),
-	openGraph: {
-    title: "Discover more about the unique",
-    description: "Step into a space shaped by curiosity and a different way of thinking.",
-    url: "https://lenix.dev/",
-    siteName: "Lenix",
-    images: [{ url: "https://lenix.dev/og.png", width: 1200, height: 630, alt: "Discover more about the unique" }],
-    type: "website",
+  openGraph: {
+    title: 'Discover more about the unique',
+    description:
+      'Step into a space shaped by curiosity and a different way of thinking.',
+    url: 'https://lenix.dev/',
+    siteName: 'Lenix',
+    images: [
+      {
+        url: 'https://lenix.dev/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'Discover more about the unique',
+      },
+    ],
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Discover more about the unique",
-    description: "Step into a space shaped by curiosity and a different way of thinking.",
-    images: ["https://lenix.dev/og.png"],
+    card: 'summary_large_image',
+    title: 'Discover more about the unique',
+    description:
+      'Step into a space shaped by curiosity and a different way of thinking.',
+    images: ['https://lenix.dev/og.png'],
   },
 }
 
@@ -61,13 +70,8 @@ export default function RootLayout({
         oxaniumHeading.variable
       )}
     >
-			<head>
-				<script
-          async
-          crossOrigin="anonymous"
-          src="https://tweakcn.com/live-preview.min.js"
-        />
-			</head>
+      <head>
+      </head>
       <body className='typeset typeset-docs flex min-h-screen flex-col bg-[#a0ffed]'>
         <div className='bg-background'>
           <ThemeProvider enableSystem>

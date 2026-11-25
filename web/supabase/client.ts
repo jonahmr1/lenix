@@ -3,4 +3,4 @@ import { supabaseKey, supabaseUrl } from './common'
 import { Database } from './types'
 
 export const createClient = () =>
-	createBrowserClient<Database>(supabaseUrl!, supabaseKey!)
+  createBrowserClient<Database>(supabaseUrl!, supabaseKey!)
