@@ -10,14 +10,7 @@ import {
   EmptyTitle,
   EmptyDescription,
 } from '@/components/ui/empty'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { TrackTable } from './track-table'
 import { searchTracks } from '@/lib/tone/search-actions'
 import { SearchTrackMenu } from './search-track-menu'
 
@@ -106,73 +99,9 @@ export function SearchResults() {
           Searching YouTube…
         </div>
       ) : state.searchResults?.length ? (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className='w-10'>#</TableHead>
-              <TableHead>Track</TableHead>
-              <TableHead className='text-right'>Duration</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {state.searchResults.map((track, index) => (
-              <SearchTrackMenu key={track.id} track={track}>
-                <TableRow
-                  className='cursor-pointer border-0'
-                  tabIndex={0}
-                  aria-label={`Play ${track.title}`}
-                  data-state={
-                    state.currentTrack?.id === track.id ? 'selected' : undefined
-                  }
-                  onClick={() => {
-                    state.player?.loadVideoById(track.id)
-                    setState(previous => ({
-                      ...previous,
-                      currentTrack: track,
-                    }))
-                  }}
-                  onKeyDown={event => {
-                    if (event.target !== event.currentTarget) return
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault()
-                      state.player?.loadVideoById(track.id)
-                      setState(previous => ({
-                        ...previous,
-                        currentTrack: track,
-                      }))
-                    }
-                  }}
-                >
-                  <TableCell className='text-muted-foreground tabular-nums'>
-                    {index + 1}
-                  </TableCell>
-                  <TableCell>
-                    <div className='flex items-center gap-3'>
-                      <img
-                        src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-                        alt=''
-                        width={32}
-                        height={32}
-                        className='size-8 shrink-0 rounded-md object-cover'
-                      />
-                      <div className='min-w-0'>
-                        <p className='font-medium whitespace-normal'>
-                          {track.title}
-                        </p>
-                        <p className='mt-1 whitespace-normal text-muted-foreground'>
-                          {track.channel}
-                        </p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className='text-right text-muted-foreground tabular-nums'>
-                    {track.duration}
-                  </TableCell>
-                </TableRow>
-              </SearchTrackMenu>
-            ))}
-          </TableBody>
-        </Table>
+        <TrackTable tracks={state.searchResults} renderMenu={(track, row) => (
+          <SearchTrackMenu track={track}>{row}</SearchTrackMenu>
+        )} />
       ) : (
         <Empty>
           <EmptyHeader>
