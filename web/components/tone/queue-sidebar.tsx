@@ -51,7 +51,8 @@ export function QueueSidebar() {
   const video = (
     <div
       inert
-      className='mt-auto h-50 w-full shrink-0 overflow-hidden rounded-md bg-black'
+      aria-hidden
+      className='pointer-events-none fixed top-0 left-0 -z-10 h-50 w-80 opacity-0'
     >
       <YouTube
         title={track ? `Playing ${track.title}` : 'YouTube player'}
@@ -200,7 +201,6 @@ export function QueueSidebar() {
             </SheetHeader>
             {queueHeader}
             {queue}
-            {track && <div className='h-50 shrink-0' aria-hidden />}
           </SheetContent>
         </Sheet>
       ) : (
@@ -224,8 +224,6 @@ export function QueueSidebar() {
             ) : (
               queue
             )}
-            <br />
-            {track && <div className='h-50 shrink-0' aria-hidden />}
             <SidebarRail
               onClick={() =>
                 setState(previous => ({
@@ -241,12 +239,7 @@ export function QueueSidebar() {
           </Sidebar>
         </div>
       )}
-      {/* One player instance survives both responsive layouts. */}
-      <div
-        className={`fixed right-2 ${isMobile ? 'bottom-2 z-51 w-68' : 'bottom-[calc(5rem+0.5rem)] z-10 w-[calc(var(--sidebar-width)-1rem)]'} ${track && (isMobile ? state.queueMobileOpen : state.queueOpen) ? '' : 'invisible'}`}
-      >
-        {video}
-      </div>
+      {video}
     </>
   )
 }
