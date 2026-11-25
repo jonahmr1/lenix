@@ -110,8 +110,7 @@ export function SearchResults() {
           <TableHeader>
             <TableRow>
               <TableHead className='w-10'>#</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead className='hidden sm:table-cell'>Author</TableHead>
+              <TableHead>Track</TableHead>
               <TableHead className='text-right'>Duration</TableHead>
             </TableRow>
           </TableHeader>
@@ -160,14 +159,11 @@ export function SearchResults() {
                         <p className='font-medium whitespace-normal'>
                           {track.title}
                         </p>
-                        <p className='mt-1 whitespace-normal text-muted-foreground sm:hidden'>
+                        <p className='mt-1 whitespace-normal text-muted-foreground'>
                           {track.channel}
                         </p>
                       </div>
                     </div>
-                  </TableCell>
-                  <TableCell className='hidden whitespace-normal text-muted-foreground sm:table-cell'>
-                    {track.channel}
                   </TableCell>
                   <TableCell className='text-right text-muted-foreground tabular-nums'>
                     {track.duration}
