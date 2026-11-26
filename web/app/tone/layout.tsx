@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getTrackDetails } from '@/lib/tone/track-details'
 import type { ReactNode } from 'react'
 import { cookies } from 'next/headers'
@@ -10,6 +11,12 @@ import { PlaylistActionDialog } from '@/components/tone/playlist-action-dialog'
 import { QueueSidebar } from '@/components/tone/queue-sidebar'
 import { Player } from '@/components/tone/player'
 import { SidebarInset } from '@/components/ui/sidebar'
+
+export const metadata: Metadata = {
+  manifest: '/tone/manifest.webmanifest',
+  appleWebApp: { capable: true, title: 'Tonelix' },
+  icons: { apple: '/icon.png' },
+}
 
 export default async function ToneLayout({
   children,
