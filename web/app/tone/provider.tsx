@@ -73,6 +73,7 @@ interface AppState {
   playlistsOpen: boolean
   sidebarsRestored: boolean
   queueOpen: boolean
+  pocketMode: "locked" | "unlock" | null
   playerExpanded: boolean
   queueMobileOpen: boolean
 }
@@ -138,6 +139,7 @@ export function AppProvider({
     playlistsOpen: true,
     sidebarsRestored: false,
     queueOpen: true,
+    pocketMode: null,
     playerExpanded: false,
     queueMobileOpen: false,
   })
