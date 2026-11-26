@@ -101,7 +101,7 @@ export function Player() {
     <Button
       size='icon-sm'
       className={
-        isMobile && state.playerExpanded
+        state.playerExpanded
           ? 'size-14 shrink-0 rounded-full [&_svg]:size-7!'
           : 'rounded-full'
       }
@@ -123,7 +123,7 @@ export function Player() {
       variant='ghost'
       size='icon-sm'
       className={
-        isMobile && state.playerExpanded
+        state.playerExpanded
           ? 'size-10 shrink-0 [&_svg]:size-5!'
           : undefined
       }
@@ -139,7 +139,7 @@ export function Player() {
       <Button
         size='icon-sm'
         className={
-          isMobile && state.playerExpanded
+          state.playerExpanded
             ? 'size-10 shrink-0 [&_svg]:size-5!'
             : undefined
         }
@@ -167,7 +167,7 @@ export function Player() {
         variant='ghost'
         size='icon-sm'
         className={
-          isMobile && state.playerExpanded
+          state.playerExpanded
             ? 'size-10 shrink-0 [&_svg]:size-5!'
             : undefined
         }
@@ -191,7 +191,7 @@ export function Player() {
         variant='ghost'
         size='icon-sm'
         className={
-          isMobile && state.playerExpanded
+          state.playerExpanded
             ? 'size-10 shrink-0 [&_svg]:size-5!'
             : undefined
         }
@@ -206,7 +206,7 @@ export function Player() {
         variant='ghost'
         size='icon-sm'
         className={
-          isMobile && state.playerExpanded
+          state.playerExpanded
             ? 'size-10 shrink-0 [&_svg]:size-5!'
             : undefined
         }
@@ -222,7 +222,7 @@ export function Player() {
         variant='ghost'
         size='icon-sm'
         className={
-          isMobile && state.playerExpanded
+          state.playerExpanded
             ? 'size-10 shrink-0 [&_svg]:size-5!'
             : undefined
         }
@@ -241,7 +241,7 @@ export function Player() {
       <Button
         size='icon-sm'
         className={
-          isMobile && state.playerExpanded
+          state.playerExpanded
             ? 'size-10 shrink-0 [&_svg]:size-5!'
             : undefined
         }
@@ -262,11 +262,11 @@ export function Player() {
   )
   const timeline = (
     <div
-      className={`${isMobile && state.playerExpanded ? 'grid grid-cols-2' : 'flex items-center'} gap-2 text-xs text-muted-foreground tabular-nums`}
+      className={`${state.playerExpanded ? 'grid grid-cols-2' : 'flex items-center'} gap-2 text-xs text-muted-foreground tabular-nums`}
     >
       <span>{timestamp(playback.time)}</span>
       <Slider
-        className={`${isMobile && state.playerExpanded ? 'col-span-2 row-start-1' : ''} [&_[data-slot=slider-track]]:bg-muted-foreground/25`}
+        className={`${state.playerExpanded ? 'col-span-2 row-start-1' : ''} [&_[data-slot=slider-track]]:bg-muted-foreground/25`}
         aria-label='Seek'
         value={[playback.time]}
         max={playback.duration || 1}
@@ -329,7 +329,7 @@ export function Player() {
     </div>
   )
 
-  return isMobile ? (
+  return isMobile || state.playerExpanded ? (
     <Drawer
       open={state.playerExpanded}
       onOpenChange={playerExpanded =>
@@ -386,7 +386,7 @@ export function Player() {
             Track details and playback controls.
           </DrawerDescription>
         </DrawerHeader>
-        <div className='flex min-h-0 flex-1 flex-col justify-center gap-6 px-6 pb-8'>
+        <div className='flex min-h-0 flex-1 flex-col justify-center gap-6 px-6 pb-8 landscape:grid landscape:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] landscape:content-center landscape:items-center landscape:gap-x-6 landscape:gap-y-2 landscape:pb-3 landscape:[&>:first-child]:row-span-4 landscape:[&>:first-child]:w-[min(100%,52dvh)] landscape:[&>:first-child]:justify-self-center'>
           {track ? (
             <img
               src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
