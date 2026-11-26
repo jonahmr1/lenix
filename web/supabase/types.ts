@@ -176,12 +176,14 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          last_played_at: string | null
           label: string
           track_tiers: Json
           tracks: string[]
           user_id: string
         }
         Insert: {
+          last_played_at?: string | null
           created_at?: string
           id?: string
           label: string
@@ -190,6 +192,7 @@ export type Database = {
           user_id?: string
         }
         Update: {
+          last_played_at?: string | null
           created_at?: string
           id?: string
           label?: string

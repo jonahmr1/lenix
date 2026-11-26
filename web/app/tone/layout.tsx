@@ -26,6 +26,7 @@ export default async function ToneLayout({
     .from('playlists')
     .select('id, name:label, tracks, track_tiers')
     .eq('user_id', user.id)
+    .order('last_played_at', { ascending: false, nullsFirst: false })
     .order('created_at')
 
   if (error)

@@ -9,9 +9,7 @@ export default () => {
 	
 	return (
 		<div>
-			<p>the color is <span style={{
-				color: state.toLowerCase()
-			}}>{state}</span></p>
+			<p>the color is <span style={{ color: state.toLowerCase() }}>{state}</span></p>
 			{colors.filter(color => color !== state).map(color => (
 				<button key={color} onClick={() => setState(color)}>{color}</button>
 			))}

@@ -38,3 +38,13 @@ export async function createPlaylist(
     return { error: 'Couldn’t create your playlist. Please try again.' }
   }
 }
+
+export async function markPlaylistPlayed(id: string) {
+  const supabase = createClient(await cookies())
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return false
+  const { data, error } = await supabase.from('playlists')
+    .update({ last_played_at: new Date().toISOString() })
+    .eq('user_id', user.id).eq('id', id).select('id').single()
+  return !error && Boolean(data)
+}

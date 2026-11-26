@@ -3,6 +3,7 @@
 import Link from './navigation-link'
 import { createPriorityQueue, normalizeTiers } from '@/lib/tone/priority-queue'
 import { useEffect } from 'react'
+import { markPlaylistPlayed } from '@/lib/tone/playlist-actions'
 import { setTrackTier } from '@/lib/tone/tier-actions'
 import { toast } from 'sonner'
 import type { SearchTrack } from '@/lib/tone/search-actions'
@@ -117,6 +118,7 @@ export function PlaylistTracks({
             state.player?.loadVideoById(queue[0].id)
             setState(previous => ({
               ...previous,
+              playlists: [playlist, ...previous.playlists.filter(item => item.id !== playlist.id)],
               queue,
               nextQueue: previous.repeatQueue
                 ? createPriorityQueue(
@@ -129,6 +131,9 @@ export function PlaylistTracks({
               queuePlaylistId: playlist.id,
               currentTrack: queue[0],
             }))
+            void markPlaylistPlayed(playlist.id).then(saved => {
+              if (!saved) toast.error('Couldn’t sync the playlist order.')
+            }).catch(() => toast.error('Couldn’t sync the playlist order.'))
           }}
         >
           <PlayIcon className='size-1/2' weight='fill' />
