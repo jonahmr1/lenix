@@ -25,6 +25,7 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { TrackMenu } from './track-menu'
 import ScrollFade from '../scroll-fade'
 
 export function QueueSidebar() {
@@ -72,7 +73,10 @@ export function QueueSidebar() {
         onReady={async event => {
           setState(previous => ({ ...previous, player: event.target }))
           if (track && track.id === restoredTrack.current?.id)
-            event.target.cueVideoById({videoId: track.id, startSeconds: state.playback.time})
+            event.target.cueVideoById({
+              videoId: track.id,
+              startSeconds: state.playback.time,
+            })
           else if (track) event.target.loadVideoById(track.id)
           event.target.setVolume(state.playback.volume)
           if (state.playback.muted) event.target.mute()
@@ -113,23 +117,25 @@ export function QueueSidebar() {
       {track && (
         <div className='py-2 pr-2'>
           <p className='mb-2 text-xs font-medium'>Now playing</p>
-          <div className='flex items-center gap-2 rounded-md bg-sidebar-accent p-2 text-xs'>
-            <img
-              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-              alt=''
-              width={28}
-              height={28}
-              className='size-7 shrink-0 rounded-md object-cover'
-            />
-            <div className='min-w-0'>
-              <p className='truncate text-foreground' title={track.title}>
-                {track.title}
-              </p>
-              <p className='truncate text-[11px]' title={track.channel}>
-                {track.channel}
-              </p>
+          <TrackMenu track={track} playlistId={state.queuePlaylistId}>
+            <div className='flex items-center gap-2 rounded-md bg-sidebar-accent p-2 text-xs'>
+              <img
+                src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+                alt=''
+                width={28}
+                height={28}
+                className='size-7 shrink-0 rounded-md object-cover'
+              />
+              <div className='min-w-0'>
+                <p className='truncate text-foreground' title={track.title}>
+                  {track.title}
+                </p>
+                <p className='truncate text-[11px]' title={track.channel}>
+                  {track.channel}
+                </p>
+              </div>
             </div>
-          </div>
+          </TrackMenu>
         </div>
       )}
       {upcomingTracks.length > 0 && (
@@ -150,34 +156,41 @@ export function QueueSidebar() {
         className='list-none space-y-1 px-0 py-2 pr-2'
       >
         {upcomingTracks.map((track, index) => (
-          <li key={`${index}:${track.id}`} className='text-xs'>
-            {showTiers && (index === 0 ||
-              tiers[upcomingTracks[index - 1].id] !== tiers[track.id]) && (
-              <p className='border-b py-2 font-medium text-muted-foreground'>
-                Tier {tiers[track.id]}
-              </p>
-            )}
-            <div className='flex items-center gap-2 py-1'>
-              <img
-                src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-                alt=''
-                width={28}
-                height={28}
-                className='size-7 shrink-0 rounded-md object-cover'
-              />
-              <div className='min-w-0'>
-                <p className='truncate text-foreground' title={track.title}>
-                  {track.title}
-                </p>
-                <p
-                  className='truncate text-[11px] text-muted-foreground'
-                  title={track.channel}
-                >
-                  {track.channel}
-                </p>
+          <TrackMenu
+            key={`${index}:${track.id}`}
+            track={track}
+            playlistId={state.queuePlaylistId}
+          >
+            <li className='text-xs'>
+              {showTiers &&
+                (index === 0 ||
+                  tiers[upcomingTracks[index - 1].id] !== tiers[track.id]) && (
+                  <p className='border-b py-2 font-medium text-muted-foreground'>
+                    Tier {tiers[track.id]}
+                  </p>
+                )}
+              <div className='flex items-center gap-2 py-1'>
+                <img
+                  src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+                  alt=''
+                  width={28}
+                  height={28}
+                  className='size-7 shrink-0 rounded-md object-cover'
+                />
+                <div className='min-w-0'>
+                  <p className='truncate text-foreground' title={track.title}>
+                    {track.title}
+                  </p>
+                  <p
+                    className='truncate text-[11px] text-muted-foreground'
+                    title={track.channel}
+                  >
+                    {track.channel}
+                  </p>
+                </div>
               </div>
-            </div>
-          </li>
+            </li>
+          </TrackMenu>
         ))}
       </ol>
     </SidebarContent>

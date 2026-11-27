@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/empty'
 import { TrackTable } from './track-table'
 import { searchTracks } from '@/lib/tone/search-actions'
-import { SearchTrackMenu } from './search-track-menu'
+import { TrackMenu } from './track-menu'
 
 export function SearchResults() {
   const { state, setState } = useApp()
@@ -99,9 +99,12 @@ export function SearchResults() {
           Searching YouTube…
         </div>
       ) : state.searchResults?.length ? (
-        <TrackTable tracks={state.searchResults} renderMenu={(track, row) => (
-          <SearchTrackMenu track={track}>{row}</SearchTrackMenu>
-        )} />
+        <TrackTable
+          tracks={state.searchResults}
+          renderMenu={(track, row) => (
+            <TrackMenu track={track}>{row}</TrackMenu>
+          )}
+        />
       ) : (
         <Empty>
           <EmptyHeader>

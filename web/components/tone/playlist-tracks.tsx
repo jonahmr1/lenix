@@ -4,11 +4,10 @@ import Link from './navigation-link'
 import { createPriorityQueue, normalizeTiers } from '@/lib/tone/priority-queue'
 import { useEffect } from 'react'
 import { markPlaylistPlayed } from '@/lib/tone/playlist-actions'
-import { setTrackTier } from '@/lib/tone/tier-actions'
 import { toast } from 'sonner'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 import { TrackTable } from './track-table'
-import { AddToPlaylistMenu } from './add-to-playlist-menu'
+import { TrackMenu } from './track-menu'
 import {
   Empty,
   EmptyHeader,
@@ -16,29 +15,10 @@ import {
   EmptyDescription,
 } from '@/components/ui/empty'
 import { Button } from '@/components/ui/button'
-import {
-  ArrowLeftIcon,
-  DotIcon,
-  MinusIcon,
-  PlayIcon,
-  PlusIcon,
-} from '@phosphor-icons/react'
+import { ArrowLeftIcon, DotIcon, PlayIcon } from '@phosphor-icons/react'
 import { notFound, useParams } from 'next/navigation'
 import { useApp } from '@/app/tone/provider'
 import { Separator } from '../ui/separator'
-import { setTrackInPlaylist } from '@/lib/tone/track-actions'
-import {
-  ContextMenu,
-  ContextMenuTrigger,
-  ContextMenuContent,
-  ContextMenuSeparator,
-  ContextMenuItem,
-  ContextMenuSub,
-  ContextMenuSubTrigger,
-  ContextMenuSubContent,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-} from '../ui/context-menu'
 
 export function PlaylistTracks({
   tracks,
@@ -64,34 +44,6 @@ export function PlaylistTracks({
       ])
     )
   )
-  const tierCount = Math.max(0, ...Object.values(tiers))
-  async function changeTier(id: string, target: number | 'ascend' | 'descend') {
-    try {
-      const result = await setTrackTier(playlist!.id, id, target)
-      if ('error' in result) {
-        toast.error(result.error)
-        return
-      }
-      setState(previous => ({
-        ...previous,
-        trackTiers: {
-          ...Object.fromEntries(
-            Object.entries(previous.trackTiers).filter(
-              ([key]) => !key.startsWith(`${playlist!.id}:`)
-            )
-          ),
-          ...Object.fromEntries(
-            Object.entries(result.tiers).map(([id, tier]) => [
-              `${playlist!.id}:${id}`,
-              tier,
-            ])
-          ),
-        },
-      }))
-    } catch {
-      toast.error('Couldn’t save the tier. Please try again.')
-    }
-  }
   const visibleTracks = tracks
     .filter(track => playlist.tracks.includes(track.id))
     .sort((a, b) => tiers[a.id] - tiers[b.id])
@@ -120,7 +72,10 @@ export function PlaylistTracks({
             state.player?.loadVideoById(queue[0].id)
             setState(previous => ({
               ...previous,
-              playlists: [playlist, ...previous.playlists.filter(item => item.id !== playlist.id)],
+              playlists: [
+                playlist,
+                ...previous.playlists.filter(item => item.id !== playlist.id),
+              ],
               queue,
               nextQueue: previous.repeatQueue
                 ? createPriorityQueue(
@@ -133,9 +88,11 @@ export function PlaylistTracks({
               queuePlaylistId: playlist.id,
               currentTrack: queue[0],
             }))
-            void markPlaylistPlayed(playlist.id).then(saved => {
-              if (!saved) toast.error('Couldn’t sync the playlist order.')
-            }).catch(() => toast.error('Couldn’t sync the playlist order.'))
+            void markPlaylistPlayed(playlist.id)
+              .then(saved => {
+                if (!saved) toast.error('Couldn’t sync the playlist order.')
+              })
+              .catch(() => toast.error('Couldn’t sync the playlist order.'))
           }}
         >
           <PlayIcon className='size-1/2' weight='fill' />
@@ -144,91 +101,15 @@ export function PlaylistTracks({
         <p>{visibleTracks.length} Track</p>
       </div>
       {visibleTracks.length ? (
-        <TrackTable tracks={visibleTracks} tiers={tiers} renderMenu={(track, row) => (
-                <ContextMenu>
-                  <ContextMenuTrigger asChild>{row}</ContextMenuTrigger>
-                  <ContextMenuContent>
-                    <ContextMenuSub>
-                      <ContextMenuSubTrigger>Tier</ContextMenuSubTrigger>
-                      <ContextMenuSubContent>
-                        <ContextMenuRadioGroup
-                          value={String(tiers[track.id])}
-                          onValueChange={value =>
-                            changeTier(track.id, Number(value))
-                          }
-                        >
-                          <ContextMenuItem
-                            onSelect={() => changeTier(track.id, 'ascend')}
-                            className='justify-center'
-                          >
-                            <PlusIcon />
-                          </ContextMenuItem>
-                          {Array.from({ length: tierCount }, (_, index) => (
-                            <ContextMenuRadioItem
-                              key={index + 1}
-                              value={String(index + 1)}
-                            >
-                              Tier {index + 1}
-                            </ContextMenuRadioItem>
-                          ))}
-                        </ContextMenuRadioGroup>
-                        {(tiers[track.id] < tierCount ||
-                          Object.values(tiers).filter(
-                            tier => tier === tierCount
-                          ).length > 1) && (
-                          <ContextMenuItem
-                            onSelect={() => changeTier(track.id, 'descend')}
-                            className='justify-center'
-                          >
-                            <MinusIcon />
-                          </ContextMenuItem>
-                        )}
-                      </ContextMenuSubContent>
-                    </ContextMenuSub>
-                    <ContextMenuItem
-                      variant='destructive'
-                      onSelect={async () => {
-                        const saving = toast.loading('Removing track…')
-                        try {
-                          const result = await setTrackInPlaylist(
-                            playlist.id,
-                            track.id,
-                            false
-                          )
-                          if ('error' in result) throw new Error(result.error)
-                          setState(previous => ({
-                            ...previous,
-                            playlists: previous.playlists.map(item =>
-                              item.id === playlist.id
-                                ? {
-                                    ...item,
-                                    tracks: item.tracks.filter(
-                                      id => id !== track.id
-                                    ),
-                                  }
-                                : item
-                            ),
-                          }))
-                          toast.success(`Removed from ${result.playlistName}`, {
-                            id: saving,
-                          })
-                        } catch (error) {
-                          toast.error(
-                            error instanceof Error
-                              ? error.message
-                              : 'Couldn’t remove this track. Please try again.',
-                            { id: saving }
-                          )
-                        }
-                      }}
-                    >
-                      Remove from playlist
-                    </ContextMenuItem>
-                    <ContextMenuSeparator />
-                    <AddToPlaylistMenu track={track} />
-                  </ContextMenuContent>
-                </ContextMenu>
-        )} />
+        <TrackTable
+          tracks={visibleTracks}
+          tiers={tiers}
+          renderMenu={(track, row) => (
+            <TrackMenu track={track} playlistId={playlist.id}>
+              {row}
+            </TrackMenu>
+          )}
+        />
       ) : (
         !error && (
           <Empty>
