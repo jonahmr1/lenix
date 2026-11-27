@@ -5,12 +5,8 @@ import {
   columnFilteringFeature,
   columnVisibilityFeature,
   rowSelectionFeature,
-  rowSortingFeature,
   createFilteredRowModel,
-  createSortedRowModel,
   filterFn_includesString,
-  sortFn_alphanumeric,
-  sortFn_text,
   createColumnHelper,
   tableFeatures,
   useTable,
@@ -30,17 +26,14 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { TrackMenu } from './track-menu'
-import { ArrowsDownUpIcon, CaretDownIcon } from '@phosphor-icons/react'
+import { CaretDownIcon } from '@phosphor-icons/react'
 
 const features = tableFeatures({
   columnFilteringFeature,
   columnVisibilityFeature,
   rowSelectionFeature,
-  rowSortingFeature,
   filteredRowModel: createFilteredRowModel(),
-  sortedRowModel: createSortedRowModel(),
   filterFns: { includesString: filterFn_includesString },
-  sortFns: { alphanumeric: sortFn_alphanumeric, text: sortFn_text },
 })
 const columnHelper = createColumnHelper<typeof features, SearchTrack>()
 const columns = columnHelper.columns([
@@ -64,7 +57,6 @@ const columns = columnHelper.columns([
         aria-label='Select row'
       />
     ),
-    enableSorting: false,
     enableHiding: false,
   }),
   columnHelper.display({
@@ -77,15 +69,7 @@ const columns = columnHelper.columns([
     ),
   }),
   columnHelper.accessor('title', {
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        Track
-        <ArrowsDownUpIcon />
-      </Button>
-    ),
+    header: 'Track',
     cell: ({ row }) => (
       <div className='flex items-center gap-3'>
         <img
@@ -142,7 +126,7 @@ export function TrackTable({
   return (
     <div className='w-full'>
       {tiers && (
-        <div className='flex items-center py-4'>
+        <div className='flex items-center py-4 gap-2'>
           <Input
             placeholder='Filter tracks...'
             value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
