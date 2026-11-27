@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuCheckboxItem,
+} from '@/components/ui/dropdown-menu'
 import { toast } from 'sonner'
 import { useApp } from '@/app/tone/provider'
 import { setTrackInPlaylist } from '@/lib/tone/track-actions'
@@ -10,13 +15,24 @@ import {
   ContextMenuCheckboxItem,
 } from '@/components/ui/context-menu'
 
-export function AddToPlaylistMenu({ track }: { track: SearchTrack }) {
+export function AddToPlaylistMenu({
+  track,
+  dropdown = false,
+}: {
+  track: SearchTrack
+  dropdown?: boolean
+}) {
+  const MenuGroup = dropdown ? DropdownMenuGroup : ContextMenuGroup
+  const MenuLabel = dropdown ? DropdownMenuLabel : ContextMenuLabel
+  const MenuCheckboxItem = dropdown
+    ? DropdownMenuCheckboxItem
+    : ContextMenuCheckboxItem
   const { state, setState } = useApp()
   return (
-    <ContextMenuGroup>
-      <ContextMenuLabel>Add to playlist</ContextMenuLabel>
+    <MenuGroup>
+      <MenuLabel>Add to playlist</MenuLabel>
       {state.playlists.map(playlist => (
-        <ContextMenuCheckboxItem
+        <MenuCheckboxItem
           key={playlist.id}
           checked={playlist.tracks.includes(track.id)}
           onCheckedChange={async checked => {
@@ -60,8 +76,8 @@ export function AddToPlaylistMenu({ track }: { track: SearchTrack }) {
           }}
         >
           {playlist.name}
-        </ContextMenuCheckboxItem>
+        </MenuCheckboxItem>
       ))}
-    </ContextMenuGroup>
+    </MenuGroup>
   )
 }

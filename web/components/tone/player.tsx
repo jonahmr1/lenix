@@ -13,7 +13,12 @@ import {
   DrawerTitle,
   DrawerDescription,
 } from '@/components/ui/drawer'
-import { LockSimpleIcon, MusicNotesIcon, XIcon } from '@phosphor-icons/react'
+import {
+  DotsThreeIcon,
+  LockSimpleIcon,
+  MusicNotesIcon,
+  XIcon,
+} from '@phosphor-icons/react'
 import { PlayButton, PlayerControls } from './player-controls'
 import { VolumeControls, Timeline } from './player-sliders'
 import { TrackMenu } from './track-menu'
@@ -62,6 +67,19 @@ export function Player() {
     }
   }, [player, setState])
 
+  const trackMenuButton = track && (
+    <TrackMenu track={track} playlistId={state.queuePlaylistId} dropdown>
+      <Button
+        variant='ghost'
+        size='icon-sm'
+        className='shrink-0'
+        aria-label='Track options'
+      >
+        <DotsThreeIcon />
+      </Button>
+    </TrackMenu>
+  )
+
   return isMobile || state.playerExpanded ? (
     <Drawer
       dismissible={!pocketActive}
@@ -74,35 +92,34 @@ export function Player() {
         aria-label='Player'
         className='shrink-0 space-y-2 bg-sidebar px-3 py-2'
       >
-        <TrackMenu track={track} playlistId={state.queuePlaylistId}>
-          <div className='flex items-center gap-3'>
-            {track && (
-              <img
-                src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-                alt=''
-                width={40}
-                height={40}
-                className='size-10 shrink-0 rounded-md object-cover'
-              />
-            )}
-            <DrawerTrigger asChild>
-              <button
-                className='min-w-0 flex-1 text-left'
-                aria-label='Expand player'
-              >
-                <span className='block truncate text-sm font-medium'>
-                  {track?.title ?? 'Nothing playing'}
+        <div className='flex items-center gap-3'>
+          {track && (
+            <img
+              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+              alt=''
+              width={40}
+              height={40}
+              className='size-10 shrink-0 rounded-md object-cover'
+            />
+          )}
+          <DrawerTrigger asChild>
+            <button
+              className='min-w-0 flex-1 text-left select-text'
+              aria-label='Expand player'
+            >
+              <span className='block truncate text-sm font-medium'>
+                {track?.title ?? 'Nothing playing'}
+              </span>
+              {track && (
+                <span className='block truncate text-xs text-muted-foreground'>
+                  {track.channel}
                 </span>
-                {track && (
-                  <span className='block truncate text-xs text-muted-foreground'>
-                    {track.channel}
-                  </span>
-                )}
-              </button>
-            </DrawerTrigger>
-            <PlayButton />
-          </div>
-        </TrackMenu>
+              )}
+            </button>
+          </DrawerTrigger>
+          {trackMenuButton}
+          <PlayButton />
+        </div>
         <Timeline />
       </footer>
       <DrawerContent className='mt-0! h-dvh! max-h-dvh! overflow-y-auto p-0 before:inset-0 before:rounded-none before:border-0'>
@@ -154,8 +171,8 @@ export function Player() {
                   />
                 </div>
               )}
-              <TrackMenu track={track} playlistId={state.queuePlaylistId}>
-                <div>
+              <div className='flex items-start gap-3'>
+                <div className='min-w-0 flex-1 select-text' data-vaul-no-drag>
                   <p className='text-xl font-semibold wrap-break-word text-foreground'>
                     {track?.title ?? 'Nothing playing'}
                   </p>
@@ -164,7 +181,8 @@ export function Player() {
                       'Choose a track or playlist to start listening.'}
                   </p>
                 </div>
-              </TrackMenu>
+                {trackMenuButton}
+              </div>
               <Timeline />
               <PlayerControls />
               <VolumeControls />
@@ -178,29 +196,28 @@ export function Player() {
       aria-label='Player'
       className='flex h-15 shrink-0 items-center gap-3 bg-sidebar px-2'
     >
-      <TrackMenu track={track} playlistId={state.queuePlaylistId}>
-        <div className='hidden min-w-0 flex-1 items-center gap-3 sm:flex'>
+      <div className='hidden min-w-0 flex-1 items-center gap-3 sm:flex'>
+        {track && (
+          <img
+            src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
+            alt=''
+            width={48}
+            height={48}
+            className='size-10 shrink-0 rounded-md object-cover'
+          />
+        )}
+        <div className='min-w-0 select-text *:text-foreground'>
+          <p className='truncate text-sm font-medium'>
+            {track?.title ?? 'Nothing playing'}
+          </p>
           {track && (
-            <img
-              src={`https://i.ytimg.com/vi/${track.id}/mqdefault.jpg`}
-              alt=''
-              width={48}
-              height={48}
-              className='size-10 shrink-0 rounded-md object-cover'
-            />
-          )}
-          <div className='min-w-0 *:text-foreground'>
-            <p className='truncate text-sm font-medium'>
-              {track?.title ?? 'Nothing playing'}
+            <p className='truncate text-xs text-muted-foreground!'>
+              {track.channel}
             </p>
-            {track && (
-              <p className='truncate text-xs text-muted-foreground!'>
-                {track.channel}
-              </p>
-            )}
-          </div>
+          )}
         </div>
-      </TrackMenu>
+        {trackMenuButton}
+      </div>
       <div className='flex min-w-0 flex-[2] flex-col gap-2'>
         <PlayerControls />
         <Timeline />

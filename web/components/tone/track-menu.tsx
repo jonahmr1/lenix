@@ -1,5 +1,18 @@
 'use client'
 
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuGroup,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from '@/components/ui/dropdown-menu'
 import type { ReactNode } from 'react'
 import { toast } from 'sonner'
 import { normalizeTiers } from '@/lib/tone/priority-queue'
@@ -28,11 +41,30 @@ export function TrackMenu({
   track,
   children,
   playlistId,
+  dropdown = false,
 }: {
   track: SearchTrack | null
   children: ReactNode
   playlistId?: string | null
+  dropdown?: boolean
 }) {
+  const Menu = dropdown ? DropdownMenu : ContextMenu
+  const MenuTrigger = dropdown ? DropdownMenuTrigger : ContextMenuTrigger
+  const MenuContent = dropdown ? DropdownMenuContent : ContextMenuContent
+  const MenuItem = dropdown ? DropdownMenuItem : ContextMenuItem
+  const MenuSeparator = dropdown ? DropdownMenuSeparator : ContextMenuSeparator
+  const MenuGroup = dropdown ? DropdownMenuGroup : ContextMenuGroup
+  const MenuSub = dropdown ? DropdownMenuSub : ContextMenuSub
+  const MenuSubTrigger = dropdown
+    ? DropdownMenuSubTrigger
+    : ContextMenuSubTrigger
+  const MenuSubContent = dropdown
+    ? DropdownMenuSubContent
+    : ContextMenuSubContent
+  const MenuRadioGroup = dropdown
+    ? DropdownMenuRadioGroup
+    : ContextMenuRadioGroup
+  const MenuRadioItem = dropdown ? DropdownMenuRadioItem : ContextMenuRadioItem
   const { state, setState } = useApp()
   const playlist = state.playlists.find(
     item => item.id === playlistId && track && item.tracks.includes(track.id)
@@ -76,11 +108,11 @@ export function TrackMenu({
   }
   if (!track) return children
   return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuItem
+    <Menu>
+      <MenuTrigger asChild>{children}</MenuTrigger>
+      <MenuContent>
+        <MenuGroup>
+          <MenuItem
             disabled={state.autoFitPending}
             onSelect={async () => {
               if (state.autoFitPending) return
@@ -125,46 +157,43 @@ export function TrackMenu({
           >
             <SparkleIcon />
             <span>Auto-fit</span>
-          </ContextMenuItem>
-        </ContextMenuGroup>
-				<ContextMenuSeparator />
+          </MenuItem>
+        </MenuGroup>
+        <MenuSeparator />
         {playlist && (
           <>
-            <ContextMenuSub>
-              <ContextMenuSubTrigger>Tier</ContextMenuSubTrigger>
-              <ContextMenuSubContent>
-                <ContextMenuRadioGroup
+            <MenuSub>
+              <MenuSubTrigger>Tier</MenuSubTrigger>
+              <MenuSubContent>
+                <MenuRadioGroup
                   value={String(tiers[track.id])}
                   onValueChange={value => changeTier(track.id, Number(value))}
                 >
-                  <ContextMenuItem
+                  <MenuItem
                     onSelect={() => changeTier(track.id, 'ascend')}
                     className='justify-center'
                   >
                     <PlusIcon />
-                  </ContextMenuItem>
+                  </MenuItem>
                   {Array.from({ length: tierCount }, (_, index) => (
-                    <ContextMenuRadioItem
-                      key={index + 1}
-                      value={String(index + 1)}
-                    >
+                    <MenuRadioItem key={index + 1} value={String(index + 1)}>
                       Tier {index + 1}
-                    </ContextMenuRadioItem>
+                    </MenuRadioItem>
                   ))}
-                </ContextMenuRadioGroup>
+                </MenuRadioGroup>
                 {(tiers[track.id] < tierCount ||
                   Object.values(tiers).filter(tier => tier === tierCount)
                     .length > 1) && (
-                  <ContextMenuItem
+                  <MenuItem
                     onSelect={() => changeTier(track.id, 'descend')}
                     className='justify-center'
                   >
                     <MinusIcon />
-                  </ContextMenuItem>
+                  </MenuItem>
                 )}
-              </ContextMenuSubContent>
-            </ContextMenuSub>
-            <ContextMenuItem
+              </MenuSubContent>
+            </MenuSub>
+            <MenuItem
               variant='destructive'
               onSelect={async () => {
                 const saving = toast.loading('Removing track…')
@@ -200,12 +229,12 @@ export function TrackMenu({
               }}
             >
               Remove from playlist
-            </ContextMenuItem>
+            </MenuItem>
           </>
         )}
-        <ContextMenuSeparator />
-        <AddToPlaylistMenu track={track} />
-      </ContextMenuContent>
-    </ContextMenu>
+        <MenuSeparator />
+        <AddToPlaylistMenu track={track} dropdown={dropdown} />
+      </MenuContent>
+    </Menu>
   )
 }
