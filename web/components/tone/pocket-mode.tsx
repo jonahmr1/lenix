@@ -56,7 +56,7 @@ export function PocketMode() {
           }}
         />
       ) : (
-        <label className='grid w-2/3 max-w-72 gap-4 text-center'>
+        <label className='absolute bottom-1/4 grid w-2/3 max-w-72 gap-4 text-center'>
           Slide to unlock
           <input
             type='range'
