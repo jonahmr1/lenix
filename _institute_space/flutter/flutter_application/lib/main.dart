@@ -1,4 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'pages/test.dart';
+
+final _router = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) =>
+          const MyHomePage(title: 'Flutter Demo Home Page'),
+    ),
+    GoRoute(path: '/test', builder: (context, state) => const Test()),
+  ],
+);
 
 void main() {
   runApp(const MyApp());
@@ -10,7 +24,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -30,7 +44,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routerConfig: _router,
     );
   }
 }
@@ -108,6 +122,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            ElevatedButton(
+              onPressed: () => context.go('/test'),
+              child: const Text('Open Test'),
             ),
           ],
         ),
