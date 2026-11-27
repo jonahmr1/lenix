@@ -8,11 +8,17 @@ import { createClient } from '@/supabase/server'
 
 export async function setTrackInPlaylist(
   playlistId: string,
-  videoId: string,
+  videoId: string | string[],
   included: boolean
 ): Promise<{ playlistName: string } | { error: string }> {
+  const ids = [...new Set(Array.isArray(videoId) ? videoId : [videoId])]
   if (
-    !trackMembershipSchema.safeParse({ playlistId, videoId, included }).success
+    !ids.length ||
+    ids.some(
+      videoId =>
+        !trackMembershipSchema.safeParse({ playlistId, videoId, included })
+          .success
+    )
   )
     return { error: 'Choose a valid track and playlist.' }
   try {
@@ -33,7 +39,7 @@ export async function setTrackInPlaylist(
         .maybeSingle()
       if (error) throw error
       if (!playlist) return { error: 'That playlist is no longer available.' }
-      if (playlist.tracks.includes(videoId) === included)
+      if (ids.every(id => playlist.tracks.includes(id) === included))
         return { playlistName: playlist.label }
 
       // Compare the previous array so another tab's changes cannot be overwritten.
@@ -43,13 +49,13 @@ export async function setTrackInPlaylist(
         .update({
           track_tiers: normalizeTiers(
             included
-              ? [...playlist.tracks, videoId]
-              : playlist.tracks.filter(id => id !== videoId),
+              ? [...new Set([...playlist.tracks, ...ids])]
+              : playlist.tracks.filter(id => !ids.includes(id)),
             playlist.track_tiers as Record<string, number>
           ),
           tracks: included
-            ? [...playlist.tracks, videoId]
-            : playlist.tracks.filter(id => id !== videoId),
+            ? [...new Set([...playlist.tracks, ...ids])]
+            : playlist.tracks.filter(id => !ids.includes(id)),
         })
         .eq('id', playlistId)
         .eq('user_id', user.id)

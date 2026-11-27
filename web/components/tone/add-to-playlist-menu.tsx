@@ -14,10 +14,10 @@ import {
 } from '@/components/ui/context-menu'
 
 export function AddToPlaylistMenu({
-  track,
+  tracks,
   dropdown = false,
 }: {
-  track: SearchTrack
+  tracks: SearchTrack[]
   dropdown?: boolean
 }) {
   const MenuGroup = dropdown ? DropdownMenuGroup : ContextMenuGroup
@@ -30,7 +30,13 @@ export function AddToPlaylistMenu({
       {state.playlists.map(playlist => (
         <MenuCheckboxItem
           key={playlist.id}
-          checked={playlist.tracks.includes(track.id)}
+          checked={
+            tracks.every(track => playlist.tracks.includes(track.id))
+              ? true
+              : tracks.some(track => playlist.tracks.includes(track.id))
+                ? 'indeterminate'
+                : false
+          }
           onCheckedChange={async checked => {
             const saving = toast.loading(
               checked ? 'Adding track…' : 'Removing track…'
@@ -38,7 +44,7 @@ export function AddToPlaylistMenu({
             try {
               const result = await setTrackInPlaylist(
                 playlist.id,
-                track.id,
+                tracks.map(track => track.id),
                 checked === true
               )
               if ('error' in result) throw new Error(result.error)
@@ -49,8 +55,15 @@ export function AddToPlaylistMenu({
                     ? {
                         ...item,
                         tracks: checked
-                          ? [...new Set([...item.tracks, track.id])]
-                          : item.tracks.filter(id => id !== track.id),
+                          ? [
+                              ...new Set([
+                                ...item.tracks,
+                                ...tracks.map(track => track.id),
+                              ]),
+                            ]
+                          : item.tracks.filter(
+                              id => !tracks.some(track => track.id === id)
+                            ),
                       }
                     : item
                 ),

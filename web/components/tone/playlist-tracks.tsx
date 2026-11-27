@@ -103,6 +103,7 @@ export function PlaylistTracks({
       {visibleTracks.length ? (
         <TrackTable
           tracks={visibleTracks}
+          playlistId={playlist.id}
           tiers={tiers}
           renderMenu={(track, row) => (
             <TrackMenu track={track} playlistId={playlist.id}>

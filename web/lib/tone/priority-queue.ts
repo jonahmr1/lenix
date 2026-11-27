@@ -14,16 +14,18 @@ export function normalizeTiers(ids: string[], tiers: Record<string, number>) {
 export function moveTrackTier(
   ids: string[],
   tiers: Record<string, number>,
-  id: string,
+  id: string | string[],
   target: number | 'ascend' | 'descend'
 ) {
+  const selected = Array.isArray(id) ? id : [id]
   const next = normalizeTiers(ids, tiers)
   if (target === 'ascend') {
     for (const track of ids) next[track]++
-    next[id] = 1
+    for (const track of selected) next[track] = 1
   } else {
-    next[id] =
+    const tier =
       target === 'descend' ? Math.max(...Object.values(next)) + 1 : target
+    for (const track of selected) next[track] = tier
   }
   return normalizeTiers(ids, next)
 }

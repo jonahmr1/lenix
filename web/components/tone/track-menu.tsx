@@ -38,12 +38,14 @@ import { autoFitTrack } from '@/lib/tone/autofit-actions'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 
 export function TrackMenu({
-  track,
+  track = null,
+  tracks = track ? [track] : [],
   children,
   playlistId,
   dropdown = false,
 }: {
-  track: SearchTrack | null
+  track?: SearchTrack | null
+  tracks?: SearchTrack[]
   children: ReactNode
   playlistId?: string | null
   dropdown?: boolean
@@ -67,7 +69,10 @@ export function TrackMenu({
   const MenuRadioItem = dropdown ? DropdownMenuRadioItem : ContextMenuRadioItem
   const { state, setState } = useApp()
   const playlist = state.playlists.find(
-    item => item.id === playlistId && track && item.tracks.includes(track.id)
+    item =>
+      item.id === playlistId &&
+      tracks.length > 0 &&
+      tracks.every(track => item.tracks.includes(track.id))
   )
   const tiers = normalizeTiers(
     playlist?.tracks ?? [],
@@ -79,9 +84,13 @@ export function TrackMenu({
     )
   )
   const tierCount = Math.max(0, ...Object.values(tiers))
-  async function changeTier(id: string, target: number | 'ascend' | 'descend') {
+  async function changeTier(target: number | 'ascend' | 'descend') {
     try {
-      const result = await setTrackTier(playlist!.id, id, target)
+      const result = await setTrackTier(
+        playlist!.id,
+        tracks.map(track => track.id),
+        target
+      )
       if ('error' in result) {
         toast.error(result.error)
         return
@@ -106,7 +115,7 @@ export function TrackMenu({
       toast.error('Couldn’t save the tier. Please try again.')
     }
   }
-  if (!track) return children
+  if (!tracks.length) return children
   return (
     <Menu>
       <MenuTrigger asChild>{children}</MenuTrigger>
@@ -125,24 +134,26 @@ export function TrackMenu({
                   }))
                   const notification = toast.loading('Finding a playlist…')
                   try {
-                    const result = await autoFitTrack(track.id)
-                    if ('error' in result) throw new Error(result.error)
-                    setState(previous => ({
-                      ...previous,
-                      playlists: previous.playlists.some(
-                        p => p.id === result.playlist.id
+                    for (const track of tracks) {
+                      const result = await autoFitTrack(track.id)
+                      if ('error' in result) throw new Error(result.error)
+                      setState(previous => ({
+                        ...previous,
+                        playlists: previous.playlists.some(
+                          p => p.id === result.playlist.id
+                        )
+                          ? previous.playlists.map(p =>
+                              p.id === result.playlist.id ? result.playlist : p
+                            )
+                          : [...previous.playlists, result.playlist],
+                      }))
+                      toast.success(
+                        result.created
+                          ? `Created “${result.playlist.name}” and added track.`
+                          : `Added to “${result.playlist.name}”.`,
+                        { id: notification }
                       )
-                        ? previous.playlists.map(p =>
-                            p.id === result.playlist.id ? result.playlist : p
-                          )
-                        : [...previous.playlists, result.playlist],
-                    }))
-                    toast.success(
-                      result.created
-                        ? `Created “${result.playlist.name}” and added track.`
-                        : `Added to “${result.playlist.name}”.`,
-                      { id: notification }
-                    )
+                    }
                   } catch (error) {
                     toast.error(
                       error instanceof Error
@@ -163,7 +174,7 @@ export function TrackMenu({
               </MenuItem>
             </MenuGroup>
             <MenuSeparator />
-            <AddToPlaylistMenu track={track} dropdown={dropdown} />
+            <AddToPlaylistMenu tracks={tracks} dropdown={dropdown} />
           </MenuSubContent>
         </MenuSub>
         {playlist && (
@@ -172,11 +183,17 @@ export function TrackMenu({
               <MenuSubTrigger>Tier</MenuSubTrigger>
               <MenuSubContent>
                 <MenuRadioGroup
-                  value={String(tiers[track.id])}
-                  onValueChange={value => changeTier(track.id, Number(value))}
+                  value={
+                    tracks.every(
+                      track => tiers[track.id] === tiers[tracks[0].id]
+                    )
+                      ? String(tiers[tracks[0].id])
+                      : ''
+                  }
+                  onValueChange={value => changeTier(Number(value))}
                 >
                   <MenuItem
-                    onSelect={() => changeTier(track.id, 'ascend')}
+                    onSelect={() => changeTier('ascend')}
                     className='justify-center'
                   >
                     <PlusIcon />
@@ -187,11 +204,11 @@ export function TrackMenu({
                     </MenuRadioItem>
                   ))}
                 </MenuRadioGroup>
-                {(tiers[track.id] < tierCount ||
+                {(tracks.some(track => tiers[track.id] < tierCount) ||
                   Object.values(tiers).filter(tier => tier === tierCount)
                     .length > 1) && (
                   <MenuItem
-                    onSelect={() => changeTier(track.id, 'descend')}
+                    onSelect={() => changeTier('descend')}
                     className='justify-center'
                   >
                     <MinusIcon />
@@ -206,7 +223,7 @@ export function TrackMenu({
                 try {
                   const result = await setTrackInPlaylist(
                     playlist.id,
-                    track.id,
+                    tracks.map(track => track.id),
                     false
                   )
                   if ('error' in result) throw new Error(result.error)
@@ -216,7 +233,9 @@ export function TrackMenu({
                       item.id === playlist.id
                         ? {
                             ...item,
-                            tracks: item.tracks.filter(id => id !== track.id),
+                            tracks: item.tracks.filter(
+                              id => !tracks.some(track => track.id === id)
+                            ),
                           }
                         : item
                     ),

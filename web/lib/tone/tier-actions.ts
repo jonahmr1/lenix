@@ -8,10 +8,17 @@ import { moveTrackTier, normalizeTiers } from './priority-queue'
 
 export async function setTrackTier(
   playlistId: string,
-  videoId: string,
+  videoId: string | string[],
   target: number | 'ascend' | 'descend'
 ) {
-  if (!trackTierSchema.safeParse({ playlistId, videoId, target }).success)
+  const ids = [...new Set(Array.isArray(videoId) ? videoId : [videoId])]
+  if (
+    !ids.length ||
+    ids.some(
+      videoId =>
+        !trackTierSchema.safeParse({ playlistId, videoId, target }).success
+    )
+  )
     return { error: 'Choose a valid track and tier.' }
   try {
     const supabase = createClient(await cookies())
@@ -29,7 +36,7 @@ export async function setTrackTier(
         .eq('user_id', user.id)
         .maybeSingle()
       if (readError) throw readError
-      if (!playlist?.tracks.includes(videoId))
+      if (!playlist || !ids.every(id => playlist.tracks.includes(id)))
         return { error: 'That track is no longer in this playlist.' }
       const tiers = normalizeTiers(
         playlist.tracks,
@@ -40,7 +47,7 @@ export async function setTrackTier(
         target > Math.max(...Object.values(tiers))
       )
         return { error: 'That tier no longer exists. Please try again.' }
-      const next = moveTrackTier(playlist.tracks, tiers, videoId, target)
+      const next = moveTrackTier(playlist.tracks, tiers, ids, target)
       const { data: updated, error: saveError } = await supabase
         .from('playlists')
         .update({ track_tiers: next })
