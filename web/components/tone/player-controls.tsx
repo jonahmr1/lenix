@@ -23,7 +23,7 @@ export function PlayButton() {
       className={
         state.playerExpanded
           ? 'size-14 shrink-0 rounded-full [&_svg]:size-7!'
-          : 'rounded-full'
+          : 'size-10 shrink-0 rounded-full [&_svg]:size-5! md:size-6 md:[&_svg]:size-3!'
       }
       disabled={!player}
       aria-label={playback.playing ? 'Pause' : 'Play'}

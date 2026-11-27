@@ -155,7 +155,7 @@ export function PlaylistsSidebar({ account }: { account: Account }) {
         aria-label='Toggle playlists'
         title='Toggle playlists (Ctrl+B)'
         aria-keyshortcuts='Control+b'
-        className='after:inset-y-2 after:w-4 after:rounded-l-xl after:border-y-2 after:border-l-2 after:border-transparent hover:after:border-sidebar-border hover:after:bg-transparent'
+        className='after:inset-y-2 after:w-2 after:rounded-l-xl after:border-y-2 after:border-l-2 after:border-transparent hover:after:border-sidebar-border hover:after:bg-transparent'
       />
     </Sidebar>
   )

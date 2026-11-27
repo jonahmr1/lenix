@@ -248,7 +248,7 @@ export function QueueSidebar() {
               aria-label='Toggle queue'
               title='Toggle queue (Ctrl+M)'
               aria-keyshortcuts='Control+m'
-              className='group-data-[side=right]:-left-2 after:inset-y-2 after:w-4 after:-translate-x-full after:rounded-r-xl after:border-y-2 after:border-r-2 after:border-transparent group-data-[collapsible=offcanvas]:after:start-0 hover:after:border-sidebar-border hover:after:bg-transparent'
+              className='group-data-[side=right]:-left-2 after:inset-y-2 after:w-2 after:-translate-x-full after:rounded-r-xl after:border-y-2 after:border-r-2 after:border-transparent group-data-[collapsible=offcanvas]:after:start-0 hover:after:border-sidebar-border hover:after:bg-transparent'
             />
           </Sidebar>
         </div>
