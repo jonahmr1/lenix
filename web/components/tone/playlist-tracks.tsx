@@ -8,6 +8,7 @@ import { setTrackTier } from '@/lib/tone/tier-actions'
 import { toast } from 'sonner'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 import { TrackTable } from './track-table'
+import { AddToPlaylistMenu } from './add-to-playlist-menu'
 import {
   Empty,
   EmptyHeader,
@@ -30,6 +31,7 @@ import {
   ContextMenu,
   ContextMenuTrigger,
   ContextMenuContent,
+  ContextMenuSeparator,
   ContextMenuItem,
   ContextMenuSub,
   ContextMenuSubTrigger,
@@ -222,6 +224,8 @@ export function PlaylistTracks({
                     >
                       Remove from playlist
                     </ContextMenuItem>
+                    <ContextMenuSeparator />
+                    <AddToPlaylistMenu track={track} />
                   </ContextMenuContent>
                 </ContextMenu>
         )} />
