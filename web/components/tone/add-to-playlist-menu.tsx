@@ -2,7 +2,6 @@
 
 import {
   DropdownMenuGroup,
-  DropdownMenuLabel,
   DropdownMenuCheckboxItem,
 } from '@/components/ui/dropdown-menu'
 import { toast } from 'sonner'
@@ -11,7 +10,6 @@ import { setTrackInPlaylist } from '@/lib/tone/track-actions'
 import type { SearchTrack } from '@/lib/tone/search-actions'
 import {
   ContextMenuGroup,
-  ContextMenuLabel,
   ContextMenuCheckboxItem,
 } from '@/components/ui/context-menu'
 
@@ -23,14 +21,12 @@ export function AddToPlaylistMenu({
   dropdown?: boolean
 }) {
   const MenuGroup = dropdown ? DropdownMenuGroup : ContextMenuGroup
-  const MenuLabel = dropdown ? DropdownMenuLabel : ContextMenuLabel
   const MenuCheckboxItem = dropdown
     ? DropdownMenuCheckboxItem
     : ContextMenuCheckboxItem
   const { state, setState } = useApp()
   return (
     <MenuGroup>
-      <MenuLabel>Add to playlist</MenuLabel>
       {state.playlists.map(playlist => (
         <MenuCheckboxItem
           key={playlist.id}

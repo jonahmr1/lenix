@@ -110,56 +110,62 @@ export function TrackMenu({
   return (
     <Menu>
       <MenuTrigger asChild>{children}</MenuTrigger>
-      <MenuContent>
-        <MenuGroup>
-          <MenuItem
-            disabled={state.autoFitPending}
-            onSelect={async () => {
-              if (state.autoFitPending) return
-              setState(previous => ({
-                ...previous,
-                autoFitPending: true,
-              }))
-              const notification = toast.loading('Finding a playlist…')
-              try {
-                const result = await autoFitTrack(track.id)
-                if ('error' in result) throw new Error(result.error)
-                setState(previous => ({
-                  ...previous,
-                  playlists: previous.playlists.some(
-                    p => p.id === result.playlist.id
-                  )
-                    ? previous.playlists.map(p =>
-                        p.id === result.playlist.id ? result.playlist : p
+      <MenuContent className='w-max'>
+        <MenuSub>
+          <MenuSubTrigger>Add to playlist</MenuSubTrigger>
+          <MenuSubContent>
+            <MenuGroup>
+              <MenuItem
+                disabled={state.autoFitPending}
+                onSelect={async () => {
+                  if (state.autoFitPending) return
+                  setState(previous => ({
+                    ...previous,
+                    autoFitPending: true,
+                  }))
+                  const notification = toast.loading('Finding a playlist…')
+                  try {
+                    const result = await autoFitTrack(track.id)
+                    if ('error' in result) throw new Error(result.error)
+                    setState(previous => ({
+                      ...previous,
+                      playlists: previous.playlists.some(
+                        p => p.id === result.playlist.id
                       )
-                    : [...previous.playlists, result.playlist],
-                }))
-                toast.success(
-                  result.created
-                    ? `Created “${result.playlist.name}” and added track.`
-                    : `Added to “${result.playlist.name}”.`,
-                  { id: notification }
-                )
-              } catch (error) {
-                toast.error(
-                  error instanceof Error
-                    ? error.message
-                    : 'Couldn’t auto-fit this track. Please try again.',
-                  { id: notification }
-                )
-              } finally {
-                setState(previous => ({
-                  ...previous,
-                  autoFitPending: false,
-                }))
-              }
-            }}
-          >
-            <SparkleIcon />
-            <span>Auto-fit</span>
-          </MenuItem>
-        </MenuGroup>
-        <MenuSeparator />
+                        ? previous.playlists.map(p =>
+                            p.id === result.playlist.id ? result.playlist : p
+                          )
+                        : [...previous.playlists, result.playlist],
+                    }))
+                    toast.success(
+                      result.created
+                        ? `Created “${result.playlist.name}” and added track.`
+                        : `Added to “${result.playlist.name}”.`,
+                      { id: notification }
+                    )
+                  } catch (error) {
+                    toast.error(
+                      error instanceof Error
+                        ? error.message
+                        : 'Couldn’t auto-fit this track. Please try again.',
+                      { id: notification }
+                    )
+                  } finally {
+                    setState(previous => ({
+                      ...previous,
+                      autoFitPending: false,
+                    }))
+                  }
+                }}
+              >
+                <SparkleIcon />
+                <span>Auto-fit</span>
+              </MenuItem>
+            </MenuGroup>
+            <MenuSeparator />
+            <AddToPlaylistMenu track={track} dropdown={dropdown} />
+          </MenuSubContent>
+        </MenuSub>
         {playlist && (
           <>
             <MenuSub>
@@ -232,8 +238,6 @@ export function TrackMenu({
             </MenuItem>
           </>
         )}
-        <MenuSeparator />
-        <AddToPlaylistMenu track={track} dropdown={dropdown} />
       </MenuContent>
     </Menu>
   )
