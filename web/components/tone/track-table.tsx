@@ -153,7 +153,7 @@ export function TrackTable({
             {table.getHeaderGroups().map(group => (
               <TableRow key={group.id}>
                 {group.headers.map(header => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className={header.column.id === 'select' ? 'w-10' : undefined}>
                     {header.isPlaceholder ? null : (
                       <table.FlexRender header={header} />
                     )}
