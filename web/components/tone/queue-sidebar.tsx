@@ -41,6 +41,7 @@ export function QueueSidebar() {
       ])
     )
   )
+  const showTiers = new Set(Object.values(tiers)).size > 1
   const upcomingTracks = state.queue
     .slice(state.queueIndex + 1)
     .concat(state.repeatQueue ? state.nextQueue : [])
@@ -150,7 +151,7 @@ export function QueueSidebar() {
       >
         {upcomingTracks.map((track, index) => (
           <li key={`${index}:${track.id}`} className='text-xs'>
-            {(index === 0 ||
+            {showTiers && (index === 0 ||
               tiers[upcomingTracks[index - 1].id] !== tiers[track.id]) && (
               <p className='border-b py-2 font-medium text-muted-foreground'>
                 Tier {tiers[track.id]}

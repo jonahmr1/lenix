@@ -16,6 +16,7 @@ export function TrackTable({ tracks, tiers, renderMenu }: {
   renderMenu: (track: SearchTrack, row: ReactElement) => ReactNode
 }) {
   const {state, setState} = useApp()
+  const showTiers = tiers && new Set(Object.values(tiers)).size > 1
   return (
         <Table>
           <TableHeader>
@@ -33,7 +34,7 @@ export function TrackTable({ tracks, tiers, renderMenu }: {
               }
               return (
                 <Fragment key={track.id}>
-                  {tiers && (index === 0 || tiers[tracks[index - 1].id] !== tiers[track.id]) && (
+                  {showTiers && (index === 0 || tiers[tracks[index - 1].id] !== tiers[track.id]) && (
                     <TableRow className='bg-muted/50 hover:bg-muted/50'>
                       <TableHead colSpan={3}>Tier {tiers[track.id]}</TableHead>
                     </TableRow>
